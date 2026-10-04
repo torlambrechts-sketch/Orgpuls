@@ -6,10 +6,11 @@ import { getViewerRole } from '@/lib/org/read'
 
 /**
  * The line over every screen once a trial has ended unconfirmed (0052, D-94). In the 14 days'
- * grace it says until when everything still works; after that, that results can still be
- * read and a running survey finishes, but nothing new is sent. The daglig leder gets the way
- * to confirm; everyone else is told who can. During the trial and once a plan is confirmed,
- * nothing is drawn, so the screens stay as the design draws them.
+ * grace it says until when everything still works, and that the free plan follows. On the free
+ * plan (0201, D-217) the daglig leder, who can choose a plan, is told what the free plan covers
+ * and given the way to choose one; nobody else is shown a line they cannot act on. During the
+ * trial and once a plan is confirmed, nothing is drawn, so the screens stay as the design draws
+ * them.
  *
  * A cancelled organisation (0064, D-108) is told, from the day it is registered, when the
  * agreement ends and when everything is deleted, with the way to the report to download.
@@ -48,24 +49,23 @@ export async function AccessNotice() {
     )
   }
 
-  if (state.access !== 'grace' && state.access !== 'read_only') return null
+  if (state.access !== 'grace' && state.access !== 'free') return null
   const grace = state.access === 'grace'
+  if (!grace && role !== 'daglig_leder') return null
 
   return (
-    <div role="status" className={`border-b border-line ${grace ? 'bg-sbg' : 'bg-peach'}`}>
+    <div role="status" className="border-b border-line bg-sbg">
       <div className="mx-auto flex max-w-page flex-wrap items-center gap-x-[14px] gap-y-[6px] px-[16px] py-[10px] text-[13px] leading-[1.5] md:px-[28px]">
         <span className="min-w-0 flex-1 [text-wrap:pretty]">
-          <strong className="font-bold">{grace ? t('graceHead') : t('readOnlyHead')}</strong>{' '}
-          {grace
-            ? t('graceBody', { end: date(state.trial_ends_at), until: date(state.read_only_from) })
-            : t('readOnlyBody', { end: date(state.trial_ends_at) })}
+          <strong className="font-bold">{grace ? t('graceHead') : t('freeHead')}</strong>{' '}
+          {grace ? t('graceBody', { end: date(state.trial_ends_at), until: date(state.free_from) }) : t('freeBody')}
         </span>
         {role === 'daglig_leder' ? (
           <Link
             href={{ pathname: '/oppsett', query: { fane: 'betaling' } }}
             className="inline-flex h-[32px] flex-none items-center rounded-bar border border-ink bg-ac px-[13px] text-[12.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
           >
-            {t('confirm')}
+            {grace ? t('confirm') : t('choosePlan')}
           </Link>
         ) : (
           <span className="text-mut">{t('askLeader')}</span>

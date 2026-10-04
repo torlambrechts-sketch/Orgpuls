@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { isFreePlan } from '@/lib/billing/read'
+import { getCurrentOrgId } from '@/lib/org/current'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { FullLink } from './FullLink'
 import { TodoList, type TodoItem } from './TodoList'
@@ -51,7 +53,9 @@ export async function Oversikt() {
 
   const grunnlinjer = rounds.filter((r) => r.status === 'lukket' && r.kind === 'grunnlinje')
   const current = grunnlinjer[0] ?? null
-  const previous = grunnlinjer[1] ?? null
+  // the free plan compares nothing with earlier rounds (0201, D-217)
+  const free = await isFreePlan(await getCurrentOrgId())
+  const previous = free ? null : (grunnlinjer[1] ?? null)
   const planned = rounds
     .filter((r) => r.status === 'planlagt' && r.opensAt)
     .sort((a, b) => (a.opensAt ?? '').localeCompare(b.opensAt ?? ''))

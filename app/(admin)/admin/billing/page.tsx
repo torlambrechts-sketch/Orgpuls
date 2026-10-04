@@ -13,7 +13,7 @@ import { PLAN_MAX, PLANS } from '@/lib/billing/read'
  * for billing (Tor, 2026-09-29), and nothing here is invented to stand in for them.
  */
 const VIZ = ['bg-viz1', 'bg-viz2', 'bg-viz3'] as const
-const DOT: Record<CustomerState, string> = { active: 'bg-teal', trial: 'bg-ac', ended: 'bg-peach', cancelling: 'bg-peach', churned: 'bg-mut', demo: 'bg-mut' }
+const DOT: Record<CustomerState, string> = { active: 'bg-teal', trial: 'bg-ac', free: 'bg-ac', ended: 'bg-peach', cancelling: 'bg-peach', churned: 'bg-mut', demo: 'bg-mut' }
 const EVENTS = 20
 
 export default async function AdminBilling() {

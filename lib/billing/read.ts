@@ -1,4 +1,5 @@
 import 'server-only'
+import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed, parseFailed } from '@/lib/supabase/read'
@@ -10,6 +11,12 @@ import { callFailed, parseFailed } from '@/lib/supabase/read'
 export const PLANS = ['small', 'usual', 'group'] as const
 export type Plan = (typeof PLANS)[number]
 
+/** How a subscription is invoiced (0201, D-217): monthly, or yearly at ANNUAL_MONTHS months' price. */
+export const INTERVALS = ['month', 'year'] as const
+export type BillingInterval = (typeof INTERVALS)[number]
+/** A year costs this many months; mirrors app.annual_months() (0201): two months free. */
+export { ANNUAL_MONTHS } from '@/lib/site/pricing'
+
 /** The largest headcount each plan is priced for, as the price list and `save_billing` say. */
 export const PLAN_MAX: Record<Plan, number> = { small: 25, usual: 100, group: Number.POSITIVE_INFINITY }
 
@@ -18,6 +25,7 @@ const BillingRow = z.object({
   trial_ends_at: z.string(),
   trial_extended_at: z.string().nullable(),
   plan: z.enum(PLANS).nullable(),
+  billing_interval: z.enum(INTERVALS),
   invoice_email: z.string().nullable(),
   invoice_ref: z.string().nullable(),
   ehf: z.boolean(),
@@ -36,7 +44,7 @@ export async function getBilling(orgId: string): Promise<Billing | null> {
   const { data, error } = await supabase
     .schema('app')
     .from('billing')
-    .select('trial_started_at, trial_ends_at, trial_extended_at, plan, invoice_email, invoice_ref, ehf, confirmed_at, cancelled_at, cancel_effective_at, deletion_due_at, cancel_source')
+    .select('trial_started_at, trial_ends_at, trial_extended_at, plan, billing_interval, invoice_email, invoice_ref, ehf, confirmed_at, cancelled_at, cancel_effective_at, deletion_due_at, cancel_source')
     .eq('org_id', orgId)
     .maybeSingle()
 
@@ -51,13 +59,15 @@ export async function getBilling(orgId: string): Promise<Billing | null> {
 export const fittingPlan = (employees: number): Plan =>
   employees <= PLAN_MAX.small ? 'small' : employees <= PLAN_MAX.usual ? 'usual' : 'group'
 
-/** Days after the trial before an unconfirmed organisation is read-only; mirrors app.grace_days() (0052). */
+/** Days after the trial before an unconfirmed organisation is on the free plan; mirrors app.grace_days() (0052, 0201). */
 export const GRACE_DAYS = 14
 
 const AccessState = z.object({
-  access: z.enum(['trial', 'grace', 'read_only', 'active']),
+  // read_only is a cancellation that has taken effect; past the trial and grace an unconfirmed
+  // organisation is on the free plan (0201, D-217)
+  access: z.enum(['trial', 'grace', 'free', 'read_only', 'active']),
   trial_ends_at: z.string(),
-  read_only_from: z.string(),
+  free_from: z.string(),
   // a cancellation (0064, D-108): when the agreement ends, and when everything is deleted
   cancel_effective_at: z.string().nullable().optional(),
   deletion_due_at: z.string().nullable().optional(),
@@ -65,14 +75,26 @@ const AccessState = z.object({
 export type AccessState = z.infer<typeof AccessState>
 
 /**
- * Where the organisation stands after its trial (0052, D-94), for every member: the banner
- * over the app reads this. The database decides; this only reports it.
+ * Where the organisation stands after its trial (0052, D-94; 0201, D-217), for every member: the
+ * banner over the app and the free plan's limits read this. The database decides; this only
+ * reports it.
  */
-export async function getAccessState(orgId: string): Promise<AccessState | null> {
+export const getAccessState = cache(async (orgId: string): Promise<AccessState | null> => {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('org_access_state', { p_org: orgId })
   if (callFailed('getAccessState', error) || !data) return null
   const parsed = AccessState.safeParse(data)
   if (parseFailed('getAccessState', parsed)) return null
   return parsed.data
+})
+
+/**
+ * Whether the organisation is on the free plan (0201, D-217): the standard main survey, its
+ * results and measures. The database refuses what the plan does not include; the screens read
+ * this to say so before anyone tries, and to leave out the report and the comparisons with
+ * earlier rounds, which are read paths.
+ */
+export async function isFreePlan(orgId: string | null): Promise<boolean> {
+  if (!orgId) return false
+  return (await getAccessState(orgId))?.access === 'free'
 }

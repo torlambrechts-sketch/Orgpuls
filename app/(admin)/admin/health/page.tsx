@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { ALink, Badge, Card, day, PageHead, Problem, Stat, Table, Td, type BadgeTone } from '@/components/admin/ui'
 import { accountHealth, isError, type HealthRow } from '@/lib/admin/api'
 
-const TONE: Record<HealthRow['access'], BadgeTone> = { trial: 'yellow', grace: 'red', read_only: 'grey', active: 'green' }
+const TONE: Record<HealthRow['access'], BadgeTone> = { trial: 'yellow', grace: 'red', free: 'yellow', read_only: 'grey', active: 'green' }
 const VIEWS = ['trials', 'customers', 'all'] as const
 type View = (typeof VIEWS)[number]
 

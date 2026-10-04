@@ -41,9 +41,9 @@ describe('trial mail (D-105)', () => {
     }
   }
 
-  it('the dates are the trial end, then the read-only date', () => {
+  it('the dates are the trial end, then the day the free plan begins (0201)', () => {
     expect(renderLifecycle(cat, job('trial_ending', 'no'), APP).subject).toBe('Prøveperioden slutter 11. oktober')
-    expect(renderLifecycle(cat, job('read_only_soon', 'en'), APP).subject).toBe('From 25 October you can only read')
+    expect(renderLifecycle(cat, job('read_only_soon', 'en'), APP).subject).toBe('From 25 October you are on the free plan')
   })
 
   it('a cancellation names the last day and the deletion day, in Oslo', () => {

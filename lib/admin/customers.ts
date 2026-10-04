@@ -2,15 +2,15 @@ import { fittingPlan, PLAN_MAX, PLANS, type Plan } from '@/lib/billing/read'
 
 /**
  * A customer's state and seats as Sentral's Customers page draws them (X-095, D-164). The state is
- * the access the product gives (0052: trial, grace, read-only, active) with a cancellation on top:
+ * the access the product gives (0052, 0201: trial, grace, free, read-only, active) with a cancellation on top:
  * a cancelled customer is *cancelling* until its last day and *churned* after it. A demo sandbox is
  * its own kind, never counted as a customer.
  */
-export const CUSTOMER_STATES = ['active', 'trial', 'ended', 'cancelling', 'churned', 'demo'] as const
+export const CUSTOMER_STATES = ['active', 'trial', 'free', 'ended', 'cancelling', 'churned', 'demo'] as const
 export type CustomerState = (typeof CUSTOMER_STATES)[number]
 
 type Row = {
-  status: 'trial' | 'grace' | 'read_only' | 'active'
+  status: 'trial' | 'grace' | 'free' | 'read_only' | 'active'
   cancelled_at: string | null
   cancel_effective_at: string | null
   demo: boolean
@@ -21,6 +21,8 @@ export function customerState(r: Row, now = Date.now()): CustomerState {
   if (r.cancelled_at && r.cancel_effective_at) return new Date(r.cancel_effective_at).getTime() > now ? 'cancelling' : 'churned'
   if (r.status === 'active') return 'active'
   if (r.status === 'trial') return 'trial'
+  // on the free plan after the trial (0201, D-217): still a user, not yet a customer
+  if (r.status === 'free') return 'free'
   return 'ended'
 }
 
@@ -28,6 +30,7 @@ export function customerState(r: Row, now = Date.now()): CustomerState {
 export const STATE_DOT: Record<CustomerState, 'green' | 'yellow' | 'red' | 'grey'> = {
   active: 'green',
   trial: 'yellow',
+  free: 'yellow',
   ended: 'red',
   cancelling: 'red',
   churned: 'grey',

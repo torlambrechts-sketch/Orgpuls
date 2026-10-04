@@ -170,7 +170,14 @@ const Variants = z.tuple([Simplified, Extended])
  * It lives in the same file, so the content hash covers it and a published version's English
  * can no more change than its Norwegian. When present it must be complete: a statement asked
  * in Norwegian because its English was forgotten would be a different question.
+ *
+ * A worded module (0083) translates every wording (`name_variants`, `item_variants`, a count
+ * question's `text_variants`), a statement with a help line its help (`item_help`), and a module in
+ * variants (0089) its variants' names and its simplified factors (`variants`) — the same texts the
+ * survey's translation registry holds for them (D-214). All three are absent for a module without
+ * them, so the files that had a translation before keep their body.
  */
+const SuggestionTr = z.object({ title: Text, description: Text })
 const Translation = z.object({
   name: Text,
   description: Text,
@@ -180,15 +187,30 @@ const Translation = z.object({
     z.string(),
     z.object({
       name: Text,
+      name_variants: TextVariants.optional(),
       summary: Text,
       rationale: Text,
       legal_basis: z.array(Text),
       items: z.record(z.string(), Text),
-      action_suggestions: z.array(z.object({ title: Text, description: Text })),
+      item_variants: z.record(z.string(), TextVariants).optional(),
+      item_help: z.record(z.string(), Text).optional(),
+      action_suggestions: z.array(SuggestionTr),
     }),
   ),
-  count_items: z.record(z.string(), z.object({ text: Text, options: z.array(Text).length(3), why: Text.optional() })),
+  count_items: z.record(
+    z.string(),
+    z.object({ text: Text, text_variants: TextVariants.optional(), options: z.array(Text).min(3).max(4), why: Text.optional() }),
+  ),
   segments: z.record(z.string(), z.object({ text: Text, options: z.array(Text) })),
+  variants: z
+    .object({
+      forenklet: z.object({
+        name: Text,
+        factors: z.record(z.string(), z.object({ name: Text, summary: Text, action_suggestions: z.array(SuggestionTr) })),
+      }),
+      utvidet: z.object({ name: Text }),
+    })
+    .optional(),
 })
 
 const Source = z.object({ key: z.string().regex(/^[a-z][a-z0-9_]*$/), title: Text, url: z.url() })
@@ -304,6 +326,11 @@ export const ModuleFile = z
     for (const [lang, tr] of Object.entries(m.translations ?? {})) {
       if (!tr) continue
       const at = (...p: (string | number)[]) => ['translations', lang, ...p]
+      /** a translated record names exactly the codes the Norwegian has */
+      const sameKeys = (got: Record<string, unknown> | undefined, want: string[], path: (string | number)[], what: string) => {
+        for (const k of want) if (!got?.[k]) issue([...path, k], `${lang}: ${what} ${k} is not translated`)
+        for (const k of Object.keys(got ?? {})) if (!want.includes(k)) issue([...path, k], `${lang}: ${k} has no ${what} to translate`)
+      }
       m.factors.forEach((f) => {
         const t = tr.factors[f.id]
         if (!t) return issue(at('factors', f.id), `${lang}: factor ${f.id} is not translated`)
@@ -313,10 +340,16 @@ export const ModuleFile = z
           if (!t.items[i.id]) issue(at('factors', f.id, 'items', i.id), `${lang}: ${i.id} is not translated`)
         })
         for (const code of Object.keys(t.items)) if (!f.items.some((i) => i.id === code)) issue(at('factors', f.id, 'items', code), `${lang}: ${code} is not an item of ${f.id}`)
+        if (!!t.name_variants !== !!f.name_variants) issue(at('factors', f.id, 'name_variants'), `${lang}: the factor name's wordings differ`)
+        sameKeys(t.item_variants, f.items.filter((i) => i.text_variants).map((i) => i.id), at('factors', f.id, 'item_variants'), 'wording of')
+        sameKeys(t.item_help, f.items.filter((i) => i.help).map((i) => i.id), at('factors', f.id, 'item_help'), 'help line of')
       })
       for (const k of Object.keys(tr.factors)) if (!m.factors.some((f) => f.id === k)) issue(at('factors', k), `${lang}: no factor ${k}`)
       m.count_items.forEach((c) => {
-        if (!tr.count_items[c.id]) issue(at('count_items', c.id), `${lang}: ${c.id} is not translated`)
+        const t = tr.count_items[c.id]
+        if (!t) return issue(at('count_items', c.id), `${lang}: ${c.id} is not translated`)
+        if (t.options.length !== c.options.length) issue(at('count_items', c.id, 'options'), `${lang}: option count differs`)
+        if (!!t.text_variants !== !!c.text_variants) issue(at('count_items', c.id, 'text_variants'), `${lang}: the wordings differ`)
       })
       m.segments.forEach((sg) => {
         const t = tr.segments[sg.id]
@@ -325,6 +358,15 @@ export const ModuleFile = z
       })
       if ((tr.covered_by_core_factors?.length ?? 0) !== (m.relation_to_core?.covered_by_core_factors.length ?? 0)) {
         issue(at('covered_by_core_factors'), `${lang}: covered factors differ`)
+      }
+      if (!!tr.variants !== !!m.variants) issue(at('variants'), `${lang}: the variants differ`)
+      if (tr.variants && m.variants) {
+        const simple = m.variants[0].factors
+        sameKeys(tr.variants.forenklet.factors, simple.map((f) => f.id), at('variants', 'forenklet', 'factors'), 'simplified factor')
+        simple.forEach((f) => {
+          const t = tr.variants?.forenklet.factors[f.id]
+          if (t && t.action_suggestions.length !== f.action_suggestions.length) issue(at('variants', 'forenklet', 'factors', f.id), `${lang}: suggestion count differs`)
+        })
       }
     }
 
@@ -388,7 +430,6 @@ export const ModuleFile = z
         else if ([...c.variants].sort().join() !== listed) issue(['count_items', ci, 'variants'], `the variants list ${c.id} as ${listed || 'none'}`)
       })
       if (m.wording) issue(['wording'], 'a module in variants has no wordings yet')
-      if (m.translations?.en) issue(['translations', 'en'], 'a module in variants has no English translation yet')
     }
 
     const modulePrefix = new Set([...codes].map((c) => c.slice(0, 2)))
@@ -412,8 +453,6 @@ export const ModuleFile = z
           if (/[{}]/.test(t)) issue(w.path, `an unfilled token: ${t}`)
         }
       }
-      // an English translation would need its own wordings, which the file has no place for yet
-      if (m.translations?.en) issue(['translations', 'en'], 'a worded module has no English translation yet')
     } else {
       for (const w of worded) if (w.text_variants) issue([...w.path, 'text_variants'], 'text_variants without wording')
       m.factors.forEach((f, fi) => {

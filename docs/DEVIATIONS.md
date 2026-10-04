@@ -10434,6 +10434,880 @@ Proved in `former_names_invariants.sql` (10 assertions; three through the leader
 Not covered: a removed location's name likewise stops masking (locations have no former names). The DPA
 is unchanged: names are a stated register category, kept for the agreement's term.
 
+## D-207 — /handel and /bransjer as landing pages: a data-driven industry template composed from v3 patterns (2026-10-03)
+
+The owner, 3 October 2026: «Redesign bransjesider, de skal fokusere på hvorfor de trengs og spesifikke
+utfordringer for bransjen og hvordan orgpuls løser de … Start med handel og hovedsiden for bransjer.»
+There is no designed layout for an industry landing page, so the page is composed from the v3 design's
+own blocks (design-reference/orgpuls/nettside-v3), at their values. No new colour, font, radius or
+control; every token is tailwind.config.ts's.
+
+**The template.** `components/industry/IndustryLanding.tsx` draws an industry from
+`content/industries/landing.ts` (which module and core factors measure each challenge, which source
+backs each figure, which real screens prove the claims, live per language) and its messages
+(`site.bransje.<msg>`, labels in `site.bransje.common`). Bygg, helse, barnehage og skole and kontor move
+onto it by adding an entry and messages; the component does not change. Until then they keep the older
+template (`IndustryView`) and their content files, unchanged except one spacing fix below.
+
+**What each block is composed from.**
+- Hero: the Bransjer/Plattform hero in the mint band (crumbs, ink eyebrow, 56 px H1, the yellow «Prøv
+  gratis i 15 dager →» to `#kom-i-gang`, a text link to the question page), Forside's slide picture column
+  (a real screen in an r20 card, `figcaption`), and Bransjer's three tiles.
+- «Hverdagen i tall»: Forside's ink band (pill, H2, four 52 px figures, cream text), with a numbered
+  source marker on every figure.
+- «Hvorfor butikken må kartlegge arbeidsmiljøet»: Forside slide 2's law card (rows on bg, a green mark,
+  here «§»), beside three r20 cards (the inspection on sbg with an ink border, as Forside's emphasised
+  pillar; the small-business gap; the cost).
+- «Åtte utfordringer i butikk»: Forside's problem/solution cards (rust eyebrow, mint foot), two across on
+  Bransjer's sf band, numbered with Plattform's ink step mark; the figure line has a rust rule; the foot
+  names what measures it as chips (module factor on ac, core factor on track).
+- «Fra svar til tiltak i samme verktøy»: Plattform's zigzag cases, with Forside's browser frame around
+  the real `tiltak` and `rapport` shots.
+- «Fra organisasjonsnummer til rapport i fire steg»: Forside's Sløyfen pillars, numbers in the tiles.
+- «Anonymt – også i en liten butikk»: ✓ rows in an r24 sf panel (the start band's frame).
+- FAQ: Pris' disclosures (`components/site/v3/pris/Faq.tsx`), with FAQPage JSON-LD.
+- The shared start band, then «Les videre» and the numbered source list.
+- `/handel` joins `isV3Route` (lib/site/nav.ts, from the registry), so the header's band continues into
+  the hero and «Prøv gratis» targets the start band, as on the five v3 pages.
+
+**/bransjer.** Same hero, new words; «Det en generell undersøkelse ikke spør om» (Forside's
+problem/solution cards) before the module cards; «Én måling, to deler» (Sløyfen pillars) after them;
+«Samme verktøy, ulike hverdager» kept; a FAQ (Pris' pattern, FAQPage JSON-LD) before the start band. The
+module cards are unchanged and still read the registry and the module files. Its share card
+(`public/og/bransjer.png`) is new; `/handel`'s is regenerated with the new H1.
+
+**Pixel gate.** /bransjer is in the v3 gate and changes on purpose. Before: 7.44 % (height 2808 against the
+baseline's 2752; the shipped copy of D-190). After: 13.16 % (height 4348), every band from the hero down
+being the new words and the three new sections — read in the diff and the shot, not loosened. The other
+four pages' captures are byte-identical before and after (Forside 9.3752 %, Plattform 6.6768 %,
+Bruksområder 3.3886 %, Pris 2.0562 %, the same pixel counts as the unchanged build). The gate has no
+claims file; these numbers are the record.
+
+**Facts.** Every figure is from a document fetched and read on 3 October 2026, listed on the page (1–11)
+and in `docs/marketing/handel-sources.md` with the page and the sentence it comes from: Fafo-notat 2024:17
+(Andersen og Nergaard), Fafo-rapport 2026:10 (Nergaard, Andersen og Bøckmann), Fafo-rapport 2025:10
+(Andersen, Bråten og Huseby), Fafo Faktaflak mars 2023 (Hilsen), STAMI/NOA butikkhandel (LKU-A 2022), SSB
+tabell 07203 (AKU 2025), Arbeidstilsynet's press release 1 July 2026, its guidance on violence and threats,
+Kompass nr. 4 2026, and Lovdata (aml §§ 3-1, 4-1, 4-3; forskrift om utførelse av arbeid kap. 1A og 3A). The
+law card reuses /lovkrav's checked wording; aml § 4-1 (3) on lone work is now cited (the old page's item
+said «hjemmel verifiseres»; Lovdata, Fafo and Arbeidstilsynet agree on the paragraph). Left out, with the
+reason in the sources file: a theft figure Fafo states two ways, retail sick leave (below the average),
+turnover (no checkable Norwegian figure), the UK and Danish figures the old page used, and undated
+fact-sheet numbers. No testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- Theft, threats and robbery; lone shifts; customers; staffing; rota; position and belonging; training;
+  physical work: the eight factors and their items and suggested measures in `modules/handel/v1.json`.
+- The two yes/no questions shown only for the whole business: `count_items` HA-T-1, HA-T-2,
+  `anonymity.count_items_reported_at: organisation_only` (and 0090, D-138).
+- The core survey counting violence/threats and offensive behaviour: the extra questions `vold` and
+  `krenkende` (0007, 0009, on by default since 0076).
+- Emotional demands, workload, participation, integrity: `factor.emosjon|mengde|medvirk|integritet`.
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()` (0150, D-198).
+- SMS, e-mail and the QR poster: `app/(app)/malinger/plakat`, `app/inn/[code]`, `lib/entry/qr.ts`,
+  `supabase/functions/orgpuls-dispatch`. Teams and Slack are not named: both wait for the owner's app
+  registration (D-203, D-205).
+- Module measures with owner and deadline, and the pulse re-measuring them: 0071
+  (`app.round_pulse_modules`), D-115. The report's own part per module: `components/rapport/RapportScreen.tsx`
+  (D-116). The module suggested from NACE 46/47: `content/industries/meta.ts`.
+- Languages: «norsk og engelsk», as D-190 has it. Polish, Ukrainian, Lithuanian, Swedish and Danish are
+  translated but their flags are off in production (`lib/flags.ts`, `lib/i18n/offered.ts`), so the page
+  says more languages are not ready yet.
+- The module is provisional (`validation_status`), and the FAQ says so.
+
+**Not done, on purpose.**
+- English. The English messages are written in full (`site.bransje.handel` in en.json), and en.orgpuls.com
+  shows the page with `?forhandsvis=1`, marked noindex. It is not live there: an English industry page
+  waits for the module file's English translation (D-120, `validate.ts`), and `modules/handel/v1.json`
+  has none (the database holds approved English item translations, but the pages read the file). One
+  switch, `live.en` in the registry, publishes it once the file has them; a unit test holds the rule.
+- A handel-specific product shot. A real one needs a round with the handel module in the design fixture,
+  which is a fixture and database change; the page shows the demo company's real screens and says the
+  company does not use the module.
+- `content/industries/handel.ts` keeps its hero, challenges, law block and FAQ as the record of the old
+  page; the legal review marks its law items unpublished now that the landing's law card (a new unit,
+  `site.handel`) is what /handel shows. The old claims unit stays listed with the question page it
+  shares.
+
+**Also changed.** The older template's source list spaces its items 10 px (was 6): one-line links sat
+23 px apart and axe flagged target-size (WCAG 2.5.8) on /helse-og-omsorg, /barnehage-og-skole and
+/kunnskap-og-kontor. `lib/i18n/site-pages.json` is regenerated.
+
+**Verified** on a production build (hosted env, read-only): tsc, lint, verify:i18n, vitest 783/783, the page
+map and `--check`, the mobile gate at 390 and 360 for /handel, /bransjer, the four other industry pages and
+/handel/sporsmal (no sideways scroll), axe serious/critical 0 on all of them at 1440 and 390 in no and en,
+one H1, no console errors.
+
+## D-208 — /bygg-og-anlegg on the industry landing template (2026-10-03)
+
+The owner's brief for the industry pages (D-207) applied to bygg og anlegg: a conversion landing page on
+why the survey is needed, the industry's own challenges and how Orgpuls meets each, with Fafo's material
+used well. `/bygg-og-anlegg` moves onto the template D-207 built, by a registry entry
+(`content/industries/landing.ts`, `msg: 'bygg'`) and its messages (`site.bransje.bygg`, no and en). No new
+colour, font, radius, control or block.
+
+**The page.** Hero («Arbeidsmiljø­kartlegging for bygg og anlegg: se hva som sliter på laget – og følg det
+opp», the owner's rule after /handel's headline was rejected: no claim of an outcome Orgpuls does not deliver
+itself – no safer sites, fewer accidents, lower sick leave; the copy says what it does), the real mobile
+questionnaire, three tiles: 8 factors, «Svar fra brakka», the report); «Hverdagen i tall» (29 % foreign
+workers in 2024, 16 injuries per 1 000 employed against 11,8, 1 in 3 in firms of 9 or fewer, 1 in 2 on
+sick leave say it is job-related; the note on what is never reported); «Hvorfor byggefirmaet må kartlegge
+arbeidsmiljøet» (law card: aml §§ 3-1 (2) c, 4-3, 2-2 (2), byggherreforskriften § 19a, forskriften § 1A-2;
+Arbeidstilsynet's 2025 priority on building firms, inadequate surveys in nearly two of three inspections
+and more than half the infringement fines; the small-firm gap; the cost); eight challenges (time
+pressure, many companies on one site, language, new/young/hired-in, the unreported near miss, teams that
+do not talk, long days and commuting, after an accident), each mapped to the module's and the core
+survey's factors; three real screens (heat map, measures, report); four steps; anonymity; eight FAQs
+with FAQPage JSON-LD (including «Kan de svare på polsk eller litauisk?» – «Ikke ennå»); the start band;
+«Les videre» (adds /verneombud); twelve numbered sources.
+
+**Facts.** Every figure is from a document fetched and read on 3 October 2026 and recorded in
+`docs/marketing/bygg-sources.md` with page and sentence: Kompass nr. 1 2026 and nr. 1 2025 (Arbeidstilsynet
+and STAMI), STAMI/NOA byggevirksomhet and anlegg (LKU-A 2022), Fafo-rapport 2025:33 (Ødegård, Huseby og
+Bråten), 2025:10, 2024:35 (Andersen og Dapi), Fafo-notat 2024:22, Arbeidstilsynet's annual report 2025, and
+Lovdata (aml §§ 2-2, 3-1, 4-3; byggherreforskriften § 19a; forskriften kap. 1A). Written to what the
+sources actually say: Kompass 2025 finds the psychosocial environment in construction good compared with
+other industries and sick leave slightly below average, so the page claims neither; it argues from what
+Kompass recommends (openness, speaking up, planning, coordination, care for young, new, foreign and
+hired-in workers) as a supplement to physical measures, and the FAQ says so. Fafo's informant statements
+are attributed as informants'. Two of the old page's claims are corrected or dropped: § 19a does not say
+«norsk eller engelsk» (that is the consultation note's starting point), and the UK, Swedish and Danish
+figures, NAV's sick-leave rise and the apprentice drop-out figure are out (the sources file says why). No
+testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- The eight module factors, their statements and suggested measures («Stopp og meld», «Felles tavlemøte»,
+  «Prat etter hendelser»): `modules/bygg-og-anlegg/v1.json`. 24 statements, 2 yes/no questions, ~3 min:
+  the same file (`moduleFacts`).
+- The two yes/no questions (unreported near misses, unsafe jobs) shown only for the whole business:
+  `count_items` BA-T-1, BA-T-2, `anonymity.count_items_reported_at: organisation_only`.
+- Offensive behaviour counted, shown only for the whole business: the extra question `krenkende` (as D-207).
+- Core factors named: `factor.mengde|kontakt|ytring|kollega|integritet`.
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()`; a group that could
+  be worked out by subtraction is held back: complementary suppression (0045).
+- SMS, e-mail and the QR poster in the site hut: `app/(app)/malinger/plakat`, `app/inn/[code]`,
+  `lib/entry/qr.ts`. Teams and Slack are not named (D-203, D-205).
+- Results per group in the Usual plan, as the pricing page says; the module suggested from NACE 41–43:
+  `content/industries/meta.ts`, `lib/modules/read.ts`. Module results, measures, pulse and report part:
+  `components/resultater/ModuleResults.tsx`, 0071, D-115, D-116.
+- Languages: «norsk og engelsk». Polish, Lithuanian, Ukrainian, Swedish and Danish are translated (553
+  approved item translations each on hosted) but their flags are off in production: `lib/flags.signed-off.json`
+  holds only `locale_en`, and `app.locale_pilots` is empty (read-only check, 3 October 2026).
+- The demo company is honest about itself: Nordvik Anlegg AS is a fictional civil engineering firm (NACE
+  42.110 in the fixture) whose screens show the core survey, not the module, and the proof lead says so.
+
+**English is live.** `modules/bygg-og-anlegg/v1.json` carries `translations.en`, so `live.en` is on (D-120)
+and en.orgpuls.com/bygg-og-anlegg shows the landing page, replacing the older English page as the Norwegian
+one is replaced. A new unit test holds the English factor names to the translation's.
+
+**One renderer change, generic.** The template linked the question page only in Norwegian (`lang === 'no'`),
+true for /handel, whose English question page does not exist. It now links it wherever that page is live in
+the page's language (`liveQuestionPages(lang)`, the same rule the question route follows), so English bygg
+links /bygg-og-anlegg/sporsmal and English handel still does not. Nothing else in the component changed.
+
+**Also changed.** The sources file is named by the message key (`docs/marketing/<msg>-sources.md`, the test
+and the registry comment follow): `bygg-sources.md`. `content/industries/bygg-og-anlegg.ts` and `.en.ts` keep
+their content as the record and still feed the question pages, menu name and launch state; the legal review
+lists the landing's unit (`site.bygg`, with `admin.legal.unit.site.bygg`) and marks the old law items
+unpublished (D-207's rule, from the registry). The share card `public/og/bygg-og-anlegg.png` is
+regenerated with the new H1 (og-images reads it from the message). `lib/i18n/site-pages.json` regenerated.
+
+**Pixel gate.** Unchanged: the five v3 pages capture at exactly D-207's numbers on this build (Forside
+9.3752 %, Plattform 6.6768 %, Bruksområder 3.3886 %, Bransjer 13.1639 %, Pris 2.0562 %). /bransjer is not
+touched; its module cards read the registry and the module files as before.
+
+**Verified** on a production build (hosted env, read-only; `NEXT_DIST_DIR=.next-bygg`): tsc 0, lint 0,
+verify:i18n 0, vitest 790/790, build 0; the page map regenerated and `--check` 0 (38 pages, QA build on the
+local stack); the mobile gate at 390 and 360 for /bygg-og-anlegg, /handel, /bransjer, the three other
+industry pages and /bygg-og-anlegg/sporsmal: no sideways scroll, no squeezed text; axe serious/critical 0,
+one H1, no console errors on those pages at 1440 and 390 in Norwegian, and on /bygg-og-anlegg,
+/handel?forhandsvis=1, /bransjer, /helse-og-omsorg and /bygg-og-anlegg/sporsmal in English; FAQPage JSON-LD
+with eight questions; the English bygg page links its question page and the English handel preview does
+not. `node scripts/audit/wiring.mjs` exits 1 on six findings (W2 `organizations.bht_name`, R1 on five admin
+translation and legal RPCs), none in anything this change touches: it adds no column, setting or RPC. No
+database writes.
+
+## D-209 — Polish and Lithuanian switched on; a Polish employee's own mail was bokmål (2026-10-03)
+
+X-102 signs off `locale_pl` and `locale_lt`. What deviates, or was found and fixed on the way:
+
+**The dispatcher dropped every survey language from a person's own messages.** `personalLang`
+(supabase/functions/_shared/mail.ts) took the employee's language only if it was `no` or `en`, so a
+Polish or Lithuanian employee fell through to the organisation's language: with both languages offered
+on the page, their invitation, reminders and SMS would still have gone out in bokmål. It now takes any
+language of the registry; `offeredFor` still decides which are offered (mail texts and page strings
+approved from the current bokmål, items complete), so nothing goes out in a language that is not ready.
+The e-mail's `<html lang>` said `nb` for everything but English; it now says the language it is in.
+`tests/unit/survey-languages.test.ts` proves both, and that Polish stays bokmål while its flag is off.
+
+**Copy changed (no and en, path by path).** `site.home.survey.points.2`, `site.pris.included.groups.0.items.3`,
+`site.bransje.handel.faq.items.4.a`, `site.bransje.bygg.challenges.items.2.solve`,
+`site.bransje.bygg.faq.items.4.a`. D-208's line «Languages: norsk og engelsk» no longer holds. The texts say
+the Polish and Lithuanian text is machine-translated, because it is (all 553 rows per language are
+`source = 'machine'`, `approved_auto`), and repeat the site's existing rule that a language is offered
+only when every question has an approved translation. «Er språket registrert på den ansatte»: the
+language comes from column F of the Ansatte paste (`languageOf`, app/(app)/oppsett/actions.ts) or from
+Entra; the respondent picker lets anyone switch. helse og omsorg's copy is not touched (another change
+is rebuilding that page). No respondent page string changed, so lib/i18n/survey-source.json and the
+approved hashes are as they were, and the page map's keys did not move (`page-map.mjs --check`: 38 pages).
+
+**Not found, so not changed.** The brief named an Ansatte language column help and language picker
+hints; neither exists as text. `oppsett.ansatte.pasteLead` names five columns and not the language
+column F the paste reads — left as it is, since it states no language.
+
+**How it was verified.** The local QA stack offers only English (its seed holds three Polish
+qa-fixture rows). For the walk-through, the hosted project's approved pl and lt rows were read
+(read-only) and loaded into the local database with module and factor ids remapped by module key and
+item code; the app was built and served with `ORGPULS_FLAGS` empty, so only the signed-off flags applied.
+Piotr Nowak's link (language pl) opened in Polish with the picker «Norsk · English · Polski · Lietuvių»;
+a Salg link with `?lang=lt` in Lithuanian; both walked all 13 screens at 390 px, `lang` right on every
+screen, no bokmål page string, factor label or statement on any, nothing scrolling sideways, no console
+error, and both submitted (the invitations are marked answered). The dispatcher's path —
+`dispatch_language_texts`, `round_locale_state`, `offeredFor`, `groupsOf`, `renderNotice`, `smsLead` — rendered
+the invitation and both reminders in Polish and Lithuanian for a pl and an lt employee, and in bokmål
+for one with none. The local database was then rebuilt with `npm run qa:up -- --reset` (the load leaves
+rows in the append-only translation log that two suites count) and every SQL suite passed on it.
+A measure's title in «Siden sist» is the organisation's own text and stays as written.
+
+**SMS cost.** Lithuanian needs characters outside GSM-7, so its invitation and reminder SMS are UCS-2,
+two segments each (Polish fits one). Not changed; noted for the pricing of SMS.
+
+**Deploy.** The dispatcher bundles lib/flags.signed-off.json and mail.ts at deploy
+(scripts/functions/deploy.mjs). Until the functions are redeployed, the survey page offers Polish and
+Lithuanian but personal messages stay in bokmål (open item, X-102).
+
+## D-210 — /helse-og-omsorg on the industry landing template (2026-10-03)
+
+The owner's brief for the industry pages (D-207) applied to helse og omsorg: a conversion landing page on why
+the survey is needed, the industry's own challenges and how Orgpuls meets each, with Fafo's material used
+well, for leaders of private and municipal-adjacent care businesses (omsorgsbedrifter, hjemmetjeneste- and
+BPA-firms, private nursing homes, GP, dental and physiotherapy clinics, healthcare staffing agencies).
+`/helse-og-omsorg` moves onto the template D-207 built, by a registry entry (`content/industries/landing.ts`,
+`msg: 'helse'`) and its messages (`site.bransje.helse`, no and en). No new colour, font, radius, control or
+block, and no change to the renderer: four proof blocks instead of three is the registry's `proof` array.
+
+**The page.** Hero («Arbeidsmiljø­kartlegging for helse og omsorg: se hva som tærer på personalet – og følg det
+opp»; the owner's rule after /handel: no claim of an outcome Orgpuls does not deliver itself – no safer care,
+less sick leave, lower turnover or better patient safety; the copy says what it does: shows where the strain
+is, per department with enough answers, measures with owner and deadline, the pulse, the report), the real
+mobile questionnaire, three tiles (8 factors, «Svar fra alle vakter», the report); «Hverdagen i tall» (588 000
+in health and social services, one in five employed; 9,6 % sick leave in Q2 2026, the highest of all
+industries, against 6,6 %; 34 % in nursing homes exposed to violence against 5 %; 38 % in home care with high
+emotional demands against 20 %; 35 % part-time against 24 %; the note that inspectors see few incidents
+reported); «Hvorfor omsorgsvirksomheten må kartlegge arbeidsmiljøet» (law card: aml §§ 3-1 (2) c, 4-3 (2),
+4-3 (6), 4-1 (3), forskriften kap. 3A and § 1A-2; Arbeidstilsynet's 2025 priority on nursing homes and home
+care and its violence findings; the small-business gap, half of clinic staff in firms under 10; the cost);
+eight challenges (violence and threats, often alone; emotional demands; too few on shift; between user,
+relatives and manager; rotas and nights; part-time nobody chose; new staff, temps and many languages; heavy
+lifting when busy), each mapped to the module's and the core survey's factors; four real screens (heat map,
+measures, year wheel, report); four steps; anonymity; eight FAQs with FAQPage JSON-LD; the start band;
+«Les videre»; fourteen numbered sources.
+
+**Facts.** Every figure is from a document fetched and read on 3 October 2026 and recorded in
+`docs/marketing/helse-sources.md` with page and sentence: SSB tables 07203 (AKU 2025) and 12440 (Q2 2026,
+read through SSB's API), STAMI/NOA for nursing homes, home care and health clinics (LKU-A 2022), Arbeidstilsynet
+Signal nr. 1 2024, its annual report 2025, its page on working alone, Fafo-rapport 2026:28 (Nielsen, Bråthen
+og Moland, for KS), 2025:19 (Nielsen og Moland), 2025:08 (Jordell, Yssen og Moland), 2025:10, and Lovdata (aml
+§ 4-3 and § 4-1 read on Lovdata). Written to what the sources say: Fafo 2025:19 finds fairly stable staffing in
+health and care compared with working life as a whole, so the page claims no general turnover problem, only
+home care's 29 % against 24 %, which Fafo itself points out; inspectors' input in Signal is attributed as
+inspectors'; the «sju av ti» in Arbeidstilsynet's report is quoted in the order the report gives it. The module
+file's own rationale figures (KS, Sykepleien, SINTEF, Swedish and Danish sources) stay on the question page and
+are not used here; the sources file says why. No testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- The eight module factors, their statements and suggested measures («Samtale samme vakt», «Bemanningssjekk før
+  vakt», «Tilby før du lyser ut», «Forflytningsplan per bruker»): `modules/helse-og-omsorg/v1.json`. 24
+  statements, 2 yes/no questions, ~3 min: the same file (`moduleFacts`).
+- The two yes/no questions (unreported violence and threats, shifts with staffing that was not responsible)
+  shown only for the whole business: `count_items` HO-T-1, HO-T-2, `anonymity.count_items_reported_at:
+  organisation_only`. The core survey's `vold` and `krenkende`: counts only (0007, 0009, 0076).
+- Core factors named: `factor.kontakt|emosjon|leder|mengde|motstrid`; the module does not repeat the emotional
+  demands statements (`relation_to_core.core_statements_not_repeated`), and the page says so.
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()`; complementary
+  suppression (0045).
+- SMS, e-mail and the QR poster in the staff room: `app/(app)/malinger/plakat`, `app/inn/[code]`,
+  `lib/entry/qr.ts`. Teams and Slack are not named (D-203, D-205).
+- The module suggested from NACE 86–88, and chosen by hand under Oppsett for another code (a staffing agency):
+  `content/industries/meta.ts` (0091, D-139). Measuring without an industry module is the same setting's
+  «Ingen bransjemodul». Results per group in the Usual plan, as the pricing page says. The year wheel and the
+  pulse that re-asks the statements behind open measures: `components/arshjulet`, 0071, D-115; the module's part
+  of the report: D-116.
+- Shift type and position size as segments are built but off (`module_segments`), so the page does not offer
+  results per shift type; it says a night shift that is its own group gets its own figures. Factor toggles are
+  off (`module_factor_toggles`), so the FAQ says a GP surgery gets all eight factors today.
+- **Languages: «norsk, engelsk, polsk og litauisk».** Polish and Lithuanian are being switched on in production
+  by a parallel change the owner approved on 3 October 2026; Ukrainian, Swedish and Danish are not, and the FAQ
+  says so. A read-only check on the hosted database found every one of the 28 items of the published helse
+  module (1.0.1) approved in English, Polish and Lithuanian (`app.item_translations`). The keys that name
+  languages: `site.bransje.helse.challenges.items[6].solve` and `site.bransje.helse.faq.items[4]` (q and a), in
+  no.json and en.json. If the flags do not ship, these are the two keys to change.
+- The demo company is honest about itself: Nordvik Anlegg AS is a fictional civil engineering firm, not a care
+  business; its screens show the core survey, and the proof lead says so.
+
+**English is live.** `modules/helse-og-omsorg/v1.json` carries `translations.en`, so `live.en` is on (D-120) and
+en.orgpuls.com/helse-og-omsorg shows the landing page, replacing the older English page as the Norwegian one is
+replaced. The English module factor names are the translation's (the unit test from D-208 holds them).
+
+**Also changed.** `content/industries/helse-og-omsorg.ts` and `.en.ts` keep their content as the record and still
+feed the question pages, the menu name and launch state; the legal review lists the landing's unit (`site.helse`,
+with `admin.legal.unit.site.helse`) and marks the old law items unpublished (D-207's rule, from the registry);
+`tests/unit/legal-registry.test.ts` now checks a launched page still on the older template (barnehage og skole)
+for published law items, and helse's landing unit as live. The share card `public/og/helse-og-omsorg.png` is
+regenerated with the new H1 and the questionnaire shot (og-images reads it from the message; no article card
+uses helse's picture). `lib/i18n/site-pages.json` regenerated.
+
+**Pixel gate.** Unchanged: the five v3 pages capture at exactly D-207's numbers on this build (Forside 9.3752 %,
+Plattform 6.6768 %, Bruksområder 3.3886 %, Bransjer 13.1639 %, Pris 2.0562 %).
+
+**Verified** on a production build (hosted env, read-only; `NEXT_DIST_DIR=.next-helse`): tsc 0, lint 0,
+verify:i18n 0, vitest 796/796, build 0; the page map regenerated and `--check` 0 (38 pages, QA build
+`.next-qa-helse` on the local stack, served on its own port); the mobile gate at 390 and 360 for
+/helse-og-omsorg, /handel, /bygg-og-anlegg, /bransjer, /barnehage-og-skole, /kunnskap-og-kontor and
+/helse-og-omsorg/sporsmal: exit 0, no sideways scroll, no squeezed text; axe serious/critical 0, one H1, no
+console errors on those pages at 1440 and 390 in Norwegian, and on /helse-og-omsorg, /handel?forhandsvis=1,
+/bygg-og-anlegg, /bransjer and /helse-og-omsorg/sporsmal in English; FAQPage JSON-LD with eight questions on
+/helse-og-omsorg in both languages. `node scripts/audit/wiring.mjs` exits 1 on the same six findings as D-208,
+none in anything this change touches: it adds no column, setting or RPC. No database writes (two read-only
+queries on the hosted translation registry).
+
+## D-211 — /barnehage-og-skole on the industry landing template (2026-10-03)
+
+The owner's brief for the industry pages (D-207) applied to barnehage og skole: a conversion landing page on why
+the survey is needed, the sector's own challenges and how Orgpuls meets each, for heads and owners of private
+kindergartens and of private and independent schools and SFO. `/barnehage-og-skole` moves onto the template by a
+registry entry (`content/industries/landing.ts`, `msg: 'barnehage'`) and its messages (`site.bransje.barnehage`, no
+and en). No new colour, font, radius or control.
+
+**Two audiences, one page.** The module is worded (0083, D-131): one statement, three wordings – «barna» in a
+kindergarten, «elevene» in a school and SFO, both where an organisation has both. Two pages would duplicate the
+law, the product and the anonymity, split the search term and leave the organisation that has both nowhere to go,
+so the page is one, built from what the two share, and says where they differ:
+- Five of the eight challenges apply to both and carry no label. Three carry a chip over the card: «For få voksne i
+  ytterkantene av dagen» and «Lave stoler, løft og støy» (Barnehage), «Dokumentasjon og vurdering tar tiden»
+  (Skole). Every figure says whom it is about («i barnehagene», «grunnskolelærerne», «lærerne på
+  ungdomstrinnet»); the stat band has two kindergarten and two school figures.
+- A panel at the end of the challenges, «Barnehage eller skole – Se spørsmålene slik deres ansatte får dem», shows
+  one statement (BS-BE-3) in both wordings, read from the module file, each with a link to the question page in
+  that wording (`/barnehage-og-skole/sporsmal?ordbruk=barnehage|skole`), and tells an organisation with both to
+  choose «Begge». The hero's text link «Velg barnehage eller skole ↓» goes to it.
+- The question page opens in the wording the address asks for: `?ordbruk=` sets the wording switch's starting
+  value (`WordingScope initial`), rendered on the server, so it works without script; anything else is «begge», as
+  before. The switch, the codes and the page's content are otherwise unchanged.
+
+**Renderer change, generic and data-driven.** Two optional registry fields: `challenges[].audience` (a label key
+under `site.bransje.<msg>.audience`) and `wording.example` (an item code; the panel renders only when the module file
+has `wording`, the item has `text_variants` and the question page is live in the page's language, and it lists the
+file's `wording.modes` other than its default). Handel, bygg and helse set neither and render as before. `QuestionView`
+takes an optional `wording`; the question route parses `?ordbruk=` with `isWording`. A unit test holds the labels in
+both languages and the example's variants.
+
+**The page.** Hero («Arbeidsmiljø­kartlegging for barnehage og skole: se hva som sliter på de voksne – og følg det
+opp»; the owner's rule: no claim of an outcome Orgpuls does not deliver – no safer kindergartens, less sick leave,
+lower turnover or better learning; the copy says what it does: where the strain is, per avdeling, trinn or SFO with
+enough answers, measures with owner and deadline, the pulse, the report), the real mobile questionnaire, three
+tiles; «Hverdagen i tall» (10,3 % doctor-certified sick leave in kindergartens in Q1 2025 against 6,1 %; 28 % of
+grunnskolelærere exposed to violence in the past year, the highest of all occupations, against 5,7 %; 60 % in
+kindergarten and SFO working squatting or kneeling against 17 %; 43 % of grunnskolelærere with high emotional demands
+against 20 %; the note that a reporting system exists but is little used); «Hvorfor barnehagen og skolen må
+kartlegge arbeidsmiljøet» (law card: aml §§ 3-1 (2) c, 4-3 (2), 4-3 (6), forskriften kap. 3A and § 1A-2, helse's
+checked wording; Arbeidstilsynet's 1 005 school and SFO inspections 2023–2025 with shortcomings at nearly 9 in 10;
+the small-unit gap; the cost); eight challenges (violence and threats; too few adults at the edges of the day;
+documentation and assessment; parents after hours; children who need more; many without teaching qualifications and
+new people; low chairs, lifting and noise; difficult cases and emotional demands), each mapped to one of the module's
+eight factors and, where it fits, a core factor; the wording panel; four real screens (heat map, measures, year
+wheel, report); four steps; anonymity; eight FAQs with FAQPage JSON-LD; the start band; «Les videre»; seventeen
+numbered sources.
+
+**Facts.** Every figure is from a document fetched and read on 3 October 2026 and recorded in
+`docs/marketing/barnehage-sources.md` with page or section and sentence: STAMI/NOA for kindergartens and SFO and for
+education (LKU-A 2022), Udir's Fakta om barnehager 2025 (children; staff), SSB innsikt 2025/7 (kindergarten sick
+leave), SSB's LKU-A 2025 article on violence (with figure 2's table), Arbeidstilsynet's education-sector inspection
+report 2023–2025, Fafo-rapport 2026:06, 2025:10, 2024:30 and 2024:13, NIFU 2025:14 (via Udir), TALIS 2024 (NIFU/UiO,
+via Udir and NVA), Udir's 2021 chapter on the staffing norm (a 2019 survey, said so on the page), Utdanningsforbundet's
+fact sheet 2026:3 (GSI figures) and Lovdata. Written to what the sources say: SSB table 12440 puts education's sick
+leave at about the average (6,8 % against 6,6 % in Q2 2026), so the page claims high sick leave only for
+kindergartens; Arbeidstilsynet's report puts musculoskeletal complaints in education below average, so the physical
+challenge is labelled Barnehage; NOA says noise carries a low risk of hearing damage, and the page says so; TALIS
+samples lower secondary teachers, and the page says «lærerne på ungdomstrinnet»; SSB itself says the rise in violence
+may reflect more attention and stricter reporting, so only the 2025 level is used; Fafo's two staffing trials found
+that extra staff did not change sick leave, and the page uses them only for what they did find (less vulnerability
+to absence, time saved on substitutes). Inspectors' and advisers' quotes in Arbeidstilsynet's report are attributed
+as theirs. The module file's own rationale figures (Utdanningsforbundet's staffing campaign, VG, Arbetsmiljöverket,
+the ministry's note) stay on the question page. No testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- The eight factors, their statements, the two wordings and the suggested measures («Handlingsrom på ett ark»,
+  «Vikarmappe og første dag», «Beskyttet planleggingstid», «Svartid i arbeidstiden», «Leder er med», «To på hver
+  sak», «Voksenhøyde»): `modules/barnehage-og-skole/v1.json`. 24 statements, 2 yes/no questions, ~3 min: the same
+  file (`moduleFacts`).
+- The yes/no questions (unreported violence or threats from a child or pupil; days when absence was not covered by a
+  substitute) shown only for the whole organisation: `count_items` BS-T-1, BS-T-2,
+  `anonymity.count_items_reported_at: organisation_only`. The core survey's `vold` and `krenkende`: counts only.
+- Core factors named: `factor.mengde|kollega|emosjon`; the module does not repeat the emotional demands statements
+  (`relation_to_core.covered_by_core_factors`), and the page says so.
+- The wording suggested from the industry code (85.1 and 88.911 a kindergarten, 85.2, 85.3 and 88.913 a school) and
+  chosen under Målinger › Spørsmålssett; an opened round keeps its wording: `wording.auto_from_nace`,
+  `app.org_wording`, `set_org_module_wording`, `components/malinger/ModuleChoices.tsx` (D-131). The module suggested
+  from NACE 85, 88.911 and 88.913: `content/industries/meta.ts`. «Modulen er foreløpig»: `validation_status`.
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()`; complementary suppression
+  (0045). SMS, e-mail and the QR poster in the staff room: `app/(app)/malinger/plakat`, `app/inn/[code]`,
+  `lib/entry/qr.ts`. Teams and Slack are not named (D-203, D-205).
+- Results per group in the Usual plan; measures with owner and deadline; the pulse re-asking the statements behind
+  open measures; the year wheel; the module's part of the report: `components/resultater/ModuleResults.tsx`, 0071,
+  D-115, D-116, `components/arshjulet`. Role and position segments are built but off (`module_segments`), so the
+  page offers results per group (avdeling, trinn, SFO), not per role.
+- **Languages: «norsk, engelsk, polsk og litauisk»**, phrased as helse's. A read-only check on the hosted database
+  found all 28 items of the published module (1.0.0) approved in English, Polish and Lithuanian, and the 26 items
+  with wordings approved in both wordings (`…:v:barnehage`, `…:v:skole`) in all three (`app.item_translations`);
+  `locale_pl` and `locale_lt` are signed off (`lib/flags.signed-off.json`). The keys that name languages:
+  `site.bransje.barnehage.faq.items[5]` (q and a), in no.json and en.json.
+- The demo company is honest about itself: Nordvik Anlegg AS is a fictional civil engineering firm, not a
+  kindergarten or school; its screens show the core survey, and the proof lead says so.
+
+**English is not live.** `modules/barnehage-og-skole/v1.json` has no `translations.en` (the database has approved
+English texts, but the pages read the file), so `live.en` is off (D-120, validate.ts). The English messages are
+written in full; en.orgpuls.com/barnehage-og-skole shows the page with `?forhandsvis=1`, marked noindex, and is a 404
+without it, as before. In English the question page is not live, so the wording panel is not shown and the hero links
+the demo.
+
+**Also changed.** `content/industries/barnehage-og-skole.ts` keeps its content as the record and still feeds the
+question page and its switch, the menu name, launch state and the legal review's record; the legal review lists the
+landing's unit (`site.barnehage`, with `admin.legal.unit.site.barnehage`) and marks the old law items unpublished
+(D-207's rule, from the registry). `tests/unit/legal-registry.test.ts` now checks every launched industry still on the
+older template, whichever that is, instead of naming barnehage og skole, and checks barnehage's landing unit live in
+Norwegian and not in English. The share card `public/og/barnehage-og-skole.png` is regenerated with the new H1
+(og-images reads it from the message). `lib/i18n/site-pages.json` regenerated. Merge note: the parallel change for
+/kunnskap-og-kontor (D-212) touches neighbouring lines in `tests/unit/industry-landing.test.ts` (the list of routes
+not on the v3 chrome), `tests/unit/legal-registry.test.ts`, `landing.ts` (the next entry), `og-images.mjs` and
+`site-pages.json`; expect a merge there.
+
+**Pixel gate.** Unchanged by this change: the five v3 pages capture at the same pixel counts on this build as on a
+build of the commit before it, measured the same day (Forside 9.3789 %, Plattform 6.6768 %, Bruksområder 3.3886 %,
+Bransjer 13.1639 %, Pris 2.7752 %). Forside and Pris differ from D-207's numbers because of D-209's copy changes on
+those pages, already in the base.
+
+**Verified** on a production build (hosted env, read-only; `NEXT_DIST_DIR=.next-bhg`): tsc 0, lint 0, verify:i18n 0,
+vitest 808/808, build 0; the page map regenerated and `--check` 0 (38 pages, QA build `.next-qa-bhg` on the local
+stack, served on its own port); the mobile gate at 390 and 360 for /barnehage-og-skole, /barnehage-og-skole/sporsmal
+(plain, `?ordbruk=barnehage`, `?ordbruk=skole`), /handel, /bygg-og-anlegg, /helse-og-omsorg, /bransjer and
+/kunnskap-og-kontor: exit 0, no sideways scroll, no squeezed text; axe serious/critical 0, one H1, no console errors on
+those pages at 1440 and 390 in Norwegian, and on /barnehage-og-skole?forhandsvis=1, /helse-og-omsorg, /bygg-og-anlegg,
+/handel?forhandsvis=1 and /bransjer in English; FAQPage JSON-LD with eight questions; the question page
+server-renders the asked wording with its radio checked. `node scripts/audit/wiring.mjs` exits 1 on the same six
+findings as D-208, none in anything this change touches: it adds no column, setting or RPC. No database writes
+(read-only queries on the hosted translation registry).
+
+## D-212 — /kunnskap-og-kontor on the industry landing template (2026-10-03)
+
+The owner's brief for the industry pages (D-207) applied to kunnskap og kontor: a conversion landing page on why
+the survey is needed, the challenges particular to knowledge and office work and how Orgpuls meets each, with
+Fafo's material used well, for leaders of consultancies, IT, finance, media and real-estate firms.
+`/kunnskap-og-kontor` moves onto the template D-207 built, by a registry entry (`content/industries/landing.ts`,
+`msg: 'kontor'`) and its messages (`site.bransje.kontor`, no and en). No new colour, font, radius or control.
+
+**One renderer change, generic: the variants block.** This module is the only one asked in two variants (0089,
+D-137), and the choice is the page's selling point («velg det som passer dere»), so it needs a block the other
+industries do not: `components/industry/IndustryLanding.tsx` draws «Varianter» between the challenges and the
+proof when the registry entry has `variants` and the module file has `variants`; for every other industry
+nothing changes. Everything in it is read, not typed: the simplified set's 8 factors, 24 statements and ~3 minutes
+(`simplifiedFactors`, `variants[0].estimated_minutes`); the extended set's 8–15 factors (`min_factors` to the
+file's factor count), up to 62 statements and ~7 minutes; the factor names (messages held equal to the file by the
+unit test); and the file's own «Kun utvidet» (`extended_only`) and «Valgfri» (`optional`) chips, worded as the
+question page words them (`industry.variant.*`). The registry's `variants.picks` adds four examples of extended
+factors to weigh – consultancy (Kunde- og leveransepress, Tilgjengelighet, Læring), IT (KI og endring, Digitale
+verktøy, Fokus), finance (Jobbtrygghet, Digital overvåking, KI) and hybrid teams (Hybrid samhandling,
+Tilhørighet, Rettferdighet og karriere) – labelled «Eksempler … – dere velger selv», since the product does not
+recommend factors per kind of business. Composed from the template's own parts: the why section's r20 cards (the
+recommended set on sbg with an ink border, as the inspection card), the challenge cards' chips, the hero's tiles,
+the ✓ row.
+
+**What the page promises about the choice, and where it is true.**
+- Forenklet or utvidet, chosen by a daglig leder under Målinger › Spørsmålssett, a standing choice for the
+  planned grunnlinjer and every new one: `components/malinger/ModuleChoices.tsx`, `setOrgModuleVariant`
+  (D-137). Not behind a flag.
+- In utvidet the organisation ticks the extended factors, at least 8 (`module_variants.min_factors`, refused by
+  the database as by the card), with Rettferdighet og karriere off by default (`default_off`); the 24 core
+  statements are always asked (`locked_items`, `app.round_module_fill_variant`). Read-only check on hosted
+  3 October 2026: kunnskap-og-kontor 1.0.0 published, provisional, utvidet `min 8`, `default_off
+  [rettferdighet_og_karriere]`.
+- «Sammenlignbar indeks»: in utvidet the eight simplified factors are computed alongside
+  (`components/resultater/ModuleResults.tsx`, `comparable`), so a round can be compared with simplified ones.
+  The page words it as the product does (`resultater.module.comparableLead`).
+- In forenklet everyone gets the same eight; statements cannot be left out one by one in a module in variants
+  (0088 answers `not_available`); «Ikke relevant for meg» (0087). The FAQ says all three.
+- Not promised: a per-round choice (Måleoppsett shows the variant and leaves the toggles out), the segments
+  (`module_segments` off, so no «hybrid vs office» split is offered), hiding office statements for home
+  workers. The recommendation «forenklet i vanlige målinger, utvidet annethvert år» is the product's own
+  (`malinger.modules.variant.recommend`).
+
+**The page.** Hero («Arbeidsmiljø­kartlegging for kunnskap og kontor: se hva som stjeler fokus og fritid – og følg
+det opp»; the owner's rule: no outcome Orgpuls does not deliver itself – no less burnout, sick leave or turnover,
+no higher productivity; the copy says what it does: shows where the strain is, per team with enough answers,
+measures with owner and deadline, the pulse, the report), the real mobile questionnaire, three tiles (8–15
+factors, «Invitasjon på e-post», the report); «Hverdagen i tall»; «Hvorfor kontorbedriften må kartlegge
+arbeidsmiljøet»; eight challenges; the variants block; four real screens (heat map, measures, year wheel,
+report); four steps (the second is choosing the variant); anonymity; nine FAQs with FAQPage JSON-LD; the start
+band; «Les videre»; eighteen numbered sources.
+
+**Written to what the sources say.** Office work scores well on much, and the page says so in the stat band
+(«Høy trivsel, men ikke alt synes»: 86 % satisfied against 83 %, sick leave below average – and 1 in 5 report
+work-related mental health complaints, NOA). It claims no higher job demands (57 % against 54 % is left out) and
+argues from what is particular: availability after hours (Fafo 2025:26: 22 % of businesses have guidelines on
+the right to disconnect; 41 % in professional occupations get enquiries weekly against 17 %; expectations
+informal), home and hybrid work (STAMI: 4,2 % → 9,6 % working from home several days a week; STAMI's review;
+Abelia's member survey; Fafo's Ledelsesbarometer), concentration in open plan (NOA 58 % in shared offices;
+Fafo 2025:37, worded as one evaluation in the ministries; STAMI's thesis on open plan and sick leave, with its
+own «forskjellene er små»), reorganisation and AI (NOA 55 % against 48 %, finance 65 %; SSB: 9 in 10 in
+information and communication use AI), and the law, which applies to every employer (aml §§ 3-1, 4-3 (2) a, c,
+d, 10-8 (1); hjemmekontorforskriften §§ 2–3; forskriften § 1A-2). Arbeidstilsynet's annual report is quoted on
+risk moving to how work is organised, and its 2025 inspection findings are said to be «i andre bransjer»: the
+page does not claim office firms are inspected now. Nav's 28 % for mental disorders is of all doctor-certified
+sick-leave days and says «i hele arbeidslivet». Every figure is in `docs/marketing/kontor-sources.md` with the
+sentence and page it comes from, fetched 3 October 2026. The old page's invented example company («Fjellstad
+Rådgivning AS» with indices per department) and its international figures (module file rationale sources) are
+not used; the sources file says why. No testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- Module factors, statements and suggested measures («Faste fokusblokker», «Møterevisjon»,
+  «Tilgjengelighetsavtale», «Fri betyr fri», «Kvartalsvis gjennomgang» of evening and weekend work with the
+  verneombud, «Hybrid teamavtale», «Ukentlig én-til-én»): `modules/kunnskap-og-kontor/v1.json`. Kunde- og
+  leveransepress is extended-only, and the challenge says «I utvidet kan dere velge».
+- The yes/no questions shown only for the whole business: KK-T-1 (contacted in free time with an answer expected)
+  and KK-T-2 (written home office agreement) in both variants, KK-T-3/4 in utvidet;
+  `anonymity.count_items_reported_at: organisation_only`.
+- Core factors named: `factor.rolle|kollega|mengde|motstrid|medvirk|ytring|leder`; the module does not repeat
+  them (`relation_to_core.covered_by_core_factors`).
+- Anonymous comments with an anonymous reply, in every plan (`site.pris.included.groups.1.items.2`).
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()`; complementary
+  suppression (0045).
+- Invitations by e-mail or SMS (`supabase/functions/orgpuls-dispatch`); e-mail is named first, as it is the norm
+  in offices. Teams and Slack are not named (D-203, D-205); the challenge copy names «chat» and «kanaler», not
+  products.
+- The module suggested from NACE 58–66 and 68–74 (`content/industries/meta.ts`). Results per group in the Usual
+  plan. The year wheel and the pulse (`components/arshjulet`, 0071, D-115); the report's own part per module,
+  naming the variant asked (D-116, D-140).
+- **Languages: «norsk, engelsk, polsk og litauisk»**, as the helse page has it. A read-only check on hosted found
+  every one of the 68 items of the published kontor module approved in English, Polish and Lithuanian
+  (`app.item_translations`). The keys that name languages: `site.bransje.kontor.faq.items[6]` (q and a), in
+  no.json and en.json. Ukrainian, Swedish and Danish: «ikke klare ennå».
+- The demo company is honest about itself: Nordvik Anlegg AS is a fictional civil engineering firm, not an office
+  business; its screens show the core survey, and the proof lead says so.
+
+**English is written, not live.** `modules/kunnskap-og-kontor/v1.json` has no `translations.en`, so `live.en` is
+off (D-120, `validate.ts`, the unit test): en.orgpuls.com/kunnskap-og-kontor shows the landing page only with
+`?forhandsvis=1`, marked noindex, and links /demo instead of the question page. The English module factor names
+in `site.bransje.kontor.moduleFactors` are the approved English names in the hosted registry (`mfactor:` rows),
+so the preview names what an English respondent reads; one switch publishes it once the file carries them.
+
+**Also changed.** `content/industries/kunnskap-og-kontor.ts` keeps its content as the record and still feeds the
+question page, the menu name, launch state and default variant; the legal review lists the landing's unit
+(`site.kontor`, with `admin.legal.unit.site.kontor`) and marks the old law items unpublished (D-207's rule, from
+the registry). `/kunnskap-og-kontor` joins `isV3Route` through the registry. The share card
+`public/og/kunnskap-og-kontor.png` is regenerated with the new H1 (og-images reads it from the message).
+`tests/unit/industry-landing.test.ts` gains a generic check (every `moduleFactors` name is the file's, extended or
+simplified; picks are extended factors of the file and as many as the messages) and no longer expects
+/kunnskap-og-kontor off the v3 chrome; a parallel change (D-211) edits the same list, so expect a merge there, in
+`scripts/marketing/og-images.mjs` and in `lib/i18n/site-pages.json` (regenerated).
+
+**Pixel gate.** Plattform 6.6768 %, Bruksområder 3.3886 % and Bransjer 13.1639 % capture at exactly D-207's
+numbers on this build. Forside (9.3789 %, was 9.3752 %) and Pris (2.7752 %, was 2.0562 %) differ from D-207's
+record because of D-209's copy on the base commit («Svar på norsk, engelsk, polsk og litauisk» on the front page
+and in Pris' included list): D-210 measured on a branch cut before D-209 was merged. Nothing this change touches
+is drawn on either page (its messages are `site.bransje.kontor` and one admin label; the registry entry affects
+only /kunnskap-og-kontor). The numbers above are the record for the next change.
+
+**Verified** on a production build (hosted env, read-only; `NEXT_DIST_DIR=.next-kko`, served on port 3412): tsc 0,
+lint 0, verify:i18n 0, vitest 808/808, build 0 (`tsconfig.json` restored after each build); the page map
+regenerated and `--check` 0 (38 pages; QA build `.next-qa-kko` in keys mode on the local stack, port 3413); the
+mobile gate at 390 and 360 for /kunnskap-og-kontor, /kunnskap-og-kontor/sporsmal, /handel, /bygg-og-anlegg,
+/helse-og-omsorg, /bransjer and /barnehage-og-skole: exit 0, no sideways scroll, no squeezed text (the same
+wrapping warnings as the other landing pages: long H2s, FAQ buttons, long factor chips at 360); axe
+serious/critical 0, one H1, no console errors on those seven pages at 1440 and 390 in Norwegian, and on
+/kunnskap-og-kontor?forhandsvis=1 (noindex, links /demo), /helse-og-omsorg and /bransjer in English;
+/kunnskap-og-kontor without the preview parameter answers 404 in English, as before. FAQPage JSON-LD with nine
+questions. `node scripts/audit/wiring.mjs` exits 1 on the same six findings as D-208, none in anything this
+change touches: it adds no column, setting or RPC. Full-page screenshots at 1440 and 390 in
+`qa/shots/kontor-redesign/` (not committed). No database writes (read-only queries on the hosted module registry
+and translation registry).
+
+## D-213 — The older industry template removed; content files cut to what still has a reader (2026-10-03)
+
+The owner, 3 October 2026: «slett gamle sider». All five industry pages are on the landing template
+(D-207, D-208, D-210, D-211, D-212), so the template they replaced, and what only it read, are removed.
+
+**Removed.**
+- `components/industry/IndustryView.tsx` (486 lines): the older template, with its result preview board, the
+  loop example and the FAQ. The three things the question page borrowed from it (the wrapper, heading and section
+  classes, the closing start band `IndustryCta`, the numbered `SourceList`) now live in
+  `components/industry/QuestionView.tsx`, their only reader, unchanged.
+- In `app/(marketing)/[bransje]/page.tsx`: the branch that drew the older template, and the one that drew the
+  pre-industry landing page (`LandingTemplate` with `seo.lp.byggOgAnlegg|helseOgOmsorg`) where an industry was not
+  launched. An industry address now shows its landing page where it is live, the same with ?forhandsvis=1 where it
+  is not, and 404 otherwise.
+- From the content files (`content/industries/<slug>.ts`, `.en.ts`) and their type: `seo`, `hero` (with the
+  invented example company's preview), `challengesIntro`, `challenges`, `moduleOverview`, `loop`, `faq`, `cta`,
+  `related`, `sourcesFromFactors`, `extraSources`, `module.defaultVariant` and `moduleName.inline`. What stays has a
+  reader: `navLabel` (the menu, the question page's crumb), `launched` (menu, cards, sitemap, question page),
+  `module`, `moduleName` (the question page's pill, now a string), `questionPage`, `card` («Ny»), and `law` (below).
+  The seven files went from 1 550 lines to 554.
+- Code only the older template used: `stripCites` and the exported `CITE_TOKEN` and `Segment` (cites.ts),
+  `pageFactors` (modules.ts), the `ResultPreview`/`MeasuredBy`/`CiteKey` types, and validate.ts's checks of
+  challenges, cites, the preview and the loop. validate.ts now checks what is left: a module file exists, an English
+  page is on a translated module, a question page has a module, a «Ny» date is a date, and an entry is launched
+  exactly where its landing page is live (and every live landing page has an entry), so the menu, the sitemap and
+  the question page cannot drift from the page.
+- Messages, each grepped across app/, components/, lib/, scripts/, content/ and tests/ first, in no and en:
+  `industry.tagModule|tagCore|measuredIn|measuredCore|coreFactor|coreAlongside|seeAll|seeQuestions|helpline|
+  coreCoveredAlso|loopExample|loopSteps|remeasure|faqTitle|related`, `industry.facts.*` (7), `industry.board.*` (6),
+  and `admin.cms.site.industryLead` (the CMS's note that an industry page's words are its content file, no longer
+  true). The page map's `unseen` list drops the same 28 `industry.*` keys.
+- Tests of the older template only (cites and statements in challenges, preview and twin figures) are gone;
+  tests/unit/industry.test.ts now holds the entries to the landing registry, industry-landing.test.ts asserts all
+  five industry pages in the v3 chrome and their question pages outside it, and legal-registry.test.ts asserts what
+  each language publishes.
+
+**Fixed on the way.**
+- admin › CMS listed an industry page's title and description from its content file's `seo`, which no address has
+  shown since the landing template. `lib/cms/designed.ts` now gives the landing's message keys
+  (`site.bransje.<msg>.seo.*`, editable like the other designed pages) and the languages it is live in.
+- The menu and the cards (`hasPublicPage`) and the sitemap counted bygg and helse as public in a language because
+  they once had a landing page there; that page is gone, so all five follow `launched`, and the sitemap lists the
+  industries by launch and the remaining landing pages (lovkrav, verneombud, små bedrifter) as before.
+- tests/unit/seo-descriptions.test.ts read the content files' `seo.description`, which no page printed; it now reads
+  the landing pages' (`site.bransje.*.seo.description`), and three were over 155 characters: no barnehage (157,
+  «SMS eller QR» → «mobilen»), en handel (163, «psychosocial» dropped) and en barnehage (180, shortened).
+- scripts/i18n/site-text.mts no longer lists the content files' retired words, nor `law`, as page text.
+
+**Kept on purpose.**
+- `law` in the content files (bygg, helse, barnehage, kontor and handel in Norwegian; bygg and helse in English). The
+  legal review lists every item as an unpublished unit (`industry:<slug>:<lang>:law:*`, `:law-intro`), and all of
+  them are approved on hosted (`app.legal_approvals`, read-only: 43 law items and 7 intros). They are the record of
+  what the pages said; dropping the field would drop that history from the review. They are `live: false` now
+  unconditionally.
+- The claims unit (`industry:<slug>:<lang>:claims`) keeps its key and now holds only the question page's lead and
+  rules, which is what is published; the older template's threshold note, challenges and FAQ are gone from it, so the
+  review will show those seven approved units as changed since approval. That is what changed.
+- `seo.lp.byggOgAnlegg` and `seo.lp.helseOgOmsorg` and their place in `LANDING_PAGES`: /verneombud still links
+  /bygg-og-anlegg with that card (`LANDING_RELATED`), the landing records are typed over `LANDING_PAGES`, and the
+  legal review lists both as unpublished units (`live` is now a constant false). Their page body is read by nothing
+  else.
+- `PreviewBanner`, `CitedText`, `Variant`, `Wording`: the question page and the CMS use them.
+
+**Verified.** tsc 0, lint 0, verify:i18n 0, vitest 818/818; `node scripts/audit/wiring.mjs` exits 1 on the same six
+findings as D-208, none in this change (no column, setting or RPC). The build, the page map, the mobile and axe gates
+and the v3 pixel gate are run with D-214, which follows on the same branch.
+
+## D-214 — /handel, /barnehage-og-skole and /kunnskap-og-kontor in English (2026-10-03)
+
+The owner, 3 October 2026: «publiser engelsk / oversett». The three pages had their English copy written
+(D-207, D-211, D-212) but waited for their module files' English translation (D-120: an English page quotes
+what an English respondent is asked). The files now carry `translations.en`, and all three are live on
+en.orgpuls.com with their question pages.
+
+**Where the English comes from.** Every survey text is the approved English in the hosted translation registry
+(`app.item_translations`, locale `en`, all `approved`, read-only), mapped back to the file by item code, option
+number, wording and factor key, after checking that the database's Norwegian is the file's word for word (0
+differences): handel 49, barnehage og skole 102, kunnskap og kontor 111 — 262 texts, every one of them used
+(statements, both wordings of every barnehage statement and count question and of the one worded factor name,
+count questions and their options, background questions and their options, the 15 extended and 8 simplified
+factor names). What the registry does not hold, because no respondent reads it, is written here as a machine
+draft per X-089 in the English the bygg and helse translations use (origin *machine*, for Tor's review): the
+module names and descriptions, each factor's summary, rationale and legal basis, every suggested measure (title
+and description), the counts' «why», kontor's one help line (KK-TG-1), its variant names and its simplified
+factors' summaries and measures — 277 texts (62, 63 and 152; a measure counted once). The scale labels are
+bygg's reviewed English (the Norwegian labels are the same), the covered core factors the instrument's English
+labels from messages/en.json. Legal references are paraphrases of Norwegian statute, as in D-119; two are
+translated as the Norwegian has them though the Norwegian is out of date or open: handel's «forskrift om utførelse
+av arbeid kap. 23A» (repealed 1 January 2026; kap. 3A replaced it, as /handel's law card already says) and its
+lone-work basis «verifiser paragraf». Correcting the Norwegian is a module change for Tor, not a translation.
+
+**The schema learned two shapes it refused** (`lib/modules/schema.ts`). A worded module translates every
+wording (`name_variants`, `item_variants`, a count question's `text_variants`); a module in variants translates
+its variant names and simplified factors (`variants.forenklet`, `variants.utvidet`); a statement with a help line
+translates it (`item_help`); a count question's English options match its own count (kontor has four). Each is
+checked complete, so a half-English module still cannot parse. All are optional, so bygg's and helse's bodies do
+not move (the pinned hashes hold). `moduleFile(key, 'en')` lays them over the Norwegian, so the English question
+page shows the English wordings in the wording switch, the English simplified set, and the English help line.
+
+**The pages.** `live.en` is on for the three landing entries, and each content file gained its English entry
+(`content/industries/<slug>.en.ts`: menu name, launch, module, the question page's words, translated from the
+Norwegian file's in the bygg/helse style). The build refuses an entry launched where its landing page is not,
+and a live landing page without an entry (D-213), so the question page, the menu, the cards and the sitemap
+follow the same switch: en.orgpuls.com's menu and /bransjer list all five industries, the sitemap lists
+/handel, /barnehage-og-skole, /kunnskap-og-kontor and their question pages on both hosts as twins, and both
+hosts' hreflang names the other (`noTwin` is false once both languages are live). The English pages now link
+their question pages where they linked /demo, and barnehage og skole shows its wording panel in English. The
+English «Ny» date on handel and kontor is 90 days after today's launch (2027-01-01).
+Copy reviewed for anything that only made sense unpublished: nothing said «preview» or «Norwegian only»; the
+English module factor names on the pages were four words off what an English respondent reads (handel «Rota and
+predictability», barnehage «Time for core tasks», «Competence and community among staff», «Noise, body and
+breaks»), now the registry's names, and the unit test checks every factor name a page names, simplified ones too.
+The barnehage question page names the segment option as respondents read it («Management or administration»).
+
+**The hosted step, and why it needs a migration first.** Adding `translations.en` changes the three files'
+bodies (handel `a8f91823…`, barnehage og skole `1c9c489d…`, kunnskap og kontor `83e185e5…`), so admin › Industry
+modules shows each file as changed, and «Make live» makes it 1.0.1. module_sync (0122) carries the survey
+translations of every statement «whose wording did not change» by comparing the whole stored text — which holds
+the file's English beside the Norwegian. With the English added, every statement would read as reworded and
+**none** of the 2 172 approved translations would be carried (handel 294, barnehage og skole 612, kunnskap og
+kontor 666, in en, pl, lt, uk, sv and da), taking Polish and Lithuanian — switched on in D-209 — out of every
+round with these modules until re-approved (D-133). Proved on the local stack: the new invariant (10) fails
+without the fix, «carried 0». `supabase/migrations/0191_module_sync_carry_english.sql` compares the Norwegian
+only (`app.module_nb`, `app.module_nb_options`: every key not starting with `en`), and carries an English row
+only where it agrees with the English the new version stores, or where that version stores none (a wording
+variant), so the registry cannot contradict the file. «Validated» still falls back on any change respondents
+read, the English included. Not applied to hosted here.
+- The seed stores the module's English as before (0072); it has no columns for English wordings or the simplified
+  factors' English, which respondents read from the registry (carried) and leaders' screens show in Norwegian, as
+  they do today. Unchanged here.
+- No rounds use the three modules on hosted (read-only), so «Make live» moves no rounds.
+
+**Also fixed on the English pages.** At 360 px, en /bygg-og-anlegg scrolled 6 px sideways: its law card's
+unbreakable reference «Construction Client Regulations § 19a» (live since D-208; D-208 measured the phone widths in
+Norwegian only) is now «Construction Client Regs § 19a». The kontor law card wrote «aml §» where the other four
+English cards write «WEA §»; now «WEA §». Both are in the legal review's `site.bygg` / `site.kontor` units, which
+therefore show as changed.
+
+**The hosted steps, in order (not done here).**
+1. Apply `supabase/migrations/0191_module_sync_carry_english.sql` to hosted (Supabase MCP `apply_migration`, name
+   `module_sync_carry_english`, as the other migrations are applied).
+2. admin › Industry modules › «Make live» for handel, barnehage-og-skole and kunnskap-og-kontor (super-admin). Each
+   should answer `published`, version 1.0.1, translations carried 294, 612 and 666, rounds moved 0. Equivalent by
+   hand: `npm run -s modules:seed modules/handel/v1.json modules/barnehage-og-skole/v1.json
+   modules/kunnskap-og-kontor/v1.json > seed.sql` and run it with psql against hosted. Until then the pages are
+   right (they read the files) and surveys are unchanged (they read 1.0.0 and the registry); only admin shows the
+   three files as changed.
+
+**Verified.** tsc 0, lint 0, verify:i18n 0, vitest 823/823, modules:validate 0 (bygg and helse at their pinned
+bodies), production build 0 (`NEXT_DIST_DIR=.next-rm`, `tsconfig.json` restored, the build directory removed); the
+page map regenerated against a keys-mode QA build of this branch (local stack, port 3108) and `--check` 0 (38 pages;
+the map is the one D-213 pruned, byte for byte). On the local stack, each in a rolled-back transaction with 0191
+applied: module_sync_invariants 10/10 (10 fails without 0191), respondent_invariants (21), module, module_variants,
+module_wording, module_validation, translation and survey_language invariants pass; the three files seed (every
+statement stored with its English). On a QA build of this branch (port 3109): the mobile gate at 390 and 360 for the
+five industry pages, their question pages and /bransjer exits 0; the five industry pages, their five question pages,
+/bransjer and the skole wording, in Norwegian and in English (NEXT_LOCALE=en) at 1440, 390 and 360: 72 of 72 with
+status 200, one H1, the right `lang`, no sideways scroll or squeezed text, axe serious/critical 0, no console
+errors, no noindex, hreflang nb/en/x-default; the English question pages show the English statements in all three
+wordings and kontor's simplified set; en.orgpuls.com's sitemap lists the three pages and their question pages. The
+v3 pixel gate is unchanged at D-212's record (Forside 9.3789 %, Plattform 6.6768 %, Bruksområder 3.3886 %,
+Bransjer 13.1639 %, Pris 2.7752 %). `node scripts/audit/wiring.mjs`: the same six findings as D-208. Screenshots of
+the three English pages at 1440 and 390: `qa/shots/en-live/` (not committed). Hosted: read-only SELECTs only.
+
+**D-214, hosted (2026-10-03):** 0191 applied; handel, barnehage-og-skole and kunnskap-og-kontor published as 1.0.1
+through the seed (the same module_sync «Make live» calls), rounds moved 0. Approved module texts per survey
+language rose from 359 to 621 (+262, every statement of the three new versions carried); en/pl/lt coverage of
+`app.all_item_keys()` afterwards: pl 0 and lt 0 of 415 missing. English misses six keys, all
+`extra:tiltak_effekt` (the effect question and its five options, GAP-B) — older than this work: the question was
+never given an approved English registry row, so English is not offered in a round that asks it until that is
+approved in admin › Oversettelser.
+
+**D-214, follow-up (2026-10-04):** the six missing English rows for `extra:tiltak_effekt` (text and five options)
+were written to the registry on hosted from messages/en.json (`extra.tiltak_effekt.*`, the product's own English),
+source `machine`; the auto-approve switch (0101, on) approved them on insert (`approved_auto = true`). English
+coverage of `app.all_item_keys()` is now 0 of 415 missing, so English is offered in rounds that ask the effect
+question.
+
+## D-215 — CI made cheaper once the repository went private (2026-10-04)
+
+The owner made the repository private on 2026-10-04, so every GitHub Actions minute is billed beyond the free
+quota (2 000 per month on GitHub Free). The week before used about 18 runs a day at 10 billed minutes each (two
+jobs, each rounded up), roughly 5 000 minutes a month at that pace. Three changes, none of which drops a check:
+- **One job instead of two.** The «types, lint, i18n, build» job built the app with placeholder settings; the
+  invariants job built it again against the local database, and only that build is the one the smoke and
+  respondent-flow checks serve. Its quick checks (npm ci, tsc, lint, modules:validate, unit tests, i18n parity)
+  now run first in the remaining job, so a type or lint error still fails within a minute, before Supabase
+  starts; the duplicate build, the second npm ci and the second modules:validate are gone.
+- **Documentation-only commits start no run** (`paths-ignore: docs/**, **/*.md, qa/shots/**`). About one commit
+  in ten last week touched nothing else.
+- **Chromium is cached** between runs (`~/.cache/ms-playwright`, keyed on package-lock.json) instead of being
+  downloaded by the smoke and respondent-flow steps each time.
+Expected: about 7 billed minutes per run instead of 10, and fewer runs. The rest depends on how often main is
+pushed: changes are now shipped in batches, one push per finished piece of work.
+
+Outcome: the first run on the merged job (8ce16d0) failed once in «Smoke every screen» on a React #418
+hydration error that did not reproduce in four local runs; the same app code passed before (ba6ed7e) and after
+(8d1bea9, 7 minutes, one job). It is recorded as unreproduced, not fixed. `scripts/verify/shoot.mjs` now prefixes
+every console error with the page it came from (sign-in, the page it lands on, or the route), so if it returns,
+the run names where to look. Re-running a job is not available to this session (403), so a recurrence is
+diagnosed from the tagged log, never by retrying.
+
+## D-216 — Two CRM helpers closed to clients (0198; applied on hosted as 0191) (2026-10-03)
+
+Found in the CRM enrichment gap analysis (`docs/crm-enrichment/06-QUESTIONS.md` Q1).
+`app.crm_follow_audience(app.crm_campaigns)` (0111, 0137) is SECURITY DEFINER and returns
+`(contact_id, email)` for the contacts a campaign's first mail reached; `app.crm_chain_depth(uuid)` walks a
+campaign chain. Neither migration revoked EXECUTE, so both kept PostgreSQL's default grant to PUBLIC, and
+`app` is exposed to PostgREST. On a local stack an anonymous `POST /rest/v1/rpc/crm_follow_audience` with
+a campaign id in the row's `follows_id` returned that campaign's recipients. Using it needed a campaign
+UUID, which no public page or mail link carries, so no leak is known; the hosted project had the same
+grants (checked read-only before the fix).
+
+`supabase/migrations/0198_crm_definer_grants.sql` revokes both from public, anon and authenticated. Every caller is itself SECURITY DEFINER and owned
+by postgres (`crm_mail_claim`, `crm_follow_done`, `crm_step_tasks` and five `admin_crm_*` readers and
+writers), so sending, follow-ups, journeys and the sequence views are unchanged; all 115 SQL suites pass.
+`definer_grants_invariants.sql` (3 assertions) proves the two are closed and fails if any SECURITY DEFINER
+function in `app`, other than a trigger function, is executable by anon or authenticated without being on
+its reviewed list (the RLS helpers `is_org_member`, `has_role`, `k_threshold`, `module_visible`, and
+`visible_groups`, `round_answered`, `module_usable`, granted to authenticated on purpose in 0022 and 0071).
+0191 is applied on hosted; afterwards the open definers there are exactly that list.
+
+Numbered D-216 when merged with main, which had taken D-207 to D-215 meanwhile. The migration was written as
+0191 and is applied on hosted under that name (`0191_crm_definer_grants`); its file is renumbered 0198 because
+main took 0191 for `module_sync_carry_english` (D-214) and the CRM enrichment branch, still to be merged, holds
+0192 to 0197. Two files with one number would stop every rebuild from the migrations. The SQL is unchanged, and
+its header still cites 0191 and D-207, as an applied migration's content is not edited.
+
+## D-217 — A free plan after the trial, and yearly billing (0201) (2026-10-04)
+
+Decided by the owner on 2026-10-04, to bring organisations in before asking them to pay: a «reverse trial».
+The 15-day trial (one extension of 15) and the 14 days' grace are unchanged; an organisation that has not
+confirmed a plan by then is on the **free plan** instead of read-only, at any size, for as long as it likes.
+The owner chose the free plan's contents (the standard main survey; not the extended module variant, pulses,
+the report or comparisons), added measures to it, and chose two months free for a yearly agreement.
+
+- **What the free plan holds.** The grunnlinje with the core instrument and the questions outside the index,
+  its results with the same k as everyone, and measures. **Not** included: pulses and follow-up rounds, the
+  industry modules (both variants), the organisation's own questions, comparisons with earlier rounds
+  (Sammenlign, Utvikling, every «fra året før» and the response rate against an earlier round, on Resultater,
+  Innsikt and Oversikt) and the statutory report.
+- **Where it is enforced.** The writes are refused in the database (0201): `start_next_pulse` and
+  `wheel_month_change` «legg til» answer `free_plan`; `set_org_module` refuses turning a module on; a trigger
+  (`app.free_plan_guard`) refuses a measurement of another kind than the grunnlinje, a module switched on, a
+  round's module row and an own question, whatever path writes them; the wheel plans no puls and holds a puls
+  planned during the trial back (as read-only did), and opens a grunnlinje planned during the trial without its
+  module and own-question rows. The report and the comparisons are read paths over data the organisation owns:
+  the server leaves them out of the page (`isFreePlan`, `compareLocked`), not the RPCs, so a client calling
+  `results_digest` directly still gets its own history. That is deliberate — it is the organisation's data,
+  and the limit is a product line, not an anonymity rule; k applies the same on every plan.
+- **What changed meaning.** `read_only` is now only a cancellation that has taken effect (0064); the
+  cancelled organisation keeps the report, which is what it downloads before deletion. `org_access_state`
+  returns `free_from` (and still `read_only_from` for a client deployed before it). The lifecycle mail step
+  keeps its key `read_only_soon`; its words now say the free plan begins.
+- **Yearly billing.** `app.billing.billing_interval` ('month' | 'year'), set only by `save_billing` (new
+  seventh argument). A year costs `app.annual_months()` = 10 months' price (Liten 2 650 kr, Vanlig 5 650 kr);
+  `lib/site/pricing.ts` `ANNUAL_MONTHS` is the same number for the screens. A yearly subscription cancelled
+  runs to the end of its paid year, counted from the day it started; a monthly one to the end of the month, as
+  before. MRR counts a year as a twelfth (`app.plan_mrr_nok`) in the dashboard, the customer list and the daily
+  KPI capture.
+- **Screens the design does not draw.** The free plan's banner (daglig leder only; nobody else can act on
+  it), Oppsett › Betaling's interval control (the app's segmented control, as Resultater's views) and its
+  free-plan state, a locked Rapport (`PlanLocked`, the app's empty treatment), Resultater without its two
+  comparison tabs and with a line in place of the trend bars, and on /priser a monthly / yearly control, a
+  fourth card for the free plan and the yearly prices. /priser therefore no longer matches
+  `nettside-v3/baselines/Pris-*.png`; that gate is local (not in CI), and this entry is its record.
+- **Words.** The terms of use (/vilkar, and docs/legal/vilkar-utkast.md) say the free plan in point 3, the
+  yearly agreement in points 4 and 10; legal review in admin is a record (X-078). The price page, its FAQ and
+  JSON-LD (a free offer and the yearly prices), and «Bransjemodulene er med i alle planer» on the Bransjer hub
+  are updated in Norwegian and English.
+- **Not built.** The admin's organisation detail (`admin_org_detail`) does not name the interval, and its
+  MRR is still the monthly list price: the hosted project carries a version of that function this
+  repository's migrations do not (found by comparing definitions before applying 0201), so 0201 leaves it
+  alone rather than overwrite it. A paying customer cannot step down to the free plan; cancelling still ends in deletion
+  (0064). `app.kpi_daily` does not count free organisations (its `read_only` column now counts only
+  cancellations that have taken effect). Both are follow-ups, not promises anywhere in the product.
+
 ## D-218 — CRM rule settings: every limit and rule that can stop a CRM action is a setting (0192) (2026-10-03)
 
 The CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` R5, A9, CUS-07) asks that every limit,

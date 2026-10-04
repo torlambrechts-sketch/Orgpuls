@@ -1,5 +1,6 @@
 import { getFormatter, getTranslations } from 'next-intl/server'
-import { CANCEL_REASONS, fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
+import { ANNUAL_MONTHS, CANCEL_REASONS, fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
+import { PLAN_SIZES } from '@/lib/site/pricing'
 import { BillingForm, CancelSubscription, ExtendTrialButton, WithdrawCancellation } from './BillingForms'
 
 const DAY = 86_400_000
@@ -12,6 +13,9 @@ const DAY = 86_400_000
  * organisation has outgrown shown but not selectable. Then the invoice details: an address,
  * an optional reference, and EHF when there is an organisation number to send it to.
  * Payment is by invoice; nothing here takes a card.
+ *
+ * Each plan is paid monthly, or yearly at ten months' price (0201, D-217). Past the trial and its
+ * grace, unconfirmed, the organisation is on the free plan, and this says what that covers.
  *
  * The row is the daglig leder's alone (RLS). Anyone else is told who handles payment and
  * sees nothing of it.
@@ -50,27 +54,29 @@ export async function BillingTab({
   const total = Math.max(1, Math.round((ends - started) / DAY))
   const used = Math.min(1, Math.max(0, (now - started) / (ends - started)))
   const expired = ends <= now
-  // after the trial, 14 days' grace; then read-only until a plan is confirmed (0052, D-94)
-  const readOnlyFrom = ends + GRACE_DAYS * DAY
-  const readOnly = now >= readOnlyFrom
-  const graceLeft = Math.max(0, Math.ceil((readOnlyFrom - now) / DAY))
+  // after the trial, 14 days' grace; then the free plan until a plan is confirmed (0052, 0201)
+  const freeFrom = ends + GRACE_DAYS * DAY
   const confirmed = billing.confirmed_at !== null
+  const free = !confirmed && now >= freeFrom
+  const graceLeft = Math.max(0, Math.ceil((freeFrom - now) / DAY))
   const planKey = { small: 'small', usual: 'usual', group: 'group' } as const
 
   const pill = confirmed
     ? { text: t('pillConfirmed'), cls: 'bg-mint text-greendeep' }
-    : readOnly
-      ? { text: t('pillReadOnly'), cls: 'bg-peach text-dangerdeep' }
+    : free
+      ? { text: t('pillFree'), cls: 'bg-sbg text-ink' }
       : expired
         ? { text: t('pillGrace', { count: graceLeft }), cls: 'bg-peach text-dangerdeep' }
       : { text: t('pillLeft', { count: left }), cls: left <= 3 ? 'bg-peach text-dangerdeep' : 'bg-sbg text-ink' }
 
-  // a cancellation now: a paid month runs out, a trial ends today (0066); both in Oslo's calendar
+  // a cancellation now: a paid month or year runs out, a trial or the free plan ends today (0066,
+  // 0201); all in Oslo's calendar, as cancel_subscription counts
   const oslo = (ms: number) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date(ms))
   const today = oslo(now)
-  const paying = confirmed && !readOnly
+  const paying = confirmed
+  const yearly = billing.billing_interval === 'year'
   const [y, m] = today.split('-').map(Number)
-  const lastDay = paying ? new Date(Date.UTC(y!, m!, 0)).toISOString().slice(0, 10) : today
+  const lastDay = !paying ? today : yearly ? paidYearEnd(oslo(Math.max(ends, Date.parse(billing.confirmed_at!))), today) : new Date(Date.UTC(y!, m!, 0)).toISOString().slice(0, 10)
   // deletion begins at midnight 31 days after the last day (0065), so that is the day named
   const deleteDay = new Date(Date.parse(`${lastDay}T12:00:00Z`) + 31 * DAY).toISOString().slice(0, 10)
   const day = (d: string) => format.dateTime(new Date(`${d}T12:00:00Z`), { dateStyle: 'long', timeZone: 'Europe/Oslo' })
@@ -78,26 +84,35 @@ export async function BillingTab({
   const cancelledLast = cancelled ? date(new Date(Date.parse(billing.cancel_effective_at!) - 1000).toISOString()) : ''
 
   const suggested = fittingPlan(company.employees)
-  const plans = PLANS.map((p) => ({
-    key: p,
-    name: plansT(`${planKey[p]}.name`),
-    who: plansT(`${planKey[p]}.who`),
-    price: plansT(`${planKey[p]}.price`),
-    unit: plansT(`${planKey[p]}.unit`),
-    fits: company.employees <= PLAN_MAX[p],
-    suggested: p === suggested,
-  }))
+  const kroner = (n: number) => t('kroner', { n: format.number(n) })
+  const plans = PLANS.map((p, i) => {
+    const monthly = PLAN_SIZES[i]?.monthly ?? null
+    return {
+      key: p,
+      name: plansT(`${planKey[p]}.name`),
+      who: plansT(`${planKey[p]}.who`),
+      // the plan by agreement has no list price, in either interval
+      price: {
+        month: monthly === null ? plansT(`${planKey[p]}.price`) : kroner(monthly),
+        year: monthly === null ? plansT(`${planKey[p]}.price`) : kroner(monthly * ANNUAL_MONTHS),
+      },
+      unit: { month: monthly === null ? '' : t('perMonth'), year: monthly === null ? '' : t('perYear') },
+      perMonth: monthly === null ? null : t('yearPerMonth', { price: format.number(Math.round((monthly * ANNUAL_MONTHS) / 12)) }),
+      fits: company.employees <= PLAN_MAX[p],
+      suggested: p === suggested,
+    }
+  })
 
   return (
     <div className="mt-[20px] flex flex-col gap-[16px]">
       {/* ------------------------------------------------------------ the trial */}
       <section
         aria-labelledby="billing-trial"
-        className={`rounded-panel border px-[22px] py-[20px] ${!confirmed && (expired || left <= 3) ? 'border-ink bg-sbg' : 'border-line bg-sf'}`}
+        className={`rounded-panel border px-[22px] py-[20px] ${!confirmed && !free && (expired || left <= 3) ? 'border-ink bg-sbg' : 'border-line bg-sf'}`}
       >
         <div className="flex flex-wrap items-center justify-between gap-[12px]">
           <h2 id="billing-trial" className="m-0 text-[16px] font-bold">
-            {confirmed ? t('subscriptionHead') : t('trialHead')}
+            {confirmed ? t('subscriptionHead') : free ? t('freeHead') : t('trialHead')}
           </h2>
           <span className={`rounded-pill px-[10px] py-[4px] text-[11.5px] font-bold ${pill.cls}`}>{pill.text}</span>
         </div>
@@ -105,13 +120,14 @@ export async function BillingTab({
           {confirmed
             ? t(billing.plan === 'group' ? 'confirmedGroupBody' : 'confirmedBody', {
                 plan: billing.plan ? plansT(`${planKey[billing.plan]}.name`) : '',
+                interval: billing.billing_interval,
                 start: date(billing.trial_ends_at),
                 mail: billing.invoice_email ?? '',
               })
-            : readOnly
-              ? t('readOnlyBody', { end: date(billing.trial_ends_at) })
+            : free
+              ? t('freeBody', { end: date(billing.trial_ends_at) })
               : expired
-                ? t('graceBody', { end: date(billing.trial_ends_at), until: date(new Date(readOnlyFrom).toISOString()) })
+                ? t('graceBody', { end: date(billing.trial_ends_at), until: date(new Date(freeFrom).toISOString()) })
                 : t('trialBody', {
                     start: date(billing.trial_started_at),
                     end: date(billing.trial_ends_at),
@@ -119,7 +135,7 @@ export async function BillingTab({
                     grace: GRACE_DAYS,
                   })}
         </p>
-        {confirmed ? null : (
+        {confirmed || free ? null : (
           <div
             role="progressbar"
             aria-label={t('progress')}
@@ -134,7 +150,7 @@ export async function BillingTab({
             />
           </div>
         )}
-        {confirmed ? null : billing.trial_extended_at ? (
+        {confirmed || free ? null : billing.trial_extended_at ? (
           <p className="mb-0 mt-[12px] text-[12.5px] text-mut">{t('extendedOn', { when: date(billing.trial_extended_at) })}</p>
         ) : (
           <ExtendTrialButton
@@ -165,6 +181,7 @@ export async function BillingTab({
           plans={plans}
           initial={{
             plan: billing.plan,
+            interval: billing.billing_interval,
             invoiceEmail: billing.invoice_email ?? '',
             invoiceRef: billing.invoice_ref ?? '',
             ehf: billing.ehf,
@@ -173,6 +190,8 @@ export async function BillingTab({
           confirmed={confirmed}
           labels={{
             planLegend: t('planLegend'),
+            intervalLegend: t('intervalLegend'),
+            intervals: { month: t('interval.month'), year: t('interval.year') },
             suggested: t('suggested'),
             tooMany: t('tooMany', { count: company.employees }),
             invoiceEmail: t('invoiceEmail'),
@@ -182,7 +201,10 @@ export async function BillingTab({
             ehf: t('ehf', { orgnr: company.orgNumber ?? '' }),
             ehfNoOrgnr: t('ehfNoOrgnr'),
             // billing starts when the trial ends, or on the day of confirming if that is later
-            terms: expired ? t('termsAfterTrial') : t('terms', { end: date(billing.trial_ends_at) }),
+            terms: {
+              month: expired ? t('termsAfterTrial', { interval: 'month' }) : t('terms', { interval: 'month', end: date(billing.trial_ends_at) }),
+              year: expired ? t('termsAfterTrial', { interval: 'year' }) : t('terms', { interval: 'year', end: date(billing.trial_ends_at) }),
+            },
             save: confirmed ? t('saveChanges') : t('save'),
             confirm: t('confirm'),
             confirmGroup: t('confirmGroup'),
@@ -191,6 +213,7 @@ export async function BillingTab({
             pending: t('saving'),
             problems: {
               invalid_plan: t('problem.invalid_plan'),
+              invalid_interval: t('problem.invalid_plan'),
               plan_too_small: t('problem.plan_too_small'),
               invalid_email: t('problem.invalid_email'),
               invalid_ref: t('problem.invalid_ref'),
@@ -227,8 +250,10 @@ export async function BillingTab({
           <>
             <p className="mb-0 mt-[8px] text-[13.5px] leading-[1.6] [text-wrap:pretty]">
               {paying
-                ? t('cancel.leadPaying', { last: day(lastDay), deleted: day(deleteDay) })
-                : t('cancel.leadTrial', { deleted: day(deleteDay) })}
+                ? t('cancel.leadPaying', { interval: billing.billing_interval, last: day(lastDay), deleted: day(deleteDay) })
+                : free
+                  ? t('cancel.leadFree', { deleted: day(deleteDay) })
+                  : t('cancel.leadTrial', { deleted: day(deleteDay) })}
             </p>
             <CancelSubscription
               reasons={CANCEL_REASONS}
@@ -255,4 +280,18 @@ export async function BillingTab({
       </section>
     </div>
   )
+}
+
+/**
+ * The last day of the paid year a yearly subscription is in today: the day before the next
+ * anniversary of its start (YYYY-MM-DD, Oslo). Before the first paid day nothing runs out. Mirrors
+ * cancel_subscription (0201).
+ */
+function paidYearEnd(start: string, today: string): string {
+  if (today < start) return today
+  const [sy, sm, sd] = start.split('-').map(Number)
+  let years = Number(today.slice(0, 4)) - sy!
+  if (today.slice(5) >= start.slice(5)) years += 1
+  const next = new Date(Date.UTC(sy! + years, sm! - 1, sd!))
+  return new Date(next.getTime() - DAY).toISOString().slice(0, 10)
 }

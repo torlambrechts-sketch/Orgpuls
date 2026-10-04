@@ -56,6 +56,12 @@ export interface Suggestion {
 
 export interface ResultaterModel {
   round: RoundRef
+  /**
+   * On the free plan (0201, D-217) the comparisons with earlier rounds are not included: the model
+   * then carries only the round in view, and the screen leaves out Sammenlign, Utvikling and
+   * every «fra året før» rather than draw a first measurement that is not one.
+   */
+  compareLocked?: boolean
   /** the grunnlinje chosen under "Sammenlign med", or null for "Ingen" */
   compare: RoundRef | null
   /** the grunnlinje before this one, for "fra året før" when nothing is compared */

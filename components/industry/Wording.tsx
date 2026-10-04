@@ -6,13 +6,14 @@ import { pickWording, WORDINGS, type Wording, type WordingVariants } from '@/lib
 /**
  * The question page's switch for a worded module (D-131): «Barnehage / Skole / Begge» at the
  * top, and every statement and count question below it in that wording. The codes stay as
- * they are: the three wordings are one statement. The server renders «begge», the file's own
- * text, so the page reads whole without script.
+ * they are: the three wordings are one statement. The server renders the wording the address
+ * asks for (`?ordbruk=barnehage|skole`, the industry page's «Velg barnehage eller skole», D-211),
+ * else «begge», the file's own text, so the page reads whole without script.
  */
 const Current = createContext<{ wording: Wording; set: (w: Wording) => void }>({ wording: 'begge', set: () => {} })
 
-export function WordingScope({ children }: { children: ReactNode }) {
-  const [wording, set] = useState<Wording>('begge')
+export function WordingScope({ initial = 'begge', children }: { initial?: Wording; children: ReactNode }) {
+  const [wording, set] = useState<Wording>(initial)
   return <Current.Provider value={{ wording, set }}>{children}</Current.Provider>
 }
 

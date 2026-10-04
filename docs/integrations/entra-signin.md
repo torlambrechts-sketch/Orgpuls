@@ -33,9 +33,13 @@ Supabase reports the `azure` provider on, and the Entra screen offers no button 
 - **Certificates & secrets:** a client secret. Note its expiry date in the calendar: when it
   expires, Microsoft sign-in stops. The secret goes into Supabase only (section 3) — never into
   this repository, Vercel or a chat.
-- **API permissions** (Microsoft Graph, *delegated*): `openid`, `profile`, `email`,
-  `User.Read`. Nothing else for this step. The import (step 2 of the integration plan) will
-  add application permissions, and every customer must consent again then.
+- **API permissions** (Microsoft Graph):
+  - *delegated*: `openid`, `profile`, `email`, `User.Read` — the sign-in.
+  - *application*: `User.Read.All`, `GroupMember.Read.All` — the employee and group import (D-202).
+    Customers grant all four when their administrator approves «Koble til Microsoft 365»; a tenant
+    bound before these were added must approve again.
+- **Certificates & secrets › Certificates:** upload the public half of a certificate for the import
+  (section 4b). Its private key goes into Supabase's Edge Function secrets only.
 - **Token configuration › Add optional claim › ID token:** `email` and **`xms_edov`**.
   `xms_edov` says whether the owner of the e-mail domain verified the address. Without it,
   Supabase Auth treats any address an Azure tenant sends as verified and may link that tenant's
@@ -88,6 +92,21 @@ switch is read from `/auth/v1/settings`, cached five minutes).
 
 Redeploy after setting it. No other variable is needed; the client secret lives in Supabase
 only.
+
+## 4b. The import's certificate (Supabase › Edge Functions › Secrets)
+
+The nightly sync (`orgpuls-entra-sync`) reads Graph as the app itself, with a certificate:
+
+```sh
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 730 -nodes -subj "/CN=Orgpuls Entra sync"
+openssl pkcs8 -topk8 -nocrypt -in key.pem -out key.pk8.pem
+```
+
+Upload `cert.pem` in the app registration (Certificates & secrets › Certificates) and copy the
+thumbprint it shows. Then set three Edge Function secrets: `ENTRA_CLIENT_ID` (the Application ID),
+`ENTRA_CERT_PRIVATE_KEY` (the whole of `key.pk8.pem`) and `ENTRA_CERT_THUMBPRINT`. Delete the local
+key files afterwards. Without them every sync ends as «not configured» and the screen says so. Note
+the certificate's expiry date (two years with the command above).
 
 ## 5. Check
 

@@ -1,7 +1,7 @@
--- definer_grants_invariants.sql — which SECURITY DEFINER functions in app a client may call (0191),
+-- definer_grants_invariants.sql — which SECURITY DEFINER functions in app a client may call (0198),
 -- proved against the live schema.
 --
---   * the two CRM helpers 0191 closed are not executable by anon or authenticated (1, 2)
+--   * the two CRM helpers 0198 closed are not executable by anon or authenticated (1, 2)
 --   * every SECURITY DEFINER function in app that anon or authenticated may execute is on the list
 --     below: org-scoped helpers that RLS policies call, and trigger functions (a trigger function
 --     cannot be called through PostgREST). A new definer that returns data and forgets its revoke
@@ -33,7 +33,7 @@ declare
     'app.employee_teams_identity_changed()', 'app.entra_tenant_teams_reset()', 'app.slack_install_removed()',
     'app.slack_enabled_needs_install()', 'app.employee_slack_email_changed()'];
 begin
-  -- 1, 2 ------------------------------------------------------------- the two closed by 0191
+  -- 1, 2 ------------------------------------------------------------- the two closed by 0198
   select (has_function_privilege('anon', 'app.crm_follow_audience(app.crm_campaigns)', 'execute')
        or has_function_privilege('authenticated', 'app.crm_follow_audience(app.crm_campaigns)', 'execute'))::text into v_txt;
   v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'crm_follow_audience is closed to clients', 'expected', 'false', 'actual', v_txt, 'pass', v_txt = 'false');

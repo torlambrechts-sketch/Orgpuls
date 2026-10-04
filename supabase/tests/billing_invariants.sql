@@ -47,7 +47,7 @@ begin
     'actual', v_ok::text, 'pass', v_ok);
 
   v_ok := not has_function_privilege('anon', 'public.extend_trial(uuid)', 'execute')
-          and not has_function_privilege('anon', 'public.save_billing(uuid,text,text,text,boolean,boolean)', 'execute');
+          and not has_function_privilege('anon', 'public.save_billing(uuid,text,text,text,boolean,boolean,text)', 'execute');
   v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'anon may call neither RPC', 'expected', 'true',
     'actual', v_ok::text, 'pass', v_ok);
 

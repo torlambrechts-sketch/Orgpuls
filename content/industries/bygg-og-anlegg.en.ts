@@ -1,113 +1,17 @@
 import type { IndustryPage } from './types'
 
 /**
- * en.orgpuls.com/bygg-og-anlegg — the English twin of bygg-og-anlegg.ts (D-120). Same
- * structure, same statement codes and sources; the statements themselves are read from the
- * module file's `translations.en`, so the page and the English survey cannot word them
- * differently. The law items describe Norwegian statute in English and are not an official
- * translation. Launched 2026-09-28 (X-078).
+ * en.orgpuls.com/bygg-og-anlegg beyond its landing page (D-208): the menu name, whether it is live, the module, and the
+ * question page's own words (/bygg-og-anlegg/sporsmal, statements from modules/bygg-og-anlegg/v1.json, its `translations.en`).
+ * The page itself is the landing template and its messages; the words only the older template
+ * drew are gone, and `law` stays as the legal review's record (D-213).
  */
 export const byggOgAnleggEn: IndustryPage = {
   slug: 'bygg-og-anlegg',
   navLabel: 'Construction',
   launched: true,
   module: { key: 'bygg-og-anlegg' },
-  moduleName: { title: 'The construction module', inline: 'the construction module' },
-  seo: {
-    title: 'Work environment survey for construction | Orgpuls',
-    description:
-      'Work environment survey for construction: safety under time pressure, coordination, language, new and young workers. Anonymous by SMS. 15 days free.',
-  },
-  hero: {
-    pill: 'Construction, civil works and workshops',
-    h1: 'Work environment survey for construction',
-    lead:
-      'See where time pressure, many companies on one site and language in the team undermine safety – and get suggested measures for every factor. The construction module comes on top of the main survey. It also asks about new and young workers, and whether there is room to say you are not doing well. The crew answers anonymously on their phones.',
-    thresholdNote: 'By default no group is shown until at least 5 have answered.',
-    preview: {
-      company: 'Nordvik Anlegg AS',
-      caption: 'Main survey September · index 0–100',
-      columns: ['Project North · 14', 'Workshop · 9', 'Project South · 11'],
-      rows: [
-        { factorKey: 'sikkerhet_foran_fremdrift', values: [58, 71, 48] },
-        { factorKey: 'planlegging_og_fremdrift', values: [44, 66, 39] },
-        { factorKey: 'samordning_pa_byggeplassen', values: [51, 57, 47] },
-        { factorKey: 'sprak_og_beskjeder', values: [63, 78, 55] },
-        { factorKey: 'nye_og_unge', values: [69, 74, 61] },
-        { factorKey: 'a_si_at_man_ikke_har_det_bra', values: [55, 62, 52] },
-      ],
-      footnote: 'Project South is below 50 on 3 factors – that is where the measures start. The office has 3 answers and is not shown as a column of its own. The example is an imaginary company.',
-    },
-  },
-  challengesIntro: {
-    title: 'Eight challenges that keep coming back on site',
-    text: 'Drawn from Norwegian, Swedish and Danish inspectorates and research, and from international findings where Nordic figures are missing. You can measure all eight anonymously and follow them up with measures – like the rest of the work environment.',
-  },
-  challenges: [
-    {
-      title: 'Progress comes before safety',
-      body: 'Deaths in construction are the lowest in ten years, but the industry still had 3,902 registered occupational injuries in 2024.{{cite:at_kompass}} In 2026 the Swedish Work Environment Authority found that time pressure, price pressure and a culture of silence are what most often stand in the way of a good safety culture on site.{{cite:av_kultur}} The figures in the deviation system say little about this, but the answers to whether people dare to stop a job say a lot.',
-      measuredBy: { kind: 'module', itemCode: 'BA-SF-2' },
-    },
-    {
-      title: 'The schedule was made without the people doing the work',
-      body: 'In a European survey, 74 per cent in Swedish construction said they worked under time pressure, against 47 per cent in the EU.{{cite:ki_osa}} The Danish Working Environment Authority points to unrealistic schedules and poor planning as the cause, and to time pressure causing accidents because people clear up less and leave equipment standing.{{cite:at_dk}} The main survey measures the workload; the construction module measures where it comes from.',
-      measuredBy: { kind: 'module', itemCode: 'BA-PF-1' },
-    },
-    {
-      title: 'Many companies, unclear responsibility',
-      body: 'On a building site the main contractor, subcontractors and hired workers work side by side. When responsibility for safety lies with someone without the time, resources or mandate, the work weakens – and it happens most often in projects with many parties.{{cite:av_kultur}} The people in the team notice it before anyone else.',
-      measuredBy: { kind: 'module', itemCode: 'BA-SB-1' },
-    },
-    {
-      title: 'The instruction that was not understood',
-      body: 'A lack of common language, cultural differences and inadequate training still pull down the HSE standard on Norwegian building sites, Fafo finds.{{cite:fafo}} Since 2024 at least one person in every work team must be able to communicate both with the team and in Norwegian or English, where safety requires it.{{cite:at_sprak_krav}} Whether that works in practice, only the people in the team know.',
-      measuredBy: { kind: 'module', itemCode: 'BA-SP-3' },
-    },
-    {
-      title: 'The new and the young',
-      body: 'Workers under 25 are the ones most often injured in construction.{{cite:at_kompass}} Around one in five apprentices leaves within the first ten months.{{cite:nho_laerling}} Both come down to the same thing: whether new people get training, a fixed person to ask and time to learn before the pace is raised.',
-      measuredBy: { kind: 'module', itemCode: 'BA-NU-1' },
-    },
-    {
-      title: 'The mental side behind the helmet',
-      body: 'From 2019 to 2023 sickness absence in construction rose by 22 per cent – the most of the large industries.{{cite:nav}} In the United Kingdom, male construction workers are about three times as likely to die by suicide as men in other industries, and the industry is described as one where you carry it alone.{{cite:ciob}} An anonymous survey can show whether there is room to speak up, without anyone having to come forward.',
-      measuredBy: { kind: 'module', itemCode: 'BA-PH-1' },
-      helpline: true,
-    },
-    {
-      title: 'Long days and a long way home',
-      body: 'In civil works, 12 per cent work more than 48 hours a week, against 8 per cent in working life as a whole, and half work in the cold.{{cite:noa}} Long weeks increase the risk of errors and accidents. Commuting and periods away come on top, and drain more than shows in the timesheets.',
-      measuredBy: { kind: 'module', itemCode: 'BA-AR-1' },
-    },
-    {
-      title: 'The tone on the rig',
-      body: 'Construction has the lowest share of women and a markedly male-dominated culture. Female apprentices tell of work clothes and site facilities that do not fit, and of attention they would rather have been without.{{cite:samforsk}} The main survey measures this with the factor Integrity and dignity and with the question on offensive behaviour. That question is only shown as a count for the whole organisation.',
-      measuredBy: { kind: 'core', factorKey: 'integritet', ordinal: 1 },
-    },
-  ],
-  moduleOverview: {
-    title: 'The construction module',
-    intro:
-      'The module comes on top of the main survey and is built the same way. Answers on a five-point scale become an index from 0 to 100, and every factor has 3 suggested measures. The safety factors build on the dimensions of the Nordic safety climate questionnaire NOSACQ-50, which was developed on building sites in the five Nordic countries.{{cite:nosacq}}',
-    coreNote: 'The construction module does not repeat these, but goes one layer deeper where the building site is different.',
-  },
-  loop: {
-    title: 'From answers to measures at the next project meeting',
-    steps: [
-      { title: 'Measure', text: 'Main survey with the construction module, by SMS or a QR code in the site hut.' },
-      { title: 'See per project', text: 'Results per project and workshop, for groups with enough answers – 5 by default.' },
-      { title: 'Choose measures', text: 'Three suggestions per factor. Every measure gets an owner and a deadline.' },
-      { title: 'Measure again', text: 'The pulse asks only about the factors you are working on, until the measure has worked.' },
-    ],
-    example: {
-      factorKey: 'sikkerhet_foran_fremdrift',
-      actionType: 'rutine',
-      groupLabel: 'Project South',
-      chips: ['Suggested', 'Decided with the safety representative', 'In progress', 'Effect measured in the pulse', 'Closed above 60'],
-      on: 2,
-    },
-  },
+  moduleName: 'The construction module',
   law: {
     title: 'What the law points to',
     intro:
@@ -141,41 +45,6 @@ export const byggOgAnleggEn: IndustryPage = {
       },
     ],
   },
-  faq: [
-    {
-      q: 'How much longer does the survey get?',
-      a: 'About 3 minutes. The construction module is 24 statements and 2 short yes/no questions, and the main survey takes about 4 minutes.',
-    },
-    {
-      q: 'Can we choose only the factors that apply to us?',
-      a: 'Yes. You can choose only the factors that apply to you, for example leaving out coordination in a workshop without subcontractors.',
-      featureFlag: 'module_factor_toggles',
-    },
-    {
-      q: 'Can we send it to subcontractors and hired workers?',
-      a: 'The survey goes to your own employees. The factor Coordination on site captures how they experience working with other companies. Hired workers who are part of the team go on the employee list as usual.',
-    },
-    {
-      q: 'What about employees without e-mail?',
-      a: 'Send the survey by SMS, or share it as a link and QR code in the site hut. An e-mail address is optional.',
-    },
-    {
-      q: 'Does the manager see who answered no to the safety questions?',
-      a: 'No. By default no group is shown until at least 5 have answered, and the threshold can never be set below 3. The two yes/no questions on near misses and unsafe jobs are only shown as counts for the whole organisation, never per project.',
-    },
-    {
-      q: 'Can we see results per project?',
-      a: 'Yes, on the Usual plan, for groups with enough answers – 5 by default. If a project has too few answers, they count towards the organisation’s figures.',
-    },
-    {
-      q: 'What does it cost?',
-      a: 'Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 15 days free.',
-    },
-  ],
-  cta: {
-    title: 'Try it on the next project',
-    text: 'Enter the organisation number, add the crew and send by SMS. You are up and running in 3 minutes, with no card details.',
-  },
   questionPage: {
     crumb: 'The question set',
     h1: 'The question set for construction',
@@ -207,5 +76,4 @@ export const byggOgAnleggEn: IndustryPage = {
     coreNote: 'The construction module does not repeat these.',
     cta: { title: 'Add the construction module to the next survey', text: 'Enter the organisation number. You are up and running in 3 minutes, with no card details.' },
   },
-  related: ['helse-og-omsorg'],
 }

@@ -3,8 +3,8 @@ import { createHash } from 'node:crypto'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { INDUSTRIES, pageIn } from '@/content/industries'
+import { LANDINGS } from '@/content/industries/landing'
 import { MODULE_KEYS, moduleFile, moduleSource } from '@/content/industries/modules'
-import type { IndustryPage } from '@/content/industries/types'
 import { LOCALES, type Locale } from '@/lib/i18n/locales'
 import { ARTICLES } from '@/lib/marketing/site'
 import { DPA_SHA256, DPA_VERSION } from './dpa'
@@ -127,12 +127,6 @@ type MessageSpec = {
   title?: { key: string; from: string }
 }
 
-const industryLanding = (slug: IndustryPage['slug']) => (lang: LegalLang) => {
-  // the landing page is what the address shows until the industry page launches in that language
-  const page = pageIn(INDUSTRIES.find((i) => i.slug === slug) ?? null, lang)
-  return !page?.launched
-}
-
 /** Text that states law or a legal duty: what makes a help article a legal text */
 export const STATES_LAW = /§|\blov|forskrift|GDPR|personvern|personopplysning|Arbeidstilsynet|verneombud|Working Environment Act|regulation|data protection/i
 
@@ -158,8 +152,10 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   { id: 'lp.lovkrav', section: 'site', paths: ['seo.lp.lovkrav'], where: onSite('/lovkrav') },
   { id: 'lp.verneombud', section: 'site', paths: ['seo.lp.verneombud'], where: onSite('/verneombud') },
   { id: 'lp.smaaBedrifter', section: 'site', paths: ['seo.lp.smaaBedrifter'], where: onSite('/smaa-bedrifter') },
-  { id: 'lp.byggOgAnlegg', section: 'site', paths: ['seo.lp.byggOgAnlegg'], where: onSite('/bygg-og-anlegg'), live: industryLanding('bygg-og-anlegg') },
-  { id: 'lp.helseOgOmsorg', section: 'site', paths: ['seo.lp.helseOgOmsorg'], where: onSite('/helse-og-omsorg'), live: industryLanding('helse-og-omsorg') },
+  // the landing pages bygg and helse had before their industry pages: no address shows them since the
+  // landing template took both languages (D-213; /verneombud still links bygg with its card); kept as the record
+  { id: 'lp.byggOgAnlegg', section: 'site', paths: ['seo.lp.byggOgAnlegg'], where: onSite('/bygg-og-anlegg'), live: () => false },
+  { id: 'lp.helseOgOmsorg', section: 'site', paths: ['seo.lp.helseOgOmsorg'], where: onSite('/helse-og-omsorg'), live: () => false },
   ...ARTICLES.map((a) => ({
     id: `article.${a.key}`,
     section: 'site' as const,
@@ -174,6 +170,17 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     where: onSite('/hvorfor'),
   },
   { id: 'site.bruksomrader', section: 'site', paths: ['site.bruksomrader.h1', 'site.bruksomrader.sections[1]', 'site.bruksomrader.sections[3]', 'site.bruksomrader.sections[7]'], where: onSite('/bruksomrader') },
+  // the industry landing pages (D-207): the law card, the inspection and the claims about anonymity and the report
+  ...LANDINGS.map(
+    (l): MessageSpec => ({
+      id: `site.${l.msg}`,
+      section: 'site',
+      paths: [`site.bransje.${l.msg}.why`, `site.bransje.${l.msg}.challenges.items`, `site.bransje.${l.msg}.trust`, `site.bransje.${l.msg}.faq`, `site.bransje.${l.msg}.sources`],
+      where: onSite(`/${l.slug}`),
+      live: (lang) => l.live[lang === 'en' ? 'en' : 'no'],
+    }),
+  ),
+  { id: 'site.bransjer', section: 'site', paths: ['site.bransjer.why', 'site.bransjer.faq'], where: onSite('/bransjer') },
   {
     id: 'site.plattform',
     section: 'site',
@@ -358,8 +365,10 @@ function industryUnits(): LegalUnit[] {
       const file = `content/industries/${entry.slug}${lang === 'en' ? '.en' : ''}.ts`
       const where: Msg = { key: lang === 'en' ? 'industryEn' : 'path', values: { path: `/${entry.slug}` } }
       const base = `industry:${entry.slug}:${lang}`
+      // the older template's law block (D-213): every address is on the landing template, whose law card
+      // is its own unit (site.<msg>), so these are published nowhere; kept as the approved record
       const seen = new Set<string>()
-      const law = page.law.items.map((l, i) => {
+      const law = (page.law?.items ?? []).map((l, i) => {
         // keyed by the reference, so reordering the items keeps each approval; a second item with
         // the same reference gets the next free suffix
         const root = slugOf(l.ref) || 'item'
@@ -373,7 +382,7 @@ function industryUnits(): LegalUnit[] {
           lang,
           source: `${file} › law.items[${i}]`,
           where,
-          live: page.launched,
+          live: false,
           // the hashed paths carry no position (it is in `source`), so moving an item is not a change
           lines: [
             { path: 'law.ref', text: l.ref },
@@ -381,44 +390,46 @@ function industryUnits(): LegalUnit[] {
           ],
         })
       })
-      const intro = unit({
-        key: `${base}:law-intro`,
-        section: 'industries',
-        title: { key: 'industry.lawIntro', values: { page: page.navLabel } },
-        lang,
-        source: `${file} › law.title, law.intro`,
-        where,
-        live: page.launched,
-        lines: [
-          { path: 'law.title', text: page.law.title },
-          { path: 'law.intro', text: page.law.intro },
-        ],
-      })
-      // the page's other promises: the threshold note, the challenges (which cite law), the FAQ and
-      // the question page's rules — one unit, as a reviewer reads the page
-      const other: LegalLine[] = [{ path: 'hero.thresholdNote', text: page.hero.thresholdNote }]
-      page.challenges.forEach((c, i) => other.push({ path: `challenges[${i}].body`, text: c.body }))
-      page.faq.forEach((f, i) => {
-        other.push({ path: `faq[${i}].q`, text: f.q }, { path: `faq[${i}].a`, text: f.a })
-        if (f.more) other.push({ path: `faq[${i}].more`, text: f.more.text })
-      })
-      if (page.questionPage) {
-        other.push({ path: 'questionPage.lead', text: page.questionPage.lead })
-        page.questionPage.rules.forEach((r, i) =>
-          other.push({ path: `questionPage.rules[${i}].title`, text: r.title }, { path: `questionPage.rules[${i}].text`, text: r.text }),
-        )
-      }
-      const claims = unit({
-        key: `${base}:claims`,
-        section: 'industries',
-        title: { key: 'industry.claims', values: { page: page.navLabel } },
-        lang,
-        source: `${file} › hero.thresholdNote, challenges, faq, questionPage`,
-        where: { key: lang === 'en' ? 'industryQuestionsEn' : 'industryQuestions', values: { path: `/${entry.slug}` } },
-        live: page.launched,
-        lines: other,
-      })
-      return [...law, intro, claims]
+      const intro = page.law
+        ? [
+            unit({
+              key: `${base}:law-intro`,
+              section: 'industries',
+              title: { key: 'industry.lawIntro', values: { page: page.navLabel } },
+              lang,
+              source: `${file} › law.title, law.intro`,
+              where,
+              live: false,
+              lines: [
+                { path: 'law.title', text: page.law.title },
+                { path: 'law.intro', text: page.law.intro },
+              ],
+            }),
+          ]
+        : []
+      // the question page's promises: its lead and how answers are reported — one unit, as a reviewer reads it
+      const q = page.questionPage
+      const claims = q
+        ? [
+            unit({
+              key: `${base}:claims`,
+              section: 'industries',
+              title: { key: 'industry.claims', values: { page: page.navLabel } },
+              lang,
+              source: `${file} › questionPage`,
+              where: { key: lang === 'en' ? 'industryQuestionsEn' : 'industryQuestions', values: { path: `/${entry.slug}` } },
+              live: page.launched,
+              lines: [
+                { path: 'questionPage.lead', text: q.lead },
+                ...q.rules.flatMap((r, i) => [
+                  { path: `questionPage.rules[${i}].title`, text: r.title },
+                  { path: `questionPage.rules[${i}].text`, text: r.text },
+                ]),
+              ],
+            }),
+          ]
+        : []
+      return [...law, ...intro, ...claims]
     }),
   )
 }

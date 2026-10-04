@@ -71,4 +71,30 @@ describe('translations', () => {
     expect(fails((m) => m.translations.en.factors.nye_og_unge.action_suggestions.pop())).toBe(true)
     expect(fails((m) => delete m.translations.en.count_items['BA-T-1'])).toBe(true)
   })
+
+  // a module in variants (0089) translates its variants and simplified factors, its help lines and its
+  // four-option count questions (D-214)
+  const kontor = () => JSON.parse(readFileSync('modules/kunnskap-og-kontor/v1.json', 'utf8'))
+  const kontorFails = (mutate: (m: any) => void) => {
+    const m = kontor()
+    mutate(m)
+    return ModuleFile.safeParse(m).error?.issues.map((i) => i.message) ?? []
+  }
+  it('parses the office module in English, both variants', () => {
+    const m = parseModule(kontor())
+    expect(Object.keys(m.translations?.en?.variants?.forenklet.factors ?? {})).toEqual(m.variants?.[0].factors.map((f) => f.id))
+  })
+  it('refuses a variants module whose translation lacks its variants, a simplified factor, a help line or an option', () => {
+    expect(kontorFails((m) => delete m.translations.en.variants)).toContain('en: the variants differ')
+    expect(kontorFails((m) => delete m.translations.en.variants.forenklet.factors.f_hybrid)).toContain('en: simplified factor f_hybrid is not translated')
+    expect(kontorFails((m) => delete m.translations.en.factors.tilgjengelighet.item_help)).toContain('en: help line of KK-TG-1 is not translated')
+    expect(kontorFails((m) => m.translations.en.count_items['KK-T-2'].options.pop())).toContain('en: option count differs')
+  })
+  it('lays the English variants over the Norwegian for the English pages', async () => {
+    const { moduleFile, simplifiedFactors } = await import('@/content/industries/modules')
+    const en = moduleFile('kunnskap-og-kontor', 'en')
+    expect(en.variants?.map((v) => v.name)).toEqual(['Simplified', 'Extended'])
+    expect(simplifiedFactors(en)[0]?.name).toBe(parseModule(kontor()).translations?.en?.variants?.forenklet.factors.f_konsentrasjon?.name)
+    expect(en.factors.flatMap((f) => f.items).find((i) => i.id === 'KK-TG-1')?.help).toBe('Does not cover agreed on-call duty or standby.')
+  })
 })

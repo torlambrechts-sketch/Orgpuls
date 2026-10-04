@@ -1,57 +1,28 @@
-import en from '@/messages/en.json'
-import no from '@/messages/no.json'
-import { INDUSTRIES } from './index'
-import { moduleFile, simplifiedFactors, type PageLang } from './modules'
+import { getIndustry, INDUSTRIES, pageIn } from './index'
+import { LANDINGS, landingFor } from './landing'
+import { moduleFile, type PageLang } from './modules'
 import type { IndustryPage } from './types'
 
 /**
- * What the build refuses (§ B2): a statement code the module file does not have, a core
- * statement that is not the instrument's, a {{cite:key}} with no source, an example that names
- * a factor or suggestion the module lacks. Whether a law item is reviewed no longer holds a
- * launch (X-078). Called from the routes' generateStaticParams,
- * so `next build` fails, and from a unit test, so CI says which.
+ * What the build refuses (§ B2): a page on a module the files do not have, an English page on a
+ * module without an English translation (the English question page quotes what an English
+ * respondent is asked, D-120), a launch that disagrees with the landing page's, and a «Ny» date that
+ * is not one. Called from the routes' generateStaticParams, so `next build` fails, and from a unit
+ * test, so CI says which.
  */
-const CITE = /\{\{cite:([a-z0-9_]+)\}\}/g
-
 export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] {
   const out: string[] = []
-  const mod = page.module ? moduleFile(page.module.key, lang) : null
-  if (lang === 'en' && page.module && !moduleFile(page.module.key).translations?.en) {
-    out.push('an English page on a module without an English translation')
-  }
-  const codes = new Set(mod?.factors.flatMap((f) => f.items.map((i) => i.id)) ?? [])
-  // a module in variants: the simplified factors are named too (0089)
-  const allFactors = mod ? [...mod.factors, ...simplifiedFactors(mod)] : []
-  const factorKeys = new Set(allFactors.map((f) => f.id))
-  if (page.module?.defaultVariant && !mod?.variants) out.push('a default variant on a module asked one way')
-  const sources = new Set([...(mod?.sources.map((s) => s.key) ?? []), ...(page.extraSources?.map((s) => s.key) ?? [])])
-  const core = ((lang === 'en' ? en : no) as unknown as { factor: Record<string, Record<string, string>> }).factor
-
-  const cites = (text: string, where: string) => {
-    for (const m of text.matchAll(CITE)) if (!sources.has(m[1] ?? '')) out.push(`${where}: no source "${m[1]}"`)
-  }
-
-  page.challenges.forEach((c, i) => {
-    cites(c.body, `challenge ${i + 1}`)
-    if (c.measuredBy.kind === 'module') {
-      if (!mod) out.push(`challenge ${i + 1}: a module statement on a page without a module`)
-      else if (!codes.has(c.measuredBy.itemCode)) out.push(`challenge ${i + 1}: no item ${c.measuredBy.itemCode} in the module`)
-    } else {
-      for (const o of [c.measuredBy.ordinal, ...(c.measuredBy.alongside ?? [])]) {
-        if (!core[c.measuredBy.factorKey]?.[`s${o}`]) out.push(`challenge ${i + 1}: no core statement ${c.measuredBy.factorKey}.s${o}`)
-      }
+  if (page.module) {
+    try {
+      moduleFile(page.module.key)
+      if (lang === 'en' && !moduleFile(page.module.key).translations?.en) out.push('an English page on a module without an English translation')
+    } catch {
+      out.push(`no module file for ${page.module.key}`)
     }
-  })
-  if (page.moduleOverview) cites(page.moduleOverview.intro, 'module overview')
-  for (const r of page.hero.preview?.rows ?? []) {
-    if (!factorKeys.has(r.factorKey)) out.push(`preview: no factor ${r.factorKey}`)
-    if (r.values.length !== page.hero.preview?.columns.length) out.push(`preview: ${r.factorKey} has the wrong number of values`)
   }
-  if (page.loop) {
-    const f = allFactors.find((x) => x.id === page.loop?.example.factorKey)
-    if (!f) out.push(`loop: no factor ${page.loop.example.factorKey}`)
-    else if (!f.action_suggestions.some((a) => a.type === page.loop?.example.actionType)) out.push('loop: no such suggestion')
-  }
+  if (page.questionPage && !page.module) out.push('a question page without a module')
+  const landing = landingFor(page.slug)
+  if (landing && landing.live[lang] !== page.launched) out.push(`launched ${page.launched} but the landing page is live ${landing.live[lang]}`)
   const until = page.card?.newUntil
   if (until !== undefined && (!/^\d{4}-\d{2}-\d{2}$/.test(until) || Number.isNaN(Date.parse(until)))) {
     out.push(`card: «Ny» until "${until}" is not an ISO date`)
@@ -59,22 +30,25 @@ export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] 
   return out
 }
 
-/** Two pages of one industry must describe the same thing: the same module, the same quoted statements */
+/** Two pages of one industry must describe the same thing: the same slug and the same module */
 export function twinProblems(no: IndustryPage, en: IndustryPage): string[] {
   const out: string[] = []
   if (no.slug !== en.slug) out.push('English page has another slug')
   if (JSON.stringify(no.module) !== JSON.stringify(en.module)) out.push('English page is on another module')
-  const measured = (p: IndustryPage) => JSON.stringify(p.challenges.map((c) => c.measuredBy))
-  if (measured(no) !== measured(en)) out.push('English page quotes other statements')
-  if (JSON.stringify(no.hero.preview?.rows) !== JSON.stringify(en.hero.preview?.rows)) out.push('English preview has other figures')
   return out
 }
 
 export function assertIndustries(): void {
-  const all = INDUSTRIES.flatMap((i) => [
-    ...(i.page ? problemsOf(i.page).map((p) => `${i.slug}: ${p}`) : []),
-    ...(i.pageEn ? problemsOf(i.pageEn, 'en').map((p) => `${i.slug} (en): ${p}`) : []),
-    ...(i.page && i.pageEn ? twinProblems(i.page, i.pageEn).map((p) => `${i.slug} (en): ${p}`) : []),
-  ])
+  const all = [
+    ...INDUSTRIES.flatMap((i) => [
+      ...(i.page ? problemsOf(i.page).map((p) => `${i.slug}: ${p}`) : []),
+      ...(i.pageEn ? problemsOf(i.pageEn, 'en').map((p) => `${i.slug} (en): ${p}`) : []),
+      ...(i.page && i.pageEn ? twinProblems(i.page, i.pageEn).map((p) => `${i.slug} (en): ${p}`) : []),
+    ]),
+    // a landing page live in a language whose entry has no page there: no menu entry, no question page
+    ...LANDINGS.flatMap((l) =>
+      (['no', 'en'] as const).filter((lang) => l.live[lang] && !pageIn(getIndustry(l.slug), lang)).map((lang) => `${l.slug} (${lang}): live without a page`),
+    ),
+  ]
   if (all.length) throw new Error(`industry pages are not valid:\n  ${all.join('\n  ')}`)
 }

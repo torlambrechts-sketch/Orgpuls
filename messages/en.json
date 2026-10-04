@@ -412,6 +412,7 @@
         "past": "Only months ahead can be changed.",
         "occupied": "There is already a survey this month.",
         "not_planned": "No pulse is planned this month.",
+        "free_plan": "Pulses are not in the free plan. Choose a plan under Settings › Payment to add a month.",
         "not_skipped": "The pulse this month is not skipped.",
         "skipped": "The year wheel’s pulse is skipped this month. Bring it back instead.",
         "no_wheel": "The year wheel is not switched on, so a pulse here would never go out.",
@@ -430,7 +431,8 @@
         "round_open": "A round is already open.",
         "too_soon": "The last round closed less than 14 days ago. The next pulse can start from {date}.",
         "no_factors": "Nothing to ask about: no pulse is planned and no measures are open.",
-        "read_only": "The trial and the deadline to confirm are over. The managing director confirms the subscription under Settings › Payment, and then you can send again."
+        "read_only": "The agreement has ended, so new surveys cannot be started.",
+        "free_plan": "Pulses are not in the free plan. The managing director chooses a plan under Settings › Payment."
       }
     },
     "closesAt": "closes {date}",
@@ -444,6 +446,7 @@
       "onNote": "Included in planned and new main surveys.",
       "offNote": "Not included in the main surveys.",
       "readOnly": "Only the managing director can turn modules on and off.",
+      "freePlan": "The industry modules are not in the free plan. The managing director chooses a plan under Settings › Payment.",
       "none": "No industry modules are available yet.",
       "failed": "Could not save the choice. Try again.",
       "seeAll": "See the whole question set",
@@ -1373,7 +1376,8 @@
       "capped": "Five of your own questions is the cap.",
       "locked": "The survey has started, so its questions cannot change.",
       "moduleFactorRequired": "At least one factor must be included.",
-      "reasonRequired": "Write a reason of at least ten characters to leave out the screening."
+      "reasonRequired": "Write a reason of at least ten characters to leave out the screening.",
+      "plan": "This is not in the free plan: pulses, follow-up surveys, industry modules and your own questions come with a plan. The managing director chooses a plan under Settings › Payment."
     },
     "ownSave": "Save",
     "cadenceKvartal": "Quarterly",
@@ -2164,11 +2168,12 @@
       "head": "Payment",
       "onlyLeader": "The managing director chooses the plan and enters the invoice details. The trial and payment are shown to the managing director only.",
       "trialHead": "Trial",
+      "freeHead": "Free plan",
       "subscriptionHead": "Subscription",
       "pillLeft": "{count, plural, =0 {Last day} one {# day left} other {# days left}}",
       "pillConfirmed": "Confirmed",
-      "trialBody": "The trial started on {start} and runs until {end} — {total} days, free and without a card. Choose a plan and invoice details below before it ends. After the trial you have {grace} days to confirm; after that you can read results, but not send new surveys until the subscription is confirmed.",
-      "confirmedBody": "{plan} is confirmed. The subscription starts {start}, and the invoice goes to {mail}.",
+      "trialBody": "The trial started on {start} and runs until {end} — {total} days, free and without a card. Choose a plan and invoice details below before it ends. After the trial everything keeps working for {grace} more days; then you move to the free plan: the standard main survey, results and measures, without pulses, industry modules, your own questions, comparisons or the report.",
+      "confirmedBody": "{plan} is confirmed, invoiced {interval, select, year {yearly} other {monthly}}. The subscription starts {start}, and the invoice goes to {mail}.",
       "confirmedGroupBody": "You have asked for an offer on {plan}. We will contact you at {mail} before {start}.",
       "progress": "Days used of the trial",
       "extend": "Extend the trial by 15 days",
@@ -2179,6 +2184,15 @@
       "planLead": "The invoice goes to {name}, org. no. {orgnr}. The plan follows the number of employees you have stated: {count}.",
       "noOrgnr": "not registered",
       "planLegend": "Choose a plan",
+      "intervalLegend": "Billing",
+      "interval": {
+        "month": "Monthly",
+        "year": "Yearly – 2 months free"
+      },
+      "kroner": "NOK {n}",
+      "perMonth": "per month",
+      "perYear": "per year",
+      "yearPerMonth": "Equals NOK {price} per month",
       "suggested": "Fits you",
       "tooMany": "You have {count} employees, more than the plan covers.",
       "invoiceEmail": "Send invoices to (e-mail)",
@@ -2187,7 +2201,7 @@
       "invoiceRefHint": "Purchase order number, department or contact person to print on the invoice.",
       "ehf": "Send as an EHF invoice to org. no. {orgnr}",
       "ehfNoOrgnr": "An EHF invoice needs an organisation number. Add it under Company.",
-      "terms": "Prices exclude VAT. The first invoice runs from {end}, when the trial ends. Monthly agreement, no lock-in and no start-up fee.",
+      "terms": "Prices exclude VAT. The first invoice runs from {end}, when the trial ends. {interval, select, year {Yearly agreement: invoiced a year at a time, two months free, no start-up fee.} other {Monthly agreement, no lock-in and no start-up fee.}}",
       "save": "Save draft",
       "saveChanges": "Save changes",
       "confirm": "Confirm subscription",
@@ -2206,16 +2220,17 @@
         "not_allowed": "Only the managing director can change payment.",
         "failed": "It could not be saved. Try again."
       },
-      "pillGrace": "{count, plural, one {# day} other {# days}} until read-only",
-      "pillReadOnly": "Read-only",
-      "graceBody": "The trial ended on {end}. Everything works until {until}. Confirm the subscription below before then, or you will only be able to read results until you do.",
-      "readOnlyBody": "The trial ended on {end}, and the deadline to confirm has passed. You can read results and reports, and a survey already running will finish. Confirm the subscription below and you can send again straight away.",
-      "termsAfterTrial": "Prices exclude VAT. The first invoice runs from the day you confirm. Monthly agreement, no lock-in and no setup fee.",
+      "pillGrace": "{count, plural, one {# day} other {# days}} until the free plan",
+      "pillFree": "Free plan",
+      "graceBody": "The trial ended on {end}. Everything works until {until}. Confirm the subscription below before then; otherwise you move to the free plan.",
+      "freeBody": "The trial ended on {end}, and you are on the free plan: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the report for the Labour Inspection Authority.",
+      "termsAfterTrial": "Prices exclude VAT. The first invoice runs from the day you confirm. {interval, select, year {Yearly agreement: invoiced a year at a time, two months free, no setup fee.} other {Monthly agreement, no lock-in and no setup fee.}}",
       "cancel": {
         "head": "Cancel the subscription",
         "doneHead": "The subscription has been cancelled",
-        "leadPaying": "The agreement is monthly. If you cancel now, it runs until and including {last}. After that you can sign in, read and download everything until {deleted}. Then all data is deleted.",
+        "leadPaying": "The agreement is {interval, select, year {yearly} other {monthly}}. If you cancel now, it runs until and including {last}. After that you can sign in, read and download everything until {deleted}. Then all data is deleted.",
         "leadTrial": "If you cancel during the trial, it ends today. You can sign in, read and download everything until {deleted}. Then all data is deleted.",
+        "leadFree": "If you cancel, the free plan ends today. You can sign in, read and download everything until {deleted}. Then all data is deleted.",
         "open": "Cancel …",
         "reasonLegend": "Why are you cancelling? (optional)",
         "reason": {
@@ -3388,7 +3403,7 @@
       "trial_ending": {
         "subject": "Your trial ends on {date}",
         "lead": "The trial for {org} ends on {date}. Choose a plan under Settings › Payment to continue without a break.",
-        "more": "If you do not, everything keeps working for {grace} more days. After that you can read everything, but not start new surveys until a plan is chosen.",
+        "more": "If you do not, everything keeps working for {grace} more days. After that you move to the free plan: the standard main survey, results and measures, without pulses, industry modules, comparisons or the report.",
         "cta": "Choose a plan"
       },
       "trial_ended": {
@@ -3398,8 +3413,8 @@
         "cta": "Choose a plan"
       },
       "read_only_soon": {
-        "subject": "From {date} you can only read",
-        "lead": "From {date}, {org} can read all results and reports, but not start new surveys, until a plan is chosen.",
+        "subject": "From {date} you are on the free plan",
+        "lead": "From {date}, {org} is on the free plan: you can send the standard main survey, read the results and follow up with measures, but not use pulses, industry modules, your own questions, comparisons or the report until a plan is chosen.",
         "more": "A survey that is already open finishes as planned. Choose a plan and everything is back at once.",
         "cta": "Choose a plan"
       },
@@ -3781,6 +3796,7 @@
       },
       "withheld": "Fewer than {threshold} responses — the index is not shown.",
       "trend": "Trend",
+      "trendLocked": "Development over time and comparisons with earlier rounds come with a plan.",
       "rate": "Response rate",
       "rateN": "{answered} of {headcount}",
       "trust": "Confidence in the figures",
@@ -4270,7 +4286,7 @@
         "too_far": "Choose a day within four months.",
         "no_employees": "Add the employees before planning the send-out.",
         "invalid": "Choose a day.",
-        "read_only": "The trial and the deadline to confirm are over. Confirm the subscription under Settings › Payment first."
+        "read_only": "The agreement has ended, so new surveys cannot be started."
       }
     },
     "done": {
@@ -6166,12 +6182,12 @@
         ]
       },
       "priser": {
-        "title": "Pricing: employee surveys from NOK 265/month | Orgpuls",
-        "description": "Small NOK 265 and Usual NOK 565 a month excl. VAT. No add-ons, no start-up fee and no lock-in. Try free for 15 days, no card needed.",
+        "title": "Pricing: free to start, from NOK 265/month | Orgpuls",
+        "description": "Free for the main survey. Small NOK 265 and Usual NOK 565 a month excl. VAT, two months free with a yearly agreement. 15 days with everything, no card.",
         "crumb": "Pricing",
         "kicker": "Pricing",
-        "h1": "From NOK 265 a month. Everything included.",
-        "lead": "One fixed price by headcount – not per user, not per survey. No lock-in. Safety and union representatives cost nothing extra. Free for 15 days, no card needed.",
+        "h1": "Free to start. Everything included from NOK 265 a month.",
+        "lead": "One fixed price by headcount – not per user, not per survey. Monthly with no lock-in, or yearly with two months free. Safety and union representatives cost nothing extra. 15 days with everything, then free for the main survey.",
         "blocks": [
           {
             "t": "plans"
@@ -6196,6 +6212,14 @@
           }
         ],
         "faq": [
+          {
+            "q": "Is there a free version?",
+            "a": "Yes. For the first 15 days you have everything. If you choose no plan, you carry on for free with the standard main survey, the results and the measures – for as long as you like, however many you are. Pulses, industry modules, your own questions, comparisons with earlier rounds and the report for the Labour Inspection Authority come with Small and Usual."
+          },
+          {
+            "q": "What does a yearly agreement cost?",
+            "a": "Ten months' price for twelve: Small NOK 2,650 and Usual NOK 5,650 a year excl. VAT, invoiced a year at a time. A monthly agreement has no lock-in."
+          },
           {
             "q": "What if there are only twelve of us?",
             "a": "Then you get figures for the whole organisation. By default a department is shown once at least 5 people in it have answered; fewer count in the whole. For small teams the managing director can lower the limit to 3, but 5 is strongly recommended – the fewer the answers, the easier it is to recognise who said what."
@@ -6542,7 +6566,7 @@
             "t": "ul",
             "items": [
               "everything works as before for 14 more days;",
-              "after that you can sign in, read all results and reports, work on measures and choose a plan, but not start new surveys until a plan has been chosen;",
+              "after that you move to the free plan: you can send the standard main survey, read the results and work on measures for as long as you like, but pulses, follow-up surveys, industry modules, your own questions, comparisons with earlier rounds and the report require a plan;",
               "a survey that is already open finishes as planned."
             ]
           },
@@ -6558,9 +6582,9 @@
             "t": "ul",
             "items": [
               "**Invoicing.** The managing director chooses a plan and gives the invoice address under Settings › Payment. Invoices are sent by e-mail or as EHF. The first invoice runs from the day the trial period ends, or from the day the plan is confirmed if that is later.",
-              "**Invoicing interval.** The agreement is monthly and is invoiced monthly in advance.",
+              "**Invoicing interval.** The managing director chooses a monthly or a yearly agreement. A monthly agreement is invoiced monthly in advance. A yearly agreement is invoiced a year in advance, at ten months' price.",
               "**Payment terms.** 14 days from the invoice date. Late payment is subject to the Norwegian Late Payment Interest Act (forsinkelsesrenteloven).",
-              "**Non-payment.** If an invoice has not been paid 30 days after its due date, and after at least one written reminder, we may restrict the service to read-only access as in section 3 until the invoice is paid.",
+              "**Non-payment.** If an invoice has not been paid 30 days after its due date, and after at least one written reminder, we may restrict the service to what the free plan in section 3 includes until the invoice is paid.",
               "**Price changes** are notified at least 60 days before they apply. You may cancel before the change takes effect.",
               "**Changing package.** If the number of employees passes the package's limit (for example from 25 to 26 employees), the managing director chooses the larger package under Settings › Payment. The new package's price applies from the next invoicing period."
             ]
@@ -6654,7 +6678,7 @@
           },
           {
             "t": "p",
-            "text": "The agreement is monthly and has no binding period."
+            "text": "A monthly agreement has no binding period. A yearly agreement runs one year at a time."
           },
           {
             "t": "p",
@@ -6663,7 +6687,7 @@
           {
             "t": "ul",
             "items": [
-              "A confirmed subscription runs to the end of the current month. A trial period ends the same day.",
+              "A monthly subscription runs to the end of the current month, a yearly one to the end of the paid year. A trial period or the free plan ends the same day.",
               "The cancellation can be withdrawn until the deletion has been carried out.",
               "A paid period is not refunded."
             ]
@@ -7143,7 +7167,7 @@
         "points": [
           "Sent by e-mail and SMS – including to people without a work address.",
           "Reminders go out by themselves, and the safety representative is notified before every round.",
-          "Answers in Norwegian and English.",
+          "Answers in Norwegian, English, Polish and Lithuanian.",
           "A report ready for the Labour Inspection Authority, with the legal basis for each factor."
         ],
         "link": "See the question set"
@@ -8135,11 +8159,1727 @@
       "limited": "You’ve sent several messages in the last hour. Wait a little, or email us.",
       "failed": "The message didn’t go through. Email us at {mail}, and we’ll reply within one working day."
     },
+    "bransje": {
+      "common": {
+        "problem": "Challenge",
+        "solution": "How Orgpuls tackles it",
+        "measured": "Measured by",
+        "coreTag": "Main survey",
+        "sourceMark": "Source {n}",
+        "sources": "Sources",
+        "sourcesLead": "Figures and legal references retrieved {date}. Each source is listed with its year.",
+        "realShot": "A real screenshot from the demo company Nordvik Anlegg AS (Norwegian interface).",
+        "related": "Read on",
+        "facts": "{factors} factors · {statements} statements · about {minutes} min extra"
+      },
+      "handel": {
+        "nav": "Retail",
+        "seo": {
+          "title": "Work environment survey for shops and retail | Orgpuls",
+          "description": "Survey the work environment in your shops: violence and threats, lone shifts, difficult customers and staffing. Anonymous, on the phone. 15 days free."
+        },
+        "hero": {
+          "k": "Retail · shops, chains and warehouses",
+          "h1": "A work environment survey for shops: see what makes shifts hard – and follow it up",
+          "lead": "See where threats, lone shifts and busy hours wear your staff down – for the whole business and for each shop with enough answers. Everyone answers anonymously on their phone, and you get suggested measures and a report showing the survey was done.",
+          "secondary": "See the retail questions",
+          "figure": {
+            "title": "How employees answer",
+            "meta": "On the phone · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for shops and warehouses",
+              "d": "The retail module comes on top of the main survey and takes about {minutes} minutes more."
+            },
+            {
+              "t": "Answers on the phone",
+              "d": "A link by text message or e-mail, or a QR poster in the break room. No app, and nobody needs a work e-mail address."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Everyday work in figures",
+          "title": "The psychosocial work environment in retail: what the figures show",
+          "lead": "Around 350,000 people work in retail in Norway, many of them young and part-time. The figures come from Norwegian research and official statistics.",
+          "items": [
+            {
+              "v": "12 %",
+              "l": "of shop workers had faced threats so serious they were frightened in the past year"
+            },
+            {
+              "v": "32 %",
+              "l": "work alone in the shop – always, often or sometimes"
+            },
+            {
+              "v": "27 %",
+              "l": "have conflicts with customers, against 16 % of all employed"
+            },
+            {
+              "v": "37 %",
+              "l": "in retail work part-time, against 24 % across all industries"
+            }
+          ],
+          "h3": "Much of it never reaches the manager",
+          "note": "Of those who were threatened, 30 % did not tell their employer. Only 5 % of shop managers in the same study had received a report of violence or threats in the past year.",
+          "text": "An anonymous questionnaire picks up what is not reported. The retail module asks about incidents that were never reported, and the answer is shown only as a count for the whole business."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why a shop has to survey its work environment",
+          "lead": "The Working Environment Act applies to every employer with employees, including the shop with 6 staff. For retail, the rules point to the same things as the figures: violence and threats, lone work and staffing.",
+          "law": {
+            "title": "What the law asks of a shop",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3",
+                "t": "The psychosocial work environment must be fully satisfactory, and employees must as far as possible be protected from violence, threats and undue strain from contact with others."
+              },
+              {
+                "ref": "WEA § 4-1 (3)",
+                "t": "Assess whether lone work carries a particular risk, and put the necessary measures in place."
+              },
+              {
+                "ref": "Regulation ch. 3A",
+                "t": "Survey and assess the risk of violence and threats – including lone work, working hours and staffing – and provide measures, training and follow-up."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "More about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority is inspecting retail",
+            "p": "In 2026 the Labour Inspection Authority is following up shops, with a focus on young employees, employment contracts and safety representatives. In earlier inspections it found breaches concerning safety representatives in 44 % of the inspections where this was checked.",
+            "d": "In Orgpuls the safety representative sees the same figures as management, at no extra cost."
+          },
+          "gap": {
+            "t": "Many small businesses have not done it",
+            "p": "Among private businesses with fewer than 20 employees, 28 % run an employee survey. 23 % carry out none of the surveys Fafo asked about – no safety inspections, appraisal talks or questionnaires."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "2 in 5 shop workers on sick leave say the absence is related to their job. Such absence can often be prevented at the workplace.",
+              "Violence and threats lead to more sick leave and make it harder to keep and recruit people, the Labour Inspection Authority writes.",
+              "Many young people take a shop job alongside school or studies, and most do not stay in the industry over time."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges in shops – and how to tackle them",
+          "lead": "The challenges come from Norwegian research and inspections. Under each one you see which questions measure it, and what you get to work with.",
+          "items": [
+            {
+              "t": "Violence and threats in shops – theft and robbery",
+              "looks": "A customer is stopped with goods in their jacket and turns threatening. The employee has seconds to decide: step in, call for help or let it go.",
+              "fig": "12 % had faced threats so serious they were frightened in the past year. In retail, most reports of violence and threats to the Labour Inspection Authority come from grocery shops and petrol stations.",
+              "solve": "The retail module asks whether the routines are known, whether help comes quickly and whether people are followed up afterwards. A separate yes/no question counts incidents that were never reported. The main survey counts how many have experienced violence or threats."
+            },
+            {
+              "t": "Alone on shift at opening, closing and in the evening",
+              "looks": "The last person walks through the shop, cashes up and locks. If something happens, there is nobody to call out to.",
+              "fig": "32 % work alone sometimes or more often. In chain shops with lone work, 1 in 3 had not made a separate risk assessment of it.",
+              "solve": "The factor Alone on shift measures whether it feels safe, whether there are breaks and whether a manager is easy to reach. A yes/no question counts how many have felt unsafe alone – never per shop or shift. The answers are the basis for the risk assessment the law requires."
+            },
+            {
+              "t": "Difficult customers and feelings kept inside",
+              "looks": "The complaint in the checkout queue is met with a smile, and the anger about prices is taken without answering back – shift after shift.",
+              "fig": "27 % have conflicts with customers, and 33 % have to hide negative feelings. Across all employed, the figures are 16 and 17 %.",
+              "solve": "The main survey measures emotional demands with three statements. The retail module adds Boundaries with customers: whether it is fine to end a conversation that crosses the line, and whether the manager backs you up."
+            },
+            {
+              "t": "Too few at work when it is busy",
+              "looks": "Friday afternoon: a long queue, shelves to fill, and one person who also has to answer the phone.",
+              "fig": "Low staffing makes violence and threats harder to prevent and handle, the Labour Inspection Authority writes. The regulation names staffing among the things the risk assessment must look at.",
+              "solve": "The factor Staffing and pace shows whether staffing follows the busy hours, and whether it is clear what can wait. Together with Workload and time pressure you see which shops are stretched too far."
+            },
+            {
+              "t": "Evenings, Saturdays and rotas at short notice",
+              "looks": "The rota arrives late, and a free shift pops up on the phone the same morning.",
+              "fig": "85 % work Saturdays, and 60 % have early evening shifts on weekdays. Working beyond agreed hours is most common in retail and in health and care.",
+              "solve": "The factor Shift schedule and predictability measures whether the shift schedule comes in good time, and whether employees can influence their shifts. Participation and control in the main survey shows whether they have a say."
+            },
+            {
+              "t": "Part-time, young and new staff who are soon on their own",
+              "looks": "A student takes Saturday shifts, works a few hours a week and rarely meets the others.",
+              "fig": "37 % in retail work part-time, and 1 in 4 under 20 hours a week. 28 % of those who work alone have had no training in what to do if something happens.",
+              "solve": "The survey goes out by text message or QR poster, so the Saturday helper answers as easily as the shop manager. It stays open for 14 days, so every shift has time to answer. Training and new staff and Position and belonging show whether new people are welcomed."
+            },
+            {
+              "t": "Heavy lifting and long hours on your feet",
+              "looks": "Deliveries with heavy boxes, restocking on your knees and a whole shift standing at the till.",
+              "fig": "73 % work standing, against 35 % of all employed. 22 % do awkward lifts, against 14 %.",
+              "solve": "The factor Physical work and equipment shows whether lifting aids exist, whether there is time to use them, and whether employees can vary their working position – per shop and warehouse."
+            },
+            {
+              "t": "Unwanted sexual attention from customers",
+              "looks": "Comments across the counter, or a customer who comes back again and again. Many say nothing.",
+              "fig": "16 % had experienced unwanted sexual attention in the past year. Only 1 in 3 of them told their employer.",
+              "solve": "The main survey asks anonymously about offensive behaviour and measures integrity and dignity. Boundaries with customers asks whether sexual comments and touching are taken seriously. The law says you must prevent harassment, including from customers."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "sikkerhet_tyveri_trusler": "Safety during theft, threats and robbery",
+          "alene_pa_vakt": "Alone on shift",
+          "grenser_mot_kunder": "Boundaries with customers",
+          "bemanning_og_tempo": "Staffing and pace",
+          "vaktplan": "Shift schedule and predictability",
+          "stilling_og_tilhorighet": "Position and belonging",
+          "opplaering": "Training and new staff",
+          "fysisk_arbeid": "Physical work and equipment"
+        },
+        "moduleTag": "Retail module",
+        "proof": {
+          "k": "What it looks like",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS, which does not use the retail module. The retail module's factors get suggested measures of their own, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for shops – such as a fixed break and check-in for lone shifts",
+                "Every measure gets an owner and a deadline",
+                "The next pulse measures whether it worked"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The retail module gets its own part of the report",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Getting started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your business",
+              "d": "Enter your organisation number, and we fetch name, address and industry from the Brønnøysund Register Centre. If your industry code is retail, Orgpuls suggests the retail module."
+            },
+            {
+              "t": "Add your employees",
+              "d": "Make one group per shop or warehouse. Send the link by text message or e-mail, or put up the QR poster."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole business and for each shop with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give each measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small shop",
+          "lead": "No single answer can be traced back to a person. That is built into how answers are stored, not just promised in a privacy notice.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the limit to 3, never below. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Shops with few answers",
+              "d": "A shop with too few answers is not shown as a group of its own, but its answers count in the figures for the whole business."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about unsafe lone shifts and unreported incidents are shown only as a count for the whole business – never per shop or shift."
+            },
+            {
+              "t": "The shop manager sees their shop",
+              "d": "A department manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What shop managers ask",
+          "items": [
+            {
+              "q": "How long does it take employees?",
+              "a": "The main survey takes about 4 minutes, and the retail module about 3 minutes more. The survey stays open for 14 days, so every shift has time to answer."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The retail module is included in both. Prices exclude VAT, there is no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "Is it anonymous when the shop has only 6 employees?",
+              "a": "Yes. By default no group is shown until at least 5 have answered, and a shop with fewer answers only counts in the figures for the whole business. Small teams can lower the limit to 3, but the fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "q": "Many employees have no work e-mail or PC. Does it work?",
+              "a": "Yes. Send the link by text message, or put up the QR poster in the break room. The employee scans the code, enters a mobile number or e-mail address and gets their own link. Everything works on a phone."
+            },
+            {
+              "q": "Can employees answer in languages other than Norwegian?",
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. When an employee's language is registered, the invitation and the questionnaire come in that language, and anyone can switch language in the questionnaire. The Polish and Lithuanian texts are machine-translated, and a language is offered only when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
+            },
+            {
+              "q": "We are a chain with many shops. Does it fit?",
+              "a": "Yes. Make one group per shop, and you see the results for each shop with enough answers, and the shop manager can see their own. If the shops are separate companies, or you have more than 100 employees, you get a separate offer on the Several companies plan."
+            },
+            {
+              "q": "Is the retail module fully tested?",
+              "a": "It is built on Norwegian research and inspections, but it is not validated yet. That is why its risk thresholds are marked provisional in the results. The main survey is built on QPS Nordic."
+            },
+            {
+              "q": "Will this hold up if the Labour Inspection Authority visits?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up, with dates. Incident handling, safety inspections and employment contracts live elsewhere, and the Labour Inspection Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the retail module",
+          "lovkrav": "The legal requirement explained",
+          "priser": "Pricing",
+          "smaa": "Work environment surveys for small businesses"
+        },
+        "sources": {
+          "fafo": "Fafo note 2024:17: Arbeid utenom ordinær dagtid – detaljhandel (Andersen and Nergaard), a survey of 6,198 shop workers in the Handel og Kontor union and 700 businesses, autumn 2023",
+          "fafo_merarbeid": "Fafo report 2026:10: Merarbeid i norsk arbeidsliv (Nergaard, Andersen and Bøckmann)",
+          "fafo_verneombud": "Fafo report 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten and Huseby), a survey of 1,200 heads of businesses",
+          "fafo_senior": "Fafo, fact sheet March 2023: Seniorer i varehandelen (Hilsen)",
+          "stami": "STAMI, NOA: Fakta om arbeidsmiljøet innen butikkhandel, figures from the Norwegian Living Conditions Survey on the Work Environment 2022",
+          "ssb": "Statistics Norway, table 07203: Employed persons by industry and full-time/part-time (LFS), 2025",
+          "at_tilsyn": "Norwegian Labour Inspection Authority: Arbeidstilsynet fører tilsyn med varehandel, press release 1 July 2026",
+          "at_vold": "Norwegian Labour Inspection Authority: Vold og trusler i arbeidslivet, guidance",
+          "at_kompass": "Norwegian Labour Inspection Authority, Kompass no. 4 2026: deaths and injuries from violence and threats in Norwegian land-based working life",
+          "lovdata_aml": "Lovdata: Working Environment Act sections 3-1, 4-1 and 4-3",
+          "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapters 1A and 3A (in force 1 January 2026)"
+        }
+      },
+      "bygg": {
+        "nav": "Construction",
+        "seo": {
+          "title": "Work environment survey for construction | Orgpuls",
+          "description": "Survey the work environment on site: time pressure, many companies, language in the team and new people. Anonymous by text or QR. 15 days free."
+        },
+        "hero": {
+          "k": "Construction · contractors and trades",
+          "h1": "A work environment survey for construction: see what wears the crew down – and follow it up",
+          "lead": "See where time pressure, many companies on site and language in the team create pressure – for the whole business and for each project with enough answers. The crew answers anonymously on their phones. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "secondary": "See the construction questions",
+          "figure": {
+            "title": "How the crew answers",
+            "meta": "On the phone · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for the building site",
+              "d": "The construction module comes on top of the main survey and takes about {minutes} minutes more."
+            },
+            {
+              "t": "Answers from the site hut",
+              "d": "A link by text message or e-mail, or a QR poster in the site hut. No app, and nobody needs a work e-mail address."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Everyday work in figures",
+          "title": "The work environment in construction: what the figures show",
+          "lead": "Around 240,000 residents of Norway work in construction, and about 21,000 more are here on short stays. The figures come from Norwegian research and official statistics.",
+          "items": [
+            {
+              "v": "29 %",
+              "l": "of workers in construction were foreign nationals in 2024"
+            },
+            {
+              "v": "16",
+              "l": "occupational injuries per 1,000 employed in 2024, against 11.8 across all industries"
+            },
+            {
+              "v": "1 in 3",
+              "l": "in building work are employed by a business with 9 or fewer people"
+            },
+            {
+              "v": "1 in 2",
+              "l": "on sick leave in building work say the absence is related to their job"
+            }
+          ],
+          "h3": "Much is never said at the morning meeting",
+          "note": "Fafo’s report on health and safety in construction describes how reporting unwanted incidents can be seen as snitching, how a loose tie to the employer can lead many not to report, and how fear of reprisals applies particularly to foreign workers.",
+          "text": "An anonymous questionnaire gives the crew a way to say it without standing up in front of everyone. The construction module asks about near misses that were not reported, and the answer is shown only as a count for the whole business."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why a construction company has to survey its work environment",
+          "lead": "The Working Environment Act applies to every employer with employees, including the trade business with five in the team. On a building site there are requirements of its own on top: coordination when several companies work in one place, and a language everyone in the work team understands.",
+          "law": {
+            "title": "What the law asks of a construction company",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3",
+                "t": "The psychosocial factors of the work environment must be fully satisfactory – including workload and time pressure, and support and help at work. Nobody may be subjected to harassment or other improper conduct."
+              },
+              {
+                "ref": "WEA § 2-2 (2)",
+                "t": "When several businesses work at the same workplace, the principal enterprise is responsible for coordinating their health and safety work."
+              },
+              {
+                "ref": "Construction Client Regs § 19a",
+                "t": "At least one person in every work team must be able to understand and make themselves understood in a language the others in the team understand, where safety requires it."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "More about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority prioritises building firms",
+            "p": "In 2025 building firms were among the industries the Labour Inspection Authority prioritised in inspections of mental and musculoskeletal strain. In nearly two in three of those inspections the survey was inadequate, and action plans, named owners and deadlines for measures often fell short. More than half of all infringement fines went to the construction industry.",
+            "d": "In Orgpuls every measure gets an owner and a deadline, and the safety representative sees the same figures as management."
+          },
+          "gap": {
+            "t": "Many small firms have not done it",
+            "p": "Among private businesses with fewer than 20 employees, 28 % run an employee survey, and 23 % carry out none of the surveys Fafo asked about. Fafo still finds major health and safety challenges in many of the smallest construction firms."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "1 in 2 on sick leave in building work say the absence is related to their job. Such absence can often be prevented at the workplace.",
+              "An analysis the Labour Inspection Authority refers to found a strong link between actions that triggered accidents and uncertain management of risk. That may point to psychosocial measures also needing high priority in construction.",
+              "1 in 5 of those who worked in construction in 2015 worked in another industry in 2022. Younger people are over-represented among those who move."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges on the building site – and how to tackle them",
+          "lead": "The challenges come from Norwegian research and inspections. Under each you see which questions measure it, and what you get to work with.",
+          "items": [
+            {
+              "t": "Time pressure that comes before safety",
+              "looks": "The concrete truck is booked, the scaffolding is not finished, and the client is waiting. That is when the shortcuts get taken.",
+              "fig": "Fafo’s informants describe ever greater time pressure in projects, making it more tempting to take shortcuts. The accidents the Labour Inspection Authority has analysed typically happened in work that departed from the original plan.",
+              "solve": "The factor Safety before progress asks whether safety holds when time is short, and whether people can stop an unsafe job without getting into trouble. Planning and progress shows whether the schedule is realistic. A yes/no question counts how many have been asked to do a job they thought was unsafe."
+            },
+            {
+              "t": "Many companies on one site",
+              "looks": "A main contractor, three subcontractors and an electrician who arrived today. Who tells whom when the crane lifts over the roof?",
+              "fig": "Lack of planning and communication between businesses has been a cause in many of the accidents the Labour Inspection Authority has analysed. Construction firms in the Oslo region have met the ban on hiring from staffing agencies with, among other things, more subcontractors and more overtime.",
+              "solve": "The factor Coordination on site asks whether it is clear who is in charge when several companies work together, and whether you are told about the risk in the work others are doing around you. The suggested measures are concrete, such as a joint morning meeting for every company on site."
+            },
+            {
+              "t": "The instruction nobody understood",
+              "looks": "The foreman gives instructions in Norwegian, one person in the team translates, and the rest nod. Nobody asks again.",
+              "fig": "In a 2017 survey Fafo refers to, 29 % of employers had seen language problems lead to an accident or near miss. Among Polish and Lithuanian labour migrants living in Norway, 8 % said they did not speak Norwegian, and 30 % that they spoke quite little.",
+              "solve": "The factor Language and instructions asks whether safety information is given in a language each person understands well, whether there is always someone in the team who can pass messages between languages, and whether it is fine to ask again. The crew can answer in Polish and Lithuanian as well as Norwegian and English; the Polish and Lithuanian texts are machine-translated."
+            },
+            {
+              "t": "New, young and hired-in workers in the team",
+              "looks": "An apprentice on their first project, two hired-in workers who arrived on Monday and a summer temp. All get tasks before they know the site.",
+              "fig": "Young people under 25, people new in the job and hired-in workers are among the groups the Labour Inspection Authority names as most exposed to accidents. The injury rate is considerably higher in the youngest age groups.",
+              "solve": "The factor New and young people in the team asks whether new people are trained before they get risky tasks, whether they have a fixed person to ask, and whether they get time to learn. Hired-in workers who are part of the team can be added to your employee list, and then they answer like everyone else."
+            },
+            {
+              "t": "The near miss nobody reports",
+              "looks": "A panel slips from the crane and lands where someone stood ten minutes earlier. No deviation report is written.",
+              "fig": "Fafo describes how reporting unwanted incidents can be seen as snitching, and that many with a loose tie to the employer do not report. Fear of reprisals applies particularly to foreign workers.",
+              "solve": "A yes/no question counts near misses that were not reported – only as a count for the whole business, never per project. Safety in the team asks whether you speak up to each other and learn from incidents, and Freedom to speak up in the main survey shows whether people dare to say something."
+            },
+            {
+              "t": "Teams that do not talk to each other",
+              "looks": "Each team eats on its own in the site hut. When something goes wrong, it is easier to blame the others than to speak up.",
+              "fig": "An informant in Fafo’s report describes how the divides carry into the break rooms and can cause conflict and a lack of trust between people from different countries. The Labour Inspection Authority names a good climate for speaking up between workers and managers as important for safety.",
+              "solve": "The main survey measures Support from colleagues and Integrity and dignity, and asks anonymously about offensive behaviour. That question is shown only as a count for the whole business."
+            },
+            {
+              "t": "Long days and a long way home",
+              "looks": "Long days to earn the time off, and then the flight or the drive home. On Sunday evening the trip back begins.",
+              "fig": "12 % in civil engineering work more than 48 hours a week, against 8.2 % of all employed. Fafo’s informants name working hours as a known risk, particularly for those who commute between their home country and Norway and work long days to earn time off.",
+              "solve": "The factor Working hours and recovery asks whether working hours give enough rest, whether travel time and commuting are manageable over time, and whether overtime is the exception rather than the rule."
+            },
+            {
+              "t": "When something nearly went wrong",
+              "looks": "After a fall from the scaffolding, work is under way again the next morning. Nobody asks those who stood next to it how they are doing.",
+              "fig": "3,902 occupational injuries were registered in construction in 2024. 43 % in building work do heavy physical work, against 21 % of all employed.",
+              "solve": "The factor Saying you're not doing well asks whether there is a talk with those who were there after an accident or near miss, and whether people know where to get help. One of the suggestions is to gather those who were there the same week, with a manager or the occupational health service."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "sikkerhet_foran_fremdrift": "Safety before progress",
+          "sikkerhet_i_laget": "Safety in the team",
+          "planlegging_og_fremdrift": "Planning and progress",
+          "samordning_pa_byggeplassen": "Coordination on site",
+          "sprak_og_beskjeder": "Language and instructions",
+          "nye_og_unge": "New and young people in the team",
+          "a_si_at_man_ikke_har_det_bra": "Saying you're not doing well",
+          "arbeidstid_og_restitusjon": "Working hours and recovery"
+        },
+        "moduleTag": "Construction module",
+        "proof": {
+          "k": "What it looks like",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS – a fictional civil engineering firm with projects, a workshop, operations and administration. The demo shows the main survey. The construction module’s factors get results and suggested measures of their own, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Results",
+              "h3": "See which project is struggling – without seeing who",
+              "ticks": [
+                "Each factor gets a score from 0 to 100, for the whole business and for each group with enough answers",
+                "Make one group per project, workshop or team – results per group are included in the Usual plan",
+                "A group with too few answers is shown as a dash, but its answers count in the figures for the whole business"
+              ],
+              "caption": "The heat map: the factors against the groups."
+            },
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for the building site – such as «Stop and report» and «Joint morning meeting»",
+                "Every measure gets an owner and a deadline",
+                "The next pulse measures whether it worked"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The construction module gets its own part of the report",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Getting started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your business",
+              "d": "Enter your organisation number, and we fetch name, address and industry from the Brønnøysund Register Centre. If your industry code is construction, Orgpuls suggests the construction module."
+            },
+            {
+              "t": "Add your crew",
+              "d": "Make one group per project, workshop or team. Send the link by text message or e-mail, or put up the QR poster in the site hut."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole business and for each project with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give each measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small team",
+          "lead": "No single answer can be traced back to a person. That is built into how answers are stored, not just promised in a privacy notice.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the limit to 3, never below. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Projects with few answers",
+              "d": "A project with too few answers is not shown as a group of its own, but its answers count in the figures for the whole business. If a group could be worked out from the total and the other groups, one more group is held back."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about unreported near misses and jobs people thought were unsafe are shown only as a count for the whole business – never per project."
+            },
+            {
+              "t": "The project manager sees their project",
+              "d": "A department manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What construction managers ask",
+          "items": [
+            {
+              "q": "How long does it take the crew?",
+              "a": "The main survey takes about 4 minutes, and the construction module about 3 minutes more: 24 statements and 2 short yes/no questions. The survey stays open for 14 days, so people on different projects and rotations have time to answer."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The construction module is included in both. Prices exclude VAT, there is no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "Is it anonymous when the team is only five or six people?",
+              "a": "Yes. By default no group is shown until at least 5 have answered, and a team with fewer answers only counts in the figures for the whole business. Small teams can lower the limit to 3, but the fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "q": "The crew has no work e-mail. Does it work?",
+              "a": "Yes. Send the link by text message, or put up the QR poster in the site hut. The employee scans the code, enters a mobile number or e-mail address and gets their own link. Everything works on a phone."
+            },
+            {
+              "q": "Can they answer in Polish or Lithuanian?",
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. When an employee's language is registered, the invitation and the questionnaire come in Polish or Lithuanian, and anyone can switch language in the questionnaire. The Polish and Lithuanian texts are machine-translated, and a language is offered only when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
+            },
+            {
+              "q": "Can we include hired-in workers and subcontractors?",
+              "a": "The survey goes to the people you add to your employee list. Hired-in workers who are part of the team can be added as usual. Subcontractors’ people have their own employer. The factor Coordination on site shows how your own people experience working with other companies."
+            },
+            {
+              "q": "We have job safety analyses, safety rounds and a deviation system. Do we need this as well?",
+              "a": "Job safety analyses, safety rounds and the deviation system deal with the hazards in the work. Orgpuls surveys the psychosocial work environment – time pressure, coordination, language, support and the climate for speaking up – which the law requires in § 4-3 and chapter 1A of the regulation. It does not replace physical measures: the Labour Inspection Authority and STAMI write that psychosocial measures can reinforce other measures, but have little effect on their own."
+            },
+            {
+              "q": "Will this hold up if the Labour Inspection Authority visits?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up, with dates. Incident handling, safety rounds, the health and safety plan for the site and HMS cards live elsewhere, and the Labour Inspection Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the construction module",
+          "lovkrav": "The legal requirement explained",
+          "verneombud": "The safety representative and the survey",
+          "smaa": "Work environment surveys for small businesses",
+          "priser": "Pricing"
+        },
+        "sources": {
+          "at_kompass26": "Norwegian Labour Inspection Authority and STAMI, Kompass no. 1 2026: Ulykker i bygg og anlegg – rapport 2025",
+          "noa": "STAMI, NOA: Fakta om arbeidsmiljøet i byggevirksomhet, figures from the Norwegian Living Conditions Survey on the Work Environment 2022",
+          "fafo_hms": "Fafo report 2025:33: Østeuropeisk arbeidskraft og HMS i bygg (Ødegård, Huseby and Bråten)",
+          "lovdata_aml": "Lovdata: Working Environment Act sections 2-2, 3-1 and 4-3",
+          "lovdata_bhf": "Lovdata: Construction Client Regulations section 19a, language requirements (in force 1 January 2024)",
+          "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapter 1A (in force 1 January 2026)",
+          "at_arsrapport": "Norwegian Labour Inspection Authority: Årsrapport 2025 – en analyse av Arbeidstilsynets innsats (annual report)",
+          "fafo_verneombud": "Fafo report 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten and Huseby), a survey of 1,200 heads of businesses",
+          "at_kompass25": "Norwegian Labour Inspection Authority and STAMI, Kompass no. 1 2025: Helseproblemer og ulykker i bygg og anlegg – rapport 2024",
+          "fafo_dapi": "Fafo report 2024:35: Arbeidstakere i bygge- og anleggsnæringen i 2015 og 2022 (Andersen and Dapi)",
+          "fafo_innleie": "Fafo note 2024:22: Virkninger av innstramninger i innleieregelverket (Alsos et al.)",
+          "noa_anlegg": "STAMI, NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter, figures from the Norwegian Living Conditions Survey on the Work Environment 2022"
+        }
+      },
+      "kontor": {
+        "nav": "Knowledge and office work",
+        "seo": {
+          "title": "Work environment survey for knowledge and office work | Orgpuls",
+          "description": "Survey the work environment in consultancy, IT, finance and media: focus, availability, hybrid work and AI. Simplified or extended. Free for 15 days."
+        },
+        "hero": {
+          "k": "Knowledge and office work · consultancy, IT, finance, media and real estate",
+          "h1": "A work environment survey for knowledge and office work: see what eats into focus and free time – and follow it up",
+          "lead": "See where interruptions, pressure to answer after hours and hybrid work take their toll – for the whole business and for each team with enough answers. Choose simplified or extended, and pick the factors that fit your working day. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "secondary": "See the knowledge and office questions",
+          "figure": {
+            "title": "How your staff answer",
+            "meta": "On phone or PC · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for knowledge work",
+              "d": "The office module comes on top of the main survey and takes about {minutes} minutes more – simplified or extended, you choose."
+            },
+            {
+              "t": "Invitations by e-mail",
+              "d": "Each employee gets their own link by e-mail or text message and answers on a phone or PC. No app to install."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Working life in figures",
+          "title": "The office work environment: what the figures show",
+          "lead": "Around 400,000 people work in information and communication, finance and insurance, and technical services and real estate, and about 800,000 sit in an office almost all their working time. The figures come from Norwegian research and official statistics.",
+          "items": [
+            {
+              "v": "29%",
+              "l": "of people in office workplaces work from home or on the move outside normal hours every week, against 17% of all employed"
+            },
+            {
+              "v": "22%",
+              "l": "of businesses have guidelines on the right to disconnect from work in free time"
+            },
+            {
+              "v": "9.6%",
+              "l": "of employees work from home several days a week since the pandemic, against 4.2% in 2019"
+            },
+            {
+              "v": "28%",
+              "l": "of doctor-certified sick-leave days in the second quarter of 2026 were due to mental disorders – across all of working life"
+            }
+          ],
+          "h3": "High satisfaction, but not everything shows",
+          "note": "86% of people in office workplaces are satisfied with their job, against 83% of all employed, and sick leave is below average. Even so, 1 in 5 report mental health complaints wholly or partly caused by their job.",
+          "text": "An anonymous questionnaire shows what is not said at the all-hands. Among other things, the office module asks whether employees have been contacted in their free time with an answer expected. The answer is shown only as a count for the whole business."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why an office business has to survey its work environment",
+          "lead": "The Working Environment Act applies to every employer with employees – including the consultancy with six consultants. For knowledge work, the law points among other things to workload and time pressure, unclear expectations and support at work, and the home office is part of the work environment.",
+          "law": {
+            "title": "What the law requires in knowledge and office work",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3 (2)",
+                "t": "The psychosocial factors must be fully satisfactory – among them unclear or conflicting demands and expectations, workload and time pressure, and support and help at work."
+              },
+              {
+                "ref": "WEA § 10-8 (1)",
+                "t": "Employees shall have at least 11 consecutive hours off work in every 24 hours."
+              },
+              {
+                "ref": "Home office regulation",
+                "t": "Regular work from home requires a written agreement, covering among other things working hours and when the employee is to be available. The psychosocial work environment at home must also be taken care of (§§ 2 and 3)."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "Read more about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority: risk is more about how work is organised",
+            "p": "“More and more people in Norway work in occupations where the risk is less about machinery and physical hazards and more about how work is organised, time pressure and emotional strain,” the Authority writes in its 2025 annual report. The requirements were clarified from 1 January 2026, and the Authority is giving guidance first. In its 2025 inspections – in other industries – the survey was inadequate in nearly two out of three, and measures often lacked a person responsible and a deadline.",
+            "d": "In Orgpuls every measure gets an owner and a deadline, and the safety representative sees the same figures as management."
+          },
+          "gap": {
+            "t": "Small businesses survey less often",
+            "p": "Among private businesses with fewer than 20 employees, 28% run an employee survey, and 23% do none of the surveys Fafo asked about. Among businesses with fewer than 20 employees, 19% have guidelines on the right to disconnect."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "1 in 3 people on sick leave in office workplaces say their absence is related to their job. Absence like that can often be prevented at the workplace.",
+              "Employees in open-plan offices with fixed desks were more likely to take both self-certified and doctor-certified sick leave than those in single or small shared offices, a STAMI doctoral thesis shows. The differences are small, but they apply to many people.",
+              "Sick leave due to mental disorders often lasts a long time, which increases the chance of dropping out of working life altogether, says NAV's director Hege Nilssen."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges in knowledge and office work – and how to tackle them",
+          "lead": "Many office workplaces score well on a lot. The challenges here are what is particular to knowledge work, drawn from Norwegian research, statistics and guidance. Under each one you see which questions measure it and what you get to work with.",
+          "items": [
+            {
+              "t": "No peace to think",
+              "looks": "A quick question at your desk, notifications in three channels, four meetings before lunch. The work that needs concentration gets done after everyone else has gone home.",
+              "fig": "58% of people who work in an office sit in a shared office or open plan all or part of the time. In Fafo's evaluation of an activity-based office in the ministries, work that needs concentration was experienced as harder in the open plan.",
+              "solve": "Focus and interruptions asks whether people get uninterrupted time for work that needs concentration, and whether they are disturbed when they need quiet. Meeting culture asks whether meetings are useful. In the simplified set they come together as Concentration and workflow, with suggestions such as fixed focus blocks and a meeting review."
+            },
+            {
+              "t": "Always available",
+              "looks": "The client e-mails on Sunday evening, and the manager answers in the chat at eleven at night. Nobody has said you must reply – but everyone does.",
+              "fig": "22% of people in office workplaces feel they are expected to be available in their free time, against 19% of all employed. Expectations are often informal and unspoken, Fafo writes.",
+              "solve": "Availability asks whether it is accepted not to answer outside working hours, and whether the team has clear agreements on when to be available. A yes/no question counts how many have been contacted in their free time with an answer expected – shown only as a count for the whole business. One of the suggestions is a team availability agreement."
+            },
+            {
+              "t": "Work comes home",
+              "looks": "The laptop sits on the kitchen table, and “just one more thing” turns into an hour every evening. It is flexible – until it isn't.",
+              "fig": "Among employees without management duties, 41% in professional occupations get work enquiries in their free time at least once a week, against 17% of operators and craft workers. Two in three managers with staff get such enquiries every week.",
+              "solve": "Work and private life asks whether the job leaves enough time for private life, and Recovery and switching off whether people manage to switch off in their free time. The suggestions include “Off means off” and a quarterly review of evening and weekend work together with the safety representative."
+            },
+            {
+              "t": "Together, but apart",
+              "looks": "Half the team is in on Tuesday, the rest on Thursday. The new hire hasn't met everyone yet, and sparring only happens when someone remembers to invite them.",
+              "fig": "In Abelia's HR survey of technology and knowledge businesses, 40% of the businesses name weaker social cohesion from flexible and hybrid work as a major challenge. STAMI finds that working from home can give more control and flexibility, but is also linked to higher demands for availability, less support from colleagues and somewhat more role ambiguity and role conflict.",
+              "solve": "Hybrid collaboration asks whether collaboration works wherever people work, and Belonging and professional network whether people get informal contact and professional sparring. Role clarity and Support from colleagues in the main survey show the rest. The suggestions include a hybrid team agreement and a weekly one-to-one."
+            },
+            {
+              "t": "The client is always in a hurry",
+              "looks": "The deadline was set in the sales meeting, the order changed along the way, and the hours still have to be logged as billable.",
+              "fig": "About 1 in 10 employees regularly get work enquiries in their free time and are expected to answer. Most are managers or in particularly independent positions, spend at least 2 hours a week on it, and many report stress and working while ill.",
+              "solve": "In the extended set you can choose Client and delivery pressure: whether deadlines are realistic, whether people get support from their manager when a client makes unreasonable demands, and whether billable-hour targets are reasonable. Workload and time pressure and Conflicting demands in the main survey are included for everyone."
+            },
+            {
+              "t": "New systems, new structure, new AI",
+              "looks": "A new system in spring, a reorganisation in autumn – and now everyone is to use AI, but nobody has said how.",
+              "fig": "55% of people in office workplaces have been through a reorganisation, against 48% of all employed. In banking, finance and insurance it is 65%. 9 in 10 businesses in information and communication use AI in 2026.",
+              "solve": "AI and changes in work tasks asks whether people know how to use AI safely, and whether they are involved when new technology changes their work. Job security and restructuring asks whether people feel their skills will be in demand, and in the extended set whether changes are explained. Participation and control in the main survey shows whether employees are heard."
+            },
+            {
+              "t": "Screen, chair and kitchen table",
+              "looks": "Eight hours at the screen, half the week at a kitchen table and a channel for every project. Nobody has asked how your neck is doing.",
+              "fig": "42% of people in office workplaces do repetitive arm and hand movements, PC work among them, against 25% of all employed. If someone works from home one day every week as a fixed arrangement, the home office regulation applies, the Labour Inspection Authority writes.",
+              "solve": "Physical workplace and equipment asks whether the office gives peace, and whether people have equipment that is good for the body – at home too. A yes/no question counts how many work from home regularly without a written agreement. Digital tools asks whether the tools make the job easier, and whether the volume of messages is manageable."
+            },
+            {
+              "t": "What isn't said on screen",
+              "looks": "In the video meeting, everyone says it's going fine. The one who is struggling says so at lunch – if she is in the office that day.",
+              "fig": "Among managers whose staff can work from home, 47% find it demanding to manage employees who work from home, and 45% think it affects the work environment negatively.",
+              "solve": "Freedom to speak up and Support from manager in the main survey show whether people dare to speak up and whether the manager is there for them. Answers are anonymous and shown per team with enough answers – also for those the manager rarely sees. In the comment field they can write what they don't say out loud, and you can reply anonymously."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "fokus_og_avbrytelser": "Focus and interruptions",
+          "motekultur": "Meeting culture",
+          "digitale_verktoy": "Digital tools and information load",
+          "tilgjengelighet": "Availability and pressure to respond",
+          "arbeid_privatliv": "Work and private life",
+          "restitusjon": "Recovery and switching off",
+          "hybrid_samhandling": "Hybrid collaboration",
+          "tilhorighet": "Belonging and professional network",
+          "fysisk_arbeidsplass": "Physical workplace and equipment",
+          "kunde_og_leveransepress": "Client and delivery pressure",
+          "laering_og_utvikling": "Learning and professional development",
+          "ki_og_endring": "AI and changes in work tasks",
+          "overvaking_og_tillit": "Digital monitoring and trust",
+          "jobbtrygghet": "Job security and restructuring",
+          "rettferdighet_og_karriere": "Fairness and career",
+          "f_konsentrasjon": "Concentration and workflow",
+          "f_digitale_verktoy": "Digital tools and information load",
+          "f_tilgjengelighet": "Availability and boundaries",
+          "f_privatliv_restitusjon": "Work, private life and recovery",
+          "f_hybrid": "Collaboration and belonging in hybrid work",
+          "f_fysisk": "Physical workplace and equipment",
+          "f_laering": "Learning and professional development",
+          "f_teknologi_ki": "Technological change and AI"
+        },
+        "moduleTag": "Office module",
+        "variants": {
+          "k": "Simplified or extended",
+          "title": "One module, two variants: choose what fits you",
+          "lead": "The 24 core statements are in both variants, so the figures can be compared from one survey to the next. The managing director chooses under Measurements › Question set, and the choice holds until you change it.",
+          "facts": {
+            "factors": "factors",
+            "statements": "statements",
+            "minutes": "min extra",
+            "about": "about {n}",
+            "upTo": "up to {n}"
+          },
+          "simple": {
+            "t": "Simplified",
+            "badge": "Recommended for regular surveys",
+            "d": "Eight factors of three statements each, drawn from the core statements. Everyone who uses simplified gets the same eight.",
+            "list": "The factors in simplified"
+          },
+          "extended": {
+            "t": "Extended",
+            "badge": "Every other year, in depth",
+            "d": "All {factors} factors, with more statements each. You tick at least {min} of them. Factors marked “Extended only” exist only here, and the one marked “Optional” stays off until you turn it on.",
+            "list": "The factors you choose from"
+          },
+          "picks": {
+            "title": "Choose by your working day",
+            "lead": "Examples of factors you might emphasise in extended – you decide. The main survey is included for everyone.",
+            "items": [
+              {
+                "t": "Consultancy",
+                "d": "Client deadlines, billable hours and clients who change the order along the way."
+              },
+              {
+                "t": "IT and technology",
+                "d": "New tools every six months, AI in daily work and many channels."
+              },
+              {
+                "t": "Finance and insurance",
+                "d": "Reorganisations, digital traces of work and clients waiting for an answer."
+              },
+              {
+                "t": "Hybrid teams",
+                "d": "Some in the office, some at home – and the same chance to be seen."
+              }
+            ]
+          },
+          "note": "If you use extended, the eight simplified factors are calculated too, as a comparable index – so you can compare with surveys where you used simplified."
+        },
+        "proof": {
+          "k": "How it looks",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS – a fictional civil engineering firm, not an office business. The demo shows the main survey. The office module's factors get their own results and suggested measures, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Results",
+              "h3": "See which team is struggling – without seeing who",
+              "ticks": [
+                "Each factor gets a score from 0 to 100, for the whole business and for each group with enough answers",
+                "Make one group per team, department or office – results per group are part of the Usual plan",
+                "A group with too few answers is shown with a dash, but its answers count in the figures for the whole business"
+              ],
+              "caption": "The heat map: factors against groups."
+            },
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for knowledge work – for example “Availability agreement” and “Fixed focus blocks”",
+                "Each measure gets an owner and a deadline",
+                "The safety representative sees the same figures as management"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Follow-up",
+              "h3": "Follow up with pulses through the year",
+              "ticks": [
+                "Plan the main survey and the pulses in the year wheel",
+                "The pulse includes the statements that measure the measures you are working on",
+                "Results are compared with the previous survey"
+              ],
+              "caption": "The year wheel: baseline and pulses through the year."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The office module gets its own part of the report, naming the variant you used",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "How to get started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your business",
+              "d": "Enter your organisation number and we fetch the name, address and industry from the Brønnøysund Register Centre. If the industry code belongs to knowledge and office work – IT, finance, consultancy or real estate, for example – Orgpuls suggests the office module."
+            },
+            {
+              "t": "Choose a variant and add your employees",
+              "d": "Choose simplified or extended under Question set. Make one group per team or department, and send the invitation by e-mail or text message."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole business and for each team with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give the measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small team",
+          "lead": "No single answer can be traced back to a person. It is built into the way answers are stored, not just promised in a privacy policy.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the threshold to 3, never lower. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Teams with few answers",
+              "d": "A team with too few answers is not shown as a group of its own, but its answers count in the figures for the whole business. If a group could be worked out from the total and the other groups, one more group is held back."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about contact in free time and a written home office agreement are shown only as counts for the whole business – never per team."
+            },
+            {
+              "t": "A department manager sees their team",
+              "d": "A department manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What leaders of knowledge businesses ask",
+          "items": [
+            {
+              "q": "Simplified or extended – which should we choose?",
+              "a": "Simplified is 8 factors and 24 statements and takes about 3 minutes more. Extended has 15 factors and up to 62 statements and takes about 7 minutes. We recommend simplified for regular surveys and extended every other year, in depth. The 24 core statements are in both, so you can compare results over time."
+            },
+            {
+              "q": "Can we choose only the factors that fit us?",
+              "a": "In extended, yes: you tick at least 8 of the 15 factors. The core statements are always included, and Fairness and career stays off until you turn it on. In simplified everyone gets the same eight factors. Single statements cannot be removed, but anyone who cannot answer a statement chooses “Not relevant to me”."
+            },
+            {
+              "q": "How long does it take for employees?",
+              "a": "The main survey takes about 4 minutes. The office module adds about 3 minutes in simplified, with 24 statements and 2 short yes/no questions, and about 7 minutes in extended, with up to 62 statements and 4 yes/no questions."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The office module is included in both. Prices exclude VAT, with no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "Does the manager see who was contacted in their free time?",
+              "a": "No. The question is shown only as a count for the whole business, never per team. By default no group is shown until at least 5 have answered, and the threshold can never be set below 3."
+            },
+            {
+              "q": "We work from home a lot. Does the module fit?",
+              "a": "Yes. The statements about collaboration, sparring, availability and equipment apply wherever people work. Anyone who doesn't use the office can answer “Not relevant to me” to the statement about their workplace there, and that answer does not count in the index. A yes/no question shows how many work from home regularly without a written agreement."
+            },
+            {
+              "q": "Can they answer in English?",
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. A language is offered when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
+            },
+            {
+              "q": "Are the questions validated?",
+              "a": "The office module's factors build on validated scales and research, but the wording is our own. The module is marked provisional until it has been tested in a pilot, and its risk levels are shown as provisional until then."
+            },
+            {
+              "q": "Will this hold if the Labour Inspection Authority comes?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up with dates. Home office agreements, routines and training live elsewhere, and the Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the office module",
+          "lovkrav": "The legal requirement explained",
+          "verneombud": "The safety representative and the survey",
+          "smaa": "Work environment surveys for small businesses",
+          "priser": "Prices"
+        },
+        "sources": {
+          "ssb_aku": "Statistics Norway, table 07203: Employed persons (LFS) by industry, 2025",
+          "noa_kontor": "STAMI, NOA: Facts about the work environment in office workplaces, figures from the Living Conditions Survey on the Working Environment 2022",
+          "fafo_koble": "Fafo report 2025:26: Employees' right to disconnect (Bråten, Andersen, Blinkenberg and Nergaard)",
+          "stami_varig": "STAMI: A lasting change after the pandemic, from the 2024 fact book on work environment and health",
+          "nav_fravaer": "NAV: Sick leave up in the first half of the year, sick-leave statistics for the second quarter of 2026",
+          "lovdata_aml": "Lovdata: Working Environment Act §§ 3-1, 4-3 and 10-8",
+          "lovdata_hjemmekontor": "Lovdata: Regulation on work performed in the employee's home (home office regulation), §§ 2 and 3",
+          "lovdata_forskrift": "Lovdata: Regulation on the performance of work, chapter 1A (in force 1 January 2026)",
+          "at_arsrapport": "Labour Inspection Authority: Annual report 2025 – an analysis of the Authority's work",
+          "fafo_verneombud": "Fafo report 2025:10: Mapping the work of safety representatives (Andersen, Bråten and Huseby), survey of 1,200 business leaders",
+          "stami_landskap": "STAMI: The office affects employees' sick leave, on Randi Hovden Borge's doctoral thesis",
+          "fafo_abw": "Fafo report 2025:37: Activity-based workplaces – evaluation of a pilot in the government quarter (Hilsen, Andersen and Dønnum)",
+          "noa_finans": "STAMI, NOA: Facts about the work environment in banking, finance and insurance, figures from the Living Conditions Survey on the Working Environment 2022",
+          "stami_hjemmekontor": "STAMI: New knowledge about home offices, work environment and health",
+          "ssb_ki": "Statistics Norway: Use of AI in business is accelerating",
+          "at_hjemmekontor": "Labour Inspection Authority: Home office",
+          "fafo_ledelse": "Fafo: Management barometer 2025 – home office and remote management (Andersen), fact sheet",
+          "abelia_hr": "Abelia: HR survey 2023 – Rapid technological change challenges forward-looking employers too"
+        }
+      },
+      "helse": {
+        "nav": "Health and care",
+        "seo": {
+          "title": "Work environment survey for health and care | Orgpuls",
+          "description": "Survey the work environment in care, home care and clinics: violence and threats, staffing, rotas and part-time. Anonymous by text or QR. 15 days free."
+        },
+        "hero": {
+          "k": "Health and care · care, home care and clinics",
+          "h1": "A work environment survey for health and care: see what wears your staff down – and follow it up",
+          "lead": "See where violence and threats, tight staffing and rotas without rest take their toll – for the whole business and for each department with enough answers. Every shift answers anonymously on their phones. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "secondary": "See the health and care questions",
+          "figure": {
+            "title": "How your staff answer",
+            "meta": "On the phone · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for care work",
+              "d": "The health and care module comes on top of the main survey and takes about {minutes} minutes more."
+            },
+            {
+              "t": "Answers from every shift",
+              "d": "A link by text message or e-mail, or a QR poster in the staff room. No app, and nobody needs a work e-mail address."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Everyday work in figures",
+          "title": "The work environment in health and care: what the figures show",
+          "lead": "Around 588,000 people work in health and social services – about one in five of everyone employed in Norway. The figures come from Norwegian research and official statistics.",
+          "items": [
+            {
+              "v": "9.6 %",
+              "l": "sickness absence in health and social services in the second quarter of 2026 – the highest of all industries, against an average of 6.6 %"
+            },
+            {
+              "v": "34 %",
+              "l": "of employees in nursing homes have been exposed to violence, against 5 % of everyone employed"
+            },
+            {
+              "v": "38 %",
+              "l": "in home care face high emotional demands, against 20 % of everyone employed"
+            },
+            {
+              "v": "35 %",
+              "l": "in health and social services work part-time, against 24 % in all industries"
+            }
+          ],
+          "h3": "Much is never reported",
+          "note": "Labour Inspection Authority inspectors describe relatively few incidents being reported in the work environment area in health and social services, even though many should have been. So the real state of the work environment does not become visible either.",
+          "text": "An anonymous questionnaire gives employees a way to say it without stepping forward. The health and care module asks about violence and threats that were not reported, and about shifts where the staffing was not responsible. The answers are shown only as a count for the whole business."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why a care business has to survey its work environment",
+          "lead": "The Working Environment Act applies to every employer with employees, including the GP surgery with five staff and the personal assistance company with assistants in each user’s home. In work with people, the law points in particular to emotional demands, violence and threats, and working alone.",
+          "law": {
+            "title": "What the law requires in work with people",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3 (2)",
+                "t": "The psychosocial factors must be fully satisfactory – including unclear or conflicting demands, emotional demands and strain in work with people, and workload and time pressure."
+              },
+              {
+                "ref": "WEA § 4-3 (6)",
+                "t": "Employees shall, as far as possible, be protected against violence, threats and adverse strain resulting from contact with others."
+              },
+              {
+                "ref": "WEA § 4-1 (3)",
+                "t": "Assess whether working alone carries a particular risk, and put the necessary measures in place."
+              },
+              {
+                "ref": "Regulation ch. 3A",
+                "t": "Identify and assess the risk of violence and threats – including working alone, working hours and staffing – and provide measures, training and follow-up."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "More about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority prioritises nursing homes and home care",
+            "p": "In 2025 nursing homes and home care were among the industries the Labour Inspection Authority prioritised in inspections of mental and musculoskeletal strain. In inspections of nursing homes and home care, violence and threats are often raised as a challenge, and in 2025 more than seven in ten businesses lacked an adequate survey, risk assessment, plan and measures against violence and threats.",
+            "d": "In Orgpuls every measure gets an owner and a deadline, and the safety representative sees the same figures as management."
+          },
+          "gap": {
+            "t": "Many small businesses have not done it",
+            "p": "About half of those working in health clinics – among them doctors’ and dentists’ practices and physiotherapy clinics – are in businesses with fewer than 10 employees. Among private businesses with fewer than 20 employees, 28 % run an employee survey, and 23 % carry out none of the surveys Fafo asked about."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "1 in 3 in nursing homes and 2 in 5 in home care who are on sick leave say the absence is related to their job. Absence like that can often be prevented at the workplace.",
+              "29 % of employees in home care services were no longer at the same workplace a year later, against 24 % in working life as a whole (2023). Among those under 30 it was 45 %.",
+              "Employees in large positions have the lowest drop-out, and workplaces with many full-time staff find it easier to build «the good shift», which both attracts and keeps people, Fafo writes."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges in health and care – and how to tackle them",
+          "lead": "The challenges come from Norwegian research, statistics and inspections. Under each you see which questions measure it, and what you get to work with.",
+          "items": [
+            {
+              "t": "Violence and threats – often alone with the service user",
+              "looks": "A service user who becomes agitated during personal care, a night shift alone on the ward, a home visit where the door closes behind you. Often you are the only one there.",
+              "fig": "34 % in nursing homes have been exposed to violence, and 27 % to harassment or threats. In home care the figures are 12 and 18 %. The Labour Inspection Authority uses home care staff as an example of working alone.",
+              "solve": "The factor Violence and threats asks whether you have gone through the situations that can lead to violence, whether small incidents are reported too, and whether the person involved is followed up. A yes/no question counts incidents that were not reported. Contact and communication in the main survey asks whether you can call for help quickly when you are alone."
+            },
+            {
+              "t": "The feelings you take home",
+              "looks": "A resident who dies, relatives in despair, a service user angry at everything. You have to stay professional the whole shift – and then drive home.",
+              "fig": "38 % in home care and 35 % in nursing homes face high emotional demands, against 20 % of everyone employed. In home care, 34 % are often mentally exhausted after work.",
+              "solve": "The main survey measures Emotional demands: whether you are rarely left alone in emotionally demanding situations, whether you talk about difficult incidents afterwards, and whether you are allowed to react as a human being at work. The health and care module does not repeat these. Support from manager shows whether the manager is there when the job gets demanding."
+            },
+            {
+              "t": "Too few on shift",
+              "looks": "Two are off sick, the temp does not know the service users, and the list is just as long. Something has to wait – and you are the one who has to choose what.",
+              "fig": "Labour Inspection Authority inspectors describe an industry with a high workload and time pressure, and an imbalance between tasks and resources.",
+              "solve": "The factor Staffing and responsible care asks whether staffing makes it possible to give responsible care, whether you avoid going home with a bad conscience, and whether it is clear what can wait. A yes/no question counts shifts where staffing was not responsible. Time for the core tasks shows whether documentation and systems take time away from service users."
+            },
+            {
+              "t": "Between service user, relatives and manager",
+              "looks": "Relatives want more than the service can give, the service user wants something else, and the manager has decided a third thing. And the comments about your body are laughed off.",
+              "fig": "In nursing homes, 22 % experience a high degree of role conflict, against 13 % of everyone employed – including conflicting expectations from residents, relatives, managers and colleagues. 18 % are exposed to unwanted sexual attention, against 5 %.",
+              "solve": "The factor Boundaries with service users and relatives asks whether you have agreed what to do when someone crosses the line, whether sexual comments are taken seriously, and whether you get support to say no to relatives. Conflicting demands in the main survey shows whether it is clear who decides when two things collide."
+            },
+            {
+              "t": "Rotas, evenings and nights",
+              "looks": "An evening shift until half past ten and a day shift at seven. The call about an extra shift comes on your day off – again.",
+              "fig": "About 9 in 10 in nursing homes work outside normal daytime hours, and 1 in 3 work nights. 24 % report sleep problems caused wholly or partly by their job.",
+              "solve": "The factor Rotas and rest asks whether the rota gives enough rest between shifts, whether you can influence it, and whether extra shifts at short notice are the exception. The suggested measures are concrete, such as a rota workshop and a fixed order for extra shifts. If the night shift is a group of its own, it gets its own figures once enough have answered."
+            },
+            {
+              "t": "Part-time nobody chose",
+              "looks": "Many small positions, many temps and a few who take all the extra shifts. Those who work little miss the messages.",
+              "fig": "Among rota-based staff in municipal nursing and care, nearly 35 % work full-time. Fafo describes employees who work part-time because the shifts feel too exhausting – an adaptation to a work environment they did not decide.",
+              "solve": "The factor Position and belonging asks whether you have the position size you want, whether important information reaches those who work little too, and whether you feel part of the professional community. One of the suggestions is to offer vacant position fractions to part-time employees first, as the preferential right requires."
+            },
+            {
+              "t": "New staff, temps and many languages",
+              "looks": "The agency temp is here for the first time, and the new starter has done two shadow shifts. The handover is quick, and not everyone understands everything.",
+              "fig": "Fafo describes how unskilled temps are often called in and have to take responsibility for tasks they lack formal competence for, and how colleagues then have to spend more time guiding them. 1 in 5 working in nursing homes are immigrants.",
+              "solve": "The factor Professional confidence asks whether new staff and temps get enough training before they are alone on shift, whether you have someone to consult, and whether you understand each other well enough for handovers and messages to be right. The questionnaire is available in Norwegian, English, Polish and Lithuanian."
+            },
+            {
+              "t": "Heavy lifting when it is busy",
+              "looks": "The patient hoist is at the other end of the corridor, and it is busy. It is quicker to do it yourself.",
+              "fig": "30 % in nursing homes and 34 % in home care lift in awkward positions, against 14 % of everyone employed. 35 % in nursing homes report back pain caused wholly or partly by their job.",
+              "solve": "The factor Patient handling and heavy lifting asks whether you have the equipment you need, whether there is time to use it also when it is busy, and whether there are enough of you for heavy transfers. One of the suggestions is a handling plan per service user."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "vold_og_trusler": "Violence and threats",
+          "bemanning_og_forsvarlig_omsorg": "Staffing and responsible care",
+          "turnus_og_hvile": "Rotas and rest",
+          "stilling_og_tilhorighet": "Position and belonging",
+          "grenser_mot_brukere_og_parorende": "Boundaries with service users and relatives",
+          "tid_til_kjerneoppgavene": "Time for the core tasks",
+          "faglig_trygghet": "Professional confidence",
+          "forflytning_og_tunge_loft": "Patient handling and heavy lifting"
+        },
+        "moduleTag": "Health and care module",
+        "proof": {
+          "k": "What it looks like",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS – a fictional civil engineering firm, not a care business. The demo shows the main survey. The health and care module’s factors get results and suggested measures of their own, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Results",
+              "h3": "See which department is struggling – without seeing who",
+              "ticks": [
+                "Each factor gets a score from 0 to 100, for the whole business and for each group with enough answers",
+                "Make one group per department, ward or home care area – results per group are included in the Usual plan",
+                "A group with too few answers is shown as a dash, but its answers count in the figures for the whole business"
+              ],
+              "caption": "The heat map: the factors against the groups."
+            },
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for care work – such as «A conversation the same shift» and «Staffing check before the shift»",
+                "Every measure gets an owner and a deadline",
+                "The safety representative sees the same figures as management"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Follow-up",
+              "h3": "Follow up with pulses through the year",
+              "ticks": [
+                "Plan the main survey and the pulses in the year wheel",
+                "The pulse includes the statements that measure the measures you are working on",
+                "Results are compared with the previous measurement"
+              ],
+              "caption": "The year wheel: baseline and pulses through the year."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The health and care module gets its own part of the report",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Getting started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your business",
+              "d": "Enter your organisation number, and we fetch name, address and industry from the Brønnøysund Register Centre. If your industry code is in health and care, Orgpuls suggests the health and care module."
+            },
+            {
+              "t": "Add your staff",
+              "d": "Make one group per department, ward or area. Send the link by text message or e-mail, or put up the QR poster in the staff room."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole business and for each department with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give each measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small department",
+          "lead": "No single answer can be traced back to a person. That is built into how answers are stored, not just promised in a privacy notice.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the limit to 3, never below. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Departments with few answers",
+              "d": "A department with too few answers is not shown as a group of its own, but its answers count in the figures for the whole business. If a group could be worked out from the total and the other groups, one more group is held back."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about violence and threats that were not reported, and about shifts where staffing was not responsible, are shown only as a count for the whole business – never per department or shift."
+            },
+            {
+              "t": "The department manager sees their department",
+              "d": "A department manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What managers in health and care ask",
+          "items": [
+            {
+              "q": "How long does it take your staff?",
+              "a": "The main survey takes about 4 minutes, and the health and care module about 3 minutes more: 24 statements and 2 short yes/no questions. The survey stays open for 14 days, so those on days, evenings, nights and weekends have time to answer."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The health and care module is included in both. Prices exclude VAT, there is no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "Does the manager see who answered that staffing was not responsible?",
+              "a": "No. The question is shown only as a count for the whole business, never per department or shift. By default no group is shown until at least 5 have answered, and the limit can never be set below 3."
+            },
+            {
+              "q": "Many have no work e-mail, and some work only a few shifts a month. Can we reach them?",
+              "a": "Yes. Send the link by text message, or put up the QR poster in the staff room. The employee scans the code, enters a mobile number or e-mail address and gets their own link. Everything works on a phone, and the survey stays open long enough for every shift to answer."
+            },
+            {
+              "q": "Can they answer in Polish or Lithuanian?",
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. A language is offered when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
+            },
+            {
+              "q": "We are a GP surgery or a dental clinic. Does the health and care module suit us?",
+              "a": "The health and care module is made for care work with shifts, and today everyone gets the same eight factors – including patient handling, which matters little in a GP surgery. The main survey covers what applies to everyone, such as emotional demands, workload and support from your manager. You can also choose to survey without an industry module."
+            },
+            {
+              "q": "We are a healthcare staffing agency. Can we use the health and care module?",
+              "a": "Yes. Orgpuls suggests the health and care module when your industry code is health and social services. If you have a different industry code, you can choose the health and care module yourselves under Setup. The survey goes to the people you add to your employee list, including those working at your clients."
+            },
+            {
+              "q": "Will this hold up if the Labour Inspection Authority visits?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up, with dates. Your deviation system, procedures for violence and threats and training live elsewhere, and the Labour Inspection Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the health and care module",
+          "lovkrav": "The legal requirement explained",
+          "verneombud": "The safety representative and the survey",
+          "smaa": "Work environment surveys for small businesses",
+          "priser": "Pricing"
+        },
+        "sources": {
+          "ssb_aku": "Statistics Norway, table 07203: Employed persons (LFS) by industry and full-time/part-time, 2025",
+          "ssb_fravaer": "Statistics Norway, table 12440: Sickness absence for employees by industry, second quarter of 2026",
+          "noa_sykehjem": "STAMI, NOA: Facts about the work environment in nursing homes and care institutions, figures from the Living Conditions Survey on the work environment 2022",
+          "noa_hjemme": "STAMI, NOA: Facts about the work environment in home care, figures from the Living Conditions Survey on the work environment 2022",
+          "at_signal": "Labour Inspection Authority: Signal no. 1 2024 – industry knowledge, input from 145 inspectors",
+          "lovdata_aml": "Lovdata: Working Environment Act §§ 3-1, 4-1 and 4-3",
+          "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapters 1A and 3A (in force 1 January 2026)",
+          "at_arsrapport": "Labour Inspection Authority: Annual report 2025 – an analysis of the Authority’s work",
+          "fafo_verneombud": "Fafo report 2025:10: Mapping the work of safety representatives (Andersen, Bråten and Huseby), a survey of 1,200 business leaders",
+          "noa_klinikk": "STAMI, NOA: Facts about the work environment in health clinics, figures from the Living Conditions Survey on the work environment 2022",
+          "fafo_mobilitet": "Fafo report 2025:19: Mobility in health and care services 2015–2024 (Nielsen and Moland)",
+          "fafo_deltid": "Fafo report 2026:28: Part-time employment and sustainable staffing (Nielsen, Bråthen and Moland), written for KS",
+          "at_alene": "Labour Inspection Authority: Working alone",
+          "fafo_ufaglaerte": "Fafo report 2025:08: New positions for unskilled staff in nursing and care services (Jordell, Yssen and Moland)"
+        }
+      },
+      "barnehage": {
+        "nav": "Kindergartens and schools",
+        "seo": {
+          "title": "Work environment survey for kindergartens and schools | Orgpuls",
+          "description": "Survey the work environment in kindergartens and schools: violence and threats, staffing, parents and time for core tasks. Anonymous. 15 days free."
+        },
+        "hero": {
+          "k": "Kindergartens, schools and after-school care",
+          "h1": "A work environment survey for kindergartens and schools: see what wears the adults down – and follow it up",
+          "lead": "See where violence and threats, too few adults and demanding work with parents take their toll on staff – for the whole kindergarten or school and for each unit, year group or after-school club with enough answers. The statements say «the children» in a kindergarten and «the pupils» in a school. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "secondary": "Choose kindergarten or school",
+          "figure": {
+            "title": "How your staff answer",
+            "meta": "On the phone · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for kindergartens and schools",
+              "d": "The module comes on top of the main survey and takes about {minutes} minutes more. The statements say «the children» or «the pupils»."
+            },
+            {
+              "t": "Answers from all your staff",
+              "d": "A link by text message or e-mail, or a QR poster in the staff room. No app, and nobody needs a work e-mail address."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Everyday work in figures",
+          "title": "The work environment in kindergartens and schools: what the figures show",
+          "lead": "Around 104,000 people work in kindergartens and after-school care, and around 232,000 in education. Just over half of all kindergartens are private. The figures come from Norwegian research, inspections and official statistics.",
+          "items": [
+            {
+              "v": "10.3 %",
+              "l": "doctor-certified sickness absence in kindergartens in the first quarter of 2025, against 6.1 % in all industries"
+            },
+            {
+              "v": "28 %",
+              "l": "of primary and lower secondary teachers were exposed to violence at work in the past year – the highest of all occupations, against 5.7 % of everyone employed"
+            },
+            {
+              "v": "60 %",
+              "l": "in kindergartens and after-school care work squatting or kneeling, against 17 % of everyone employed"
+            },
+            {
+              "v": "43 %",
+              "l": "of primary and lower secondary teachers face high emotional demands, against 20 % in working life as a whole"
+            }
+          ],
+          "h3": "Much is never reported",
+          "note": "Nearly 9 in 10 upper secondary teachers say their school has a system for reporting violence and threats. Even so, it is little used, Fafo finds. Those who say it does not work point to too few using it, too few knowing it, and reported incidents not being followed up.",
+          "text": "An anonymous questionnaire gives employees a way to say it without stepping forward. The module asks about violence or threats from children or pupils that were not reported, and about days when absence was not covered by a substitute. The answers are shown only as a count for the whole organisation."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why kindergartens and schools have to survey their work environment",
+          "lead": "The Working Environment Act applies to every employer with employees – including the small private kindergarten, the independent school and the after-school club. The children’s and pupils’ rights under the Kindergarten Act and the Education Act apply alongside the employees’ rights under the Working Environment Act, and in work with people the law points in particular to emotional demands and to violence and threats.",
+          "law": {
+            "title": "What the law requires – also in work with children",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3 (2)",
+                "t": "The psychosocial factors must be fully satisfactory – including unclear or conflicting demands, emotional demands and strain in work with people, and workload and time pressure."
+              },
+              {
+                "ref": "WEA § 4-3 (6)",
+                "t": "Employees shall, as far as possible, be protected against violence, threats and adverse strain resulting from contact with others."
+              },
+              {
+                "ref": "Regulation ch. 3A",
+                "t": "Identify and assess the risk of violence and threats – including working alone, working hours and staffing – and provide measures, training and follow-up."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "More about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority found shortcomings at nearly 9 in 10 schools",
+            "p": "In 2023–2025 the Labour Inspection Authority carried out more than 1,000 inspections of primary and lower secondary schools, after-school clubs and upper secondary schools. Nearly 9 in 10 had shortcomings in surveying, risk assessment and measures against violence and threats, and 8 in 10 had not made sure of the necessary training and practice. «Many jump straight from survey to measures», says an adviser at the Authority – and then the measures are too general or have nobody responsible.",
+            "d": "In Orgpuls every measure gets an owner and a deadline, and the safety representative sees the same figures as management."
+          },
+          "gap": {
+            "t": "Many small organisations have not done it",
+            "p": "Nearly 1 in 5 kindergartens have fewer than 26 children, and private primary and lower secondary schools are about 10 % of schools but have only 5 % of the pupils. Among private businesses with fewer than 20 employees, 28 % run an employee survey, and 23 % do none of the surveys Fafo asked about."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "1 in 2 in kindergartens and after-school care and 1 in 3 in education who are on sick leave say the absence is related to their job. Such absence can often be prevented at the workplace.",
+              "38 % of lower secondary teachers feel a lot of stress from extra work when colleagues are away, up from 26 % in 2018. The TALIS researchers see a risk of a vicious circle in which absence causes stress, which can cause more absence.",
+              "Substitutes cost more than wages. When kindergartens got permanent extra staff instead, they became less vulnerable to unexpected absence, and staff and managers saved time and energy on following up and guiding substitutes, Fafo finds."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges in kindergartens and schools – and how you tackle them",
+          "lead": "The challenges come from Norwegian research, statistics and inspections. Most apply to both kindergartens and schools; those that apply to only one are marked. Under each you see which questions measure it and what you get to work with.",
+          "items": [
+            {
+              "t": "Violence and threats from children and pupils",
+              "looks": "A child who bites and kicks in the cloakroom, a pupil who throws a chair when a transition comes too fast. Often it is the same situations that come back.",
+              "fig": "28 % of primary and lower secondary teachers and nearly 1 in 5 kindergarten teachers and kindergarten and school assistants were exposed to violence at work in the past year, against 5.7 % of everyone employed. 8 in 10 primary and lower secondary school leaders report violent incidents in the past year.",
+              "solve": "The factor Violence and threats asks whether the routines are known, whether people know what room they have to step in when a situation becomes dangerous, and whether the person involved is followed up. A yes/no question counts incidents that were not reported. The statement says «a child» in a kindergarten and «a pupil» in a school."
+            },
+            {
+              "t": "Too few adults at the edges of the day",
+              "looks": "The norm holds on paper. But at opening time, during breaks and when the last children are collected, one adult is alone with more children than anyone can keep track of.",
+              "fig": "99 % of kindergartens meet the staffing norm. But in a 2019 survey, 86 % of heads said they are fully staffed for less than 6 hours of the day, and the Directorate for Education writes that staffing on paper can be something other than staffing in reality.",
+              "solve": "The factor Staffing and substitutes asks whether staffing makes it possible to give the children what they need, whether a substitute is brought in when someone is away, and whether people are seldom alone with more children than they can keep track of. A yes/no question counts days when absence was not covered by a substitute. Workload and time pressure in the main survey shows whether the pace is too high."
+            },
+            {
+              "t": "Documentation and assessment take the time",
+              "looks": "Plans, assessments, minutes and messages. The time for following up the pupil who needs it is what is left over.",
+              "fig": "More than half of lower secondary teachers feel a lot of stress from the amount of administrative work and from assessment and grading. «Teachers have many roles and documentation requirements, they work a lot and have little time for breaks in their day», says an inspector at the Labour Inspection Authority.",
+              "solve": "The factor Time for the core tasks asks whether people have time to plan and prepare the work with the pupils, whether documentation and reporting are worth the effort, and whether meeting time is used for what matters most. One of the suggestions is protected planning time. Workload and time pressure in the main survey shows the overall pressure."
+            },
+            {
+              "t": "Parents – also after working hours",
+              "looks": "A message late in the evening, a worried parent at the gate, a conversation that gets stuck. The cooperation matters – and is sometimes the heaviest part of the week.",
+              "fig": "About half of lower secondary teachers feel a lot of stress from handling parents’ concerns, and this has grown since 2018. At the same time, 76 % feel valued by parents. 41 % in education feel that the job interferes with their private life, partly because pupils and parents get in touch after working hours.",
+              "solve": "The factor Cooperation with parents asks whether it is clear what parents can expect, whether people get support from management when the cooperation becomes demanding, and whether they are spared answering parents outside working hours. The suggestions include reply times within working hours and the manager joining the demanding meetings."
+            },
+            {
+              "t": "Children and pupils who need more than you can give",
+              "looks": "A child who needs an adult all day, a pupil waiting for an assessment. The adaptation happens in an ordinary group, with the adults who are there.",
+              "fig": "More lower secondary teachers than in 2018 report a more varied pupil group and a need for more competence in adapting teaching. NIFU finds that pupils who need individually adapted education are often involved in violent incidents, and that special needs teachers and assistants who work closely with them are the most exposed.",
+              "solve": "The factor Adaptation and inclusion asks whether people get enough support to meet children or pupils with special needs, whether you have access to special needs expertise, and whether people know whom to contact when a child needs more help than you can give. One of the suggestions is regular meetings with the support services."
+            },
+            {
+              "t": "Many without teaching qualifications – and new people all the time",
+              "looks": "The permanent assistant knows the children best, the substitute is here for the first time, and it is unclear who is responsible for what.",
+              "fig": "In kindergartens, 42.2 % of the core staff are kindergarten teachers and 22.8 % are child and youth workers – 35 % are neither. In primary and lower secondary school the law sets no education requirement for assistants, and assistants and others account for nearly a third of the annual hours of pupil-related work.",
+              "solve": "The factor Skills and community among staff asks whether new staff and substitutes are trained before they are responsible for children alone, whether you have time for professional conversations, and whether it is clear how tasks are divided between teachers and other staff. One of the suggestions is a substitute folder and a fixed walk-through on the first day. Support from colleagues in the main survey shows how the team works."
+            },
+            {
+              "t": "Low chairs, lifting and noise",
+              "looks": "Dressing children while squatting, a two-year-old on the hip and an adult on a child’s chair at lunch. And the sound of a full unit in one room.",
+              "fig": "In kindergartens and after-school care, 60 % work squatting or kneeling and 38 % lift in awkward positions, against 17 and 14 % of everyone employed. 35 % report back pain caused wholly or partly by the job. 24 % experience high noise levels, against 8.6 % – measurements show a low risk of hearing damage, but the noise can be mentally draining.",
+              "solve": "The factor Noise, physical strain and breaks asks whether the noise level is bearable, whether you have furniture and equipment that let people work in a way that is good for the body, and whether people get their breaks. The suggestions are concrete: a noise map, breaks where someone takes over, and adult chairs and height-adjustable changing tables."
+            },
+            {
+              "t": "Difficult cases and the feelings you take home",
+              "looks": "A worry about how a child is doing at home, a bullying case that does not let go. You are meant to stay calm and professional – and then go home.",
+              "fig": "31 % in kindergartens and after-school care and 32 % in education face high emotional demands, against 20 % of everyone employed. In kindergartens and after-school care, 41 % are often mentally exhausted after work.",
+              "solve": "The factor Difficult cases asks whether people know how you proceed when you are worried about how a child is doing at home, whether people are left alone with cases of bullying and harassment, and whether you have time to follow them up. One of the suggestions is two people responsible for every case, never one. The main survey measures Emotional demands, so the module does not repeat them."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "vold_og_trusler": "Violence and threats from children and pupils",
+          "bemanning_og_vikarer": "Staffing and substitutes",
+          "tid_til_kjerneoppgavene": "Time for the core tasks",
+          "samarbeid_med_foreldre": "Cooperation with parents",
+          "tilrettelegging_og_inkludering": "Adaptation and inclusion",
+          "kompetanse_og_fellesskap": "Skills and community among staff",
+          "stoy_kropp_og_pauser": "Noise, physical strain and breaks",
+          "vanskelige_saker": "Difficult cases"
+        },
+        "moduleTag": "Industry module",
+        "audience": {
+          "barnehage": "Kindergarten",
+          "skole": "School"
+        },
+        "wording": {
+          "k": "Kindergarten or school",
+          "title": "See the questions as your staff get them",
+          "lead": "The statements are the same, but the wording follows the organisation: «the children» in a kindergarten and «the pupils» in a school and after-school club. Orgpuls suggests the wording from your industry code, and you can change it under Measurements.",
+          "begge": "Do you run both a kindergarten and a school? Choose «Both», and the statements say «the children or the pupils». The codes and the scoring are the same in all three.",
+          "example": "The same statement, two wordings:",
+          "items": {
+            "barnehage": {
+              "t": "Kindergarten",
+              "link": "See the questions for kindergartens"
+            },
+            "skole": {
+              "t": "School and after-school club",
+              "link": "See the questions for schools and after-school clubs"
+            }
+          }
+        },
+        "proof": {
+          "k": "What it looks like",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS – a fictional civil engineering firm, not a kindergarten or school. The demo shows the main survey. The kindergarten and school module’s factors get results and suggested measures of their own, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Results",
+              "h3": "See which unit or year group is struggling – without seeing who",
+              "ticks": [
+                "Each factor gets a score from 0 to 100, for the whole organisation and for each group with enough answers",
+                "Make one group per unit, year group or after-school club – results per group are included in the Usual plan",
+                "A group with too few answers is shown as a dash, but its answers count in the figures for the whole organisation"
+              ],
+              "caption": "The heat map: the factors against the groups."
+            },
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for kindergartens and schools – such as «Room to act on one page» and «Substitute folder and first day»",
+                "Every measure gets an owner and a deadline",
+                "The safety representative sees the same figures as management"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Follow-up",
+              "h3": "Follow up with pulses through the year",
+              "ticks": [
+                "Plan the main survey and the pulses in the year wheel",
+                "The pulse includes the statements that measure the measures you are working on",
+                "Results are compared with the previous measurement"
+              ],
+              "caption": "The year wheel: baseline and pulses through the year."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The kindergarten and school module gets its own part of the report",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Getting started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your organisation",
+              "d": "Enter your organisation number, and we fetch name, address and industry from the Brønnøysund Register Centre. If your industry code is a kindergarten, school or after-school club, Orgpuls suggests the module and the wording."
+            },
+            {
+              "t": "Add your staff",
+              "d": "Make one group per unit, year group or after-school club. Send the link by text message or e-mail, or put up the QR poster in the staff room."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole organisation and for each group with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give each measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small kindergarten",
+          "lead": "No single answer can be traced back to a person. That is built into how answers are stored, not just promised in a privacy notice.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the limit to 3, never below. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Units and year groups with few answers",
+              "d": "A unit or year group with too few answers is not shown as a group of its own, but its answers count in the figures for the whole organisation. If a group could be worked out from the total and the other groups, one more group is held back."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about violence and threats that were not reported, and about days when absence was not covered by a substitute, are shown only as a count for the whole organisation – never per unit or year group."
+            },
+            {
+              "t": "The unit manager sees their unit",
+              "d": "A unit manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What heads of kindergartens and schools ask",
+          "items": [
+            {
+              "q": "Does it suit both kindergartens and schools?",
+              "a": "Yes. The statements are the same, but the wording follows the organisation: «the children» in a kindergarten, «the pupils» in a school and after-school club, and «the children or the pupils» where you have both. Orgpuls suggests the wording from your industry code, and you can change it under Measurements. A survey that has opened keeps its wording. The module is provisional: the pilot tests that the three versions work alike."
+            },
+            {
+              "q": "How long does it take for staff?",
+              "a": "The main survey takes around 4 minutes, and the kindergarten and school module around 3 more: 24 statements and 2 short yes/no questions. The survey stays open for 14 days, so people who work part-time or only in the after-school club have time to answer."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The kindergarten and school module is included in both. Prices exclude VAT, with no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "We are a small kindergarten. Can the head see who answered?",
+              "a": "No. By default no group is shown until at least 5 have answered, and a unit with fewer answers counts only in the figures for the whole kindergarten. Small teams can lower the limit to 3, never below – but the fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "q": "Assistants and substitutes have no work e-mail. Can we reach them?",
+              "a": "Yes. Send the link by text message, or put up the QR poster in the staff room. The employee scans the code, enters a mobile number or e-mail address and gets their own link. The survey goes to the people you add to the staff list, and everything works on a phone."
+            },
+            {
+              "q": "Can they answer in Polish or Lithuanian?",
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. A language is offered when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
+            },
+            {
+              "q": "We already have routines for violence and threats. Do we need this as well?",
+              "a": "The routines are part of what the regulation requires. Orgpuls surveys the psychosocial work environment together with the employees, as the law requires in § 4-3 and chapter 1A of the regulation – violence and threats, staffing, cooperation with parents, time and support. The answers show whether the routines are known and whether the person involved is followed up."
+            },
+            {
+              "q": "Will this hold if the Labour Inspection Authority comes?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up with dates. Routines for violence and threats, incident reporting and training and practice live elsewhere, and the Labour Inspection Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the kindergarten and school module",
+          "lovkrav": "The legal requirement explained",
+          "verneombud": "The safety representative and the survey",
+          "smaa": "Work environment surveys for small businesses",
+          "priser": "Pricing"
+        },
+        "sources": {
+          "noa_bhg": "STAMI, NOA: Facts about the work environment in kindergartens and after-school care, figures from the Living Conditions Survey on the work environment 2022",
+          "noa_und": "STAMI, NOA: Facts about the work environment in education, figures from the Living Conditions Survey on the work environment 2022",
+          "udir_bhg": "Norwegian Directorate for Education and Training: Facts about kindergartens 2025 – children and kindergartens",
+          "ssb_bhg_fravaer": "Statistics Norway, insight 2025/7: Kindergartens have almost twice the sickness absence of other industries",
+          "ssb_vold": "Statistics Norway: Four in ten primary and lower secondary teachers exposed to violence, threats, harassment or bullying at work, figures from the Living Conditions Survey on the work environment 2025",
+          "at_skole": "Labour Inspection Authority: Inspection and guidance in the education sector 2023–2025",
+          "fafo_vgs": "Fafo report 2026:06: Teachers’ work environment in upper secondary school (Andersen and Bråten), written for the Union of Education Norway",
+          "lovdata_aml": "Lovdata: Working Environment Act §§ 3-1 and 4-3",
+          "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapters 1A and 3A (in force 1 January 2026)",
+          "fafo_verneombud": "Fafo report 2025:10: Mapping the work of safety representatives (Andersen, Bråten and Huseby), a survey of 1,200 business leaders",
+          "talis": "NIFU and the University of Oslo: The Norwegian teacher role in change – results from TALIS 2024",
+          "fafo_fredrikstad": "Fafo report 2024:30: Extended staffing in kindergartens (Yssen, Bråthen and Moland)",
+          "fafo_oslo": "Fafo report 2024:13: Trial of extra core staffing in selected kindergartens in Oslo (Bråten, Jensen and Svalund)",
+          "nifu_vold": "NIFU report 2025:14: When school becomes unsafe for the adults (Samuelsen and Borg), for the Directorate for Education and Training",
+          "udir_norm": "Norwegian Directorate for Education and Training: Statistics on kindergartens’ adaptation to the staffing and teacher norms",
+          "udir_ansatte": "Norwegian Directorate for Education and Training: Facts about kindergartens 2025 – staff",
+          "udf_assist": "Union of Education Norway, fact sheet 2026:3: Use of assistants and other staff in pupil-related work in primary and lower secondary school, figures from GSI"
+        }
+      }
+    },
     "bransjer": {
       "crumb": "Industries",
-      "h1": "Survey the risks in your own industry.",
-      "lead": "The main survey covers what applies to every workplace. For industries with their own risks, an industry module adds statements and measures – also for the care home or the building firm with 15 employees.",
-      "toModules": "See the modules",
+      "h1": "A work environment survey that knows your industry",
+      "lead": "The main survey covers what applies to every workplace. An industry module also asks about what is most risky where you work – lone shifts in shops, violence in care, time pressure on building sites – and suggests measures that fit your everyday work.",
+      "toModules": "Find your industry",
       "how": {
         "pastander": {
           "t": "More statements",
@@ -8263,6 +10003,74 @@
             "d": "Shifts and physical work. A short survey on the phone, and steady follow-up of freedom to speak up."
           }
         }
+      },
+      "why": {
+        "k": "Why an industry module",
+        "problem": "The challenge",
+        "solution": "With Orgpuls",
+        "title": "What a general survey does not ask",
+        "lead": "The law requires you to survey the risk where it is. An industry module does that without you writing your own questions.",
+        "cards": [
+          {
+            "t": "Risk differs from industry to industry",
+            "p": "In shops many stand alone at the till, in care staff meet violence from service users, and on building sites time pressure is a safety issue.",
+            "s": "Each module adds 8 factors or more for the industry's own risks, on top of the main survey's 11."
+          },
+          {
+            "t": "The law points to the industry's risks",
+            "p": "The regulation requires a separate risk assessment of violence and threats, and the Working Environment Act § 4-1 one of lone work. Both have to show up in the survey.",
+            "s": "The report shows the legal basis for each factor, and the module gets its own part of the report."
+          },
+          {
+            "t": "Measures have to fit everyday work",
+            "p": "«Better communication» does little for the person closing the shop alone at nine in the evening.",
+            "s": "Each factor has 3 suggested measures written for the industry, and the pulse measures whether a measure worked."
+          }
+        ]
+      },
+      "steps": {
+        "k": "How an industry module works",
+        "title": "One survey, two parts",
+        "items": [
+          {
+            "t": "The main survey",
+            "d": "33 statements on 11 factors, the same for everyone, so you can compare figures over time. About 4 minutes."
+          },
+          {
+            "t": "The industry module",
+            "d": "The industry's statements come in the same questionnaire, on the same scale. About 3–7 minutes more."
+          },
+          {
+            "t": "Results, measures and report",
+            "d": "The module's factors get the same 0–100 index, suggested measures of their own and their own part of the report."
+          }
+        ]
+      },
+      "faq": {
+        "k": "Questions and answers",
+        "title": "About the industry modules",
+        "items": [
+          {
+            "q": "Does an industry module cost extra?",
+            "a": "No. The industry modules are included in Small and Usual, from NOK 265 a month excluding VAT. The free plan has the standard main survey without modules."
+          },
+          {
+            "q": "How do we get the right module?",
+            "a": "Orgpuls suggests the module from your industry code in the Brønnøysund Register Centre. You can choose another module, or none, under Setup."
+          },
+          {
+            "q": "Do we have to use an industry module?",
+            "a": "No. The main survey covers WEA § 4-3 on its own. The module goes deeper where your industry has risks of its own."
+          },
+          {
+            "q": "Does the survey get much longer?",
+            "a": "About 3 to 7 minutes more, depending on the module. The main survey takes about 4 minutes."
+          },
+          {
+            "q": "Is it anonymous in small teams?",
+            "a": "Yes. By default no group is shown until at least 5 have answered. Small teams can lower the limit to 3, but the fewer the answers, the easier it is to recognise who said what."
+          }
+        ]
       }
     },
     "pris": {
@@ -8271,13 +10079,35 @@
         "number": "Number of employees",
         "valuetext": "{n} {unit} – {plan}, NOK {price} per month",
         "valuetextGroup": "{n} {unit} – {plan}, price by agreement",
+        "valuetextYear": "{n} {unit} – {plan}, NOK {price} per year",
         "readout": "{unit} · <b>{plan}</b> · NOK {price}<abbr>/month</abbr><sr> per month</sr> · NOK {perHead} per employee",
         "readoutGroup": "{unit} · <b>{plan}</b> · price by agreement",
+        "readoutYear": "{unit} · <b>{plan}</b> · NOK {price}<abbr>/year</abbr><sr> per year</sr> · NOK {perMonth} per month",
         "unitOne": "employee",
         "unitOther": "employees"
       },
       "fits": "Fits you",
       "fitsSr": "(fits you)",
+      "interval": {"legend": "Billing", "month": "Monthly", "year": "Yearly – 2 months free"},
+      "price": {
+        "kr": "NOK {n}",
+        "perMonth": "per month",
+        "perYear": "per year",
+        "yearPerMonth": "Equals NOK {n} per month"
+      },
+      "free": {
+        "name": "Free",
+        "who": "After the trial, at any size",
+        "price": "NOK 0",
+        "unit": "forever",
+        "items": [
+          "Yearly main survey with the standard questions",
+          "Results per department and team, from 5 answers by default",
+          "Unlimited measures with owner and deadline",
+          "No card and no time limit"
+        ],
+        "cta": "Get started free"
+      },
       "plans": [
         {
           "name": "Small",
@@ -8288,7 +10118,7 @@
             "All features included",
             "Unlimited surveys and measures",
             "Safety and union representatives at no extra cost",
-            "No lock-in"
+            "Monthly with no lock-in, or yearly with two months free"
           ],
           "cta": "Try it free"
         },
@@ -8301,7 +10131,7 @@
             "All features included",
             "Unlimited surveys and measures",
             "Safety and union representatives at no extra cost",
-            "No lock-in"
+            "Monthly with no lock-in, or yearly with two months free"
           ],
           "cta": "Try it free"
         },
@@ -8318,10 +10148,10 @@
           "cta": "Talk to us"
         }
       ],
-      "footnote": "All prices exclude VAT. Invoiced monthly, also as EHF e-invoice.",
+      "footnote": "All prices exclude VAT. Invoiced monthly or yearly, also as EHF e-invoice. If you choose no plan after the trial, you carry on for free.",
       "included": {
         "eyebrow": "Everything included",
-        "title": "Everything is in every plan. The only difference is how many of you there are.",
+        "title": "Everything is in Small and Usual. The only difference between them is how many of you there are.",
         "lead": "A business with 8 employees gets the same questions, the same report and the same help as one with 80. No features are locked behind a more expensive plan.",
         "sizes": [
           {
@@ -8347,7 +10177,7 @@
               "Main survey and pulses, as often as every month",
               "The year wheel plans the rounds for you",
               "Sent by e-mail and SMS",
-              "Answers in Norwegian and English"
+              "Answers in Norwegian, English, Polish and Lithuanian"
             ]
           },
           {
@@ -8676,6 +10506,7 @@
       "statusLabel": {
         "trial": "Trial",
         "grace": "Grace (trial ended)",
+        "free": "Free plan",
         "read_only": "Read-only",
         "active": "Active"
       }
@@ -11625,6 +13456,12 @@
           "bruksomrader": "/bruksomrader · inspection, verneombud and AMU",
           "plattform": "/plattform · the report and the legal basis",
           "claims": "Short legal claims across the site",
+          "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
+          "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
+          "helse": "/helse-og-omsorg · the law card, the inspection, the figures and the claims about anonymity",
+          "kontor": "/kunnskap-og-kontor · the law card, the inspection, the figures and the claims about anonymity",
+          "barnehage": "/barnehage-og-skole · the law card, the inspection, the figures and the claims about anonymity",
+          "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },
         "doc": {
@@ -12276,7 +14113,6 @@
       },
       "site": {
         "lead": "A designed page: its layout is code and pixel-checked against the design. Its title and description are messages, edited here for both languages; every other text on it is in Translations.",
-        "industryLead": "An industry page: its words are its content file, reviewed with its module, and are changed in code.",
         "meta": "Title and description",
         "title": "Title",
         "description": "Description",
@@ -12578,6 +14414,7 @@
         "all": "All",
         "active": "Active",
         "trial": "Trial",
+        "free": "Free plan",
         "ended": "Trial ended",
         "cancelling": "Cancelling",
         "churned": "Churned",
@@ -13907,16 +15744,25 @@
   },
   "access": {
     "graceHead": "The trial has ended.",
-    "graceBody": "It ended on {end}. Everything works until {until}; after that you can read results, but not send new surveys until the subscription is confirmed.",
-    "readOnlyHead": "Read-only access.",
-    "readOnlyBody": "The trial ended on {end}, and the subscription is not confirmed. You can read results and reports, and a survey already running will finish. New surveys are sent once the subscription is confirmed.",
+    "graceBody": "It ended on {end}. Everything works until {until}; after that you move to the free plan, with the standard main survey, results and measures.",
+    "freeHead": "Free plan.",
+    "freeBody": "You can send the standard main survey, read the results and follow up with measures. Pulses, industry modules, your own questions, comparisons and the report come with a plan.",
     "confirm": "Confirm subscription",
+    "choosePlan": "Choose a plan",
     "askLeader": "The managing director confirms the subscription under Settings › Payment.",
     "cancelledHead": "The agreement has been cancelled.",
     "cancelledBody": "It runs until and including {ends}, and all data is deleted on {deleted}. Download the report before then.",
     "endedHead": "The agreement has ended.",
     "endedBody": "You can read and download everything until {deleted}. Then all data is deleted and cannot be brought back.",
     "download": "Download the report"
+  },
+  "plan": {
+    "choose": "Choose a plan",
+    "askLeader": "The managing director chooses a plan under Settings › Payment.",
+    "report": {
+      "title": "Report",
+      "body": "The report for the Labour Inspection Authority – survey, risk assessment and measures in one document – comes with a plan. On the free plan you can send the standard main survey, read the results and follow up with measures."
+    }
   },
   "newsletter": {
     "badge": "Newsletter",
@@ -13981,40 +15827,8 @@
     "readMore": "Read more"
   },
   "industry": {
-    "tagModule": "{module}: {factor}",
-    "tagCore": "Covered by the main survey",
-    "measuredIn": "Statement in {module}",
-    "measuredCore": "Statement in the main survey",
-    "coreFactor": "Factor: {factor}",
-    "coreAlongside": "Together with {list}.",
-    "seeAll": "See all the statements and the measures",
-    "seeQuestions": "See the full question set",
-    "helpline": "Need someone to talk to now? The Mental Helse helpline is open around the clock on <number>116 123</number>.",
-    "facts": {
-      "factors": "factors",
-      "statements": "statements, three per factor",
-      "statementsRange": "statements, three to five per factor",
-      "minutes": "extra answering time",
-      "minutesValue": "{n} min",
-      "threshold": "answers before a group is shown",
-      "upTo": "up to {n}"
-    },
     "coreCovered": "The main survey already covers {list}.",
-    "coreCoveredAlso": "The main survey already covers {list}, and {also}.",
-    "loopExample": "Example · {factor} · {group}",
-    "loopSteps": "The measure’s steps",
-    "remeasure": "Re-measured with “{statement}”.",
-    "faqTitle": "Frequently asked questions",
     "sources": "Sources",
-    "related": "Other industries",
-    "board": {
-      "label": "Example results by group for {company}, a fictional company",
-      "scroll": "The table scrolls sideways",
-      "factor": "Factor",
-      "low": "Low risk 65+",
-      "mid": "Medium 50–64",
-      "high": "High under 50"
-    },
     "versionPill": "{module} · question set",
     "scaleHead": "Answer scale and index",
     "tocLabel": "Contents",

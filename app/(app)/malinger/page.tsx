@@ -22,6 +22,7 @@ import {
   getRoundModules,
 } from '@/lib/modules/read'
 import { getCurrentOrgId } from '@/lib/org/current'
+import { isFreePlan } from '@/lib/billing/read'
 import { getViewerRole } from '@/lib/org/read'
 import { getResultsDigest } from '@/lib/results/digest'
 import { meanOf, notRelevantShare } from '@/lib/results/resultater'
@@ -426,6 +427,8 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
   const t = await getTranslations()
   const locale = await getLocale()
   const org = await getCurrentOrgId()
+  // the industry modules are not in the free plan (0201, D-217): shown, not switchable
+  const free = await isFreePlan(org)
   const [factors, extras, published, chosen, orgIndustry, wordings, off, lastNa, variants] = await Promise.all([
     getFactors(),
     getExtraQuestions(),
@@ -531,13 +534,13 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
         heading={t('malinger.modules.heading')}
         lead={t('malinger.modules.lead')}
         cards={cards}
-        canEdit={canEdit}
+        canEdit={canEdit && !free}
         labels={{
           on: t('malinger.modules.on'),
           off: t('malinger.modules.off'),
           onNote: t('malinger.modules.onNote'),
           offNote: t('malinger.modules.offNote'),
-          readOnly: t('malinger.modules.readOnly'),
+          readOnly: free ? t('malinger.modules.freePlan') : t('malinger.modules.readOnly'),
           none: t('malinger.modules.none'),
           failed: t('malinger.modules.failed'),
           seeAll: t('malinger.modules.seeAll'),

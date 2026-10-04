@@ -15,14 +15,14 @@ import { createClient } from '@/lib/supabase/server'
 const Result = z.union([
   z.object({ ok: z.literal(true), round_id: z.string().uuid() }),
   z.object({
-    error: z.enum(['not_available', 'round_open', 'too_soon', 'no_factors', 'read_only']),
+    error: z.enum(['not_available', 'round_open', 'too_soon', 'no_factors', 'read_only', 'free_plan']),
     available_from: z.string().optional(),
   }),
 ])
 
 export type StartResult =
   | { ok: true }
-  | { ok: false; problem: 'not_available' | 'round_open' | 'too_soon' | 'no_factors' | 'read_only'; from?: string }
+  | { ok: false; problem: 'not_available' | 'round_open' | 'too_soon' | 'no_factors' | 'read_only' | 'free_plan'; from?: string }
 
 export async function startNextPulse(): Promise<StartResult> {
   const org = await getCurrentOrgId()
@@ -47,7 +47,7 @@ export async function startNextPulse(): Promise<StartResult> {
  * tilbake» (ta_tilbake) and «＋ Legg til puls» (legg_til). The guards are the function's — daglig
  * leder, a month after this one, no open or closed round in it — and this side re-checks nothing.
  */
-const MONTH_PROBLEMS = ['not_available', 'invalid', 'past', 'occupied', 'not_planned', 'not_skipped', 'skipped', 'no_wheel', 'no_factors'] as const
+const MONTH_PROBLEMS = ['not_available', 'invalid', 'past', 'occupied', 'not_planned', 'not_skipped', 'skipped', 'no_wheel', 'no_factors', 'free_plan'] as const
 export type MonthProblem = (typeof MONTH_PROBLEMS)[number]
 export type MonthAction = 'legg_til' | 'hopp_over' | 'ta_tilbake'
 
@@ -142,11 +142,11 @@ export async function sendRoundReminder(roundId: string): Promise<{ ok: true } |
  */
 const ModuleResult = z.union([
   z.object({ ok: z.literal(true), enabled: z.boolean(), planned_rounds: z.coerce.number() }),
-  z.object({ error: z.enum(['not_allowed', 'not_available']) }),
+  z.object({ error: z.enum(['not_allowed', 'not_available', 'free_plan']) }),
 ])
 const ModuleKey = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/)
 
-export type ModuleChoiceResult = { ok: true; enabled: boolean } | { ok: false; problem: 'not_allowed' | 'not_available' }
+export type ModuleChoiceResult = { ok: true; enabled: boolean } | { ok: false; problem: 'not_allowed' | 'not_available' | 'free_plan' }
 
 export async function setOrgModule(key: string, enabled: boolean): Promise<ModuleChoiceResult> {
   const org = await getCurrentOrgId()

@@ -7,8 +7,9 @@ import type { IndustryPage } from '@/content/industries/types'
 import { flag, type FlagName } from '@/lib/flags'
 import { CitedText } from './CitedText'
 import { InVariant, VariantScope, VariantSwitch } from './Variant'
+import type { Wording } from '@/lib/modules/wording'
 import { Worded, WordingScope, WordingSwitch } from './Wording'
-import { H2, IndustryCta, SEC, SourceList, WRAP } from './IndustryView'
+import { SignupStart } from '@/components/marketing/SignupStart'
 
 /**
  * /<slug>/sporsmal (§ B3): the whole module, generated from its file — the scale, every
@@ -18,18 +19,25 @@ import { H2, IndustryCta, SEC, SourceList, WRAP } from './IndustryView'
  */
 const on = (f?: string) => !f || flag(f as FlagName)
 
+const WRAP = 'mx-auto max-w-[1120px] px-[18px] sm:px-[26px]'
+const H2 = 'm-0 font-display text-[clamp(25px,3.4vw,36px)] font-semibold leading-[1.15] tracking-[-0.01em] [text-wrap:balance]'
+const SEC = 'pt-[clamp(48px,7vw,88px)]'
+
 export async function QuestionView({
   page,
   lang,
+  wording,
 }: {
   page: IndustryPage & { module: NonNullable<IndustryPage['module']>; questionPage: NonNullable<IndustryPage['questionPage']> }
   lang: PageLang
+  /** the wording the page opens in, for a worded module (`?ordbruk=`, D-211) */
+  wording?: Wording
 }) {
   const t = await getTranslations('industry')
   const ts = await getTranslations()
   const q = page.questionPage
   const mod = moduleFile(page.module.key, lang)
-  const moduleTitle = page.moduleName?.title ?? mod.name
+  const moduleTitle = page.moduleName ?? mod.name
 
   // a factor's rationale cites its sources in order; number them in reading order down the page
   const cites = (f: (typeof mod.factors)[number]) => f.rationale + f.rationale_sources.map((k) => `{{cite:${k}}}`).join('')
@@ -299,5 +307,47 @@ export async function QuestionView({
     </div>
   )
   if (inVariants) return <VariantScope simpleIds={simple.map((f) => f.id)}>{body}</VariantScope>
-  return worded ? <WordingScope>{body}</WordingScope> : body
+  return worded ? <WordingScope initial={wording}>{body}</WordingScope> : body
+}
+
+function IndustryCta({ title, text, ts }: { title: string; text: string; ts: Awaited<ReturnType<typeof getTranslations>> }) {
+  return (
+    <div className={`${WRAP} pt-[clamp(56px,8vw,96px)]`}>
+      <section className="rounded-card bg-ink p-[clamp(26px,5vw,48px)] text-bg" aria-labelledby="kom-i-gang">
+        <h2 id="kom-i-gang" className={`${H2} text-bg`}>
+          {title}
+        </h2>
+        <p className="mb-0 mt-[12px] max-w-[56ch] text-[15.5px] leading-[1.6] opacity-[0.85]">{text}</p>
+        <div className="mt-[22px]">
+          <SignupStart
+            tone="dark"
+            label={ts('seo.signup.label')}
+            submit={ts('start.ctaFree')}
+            invalid={ts('seo.signup.invalid')}
+            invalidChecksum={ts('seo.signup.invalidChecksum')}
+          />
+        </div>
+        <p className="mb-0 mt-[9px] text-[12.5px] opacity-75">{ts('seo.common.priceLine')}</p>
+      </section>
+    </div>
+  )
+}
+
+function SourceList({ sources, title }: { sources: { key: string; title: string; url: string }[]; title: string }) {
+  return (
+    <section className={`${WRAP} pt-[48px]`} aria-labelledby="kilder">
+      <h2 id="kilder" className="m-0 font-display text-[21px] font-semibold">
+        {title}
+      </h2>
+      <ol className="mb-0 mt-[18px] max-w-[84ch] pl-[20px] text-[13.5px] text-body">
+        {sources.map((s) => (
+          <li key={s.key} id={`k-${s.key}`} className="my-[10px] scroll-mt-[90px]">
+            <a href={s.url} rel="noopener" className="break-words">
+              {s.title}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
 }

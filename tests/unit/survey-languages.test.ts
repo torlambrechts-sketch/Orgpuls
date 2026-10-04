@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import no from '@/messages/no.json'
 import source from '@/lib/i18n/survey-source.json'
+import hashes from '@/lib/i18n/respondent-ui.json'
 import { offeredLocales, surveyMessages } from '@/lib/i18n/offered'
 import { complete, nest, uiPlace, type Approved } from '@/supabase/functions/_shared/survey-texts'
-import { offeredFor, renderNotice, type MailCatalogue, type NoticeJob } from '@/supabase/functions/_shared/mail'
+import { groupsOf, offeredFor, personalLang, renderNotice, smsLead, type MailCatalogue, type NoticeJob } from '@/supabase/functions/_shared/mail'
 
 /**
  * A survey-only language (D-133): offered on the page, and its invitation sent, exactly when every
@@ -55,5 +56,59 @@ describe('the invitation in a survey-only language', () => {
     const r = renderNotice(cat, job, { lang: 'uk', member: false, name: 'Olena' }, 'https://www.orgpuls.com')
     expect(r.subject).toBe('Lumio AS: опитування 2026')
     expect(r.text).toContain('жовтня')
+  })
+})
+
+/**
+ * D-209: an employee whose own language is Polish or Lithuanian gets the invitation and the
+ * reminders in it once it is offered. personalLang used to know only bokmål and English, so a
+ * Polish employee's mail fell back to the organisation's language even with Polish switched on.
+ */
+describe('a Polish or Lithuanian employee’s own messages', () => {
+  const text = (tag: string) => (p: string) =>
+    p === 'invitasjon.subject' ? `{org}: ${tag} {round}` : p === 'sms.reminder' ? `${tag} {org} {round} {date}` : p.startsWith('round.') ? '{year}' : `${tag} ${p}`
+  const cat = {
+    no: no.mail,
+    en: no.mail,
+    pl: nest(source.mail, all(source.mail, text('PL'))),
+    lt: nest(source.mail, all(source.mail, text('LT'))),
+  } as unknown as MailCatalogue
+  const person = (lang: string | null) => ({ email: 'x@lumio.no', phone: '+4790000000', name: 'X', lang, member: false })
+  const job = (lang: string | null, kind = 'invitasjon') =>
+    ({
+      id: 'j', kind, audience: null, channel: 'email', sms_text: null, lang: 'no', org: 'Lumio AS', k: 5,
+      round: { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: null, closes_at: '2026-10-05T07:00:00Z' },
+      recipients: [person(lang)],
+      token: 'k3Xw9QpL2vRt7YbN4mZc8A',
+      locales: { en: { missing: 0, ui: [], auto: true }, pl: { missing: 0, ui: [] }, lt: { missing: 0, ui: [] } },
+    }) as unknown as NoticeJob
+  // the signed-off flags (lib/flags.signed-off.json), the page strings of both languages ready
+  const offer = { flags: new Set(['locale_en', 'locale_pl', 'locale_lt']), hashes, uiReady: { pl: true, lt: true } }
+
+  it('are in their language when it is offered', () => {
+    for (const [lang, tag] of [['pl', 'PL'], ['lt', 'LT']] as const) {
+      const j = job(lang)
+      const offered = offeredFor(cat, j, offer)
+      expect(offered).toEqual(['no', 'en', 'pl', 'lt'])
+      expect(personalLang(j, j.recipients[0]!, offered)).toBe(lang)
+      const g = groupsOf(j, offered)[0]!
+      expect(g.lang).toBe(lang)
+      const r = renderNotice(cat, j, g, 'https://www.orgpuls.com')
+      expect(r.subject).toBe(`Lumio AS: ${tag} 2026`)
+      expect(r.html).toContain(`<html lang="${lang}">`)
+      const rem = job(lang, 'paminnelse')
+      expect(smsLead(cat, rem, personalLang(rem, rem.recipients[0]!, offered))).toMatch(new RegExp(`^${tag} Lumio AS 2026 `))
+    }
+  })
+
+  it('stay in bokmål while the language is not offered, and bokmål mail keeps lang="nb"', () => {
+    const j = job('pl')
+    const off = { ...offer, flags: new Set(['locale_en']) }
+    const offered = offeredFor(cat, j, off)
+    expect(offered).toEqual(['no', 'en'])
+    expect(personalLang(j, j.recipients[0]!, offered)).toBe('no')
+    expect(renderNotice(cat, j, groupsOf(j, offered)[0]!, 'https://www.orgpuls.com').html).toContain('<html lang="nb">')
+    // an unknown language is no language: the organisation's
+    expect(personalLang(job('xx'), person('xx') as never, ['no', 'en', 'pl', 'lt'])).toBe('no')
   })
 })
