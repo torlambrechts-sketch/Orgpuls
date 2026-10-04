@@ -11337,3 +11337,23 @@ are taken by the CRM branch, so this is D-226.
   and taken back, access and the tick, confirming again, the admin's two functions, the grants.
 - **Not built.** No mail when the move takes effect; the daglig leder sees the date on Oppsett › Betaling
   when choosing it, and the banner says the free plan once it begins.
+
+## D-227 — Free on the home page; «arbeidsmiljøundersøkelse» leads the titles (2026-10-04)
+
+On the owner's word: the free plan on the home page, and a look at whether «medarbeiderundersøkelse» and
+«arbeidsmiljøundersøkelse» are the same (findings and sources: docs/marketing/terminologi-arbeidsmiljoundersokelse.md).
+
+- **Home page.** The hero's button reads «Kom i gang gratis» (`site.home.cta`, the home page only; every other
+  page keeps «Prøv gratis i 15 dager»), the line under it «Gratis å starte · uten betalingskort · alt
+  inkludert fra 265 kr/mnd», and the budget card, the start bands and the sign-up form say the free plan
+  follows the 15 days. The design's words were the trial's; this follows D-217.
+- **Terms.** Neither word is the law's; Arbeidstilsynet uses both. «Arbeidsmiljøundersøkelse» now leads the
+  home description, the five industry titles, Pris, Plattform, Bruksområder, the articles index and the
+  Bransjer H1; «medarbeiderundersøkelse» stays in the home title («… etter arbeidsmiljøloven») and on the
+  pages that rank for it; «arbeidsmiljøkartlegging» leaves the titles. English follows where it differed.
+- **Not changed.** `resultater.kicker` («Medarbeiderundersøkelse · lukket …») and the respondent mail text
+  `respond.thread.contact.mailBody` also say «medarbeiderundersøkelse»: the first is an app screen under the
+  pixel gate, the second a respondent text that needs the five survey languages (X-089). Both wait for a
+  piece of work of their own. The orphaned `seo.lp.byggOgAnlegg.*` and `seo.lp.helseOgOmsorg.*` (D-213) are
+  left as they are.
+

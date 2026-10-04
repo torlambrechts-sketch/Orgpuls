@@ -4353,8 +4353,8 @@
       "related": "Relaterte sider"
     },
     "home": {
-      "title": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging | Orgpuls",
-      "description": "Medarbeiderundersøkelse som kartlegger det psykososiale arbeidsmiljøet, gjør funnene om til tiltak og viser om de virker. 15 dager gratis.",
+      "title": "Medarbeiderundersøkelse etter arbeidsmiljøloven | Orgpuls",
+      "description": "Arbeidsmiljøundersøkelse for kartleggingen arbeidsmiljøloven krever: anonymt, med tiltak og rapport til Arbeidstilsynet. Gratis å starte.",
       "articlesEyebrow": "Artikler",
       "articlesTitle": "Les deg opp før dere starter",
       "articlesAll": "Alle artikler →",
@@ -4395,7 +4395,7 @@
     },
     "index": {
       "title": "Artikler om arbeidsmiljø og kartlegging | Orgpuls",
-      "description": "Praktiske artikler om psykososialt arbeidsmiljø og medarbeiderundersøkelser. Les om anonymitet, verneombudets rolle og hva loven krever.",
+      "description": "Praktiske artikler om psykososialt arbeidsmiljø og arbeidsmiljøundersøkelser. Les om anonymitet, verneombudets rolle og hva loven krever.",
       "crumb": "Artikler",
       "eyebrow": "Artikler",
       "h1": "Arbeidsmiljø og lovkrav forklart",
@@ -5968,7 +5968,7 @@
     "pages": {
       "plattform": {
         "title": "Plattformen: kartlegging, tiltak og oppfølging | Orgpuls",
-        "description": "Anonym arbeidsmiljøkartlegging med resultat per faktor og avdeling. Tiltak med eier og frist, puls som viser om de virket, og rapport til Arbeidstilsynet.",
+        "description": "Anonym arbeidsmiljøundersøkelse med resultat per faktor og avdeling. Tiltak med eier og frist, puls som viser om de virket, og rapport til Arbeidstilsynet.",
         "crumb": "Plattform",
         "kicker": "Plattformen",
         "h1": "Én plattform for hele runden: kartlegge, forstå, handle og se at det virket",
@@ -6125,7 +6125,7 @@
         "finalTitle": "Se plattformen på deres egen virksomhet"
       },
       "bruksomrader": {
-        "title": "Bruksområder: arbeidsmiljøkartlegging i praksis | Orgpuls",
+        "title": "Bruksområder: arbeidsmiljøundersøkelse i praksis | Orgpuls",
         "description": "Åtte situasjoner i praksis: uten HR-avdeling, årlig kartlegging, puls, tilsyn, ett team som skiller seg ut, omorganisering, ny leder og AMU.",
         "crumb": "Bruksområder",
         "kicker": "Bruksområder",
@@ -6201,8 +6201,8 @@
         ]
       },
       "priser": {
-        "title": "Priser: gratis å starte, fra 265 kr/mnd | Orgpuls",
-        "description": "Gratis for hovedkartleggingen. Liten 265 kr og Vanlig 565 kr i måneden eks. mva., to måneder gratis med årlig avtale. 15 dager med alt, uten kort.",
+        "title": "Priser: gratis arbeidsmiljøundersøkelse | Orgpuls",
+        "description": "Gratis årlig arbeidsmiljøundersøkelse. Liten 265 kr og Vanlig 565 kr i måneden eks. mva., to måneder gratis med årlig avtale. 15 dager med alt, uten kort.",
         "crumb": "Pris",
         "kicker": "Pris",
         "h1": "Gratis å starte. Alt inkludert fra 265 kr i måneden.",
@@ -7043,7 +7043,7 @@
       }
     },
     "home": {
-      "h1": "Orgpuls – kartlegging av arbeidsmiljøet for små og mellomstore bedrifter",
+      "h1": "Orgpuls – arbeidsmiljøundersøkelse og kartlegging av arbeidsmiljøet for små og mellomstore bedrifter",
       "example": "Tenkte eksempeldata.",
       "carousel": {
         "roledescription": "karusell",
@@ -8203,7 +8203,7 @@
       "handel": {
         "nav": "Handel",
         "seo": {
-          "title": "Arbeidsmiljøkartlegging for butikk og varehandel | Orgpuls",
+          "title": "Arbeidsmiljøundersøkelse for butikk og varehandel | Orgpuls",
           "description": "Kartlegg det psykososiale arbeidsmiljøet i butikken: vold og trusler, alenevakter, krevende kunder og bemanning. Anonymt på mobilen. 15 dager gratis."
         },
         "hero": {
@@ -8507,7 +8507,7 @@
       "bygg": {
         "nav": "Bygg og anlegg",
         "seo": {
-          "title": "Arbeidsmiljøkartlegging for bygg og anlegg | Orgpuls",
+          "title": "Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls",
           "description": "Kartlegg arbeidsmiljøet på byggeplassen: tidspress, mange firma, språk på laget og nye folk. Anonymt på SMS eller QR i brakka. 15 dager gratis."
         },
         "hero": {
@@ -8823,7 +8823,7 @@
       "kontor": {
         "nav": "Kunnskap og kontor",
         "seo": {
-          "title": "Arbeidsmiljøkartlegging for kunnskap og kontor | Orgpuls",
+          "title": "Arbeidsmiljøundersøkelse for kunnskap og kontor | Orgpuls",
           "description": "Kartlegg arbeidsmiljøet i rådgivning, IT, finans og media: konsentrasjon, tilgjengelighet, hybridarbeid og KI. Forenklet eller utvidet. 15 dager gratis."
         },
         "hero": {
@@ -9221,7 +9221,7 @@
       "helse": {
         "nav": "Helse og omsorg",
         "seo": {
-          "title": "Arbeidsmiljøkartlegging for helse og omsorg | Orgpuls",
+          "title": "Arbeidsmiljøundersøkelse for helse og omsorg | Orgpuls",
           "description": "Kartlegg arbeidsmiljøet i omsorg, hjemmetjeneste og klinikk: vold og trusler, bemanning, turnus og deltid. Anonymt på SMS eller QR. 15 dager gratis."
         },
         "hero": {
@@ -9553,7 +9553,7 @@
       "barnehage": {
         "nav": "Barnehage og skole",
         "seo": {
-          "title": "Arbeidsmiljøkartlegging for barnehage og skole | Orgpuls",
+          "title": "Arbeidsmiljøundersøkelse for barnehage og skole | Orgpuls",
           "description": "Kartlegg arbeidsmiljøet i barnehage, skole og SFO: vold og trusler, bemanning, foreldre og tid til kjerneoppgavene. Anonymt på mobilen. 15 dager gratis."
         },
         "hero": {
@@ -9905,7 +9905,7 @@
     },
     "bransjer": {
       "crumb": "Bransjer",
-      "h1": "Arbeidsmiljø­kartlegging som kjenner bransjen deres",
+      "h1": "Arbeidsmiljø­undersøkelse som kjenner bransjen deres",
       "lead": "Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. En bransjemodul spør i tillegg om det som er mest risikabelt hos dere – alenevakter i butikken, vold i omsorgen, tidspress på byggeplassen – og gir tiltak som passer hverdagen.",
       "toModules": "Finn bransjen deres",
       "how": {
