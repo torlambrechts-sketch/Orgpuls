@@ -141,6 +141,7 @@ export default async function RespondPage({
       logo={form.logo ? logoPath(form.logo) : null}
       questions={questions}
       engagement={engagement}
+      replyNotice={form.reply_notice}
       copy={respondCopy(tl, form.threshold, form.modules.reduce((n, m) => n + m.minutes, 0))}
       languages={
         offered && offered.length > 1

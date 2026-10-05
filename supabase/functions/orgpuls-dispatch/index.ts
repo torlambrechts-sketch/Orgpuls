@@ -73,7 +73,10 @@ import {
   renderLifecycle,
   renderNotice,
   renderOptin,
+  renderReplyNotice,
   renderTicketReply,
+  replyNoticeSms,
+  threadLink,
   pick,
   smsLead,
   unsubscribeApi,
@@ -81,6 +84,7 @@ import {
   type LifecycleJob,
   type MailCatalogue,
   type NoticeJob,
+  type ReplyNoticeJob,
   type TicketJob,
   withMailOverrides,
 } from '../_shared/mail.ts'
@@ -648,6 +652,50 @@ Deno.serve(async (req) => {
       if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tests }, 502)
     }
   }
+
+  // a person who asked to be told when management answers their comment (0204, X-103). The claim
+  // opens the seal and hands over the address and the conversation's key; neither is logged here,
+  // and a failure is reported by its code only
+  const notices = { sent: 0, retry: 0, failed: 0 }
+  while (Date.now() - started < BUDGET_MS) {
+    const { data, error } = await svc.rpc('reply_notice_claim', { p_batch: BATCH })
+    if (error) {
+      console.error(`[dispatch] reply notice claim failed: ${error.code ?? ''} ${error.message}`)
+      break
+    }
+    const jobs = (data ?? []) as ReplyNoticeJob[]
+    if (jobs.length === 0) break
+    for (const job of jobs) {
+      let outcome: SendResult
+      try {
+        if (job.channel === 'sms' && job.phone) {
+          const content = smsContent(replyNoticeSms(cat, job), threadLink(appUrl, job.key))
+          outcome = await brevoSendSms(key, { sender: smsSender, recipient: job.phone, content, unicode: smsLength(content).unicode, tag: 'orgpuls-svarvarsel' })
+        } else if (job.email) {
+          const r = renderReplyNotice(cat, job, appUrl)
+          outcome = await brevoSend(key, { sender, to: [{ email: job.email, name: '' }], subject: r.subject, html: r.html, text: r.text, tag: 'orgpuls-svarvarsel' })
+        } else {
+          outcome = { ok: false, retryable: false, auth: false, code: 'unreachable' }
+        }
+      } catch (e) {
+        console.error(`[dispatch] reply notice ${job.id}: render failed: ${(e as Error).message}`)
+        outcome = { ok: false, retryable: false, auth: false, code: 'render' }
+      }
+      await svc.rpc('reply_notice_done', {
+        p_id: job.id,
+        p_ok: outcome.ok,
+        p_error: outcome.ok ? null : outcome.code,
+        p_permanent: !outcome.ok && !outcome.retryable,
+      })
+      if (outcome.ok) notices.sent++
+      else if (outcome.retryable) notices.retry++
+      else notices.failed++
+      if (!outcome.ok) console.error(`[dispatch] reply notice ${job.id}: ${outcome.code}`)
+      if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, notices }, 502)
+    }
+    if (jobs.length < BATCH) break
+  }
+  if (notices.sent + notices.retry + notices.failed) console.log(`[dispatch] reply notices: sent ${notices.sent}, retry ${notices.retry}, failed ${notices.failed}`)
 
   // replies to support tickets (0051, D-92), answered to the support inbox
   const replyTo = { email: Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no', name: 'Orgpuls' }

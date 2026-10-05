@@ -744,7 +744,8 @@
       "lead": "Ledelsen kan svare deg uten å vite hvem du er. Lenken under er den eneste veien tilbake til svaret. Lagre den nå: vi kan ikke sende den på nytt, og alle som har lenken kan lese samtalen.",
       "open": "{count, plural, one {Åpne samtalen} other {Åpne samtale {n}}}",
       "copy": "Kopier lenken",
-      "copied": "Kopiert"
+      "copied": "Kopiert",
+      "notified": "Du får beskjed når ledelsen svarer."
     },
     "thread": {
       "title": "Samtalen din",
@@ -770,6 +771,11 @@
         "note": "E-posten sendes fra din egen e-post til {email}. Orgpuls ser den ikke, og ingen får vite om du sender den.",
         "subject": "Kommentaren min om {factor}",
         "mailBody": "Hei {name},\n\nJeg er den som skrev kommentaren om {factor} i arbeidsmiljøundersøkelsen. Du ba om å få snakke med meg direkte.\n\n"
+      },
+      "notice": {
+        "title": "Du får beskjed når ledelsen svarer",
+        "body": "Til e-postadressen eller mobilnummeret invitasjonen kom til. Skrur du det av, sletter Orgpuls koblingen mellom deg og denne samtalen. Det kan ikke skrus på igjen.",
+        "stop": "Skru av beskjeden"
       }
     },
     "countLabel": "Telles for hele virksomheten",
@@ -798,6 +804,15 @@
       "ongoing": "Pågår",
       "footer": "Dette er tiltak dere har jobbet med siden målingen i {month}.",
       "first": "Dette er første måling. Etterpå får dere se hva som blir gjort med svarene."
+    },
+    "notice": {
+      "title": "Vil du få beskjed når ledelsen svarer?",
+      "lead": "Du har skrevet en kommentar. Ledelsen kan svare deg uten å vite hvem du er, og vi kan si fra når de gjør det.",
+      "point1": "Beskjeden kommer til e-postadressen eller mobilnummeret invitasjonen kom til. Den sier bare at du har fått svar, ikke hva du skrev.",
+      "point2": "For å kunne sende den lagrer Orgpuls kryptert hvem som skrev kommentarene. Det knytter deg til hele besvarelsen din. Ledelsen og arbeidsgiveren din får aldri se det.",
+      "point3": "Koblingen slettes når samtalen avsluttes, og senest etter ett år. Du kan skru av beskjeden i samtalen når som helst.",
+      "yes": "Ja, gi meg beskjed",
+      "no": "Nei takk"
     },
     "reason": "Spørres fordi dere jobber med: {title} (startet {date})",
     "reasonNoDate": "Spørres fordi dere jobber med: {title}",
@@ -1309,6 +1324,10 @@
     "dialogue": "Tillat anonym toveis-samtale på kommentarer",
     "dialogueOn": "Lederen kan svare på en kommentar uten å få vite hvem som skrev den, og den ansatte kan svare tilbake. Samtalen lever i Samtaler.",
     "dialogueOff": "Kommentarer blir lest, men ikke besvart. Den som skrev får aldri vite om noen så den.",
+    "replyNotice": {
+      "label": "Spør om de vil få beskjed når dere svarer",
+      "sub": "Den som har skrevet en kommentar, får spørsmålet til slutt i undersøkelsen. Sier de ja, lagrer Orgpuls koblingen kryptert, og dere ser den aldri. Beskjeden går til e-postadressen eller mobilnummeret invitasjonen kom til."
+    },
     "groupHead": "{count, plural, one {# ansatt} other {# ansatte}}",
     "groupHeadAnswered": "{count, plural, one {# ansatt} other {# ansatte}} · {answered} svarte sist",
     "groupWarnThin": "{group} har færre enn {threshold} ansatte. Gruppa får spørsmålene, men vises bare som del av helheten, ikke som egen rad.",
@@ -3314,6 +3333,15 @@
     "lenke": {
       "subject": "Lenken du ba om: {round} i {org}",
       "lead": "Her er lenken din til {round} i {org}, som du ba om fra plakaten. Har du ikke bedt om den, kan du se bort fra denne e-posten."
+    },
+    "svarvarsel": {
+      "subject": "Ny melding i samtalen din",
+      "svar": "Ledelsen i {org} har svart i samtalen din fra arbeidsmiljøundersøkelsen.",
+      "kontakt": "Ledelsen i {org} vil gjerne snakke med deg direkte. I samtalen ser du hva det betyr, og det er helt ditt valg.",
+      "cta": "Åpne samtalen",
+      "why": "Du får denne beskjeden fordi du ba om det da du svarte. Ledelsen vet ikke hvem du er, og ser ikke at du fikk den. Du kan skru av beskjedene i samtalen.",
+      "smsSvar": "{org}: Ledelsen har svart i samtalen din. Les her:",
+      "smsKontakt": "{org}: Ledelsen vil gjerne snakke med deg. Se samtalen din:"
     },
     "forvarsel": {
       "subject": "{round} i {org} starter {date}",
@@ -6920,7 +6948,7 @@
       {
         "h": "Vedlegg 1 – Svar, brukere og tekniske opplysninger",
         "p": [
-          "Svarene lagres uten navn, e-postadresse, invitasjon eller annen kobling til den som svarte: bare hvilken avdeling svaret gjelder, og hvilken time det kom inn. Resultater for en avdeling vises ikke før minst fem har svart, eller færre — aldri under tre — der virksomheten har valgt en lavere grense for små team. Kommentarer og svar i anonyme samtaler lagres på samme måte. De kan inneholde personopplysninger hvis den som skriver tar det med, og vises aldri med navn.",
+          "Svarene lagres uten navn, e-postadresse, invitasjon eller annen kobling til den som svarte: bare hvilken avdeling svaret gjelder, og hvilken time det kom inn. Resultater for en avdeling vises ikke før minst fem har svart, eller færre — aldri under tre — der virksomheten har valgt en lavere grense for små team. Kommentarer og svar i anonyme samtaler lagres på samme måte. De kan inneholde personopplysninger hvis den som skriver tar det med, og vises aldri med navn. Unntaket er en ansatt som selv ber om beskjed når ledelsen svarer på en kommentar vedkommende har skrevet: da lagres hvem som skrev den, kryptert og bare for å sende beskjeden. Koblingen gjelder hele besvarelsen. Den er aldri synlig for virksomheten, Orgpuls utleverer den ikke til virksomheten, og den slettes når samtalen avsluttes, når den ansatte skrur av beskjeden, og senest etter ett år.",
           "Om brukerne lagres navn, e-postadresse, rolle og avdeling. Passord lagres bare som en kryptografisk hash.",
           "Spørsmålene er utformet for ikke å samle inn helseopplysninger eller andre særlige kategorier av personopplysninger, jf. GDPR artikkel 9 og arbeidsmiljøloven § 9-3. Spørsmålene om krenkende atferd og vold rapporteres bare som antall for hele virksomheten.",
           "Underdatabehandlerne registrerer IP-adresse og tidspunkt i driftslogger, som brukes til drift og sikkerhet. Statistikken over bruk av nettsidene bruker ikke informasjonskapsler og sier ikke hvem som besøker.",

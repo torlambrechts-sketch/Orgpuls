@@ -29,7 +29,7 @@ describe('the payload carries «ikke relevant» in place of a value', () => {
       extra: [],
       module: { answers: [{ item: ITEM, na: true }], count: [], segments: [] },
     })
-    expect(r).toEqual({ ok: true, answers: 0, threads: [] })
+    expect(r).toEqual({ ok: true, answers: 0, threads: [], notice: false })
     const [, args] = rpc.mock.calls[0]!
     expect(args.p_answers).toEqual([{ factor: 'kontakt', ordinal: 2, na: true }])
     expect(args.p_module.answers).toEqual([{ item: ITEM, na: true }])

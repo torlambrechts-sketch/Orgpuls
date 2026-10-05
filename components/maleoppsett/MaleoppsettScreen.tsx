@@ -47,6 +47,7 @@ export interface MaleoppsettView {
   extraCount: number
   commentPolicy: CommentPolicy
   allowDialogue: boolean
+  replyNotice: boolean
   reminderDay: number | null
   closeAfterDays: number
   evaluationCadence: EvaluationCadence
@@ -292,6 +293,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       factorKeys: view.factors.filter((f) => f.selected).map((f) => f.key),
       commentPolicy: view.commentPolicy,
       allowDialogue: view.allowDialogue,
+      replyNotice: view.replyNotice,
       reminderDay: view.reminderDay,
       closeAfterDays: view.closeAfterDays,
       evaluationCadence: view.evaluationCadence,
@@ -347,6 +349,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       commentHead: t('maleoppsett.commentHead'),
       commentLead: t('maleoppsett.commentLead'),
       dialogue: t('maleoppsett.dialogue'),
+      replyNotice: { label: t('maleoppsett.replyNotice.label'), sub: t('maleoppsett.replyNotice.sub') },
       dialogueNote: view.allowDialogue
         ? t('maleoppsett.dialogueOn')
         : t('maleoppsett.dialogueOff'),

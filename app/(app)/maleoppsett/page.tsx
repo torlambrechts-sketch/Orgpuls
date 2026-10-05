@@ -186,6 +186,7 @@ export default async function MaleoppsettPage({
     extraCount: setup.extraKeys.length,
     commentPolicy: setup.commentPolicy,
     allowDialogue: setup.allowDialogue,
+    replyNotice: setup.replyNotice,
     reminderDay: setup.reminderDay,
     closeAfterDays: setup.closeAfterDays,
     evaluationCadence: setup.evaluationCadence,
@@ -279,7 +280,10 @@ export default async function MaleoppsettPage({
               setup.reminderDay !== standard.reminderDay ||
               setup.finalReminder !== standard.finalReminder ||
               setup.closeAfterDays !== (setup.kind === 'grunnlinje' ? standard.closeDaysGrunnlinje : standard.closeDaysPuls),
-            kommentarer: setup.commentPolicy !== standard.commentPolicy || setup.allowDialogue !== standard.allowDialogue,
+            kommentarer:
+              setup.commentPolicy !== standard.commentPolicy ||
+              setup.allowDialogue !== standard.allowDialogue ||
+              setup.replyNotice !== standard.replyNotice,
             tillegg:
               setup.kind === 'grunnlinje' &&
               [...setup.extraKeys].sort().join() !== [...standard.extras].sort().join(),

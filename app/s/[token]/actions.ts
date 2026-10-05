@@ -76,6 +76,8 @@ const Payload = z.object({
   extra: z.array(Extra).max(50),
   module: Module.optional(),
   own: z.array(Own).max(5).optional(),
+  // 0204: the person's own yes to being told when management answers a comment; absent is no
+  notify: z.literal(true).optional(),
 })
 
 /**
@@ -85,7 +87,7 @@ const Payload = z.object({
  * nowhere else — never into a log, a URL the server sees, or a cookie.
  */
 export type SubmitResult =
-  | { ok: true; answers: number; threads: string[] }
+  | { ok: true; answers: number; threads: string[]; notice: boolean }
   | { ok: false; error: string }
 
 export async function submitResponse(input: unknown): Promise<SubmitResult> {
@@ -99,6 +101,7 @@ export async function submitResponse(input: unknown): Promise<SubmitResult> {
     p_extra: parsed.data.extra,
     ...(parsed.data.module ? { p_module: parsed.data.module } : {}),
     ...(parsed.data.own ? { p_own: parsed.data.own } : {}),
+    ...(parsed.data.notify ? { p_notify: true } : {}),
   })
 
   // the message is deliberately not read: it can quote the statement that failed
@@ -109,6 +112,7 @@ export async function submitResponse(input: unknown): Promise<SubmitResult> {
       ok: z.literal(true),
       answers: z.coerce.number(),
       threads: z.array(z.string().regex(/^[0-9a-f]{64}$/)).default([]),
+      notice: z.boolean().default(false),
     }),
     z.object({ ok: z.literal(false), error: z.string() }),
   ])

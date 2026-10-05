@@ -37,6 +37,7 @@ const Setup = z.object({
   factorKeys: z.array(z.string().min(1).max(40)).min(1),
   commentPolicy: z.enum(COMMENT_POLICIES as unknown as [string, ...string[]]),
   allowDialogue: z.boolean(),
+  replyNotice: z.boolean(),
   reminderDay: z.union([z.null(), z.number().int().min(1).max(14)]),
   closeAfterDays: z.number().int().min(1).max(60),
   evaluationCadence: z.enum(EVALUATION_CADENCES as unknown as [string, ...string[]]),
@@ -54,6 +55,7 @@ export async function saveSetup(formData: FormData): Promise<SetupActionResult> 
     factorKeys: formData.getAll('factorKeys'),
     commentPolicy: formData.get('commentPolicy'),
     allowDialogue: formData.get('allowDialogue') !== null && formData.get('allowDialogue') !== '',
+    replyNotice: formData.get('replyNotice') !== null && formData.get('replyNotice') !== '',
     reminderDay: reminderRaw === '' ? null : Number(reminderRaw),
     closeAfterDays: Number(formData.get('closeAfterDays')),
     evaluationCadence: formData.get('evaluationCadence'),
@@ -89,6 +91,7 @@ export async function saveSetup(formData: FormData): Promise<SetupActionResult> 
     .update({
       comment_policy: s.commentPolicy,
       allow_dialogue: s.allowDialogue,
+      reply_notice: s.replyNotice,
       reminder_day: s.reminderDay,
       close_after_days: s.closeAfterDays,
     })

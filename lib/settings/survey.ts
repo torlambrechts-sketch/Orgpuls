@@ -22,6 +22,8 @@ export type SurveyDefaults = {
   quietHours: boolean
   commentPolicy: (typeof COMMENT_POLICIES)[number]
   allowDialogue: boolean
+  /** ask a person who wrote a comment whether to tell them when management answers (0204) */
+  replyNotice: boolean
   extras: string[]
   extrasOffReason: string | null
 }
@@ -39,6 +41,7 @@ export const PRODUCT_DEFAULTS: SurveyDefaults = {
   quietHours: true,
   commentPolicy: 'lave',
   allowDialogue: true,
+  replyNotice: true,
   extras: [...EXTRA_KEYS],
   extrasOffReason: null,
 }
@@ -51,6 +54,7 @@ const Row = z.object({
   quiet_hours: z.boolean(),
   comment_policy: z.enum(COMMENT_POLICIES),
   allow_dialogue: z.boolean(),
+  reply_notice: z.boolean(),
   extras: z.array(z.string()),
   extras_off_reason: z.string().nullable(),
   updated_at: z.string(),
@@ -62,7 +66,7 @@ export async function getSurveyDefaults(orgId: string): Promise<(SurveyDefaults 
   const { data, error } = await supabase
     .schema('app')
     .from('survey_defaults')
-    .select('close_days_grunnlinje, close_days_puls, reminder_day, final_reminder, quiet_hours, comment_policy, allow_dialogue, extras, extras_off_reason, updated_at')
+    .select('close_days_grunnlinje, close_days_puls, reminder_day, final_reminder, quiet_hours, comment_policy, allow_dialogue, reply_notice, extras, extras_off_reason, updated_at')
     .eq('org_id', orgId)
     .limit(1)
   if (readFailed('getSurveyDefaults', error, data)) return null
@@ -78,6 +82,7 @@ export async function getSurveyDefaults(orgId: string): Promise<(SurveyDefaults 
     quietHours: r.quiet_hours,
     commentPolicy: r.comment_policy,
     allowDialogue: r.allow_dialogue,
+    replyNotice: r.reply_notice,
     extras: r.extras,
     extrasOffReason: r.extras_off_reason,
     updatedAt: r.updated_at,

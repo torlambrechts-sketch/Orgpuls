@@ -101,6 +101,8 @@ const Form = z.object({
     .transform((v) => v ?? {}),
   publish_on: z.string().nullish().transform((v) => v ?? null),
   page: z.boolean().nullish().transform((v) => v ?? false),
+  // 0204: ask, at the end, whether to be told when management answers a comment
+  reply_notice: z.boolean().nullish().transform((v) => v ?? false),
 })
 
 /**

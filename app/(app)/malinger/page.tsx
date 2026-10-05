@@ -629,6 +629,7 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
         quietHours: values.quietHours,
         commentPolicy: values.commentPolicy,
         allowDialogue: values.allowDialogue,
+        replyNotice: values.replyNotice,
         extras: values.extras.filter((x): x is DefaultsValues['extras'][number] => (EXTRA_KEYS as readonly string[]).includes(x)),
         extrasOffReason: values.extrasOffReason,
       }}
@@ -695,6 +696,7 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
           note: t(`maleoppsett.comment.${c}.note`),
         })),
         dialogue: t('maleoppsett.dialogue'),
+        replyNotice: { label: t('maleoppsett.replyNotice.label'), sub: t('maleoppsett.replyNotice.sub') },
         modules: {
           label: k('modules.label'),
           note: on.length ? k('modules.on', { modules: list(on) }) : k('modules.none'),

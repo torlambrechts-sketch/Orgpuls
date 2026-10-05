@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState, useTransition } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { followUp, readThread, type RespondentThread as Thread } from '@/app/s/samtale/actions'
+import { followUp, readThread, stopNotice, type RespondentThread as Thread } from '@/app/s/samtale/actions'
 
 /**
  * A respondent's own conversation (D-78): their comment, what management answered, and
@@ -96,6 +96,8 @@ export function RespondentThread() {
 
       {open && thread.contact ? <ContactOffer contact={thread.contact} factor={tf(`factor.${thread.factor_key}.label`)} /> : null}
 
+      {open && thread.notify && key ? <NoticeOn onStop={async () => { if ((await stopNotice(key)).ok) await load(key) }} /> : null}
+
       {open ? (
         <div className="mt-[18px]">
           <label className="block text-[13px] font-semibold" htmlFor="svar">
@@ -161,6 +163,32 @@ function ContactOffer({ contact, factor }: { contact: { name: string | null; ema
         {t('cta', { name })}
       </a>
       <p className="mb-0 mt-[10px] text-[12px] leading-[1.55] text-mut [text-wrap:pretty]">{t('note', { email: contact.email })}</p>
+    </section>
+  )
+}
+
+/**
+ * The person asked, at the end of the survey, to be told when management answers (0204). Turning
+ * it off forgets the link between them and this conversation; it cannot be turned on again,
+ * because nothing here knows who they are.
+ */
+function NoticeOn({ onStop }: { onStop: () => Promise<void> }) {
+  const t = useTranslations('respond.thread.notice')
+  const [pending, start] = useTransition()
+  return (
+    <section aria-labelledby="varsel" className="mt-[18px] rounded-opt border border-line bg-sf px-[16px] py-[14px]">
+      <h2 id="varsel" className="m-0 text-[13.5px] font-bold leading-[1.4]">
+        {t('title')}
+      </h2>
+      <p className="mb-0 mt-[4px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{t('body')}</p>
+      <button
+        type="button"
+        disabled={pending}
+        onClick={() => start(onStop)}
+        className="mt-[10px] h-[38px] cursor-pointer rounded-opt border border-line bg-transparent px-[14px] text-[13px] font-semibold text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+      >
+        {t('stop')}
+      </button>
     </section>
   )
 }

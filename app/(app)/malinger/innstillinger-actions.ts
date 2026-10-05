@@ -22,6 +22,7 @@ const Values = z.object({
   quietHours: z.boolean(),
   commentPolicy: z.enum(COMMENT_POLICIES),
   allowDialogue: z.boolean(),
+  replyNotice: z.boolean(),
   extras: z.array(z.enum(EXTRA_KEYS)).max(EXTRA_KEYS.length),
   extrasOffReason: z.string().max(500).nullable(),
 })
@@ -53,6 +54,7 @@ export async function saveSurveyDefaults(values: DefaultsValues): Promise<SaveDe
       quiet_hours: v.data.quietHours,
       comment_policy: v.data.commentPolicy,
       allow_dialogue: v.data.allowDialogue,
+      reply_notice: v.data.replyNotice,
       extras: v.data.extras,
       extras_off_reason: v.data.extrasOffReason,
     },

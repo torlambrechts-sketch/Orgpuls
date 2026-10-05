@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl'
  * here and in whatever the person saves; the database keeps a digest. Nothing is stored
  * for them — the screen says so, because a lost link cannot be sent again.
  */
-export function ThreadLinks({ keys }: { keys: string[] }) {
+export function ThreadLinks({ keys, notified = false }: { keys: string[]; notified?: boolean }) {
   const t = useTranslations('respond.keys')
   const [copied, setCopied] = useState<number | null>(null)
   if (keys.length === 0) return null
@@ -22,6 +22,8 @@ export function ThreadLinks({ keys }: { keys: string[] }) {
     <div className="mx-[22px] mb-[24px] rounded-card border border-line bg-sf px-[18px] py-[18px] text-left">
       <div className="text-[15px] font-bold">{t('title', { count: keys.length })}</div>
       <p className="mb-0 mt-[6px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">{t('lead')}</p>
+      {/* 0204: the person said yes, and the round lets them be told */}
+      {notified ? <p className="mb-0 mt-[6px] text-[13px] font-semibold leading-[1.55] text-ink [text-wrap:pretty]">{t('notified')}</p> : null}
       <div className="mt-[12px] flex flex-col gap-[8px]">
         {keys.map((k, i) => (
           <div key={k} className="flex flex-wrap items-center gap-[8px]">

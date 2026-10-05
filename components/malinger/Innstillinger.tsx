@@ -54,6 +54,8 @@ export type InnstillingerCopy = {
   commentLead: string
   comments: { value: DefaultsValues['commentPolicy']; label: string; note: string }[]
   dialogue: string
+  /** 0204: ask a person who wrote a comment whether to tell them when management answers */
+  replyNotice: { label: string; sub: string }
   modules: { label: string; note: string; link: string }
   s3: string
   closeHeadGrunnlinje: string
@@ -301,6 +303,15 @@ export function Innstillinger({
             disabled={off}
             onChange={() => set({ allowDialogue: !v.allowDialogue })}
             className="mt-[11px] bg-bg"
+          />
+          <CheckRow
+            name="replyNotice"
+            label={copy.replyNotice.label}
+            sub={copy.replyNotice.sub}
+            checked={v.allowDialogue && v.replyNotice}
+            disabled={off || !v.allowDialogue}
+            onChange={() => set({ replyNotice: !v.replyNotice })}
+            className="mt-[8px] bg-bg"
           />
         </div>
 

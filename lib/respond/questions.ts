@@ -180,5 +180,12 @@ export function respondCopy(t: T, threshold: number, moduleMinutes = 0): Respond
       ongoing: t('respond.since.ongoing'),
       first: t('respond.since.first'),
     },
+    notice: {
+      title: t('respond.notice.title'),
+      lead: t('respond.notice.lead'),
+      points: [t('respond.notice.point1'), t('respond.notice.point2'), t('respond.notice.point3')],
+      yes: t('respond.notice.yes'),
+      no: t('respond.notice.no'),
+    },
   }
 }

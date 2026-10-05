@@ -94,6 +94,7 @@ export interface SetupFormProps {
     factorKeys: string[]
     commentPolicy: string
     allowDialogue: boolean
+    replyNotice: boolean
     reminderDay: number | null
     closeAfterDays: number
     evaluationCadence: string
@@ -127,6 +128,7 @@ export interface SetupFormProps {
     commentLead: string
     dialogue: string
     dialogueNote: string
+    replyNotice: { label: string; sub: string }
     groupWarn: string
     groupWarnAlert: boolean
     reminderHead: string
@@ -565,6 +567,15 @@ export function SetupForm(props: SetupFormProps) {
             disabled={!canWrite}
             onChange={() => save({ allowDialogue: !v.allowDialogue })}
             className="mt-[11px] bg-bg"
+          />
+          <CheckRow
+            name="replyNotice"
+            label={labels.replyNotice.label}
+            sub={labels.replyNotice.sub}
+            checked={v.allowDialogue && v.replyNotice}
+            disabled={!canWrite || !v.allowDialogue}
+            onChange={() => save({ replyNotice: !v.replyNotice })}
+            className="mt-[8px] bg-bg"
           />
           <div className="mt-[9px] max-w-[560px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">
             {labels.dialogueNote}
@@ -1103,6 +1114,7 @@ function formOf(roundId: string, v: SetupFormProps['values']): FormData {
   data.set('kind', v.kind)
   data.set('commentPolicy', v.commentPolicy)
   data.set('allowDialogue', v.allowDialogue ? 'on' : '')
+  data.set('replyNotice', v.replyNotice ? 'on' : '')
   data.set('reminderDay', v.reminderDay === null ? '' : String(v.reminderDay))
   data.set('closeAfterDays', String(v.closeAfterDays))
   data.set('evaluationCadence', v.evaluationCadence)

@@ -45,7 +45,7 @@ describe('the respondent submit payload carries no language', () => {
 
   it('strips lang, locale and language at every level before the RPC', async () => {
     const result = await submitResponse(forged)
-    expect(result).toEqual({ ok: true, answers: 1, threads: [] })
+    expect(result).toEqual({ ok: true, answers: 1, threads: [], notice: false })
     expect(rpc).toHaveBeenCalledTimes(1)
     const [fn, args] = rpc.mock.calls[0]!
     expect(fn).toBe('submit_response')

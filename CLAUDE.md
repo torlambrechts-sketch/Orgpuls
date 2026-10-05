@@ -52,6 +52,12 @@ before starting a segment.
    hold a linkage — not a nullable one, none. It carries a group and an hour truncated
    to the hour. Do not add a column that could identify anyone, and do not add a select
    policy to an answer table. Either silently removes k-anonymity from the whole product.
+   The one exception, the owner's decision (X-103): a person who wrote a comment and *says
+   yes* to being told when management answers is linked to their conversations in
+   `app.thread_recipients`, sealed under a Vault key, with no foreign key to a person, no
+   policy and no grant, read only by the dispatcher's claim, and forgotten when the
+   conversation closes, when they turn it off, or after a year. Nobody else is linked to
+   anything. Do not widen it: no reader for the organisation, no unsealed copy.
 3. **One write path.** `rpc.submit_response`: token looked up by SHA-256 of the
    plaintext, single transaction, and it never returns the id of the row it wrote, so a
    caller cannot correlate their submission with a record.

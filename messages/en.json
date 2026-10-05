@@ -744,7 +744,8 @@
       "lead": "Management can answer you without knowing who you are. The link below is the only way back to the reply. Save it now: we cannot send it again, and anyone with the link can read the conversation.",
       "open": "{count, plural, one {Open the conversation} other {Open conversation {n}}}",
       "copy": "Copy the link",
-      "copied": "Copied"
+      "copied": "Copied",
+      "notified": "You will be told when management replies."
     },
     "thread": {
       "title": "Your conversation",
@@ -770,6 +771,11 @@
         "note": "The e-mail is sent from your own e-mail to {email}. Orgpuls does not see it, and nobody learns whether you send it.",
         "subject": "My comment about {factor}",
         "mailBody": "Hi {name},\n\nI am the one who wrote the comment about {factor} in the work environment survey. You asked to talk with me directly.\n\n"
+      },
+      "notice": {
+        "title": "You will be told when management replies",
+        "body": "At the e-mail address or mobile number the invitation went to. If you turn it off, Orgpuls deletes the link between you and this conversation. It cannot be turned back on.",
+        "stop": "Turn off the notice"
       }
     },
     "countLabel": "Counted for the whole organisation",
@@ -798,6 +804,15 @@
       "ongoing": "In progress",
       "footer": "These are measures you have worked on since the survey in {month}.",
       "first": "This is the first survey. Afterwards you will see what is done with the answers."
+    },
+    "notice": {
+      "title": "Do you want to be told when management replies?",
+      "lead": "You have written a comment. Management can reply without knowing who you are, and we can let you know when they do.",
+      "point1": "The notice goes to the e-mail address or mobile number the invitation went to. It only says you have a reply, not what you wrote.",
+      "point2": "To send it, Orgpuls keeps an encrypted record of who wrote the comments. That links you to your whole response. Management and your employer never see it.",
+      "point3": "The link is deleted when the conversation is closed, and after a year at the latest. You can turn the notice off in the conversation at any time.",
+      "yes": "Yes, let me know",
+      "no": "No thanks"
     },
     "reason": "Asked because you are working on: {title} (started {date})",
     "reasonNoDate": "Asked because you are working on: {title}",
@@ -1309,6 +1324,10 @@
     "dialogue": "Allow anonymous two-way conversation on comments",
     "dialogueOn": "A leader can reply to a comment without learning who wrote it, and the employee can reply back. The conversation lives in Samtaler.",
     "dialogueOff": "Comments are read but not answered. Whoever wrote one never learns whether anybody saw it.",
+    "replyNotice": {
+      "label": "Ask whether they want to be told when you reply",
+      "sub": "Anyone who wrote a comment is asked at the end of the survey. If they say yes, Orgpuls keeps the link encrypted, and you never see it. The notice goes to the e-mail address or mobile number the invitation went to."
+    },
     "groupHead": "{count, plural, one {# employee} other {# employees}}",
     "groupHeadAnswered": "{count, plural, one {# employee} other {# employees}} · {answered} responded last time",
     "groupWarnThin": "{group} has fewer than {threshold} employees. The group receives the questions but appears only as part of the whole, not as its own row.",
@@ -3314,6 +3333,15 @@
     "lenke": {
       "subject": "The link you asked for: {round} at {org}",
       "lead": "Here is your link to {round} at {org}, which you asked for from the poster. If you did not ask for it, you can ignore this e-mail."
+    },
+    "svarvarsel": {
+      "subject": "A new message in your conversation",
+      "svar": "Management at {org} has replied in your conversation from the work environment survey.",
+      "kontakt": "Management at {org} would like to talk with you directly. The conversation explains what that means, and it is entirely your choice.",
+      "cta": "Open the conversation",
+      "why": "You are getting this because you asked for it when you answered. Management does not know who you are and cannot see that you got it. You can turn these notices off in the conversation.",
+      "smsSvar": "{org}: Management has replied in your conversation. Read it here:",
+      "smsKontakt": "{org}: Management would like to talk with you. See your conversation:"
     },
     "forvarsel": {
       "subject": "{round} at {org} starts {date}",
@@ -6920,7 +6948,7 @@
       {
         "h": "Annex 1 – Answers, users and technical data",
         "p": [
-          "Answers are stored without name, e-mail address, invitation or any other link to the person who gave them: only which department the answer concerns and the hour it arrived. Results for a department are not shown until at least five have answered, or fewer — never under three — where the organisation has chosen a lower limit for small teams. Comments and replies in anonymous conversations are stored the same way. They may contain personal data if the writer includes it, and are never shown with a name.",
+          "Answers are stored without name, e-mail address, invitation or any other link to the person who gave them: only which department the answer concerns and the hour it arrived. Results for a department are not shown until at least five have answered, or fewer — never under three — where the organisation has chosen a lower limit for small teams. Comments and replies in anonymous conversations are stored the same way. They may contain personal data if the writer includes it, and are never shown with a name. The exception is an employee who asks to be told when management answers a comment they wrote: then who wrote it is stored, encrypted and only to send the notice. The link covers the whole response. It is never visible to the organisation, Orgpuls does not hand it over to the organisation, and it is deleted when the conversation is closed, when the employee turns the notice off, and after a year at the latest.",
           "About users, name, e-mail address, role and department are stored. Passwords are stored only as a cryptographic hash.",
           "The questions are designed not to collect health data or other special categories of personal data, under GDPR Article 9 and the Working Environment Act section 9-3. The questions on offensive behaviour and violence are reported only as counts for the whole organisation.",
           "The sub-processors record IP address and time in operational logs, used for operation and security. The statistics on use of the website use no cookies and do not identify visitors.",

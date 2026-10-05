@@ -42,6 +42,7 @@ const SetupRow = z.object({
   audience: z.string(),
   comment_policy: z.enum(COMMENT_POLICY),
   allow_dialogue: z.boolean(),
+  reply_notice: z.boolean(),
   reminder_day: z.number().nullable(),
   close_after_days: z.coerce.number(),
   final_reminder: z.boolean(),
@@ -87,6 +88,8 @@ export interface RoundSetup {
   closesAt: string | null
   commentPolicy: CommentPolicy
   allowDialogue: boolean
+  /** ask whether to tell a person who commented when management answers (0204) */
+  replyNotice: boolean
   /** null is the design's "Ingen" — a real choice, not a missing value */
   reminderDay: number | null
   closeAfterDays: number
@@ -110,7 +113,7 @@ export interface RoundSetup {
 }
 
 const SELECT =
-  'id, status, opens_at, closes_at, audience, comment_policy, allow_dialogue, reminder_day, slack_when,' +
+  'id, status, opens_at, closes_at, audience, comment_policy, allow_dialogue, reply_notice, reminder_day, slack_when,' +
   ' close_after_days, final_reminder, sms_when, teams_when, extras_off_reason,' +
   ' measurements!inner(id, kind, year, label, evaluation_cadence),' +
   ' round_factors(factor_key), round_extra_questions(extra_key), round_groups(group_id),' +
@@ -127,6 +130,7 @@ const shape = (r: z.infer<typeof SetupRow>): RoundSetup => ({
   closesAt: r.closes_at,
   commentPolicy: r.comment_policy,
   allowDialogue: r.allow_dialogue,
+  replyNotice: r.reply_notice,
   reminderDay: r.reminder_day,
   closeAfterDays: r.close_after_days,
   finalReminder: r.final_reminder,

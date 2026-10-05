@@ -664,6 +664,61 @@ export function renderTicketReply(cat: MailCatalogue, job: TicketJob, siteUrl: s
 }
 
 // ---------------------------------------------------------------------------------------
+// A notice to a person who asked to be told when management answers their comment (0204,
+// X-103). It says only that something came, never what was written, and links the person's
+// own conversation — the key in the fragment, as text, so no click tracking sees it (D-97).
+// ---------------------------------------------------------------------------------------
+
+export interface ReplyNoticeJob {
+  id: string
+  reason: 'svar' | 'kontakt'
+  channel: 'email' | 'sms'
+  email: string | null
+  phone: string | null
+  lang: string
+  org: string
+  key: string
+}
+
+/** The conversation's page with its key in the fragment, which no server is sent */
+export function threadLink(appUrl: string, key: string): string {
+  if (!/^[0-9a-f]{64}$/.test(key)) throw new Error('notice without a valid key')
+  return `${appUrl.replace(/\/+$/, '')}/s/samtale#${key}`
+}
+
+/** The person's language where its mail texts are complete in this run's catalogue, else bokmål */
+export function noticeLang(cat: MailCatalogue, lang: string): Lang {
+  const l = lang as Lang
+  if (l === 'no' || l === 'en') return l
+  try {
+    return cat[l] && pick(cat[l], 'svarvarsel.subject') ? l : 'no'
+  } catch {
+    return 'no'
+  }
+}
+
+export function renderReplyNotice(cat: MailCatalogue, job: ReplyNoticeJob, appUrl: string): Rendered {
+  const lang = noticeLang(cat, job.lang)
+  const m = cat[lang]
+  const subject = pick(m, 'svarvarsel.subject')
+  const { text, html } = layout({
+    lang,
+    title: subject,
+    greeting: pick(m, 'greetingPlain'),
+    paragraphs: [fill(pick(m, job.reason === 'kontakt' ? 'svarvarsel.kontakt' : 'svarvarsel.svar'), { org: job.org })],
+    cta: { label: pick(m, 'svarvarsel.cta'), url: threadLink(appUrl, job.key), plain: true },
+    after: [pick(m, 'svarvarsel.why')],
+    footer: fill(pick(m, 'automatic'), { org: job.org }),
+  })
+  return { subject, text, html }
+}
+
+export function replyNoticeSms(cat: MailCatalogue, job: ReplyNoticeJob): string {
+  const m = cat[noticeLang(cat, job.lang)]
+  return fill(pick(m, job.reason === 'kontakt' ? 'svarvarsel.smsKontakt' : 'svarvarsel.smsSvar'), { org: job.org })
+}
+
+// ---------------------------------------------------------------------------------------
 // The trial's mail (0060, D-105): service mail to the daglig leder, sent when a step becomes
 // true. One thing to do and one button each; replies go to support, and the footer says so.
 // ---------------------------------------------------------------------------------------

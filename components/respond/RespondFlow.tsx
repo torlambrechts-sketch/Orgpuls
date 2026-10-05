@@ -137,6 +137,8 @@ export interface RespondCopy {
   restored: string
   keyboardHint: string
   since: { title: string; done: string; ongoing: string; first: string }
+  /** 0204: the question at the end, to a person who wrote a comment */
+  notice: { title: string; lead: string; points: string[]; yes: string; no: string }
 }
 
 /**
@@ -228,6 +230,7 @@ export function RespondFlow({
   languages,
   logo = null,
   engagement = null,
+  replyNotice = false,
 }: {
   token: string
   org: string
@@ -235,6 +238,11 @@ export function RespondFlow({
   logo?: string | null
   /** engagement phase 2 (0105, D-156): null with every flag off */
   engagement?: RespondEngagement | null
+  /**
+   * 0204 (X-103): whether to ask, at the end, a person who wrote a comment if they want to be told
+   * when management answers it. The round's setting and a way to reach them, as respond_form says.
+   */
+  replyNotice?: boolean
   questions: Question[]
   copy: RespondCopy
   /**
@@ -257,8 +265,12 @@ export function RespondFlow({
   const [commentOpen, setCommentOpen] = useState<Record<string, boolean>>({})
   const [done, setDone] = useState(false)
   const [threads, setThreads] = useState<string[]>([])
+  const [notified, setNotified] = useState(false)
   const [failed, setFailed] = useState(false)
   const [restored, setRestored] = useState(false)
+  // 0204: on the question at the end, and the answer to it (1 yes, 2 no)
+  const [noticeShown, setNoticeShown] = useState(false)
+  const [notify, setNotify] = useState<number | undefined>(undefined)
   const [pending, startTransition] = useTransition()
   const key = useRef<string | null>(null)
   const top = useRef<HTMLDivElement>(null)
@@ -295,6 +307,10 @@ export function RespondFlow({
   const remaining = questions.length - answeredBefore
   const minutesLeft = Math.max(1, Math.ceil((remaining * SECONDS_PER_QUESTION) / 60))
   const isLast = page === pages.length - 1
+  // asked only of somebody who wrote a comment: a comment is what opens a conversation
+  const comments = questions.filter((q) => q.kind === 'factor' && text[`${q.id}:comment`]?.trim()).length
+  const asking = replyNotice && comments > 0
+  const onNotice = noticeShown && asking
 
   function build() {
     const answers = []
@@ -340,7 +356,15 @@ export function RespondFlow({
       }
     }
     const asked = questions.some((q) => q.kind === 'module' || q.kind === 'count' || q.kind === 'segment')
-    return { token, answers, extra, ...(asked ? { module: mod } : {}), ...(own.length ? { own } : {}) }
+    return {
+      token,
+      answers,
+      extra,
+      ...(asked ? { module: mod } : {}),
+      ...(own.length ? { own } : {}),
+      // 0204: only a yes is sent; anything else is the default, no
+      ...(asking && notify === 1 ? { notify: true } : {}),
+    }
   }
 
   function go(to: number) {
@@ -365,6 +389,11 @@ export function RespondFlow({
       go(page + 1)
       return
     }
+    if (asking && !noticeShown) {
+      setNoticeShown(true)
+      top.current?.scrollIntoView({ block: 'start' })
+      return
+    }
     if (preview) {
       setDone(true)
       return
@@ -374,6 +403,7 @@ export function RespondFlow({
       if (result.ok) {
         if (key.current) writeDraft(key.current, null)
         setThreads(result.threads)
+        setNotified(result.notice)
         setDone(true)
       } else setFailed(true)
     })
@@ -385,7 +415,7 @@ export function RespondFlow({
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null
       if (e.altKey || e.ctrlKey || e.metaKey || target?.closest('textarea, input, select')) return
-      if (/^[1-9]$/.test(e.key)) {
+      if (/^[1-9]$/.test(e.key) && !onNotice) {
         const q = current.find((x) => hasChoices(x) && picked[x.id] === undefined) ?? current.find(hasChoices)
         if (!q || !('choices' in q)) return
         const n = Number(e.key)
@@ -441,7 +471,7 @@ export function RespondFlow({
           </div>
         )}
       </div>
-      <ThreadLinks keys={threads} />
+      <ThreadLinks keys={threads} notified={notified} />
       </>
     )
   }
@@ -500,6 +530,70 @@ export function RespondFlow({
             {copy.start}
           </button>
           <div className="mt-[12px] hidden text-center text-[11.5px] text-mut sm:block">{copy.keyboardHint}</div>
+        </div>
+      </>
+    )
+  }
+
+  /*
+   * 0204 (X-103): the question at the end, only to somebody who wrote a comment. Nothing is
+   * chosen for them: no answer is a no, and only a yes is sent. The design has no such page; it
+   * is drawn with the flow's own parts (a question's legend, its radio group, the footer).
+   */
+  if (onNotice) {
+    return (
+      <>
+        {banner}
+        <div ref={top} />
+        {head}
+        <div className="px-[22px] pb-[18px] pt-[18px]">
+          <fieldset className="m-0 min-w-0 border-0 p-0">
+            <legend id={`${uid}notice`} className="mt-[14px] p-0 font-display text-[24px] font-medium leading-[1.27] [text-wrap:pretty]">
+              {copy.notice.title}
+            </legend>
+            <div className="mt-[8px] text-[13px] leading-[1.5] text-mut [text-wrap:pretty]">{copy.notice.lead}</div>
+            <ul className="m-0 mt-[14px] flex list-none flex-col gap-[8px] p-0">
+              {copy.notice.points.map((p) => (
+                <li key={p} className="flex gap-[10px] text-[13.5px] leading-[1.5] [text-wrap:pretty]">
+                  <span aria-hidden="true" className="mt-[7px] h-[6px] w-[6px] flex-none rounded-pill bg-ink" />
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+            <ChoiceGroup
+              labelledBy={`${uid}notice`}
+              options={[
+                { value: 1, label: copy.notice.yes },
+                { value: 2, label: copy.notice.no },
+              ]}
+              apart={null}
+              value={notify}
+              onChange={setNotify}
+            />
+          </fieldset>
+          {failed ? (
+            <div role="alert" className="mt-[14px] text-[13px] font-semibold text-danger">
+              {copy.submitFailed}
+            </div>
+          ) : null}
+        </div>
+        <div className="flex items-center justify-between gap-[12px] border-t border-line px-[22px] pb-[22px] pt-[14px]">
+          <button
+            type="button"
+            onClick={() => setNoticeShown(false)}
+            disabled={pending}
+            className="cursor-pointer border-none bg-transparent py-[8px] text-[13.5px] font-semibold text-ink"
+          >
+            ← {copy.back}
+          </button>
+          <button
+            type="button"
+            onClick={advance}
+            disabled={pending}
+            className="h-[46px] cursor-pointer rounded-opt border border-ink bg-ink px-[26px] text-[15px] font-bold text-bg"
+          >
+            {copy.submit}
+          </button>
         </div>
       </>
     )
@@ -653,7 +747,7 @@ export function RespondFlow({
           disabled={pending}
           className="h-[46px] cursor-pointer rounded-opt border border-ink bg-ink px-[26px] text-[15px] font-bold text-bg"
         >
-          {isLast ? copy.submit : copy.next}
+          {isLast && !asking ? copy.submit : copy.next}
         </button>
       </div>
     </>

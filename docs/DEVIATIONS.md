@@ -11374,3 +11374,23 @@ On the owner's word («gjør de nå»), the two texts D-227 left:
   for Tor's review (X-089). Auto-approve is on (0101), so they count at once. The edge functions carry the
   respondent hashes and the source fingerprints, so they were redeployed with this change.
 
+
+## D-229 — Being told when management answers: a page the design does not have (0204, X-103) (2026-10-05)
+
+- **The question at the end of the survey.** The design has no such page. It is drawn with the flow's
+  own parts: the question's legend in the display face, the lead in the muted line, three points,
+  the flow's radio group (Ja / Nei), and the footer's «← Tilbake» and «Send inn». The last question
+  page's button reads «Neste» when the page will follow.
+- **The thank-you** adds one line under the conversation links, «Du får beskjed når ledelsen svarer.»,
+  only when the person said yes and the database stored it.
+- **The conversation page** has a block, «Du får beskjed når ledelsen svarer», drawn like the contact
+  offer's quieter sibling (line border, surface fill), with «Skru av beskjeden». It cannot be turned
+  on again there, because nothing on that page knows who the person is.
+- **The settings** are a second check row under «tillat dialog» (Innstillinger and Måleoppsett),
+  disabled while dialogue is off.
+- **The notice mail** is the product's mail layout. The link is written as text (D-97), so no click
+  tracking sees the key.
+- **Translations** (X-089): the 18 new respondent and mail texts are drafted in pl, uk, lt, sv and da,
+  checked with `checkImport` (no problems), and written to the registry as machine drafts.
+- **Numbering:** the parallel CRM branch holds 0203 and its own D-227. This change takes 0204 and
+  D-229 so neither is reused.

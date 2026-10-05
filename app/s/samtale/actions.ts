@@ -27,6 +27,8 @@ const Thread = z.object({
   ),
   // a leader's request for direct contact (0046): their name and work address, or none
   contact: z.object({ name: z.string().nullable(), email: z.string().email() }).nullable().optional(),
+  // whether its author is told when management answers (0204); they can turn it off here
+  notify: z.boolean().optional().default(false),
 })
 
 export type RespondentThread = z.infer<typeof Thread>
@@ -52,4 +54,18 @@ export async function followUp(key: unknown, body: unknown): Promise<{ ok: boole
   const r = z.object({ ok: z.boolean(), error: z.string().optional() }).safeParse(data)
   if (!r.success) return { ok: false, error: 'failed' }
   return r.data.ok ? { ok: true } : { ok: false, error: r.data.error ?? 'failed' }
+}
+
+/**
+ * The person turns off being told when management answers (0204). The database forgets the
+ * conversation's link to them; the answer is the same for any key.
+ */
+export async function stopNotice(key: unknown): Promise<{ ok: boolean }> {
+  const k = Key.safeParse(key)
+  if (!k.success) return { ok: false }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('stop_reply_notice', { p_key: k.data })
+  if (error) return { ok: false }
+  const r = z.object({ ok: z.boolean() }).safeParse(data)
+  return { ok: r.success && r.data.ok }
 }

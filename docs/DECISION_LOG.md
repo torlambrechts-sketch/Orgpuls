@@ -3253,3 +3253,42 @@ bygg og anlegg, where 29 % of workers are foreign, most of them Polish and Lithu
   Polish and Lithuanian; /handel's FAQ likewise; Ukrainian, Swedish and Danish «ikke klare ennå» (D-209).
 - **Numbering:** X-101 is reserved by docs/implementation/growth-admin.md for G5's execution record, so
   this entry is X-102.
+
+### X-103 — A person who wrote a comment may ask to be told when management answers
+
+Tor, 2026-10-05. He asked whether an employee must start the dialogue by e-mail themselves. He
+then asked whether Supabase could protect the identity and still know who wrote a comment, without
+showing it to the leader. Peakon and Culture Amp both do this ("confidential, not anonymous"). His
+decision: "Kan vi lage det som en innstilling under undersøkelsen med standard at brukerne får
+spørsmål på slutten om de har lagt inn kommentarer". Asked to confirm explicitly, because it
+weakens invariant 2, and to accept the two limits (the link covers the whole response; a notice to
+a work address can be seen by the employer's IT) and a sentence in CLAUDE.md, he answered «Ja».
+
+- **What the person decides:** only somebody who wrote a comment is asked, on a page after the last
+  question. No answer is a no, and only a yes is sent. Nobody who does not say yes is linked to
+  anything; for them invariant 2 holds unchanged.
+- **What is stored for a yes** (0204), in `app.thread_recipients`, one row per conversation:
+  - The employee and the conversation's key, sealed with `pgp_sym_encrypt` under a key the
+    migration makes in Vault and nobody prints.
+  - The table has no foreign key to a person, no policy, and no grant to any client role or
+    service_role.
+  - Only the dispatcher's `reply_notice_claim` opens the seal. No screen shows whether anyone said
+    yes.
+- **What it costs, and the question says so:** the link reaches the whole response, because a
+  conversation reaches its response (0018). The notice goes to the address or number the
+  invitation went to, and says only that something came.
+- **When it goes:** when the conversation is closed, when the person turns it off from the
+  conversation (`stop_reply_notice`, by their key), after a year at most, and with the round or the
+  organisation.
+- **The notice:**
+  - Queued by `reply_to_thread` («svar») and `request_contact` («kontakt»), one pending per
+    conversation.
+  - Due 20 minutes to two hours later, never between 21 and 07, so the moment a phone lights up
+    does not line up with a leader's «Send».
+  - Mail or SMS, in the person's language where its texts are complete.
+- **The setting:** `survey_defaults.reply_notice` and `rounds.reply_notice`, on by default, beside
+  «tillat dialog» in Målinger › Innstillinger and Måleoppsett, inherited and fixed like it. It only
+  means something while dialogue is allowed.
+- **The agreement:** DPA 2026-10-05 says so in vedlegg 1, including that Orgpuls does not hand the
+  link to the organisation.
+- **CLAUDE.md** invariant 2 names the exception.
