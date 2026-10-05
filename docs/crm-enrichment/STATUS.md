@@ -1,16 +1,16 @@
 # Status
 
-Updated 2026-10-04 by the run's first session (after DEC-49). Each work package updates this file when it ends.
+Updated 2026-10-05 (third attempt at 0203; see «Waiting for production»). Each work package updates this file when it ends.
 
 | | |
 | --- | --- |
 | **Phase** | 0 done and on production; Phase 1 under way |
 | **In progress** | Phase 0 PR #8 (CI running); WP-1.1 built and proved locally, not yet on production |
 | **Next** | Apply `0203_crm_deals` to production once allowed; merge PR #8; push WP-1.1; then WP-1.2 |
-| **Waiting for production** | `0203_crm_deals` (WP-1.1, D-227). Checked first: the three functions it rewrites match production byte for byte (md5), advisors 494 before (re-captured 2026-10-04 evening: still 494, `0203` not in `list_migrations`). Two attempts, both refused: the Management API (auto-mode classifier, earlier session), and the Supabase connector's `apply_migration` (2026-10-04 evening, a session started after `.claude/settings.json` allowed `mcp__Supabase__apply_migration`): the call came back «cancelled» and nothing was applied (`app.crm_deals` and `app.crm_pipelines` do not exist). Not retried by another route |
+| **Waiting for production** | `0203_crm_deals` (WP-1.1, D-227). Checked first: the three functions it rewrites match production byte for byte (md5), advisors 494 before (re-captured 2026-10-04 evening: still 494, `0203` not in `list_migrations`). Two attempts, both refused: the Management API (auto-mode classifier, earlier session), and the Supabase connector's `apply_migration` (2026-10-04 evening, a session started after `.claude/settings.json` allowed `mcp__Supabase__apply_migration`): the call came back «cancelled» and nothing was applied (`app.crm_deals` and `app.crm_pipelines` do not exist). Not retried by another route. Third attempt 2026-10-05, in a session started after commit b5c84d8 (`.claude/settings.json` valid JSON, allowing `mcp__Supabase__*` and `mcp__c7672d37-e57c-4a13-980b-4792691c4c12`): before the call production had no `0203` in `schema_migrations`, no `app.crm_deals`, no `app.crm_pipelines`; `apply_migration` (name `0203_crm_deals`, the file verbatim, md5 `b7f6687965a6643d7b968219ac2cb070`) came back «cancelled»; re-checked afterwards: still none of the three. Read-only `execute_sql` calls on the same connector went through without a prompt, so the refusal is specific to `apply_migration`. No other route tried |
 | **Fails on production until those land** | Nothing |
 | **Keys wanted** | Phase 1 needs none. Phase 2 needs a Google Cloud OAuth client, a Microsoft Entra app registration, a Twilio account and number, and a Zoom app (`07` §6) |
-| **Blocked on Tor** | Applying `0203_crm_deals` to production. `.claude/settings.json` allows the connector's `apply_migration`, but the call is still cancelled at the approval step. Tor either approves the call when it is next asked, or applies `supabase/migrations/0203_crm_deals.sql` as written in the SQL editor. The run stopped here on 2026-10-04 (the brief: no other route to production). Until 0203 lands, WP-1.1's code must not reach main (the pipeline page calls the summary with its new pipeline argument) |
+| **Blocked on Tor** | Applying `0203_crm_deals` to production. `.claude/settings.json` allows the connector's `apply_migration`, but the call is still cancelled at the approval step. Tor either approves the call when it is next asked, or applies `supabase/migrations/0203_crm_deals.sql` as written in the SQL editor. The run stopped here on 2026-10-04 (the brief: no other route to production). Third refusal 2026-10-05: the run stopped again; PR #8 not merged and WP-1.2 not started in that session, as the brief for the run requires. Until 0203 lands, WP-1.1's code must not reach main (the pipeline page calls the summary with its new pipeline argument) |
 
 ## Done
 
