@@ -7,7 +7,7 @@ Status: **plan, nothing built**. Owner: Tor. Written 2026-10-05.
 On 2026-10-05 Tor said he was thinking of moving admin out because it is «uoversiktlig og fare for feil,
 brudd ved å ha det her». He then decided:
 
-1. **Everything admin stores today may be deleted.** Production holds 0 CMS pages, 3 CRM contacts and
+1. **Everything admin stores today may be deleted, with no export.** Tor, 2026-10-05: «ingen av dataene er brukt … ingenting er gjort så slett». This includes the consent and send trail (3 consents, 2 sends, 8 Brønnøysund outreaches, all tests) and the admin audit log (817 rows). Production holds 0 CMS pages, 3 CRM contacts and
    0 tickets. It also holds 170 site-analytics events, 123 growth events and 1,649 cached
    Brønnøysund entities. Nothing is migrated.
 2. **One platform for several products.** A SaaS platform with admin, CRM and support, of which Orgpuls
