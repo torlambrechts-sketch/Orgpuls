@@ -3292,3 +3292,22 @@ a work address can be seen by the employer's IT) and a sentence in CLAUDE.md, he
 - **The agreement:** DPA 2026-10-05 says so in vedlegg 1, including that Orgpuls does not hand the
   link to the organisation.
 - **CLAUDE.md** invariant 2 names the exception.
+
+### X-104 — Admin and CRM leave Orgpuls for a platform of their own
+
+Tor, 2026-10-05: admin in the product is «uoversiktlig og fare for feil, brudd ved å ha det her». He
+decided:
+
+- Everything admin stores may be deleted.
+- A separate SaaS platform takes admin, CRM and support, for several products. It has its own
+  database, repository and domain, and is integrated with Orgpuls through an API.
+- The public site stays in Orgpuls with its content in code and message files, and the CMS goes.
+
+The plan, nothing built yet, is docs/platform/PLAN.md:
+- what stays: billing state, translations, modules, legal texts and flags, written by platform
+  commands
+- what leaves: 81 tables, the admin screens and the CRM streams
+- the API: signed events carrying numbers only, and signed, scoped, audited commands
+- six steps, with dropping tables on the hosted project waiting for Tor's approval of the list
+
+From now on there is no new admin or CRM work in Orgpuls, and the parallel CRM branch is not merged.
