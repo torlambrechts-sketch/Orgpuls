@@ -9,7 +9,7 @@
       "Monitor", "ToolSearch", "Skill", "SendUserFile", "ReadNotifications", "ScheduleWakeup",
       "TaskCreate", "TaskUpdate", "TaskList", "TaskGet", "TaskStop",
       "mcp__supabase", "mcp__Supabase", "mcp__playwright",
-      "mcp__github", "mcp__Claude_Code_Remote", "mcp__claude-code-remote","mcp__Supabase__apply_migration", "mcp__Supabase__execute_sql", "mcp__Supabase__get_advisors", "mcp__Supabase__list_migrations","mcp__c7672d37-e57c-4a13-980b-4792691c4c12",
+      "mcp__github", "mcp__Claude_Code_Remote", "mcp__claude-code-remote","mcp__Supabase__apply_migration", "mcp__Supabase__execute_sql", "mcp__Supabase__get_advisors", "mcp__Supabase__list_migrations","mcp__c7672d37-e57c-4a13-980b-4792691c4c12"
 
     ],
     "deny": [],
