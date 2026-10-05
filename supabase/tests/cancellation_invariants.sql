@@ -122,12 +122,13 @@ begin
     perform set_config('request.jwt.claims', '', true);
     perform app.deletion_run();
 
-    -- every table in app with an org_id column, apart from the log and the audit trail
+    -- every table in app with an org_id column, apart from the log, the audit trail and the platform's
+    -- delivery queue (which keeps only the notice that the organisation was deleted, 0205)
     v_txt := null;
     for tbl in
       select c.table_name from information_schema.columns c
       join information_schema.tables t on t.table_schema = c.table_schema and t.table_name = c.table_name and t.table_type = 'BASE TABLE'
-      where c.table_schema = 'app' and c.column_name = 'org_id' and c.table_name not in ('deletion_log', 'admin_audit')
+      where c.table_schema = 'app' and c.column_name = 'org_id' and c.table_name not in ('deletion_log', 'admin_audit', 'platform_events')
     loop
       execute format('select count(*) from app.%I where org_id = $1', tbl.table_name) into v_cnt using v_org;
       if v_cnt > 0 then v_txt := concat_ws(',', v_txt, tbl.table_name); end if;

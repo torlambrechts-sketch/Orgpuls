@@ -92,22 +92,30 @@ is rebuilt in the platform. Its migrations already applied on hosted are dropped
 
 ## 5. The API (v1)
 
-### 5.1 Authentication
+### 5.1 Authentication (as built in 0205)
 
-- **The platform holds a signing key; Orgpuls holds the public half.**
-  - Every call carries a JWT of at most 5 minutes, carrying:
-    - `iss` = the platform
+- **Commands: no route and no service key.**
+  - The platform calls `public.platform_command(token, command, args)` over PostgREST with the
+    project's public key.
+  - The token is an HS256 JWT signed with a secret kept in Orgpuls' Vault
+    (`orgpuls_platform_token_secret`). The database verifies it itself, then checks the claims:
     - `aud` = `orgpuls`
-    - `sub` = the admin user
-    - `scope` = the command's scope
-    - `jti` = a unique id
-  - Orgpuls refuses a replayed `jti`.
-- **No Supabase key leaves Orgpuls.** The platform never holds the service role key.
-- **Webhooks are signed the other way.** Orgpuls signs with HMAC-SHA256 over the body and a timestamp,
-  with a secret per product installation, and the platform rejects anything older than 5 minutes.
-- **Every command is written to `app.platform_commands` in Orgpuls**, append-only: who, scope,
-  target, arguments without free text, result. Every webhook delivery is written to
-  `app.platform_deliveries`, and failed ones are retried.
+    - `sub` = the admin
+    - `scope` = space-separated scopes
+    - `jti` = 8–128 characters, never seen before
+    - `iat` and `exp` at most 5 minutes apart
+  - The app never holds a service-role key (`lib/supabase/server.ts`), and the platform never holds
+    Orgpuls' keys beyond the public one.
+  - HS256 rather than a key pair: the shared secret lives only in Vault and in the platform's
+    environment. The database can verify HMAC with pgcrypto, while asymmetric verification would need
+    a route with a key, which is the service key we keep out.
+- **Events:** the dispatcher POSTs batches to the installation's webhook (`app.platform_installation`)
+  with `x-orgpuls-timestamp` and `x-orgpuls-signature: sha256=<hex HMAC of "timestamp.body">` under
+  `orgpuls_platform_webhook_secret`. The platform rejects anything older than 5 minutes.
+- **Audit:** every call that passes the signature is written to `app.platform_commands`, append-only:
+  who, which command, the argument names, the outcome. Events are kept 30 days in `app.platform_events`.
+- **To connect the platform:** read the two secrets from Vault once, store them in the platform, and set
+  `app.platform_installation` (webhook URL, enabled) by SQL.
 
 ### 5.2 Events, Orgpuls → platform
 
@@ -142,8 +150,8 @@ is rebuilt in the platform. Its migrations already applied on hosted are dropped
 | set auto-approve, the site notice, indexing | `settings:write` |
 | create, reset or remove a demo sandbox | `demo:write` |
 
-Each command is one `SECURITY DEFINER` function in Orgpuls, behind one route (`/api/platform/v1/…`) that
-does three things: verify the JWT, check the scope, call the function. Today's `admin_*` functions are
+Each command is a row in `app.platform_command_map` naming one function and its scope; `platform_command`
+calls it by parameter name (`args` is an object keyed by the function's parameters). Today's `admin_*` functions are
 the starting point; the check `app.is_platform_admin(...)` becomes the verified scope.
 
 ### 5.4 Several products

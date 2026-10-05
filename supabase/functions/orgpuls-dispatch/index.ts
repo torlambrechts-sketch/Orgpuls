@@ -697,6 +697,44 @@ Deno.serve(async (req) => {
   }
   if (notices.sent + notices.retry + notices.failed) console.log(`[dispatch] reply notices: sent ${notices.sent}, retry ${notices.retry}, failed ${notices.failed}`)
 
+  // events to the platform (0205, X-104): one signed POST per run while an installation is enabled.
+  // The body is what app.platform_emit allowed, nothing more; a failure is reported by status only.
+  const platform = { sent: 0, failed: 0 }
+  {
+    const { data, error } = await svc.rpc('platform_events_claim', { p_batch: 50 })
+    if (error) console.error(`[dispatch] platform claim failed: ${error.code ?? ''} ${error.message}`)
+    const claim = (data ?? {}) as { url?: string | null; secret?: string; events?: { id: number }[] }
+    const events = claim.events ?? []
+    if (claim.url && claim.secret && events.length) {
+      const body = JSON.stringify({ events })
+      const ts = Math.floor(Date.now() / 1000).toString()
+      const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(claim.secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
+      const mac = new Uint8Array(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${ts}.${body}`)))
+      const signature = Array.from(mac, (b) => b.toString(16).padStart(2, '0')).join('')
+      let ok = false
+      let problem: string | null = null
+      try {
+        const res = await fetch(claim.url, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-orgpuls-timestamp': ts, 'x-orgpuls-signature': `sha256=${signature}` },
+          body,
+          signal: AbortSignal.timeout(10_000),
+        })
+        ok = res.ok
+        if (!ok) problem = `http ${res.status}`
+      } catch (e) {
+        problem = (e as Error).name
+      }
+      await svc.rpc('platform_events_done', { p_ids: events.map((e) => e.id), p_ok: ok, p_error: problem })
+      if (ok) platform.sent += events.length
+      else {
+        platform.failed += events.length
+        console.error(`[dispatch] platform delivery failed: ${problem}`)
+      }
+    }
+  }
+  if (platform.sent + platform.failed) console.log(`[dispatch] platform events: sent ${platform.sent}, failed ${platform.failed}`)
+
   // replies to support tickets (0051, D-92), answered to the support inbox
   const replyTo = { email: Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no', name: 'Orgpuls' }
   const tickets = { sent: 0, retry: 0, failed: 0 }

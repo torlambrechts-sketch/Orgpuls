@@ -222,13 +222,13 @@ begin
 
     v_n := app.deletion_run();
 
-    -- 9: every app table with an org_id, apart from the platform's own records
+    -- 9: every app table with an org_id, apart from the platform's own records and the notice to it (0205)
     v_txt := null;
     for t in
       select c.relname from pg_class c
       where c.relnamespace = 'app'::regnamespace and c.relkind in ('r', 'p')
         and exists (select 1 from pg_attribute a where a.attrelid = c.oid and a.attname = 'org_id' and not a.attisdropped)
-        and c.relname not in ('deletion_log', 'admin_audit')
+        and c.relname not in ('deletion_log', 'admin_audit', 'platform_events')
     loop
       execute format('select count(*) from app.%I where org_id = $1', t.relname) into v_n using v_org;
       if v_n > 0 then v_txt := concat_ws(',', v_txt, t.relname); end if;
@@ -240,6 +240,9 @@ begin
     select * into v_log from app.deletion_log where org_id = v_org;
     v_txt := null;
     for t in select key, value from jsonb_each(v_before) loop
+      -- the platform's delivery queue: an organisation's queued events go with it, and one notice that it
+      -- was deleted takes their place (0205); the log does not count a queue
+      continue when t.key = 'platform_events';
       execute format('select count(*) from %s', case when t.key like '%.%' then t.key else 'app.' || quote_ident(t.key) end) into v_n;
       -- the rows a table may gain: the log's own, and the CRM company's move to «lost» (0064 keeps it)
       v_gain := (t.key = 'deletion_log')::int;
@@ -264,7 +267,8 @@ begin
         and not (c.table_schema = 'public' and c.table_name like '\_%')
         and (c.data_type in ('uuid', 'text', 'character varying', 'json', 'jsonb') or c.udt_name in ('_uuid', 'citext', '_text'))
         and (c.table_schema, c.table_name, c.column_name) not in
-            (('app', 'deletion_log', 'org_id'), ('app', 'admin_audit', 'org_id'), ('app', 'admin_audit', 'target_id'))
+            (('app', 'deletion_log', 'org_id'), ('app', 'admin_audit', 'org_id'), ('app', 'admin_audit', 'target_id'),
+             ('app', 'platform_events', 'org_id'))
     loop
       if t.dt = 'uuid' then
         execute format('select count(*) from %I.%I where %I = any($1)', t.s, t.tn, t.cn) into v_n using v_ids;
