@@ -7,7 +7,6 @@ import { SIGNUP_COOKIE } from '@/lib/auth/cookies'
 import { checkMicrosoftSignIn } from '@/lib/entra/read'
 import { signInProblem, type SignInCheck } from '@/lib/entra/schema'
 import { restoreLocale } from '@/lib/i18n/server'
-import { recordSource } from '@/lib/signup/source'
 import { createClient } from '@/lib/supabase/server'
 
 /**
@@ -20,9 +19,6 @@ import { createClient } from '@/lib/supabase/server'
  *   * signup — the company kept in a cookie by continueWithGoogle becomes the organisation,
  *              exactly as a password signup's does, unless the account already has one.
  *   * invite — back to the invitation, now signed in, where the invited address is checked.
- *
- * A platform admin's account is refused whatever the flow: admin identities are separate
- * and sign in with a password and a second factor only (D-90).
  *
  * **Microsoft (D-201).** After every exchange, whatever the query says, the database's sign-in
  * rules run (public.entra_sign_in_check, 0155): a session that did not come through Microsoft
@@ -76,13 +72,6 @@ export async function GET(request: NextRequest) {
     redirect(failed)
   }
   const user = data.user
-
-  // platform admins sign in with a password and TOTP on the admin host, never with Google or Microsoft
-  const { data: who } = await supabase.rpc('admin_whoami')
-  if (z.object({ is_admin: z.literal(true) }).safeParse(who).success) {
-    await supabase.auth.signOut({ scope: 'local' })
-    redirect(failed)
-  }
 
   // the Microsoft rules, for every provider (see above); codes only are ever logged
   const refuse = async (check: SignInCheck & { ok: false }): Promise<never> => {
@@ -143,7 +132,6 @@ export async function GET(request: NextRequest) {
         redirect(`/registrer?feil=${problem}` as Route)
       }
     }
-    await recordSource(supabase)
     await restoreLocale(supabase)
     redirect('/registrer?ferdig=1')
   }

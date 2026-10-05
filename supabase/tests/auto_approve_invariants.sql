@@ -2,12 +2,13 @@
 -- D-152), proved against the live schema.
 --
 --   * app.message_overrides and app.platform_settings: RLS on, no policy, no grant (1)
---   * anon reads only approved overrides, as text (with their basis since 0109); a member, an aal1 session and support cannot
---     import, approve or switch (2)
+--   * anon reads only approved overrides, as text (with their basis since 0109); without a verified platform
+--     command (app.platform_actor) nobody may list, import, approve or switch, and no client role may execute
+--     the operations at all (2, 0206)
 --   * an import writes drafts; approving needs the hash of the text shown; a new wording is a
 --     draft again; a remove row goes back to the file's text (3)
 --   * switching on approves what waits — registry rows and overrides — marked automatic, leaves a
---     qa-fixture row alone off the QA stack, and is audited (4)
+--     qa-fixture row alone off the QA stack, and stamps the switch with its time (4)
 --   * while on, a new import and a new registry row arrive approved and marked; a legal text and a
 --     page-string hash are recorded as automatic; round_locale_state says «auto» (5)
 --   * switched off, a new import is a draft again, nothing is recorded, «auto» is false, and a
@@ -22,12 +23,13 @@ truncate public._aai;
 do $$
 declare
   v_member uuid := '00000000-0000-4000-8000-00000a0a0001';
-  v_sa     uuid := '00000000-0000-4000-8000-00000a0a0002';
-  v_sup    uuid := '00000000-0000-4000-8000-00000a0a0003';
   v_org    uuid := '00000000-0000-4000-8000-00000a0a0010';
   v_meas   uuid;
   v_round  uuid;
   claims   constant text := '{"sub":"%s","role":"authenticated","aal":"%s"}';
+  v_ops    constant text[] := array['app.op_message_overrides(text)', 'app.op_message_overrides_import(text,jsonb)',
+                                    'app.op_message_overrides_approve(text,jsonb)', 'app.op_auto_approve_set(boolean)',
+                                    'app.op_auto_approve()', 'app.op_auto_record(jsonb,jsonb)', 'app.op_legal_set(text,text,boolean)'];
   h1       constant text := repeat('d', 64);
   v_was    boolean;
   v_rows   jsonb := '[]'::jsonb;
@@ -50,9 +52,7 @@ begin
 
   begin
     update app.platform_settings set auto_approve = false where id;
-    insert into auth.users (id, email) values (v_member, 'member@aa-test.example'), (v_sa, 'sa@aa-test.example'),
-                                              (v_sup, 'support@aa-test.example');
-    insert into app.platform_admins (user_id, role) values (v_sa, 'super_admin'), (v_sup, 'support');
+    insert into auth.users (id, email) values (v_member, 'member@aa-test.example');
     insert into app.organizations (id, name, org_number, employee_count) values (v_org, 'Auto Test AS', '999000902', 5);
     insert into app.measurements (org_id, kind, year) values (v_org, 'puls', 2098) returning id into v_meas;
     insert into app.rounds (org_id, measurement_id, status, opens_at, closes_at)
@@ -66,36 +66,33 @@ begin
     v_txt := public.message_overrides('en') -> 'probe.approved' ->> 'text';
     v_txt := v_txt || '|' || coalesce(public.message_overrides('en') -> 'probe.draft' ->> 'text', 'none');
     reset role;
-    perform set_config('request.jwt.claims', format(claims, v_sa, 'aal1'), true);
-    set local role authenticated;
-    v_txt := v_txt || '|' || coalesce(public.admin_message_overrides_import('en', '[{"key":"probe.x","text":"X"}]')->>'error', 'ok');
-    reset role;
-    perform set_config('request.jwt.claims', format(claims, v_sup, 'aal2'), true);
-    set local role authenticated;
-    v_txt := v_txt || '|' || coalesce(public.admin_auto_approve_set(true)->>'error', 'ok');
-    v_txt := v_txt || '|' || coalesce(public.admin_message_overrides_approve('en', '[]')->>'error', 'ok');
-    v_txt := v_txt || '|' || coalesce(public.admin_auto_approve()->>'error', 'ok');
-    reset role;
+    -- a signed-in member, as the operations see them outside a platform command: no actor, refused
+    perform set_config('app.platform_actor', '', true);
     perform set_config('request.jwt.claims', format(claims, v_member, 'aal2'), true);
-    set local role authenticated;
-    v_txt := v_txt || '|' || coalesce(public.admin_message_overrides('en')->>'error', 'ok');
-    reset role;
+    v_txt := v_txt || '|' || coalesce(app.op_message_overrides_import('en', '[{"key":"probe.x","text":"X"}]')->>'error', 'ok');
+    v_txt := v_txt || '|' || coalesce(app.op_auto_approve_set(true)->>'error', 'ok');
+    v_txt := v_txt || '|' || coalesce(app.op_message_overrides_approve('en', '[]')->>'error', 'ok');
+    v_txt := v_txt || '|' || coalesce(app.op_auto_approve()->>'error', 'ok');
+    v_txt := v_txt || '|' || coalesce(app.op_message_overrides('en')->>'error', 'ok');
+    perform set_config('request.jwt.claims', '', true);
+    -- and no client role reaches the operations at all
+    v_txt := v_txt || '|' || (select count(*) from unnest(v_ops) f, unnest(array['anon', 'authenticated', 'service_role']) r
+                              where has_function_privilege(r, f, 'execute'));
     v_txt := v_txt || '|' || (select auto_approve::text from app.platform_settings where id);
-    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'anon reads approved text only; aal1, support and a member are refused',
-      'expected', 'Shown|none|not_allowed|not_allowed|not_allowed|ok|not_allowed|false', 'actual', v_txt,
-      'pass', v_txt = 'Shown|none|not_allowed|not_allowed|not_allowed|ok|not_allowed|false');
+    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'anon reads approved text only; without a platform actor every operation refuses; no client role may execute them',
+      'expected', 'Shown|none|not_allowed|not_allowed|not_allowed|not_allowed|not_allowed|0|false', 'actual', v_txt,
+      'pass', v_txt = 'Shown|none|not_allowed|not_allowed|not_allowed|not_allowed|not_allowed|0|false');
 
     -- 3 ---------------------------------------------------------------- import, approve, reword, remove
-    perform set_config('request.jwt.claims', format(claims, v_sa, 'aal2'), true);
-    set local role authenticated;
-    v_json := public.admin_message_overrides_import('en', '[{"key":"probe.one","text":"One","status":"pretested"},{"key":"probe.two","text":"Two"},{"key":"probe.bad","text":"Bad","status":"approved"}]');
+    perform set_config('app.platform_actor', 'test@platform', true);
+    v_json := app.op_message_overrides_import('en', '[{"key":"probe.one","text":"One","status":"pretested"},{"key":"probe.two","text":"Two"},{"key":"probe.bad","text":"Bad","status":"approved"}]');
     v_txt := concat_ws('|', v_json->>'new', jsonb_array_length(v_json->'refused'));
-    v_json := public.admin_message_overrides_approve('en', jsonb_build_array(
+    v_json := app.op_message_overrides_approve('en', jsonb_build_array(
       jsonb_build_object('key', 'probe.one', 'hash', encode(extensions.digest('One', 'sha256'), 'hex')),
       jsonb_build_object('key', 'probe.two', 'hash', h1)));
     v_txt := v_txt || '|' || (v_json->>'approved');
-    perform public.admin_message_overrides_import('en', '[{"key":"probe.one","text":"One, again"},{"key":"probe.draft","remove":true}]');
-    reset role;
+    perform app.op_message_overrides_import('en', '[{"key":"probe.one","text":"One, again"},{"key":"probe.draft","remove":true}]');
+    perform set_config('app.platform_actor', '', true);
     v_txt := v_txt || '|' || (select string_agg(key || ':' || status || ':' || approved_auto, ',' order by key)
                              from app.message_overrides where locale = 'en' and key like 'probe.%');
     v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'drafts in, approved by the shown hash only, reworded to draft, removed on request',
@@ -109,28 +106,26 @@ begin
     insert into app.item_translations (item_id, locale, text, source, status)
     values ('core:ytring:2', 'da', 'Probe fixture', 'qa-fixture', 'draft')
     on conflict (item_id, locale) do update set text = excluded.text, source = excluded.source, status = 'draft';
-    perform set_config('request.jwt.claims', format(claims, v_sa, 'aal2'), true);
-    set local role authenticated;
-    v_json := public.admin_auto_approve_set(true);
-    reset role;
+    perform set_config('app.platform_actor', 'test@platform', true);
+    v_json := app.op_auto_approve_set(true);
+    perform set_config('app.platform_actor', '', true);
     v_txt := concat_ws('|', v_json->>'on',
       (select status || ':' || approved_auto from app.item_translations where item_id = 'core:ytring:1' and locale = 'da'),
       (select status from app.item_translations where item_id = 'core:ytring:2' and locale = 'da'),
       (select string_agg(key || ':' || status || ':' || approved_auto, ',' order by key)
        from app.message_overrides where locale = 'en' and key in ('probe.one', 'probe.two')),
-      (select count(*) from app.admin_audit where action = 'settings.auto_approve' and admin_id = v_sa));
+      (select (auto_approve_at = now())::text from app.platform_settings where id));
     -- on the QA stack a qa-fixture row may be approved (0079); anywhere else it stays a draft
     v_exp := 'true|approved:true|' || case when coalesce(current_setting('app.environment', true), '') = 'qa' then 'approved' else 'draft' end
-             || '|probe.one:approved:true,probe.two:approved:true|1';
-    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'on: waiting rows approved and marked, a qa-fixture left alone, audited',
+             || '|probe.one:approved:true,probe.two:approved:true|true';
+    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'on: waiting rows approved and marked, a qa-fixture left alone, the switch stamped',
       'expected', v_exp, 'actual', v_txt, 'pass', v_txt = v_exp);
 
     -- 5 ---------------------------------------------------------------- while on
-    perform set_config('request.jwt.claims', format(claims, v_sa, 'aal2'), true);
-    set local role authenticated;
-    perform public.admin_message_overrides_import('no', '[{"key":"probe.three","text":"Tre"}]');
-    v_json := public.admin_auto_record(('[{"key":"doc:probe:auto","hash":"' || h1 || '"}]')::jsonb, ('[{"locale":"pl","hash":"' || h1 || '"}]')::jsonb);
-    reset role;
+    perform set_config('app.platform_actor', 'test@platform', true);
+    perform app.op_message_overrides_import('no', '[{"key":"probe.three","text":"Tre"}]');
+    v_json := app.op_auto_record(('[{"key":"doc:probe:auto","hash":"' || h1 || '"}]')::jsonb, ('[{"locale":"pl","hash":"' || h1 || '"}]')::jsonb);
+    perform set_config('app.platform_actor', '', true);
     insert into app.item_translations (item_id, locale, text, source, status)
     values ('core:ytring:3', 'da', 'Probe ny', 'machine', 'draft')
     on conflict (item_id, locale) do update set text = excluded.text, source = excluded.source, status = 'draft';
@@ -145,13 +140,12 @@ begin
       'pass', v_txt = 'approved:true|approved:true|1|1|true|true');
 
     -- 6 ---------------------------------------------------------------- switched off
-    perform set_config('request.jwt.claims', format(claims, v_sa, 'aal2'), true);
-    set local role authenticated;
-    perform public.admin_auto_approve_set(false);
-    perform public.admin_message_overrides_import('no', '[{"key":"probe.four","text":"Fire"}]');
-    v_json := public.admin_auto_record(('[{"key":"doc:probe:off","hash":"' || h1 || '"}]')::jsonb, '[]'::jsonb);
-    perform public.admin_legal_set('doc:probe:auto', h1, true);
-    reset role;
+    perform set_config('app.platform_actor', 'test@platform', true);
+    perform app.op_auto_approve_set(false);
+    perform app.op_message_overrides_import('no', '[{"key":"probe.four","text":"Fire"}]');
+    v_json := app.op_auto_record(('[{"key":"doc:probe:off","hash":"' || h1 || '"}]')::jsonb, '[]'::jsonb);
+    perform app.op_legal_set('doc:probe:auto', h1, true);
+    perform set_config('app.platform_actor', '', true);
     v_txt := concat_ws('|',
       (select status from app.message_overrides where locale = 'no' and key = 'probe.four'),
       v_json->>'legal',
@@ -168,7 +162,7 @@ begin
   -- 7 ------------------------------------------------------------------ nothing left
   select count(*) into v_cnt from (
     select key from app.message_overrides where key like 'probe.%'
-    union all select id::text from auth.users where id in (v_member, v_sa, v_sup)
+    union all select id::text from auth.users where id = v_member
     union all select key from app.legal_approvals where key like 'doc:probe:%') x;
   v_txt := v_cnt || '|' || ((select auto_approve from app.platform_settings where id) is not distinct from v_was)::text;
   v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'every probe row was rolled back, and the switch is as it was',

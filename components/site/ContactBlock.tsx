@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from 'react'
 import { sendContact } from '@/app/(marketing)/kontakt/actions'
-import { signUpNewsletter } from '@/lib/crm/actions'
 
 type Words = {
   k: string
@@ -21,30 +20,24 @@ type Words = {
   limited: string
   /** with `{mail}` */
   failed: string
-  /** the newsletter checkbox (D-101) */
-  optIn: string
 }
 
 /**
  * "Skriv til oss" (D-88; Om oss.dc.html lines 167-186; on /kontakt since D-95): four topics, then name, e-mail,
  * company and message.
  *
- * "Send melding" files the message as a ticket in the admin's queue (D-92), with the topic
- * choosing the queue. The design's check stays: a name and an e-mail address that looks like
- * one, or the line under the button says what is missing. If the message cannot be filed,
- * the line gives the address to write to instead. A field no person sees catches form bots.
- *
- * The newsletter checkbox (D-101) is unticked by default. Ticked, a sent message also starts
- * the newsletter's double opt-in: nothing is mailed until the person confirms.
+ * "Send melding" hands the message to the platform as a `contact.submitted` event (D-230), with
+ * the topic. The design's check stays: a name and an e-mail address that looks like one, or the
+ * line under the button says what is missing. If the message cannot be filed, the line gives the
+ * address to write to instead. A field no person sees catches form bots.
  */
-export function ContactBlock({ words: w, to, lang }: { words: Words; to: string; lang: 'no' | 'en' }) {
+export function ContactBlock({ words: w, to }: { words: Words; to: string }) {
   const [topic, setTopic] = useState(0)
   const [name, setName] = useState('')
   const [mail, setMail] = useState('')
   const [org, setOrg] = useState('')
   const [msg, setMsg] = useState('')
   const [trap, setTrap] = useState('')
-  const [optIn, setOptIn] = useState(false)
   const [note, setNote] = useState<{ ok: boolean; text: string } | null>(null)
   const [sending, startSending] = useTransition()
 
@@ -92,9 +85,7 @@ export function ContactBlock({ words: w, to, lang }: { words: Words; to: string;
           startSending(async () => {
             const r = await sendContact({ topic, name, mail, org, msg, trap }).catch(() => null)
             if (r?.ok) {
-              if (optIn) await signUpNewsletter({ mail, name, company: org, lang, source: 'contact_form', trap }).catch(() => null)
               setMsg('')
-              setOptIn(false)
               setNote({ ok: true, text: w.sent })
             } else if (r?.problem === 'invalid') setNote({ ok: false, text: w.invalid })
             else if (r?.problem === 'rate_limited') setNote({ ok: false, text: w.limited })
@@ -135,15 +126,6 @@ export function ContactBlock({ words: w, to, lang }: { words: Words; to: string;
             onChange={(e) => (setMsg(e.target.value), setNote(null))}
             className="resize-y rounded-cta border border-line bg-bg px-[14px] py-[12px] text-[16px] font-normal leading-[1.5] text-ink"
           />
-        </label>
-        <label className="flex cursor-pointer items-start gap-[10px] text-[13px] font-medium leading-[1.5] text-body">
-          <input
-            type="checkbox"
-            checked={optIn}
-            onChange={(e) => setOptIn(e.target.checked)}
-            className="mt-[2px] h-[16px] w-[16px] flex-none cursor-pointer accent-ink"
-          />
-          {w.optIn}
         </label>
         {/* for form bots only: off screen, out of the tab order, hidden from assistive technology */}
         <input

@@ -5,7 +5,8 @@
 --     approval (2)
 --   * respond_locales: a bad token learns nothing; a good one gets each language's state, the
 --     employee's own language, and the wording only for a language complete for its survey (3, 4)
---   * only the platform's people approve (5)
+--   * only the platform approves (0206): a daglig leder cannot execute its operation, is refused by it
+--     outside a verified platform command, and cannot write an approval to the table (5)
 --   * the dispatcher is told the employee's language and the survey's state for a personal
 --     message, and nothing for a notice to a role (6)
 --   * nothing written here survives (7)
@@ -101,10 +102,18 @@ begin
       'expected', 'en,en,0,3,t,en,string', 'actual', v_txt, 'pass', v_txt = 'en,en,0,3,t,en,string');
 
     -- 5 ------------------------------------------------------------ who approves
+    perform set_config('app.platform_actor', '', true);
     perform set_config('request.jwt.claims', format(claims, v_dl), true);
     set local role authenticated;
-    v_txt := (public.approve_item_translations('pl', array['core:ytring:1'])->>'error') || ','
-             || (public.approve_ui_translation('pl', v_hash)->>'error');
+    begin
+      v_json := app.op_translations_approve('pl', v_hash, repeat('0', 64));
+      v_txt := coalesce(v_json->>'error', 'ok');
+    exception when insufficient_privilege then v_txt := 'refused';
+    end;
+    reset role;
+    -- the operation itself, reached without a platform command
+    v_txt := v_txt || ',' || (app.op_translations_approve('pl', v_hash, app.translation_digest('pl'))->>'error');
+    set local role authenticated;
     begin
       update app.item_translations set approved_at = now() where locale = 'pl';
       get diagnostics v_n = row_count;
@@ -112,9 +121,10 @@ begin
     exception when insufficient_privilege then v_txt := v_txt || ',refused';
     end;
     reset role;
-    v_txt := v_txt || ',' || (select (approved_at is null)::text from app.item_translations where item_id = 'core:ytring:1' and locale = 'pl');
-    v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'a daglig leder may not approve, through the functions or the table',
-      'expected', 'not_allowed,not_allowed,refused,true', 'actual', v_txt, 'pass', v_txt = 'not_allowed,not_allowed,refused,true');
+    v_txt := v_txt || ',' || (select (approved_at is null)::text from app.item_translations where item_id = 'core:ytring:1' and locale = 'pl')
+                   || ',' || (select count(*) from app.ui_translation_approvals where locale = 'pl' and messages_hash = v_hash);
+    v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'a daglig leder may not approve: the operation is not theirs to run, refuses without a platform command, and the table refuses',
+      'expected', 'refused,not_allowed,refused,true,0', 'actual', v_txt, 'pass', v_txt = 'refused,not_allowed,refused,true,0');
 
     -- 6 ------------------------------------------------------------ the dispatcher
     update app.organizations set mail_enabled = (id = v_org);

@@ -1,11 +1,14 @@
--- module_validation_invariants.sql — a module's validation status, decided in the admin (0092, D-140).
+-- module_validation_invariants.sql — a module's validation status, decided by the platform (0092, D-140;
+-- through the platform API since 0205/0206).
 --
 --   * the decision log: RLS on, no policy, no client privilege (1)
---   * only a super-admin with a second factor decides (2)
+--   * only the platform decides: no client may execute the operation, and without a platform actor it
+--     refuses (2)
 --   * «Validert» needs a report link and a reason; «Foreløpig» a reason (3)
---   * a decision moves the published module's status, logs it, and audits it (4)
+--   * a decision through the platform API moves the published module's status, logs it, and is recorded
+--     in app.platform_commands (4)
 --   * nothing else can move it: a direct update is refused, and a logged decision cannot change (5)
---   * the admin's list shows the status, the last decision and the variants (6)
+--   * the platform's module list shows the status, the last decision and the variants (6)
 --   * nothing written here survives (7)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/module_validation_invariants.sql
@@ -13,15 +16,25 @@
 create unlogged table if not exists public._mval(seq int, name text, expected text, actual text, pass bool);
 truncate public._mval;
 
+-- a command token as the platform would sign it (HS256 under the Vault secret)
+create or replace function pg_temp.tok(p_claims jsonb) returns text
+  language plpgsql as $$
+declare
+  h text := rtrim(translate(encode(convert_to('{"alg":"HS256","typ":"JWT"}', 'UTF8'), 'base64'), E'+/\n', '-_'), '=');
+  p text := rtrim(translate(encode(convert_to(p_claims::text, 'UTF8'), 'base64'), E'+/\n', '-_'), '=');
+begin
+  return h || '.' || p || '.' ||
+    rtrim(translate(encode(extensions.hmac(h || '.' || p, app.platform_secret('token'), 'sha256'), 'base64'), E'+/\n', '-_'), '=');
+end $$;
+
 do $$
 declare
-  v_super   uuid := '00000000-0000-4000-8000-0000000af001';
-  v_support uuid := '00000000-0000-4000-8000-0000000af002';
   v_rows    jsonb := '[]';
   v_json    jsonb;
   v_txt     text;
   v_n       int;
-  claims    constant text := '{"sub":"%s","role":"authenticated","aal":"%s"}';
+  v_cmd     jsonb := jsonb_build_object('aud', 'orgpuls', 'sub', 'tor@platform', 'scope', 'modules:write',
+                                        'iat', extract(epoch from now())::bigint, 'exp', extract(epoch from now())::bigint + 120);
 begin
   -- 1 ---------------------------------------------------------------- the log
   select concat_ws('|',
@@ -47,42 +60,42 @@ begin
       'count_items', '[]'::jsonb, 'segments', '[]'::jsonb), repeat('e', 64));
     perform app.module_set_status('probe-validation', '0.0.1', 'published');
 
-    insert into auth.users (id, email) values (v_super, 'super@val-test.example'), (v_support, 'support@val-test.example');
-    insert into app.platform_admins (user_id, role) values (v_super, 'super_admin'), (v_support, 'support');
-
     -- 2 ------------------------------------------------------------ who
-    perform set_config('request.jwt.claims', format(claims, v_support, 'aal2'), true);
-    v_txt := public.admin_module_set_validation('probe-validation', '0.0.1', 'validated', 'https://example.org/rapport', 'Pilot bestått')->>'error';
-    perform set_config('request.jwt.claims', format(claims, v_super, 'aal1'), true);
-    v_txt := v_txt || ',' || (public.admin_module_set_validation('probe-validation', '0.0.1', 'validated', 'https://example.org/rapport', 'Pilot bestått')->>'error');
-    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'support, and a super-admin without a second factor, are refused',
-      'expected', 'not_allowed,not_allowed', 'actual', v_txt, 'pass', v_txt = 'not_allowed,not_allowed');
+    v_txt := (has_function_privilege('anon', 'app.op_module_set_validation(text,text,text,text,text)', 'execute')
+              or has_function_privilege('authenticated', 'app.op_module_set_validation(text,text,text,text,text)', 'execute'))::text;
+    perform set_config('app.platform_actor', '', true);
+    v_txt := v_txt || ',' || (app.op_module_set_validation('probe-validation', '0.0.1', 'validated', 'https://example.org/rapport', 'Pilot bestått')->>'error')
+          || ',' || (app.op_modules()->>'error');
+    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'no client may execute the decision; without a platform actor it and the list refuse',
+      'expected', 'false,not_allowed,not_allowed', 'actual', v_txt, 'pass', v_txt = 'false,not_allowed,not_allowed');
 
     -- 3 ------------------------------------------------------------ what it takes
-    perform set_config('request.jwt.claims', format(claims, v_super, 'aal2'), true);
+    perform set_config('app.platform_actor', 'test@platform', true);
     v_txt := concat_ws(',',
-      public.admin_module_set_validation('probe-validation', '0.0.1', 'validated', null, 'Pilot bestått')->>'error',
-      public.admin_module_set_validation('probe-validation', '0.0.1', 'validated', 'http://example.org/r', 'Pilot bestått')->>'error',
-      public.admin_module_set_validation('probe-validation', '0.0.1', 'validated', 'https://example.org/r', 'ok')->>'error',
-      public.admin_module_set_validation('probe-validation', '0.0.1', 'godkjent', 'https://example.org/r', 'Pilot bestått')->>'error',
-      public.admin_module_set_validation('probe-validation', '9.9.9', 'validated', 'https://example.org/r', 'Pilot bestått')->>'error');
+      app.op_module_set_validation('probe-validation', '0.0.1', 'validated', null, 'Pilot bestått')->>'error',
+      app.op_module_set_validation('probe-validation', '0.0.1', 'validated', 'http://example.org/r', 'Pilot bestått')->>'error',
+      app.op_module_set_validation('probe-validation', '0.0.1', 'validated', 'https://example.org/r', 'ok')->>'error',
+      app.op_module_set_validation('probe-validation', '0.0.1', 'godkjent', 'https://example.org/r', 'Pilot bestått')->>'error',
+      app.op_module_set_validation('probe-validation', '9.9.9', 'validated', 'https://example.org/r', 'Pilot bestått')->>'error');
+    perform set_config('app.platform_actor', '', true);
     v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'no link, no https, a short reason, an unknown status or version: refused',
       'expected', 'report_required,report_required,reason_required,invalid,not_found', 'actual', v_txt,
       'pass', v_txt = 'report_required,report_required,reason_required,invalid,not_found');
 
     -- 4 ------------------------------------------------------------ a decision
-    select count(*) into v_n from app.admin_audit where action = 'module.validate';
-    v_json := public.admin_module_set_validation('probe-validation', '0.0.1', 'validated', 'https://example.org/rapport', 'Pilot med 312 svar bestått');
-    v_txt := concat_ws('|', v_json->>'result',
+    v_json := public.platform_command(pg_temp.tok(v_cmd || '{"jti":"mval-validate-001"}'), 'modules.set_validation',
+      jsonb_build_object('p_key', 'probe-validation', 'p_version', '0.0.1', 'p_status', 'validated',
+                         'p_report_url', 'https://example.org/rapport', 'p_reason', 'Pilot med 312 svar bestått'));
+    perform set_config('app.platform_actor', '', true);
+    v_txt := concat_ws('|', coalesce(v_json #>> '{result,result}', v_json::text),
       (select validation_status from app.question_modules where key = 'probe-validation'),
       (select status || ',' || report_url from app.module_validation_log where module_key = 'probe-validation'),
-      (select count(*) - v_n from app.admin_audit where action = 'module.validate'));
-    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'the decision moves the published module''s status, logged and audited',
+      (select count(*) from app.platform_commands where jti = 'mval-validate-001' and command = 'modules.set_validation' and ok));
+    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'the decision through the platform API moves the published module''s status, logged and recorded',
       'expected', 'validated|validated|validated,https://example.org/rapport|1', 'actual', v_txt,
       'pass', v_txt = 'validated|validated|validated,https://example.org/rapport|1');
 
     -- 5 ------------------------------------------------------------ nothing else moves it
-    perform set_config('request.jwt.claims', '', true);
     begin
       update app.question_modules set validation_status = 'provisional' where key = 'probe-validation';
       v_txt := 'written';
@@ -102,17 +115,16 @@ begin
       'expected', 'refused,refused,refused', 'actual', v_txt, 'pass', v_txt = 'refused,refused,refused');
 
     -- 6 ------------------------------------------------------------ the admin's list
-    perform set_config('request.jwt.claims', format(claims, v_super, 'aal2'), true);
-    perform public.admin_module_set_validation('probe-validation', '0.0.1', 'provisional', null, 'Nye funn i pilot to');
-    perform set_config('request.jwt.claims', format(claims, v_support, 'aal2'), true);
+    perform set_config('app.platform_actor', 'test@platform', true);
+    perform app.op_module_set_validation('probe-validation', '0.0.1', 'provisional', null, 'Nye funn i pilot to');
     select concat_ws('|', m->>'validation_status', m->'decision'->>'status', m->'decision'->>'reason',
                      jsonb_array_length(m->'variants'), (select count(*) from app.module_validation_log where module_key = 'probe-validation'))
       into v_txt
-    from jsonb_array_elements(public.admin_modules()->'modules') m where m->>'key' = 'probe-validation';
+    from jsonb_array_elements(app.op_modules()->'modules') m where m->>'key' = 'probe-validation';
     select v_txt || '#' || count(*) into v_txt
-    from jsonb_array_elements(public.admin_modules()->'modules') m, jsonb_array_elements(m->'variants') v
+    from jsonb_array_elements(app.op_modules()->'modules') m, jsonb_array_elements(m->'variants') v
     where m->>'key' = 'kunnskap-og-kontor' and (v->>'items')::int in (24, 62);
-    perform set_config('request.jwt.claims', '', true);
+    perform set_config('app.platform_actor', '', true);
     v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'the list shows the status, the last decision, and kontor''s two variants of 24 and 62',
       'expected', 'provisional|provisional|Nye funn i pilot to|0|2#2', 'actual', coalesce(v_txt, 'none'),
       'pass', v_txt = 'provisional|provisional|Nye funn i pilot to|0|2#2');
@@ -126,7 +138,7 @@ begin
   select count(*) into v_n from (
     select key from app.question_modules where key = 'probe-validation'
     union all select module_key from app.module_validation_log where module_key = 'probe-validation'
-    union all select id::text from auth.users where id in (v_super, v_support)
+    union all select jti from app.platform_commands where jti like 'mval-%'
   ) left_over;
   v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'every probe row was rolled back',
     'expected', '0', 'actual', v_n::text, 'pass', v_n = 0);

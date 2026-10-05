@@ -1,11 +1,12 @@
 -- demo_invariants.sql — a demo of one's own, copied from the template (0094, D-143).
 --
---   * the demo tables: RLS on, no policy, no client privilege (1)
+--   * the demo tables, the network's daily key among them (demo_salts, 0206): RLS on, no policy,
+--     no client privilege (1)
 --   * the copy plan names every table that holds an organisation's data (2)
 --   * a request: a bad or throwaway address is refused; one address gets three links a day,
 --     and the network is kept only as the day's hash (3)
 --   * a request says who is asking: without a name or a company, or with a role outside the
---     CRM's set, it is refused; with them, all three are stored (15, 0146)
+--     set the platform's contact takes, it is refused; with them, all three are stored (15, 0146)
 --   * the first login makes a copy with the template's data, its rounds in their states (4)
 --   * the copy has no org.nr, no billing row, mail and SMS off, one daglig leder, a member
 --     lock, and no token the template holds (5)
@@ -13,11 +14,12 @@
 --   * nothing leaves a demo: name and switches locked, no QR code, DPA or invitation, and the
 --     outbox drops its rows (7)
 --   * within a day the same copy; after it, or on «Tilbakestill», a new one (8, 9)
---   * the proved address becomes a CRM contact, mailable only with the box ticked (10), with
---     the request's name, company and role; an existing contact's are never overwritten (16)
---   * the CRM's sync and the signup counts leave a demo out (11)
+--   * the proved address goes to the platform once, as a demo.requested event with no organisation
+--     and consent exactly as the box was ticked (10), carrying the request's name, company, role
+--     and language and nothing else (16, 0206)
+--   * the platform is told of no demo organisation: nothing a copy does is an event (11)
 --   * somebody with a real organisation is sent there, not into a demo (12)
---   * leaving, or 14 idle days, takes the copy and the login (13, 14)
+--   * leaving, or 14 idle days, takes the copy and the login; the lead already sent stays (13, 14)
 --   * nothing written here survives (17)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/demo_invariants.sql
@@ -40,9 +42,13 @@ declare
   v_json   jsonb;
   v_txt    text;
   v_n      int;
+  v_ev0    bigint;
+  v_alive  text;
   claims   constant text := '{"sub":"%s","role":"authenticated"}';
 begin
   select org_id into v_tmpl from app.demo_orgs where kind = 'template';
+  -- the platform events this run writes are those after this one
+  select coalesce(max(id), 0) into v_ev0 from app.platform_events;
 
   -- 1 ---------------------------------------------------------------- the tables
   select string_agg(format('%s:%s/%s/%s', c.relname, c.relrowsecurity,
@@ -52,9 +58,9 @@ begin
     into v_txt
   from pg_class c where c.relnamespace = 'app'::regnamespace and c.relname like 'demo\_%' and c.relkind = 'r';
   v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'the demo tables: RLS on, no policy, no client privilege',
-    'expected', 'demo_copy_plan:t/0/0 demo_id_map:t/0/0 demo_orgs:t/0/0 demo_requests:t/0/0 demo_sandboxes:t/0/0 demo_settings:t/0/0',
+    'expected', 'demo_copy_plan:t/0/0 demo_id_map:t/0/0 demo_orgs:t/0/0 demo_requests:t/0/0 demo_salts:t/0/0 demo_sandboxes:t/0/0 demo_settings:t/0/0',
     'actual', v_txt,
-    'pass', v_txt = 'demo_copy_plan:t/0/0 demo_id_map:t/0/0 demo_orgs:t/0/0 demo_requests:t/0/0 demo_sandboxes:t/0/0 demo_settings:t/0/0');
+    'pass', v_txt = 'demo_copy_plan:t/0/0 demo_id_map:t/0/0 demo_orgs:t/0/0 demo_requests:t/0/0 demo_salts:t/0/0 demo_sandboxes:t/0/0 demo_settings:t/0/0');
 
   -- 2 ---------------------------------------------------------------- the plan is complete
   -- every table with an org_id, or a key to a table the copy takes, has said what a copy does
@@ -223,38 +229,41 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 9, 'name', '«Tilbakestill» makes a new copy at once, and the banner knows it is a demo',
       'expected', 'true,true,true,2', 'actual', v_txt, 'pass', v_txt = 'true,true,true,2');
 
-    -- 10 ------------------------------------------------------------- the lead
-    select string_agg(format('%s:%s:%s:%s', c.email, c.source, c.basis, 'demo' = any (c.tags)), ',' order by c.email) into v_txt
-    from app.crm_contacts c where c.email in ('visitor.a@demo-test.example', 'visitor.b@gmail.com');
-    v_txt := v_txt || '|' || (select app.crm_mailable(c)::text from app.crm_contacts c where c.email = 'visitor.b@gmail.com');
-    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'the proved address is a contact: consent with the box ticked, none without',
-      'expected', 'visitor.a@demo-test.example:demo:consent:t,visitor.b@gmail.com:demo:none:t|false', 'actual', v_txt,
-      'pass', v_txt = 'visitor.a@demo-test.example:demo:consent:t,visitor.b@gmail.com:demo:none:t|false');
+    -- 10 ------------------------------------------------------------- the lead (0206)
+    -- one event per proved address, at the first login only: no organisation, the box as ticked,
+    -- and no key outside the six the kind registers
+    select string_agg(format('%s:%s:%s', e.payload->>'email', e.payload->>'consent', coalesce(e.org_id::text, 'null')), ','
+                      order by e.payload->>'email') into v_txt
+    from app.platform_events e
+    where e.id > v_ev0 and e.kind = 'demo.requested' and e.payload->>'email' in ('visitor.a@demo-test.example', 'visitor.b@gmail.com');
+    v_txt := v_txt || '|' || (select count(*) from app.platform_events e, jsonb_object_keys(e.payload) k
+                              where e.id > v_ev0 and e.kind = 'demo.requested'
+                                and k <> all (array['email', 'name', 'company', 'role', 'consent', 'lang']));
+    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'the proved address is one demo.requested event: no organisation, consent as ticked, nothing else',
+      'expected', 'visitor.a@demo-test.example:true:null,visitor.b@gmail.com:false:null|0', 'actual', v_txt,
+      'pass', v_txt = 'visitor.a@demo-test.example:true:null,visitor.b@gmail.com:false:null|0');
 
-    -- 16 ------------------------------------------------------------- who the lead is (0146)
-    -- a new contact takes the request's name, company and role; a request from before 0146 has
-    -- none and leaves them empty; an existing contact keeps its own and only fills what it lacks
-    insert into app.crm_contacts (email, name, source, basis, status, tags)
-    values ('visitor.c@demo-test.example', 'Kari Fra Salg', 'manual', 'none', 'active', '{}');
+    -- 16 ------------------------------------------------------------- who the lead is (0146, 0206)
+    -- the event takes the latest request's name, company, role and language; a request from before
+    -- 0146 has none and the event leaves them out rather than sending them empty
     insert into auth.users (id, email, created_at) values (v_c, 'visitor.c@demo-test.example', now());
     perform app.demo_lead(v_c);
-    select string_agg(format('%s=%s/%s/%s', c.email, coalesce(c.name, '-'), coalesce(c.company, '-'), coalesce(c.role, '-')), ','
-                      order by c.email) into v_txt
-    from app.crm_contacts c
-    where c.email in ('visitor.a@demo-test.example', 'visitor.b@gmail.com', 'visitor.c@demo-test.example');
-    v_rows := v_rows || jsonb_build_object('seq', 16, 'name', 'the lead carries name, company and role; an existing contact''s name is never overwritten',
-      'expected', 'visitor.a@demo-test.example=Ada Visitor/Visitor AS/daglig_leder,visitor.b@gmail.com=-/-/-,visitor.c@demo-test.example=Kari Fra Salg/Demo Firma AS/hr',
+    select string_agg(format('%s=%s/%s/%s/%s', e.payload->>'email', coalesce(e.payload->>'name', '-'), coalesce(e.payload->>'company', '-'),
+                             coalesce(e.payload->>'role', '-'), coalesce(e.payload->>'lang', '-')), ',' order by e.payload->>'email') into v_txt
+    from app.platform_events e
+    where e.id > v_ev0 and e.kind = 'demo.requested';
+    v_txt := v_txt || '|' || (select string_agg(k, ',' order by k) from app.platform_events e, jsonb_object_keys(e.payload) k
+                              where e.id > v_ev0 and e.kind = 'demo.requested' and e.payload->>'email' = 'visitor.b@gmail.com');
+    v_rows := v_rows || jsonb_build_object('seq', 16, 'name', 'the lead carries the request''s name, company, role and language, and leaves out what it lacks',
+      'expected', 'visitor.a@demo-test.example=Ada Visitor/Visitor AS/daglig_leder/no,visitor.b@gmail.com=-/-/-/no,visitor.c@demo-test.example=Kari Demo/Demo Firma AS/hr/en|consent,email,lang',
       'actual', v_txt,
-      'pass', v_txt = 'visitor.a@demo-test.example=Ada Visitor/Visitor AS/daglig_leder,visitor.b@gmail.com=-/-/-,visitor.c@demo-test.example=Kari Fra Salg/Demo Firma AS/hr');
+      'pass', v_txt = 'visitor.a@demo-test.example=Ada Visitor/Visitor AS/daglig_leder/no,visitor.b@gmail.com=-/-/-/no,visitor.c@demo-test.example=Kari Demo/Demo Firma AS/hr/en|consent,email,lang');
 
-    -- 11 ------------------------------------------------------------- nobody counts a demo
-    perform app.crm_sync();
-    v_txt := concat_ws(',',
-      (select count(*) from app.crm_contacts where user_id in (v_a, v_b)),
-      (select count(*) from app.crm_companies where org_id in (select org_id from app.demo_orgs)
-                                               and created_at > now() - interval '1 minute'));
-    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'the CRM''s sync takes no demo login and no demo company',
-      'expected', '0,0', 'actual', v_txt, 'pass', v_txt = '0,0');
+    -- 11, first half: while two copies are alive and two have been replaced (completed below)
+    perform app.platform_emit('org.attribution', v_org_b, jsonb_build_object('heard', 'search'));
+    select coalesce(string_agg(format('%s:%s', kind, n), ',' order by kind), 'none') into v_alive
+    from (select e.kind, count(*) n from app.platform_events e
+          where e.id > v_ev0 and e.org_id is not null and e.org_id <> v_fix group by e.kind) x;
 
     -- 12 ------------------------------------------------------------- a real member
     perform set_config('request.jwt.claims', format(claims, v_real), true);
@@ -273,8 +282,9 @@ begin
     execute 'reset role';
     v_txt := v_txt || ',' || (select count(*) from app.organizations where id = v_org2)
                    || ',' || (select count(*) from auth.users where id = v_a)
-                   || ',' || (select count(*) from app.crm_contacts where email = 'visitor.a@demo-test.example');
-    v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'leaving takes the copy and the login; the contact stays',
+                   || ',' || (select count(*) from app.platform_events
+                              where id > v_ev0 and kind = 'demo.requested' and payload->>'email' = 'visitor.a@demo-test.example');
+    v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'leaving takes the copy and the login; the lead already sent stays',
       'expected', 'true,0,0,1', 'actual', v_txt, 'pass', v_txt = 'true,0,0,1');
 
     -- 14 ------------------------------------------------------------- idle
@@ -284,6 +294,15 @@ begin
       (select count(*) from app.organizations where id = v_org_b), (select count(*) from auth.users where id = v_b));
     v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'fourteen idle days take the copy and the login',
       'expected', 't,0,0', 'actual', v_txt, 'pass', v_txt = 't,0,0');
+
+    -- 11 ------------------------------------------------------------- nobody counts a demo (0206)
+    -- while copies are alive (above), and after every copy made, reset, left and expired: the only
+    -- events naming an organisation are for the real one; an event emitted for a live copy is dropped
+    select v_alive || '|' || coalesce(string_agg(format('%s:%s', kind, n), ',' order by kind), 'none') into v_txt
+    from (select e.kind, count(*) n from app.platform_events e
+          where e.id > v_ev0 and e.org_id is not null and e.org_id <> v_fix group by e.kind) x;
+    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'the platform is told of no demo organisation: no event names a copy, alive or gone',
+      'expected', 'none|none', 'actual', v_txt, 'pass', v_txt = 'none|none');
 
     raise exception 'rollback' using errcode = 'P0001';
   exception when sqlstate 'P0001' then
@@ -295,7 +314,8 @@ begin
     select id::text from auth.users where id in (v_a, v_b, v_real, v_c)
     union all select user_id::text from app.demo_sandboxes where user_id in (v_a, v_b, v_real, v_c)
     union all select email from app.demo_requests where email like '%demo-test.example' or email = 'visitor.b@gmail.com'
-    union all select email from app.crm_contacts where email like '%demo-test.example' or email = 'visitor.b@gmail.com'
+    union all select payload->>'email' from app.platform_events
+              where id > v_ev0 and (payload->>'email' like '%demo-test.example' or payload->>'email' = 'visitor.b@gmail.com')
     union all select org_id::text from app.demo_orgs where kind = 'sandbox'
   ) left_over;
   v_rows := v_rows || jsonb_build_object('seq', 17, 'name', 'every probe row was rolled back',

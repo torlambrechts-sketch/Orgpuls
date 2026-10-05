@@ -1,9 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { headers } from 'next/headers'
 import { EN_HOST, EN_URL, hostOf, MAIN_URL } from '@/lib/hosts'
-import { archive } from '@/lib/crm/read'
-import { cmsList } from '@/lib/cms/read'
-import { pathOf, type CmsKind } from '@/lib/cms/content'
 import { ARTICLES, LANDING_PAGES, SITE_PAGES } from '@/lib/marketing/site'
 import { getIndustry, INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 import { siteIndexing } from '@/lib/site/indexing'
@@ -12,9 +9,7 @@ import { siteIndexing } from '@/lib/site/indexing'
  * Every public page a search engine should know about, and nothing behind the sign-in: the
  * start page, the site's own pages, the landing pages, the article index and each article
  * with its own date. Each in Norwegian (www) with its English twin (en.orgpuls.com) as an
- * alternate, D-98. The newsletter's signup and archive index are translated like the rest;
- * the issues themselves (D-103) are Norwegian only, each with the date it went out, and
- * their pages say so: canonical on www, no English twin (D-104).
+ * alternate, D-98.
  */
 export const revalidate = 3600
 
@@ -22,8 +17,7 @@ export const revalidate = 3600
  * One sitemap per host (multilingual guide § 8, D-132): www.orgpuls.com lists its Norwegian
  * pages, en.orgpuls.com its English ones, each with the other as an alternate and x-default on
  * the Norwegian, as the pages' own <link rel=alternate> say (lib/marketing/meta.ts). A page that
- * exists in one language only is in that host's sitemap only, with no alternates. IndexNow reads
- * www's (supabase/functions/orgpuls-seo) and announces the English twins from its alternates.
+ * exists in one language only is in that host's sitemap only, with no alternates.
  */
 type Entry = MetadataRoute.Sitemap[number]
 type Rest = Omit<Entry, 'url' | 'alternates'>
@@ -58,32 +52,11 @@ function industryPages(s: ReturnType<typeof sitemapFor>): MetadataRoute.Sitemap 
   return INDUSTRIES.flatMap((i) => s.twinned(`/${i.slug}`, !!pageIn(i, 'no')?.launched, !!pageIn(i, 'en')?.launched, rest))
 }
 
-/**
- * The pages made in the CMS (0114, X-094) that are live and may be indexed: per language, a twin
- * where both are live, each with the time it last changed.
- */
-async function cmsPages(s: ReturnType<typeof sitemapFor>): Promise<MetadataRoute.Sitemap> {
-  const kinds: CmsKind[] = ['page', 'article']
-  const out: MetadataRoute.Sitemap = []
-  for (const kind of kinds) {
-    const [no, en] = await Promise.all([cmsList(kind, 'no'), cmsList(kind, 'en')])
-    const slugs = [...new Set([...no, ...en].filter((p) => !p.noindex).map((p) => p.slug))]
-    for (const slug of slugs) {
-      const n = no.find((p) => p.slug === slug && !p.noindex)
-      const e = en.find((p) => p.slug === slug && !p.noindex)
-      const at = [n?.updated_at, e?.updated_at].filter((x): x is string => !!x).sort().at(-1)
-      out.push(...s.twinned(pathOf(kind, slug), !!n, !!e, { lastModified: at, changeFrequency: 'monthly', priority: kind === 'article' ? 0.6 : 0.7 }))
-    }
-  }
-  return out
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Admin › Site settings › «Allow search engines» off (0126): nothing to offer
+  // «Allow search engines» off (0126): nothing to offer
   if (!(await siteIndexing())) return []
   const s = sitemapFor(hostOf((await headers()).get('host')) === EN_HOST)
   const { entry } = s
-  const issues = await archive()
   const newest = ARTICLES.map((a) => a.modified)
     .sort()
     .at(-1)
@@ -98,10 +71,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/artikler', { lastModified: newest, changeFrequency: 'weekly', priority: 0.7 }),
     ...ARTICLES.map((a) => entry(`/artikler/${a.slug}`, { lastModified: a.modified, changeFrequency: 'monthly', priority: 0.6 })),
     entry('/demo', { changeFrequency: 'yearly', priority: 0.6 }),
-    entry('/nyhetsbrev', { changeFrequency: 'yearly', priority: 0.4 }),
-    entry('/nyhetsbrev/arkiv', { lastModified: issues[0]?.published_at, changeFrequency: 'weekly', priority: 0.5 }),
-    // the issues are Norwegian only (D-104): www's sitemap only
-    ...issues.flatMap((i) => s.single(`/nyhetsbrev/arkiv/${i.slug}`, 'no', { lastModified: i.published_at, changeFrequency: 'yearly', priority: 0.5 })),
-    ...(await cmsPages(s)),
   ]
 }

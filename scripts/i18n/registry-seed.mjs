@@ -9,7 +9,7 @@
  *   - the module items and their options, from app.module_items' own English (0072).
  *   - a worded module's variants (module:<uuid>:v:barnehage, :v:skole) from its "en.<wording>".
  * Every row is source 'machine' and a draft (0084): the product's English was written with AI
- * assistance, and approving it (Admin › Juridisk, public.admin_translations_approve) is the
+ * assistance, and approving it (the platform's translations.approve command, app.op_translations_approve) is the
  * human review. A new text for an approved row is a new version, a draft again; the approved
  * one stays in app.item_translation_log, and in every round it was pinned in. Idempotent.
  *

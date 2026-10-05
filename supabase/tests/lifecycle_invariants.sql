@@ -1,15 +1,15 @@
--- lifecycle_invariants.sql — the trial's mail and the account health score (0060, D-105).
+-- lifecycle_invariants.sql — the trial's service mail (0060, D-105). The account health score left with
+-- the admin app (0206); the platform scores from its own usage events.
 --
 --   * both tables have RLS on, no policy and no client privilege (1)
---   * only the dispatcher may claim and finish; a client may not plan (2)
+--   * only the dispatcher may claim and finish; a client may not claim or plan (2)
 --   * an organisation from before the sequence started gets nothing (3)
 --   * a new organisation gets its welcome, once, and nothing that is not yet true (4, 5)
 --   * setup help after 48 hours without employees; skipped at claim once employees exist (6)
 --   * the trial's end: queued three days before, skipped at claim once a plan is confirmed (7)
 --   * a claim returns the row's facts and marks it sending; done marks it sent (8)
 --   * an organisation with mail switched off, or a reserved address, gets nothing (9)
---   * the health score is for admins only, scores with reasons, and marks a qualified trial (10, 11)
---   * nothing written here survives (12)
+--   * nothing written here survives (10)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/lifecycle_invariants.sql
 
@@ -19,7 +19,6 @@ truncate public._lci;
 do $$
 declare
   v_uid     uuid := '00000000-0000-4000-8000-0000011fec01';
-  v_admin   uuid := '00000000-0000-4000-8000-0000011fecad';
   v_old     uuid := '00000000-0000-4000-8000-000000000001';
   v_org     uuid;
   v_rows    jsonb := '[]';
@@ -43,9 +42,9 @@ begin
     has_function_privilege('authenticated', 'public.lifecycle_mail_claim(int)', 'execute'),
     has_function_privilege('authenticated', 'public.lifecycle_mail_done(uuid,boolean,text,text,boolean)', 'execute'),
     has_function_privilege('authenticated', 'app.lifecycle_plan()', 'execute'),
-    has_function_privilege('anon', 'public.admin_account_health()', 'execute'),
+    has_function_privilege('anon', 'public.lifecycle_mail_claim(int)', 'execute'),
     has_function_privilege('service_role', 'public.lifecycle_mail_claim(int)', 'execute'));
-  v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'only the dispatcher claims and finishes; no client plans',
+  v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'only the dispatcher claims and finishes; no client claims or plans',
     'expected', 'f,f,f,f,t', 'actual', v_txt, 'pass', v_txt = 'f,f,f,f,t');
 
   begin
@@ -54,7 +53,7 @@ begin
     delete from app.lifecycle_mail;
 
     -- a new organisation, made the way a signup makes one
-    insert into auth.users (id, email) values (v_uid, 'dl@lifecycle-test.no'), (v_admin, 'admin@lifecycle-test.no');
+    insert into auth.users (id, email) values (v_uid, 'dl@lifecycle-test.no');
     perform set_config('request.jwt.claims', format(claims, v_uid, 'aal1'), true);
     v_json := public.create_organisation('Livsløp AS', '999999997', 25, 'Lise Livsløp');
     perform set_config('request.jwt.claims', '', true);
@@ -121,35 +120,13 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'mail switched off, or a reserved address: nothing queued',
       'expected', 'none,none', 'actual', v_txt, 'pass', v_txt = 'none,none');
 
-    -- 10, 11 --------------------------------------------------------------- health
-    perform set_config('request.jwt.claims', format(claims, v_uid, 'aal2'), true);
-    v_txt := coalesce(public.admin_account_health()->>'error', 'ok');
-    insert into app.platform_admins (user_id, role) values (v_admin, 'marketing');
-    perform set_config('request.jwt.claims', format(claims, v_admin, 'aal1'), true);
-    v_txt := v_txt || ',' || coalesce(public.admin_account_health()->>'error', 'ok');
-    perform set_config('request.jwt.claims', format(claims, v_admin, 'aal2'), true);
-    v_json := public.admin_account_health();
-    v_txt := v_txt || ',' || coalesce(v_json->>'error', 'ok');
-    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'health: not a customer, not without aal2; an admin may',
-      'expected', 'not_allowed,not_allowed,ok', 'actual', v_txt, 'pass', v_txt = 'not_allowed,not_allowed,ok');
-
-    select concat_ws('|', r->>'score', r->>'activation_points', r->>'size_points', r->>'qualified', r->>'access')
-      into v_txt from jsonb_array_elements(v_json->'rows') r where (r->>'id')::uuid = v_org;
-    -- employees uploaded only: 10 of activation; 25 stated employees: 10 of size; no sign-in; no round
-    v_ok := v_txt = '20|10|10|false|trial';
-    select concat_ws('|', r->>'unlocked', r->>'qualified') into v_txt
-      from jsonb_array_elements(v_json->'rows') r where (r->>'id')::uuid = v_old;
-    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'scored with its parts; a trial with results is qualified, others not',
-      'expected', '20|10|10|false|trial; fixture unlocked', 'actual', (case when v_ok then '20|10|10|false|trial' else 'wrong' end) || '; fixture ' || coalesce(v_txt, 'none'),
-      'pass', v_ok and v_txt like 'true|%');
-
     perform set_config('request.jwt.claims', '', true);
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
   end;
 
-  v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'every probe row was rolled back', 'expected', '0',
+  v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'every probe row was rolled back', 'expected', '0',
     'actual', (select count(*) from auth.users where email like '%@lifecycle-test.no')::text,
     'pass', not exists (select 1 from auth.users where email like '%@lifecycle-test.no')
       and not exists (select 1 from app.organizations where org_number = '999999997'));
@@ -165,7 +142,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._lci;
   if v_failed is not null then raise exception 'lifecycle invariants failed: %', v_failed; end if;
-  if v_count <> 12 then raise exception 'lifecycle invariants: expected 12 rows, got %', v_count; end if;
+  if v_count <> 10 then raise exception 'lifecycle invariants: expected 10 rows, got %', v_count; end if;
 end $$;
 
 drop table public._lci;

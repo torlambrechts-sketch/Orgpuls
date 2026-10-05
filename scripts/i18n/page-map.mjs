@@ -1,6 +1,6 @@
 /**
  * The page map (X-090): which texts each public page shows, in the order it shows them. Writes
- * lib/i18n/site-pages.json, which admin › Translations reviews the site by, one page at a time.
+ * lib/i18n/site-pages.json, which the platform's translation review reads the site by, one page at a time.
  *
  * It is crawled, not written by hand: a QA server started with ORGPULS_I18N_KEYS=1 prefixes every
  * message with its own path between ⟪ ⟫ (lib/i18n/keyed.ts), and this reads those markers from the
@@ -13,7 +13,7 @@
  *   unseen   a text of a namespace the site shows that no crawled page showed and no one page
  *            owns: listed, so nothing on the site is outside the map
  *
- * A page whose address carries a database slug (a newsletter issue) is crawled once, under its
+ * A page whose address carries a database slug is crawled once, under its
  * route's pattern, so the map does not depend on what a database holds.
  *
  *   node scripts/i18n/page-map.mjs           crawl and write the map
@@ -34,9 +34,9 @@ const baseArg = process.argv.indexOf('--base')
 let base = baseArg > 0 ? process.argv[baseArg + 1] : `http://localhost:${PORT}`
 
 /** public pages the sitemap does not list: the sign-in, the sign-up, the pages a link opens */
-const EXTRA = ['/logg-inn', '/registrer', '/nytt-passord', '/avmeld', '/bli-med/ukjent', '/demo', '/nyhetsbrev']
-/** addresses whose last segment is a database slug: crawled once, under the pattern */
-const PATTERNS = [{ re: /^\/nyhetsbrev\/arkiv\/[^/]+$/, as: '/nyhetsbrev/arkiv/[slug]' }]
+const EXTRA = ['/logg-inn', '/registrer', '/nytt-passord', '/bli-med/ukjent', '/demo']
+/** addresses whose last segment is a database slug: crawled once, under the pattern (none since the newsletter archive left, D-230) */
+const PATTERNS = []
 
 const flatten = (o, p = '', out = {}) => {
   if (typeof o === 'string') out[p] = o

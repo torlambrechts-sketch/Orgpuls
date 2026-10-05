@@ -1,14 +1,14 @@
 -- translation_governance_invariants.sql — translation governance (0084, D-132).
 --
---   * the log and the pins: RLS on, no policy, no grant; the admin functions only for a
---     signed-in caller, the pinning ones for none (1)
+--   * the log and the pins: RLS on, no policy, no grant; the platform's translation operations
+--     (app.op_*, 0206) and the pinning functions for no client role (1)
 --   * every translation that was approved before 0084 still is, and is in the log (2)
 --   * the workflow: forward (skipping allowed), back to draft before approval, from approved only
 --     to retired (3)
 --   * a new wording of an approved row is a new version in draft; the approved one stays in the
 --     log, which cannot be changed (4, 5)
---   * a professional translation is approved only once pretested, through the super-admin path;
---     a daglig leder can do neither; every step is audited (6)
+--   * a professional translation is approved only once pretested, through a verified platform
+--     command (app.platform_actor); without one — a signed-in daglig leder — neither step runs (6)
 --   * a round opened pins its approved wording, a worded module under its variant key (7)
 --   * the respondent gets the variant under the item's own key (8)
 --   * a new wording, even approved, does not reach a round in the field (9)
@@ -24,7 +24,6 @@ do $$
 declare
   v_org   uuid := '00000000-0000-4000-8000-000000000001';
   v_dl    uuid;
-  v_sa    uuid := '00000000-0000-4000-8000-00000000c841';
   v_mod   uuid;
   v_item  uuid;
   v_meas  uuid;
@@ -49,14 +48,15 @@ begin
            || has_table_privilege('anon', 'app.' || t, 'select')::text, ',' order by t)
     into v_txt
   from unnest(array['item_translation_log', 'round_translations']) t;
-  v_txt := v_txt || ',' || has_function_privilege('authenticated', 'public.admin_translation_update(text, text, text, text, jsonb)', 'execute')::text
-    || '/' || has_function_privilege('anon', 'public.admin_translation_update(text, text, text, text, jsonb)', 'execute')::text
-    || '/' || has_function_privilege('anon', 'public.admin_translation_history(text, text)', 'execute')::text
+  v_txt := v_txt || ',' || has_function_privilege('authenticated', 'app.op_translation_update(text, text, text, text, jsonb)', 'execute')::text
+    || '/' || has_function_privilege('anon', 'app.op_translation_update(text, text, text, text, jsonb)', 'execute')::text
+    || '/' || has_function_privilege('authenticated', 'app.op_translation_history(text, text)', 'execute')::text
+    || '/' || has_function_privilege('authenticated', 'app.op_translations_approve(text, text, text)', 'execute')::text
     || '/' || has_function_privilege('authenticated', 'app.pin_round_translations(uuid)', 'execute')::text
     || '/' || has_function_privilege('authenticated', 'app.round_texts(uuid, text)', 'execute')::text;
-  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'log and pins: RLS on, no policy, no grant; admin functions for a signed-in caller only; pinning for none',
-    'expected', 'true/0/false/false,true/0/false/false,true/false/false/false/false', 'actual', v_txt,
-    'pass', v_txt = 'true/0/false/false,true/0/false/false,true/false/false/false/false');
+  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'log and pins: RLS on, no policy, no grant; the platform''s operations and pinning for no client role',
+    'expected', 'true/0/false/false,true/0/false/false,false/false/false/false/false/false', 'actual', v_txt,
+    'pass', v_txt = 'true/0/false/false,true/0/false/false,false/false/false/false/false/false');
 
   -- 2 -------------------------------------------------------------- what was approved stays approved
   v_txt := (select count(*) from app.item_translations t where t.approved_at is not null and t.status <> 'approved')::text || ','
@@ -111,33 +111,33 @@ begin
       'expected', 'refused,refused', 'actual', v_txt, 'pass', v_txt = 'refused,refused');
 
     -- 6 ------------------------------------------------------------ who approves what
-    insert into auth.users (id, email) values (v_sa, 'sa@tgi-test.example');
-    insert into app.platform_admins (user_id, role) values (v_sa, 'super_admin');
+    -- a daglig leder, signed in, outside a platform command
+    perform set_config('app.platform_actor', '', true);
     perform set_config('request.jwt.claims', format(claims, v_dl, 'aal2'), true);
-    set local role authenticated;
-    v_txt := (public.admin_translation_update('lt', 'core:ytring:1', 'pretested', null, null)->>'error') || ','
-          || (public.approve_item_translations('lt', array['core:ytring:1'])->>'error');
-    reset role;
-    perform set_config('request.jwt.claims', format(claims, v_sa, 'aal2'), true);
-    set local role authenticated;
-    v_txt := v_txt || ',' || (public.approve_item_translations('lt', array['core:ytring:1'])->>'approved');
-    v_txt := v_txt || ',' || (public.admin_translation_update('lt', 'core:ytring:1', 'pretested', 'Adjudisert mot kilde.',
-                                                              '{"pretest":"kognitivt intervju 2026-09"}')->>'status');
-    v_txt := v_txt || ',' || coalesce(public.admin_translation_update('lt', 'core:ytring:1', 'approved', null, null)->>'error', 'ok');
-    v_txt := v_txt || ',' || coalesce(public.admin_translation_update('lt', 'core:ytring:1', 'nonsense', null, null)->>'error', 'ok');
-    v_txt := v_txt || ',' || coalesce(public.admin_translation_update('lt', 'core:ytring:1', null, null, '{"other":"x"}')->>'error', 'ok');
-    v_txt := v_txt || ',' || (public.approve_item_translations('lt', array['core:ytring:1'])->>'approved');
-    v_txt := v_txt || ',' || coalesce(public.admin_translation_update('lt', 'core:ytring:1', 'in_review', null, null)->>'error', 'ok');
-    v_txt := v_txt || ',' || jsonb_array_length(public.admin_translation_history('lt', 'core:ytring:1')->'entries')::text;
-    reset role;
+    v_txt := (app.op_translation_update('lt', 'core:ytring:1', 'pretested', null, null)->>'error') || ','
+          || (app.op_translations_approve('lt', null, app.translation_digest('lt'))->>'error');
     perform set_config('request.jwt.claims', '', true);
-    v_txt := v_txt || ',' || (select t.status || '/' || (t.approved_by = v_sa)::text || '/' || t.notes || '/' || (t.trapd->>'pretest')
-                              from app.item_translations t where t.item_id = 'core:ytring:1' and t.locale = 'lt')
-          || ',' || (select string_agg(a.action, ' ' order by a.id) from app.admin_audit a where a.admin_id = v_sa);
-    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'a professional row is approved only once pretested, by a super-admin; a daglig leder can do nothing; audited',
-      'expected', 'not_allowed,not_allowed,0,pretested,invalid,invalid,invalid,1,transition,11,approved/true/Adjudisert mot kilde./kognitivt intervju 2026-09,translations.approve_items translations.update translations.approve_items',
+    -- the platform: a professional draft is not approvable until it is pretested
+    perform set_config('app.platform_actor', 'test@platform', true);
+    perform app.op_translations_approve('lt', null, app.op_translations('lt')->>'digest');
+    v_txt := v_txt || ',' || (select status from app.item_translations where item_id = 'core:ytring:1' and locale = 'lt');
+    v_txt := v_txt || ',' || (app.op_translation_update('lt', 'core:ytring:1', 'pretested', 'Adjudisert mot kilde.',
+                                                        '{"pretest":"kognitivt intervju 2026-09"}')->>'status');
+    v_txt := v_txt || ',' || coalesce(app.op_translation_update('lt', 'core:ytring:1', 'approved', null, null)->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(app.op_translation_update('lt', 'core:ytring:1', 'nonsense', null, null)->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(app.op_translation_update('lt', 'core:ytring:1', null, null, '{"other":"x"}')->>'error', 'ok');
+    perform app.op_translations_approve('lt', null, app.op_translations('lt')->>'digest');
+    v_txt := v_txt || ',' || (select status from app.item_translations where item_id = 'core:ytring:1' and locale = 'lt');
+    v_txt := v_txt || ',' || coalesce(app.op_translation_update('lt', 'core:ytring:1', 'in_review', null, null)->>'error', 'ok');
+    v_txt := v_txt || ',' || jsonb_array_length(app.op_translation_history('lt', 'core:ytring:1')->'entries')::text;
+    perform set_config('app.platform_actor', '', true);
+    -- approved by the platform, so by no person
+    v_txt := v_txt || ',' || (select t.status || '/' || (t.approved_by is null and t.approved_at is not null)::text || '/' || t.notes || '/' || (t.trapd->>'pretest')
+                              from app.item_translations t where t.item_id = 'core:ytring:1' and t.locale = 'lt');
+    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'a professional row is approved only once pretested, by a platform command; a daglig leder can do nothing',
+      'expected', 'not_allowed,not_allowed,draft,pretested,invalid,invalid,invalid,approved,transition,11,approved/true/Adjudisert mot kilde./kognitivt intervju 2026-09',
       'actual', v_txt,
-      'pass', v_txt = 'not_allowed,not_allowed,0,pretested,invalid,invalid,invalid,1,transition,11,approved/true/Adjudisert mot kilde./kognitivt intervju 2026-09,translations.approve_items translations.update translations.approve_items');
+      'pass', v_txt = 'not_allowed,not_allowed,draft,pretested,invalid,invalid,invalid,approved,transition,11,approved/true/Adjudisert mot kilde./kognitivt intervju 2026-09');
 
     -- a kindergarten asking a worded module, and English for every item it asks
     perform app.module_seed(jsonb_build_object(
@@ -236,8 +236,7 @@ begin
   end;
 
   v_txt := (not exists (select 1 from app.item_translations where text in ('bandymas', 'kitas', 'tgi reworded') or text like 'tgi %')
-            and not exists (select 1 from app.question_modules where key = 'probe-tgi')
-            and not exists (select 1 from app.platform_admins where user_id = v_sa))::text;
+            and not exists (select 1 from app.question_modules where key = 'probe-tgi'))::text;
   v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'every probe change was rolled back', 'expected', 'true', 'actual', v_txt, 'pass', v_txt = 'true');
 
   insert into public._tgi

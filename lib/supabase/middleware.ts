@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { ADMIN_HOST, hostOf, PUBLIC_HOSTS } from '@/lib/hosts'
 import { readSupabaseEnv } from '@/lib/supabase/env'
 
 /**
@@ -68,8 +67,6 @@ const PUBLIC_PATHS = [
   '/r',
   // an organisation's logo, by its address (0104, D-154): shown in the survey and in mails
   '/logo',
-  // an image a public page shows, by its address (0124, D-169)
-  '/media',
   '/bli-med',
   '/nytt-passord',
   '/lovkrav',
@@ -92,36 +89,14 @@ const PUBLIC_PATHS = [
   '/artikler',
   '/sitemap.xml',
   '/robots.txt',
-  // IndexNow's key file (D-106): the key is public by design; tests/unit/seo.test.ts keeps it in step
-  '/e02fe48ed85b382dcc8f874a523afff5.txt',
-  // the public site's analytics beacon (D-91)
-  '/api/wv',
-  // the newsletter: signup and confirmation, unsubscribing, and one-click unsubscribe (D-101)
-  '/nyhetsbrev',
-  '/avmeld',
-  '/api/avmeld',
-  // a support case's rating, from its resolution mail; the one-use key is the only way in (0135)
-  '/vurdering',
   // choosing a language on this host, then back to the page (D-109)
   '/api/sprak',
   // the approved site texts, public as the pages that show them, for the weekly fold-back (X-090)
   '/api/i18n/overrides',
-  // the platform admin's sign-in (D-90); everything else under /admin needs a session
-  '/admin/login',
   // the demo (D-143): the request form, and the start its login link leads to, which checks
   // the session itself and sends a visitor without one back to the form
   '/demo',
 ]
-
-/**
- * The platform admin (D-90). It is served under /admin. On its own host (lib/hosts,
- * admin.orgpuls.com) every path is the admin's, and on the public hosts /admin does not exist.
- * Local and preview hosts serve /admin as it is. Its session is the host's own cookie, apart from the
- * product's. An admin idle for thirty minutes signs in again.
- */
-const ADMIN_IDLE_MS = 30 * 60 * 1000
-const ADMIN_IDLE_COOKIE = 'op_admin_seen'
-const isAdminPath = (path: string) => path === '/admin' || path.startsWith('/admin/')
 
 /** Long enough for a healthy round trip, short enough that the platform never gets there. */
 const AUTH_TIMEOUT_MS = 5000
@@ -140,41 +115,28 @@ function deadline(ms: number): AbortSignal {
 }
 
 /**
- * The product's own roots (app/(app)), the admin and the API: the addresses that need a session.
- * Any other address of the site's own shape is the public site's (0114, X-094): a page made in the
- * CMS, an old address the admin redirected, or a 404 — never a sign-in. tests/unit/cms.test.ts keeps
- * this list equal to app/(app)'s routes, so a new screen of the product cannot become public by
- * being forgotten here.
+ * The product's own roots (app/(app)) and the API: the addresses that need a session. Any other
+ * address of the site's own shape is the public site's: a page or a 404, never a sign-in.
+ * tests/unit/app-roots.test.ts keeps this list equal to app/(app)'s routes, so a new screen of
+ * the product cannot become public by being forgotten here.
  */
-export const APP_ROOTS = ['forhandsvis', 'hjelp', 'innsikt', 'integrasjoner', 'kommentarer', 'maleoppsett', 'malinger', 'oppsett', 'rapport', 'resultater', 'tiltak', 'admin', 'api']
+export const APP_ROOTS = ['forhandsvis', 'hjelp', 'innsikt', 'integrasjoner', 'kommentarer', 'maleoppsett', 'malinger', 'oppsett', 'rapport', 'resultater', 'tiltak', 'api']
 const SITE_ADDRESS = /^\/[a-z0-9]+(-[a-z0-9]+)*(\/[a-z0-9_-]+)*$/
 const isSiteAddress = (path: string) => SITE_ADDRESS.test(path) && !APP_ROOTS.includes(path.split('/')[1] ?? '')
 
 const isPublic = (path: string) => PUBLIC_PATHS.some((p) => path === p || path.startsWith(`${p}/`)) || isSiteAddress(path)
 
 export async function updateSession(request: NextRequest) {
-  const host = hostOf(request.headers.get('host'))
-  let path = request.nextUrl.pathname
-  let rewrite: URL | null = null
-  if (host === ADMIN_HOST) {
-    if (!isAdminPath(path)) {
-      rewrite = request.nextUrl.clone()
-      rewrite.pathname = path === '/' ? '/admin' : `/admin${path}`
-      path = rewrite.pathname
-    }
-  } else if (isAdminPath(path) && PUBLIC_HOSTS.includes(host)) {
-    // on the public site the admin does not exist; local and preview hosts keep /admin
-    return new NextResponse(null, { status: 404 })
-  }
+  const path = request.nextUrl.pathname
 
   // no session needed here, so nothing here may depend on one being obtainable
-  if (isPublic(path)) return rewrite ? NextResponse.rewrite(rewrite, { request }) : NextResponse.next({ request })
+  if (isPublic(path)) return NextResponse.next({ request })
 
   try {
-    return await guard(request, path, rewrite)
+    return await guard(request)
   } catch (error) {
     console.error('[middleware] refusing the request: the access check failed', error)
-    return toSignIn(request, path)
+    return toSignIn(request)
   }
 }
 
@@ -196,25 +158,25 @@ export async function safeUpdateSession(request: NextRequest) {
   }
 }
 
-function toSignIn(request: NextRequest, path = request.nextUrl.pathname) {
+function toSignIn(request: NextRequest) {
   const url = request.nextUrl.clone()
-  url.pathname = isAdminPath(path) ? (hostOf(request.headers.get('host')) === ADMIN_HOST ? '/login' : '/admin/login') : '/logg-inn'
+  url.pathname = '/logg-inn'
   url.search = ''
   return NextResponse.redirect(url)
 }
 
-async function guard(request: NextRequest, path: string, rewrite: URL | null) {
+async function guard(request: NextRequest) {
   // inside the try, on purpose — see rule 4 above
   const { createServerClient } = await import('@supabase/ssr')
 
   const env = readSupabaseEnv()
   if ('problem' in env) {
     console.error(`[middleware] refusing the request: ${env.problem}`)
-    return toSignIn(request, path)
+    return toSignIn(request)
   }
   for (const warning of env.warnings) console.warn(`[middleware] ${warning}`)
 
-  const pass = () => (rewrite ? NextResponse.rewrite(rewrite, { request }) : NextResponse.next({ request }))
+  const pass = () => NextResponse.next({ request })
   let response = pass()
 
   const supabase = createServerClient(env.url, env.key, {
@@ -243,22 +205,9 @@ async function guard(request: NextRequest, path: string, rewrite: URL | null) {
    */
   if (error && error.name !== 'AuthSessionMissingError') {
     console.error('[middleware] refusing the request: the auth check failed', error.message)
-    return toSignIn(request, path)
+    return toSignIn(request)
   }
-  if (!data.user) return toSignIn(request, path)
-
-  if (isAdminPath(path)) {
-    const seen = Number(request.cookies.get(ADMIN_IDLE_COOKIE)?.value ?? '0')
-    if (!seen || Date.now() - seen > ADMIN_IDLE_MS) {
-      const url = request.nextUrl.clone()
-      url.pathname = hostOf(request.headers.get('host')) === ADMIN_HOST ? '/login' : '/admin/login'
-      url.search = '?idle=1'
-      const redirect = NextResponse.redirect(url)
-      redirect.cookies.delete(ADMIN_IDLE_COOKIE)
-      return redirect
-    }
-    response.cookies.set(ADMIN_IDLE_COOKIE, String(Date.now()), { httpOnly: true, sameSite: 'strict', secure: true, path: '/' })
-  }
+  if (!data.user) return toSignIn(request)
 
   return response
 }

@@ -25,7 +25,8 @@
 --     key links teams_conversations to them (35, 36)
 --   * a round's Teams rule is fixed once it has opened (37)
 --   * nothing that reacts to an answer (a trigger on invitations or an answer table) reaches Teams
---     or the outbox, so a sent card is never edited or deleted on answering (39)
+--     or the outbox, so a sent card is never edited or deleted on answering, and the anonymity
+--     firewall finds nothing but their own guards attached to the tables a submission writes (39)
 --   * nothing from the test survives (38)
 --
 -- Everything is written inside a block that rolls itself back.
@@ -371,7 +372,9 @@ begin
   where not t.tgisinternal and n.nspname = 'app'
     and c.relname in ('invitations', 'responses', 'answers', 'extra_answers', 'response_comments')
     and p.prosrc ~* '(teams|outbox)';
-  select nullif(concat_ws('|', v_txt, (select string_agg(rule, ',') from app.growth_firewall()
+  -- and nothing but their own guards is attached to the tables a submission writes (the anonymity
+  -- firewall's rule, app.growth_firewall()'s until 0206)
+  select nullif(concat_ws('|', v_txt, (select string_agg(rule, ',') from app.anonymity_firewall()
                                        where rule = 'nothing_attached_to_answers' and not pass)), '') into v_txt;
   insert into public._tci values (39, 'nothing that reacts to an answer reaches Teams or the outbox',
     'none', coalesce(v_txt, 'none'), v_txt is null);

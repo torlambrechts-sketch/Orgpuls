@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS } from '@/lib/hosts'
-import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
 import { SiteHeader } from '@/components/site/v3/SiteHeader'
@@ -26,7 +25,7 @@ import { siteNotice } from '@/lib/site/notice'
  * design draws, read from the path; its bottom line carries Norsk / English (D-96). The whole site
  * sets in the v3 design's type stack (`font-site`), whose fallback draws → ✓ ▾ as the design does.
  */
-/** Admin › Site settings › «Allow search engines» (0126): off, every page here says noindex */
+/** «Allow search engines» (0126, set through the platform's settings.set_indexing): off, every page here says noindex */
 export async function generateMetadata(): Promise<Metadata> {
   return (await siteIndexing()) ? {} : { robots: { index: false, follow: false } }
 }
@@ -51,7 +50,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
     ]),
   ) as FooterData
 
-  // the site notice (0123): only while it is switched on in admin
+  // the site notice (0123): only while it is switched on (the platform's settings.set_notice)
   const notice = await siteNotice((await getLocale()) === 'en' ? 'en' : 'no')
 
   return (
@@ -84,7 +83,6 @@ export default async function MarketingLayout({ children }: { children: React.Re
       <main id="innhold" tabIndex={-1} className="focus:outline-none">
         {children}
       </main>
-      <SiteBeacon />
 
       <SiteFooter
         columns={columns}

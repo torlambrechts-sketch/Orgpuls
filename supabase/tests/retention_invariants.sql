@@ -5,17 +5,19 @@
 --   * no client counts, previews, deletes or runs deletions; anon cannot open the list (1)
 --   * the daily run is scheduled, once (2)
 --   * the deleting function refuses an organisation without a cancellation (3)
---   * only the daglig leder cancels in the product, only a platform admin registers one (4)
+--   * only the daglig leder cancels in the product; only a platform command registers one or lists
+--     them (4, 0206)
 --   * a cancellation: read-only from the midnight after the last day, deletion 30 Oslo days on,
 --     and the function refuses the schedule before then (5)
 --   * the dry run lists it, with what the run would delete, counted table by table; an
 --     organisation with no cancellation is not in it (6)
 --   * 29 days after the end, the run leaves every row (7)
---   * undo: not the verneombud; the daglig leder, and support with a reason, audited (8)
+--   * undo: not the verneombud; the daglig leder, and the platform through a signed command with a
+--     reason, each command recorded (8, 0205)
 --   * 30 days after the end, the run deletes it: no row in any app table with an org_id keeps its
 --     id (9); every table in app and Auth lost exactly the rows the log counted and not one more
 --     (10); no id or e-mail address of it is left anywhere in the database, apart from the
---     platform's own records (11)
+--     deletion log and the notice to the platform (11)
 --   * the log remains, counts every table, and holds no person (12)
 --   * the other organisation is untouched, table by table (13)
 --   * nothing written here survives (14)
@@ -28,6 +30,17 @@
 create unlogged table if not exists public._rti(seq int, name text, expected text, actual text, pass bool);
 truncate public._rti;
 
+-- a command token as the platform would sign it (HS256 under the Vault secret), for row 8
+create or replace function pg_temp.tok(p_claims jsonb) returns text
+  language plpgsql as $$
+declare
+  h text := rtrim(translate(encode(convert_to('{"alg":"HS256","typ":"JWT"}', 'UTF8'), 'base64'), E'+/\n', '-_'), '=');
+  p text := rtrim(translate(encode(convert_to(p_claims::text, 'UTF8'), 'base64'), E'+/\n', '-_'), '=');
+begin
+  return h || '.' || p || '.' ||
+    rtrim(translate(encode(extensions.hmac(h || '.' || p, app.platform_secret('token'), 'sha256'), 'base64'), E'+/\n', '-_'), '=');
+end $$;
+
 -- one snapshot for the whole probe: the before-and-after counts must not see another session's commits
 begin transaction isolation level repeatable read;
 
@@ -37,7 +50,6 @@ declare
   v_demo    uuid := 'de000000-0000-4000-8000-000000000001';
   v_vo      uuid := '00000000-0000-4000-8000-0000000d7e01';
   v_al      uuid := '00000000-0000-4000-8000-0000000d7e02';
-  v_sup     uuid := '00000000-0000-4000-8000-0000000d7e03';
   v_out     uuid := '00000000-0000-4000-8000-0000000d7e04';
   v_dl      uuid;
   v_dl_mail text;
@@ -58,6 +70,8 @@ declare
   v_pat     text[];
   v_idpat   text[];
   v_log     app.deletion_log;
+  v_now     bigint := extract(epoch from now())::bigint;
+  v_claims  jsonb;
   t         record;
   claims    constant text := '{"sub":"%s","role":"authenticated","aal":"aal2"}';
 begin
@@ -68,9 +82,10 @@ begin
     has_function_privilege('authenticated', 'app.org_departing_accounts(uuid)', 'execute'),
     has_function_privilege('authenticated', 'app.delete_organisation(uuid,text,uuid)', 'execute'),
     has_function_privilege('authenticated', 'app.deletion_run()', 'execute'),
-    has_function_privilege('anon', 'public.admin_deletions()', 'execute'));
+    has_function_privilege('anon', 'app.op_deletions()', 'execute'),
+    has_function_privilege('authenticated', 'app.op_deletions()', 'execute'));
   v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'no client counts, previews, deletes or runs deletions',
-    'expected', 'f,f,f,f,f,f', 'actual', v_txt, 'pass', v_txt = 'f,f,f,f,f,f');
+    'expected', 'f,f,f,f,f,f,f', 'actual', v_txt, 'pass', v_txt = 'f,f,f,f,f,f,f');
 
   -- 2 ------------------------------------------------------------------ the schedule
   select count(*) filter (where j.schedule = '40 2 * * *' and j.active)::text || '/' || count(*) into v_txt
@@ -88,11 +103,10 @@ begin
     where org_id = v_org;
     insert into auth.users (id, email) values
       (v_vo, 'vo@retention-test.example'), (v_al, 'al@retention-test.example'),
-      (v_sup, 'sup@retention-test.example'), (v_out, 'out@retention-test.example');
+      (v_out, 'out@retention-test.example');
     insert into app.profiles (id, full_name) values (v_vo, 'Verne Ombud'), (v_al, 'Avdeling Leder') on conflict (id) do nothing;
     insert into app.memberships (org_id, user_id, role, active, group_id) values
       (v_org, v_vo, 'verneombud', true, null), (v_org, v_al, 'avdelingsleder', true, v_grp);
-    insert into app.platform_admins (user_id, role) values (v_sup, 'support');
 
     -- 3 ---------------------------------------------------------------- the guard
     v_txt := '';
@@ -102,7 +116,7 @@ begin
     exception when insufficient_privilege then v_txt := 'refused';
     end;
     begin
-      perform app.delete_organisation(v_org, 'admin', v_sup);
+      perform app.delete_organisation(v_org, 'admin');
       v_txt := v_txt || ',deleted';
     exception when insufficient_privilege then v_txt := v_txt || ',refused';
     end;
@@ -117,11 +131,13 @@ begin
     v_txt := v_txt || ',' || coalesce(public.cancel_subscription(v_org, 'price', true)->>'error', 'ok');
     perform set_config('request.jwt.claims', format(claims, v_out), true);
     v_txt := v_txt || ',' || coalesce(public.cancel_subscription(v_org, 'price', true)->>'error', 'ok');
+    -- the daglig leder at the platform's operations, with no platform command around the call (0206)
     perform set_config('request.jwt.claims', format(claims, v_dl), true);
-    v_txt := v_txt || ',' || coalesce(public.admin_cancel_org(v_org, v_today, 'Kunden ba om det')->>'error', 'ok');
-    v_txt := v_txt || ',' || coalesce(public.admin_deletions()->>'error', 'ok');
+    perform set_config('app.platform_actor', '', true);
+    v_txt := v_txt || ',' || coalesce(app.op_cancel_org(v_org, v_today, 'Kunden ba om det')->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(app.op_deletions()->>'error', 'ok');
     v_txt := v_txt || ',' || coalesce((select cancelled_at::text from app.billing where org_id = v_org), 'none');
-    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'only the daglig leder cancels; only a platform admin registers or lists',
+    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'only the daglig leder cancels; only a platform command registers or lists',
       'expected', 'not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,none', 'actual', v_txt,
       'pass', v_txt = 'not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,none');
 
@@ -141,8 +157,10 @@ begin
       'expected', 'ok|t|t|30|refused', 'actual', v_txt, 'pass', v_txt = 'ok|t|t|30|refused');
 
     -- 6 ---------------------------------------------------------------- the dry run
-    perform set_config('request.jwt.claims', format(claims, v_sup), true);
-    v_json := (select p from jsonb_array_elements(public.admin_deletions()->'pending') p where p->>'org_id' = v_org::text);
+    perform set_config('request.jwt.claims', '', true);
+    perform set_config('app.platform_actor', 'test@platform', true);
+    v_json := (select p from jsonb_array_elements(app.op_deletions()->'pending') p where p->>'org_id' = v_org::text);
+    perform set_config('app.platform_actor', '', true);
     v_txt := concat_ws('|',
       v_json->>'due',
       (v_json->'tables'->>'employees')::bigint = (select count(*) from app.employees where org_id = v_org),
@@ -169,14 +187,22 @@ begin
     perform set_config('request.jwt.claims', format(claims, v_dl), true);
     v_txt := v_txt || ',' || coalesce(public.withdraw_cancellation(v_org)->>'error', 'ok');
     v_txt := v_txt || ',' || coalesce((select cancelled_at::text from app.billing where org_id = v_org), 'cleared');
-    perform set_config('request.jwt.claims', format(claims, v_sup), true);
-    v_txt := v_txt || ',' || coalesce(public.admin_cancel_org(v_org, v_today, 'Kunden sa opp på e-post')->>'error', 'ok');
-    v_txt := v_txt || ',' || coalesce(public.admin_cancel_withdraw(v_org, 'Kunden ombestemte seg')->>'error', 'ok');
-    v_txt := v_txt || ',' || (select count(*) from app.admin_audit a where a.org_id = v_org and a.admin_id = v_sup
-                                and a.action in ('org.cancel', 'org.cancel_withdraw') and a.reason is not null);
+    -- the platform, through signed commands; each is recorded with its actor and its argument names (0205)
     perform set_config('request.jwt.claims', '', true);
+    v_claims := jsonb_build_object('iss', 'platform', 'aud', 'orgpuls', 'sub', 'support@platform', 'scope', 'billing:write',
+                                   'iat', v_now, 'exp', v_now + 120);
+    v_json := public.platform_command(pg_temp.tok(v_claims || '{"jti":"t-retention-cancel"}'), 'billing.cancel',
+                jsonb_build_object('p_org', v_org, 'p_ends', v_today, 'p_reason', 'Kunden sa opp på e-post'));
+    v_txt := v_txt || ',' || coalesce(v_json->>'error', v_json->'result'->>'error', 'ok');
+    v_json := public.platform_command(pg_temp.tok(v_claims || '{"jti":"t-retention-withdraw"}'), 'billing.cancel_withdraw',
+                jsonb_build_object('p_org', v_org, 'p_reason', 'Kunden ombestemte seg'));
+    v_txt := v_txt || ',' || coalesce(v_json->>'error', v_json->'result'->>'error', 'ok');
+    perform set_config('app.platform_actor', '', true);
+    v_txt := v_txt || ',' || (select count(*) from app.platform_commands c where c.jti in ('t-retention-cancel', 't-retention-withdraw')
+                                and c.ok and c.actor = 'support@platform' and 'p_reason' = any(c.arg_names)
+                                and c.command in ('billing.cancel', 'billing.cancel_withdraw'));
     v_txt := v_txt || ',' || app.deletion_run() || ',' || (select count(*) from app.organizations where id = v_org);
-    v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'undo: not the verneombud; the daglig leder; support with a reason, audited',
+    v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'undo: not the verneombud; the daglig leder; the platform with a reason, each command recorded',
       'expected', 'not_allowed,ok,cleared,ok,ok,2,0,1', 'actual', v_txt, 'pass', v_txt = 'not_allowed,ok,cleared,ok,ok,2,0,1');
 
     -- 9, 10, 11 ------------------------------------------------------------ 30 days after the end
@@ -203,13 +229,13 @@ begin
       execute format('select count(*) from %s', t.rel) into v_n;
       v_before := v_before || jsonb_build_object(t.k, v_n);
     end loop;
-    -- the ids it holds (the platform's records and a consented contact excepted), and its addresses
+    -- the ids it holds (the tables app.org_row_counts leaves out excepted), and its addresses
     for t in
       select c.relname from pg_class c
       where c.relnamespace = 'app'::regnamespace and c.relkind = 'r'
         and exists (select 1 from pg_attribute a where a.attrelid = c.oid and a.attname = 'org_id' and not a.attisdropped)
         and exists (select 1 from pg_attribute a where a.attrelid = c.oid and a.attname = 'id' and a.atttypid = 'uuid'::regtype and not a.attisdropped)
-        and c.relname not in ('deletion_log', 'admin_audit', 'crm_companies', 'crm_contacts')
+        and c.relname not in ('deletion_log', 'platform_events')
     loop
       execute format('select coalesce(array_agg(id), ''{}'') from app.%I where org_id = $1', t.relname) into v_part using v_org;
       v_ids := v_ids || v_part;
@@ -222,13 +248,13 @@ begin
 
     v_n := app.deletion_run();
 
-    -- 9: every app table with an org_id, apart from the platform's own records and the notice to it (0205)
+    -- 9: every app table with an org_id, apart from the log and the notice to the platform (0205, 0206)
     v_txt := null;
     for t in
       select c.relname from pg_class c
       where c.relnamespace = 'app'::regnamespace and c.relkind in ('r', 'p')
         and exists (select 1 from pg_attribute a where a.attrelid = c.oid and a.attname = 'org_id' and not a.attisdropped)
-        and c.relname not in ('deletion_log', 'admin_audit', 'platform_events')
+        and c.relname not in ('deletion_log', 'platform_events')
     loop
       execute format('select count(*) from app.%I where org_id = $1', t.relname) into v_n using v_org;
       if v_n > 0 then v_txt := concat_ws(',', v_txt, t.relname); end if;
@@ -244,12 +270,8 @@ begin
       -- was deleted takes their place (0205); the log does not count a queue
       continue when t.key = 'platform_events';
       execute format('select count(*) from %s', case when t.key like '%.%' then t.key else 'app.' || quote_ident(t.key) end) into v_n;
-      -- the rows a table may gain: the log's own, and the CRM company's move to «lost» (0064 keeps it)
+      -- the one row a table may gain: the log's own
       v_gain := (t.key = 'deletion_log')::int;
-      if t.key = 'crm_stage_changes' then
-        select count(*) into v_gain from app.crm_stage_changes sc join app.crm_companies cc on cc.id = sc.company_id
-        where cc.org_number = v_log.org_number and sc.to_stage = 'lost' and sc.changed_at = now();
-      end if;
       if t.value::bigint - v_n <> coalesce((v_log.tables->>t.key)::bigint, 0) - v_gain then
         v_txt := concat_ws(',', v_txt, t.key || ':' || (t.value::bigint - v_n) || '≠' || coalesce(v_log.tables->>t.key, '0'));
       end if;
@@ -257,7 +279,7 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'every table lost exactly the rows the log counted, and not one more',
       'expected', 'none', 'actual', coalesce(v_txt, 'none'), 'pass', v_txt is null and v_log.id is not null);
 
-    -- 11: no id or address of it anywhere, apart from the platform's own records
+    -- 11: no id or address of it anywhere, apart from the log and the notice to the platform
     v_txt := null;
     for t in
       select c.table_schema s, c.table_name tn, c.column_name cn, c.data_type dt, c.udt_name udt
@@ -267,8 +289,7 @@ begin
         and not (c.table_schema = 'public' and c.table_name like '\_%')
         and (c.data_type in ('uuid', 'text', 'character varying', 'json', 'jsonb') or c.udt_name in ('_uuid', 'citext', '_text'))
         and (c.table_schema, c.table_name, c.column_name) not in
-            (('app', 'deletion_log', 'org_id'), ('app', 'admin_audit', 'org_id'), ('app', 'admin_audit', 'target_id'),
-             ('app', 'platform_events', 'org_id'))
+            (('app', 'deletion_log', 'org_id'), ('app', 'platform_events', 'org_id'))
     loop
       if t.dt = 'uuid' then
         execute format('select count(*) from %I.%I where %I = any($1)', t.s, t.tn, t.cn) into v_n using v_ids;
@@ -280,7 +301,7 @@ begin
       end if;
       if v_n > 0 then v_txt := concat_ws(',', v_txt, t.s || '.' || t.tn || '.' || t.cn || ':' || v_n); end if;
     end loop;
-    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'no id or e-mail address of it is left anywhere but the platform''s records',
+    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'no id or e-mail address of it is left anywhere but the log and the platform''s notice',
       'expected', 'none', 'actual', coalesce(v_txt, 'none') || ' (' || cardinality(v_ids) || ' ids, ' || cardinality(v_pat) || ' addresses)',
       'pass', v_txt is null and cardinality(v_ids) > 100 and cardinality(v_pat) > 10);
 

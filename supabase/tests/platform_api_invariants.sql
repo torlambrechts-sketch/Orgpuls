@@ -9,10 +9,13 @@
 --   6 delivery waits for an enabled installation; then claim hands over events and secret, done marks them
 --   7 a command needs a valid, short, audience-bound token with the scope; anything else is refused
 --   8 a command runs by parameter name, is audited by argument names, and its id cannot be replayed
---   9 a write command does what it says and writes nothing to the old admin log
+--   9 a write command does what it says, and its record in platform_commands says it succeeded
 --  10 who may call what; the audit cannot be rewritten
 --  11 nothing written here survives
 --  12 deleting an organisation drops its queued events and leaves one empty notice
+--  13 every function the command map names exists and is executable by neither anon nor authenticated (0206)
+--  14 without a platform actor app.admin_role() is null and an operation refuses; with one it is super_admin (0206)
+--  15 no public.admin_* function remains: platform_command is the only way to an operation (0206)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/platform_api_invariants.sql
 
@@ -40,7 +43,6 @@ declare
   v_n     int;
   v_ok    boolean;
   v_rows  jsonb := '[]';
-  v_audit int;
   ok_claims jsonb;
 begin
   -- 1 ---------------------------------------------------------------- closed
@@ -141,14 +143,14 @@ begin
       'pass', v_txt = 'true,Plattform AS,replay,tor@platform,p_org,true');
 
     -- 9 -------------------------------------------------------------- a write
-    select count(*) into v_audit from app.admin_audit;
     update app.billing set confirmed_at = null, trial_ends_at = now() + interval '2 days' where org_id = v_org;
     v_json := public.platform_command(pg_temp.tok(ok_claims || '{"jti":"t-extend-1"}'), 'billing.extend_trial',
                                       jsonb_build_object('p_org', v_org, 'p_days', 10, 'p_reason', 'Probe'));
     select (v_json ->> 'ok') || ',' || (b.trial_ends_at > now() + interval '10 days')::text || ','
-        || ((select count(*) from app.admin_audit) = v_audit)::text into v_txt
+        || coalesce((select (c.ok and c.command = 'billing.extend_trial')::text from app.platform_commands c where c.jti = 't-extend-1'), 'none')
+      into v_txt
     from app.billing b where b.org_id = v_org;
-    v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'extend_trial through the API extends it, and writes no admin audit row',
+    v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'extend_trial through the API extends it, and its command record says it succeeded',
       'expected', 'true,true,true', 'actual', v_txt || ' ' || coalesce(v_json ->> 'error', ''), 'pass', v_txt = 'true,true,true');
 
     -- the audit is fixed
@@ -182,6 +184,18 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'deleting the organisation drops what was queued about it and says so once, with nothing in it',
       'expected', 'org.deleted:{}', 'actual', v_txt, 'pass', v_txt = 'org.deleted:{}');
 
+    -- 14 ------------------------------------------------------------- who an operation answers to
+    -- platform_command set the actor for this transaction above; clear it to act as nobody
+    perform set_config('app.platform_actor', '', true);
+    v_txt := coalesce(app.admin_role()::text, 'null') || ','
+          || (app.op_extend_trial(gen_random_uuid(), 10, 'Probe without actor') ->> 'error');
+    perform set_config('app.platform_actor', 'test@platform', true);
+    v_txt := v_txt || ',' || coalesce(app.admin_role()::text, 'null') || ','
+          || (app.op_extend_trial(gen_random_uuid(), 10, 'Probe with actor') ->> 'error');
+    perform set_config('app.platform_actor', '', true);
+    v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'without a platform actor admin_role() is null and an operation refuses; with one it is super_admin and the operation proceeds',
+      'expected', 'null,not_allowed,super_admin,not_in_trial', 'actual', v_txt, 'pass', v_txt = 'null,not_allowed,super_admin,not_in_trial');
+
     raise exception 'rollback';
   exception when others then
     if sqlerrm <> 'rollback' then raise; end if;
@@ -191,6 +205,22 @@ begin
   select count(*)::text into v_txt from app.organizations where id = v_org;
   select v_txt || ',' || count(*) into v_txt from app.platform_commands where jti like 't-%';
   v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'every probe row was rolled back', 'expected', '0,0', 'actual', v_txt, 'pass', v_txt = '0,0');
+
+  -- 13 --------------------------------------------------------------- the operations are closed
+  select count(*)::text || ',' || count(*) filter (where to_regprocedure(m.fn) is null)
+      || ',' || count(*) filter (where to_regprocedure(m.fn) is not null
+                                   and (has_function_privilege('anon', to_regprocedure(m.fn), 'execute')
+                                        or has_function_privilege('authenticated', to_regprocedure(m.fn), 'execute')))
+      || ',' || count(*) filter (where m.fn not like 'app.op\_%')
+    into v_txt from app.platform_command_map m;
+  v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'every mapped function is an app.op_* that exists and neither anon nor authenticated may execute',
+    'expected', 'n>0,0,0,0', 'actual', v_txt, 'pass', v_txt ~ '^[1-9][0-9]*,0,0,0$');
+
+  -- 15 --------------------------------------------------------------- no way round the API
+  select coalesce(string_agg(p.oid::regprocedure::text, ', '), 'none') into v_txt
+  from pg_proc p where p.pronamespace = 'public'::regnamespace and p.proname like 'admin\_%';
+  v_rows := v_rows || jsonb_build_object('seq', 15, 'name', 'no public.admin_* function remains',
+    'expected', 'none', 'actual', v_txt, 'pass', v_txt = 'none');
 
   insert into public._pai
   select (r ->> 'seq')::int, r ->> 'name', r ->> 'expected', r ->> 'actual', (r ->> 'pass')::boolean from jsonb_array_elements(v_rows) r;
@@ -203,5 +233,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._pai;
   if v_failed is not null then raise exception 'platform api invariants failed: %', v_failed; end if;
-  if v_count <> 12 then raise exception 'platform api invariants: expected 12 rows, got %', v_count; end if;
+  if v_count <> 15 then raise exception 'platform api invariants: expected 15 rows, got %', v_count; end if;
 end $$;

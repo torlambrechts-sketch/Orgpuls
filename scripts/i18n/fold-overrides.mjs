@@ -6,7 +6,7 @@
  *
  * Nothing in the database changes. Each override records the file text it replaced (0109); once the
  * pull request is merged and deployed, the file no longer says that, and every reader shows the
- * file instead (lib/i18n/override-tree.ts, supabase/functions/_shared/mail.ts). The admin marks the
+ * file instead (lib/i18n/override-tree.ts, supabase/functions/_shared/mail.ts). The platform marks the
  * override as «in the files».
  *
  * Reads the approved texts from the live site's /api/i18n/overrides (the same public data as
@@ -122,9 +122,9 @@ for (const locale of ['no', 'en']) {
 
 console.log(
   [
-    `Approved text changes from admin › Translations, folded back into messages/ (X-090). ${total} text(s).`,
+    `Approved text changes from the platform's translations, folded back into messages/ (X-090). ${total} text(s).`,
     '',
-    'Each override records the file text it replaced (0109). Once this is merged and deployed, the files say what the override said and every reader shows the files; the admin marks the override «In the files». Nothing in the database changes.',
+    'Each override records the file text it replaced (0109). Once this is merged and deployed, the files say what the override said and every reader shows the files; the platform marks the override «In the files». Nothing in the database changes.',
     '',
     ...report,
   ].join('\n'),

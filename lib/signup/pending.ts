@@ -2,7 +2,6 @@ import 'server-only'
 import { z } from 'zod'
 import type { createClient } from '@/lib/supabase/server'
 import { restoreLocale } from '@/lib/i18n/server'
-import { recordSource } from './source'
 
 type Client = Awaited<ReturnType<typeof createClient>>
 
@@ -64,7 +63,6 @@ export async function completePendingSignup(supabase: Client): Promise<PendingOu
     return { kind: 'failed', reason }
   }
   await supabase.auth.updateUser({ data: { [PENDING_KEY]: null } })
-  await recordSource(supabase)
   await restoreLocale(supabase)
   return { kind: 'created' }
 }

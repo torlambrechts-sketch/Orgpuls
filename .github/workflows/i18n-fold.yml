@@ -1,6 +1,6 @@
 name: Fold approved texts into messages
 
-# Weekly (X-090): the bokmål and English texts approved in admin › Translations are written into
+# Weekly (X-090): the bokmål and English texts approved through the platform's translations are written into
 # messages/*.json by scripts/i18n/fold-overrides.mjs and proposed as one pull request, so the files
 # stay the source. Nothing in the database changes: an override records the file text it replaced
 # (0109), and once this lands the files win.

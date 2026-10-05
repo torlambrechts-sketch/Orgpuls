@@ -1,14 +1,14 @@
 -- survey_language_invariants.sql — the survey in more languages (0086, D-133).
 --
---   * the dispatcher's texts only for the service role; the import and the sources only for a
---     signed-in caller, the reading helper for none (1)
+--   * the dispatcher's texts only for the service role; the platform's import and sources
+--     (app.op_*, 0206) and the reading helper for no client role (1)
 --   * the registry takes page (ui:), mail (mail:) and module factor (mfactor:) keys, and nothing
 --     shaped otherwise; Ukrainian, Swedish and Danish are languages; an employee may prefer them (2)
 --   * what may be approved: machine text in English only, an official version at any step,
 --     anything else once pretested (3)
---   * the import: super-admin only; new rows as drafts or the step named, never approved; the same
---     file again changes nothing; a new wording is a new version; a bad row is refused alone;
---     audited (4)
+--   * the import: a verified platform command only (app.platform_actor); new rows as drafts or the
+--     step named, never approved; the same file again changes nothing; a new wording is a new
+--     version; a bad row is refused alone (4)
 --   * respond_locales: a module statement's factor name under module:<item>:factor, and the
 --     approved page strings with the source they were made from (5)
 --   * dispatch_language_texts: the approved mail texts and page-string hashes per language (6)
@@ -23,7 +23,6 @@ do $$
 declare
   v_org   uuid := '00000000-0000-4000-8000-000000000001';
   v_dl    uuid;
-  v_sa    uuid := '00000000-0000-4000-8000-00000000c861';
   v_mod   uuid;
   v_item  uuid;
   v_fac   uuid;
@@ -45,12 +44,13 @@ begin
     has_function_privilege('service_role', 'public.dispatch_language_texts()', 'execute'),
     has_function_privilege('authenticated', 'public.dispatch_language_texts()', 'execute'),
     has_function_privilege('anon', 'public.dispatch_language_texts()', 'execute'),
-    has_function_privilege('authenticated', 'public.admin_translations_import(text, jsonb)', 'execute'),
-    has_function_privilege('anon', 'public.admin_translations_import(text, jsonb)', 'execute'),
-    has_function_privilege('anon', 'public.admin_translation_sources()', 'execute'),
+    has_function_privilege('authenticated', 'app.op_translations_import(text, jsonb)', 'execute'),
+    has_function_privilege('anon', 'app.op_translations_import(text, jsonb)', 'execute'),
+    has_function_privilege('service_role', 'app.op_translations_import(text, jsonb)', 'execute'),
+    has_function_privilege('authenticated', 'app.op_translation_sources()', 'execute'),
     has_function_privilege('authenticated', 'app.approved_texts(text, text)', 'execute'));
-  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'the dispatcher''s texts for the service role only; import and sources for a signed-in caller; the helper for none',
-    'expected', 't/f/f/t/f/f/f', 'actual', v_txt, 'pass', v_txt = 't/f/f/t/f/f/f');
+  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'the dispatcher''s texts for the service role only; the platform''s import and sources and the helper for no client role',
+    'expected', 't/f/f/f/f/f/f/f', 'actual', v_txt, 'pass', v_txt = 't/f/f/f/f/f/f/f');
 
   begin
     -- 2 ------------------------------------------------------------ keys and languages
@@ -80,36 +80,31 @@ begin
       'expected', 'f/t/t/t/f/t/f', 'actual', v_txt, 'pass', v_txt = 'f/t/t/t/f/t/f');
 
     -- 4 ------------------------------------------------------------ the import
-    insert into auth.users (id, email) values (v_sa, 'sa@sli-test.example');
-    insert into app.platform_admins (user_id, role) values (v_sa, 'super_admin');
     delete from app.item_translations where locale = 'pl' and item_id in ('ui:respond.sliA', 'ui:respond.sliB', 'ui:respond.sliC');
     v_json := jsonb_build_array(
       jsonb_build_object('key', 'ui:respond.sliA', 'text', 'Próba A', 'source', 'professional', 'source_hash', h),
       jsonb_build_object('key', 'ui:respond.sliB', 'text', 'Próba B', 'source', 'professional', 'status', 'pretested', 'notes', 'Wywiad kognitywny', 'source_hash', h),
       jsonb_build_object('key', 'ui:respond.sliC', 'text', 'Próba C', 'source', 'professional', 'status', 'approved'),
       jsonb_build_object('key', 'nonsense key', 'text', 'x', 'source', 'professional'));
+    -- a daglig leder, signed in, outside a platform command
+    perform set_config('app.platform_actor', '', true);
     perform set_config('request.jwt.claims', format(claims, v_dl), true);
-    set local role authenticated;
-    v_txt := public.admin_translations_import('pl', v_json)->>'error';
-    reset role;
-    perform set_config('request.jwt.claims', format(claims, v_sa), true);
-    set local role authenticated;
-    v_json := public.admin_translations_import('pl', v_json);
-    reset role;
+    v_txt := app.op_translations_import('pl', v_json)->>'error';
+    perform set_config('request.jwt.claims', '', true);
+    perform set_config('app.platform_actor', 'test@platform', true);
+    v_json := app.op_translations_import('pl', v_json);
     v_txt := v_txt || ',' || concat_ws('/', v_json->>'new', v_json->>'changed', v_json->>'same', jsonb_array_length(v_json->'refused'))
           || ',' || (select string_agg(item_id || '=' || status, ' ' order by item_id) from app.item_translations where locale = 'pl' and item_id like 'ui:respond.sli%');
     -- the same file again changes nothing; a new wording is the next version
-    set local role authenticated;
-    v_json := public.admin_translations_import('pl', jsonb_build_array(
+    v_json := app.op_translations_import('pl', jsonb_build_array(
       jsonb_build_object('key', 'ui:respond.sliA', 'text', 'Próba A', 'source', 'professional', 'source_hash', h),
       jsonb_build_object('key', 'ui:respond.sliB', 'text', 'Próba B2', 'source', 'professional', 'status', 'pretested', 'source_hash', h)));
-    reset role;
+    perform set_config('app.platform_actor', '', true);
     v_txt := v_txt || ',' || concat_ws('/', v_json->>'new', v_json->>'changed', v_json->>'same')
-          || ',' || (select version || ':' || status from app.item_translations where locale = 'pl' and item_id = 'ui:respond.sliB')
-          || ',' || (select count(*) from app.admin_audit where admin_id = v_sa and action = 'translations.import');
-    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'import: super-admin only; drafts or the step named, never approved; the same row twice unchanged; a new wording a new version; audited',
-      'expected', 'not_allowed,2/0/0/2,ui:respond.sliA=draft ui:respond.sliB=pretested,0/1/1,2:pretested,2', 'actual', v_txt,
-      'pass', v_txt = 'not_allowed,2/0/0/2,ui:respond.sliA=draft ui:respond.sliB=pretested,0/1/1,2:pretested,2');
+          || ',' || (select version || ':' || status from app.item_translations where locale = 'pl' and item_id = 'ui:respond.sliB');
+    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'import: a platform command only; drafts or the step named, never approved; the same row twice unchanged; a new wording a new version',
+      'expected', 'not_allowed,2/0/0/2,ui:respond.sliA=draft ui:respond.sliB=pretested,0/1/1,2:pretested', 'actual', v_txt,
+      'pass', v_txt = 'not_allowed,2/0/0/2,ui:respond.sliA=draft ui:respond.sliB=pretested,0/1/1,2:pretested');
 
     -- 5 ------------------------------------------------------------ the respondent's texts
     perform app.module_seed(jsonb_build_object(
@@ -174,8 +169,7 @@ begin
 
   v_txt := (not exists (select 1 from app.item_translations where item_id like 'ui:respond.sli%' or text like 'sli %' or text in ('проба', 'prov', 'prøve'))
             and not exists (select 1 from app.question_modules where key = 'probe-sli')
-            and not exists (select 1 from app.employees where email = 'sli-probe@orgpuls.com')
-            and not exists (select 1 from app.platform_admins where user_id = v_sa))::text;
+            and not exists (select 1 from app.employees where email = 'sli-probe@orgpuls.com'))::text;
   v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'every probe change was rolled back', 'expected', 'true', 'actual', v_txt, 'pass', v_txt = 'true');
 
   insert into public._sli

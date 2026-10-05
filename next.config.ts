@@ -48,23 +48,6 @@ function csp(img: string, frameAncestors = "'none'", frames = '') {
   ].join('; ')
 }
 
-/**
- * The admin draws campaign mail in its previews (X-092): the Orgpuls mark and the pictures an
- * author links, which may be hosted on any https origin, as they will be in the reader's inbox.
- * Only there may an image come from elsewhere; scripts and connections stay as strict.
- */
-const ADMIN_HOST = process.env.ADMIN_HOST?.trim().toLowerCase() || 'admin.orgpuls.com'
-const EN_HOST = process.env.EN_HOST?.trim().toLowerCase() || 'en.orgpuls.com'
-/** …and frames the public site, in both languages, for a CMS draft's preview (X-094) */
-const adminCsp = [{ key: 'Content-Security-Policy', value: csp("img-src 'self' data: https:", "'none'", `https://www.orgpuls.com https://${EN_HOST}`) }]
-
-/**
- * A CMS draft through its preview link (?cms=<token>, X-094) is drawn inside the admin's editor:
- * that one response may be framed by the admin, and by nothing else. CSP's frame-ancestors
- * supersedes X-Frame-Options in every current browser.
- */
-const previewCsp = [{ key: 'Content-Security-Policy', value: csp("img-src 'self' data:", `'self' https://${ADMIN_HOST}`) }]
-
 const securityHeaders = [
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -85,15 +68,11 @@ const nextConfig: NextConfig = {
   // so a QA build never overwrites the one that talks to the hosted project
   distDir: process.env.NEXT_DIST_DIR || '.next',
   typedRoutes: true,
-  // Content › Media sends an image the browser has made web-sized, at most 2 MB, as base64 (0124)
+  // raised for the media library (0124), which is gone (D-230); kept so no upload that fits today stops fitting
   experimental: { serverActions: { bodySizeLimit: '3mb' } },
   async headers() {
     return [
       { source: '/:path*', headers: securityHeaders },
-      // later entries override the same header: the admin, by path and on its own host
-      { source: '/admin/:path*', headers: adminCsp },
-      { source: '/:path*', has: [{ type: 'host', value: ADMIN_HOST }], headers: adminCsp },
-      { source: '/:path*', has: [{ type: 'query', key: 'cms' }], headers: previewCsp },
     ]
   },
   /**

@@ -6,8 +6,8 @@ import { sendHelpRequest } from '@/app/(app)/hjelp/actions'
 import { REQUEST_CATEGORIES } from '@/lib/help/request'
 
 /**
- * "Skriv til oss her" (D-92): a request to Orgpuls from inside the product, filed as a ticket
- * with the member's organisation, role and browser, so nobody has to be asked for them. A survey answer does not belong here, and the hint says so.
+ * "Skriv til oss her" (D-92): a request to Orgpuls from inside the product, sent to the platform
+ * (D-230) with the member's organisation, role and browser, so nobody has to be asked for them. A survey answer does not belong here, and the hint says so.
  *
  * One form in two places (D-174): on /hjelp, and at the end of the header's help panel, where
  * it names the screen the panel was opened on. `page` is that path, already cut to the path by
@@ -63,8 +63,7 @@ export function HelpRequestForm({
           if (r?.ok) {
             setSubject('')
             setBody('')
-            // passed as text, so the case number is not set with a thousands separator
-            setNote({ ok: true, text: t('sent', { number: String(r.number) }) })
+            setNote({ ok: true, text: t('sent') })
           } else {
             setNote({
               ok: false,

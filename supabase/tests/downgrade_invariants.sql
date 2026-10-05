@@ -8,7 +8,8 @@
 --   5 the day has come: access is free at once, and the tick clears the confirmation (MRR, paying)
 --   6 confirming a plan again: active, a new confirmation, free_from cleared
 --   7 chosen before the trial ended: nothing invoiced, the free plan begins when the trial ends
---   8 the admin's organisation detail names the interval and free_from; admin_kpis counts free_plan
+--   8 the platform hears it: the billing.changed event and the platform's organisation read carry the
+--     interval and free_from (0205, 0206)
 --   9 the helpers are closed to clients; the two RPCs are open to authenticated
 --  10 nothing written here survives
 --
@@ -112,12 +113,18 @@ begin
       'pass', v_txt = ((((now() + interval '40 days') at time zone v_tz)::date) - 1)::text);
     perform set_config('request.jwt.claims', '', true);
 
-    -- 8 ------------------------------------------------------------- the admin
-    v_txt := (pg_get_functiondef('public.admin_org_detail(uuid)'::regprocedure) like '%''billing_interval'', b.billing_interval%')::text || ','
-          || (pg_get_functiondef('public.admin_org_detail(uuid)'::regprocedure) like '%app.plan_mrr_nok(b.plan, b.billing_interval)%')::text || ','
-          || (pg_get_functiondef('public.admin_kpis()'::regprocedure) like '%''free_plan''%')::text;
-    v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'admin detail names the interval and its MRR; admin_kpis counts free_plan',
-      'expected', 'true,true,true', 'actual', v_txt, 'pass', v_txt = 'true,true,true');
+    -- 8 ------------------------------------------------------------- the platform
+    select concat_ws(',', e.payload->>'billing_interval',
+                     ((e.payload->>'free_from')::timestamptz = (select free_from from app.billing where org_id = v_org))::text)
+      into v_txt from app.platform_events e
+    where e.org_id = v_org and e.kind = 'billing.changed' order by e.id desc limit 1;
+    perform set_config('app.platform_actor', 'test@platform', true);
+    v_json := app.op_org_get(v_org)->'billing';
+    perform set_config('app.platform_actor', '', true);
+    v_txt := coalesce(v_txt, 'none') || '|' || concat_ws(',', v_json->>'billing_interval',
+             ((v_json->>'free_from')::timestamptz = (select free_from from app.billing where org_id = v_org))::text);
+    v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'the platform''s event and organisation read carry the interval and free_from',
+      'expected', 'month,true|month,true', 'actual', v_txt, 'pass', v_txt = 'month,true|month,true');
 
     raise exception 'rollback';
   exception when others then

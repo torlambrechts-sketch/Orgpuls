@@ -6,21 +6,16 @@
  * start a drain, nothing else, and a leaked drain trigger is a nuisance where a leaked
  * service key is the database. `verify_jwt` is off because pg_net sends no JWT.
  *
- * After the notices, replies to support tickets (0051) are drained the same way, each sent
- * with the support inbox as Reply-To (the one that resolves a case carries its rating link on the
- * public site, 0135); then the trial's service mail (0060, D-105), on the
- * product's sender with the same Reply-To, since each of those invites an answer.
+ * After the notices, the trial's service mail (0060, D-105) is drained the same way, on the
+ * product's sender with the support inbox as Reply-To, since each of those invites an answer.
  *
  * A notice to a role (0134, D-97) goes to each person as a message of its own, recorded with its
  * provider id as it is sent (`dispatch_recipient_sent`), so a delivery event is set on the person
  * it concerns and a retry skips the people it already reached (`dispatch_reached`). A personal
  * message is one person already, and keeps its one id on the outbox row.
  *
- * Then marketing (0055, D-101): newsletter confirmations and campaigns, on the marketing
- * sender (ORGPULS_MARKETING_FROM). Without one, or with one on the product's own sending
- * domain, nothing marketing is sent: a campaign must never be able to hurt the reputation
- * the survey invitations depend on. Each campaign mail carries a one-click unsubscribe
- * (List-Unsubscribe and List-Unsubscribe-Post, RFC 8058).
+ * Marketing mail and support tickets left Orgpuls with the admin (D-230): the platform sends its
+ * own, from its own domain.
  *
  * The loop: claim a batch (the database mints each respondent link, leases the row and,
  * since 0033, picks the channel), render, send, and report each row as done or failed. An
@@ -45,13 +40,7 @@
  *                         and credits end to end. The number is used once and never logged.
  *   POST ?probe=tracking  whether Brevo counts opens and clicks: 30-day totals, the hosts clicked
  *                         links went through, the registered webhooks — counts and hosts only (D-97)
- *   POST ?probe=webhook   register Brevo's delivery-event webhook for orgpuls-mail-events, once (D-97);
- *                         since D-101 it also asks for opens and clicks, which only CRM sends keep
- *   POST ?probe=marketing whether the marketing sender is set, on its own domain, and verified in Brevo
- *   POST ?probe=marketing-setup[&authenticate=1]
- *                         register the marketing domain (the sender's, else nyheter.orgpuls.com) in
- *                         Brevo, once, and return the DNS records it asks for; with authenticate=1,
- *                         ask Brevo to check them and, once authenticated, register the sender
+ *   POST ?probe=webhook   register Brevo's delivery-event webhook for orgpuls-mail-events, once (D-97)
  *   POST ?probe=teams     whether the Teams bot is configured and Microsoft issues it a token: the
  *                         credential kind and HTTP codes only, never the token (0176, D-203)
  *   POST ?probe=smsstatus&id=<messageId>
@@ -69,23 +58,17 @@ import {
   personalLang,
   personalLink,
   type LanguageOffer,
-  renderCampaign,
   renderLifecycle,
   renderNotice,
-  renderOptin,
   renderReplyNotice,
-  renderTicketReply,
   replyNoticeSms,
   threadLink,
   pick,
   smsLead,
-  unsubscribeApi,
-  type CrmJob,
   type LifecycleJob,
   type MailCatalogue,
   type NoticeJob,
   type ReplyNoticeJob,
-  type TicketJob,
   withMailOverrides,
 } from '../_shared/mail.ts'
 import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
@@ -173,14 +156,6 @@ Deno.serve(async (req) => {
   // engagement phase 2 (0105): «Siden sist» in an invitation's e-mail, only with its flag on
   const sinceOn = flagsEnv === '*' || named.has('engagement_since_last')
   const probe = new URL(req.url).searchParams.get('probe')
-  // the marketing stream (D-101): its own sender, on a domain that is not the product's
-  const marketingFrom = Deno.env.get('ORGPULS_MARKETING_FROM') ?? ''
-  const domainOf = (a: string) => a.split('@')[1]?.toLowerCase() ?? ''
-  const marketing =
-    marketingFrom.includes('@') && domainOf(marketingFrom) !== domainOf(sender.email)
-      ? { email: marketingFrom, name: Deno.env.get('ORGPULS_MARKETING_FROM_NAME') ?? 'Orgpuls' }
-      : null
-  const siteUrl = Deno.env.get('ORGPULS_SITE_URL') ?? appUrl
   // Teams (0176, D-203): the bot's own single-tenant registration; a certificate where one is set
   const bot: BotCredentials = {
     appId: (Deno.env.get('TEAMS_BOT_APP_ID') ?? '').trim().toLowerCase(),
@@ -205,70 +180,6 @@ Deno.serve(async (req) => {
     }
     botTok = { token: t.token, expiresAt: t.expiresAt }
     return t.token
-  }
-
-  if (probe === 'marketing-setup') {
-    // D-101: only a subdomain of orgpuls.com, never the product's own sending domain
-    const from = marketingFrom.includes('@') ? marketingFrom : 'hei@nyheter.orgpuls.com'
-    const domain = domainOf(from)
-    if (!/^[a-z0-9-]+\.orgpuls\.com$/.test(domain) || domain === domainOf(sender.email)) return json({ ok: false, code: 'bad_domain', domain })
-    const h = { 'api-key': key, accept: 'application/json' }
-    const hj = { ...h, 'content-type': 'application/json' }
-    const url = `https://api.brevo.com/v3/senders/domains/${domain}`
-    let got = await fetch(url, { headers: h })
-    let created: number | null = null
-    if (got.status === 404) {
-      await got.body?.cancel()
-      const c = await fetch('https://api.brevo.com/v3/senders/domains', { method: 'POST', headers: hj, body: JSON.stringify({ name: domain }) })
-      created = c.status
-      await c.body?.cancel()
-      got = await fetch(url, { headers: h })
-    }
-    const info = got.ok ? ((await got.json()) as { authenticated?: boolean; verified?: boolean; dns_records?: unknown }) : null
-    if (!got.ok) await got.body?.cancel()
-    let authenticate: number | null = null
-    let senderStatus: number | null = null
-    let authenticated = info?.authenticated ?? false
-    if (new URL(req.url).searchParams.get('authenticate') === '1') {
-      const a = await fetch(`${url}/authenticate`, { method: 'PUT', headers: h })
-      authenticate = a.status
-      await a.body?.cancel()
-      const again = await fetch(url, { headers: h })
-      authenticated = again.ok ? (((await again.json()) as { authenticated?: boolean }).authenticated ?? false) : authenticated
-      // the sender, once the domain is ours: Brevo verifies it through the domain
-      if (authenticated) {
-        const list = await fetch('https://api.brevo.com/v3/senders', { headers: h })
-        const senders = list.ok ? ((await list.json()) as { senders?: Array<{ email?: string }> }).senders ?? [] : []
-        if (list.ok && !senders.some((x) => x.email?.toLowerCase() === from.toLowerCase())) {
-          const cs = await fetch('https://api.brevo.com/v3/senders', {
-            method: 'POST',
-            headers: hj,
-            body: JSON.stringify({ name: Deno.env.get('ORGPULS_MARKETING_FROM_NAME') ?? 'Orgpuls', email: from }),
-          })
-          senderStatus = cs.status
-          await cs.body?.cancel()
-        } else senderStatus = list.ok ? 200 : list.status
-      }
-    }
-    return json({ ok: got.ok, domain, from, created, authenticated, verified: info?.verified ?? null, dns: info?.dns_records ?? null, authenticate, sender: senderStatus })
-  }
-
-  if (probe === 'marketing') {
-    const h = { 'api-key': key, accept: 'application/json' }
-    const res = await fetch('https://api.brevo.com/v3/senders/domains', { headers: h })
-    const domains = res.ok
-      ? ((await res.json()) as { domains?: Array<{ domain_name?: string; authenticated?: boolean; verified?: boolean }> }).domains ?? []
-      : []
-    const d = domains.find((x) => x.domain_name?.toLowerCase() === domainOf(marketingFrom))
-    return json({
-      set: marketingFrom.includes('@'),
-      domain: domainOf(marketingFrom) || null,
-      product_domain: domainOf(sender.email),
-      separate: marketing !== null,
-      brevo: d ? { authenticated: d.authenticated ?? null, verified: d.verified ?? null } : null,
-      domains: domains.map((x) => ({ domain: x.domain_name, authenticated: x.authenticated ?? null })),
-      status: res.status,
-    })
   }
 
   if (probe === '1') {
@@ -336,9 +247,9 @@ Deno.serve(async (req) => {
     // one webhook per channel (D-98): `?probe=webhook&channel=sms` registers the SMS one
     const channel = new URL(req.url).searchParams.get('channel') === 'sms' ? 'sms' : 'email'
     const ours = hooks.find((w) => (w.url ?? '').startsWith(target) && (w.url ?? '').includes('channel=sms') === (channel === 'sms'))
-    const emailEvents = ['delivered', 'hardBounce', 'softBounce', 'blocked', 'spam', 'invalid', 'deferred', 'unsubscribed', 'opened', 'click']
+    const emailEvents = ['delivered', 'hardBounce', 'softBounce', 'blocked', 'spam', 'invalid', 'deferred', 'unsubscribed']
     if (ours && channel === 'email' && emailEvents.some((e) => !(ours.events ?? []).includes(e))) {
-      // D-101: opens and clicks are asked for now; orgpuls-mail-events keeps them for CRM sends only
+      // an event the registration lacks is added; opens and clicks are never asked for (D-230)
       const upd = await fetch(`https://api.brevo.com/v3/webhooks/${ours.id}`, {
         method: 'PUT',
         headers: { ...h, 'content-type': 'application/json' },
@@ -735,50 +646,8 @@ Deno.serve(async (req) => {
   }
   if (platform.sent + platform.failed) console.log(`[dispatch] platform events: sent ${platform.sent}, failed ${platform.failed}`)
 
-  // replies to support tickets (0051, D-92), answered to the support inbox
+  // the trial's mail is answered to the support inbox
   const replyTo = { email: Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no', name: 'Orgpuls' }
-  const tickets = { sent: 0, retry: 0, failed: 0 }
-  while (Date.now() - started < BUDGET_MS) {
-    const { data, error } = await svc.rpc('ticket_mail_claim', { p_batch: BATCH })
-    if (error) {
-      console.error(`[dispatch] ticket claim failed: ${error.code ?? ''} ${error.message}`)
-      break
-    }
-    const jobs = (data ?? []) as TicketJob[]
-    if (jobs.length === 0) break
-    for (const job of jobs) {
-      let outcome: SendResult
-      try {
-        const r = renderTicketReply(cat, job, siteUrl)
-        outcome = await brevoSend(key, {
-          sender,
-          to: [{ email: job.to_email, name: job.to_name }],
-          subject: r.subject,
-          html: r.html,
-          text: r.text,
-          tag: 'orgpuls-ticket',
-          replyTo,
-        })
-      } catch (e) {
-        console.error(`[dispatch] ticket ${job.id}: render failed: ${(e as Error).message}`)
-        outcome = { ok: false, retryable: true, auth: false, code: 'render' }
-      }
-      await svc.rpc('ticket_mail_done', {
-        p_id: job.id,
-        p_ok: outcome.ok,
-        p_provider_id: outcome.ok ? outcome.id || null : null,
-        p_error: outcome.ok ? null : outcome.code,
-        p_permanent: !outcome.ok && !outcome.retryable,
-      })
-      if (outcome.ok) tickets.sent++
-      else if (outcome.retryable) tickets.retry++
-      else tickets.failed++
-      if (!outcome.ok) console.error(`[dispatch] ticket ${job.id}: ${outcome.code}`)
-      if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tickets }, 502)
-    }
-    if (jobs.length < BATCH) break
-  }
-  if (tickets.sent + tickets.retry + tickets.failed) console.log(`[dispatch] ticket replies: sent ${tickets.sent}, retry ${tickets.retry}, failed ${tickets.failed}`)
 
   // the trial's mail (0060, D-105): service mail on the product's sender, answered to support
   const life = { sent: 0, retry: 0, failed: 0 }
@@ -818,80 +687,11 @@ Deno.serve(async (req) => {
       else if (outcome.retryable) life.retry++
       else life.failed++
       if (!outcome.ok) console.error(`[dispatch] lifecycle ${job.id}: ${outcome.code}`)
-      if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tickets, life }, 502)
+      if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, life }, 502)
     }
     if (jobs.length < BATCH) break
   }
   if (life.sent + life.retry + life.failed) console.log(`[dispatch] trial mail: sent ${life.sent}, retry ${life.retry}, failed ${life.failed}`)
 
-  // marketing (0055, D-101): confirmations and campaigns, on the marketing sender only
-  const crm = { sent: 0, retry: 0, failed: 0, held: false }
-  // Brevo refuses a sender on a domain it has not authenticated, and a refusal would fail the
-  // sends for good; so the domain is checked first, and an unready stream simply waits
-  let ready = false
-  if (marketing) {
-    const d = await fetch('https://api.brevo.com/v3/senders/domains', { headers: { 'api-key': key, accept: 'application/json' } })
-    const list = d.ok ? ((await d.json()) as { domains?: Array<{ domain_name?: string; authenticated?: boolean }> }).domains ?? [] : []
-    if (!d.ok) await d.body?.cancel()
-    ready = list.some((x) => x.domain_name?.toLowerCase() === domainOf(marketing.email) && x.authenticated === true)
-  }
-  if (!marketing || !ready) {
-    crm.held = true
-  } else {
-    while (Date.now() - started < BUDGET_MS) {
-      const { data, error } = await svc.rpc('crm_mail_claim', { p_batch: BATCH })
-      if (error) {
-        console.error(`[dispatch] crm claim failed: ${error.code ?? ''} ${error.message}`)
-        break
-      }
-      const jobs = (data ?? []) as CrmJob[]
-      if (jobs.length === 0) break
-      for (const job of jobs) {
-        let outcome: SendResult
-        try {
-          const optin = job.kind === 'optin'
-          // a campaign sent as a person (0093, D-142): from their address on the marketing domain,
-          // which Brevo has authenticated, with answers to their own inbox. Any other domain is
-          // refused for good rather than sent from an address that would fail authentication.
-          const sendAs = !optin && job.sender ? job.sender : null
-          if (sendAs && domainOf(sendAs.email) !== domainOf(marketing.email)) {
-            outcome = { ok: false, retryable: false, auth: false, code: 'sender_domain' }
-          } else {
-            const r = optin ? renderOptin(cat, job, siteUrl) : renderCampaign(cat, job, siteUrl)
-            outcome = await brevoSend(key, {
-              sender: sendAs ? { email: sendAs.email, name: sendAs.name } : marketing,
-              to: [{ email: job.to_email, name: job.name }],
-              subject: r.subject,
-              html: r.html,
-              text: r.text,
-              tag: optin ? 'orgpuls-optin' : job.kind === 'test' ? 'orgpuls-crm-test' : 'orgpuls-crm',
-              // the marketing subdomain has no inbox; an answer goes to the person sent as, else to support
-              replyTo: sendAs ? { email: sendAs.reply_to, name: sendAs.name } : replyTo,
-              headers: optin
-                ? undefined
-                : { 'List-Unsubscribe': `<${unsubscribeApi(siteUrl, job.token)}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },
-            })
-          }
-        } catch (e) {
-          console.error(`[dispatch] crm ${job.id}: render failed: ${(e as Error).message}`)
-          outcome = { ok: false, retryable: false, auth: false, code: 'render' }
-        }
-        await svc.rpc('crm_mail_done', {
-          p_id: job.id,
-          p_ok: outcome.ok,
-          p_provider_id: outcome.ok ? outcome.id || null : null,
-          p_error: outcome.ok ? null : outcome.code,
-          p_permanent: !outcome.ok && !outcome.retryable,
-        })
-        if (outcome.ok) crm.sent++
-        else if (outcome.retryable) crm.retry++
-        else crm.failed++
-        if (!outcome.ok) console.error(`[dispatch] crm ${job.id}: ${outcome.code}`)
-        if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tickets, life, crm }, 502)
-      }
-      if (jobs.length < BATCH) break
-    }
-    if (crm.sent + crm.retry + crm.failed) console.log(`[dispatch] marketing: sent ${crm.sent}, retry ${crm.retry}, failed ${crm.failed}`)
-  }
-  return json({ ...tally, tests, tickets, life, crm })
+  return json({ ...tally, tests, life })
 })

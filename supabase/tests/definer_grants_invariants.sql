@@ -1,7 +1,9 @@
 -- definer_grants_invariants.sql — which SECURITY DEFINER functions in app a client may call (0198),
 -- proved against the live schema.
 --
---   * the two CRM helpers 0198 closed are not executable by anon or authenticated (1, 2)
+--   * the two CRM helpers 0198 closed are gone with the CRM (0206), so nothing can grant them again (1)
+--   * every operation the platform command map names (app.op_*, 0206) is executable by neither anon nor
+--     authenticated: platform_command is the only way to one (2)
 --   * every SECURITY DEFINER function in app that anon or authenticated may execute is on the list
 --     below: org-scoped helpers that RLS policies call, and trigger functions (a trigger function
 --     cannot be called through PostgREST). A new definer that returns data and forgets its revoke
@@ -33,13 +35,21 @@ declare
     'app.employee_teams_identity_changed()', 'app.entra_tenant_teams_reset()', 'app.slack_install_removed()',
     'app.slack_enabled_needs_install()', 'app.employee_slack_email_changed()'];
 begin
-  -- 1, 2 ------------------------------------------------------------- the two closed by 0198
-  select (has_function_privilege('anon', 'app.crm_follow_audience(app.crm_campaigns)', 'execute')
-       or has_function_privilege('authenticated', 'app.crm_follow_audience(app.crm_campaigns)', 'execute'))::text into v_txt;
-  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'crm_follow_audience is closed to clients', 'expected', 'false', 'actual', v_txt, 'pass', v_txt = 'false');
-  select (has_function_privilege('anon', 'app.crm_chain_depth(uuid)', 'execute')
-       or has_function_privilege('authenticated', 'app.crm_chain_depth(uuid)', 'execute'))::text into v_txt;
-  v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'crm_chain_depth is closed to clients', 'expected', 'false', 'actual', v_txt, 'pass', v_txt = 'false');
+  -- 1 ---------------------------------------------------------------- the two closed by 0198, gone in 0206
+  select count(*)::text into v_txt from pg_proc p
+  where p.proname in ('crm_follow_audience', 'crm_chain_depth');
+  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'crm_follow_audience and crm_chain_depth no longer exist', 'expected', '0', 'actual', v_txt, 'pass', v_txt = '0');
+
+  -- 2 ---------------------------------------------------------------- the platform's operations
+  select count(*) || ' operations, ' || count(*) filter (where has_function_privilege('anon', p.oid, 'execute')
+                                                      or has_function_privilege('authenticated', p.oid, 'execute')) || ' open to a client, '
+         || (select count(*) from app.platform_command_map m where m.fn not like 'app.op\_%' or to_regprocedure(m.fn) is null) || ' mapped elsewhere'
+    into v_txt
+  from pg_proc p where p.pronamespace = 'app'::regnamespace and p.proname like 'op\_%';
+  v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'every app.op_* operation is closed to anon and authenticated; the command map names only them',
+    'expected', (select count(*) from app.platform_command_map) || ' operations, 0 open to a client, 0 mapped elsewhere', 'actual', v_txt,
+    'pass', v_txt = (select count(*) from app.platform_command_map) || ' operations, 0 open to a client, 0 mapped elsewhere'
+            and exists (select 1 from app.platform_command_map));
 
   -- 3 ---------------------------------------------------------------- nothing else is open
   select coalesce(string_agg(f, ', ' order by f), '') into v_txt from (

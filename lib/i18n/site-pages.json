@@ -227,6 +227,7 @@
     "respond.keys.open",
     "respond.keys.copy",
     "respond.keys.copied",
+    "respond.keys.notified",
     "respond.thread.title",
     "respond.thread.lead",
     "respond.thread.about",
@@ -249,6 +250,9 @@
     "respond.thread.contact.note",
     "respond.thread.contact.subject",
     "respond.thread.contact.mailBody",
+    "respond.thread.notice.title",
+    "respond.thread.notice.body",
+    "respond.thread.notice.stop",
     "respond.countLabel",
     "respond.countLead",
     "respond.segmentLabel",
@@ -271,6 +275,13 @@
     "respond.since.ongoing",
     "respond.since.footer",
     "respond.since.first",
+    "respond.notice.title",
+    "respond.notice.lead",
+    "respond.notice.point1",
+    "respond.notice.point2",
+    "respond.notice.point3",
+    "respond.notice.yes",
+    "respond.notice.no",
     "respond.reason",
     "respond.reasonNoDate",
     "respond.thanks.title",
@@ -331,9 +342,7 @@
     "seo.articles.anonym.description",
     "seo.articles.verneombud.description",
     "start.finalTitle",
-    "start.finalBody",
-    "start.ctaFree",
-    "seo.common.priceLine"
+    "start.finalBody"
    ],
    "states": []
   },
@@ -343,7 +352,6 @@
     "seo.articles.anonym.h1",
     "seo.articles.anonym.description",
     "seo.index.crumb",
-    "seo.common.breadcrumb",
     "seo.articles.anonym.lead",
     "seo.common.byline",
     "seo.articles.anonym.blocks.0.text",
@@ -397,8 +405,6 @@
     "seo.articles.verneombud.description",
     "seo.articles.anonym.ctaTitle",
     "seo.articles.anonym.ctaBody",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "seo.articles.anonym.title"
    ],
    "states": []
@@ -409,7 +415,6 @@
     "seo.articles.hvorOfte.h1",
     "seo.articles.hvorOfte.description",
     "seo.index.crumb",
-    "seo.common.breadcrumb",
     "seo.articles.hvorOfte.lead",
     "seo.common.byline",
     "seo.articles.hvorOfte.blocks.0.text",
@@ -483,8 +488,6 @@
     "seo.articles.kravKartlegging.description",
     "seo.articles.hvorOfte.ctaTitle",
     "seo.articles.hvorOfte.ctaBody",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "seo.articles.hvorOfte.title"
    ],
    "states": []
@@ -495,7 +498,6 @@
     "seo.articles.kravKartlegging.h1",
     "seo.articles.kravKartlegging.description",
     "seo.index.crumb",
-    "seo.common.breadcrumb",
     "seo.articles.kravKartlegging.lead",
     "seo.common.byline",
     "seo.articles.kravKartlegging.blocks.0.text",
@@ -569,8 +571,6 @@
     "seo.articles.verneombud.description",
     "seo.articles.kravKartlegging.ctaTitle",
     "seo.articles.kravKartlegging.ctaBody",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "seo.articles.kravKartlegging.title"
    ],
    "states": []
@@ -581,7 +581,6 @@
     "seo.articles.sporsmal.h1",
     "seo.articles.sporsmal.description",
     "seo.index.crumb",
-    "seo.common.breadcrumb",
     "seo.articles.sporsmal.lead",
     "seo.common.byline",
     "seo.articles.sporsmal.blocks.0.text",
@@ -665,8 +664,6 @@
     "seo.articles.hvorOfte.description",
     "seo.articles.sporsmal.ctaTitle",
     "seo.articles.sporsmal.ctaBody",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "seo.articles.sporsmal.title"
    ],
    "states": []
@@ -677,7 +674,6 @@
     "seo.articles.nyeRegler2026.h1",
     "seo.articles.nyeRegler2026.description",
     "seo.index.crumb",
-    "seo.common.breadcrumb",
     "seo.articles.nyeRegler2026.lead",
     "seo.common.byline",
     "seo.articles.nyeRegler2026.blocks.0.text",
@@ -752,8 +748,6 @@
     "seo.articles.hvorOfte.description",
     "seo.articles.nyeRegler2026.ctaTitle",
     "seo.articles.nyeRegler2026.ctaBody",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "seo.articles.nyeRegler2026.title"
    ],
    "states": []
@@ -764,7 +758,6 @@
     "seo.articles.verneombud.h1",
     "seo.articles.verneombud.description",
     "seo.index.crumb",
-    "seo.common.breadcrumb",
     "seo.articles.verneombud.lead",
     "seo.common.byline",
     "seo.articles.verneombud.blocks.0.text",
@@ -829,37 +822,9 @@
     "seo.articles.anonym.description",
     "seo.articles.verneombud.ctaTitle",
     "seo.articles.verneombud.ctaBody",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "seo.articles.verneombud.title"
    ],
    "states": []
-  },
-  {
-   "path": "/avmeld",
-   "keys": [
-    "unsubscribe.badge",
-    "unsubscribe.invalidTitle",
-    "unsubscribe.invalidLead",
-    "unsubscribe.title"
-   ],
-   "states": [
-    "unsubscribe.lead",
-    "unsubscribe.submit",
-    "unsubscribe.sending",
-    "unsubscribe.doneTitle",
-    "unsubscribe.doneLead",
-    "unsubscribe.again",
-    "unsubscribe.prefsTitle",
-    "unsubscribe.prefsLead",
-    "unsubscribe.save",
-    "unsubscribe.saving",
-    "unsubscribe.saved",
-    "unsubscribe.all",
-    "unsubscribe.allTitle",
-    "unsubscribe.allLead",
-    "unsubscribe.fromThis"
-   ]
   },
   {
    "path": "/barnehage-og-skole",
@@ -1104,7 +1069,6 @@
    "path": "/barnehage-og-skole/sporsmal",
    "keys": [
     "seo.pages.bransjer.crumb",
-    "seo.common.breadcrumb",
     "industry.versionPill",
     "industry.variant.provisional",
     "industry.scaleHead",
@@ -1126,8 +1090,6 @@
     "industry.countOnly",
     "industry.coreCovered",
     "seo.signup.label",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "industry.sources"
    ],
    "states": []
@@ -1759,7 +1721,6 @@
    "path": "/bygg-og-anlegg/sporsmal",
    "keys": [
     "seo.pages.bransjer.crumb",
-    "seo.common.breadcrumb",
     "industry.versionPill",
     "industry.scaleHead",
     "industry.tocLabel",
@@ -1775,8 +1736,6 @@
     "industry.countOnly",
     "industry.coreCovered",
     "seo.signup.label",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "industry.sources"
    ],
    "states": []
@@ -2116,7 +2075,6 @@
    "path": "/handel/sporsmal",
    "keys": [
     "seo.pages.bransjer.crumb",
-    "seo.common.breadcrumb",
     "industry.versionPill",
     "industry.variant.provisional",
     "industry.scaleHead",
@@ -2133,8 +2091,6 @@
     "industry.countOnly",
     "industry.coreCovered",
     "seo.signup.label",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "industry.sources"
    ],
    "states": []
@@ -2372,7 +2328,6 @@
    "path": "/helse-og-omsorg/sporsmal",
    "keys": [
     "seo.pages.bransjer.crumb",
-    "seo.common.breadcrumb",
     "industry.versionPill",
     "industry.scaleHead",
     "industry.tocLabel",
@@ -2388,8 +2343,6 @@
     "industry.countOnly",
     "industry.coreCovered",
     "seo.signup.label",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "industry.sources"
    ],
    "states": []
@@ -2593,13 +2546,11 @@
     "seo.pages.kontakt.title",
     "seo.pages.kontakt.description",
     "seo.pages.kontakt.crumb",
-    "seo.common.breadcrumb",
     "seo.pages.kontakt.kicker",
     "seo.pages.kontakt.h1",
     "seo.pages.kontakt.lead",
     "seo.signup.label",
     "seo.signup.submit",
-    "seo.common.priceLine",
     "seo.common.anonymity",
     "site.chrome.trust.label",
     "site.chrome.trust.qps",
@@ -2624,11 +2575,9 @@
     "site.contact.org",
     "site.contact.orgPlaceholder",
     "site.contact.msg",
-    "newsletter.contactOptIn",
     "site.contact.send",
     "start.finalTitle",
-    "start.finalBody",
-    "start.ctaFree"
+    "start.finalBody"
    ],
    "states": [
     "site.contact.invalid",
@@ -2920,7 +2869,6 @@
    "path": "/kunnskap-og-kontor/sporsmal",
    "keys": [
     "seo.pages.bransjer.crumb",
-    "seo.common.breadcrumb",
     "industry.versionPill",
     "industry.variant.provisional",
     "industry.scaleHead",
@@ -2942,8 +2890,6 @@
     "industry.countOnly",
     "industry.coreCovered",
     "seo.signup.label",
-    "start.ctaFree",
-    "seo.common.priceLine",
     "industry.sources"
    ],
    "states": [
@@ -3004,13 +2950,11 @@
     "seo.lp.lovkrav.faq.2.a",
     "seo.lp.lovkrav.faq.3.q",
     "seo.lp.lovkrav.faq.3.a",
-    "seo.common.breadcrumb",
     "seo.lp.lovkrav.kicker",
     "seo.lp.lovkrav.h1",
     "seo.lp.lovkrav.lead",
     "seo.signup.label",
     "seo.signup.submit",
-    "seo.common.priceLine",
     "seo.common.anonymity",
     "site.chrome.trust.label",
     "site.chrome.trust.qps",
@@ -3055,60 +2999,9 @@
     "seo.articles.nyeRegler2026.h1",
     "seo.articles.nyeRegler2026.description",
     "seo.lp.lovkrav.finalTitle",
-    "seo.lp.lovkrav.finalBody",
-    "start.ctaFree"
+    "seo.lp.lovkrav.finalBody"
    ],
    "states": []
-  },
-  {
-   "path": "/nyhetsbrev",
-   "keys": [
-    "newsletter.title",
-    "newsletter.lead",
-    "newsletter.badge",
-    "newsletter.mail",
-    "newsletter.name",
-    "newsletter.company",
-    "newsletter.listsTitle",
-    "newsletter.listsHint",
-    "newsletter.submit",
-    "newsletter.privacy"
-   ],
-   "states": [
-    "newsletter.sending",
-    "newsletter.invalid",
-    "newsletter.limited",
-    "newsletter.failed",
-    "newsletter.sentTitle",
-    "newsletter.sentLead",
-    "newsletter.confirmTitle",
-    "newsletter.confirmLead",
-    "newsletter.confirm",
-    "newsletter.confirmedTitle",
-    "newsletter.confirmedLead",
-    "newsletter.expiredTitle",
-    "newsletter.expiredLead",
-    "newsletter.again",
-    "newsletter.noLists"
-   ]
-  },
-  {
-   "path": "/nyhetsbrev/arkiv",
-   "keys": [
-    "archive.title",
-    "archive.description",
-    "archive.badge",
-    "archive.lead",
-    "archive.empty",
-    "archive.subscribeTitle",
-    "archive.subscribe"
-   ],
-   "states": [
-    "archive.sent",
-    "archive.read",
-    "archive.back",
-    "archive.readMore"
-   ]
   },
   {
    "path": "/nytt-passord",
@@ -3137,7 +3030,6 @@
     "seo.pages.personvernerklaering.title",
     "seo.pages.personvernerklaering.description",
     "seo.pages.personvernerklaering.crumb",
-    "seo.common.breadcrumb",
     "seo.pages.personvernerklaering.kicker",
     "seo.pages.personvernerklaering.h1",
     "seo.pages.personvernerklaering.lead",
@@ -3175,13 +3067,10 @@
     "seo.pages.personvernerklaering.blocks.24.items.1",
     "seo.pages.personvernerklaering.blocks.24.items.2",
     "seo.pages.personvernerklaering.blocks.24.items.3",
-    "seo.pages.personvernerklaering.blocks.24.items.4",
     "seo.pages.personvernerklaering.blocks.25.text",
     "seo.pages.personvernerklaering.blocks.26.text",
     "start.finalTitle",
-    "start.finalBody",
-    "start.ctaFree",
-    "seo.common.priceLine"
+    "start.finalBody"
    ],
    "states": []
   },
@@ -3667,13 +3556,11 @@
     "seo.pages.sikkerhet.title",
     "seo.pages.sikkerhet.description",
     "seo.pages.sikkerhet.crumb",
-    "seo.common.breadcrumb",
     "seo.pages.sikkerhet.kicker",
     "seo.pages.sikkerhet.h1",
     "seo.pages.sikkerhet.lead",
     "seo.signup.label",
     "seo.signup.submit",
-    "seo.common.priceLine",
     "seo.common.anonymity",
     "site.chrome.trust.label",
     "site.chrome.trust.qps",
@@ -3702,8 +3589,7 @@
     "seo.articles.verneombud.h1",
     "seo.articles.verneombud.description",
     "start.finalTitle",
-    "start.finalBody",
-    "start.ctaFree"
+    "start.finalBody"
    ],
    "states": []
   },
@@ -3722,13 +3608,11 @@
     "seo.lp.smaaBedrifter.faq.2.a",
     "seo.lp.smaaBedrifter.faq.3.q",
     "seo.lp.smaaBedrifter.faq.3.a",
-    "seo.common.breadcrumb",
     "seo.lp.smaaBedrifter.kicker",
     "seo.lp.smaaBedrifter.h1",
     "seo.lp.smaaBedrifter.lead",
     "seo.signup.label",
     "seo.signup.submit",
-    "seo.common.priceLine",
     "seo.common.anonymity",
     "site.chrome.trust.label",
     "site.chrome.trust.qps",
@@ -3772,8 +3656,7 @@
     "seo.articles.sporsmal.h1",
     "seo.articles.sporsmal.description",
     "seo.lp.smaaBedrifter.finalTitle",
-    "seo.lp.smaaBedrifter.finalBody",
-    "start.ctaFree"
+    "seo.lp.smaaBedrifter.finalBody"
    ],
    "states": []
   },
@@ -3792,13 +3675,11 @@
     "seo.lp.verneombud.faq.2.a",
     "seo.lp.verneombud.faq.3.q",
     "seo.lp.verneombud.faq.3.a",
-    "seo.common.breadcrumb",
     "seo.lp.verneombud.kicker",
     "seo.lp.verneombud.h1",
     "seo.lp.verneombud.lead",
     "seo.lp.verneombud.signupLabel",
     "seo.signup.submit",
-    "seo.common.priceLine",
     "seo.common.anonymity",
     "site.chrome.trust.label",
     "site.chrome.trust.qps",
@@ -3837,8 +3718,7 @@
     "seo.articles.anonym.h1",
     "seo.articles.anonym.description",
     "seo.lp.verneombud.finalTitle",
-    "seo.lp.verneombud.finalBody",
-    "start.ctaFree"
+    "seo.lp.verneombud.finalBody"
    ],
    "states": [
     "seo.lp.verneombud.tip.subject",
@@ -3879,7 +3759,6 @@
     "seo.pages.vilkar.title",
     "seo.pages.vilkar.description",
     "seo.pages.vilkar.crumb",
-    "seo.common.breadcrumb",
     "seo.pages.vilkar.kicker",
     "seo.pages.vilkar.h1",
     "seo.pages.vilkar.lead",
@@ -3965,9 +3844,7 @@
     "seo.pages.vilkar.blocks.51.text",
     "seo.pages.vilkar.blocks.52.text",
     "start.finalTitle",
-    "start.finalBody",
-    "start.ctaFree",
-    "seo.common.priceLine"
+    "start.finalBody"
    ],
    "states": []
   }
@@ -4006,7 +3883,10 @@
   "site.chrome.footer.link.bygg",
   "site.chrome.footer.link.skole",
   "site.chrome.footer.link.helse",
-  "seo.common.home"
+  "seo.common.home",
+  "seo.common.breadcrumb",
+  "seo.common.priceLine",
+  "start.ctaFree"
  ],
  "unseen": [
   "factor.motstrid.short",

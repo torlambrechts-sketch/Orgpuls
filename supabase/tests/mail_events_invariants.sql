@@ -9,8 +9,10 @@
 --   * the daglig leder sees the flagged address; another role does not (8)
 --   * correcting the address clears the flag (9)
 --   * an event for an unknown message is kept, unlinked (10)
---   * the admin's log counts it, and reading it is audited (11)
---   * nothing written here survives (12)
+--   * nothing written here survives (11)
+--
+-- The events are the product's own mail only since 0206: support tickets and the admin's mail log
+-- and deliverability report left with the admin app, and with them mail_events.ticket_mail_id.
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/mail_events_invariants.sql
 
@@ -20,7 +22,6 @@ truncate public._mei;
 do $$
 declare
   v_org     uuid := '00000000-0000-4000-8000-000000000001';
-  v_super   uuid := '00000000-0000-4000-8000-0000000ad301';
   v_dl      uuid;
   v_other   uuid;
   v_rows    jsonb := '[]';
@@ -49,8 +50,8 @@ begin
   select string_agg(column_name, ',' order by ordinal_position) into v_txt
   from information_schema.columns where table_schema = 'app' and table_name = 'mail_events';
   v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'mail_events has no column for an address, subject or link',
-    'expected', 'id,received_at,at,event,message_id,outbox_id,ticket_mail_id,org_id,reason', 'actual', v_txt,
-    'pass', v_txt = 'id,received_at,at,event,message_id,outbox_id,ticket_mail_id,org_id,reason');
+    'expected', 'id,received_at,at,event,message_id,outbox_id,org_id,reason', 'actual', v_txt,
+    'pass', v_txt = 'id,received_at,at,event,message_id,outbox_id,org_id,reason');
 
   select m.user_id into v_dl from app.memberships m where m.org_id = v_org and m.role = 'daglig_leder' and m.active limit 1;
   select m.user_id into v_other from app.memberships m where m.org_id = v_org and m.role <> 'daglig_leder' and m.active limit 1;
@@ -113,22 +114,10 @@ begin
 
     -- 10 --------------------------------------------------------------- unknown
     v_json := public.record_mail_event('blocked', 'probe-unknown@relay.example', now(), null);
-    v_ok := exists (select 1 from app.mail_events where message_id = 'probe-unknown@relay.example' and outbox_id is null and ticket_mail_id is null);
+    v_ok := exists (select 1 from app.mail_events where message_id = 'probe-unknown@relay.example' and outbox_id is null);
     v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'an event for an unknown message is kept, unlinked', 'expected', 'kept, unmatched',
       'actual', case when v_ok then 'kept' else 'lost' end || ', ' || case when v_json->>'matched' = 'false' then 'unmatched' else 'matched' end,
       'pass', v_ok and v_json->>'matched' = 'false');
-
-    -- 11 --------------------------------------------------------------- the admin
-    insert into auth.users (id, email) values (v_super, 'super@mail-test.example');
-    insert into app.platform_admins (user_id, role) values (v_super, 'super_admin');
-    perform set_config('request.jwt.claims', format(claims, v_super, 'aal2'), true);
-    v_json := public.admin_email_log(v_org);
-    select coalesce(sum((r->>'bounced')::int), 0) into v_cnt from jsonb_array_elements(v_json->'rows') r;
-    v_json := public.admin_deliverability(30);
-    v_ok := v_cnt >= 1 and (v_json->'totals'->>'blocked')::int >= 1
-      and exists (select 1 from app.admin_audit a where a.admin_id = v_super and a.action = 'deliverability.view');
-    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'the admin''s log counts bounces, and reading it is audited', 'expected', 'true',
-      'actual', v_ok::text, 'pass', v_ok);
 
     perform set_config('request.jwt.claims', '', true);
     raise exception 'rollback-probe';
@@ -137,8 +126,8 @@ begin
   end;
 
   select count(*) into v_cnt from app.mail_events where message_id like 'probe-%@relay.example';
-  v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'every probe row was rolled back', 'expected', '0',
-    'actual', v_cnt::text, 'pass', v_cnt = 0 and not exists (select 1 from auth.users where email like '%@mail-test.example'));
+  v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'every probe row was rolled back', 'expected', '0',
+    'actual', v_cnt::text, 'pass', v_cnt = 0);
 
   insert into public._mei
   select (r->>'seq')::int, r->>'name', r->>'expected', r->>'actual', (r->>'pass')::boolean from jsonb_array_elements(v_rows) r;
@@ -151,7 +140,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._mei;
   if v_failed is not null then raise exception 'mail event invariants failed: %', v_failed; end if;
-  if v_count <> 12 then raise exception 'mail event invariants: expected 12 rows, got %', v_count; end if;
+  if v_count <> 11 then raise exception 'mail event invariants: expected 11 rows, got %', v_count; end if;
 end $$;
 
 drop table public._mei;

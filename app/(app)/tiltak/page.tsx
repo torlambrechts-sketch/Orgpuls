@@ -1,4 +1,3 @@
-import { countView } from '@/lib/analytics/product'
 import { getLocale, getTranslations } from 'next-intl/server'
 import type { BoardCard, BoardModel, Column, MeasurePoint } from '@/components/tiltak/Board'
 import { TiltakScreen, type StatusFilter, type TiltakView } from '@/components/tiltak/TiltakScreen'
@@ -47,7 +46,6 @@ export default async function TiltakPage({
     getFactors(),
     getLatestClosedRoundId(),
     getRoundRows(),
-    countView('measures_viewed'),
   ])
   const tab = params.fane === 'liste' ? 'liste' : 'tavle'
 

@@ -7,7 +7,8 @@
 --     keeps the version it opened with (4)
 --   * survey translations carry over for statements whose wording did not change, and only those (5)
 --   * «validated» falls back to provisional when what respondents read changed (6)
---   * only a super-admin may sync; the engine and the legal review are closed to clients (7)
+--   * nobody without a platform actor may sync or review; the operations, the engine and the legal
+--     review are closed to clients (7, 0206)
 --   * a legal document is stored with its text, and only under the hash of that text (8)
 --   * nothing written here survives (9)
 --   * an English translation added to the file is not a rewording: the next version keeps every other
@@ -36,8 +37,6 @@ $$;
 do $$
 declare
   v_org    uuid := '00000000-0000-4000-8000-000000000001';
-  v_super  uuid := '00000000-0000-4000-8000-0000000a7601';
-  v_mkt    uuid := '00000000-0000-4000-8000-0000000a7602';
   v_meas   uuid;
   v_plan   uuid;
   v_open   uuid;
@@ -118,27 +117,29 @@ begin
       'expected', 'provisional,validated', 'actual', v_txt, 'pass', v_txt = 'provisional,validated');
 
     -- 7 -------------------------------------------------------------- who
-    insert into auth.users (id, email) values (v_super, 'super@msy-test.example'), (v_mkt, 'mkt@msy-test.example');
-    insert into app.platform_admins (user_id, role) values (v_super, 'super_admin'), (v_mkt, 'marketing');
-    perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2"}', v_mkt), true);
-    v_txt := coalesce(public.admin_module_sync(pg_temp.probe_module('x', false), repeat('4', 64))->>'error', 'ok')
-          || ',' || coalesce(public.admin_legal_review('doc:probe', repeat('a', 64), 'x')->>'error', 'ok')
-          || ',' || has_function_privilege('anon', 'public.admin_module_sync(jsonb,text)', 'execute')::text
+    perform set_config('app.platform_actor', '', true);
+    v_txt := coalesce(app.op_module_sync(pg_temp.probe_module('x', false), repeat('4', 64))->>'error', 'ok')
+          || ',' || coalesce(app.op_legal_review('doc:probe', repeat('a', 64), 'x')->>'error', 'ok')
+          || ',' || (has_function_privilege('anon', 'app.op_module_sync(jsonb,text)', 'execute')
+                     or has_function_privilege('authenticated', 'app.op_module_sync(jsonb,text)', 'execute')
+                     or has_function_privilege('anon', 'app.op_legal_review(text,text,text)', 'execute')
+                     or has_function_privilege('authenticated', 'app.op_legal_review(text,text,text)', 'execute'))::text
           || ',' || has_function_privilege('authenticated', 'app.module_sync(jsonb,text)', 'execute')::text
           || ',' || has_table_privilege('authenticated', 'app.legal_reviews', 'select')::text
           || ',' || (select count(*) from pg_policies where schemaname = 'app' and tablename = 'legal_reviews')::text;
-    v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'marketing may not sync or review; anon and clients reach neither the engine nor the table',
+    v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'without a platform actor nobody may sync or review; anon and clients reach neither the operations, the engine nor the table',
       'expected', 'not_allowed,not_allowed,false,false,false,0', 'actual', v_txt, 'pass', v_txt = 'not_allowed,not_allowed,false,false,false,0');
 
     -- 8 -------------------------------------------------------------- legal review by document
-    perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2"}', v_super), true);
+    perform set_config('app.platform_actor', 'test@platform', true);
     h := encode(sha256(convert_to(E'# msg:no:probe\npath\ntekst', 'UTF8')), 'hex');
-    v_txt := coalesce(public.admin_legal_review('msg:no:probe', repeat('b', 64), E'# msg:no:probe\npath\ntekst')->>'error', 'ok');
-    v_txt := v_txt || ',' || coalesce(public.admin_legal_review('msg:no:probe', h, E'# msg:no:probe\npath\ntekst')->>'error', 'ok');
+    v_txt := coalesce(app.op_legal_review('msg:no:probe', repeat('b', 64), E'# msg:no:probe\npath\ntekst')->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(app.op_legal_review('msg:no:probe', h, E'# msg:no:probe\npath\ntekst')->>'error', 'ok');
     -- a statement of its own: the review above is visible to the next statement, not its own
-    v_txt := v_txt || ',' || (select x->>'text' = E'# msg:no:probe\npath\ntekst' from jsonb_array_elements(public.admin_legal_reviews()->'rows') x where x->>'key' = 'msg:no:probe')::text;
+    v_txt := v_txt || ',' || (select x->>'text' = E'# msg:no:probe\npath\ntekst' from jsonb_array_elements(app.op_legal_reviews()->'rows') x where x->>'key' = 'msg:no:probe')::text;
     v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'a review is refused under another hash, kept with its text under its own',
       'expected', 'invalid,ok,true', 'actual', v_txt, 'pass', v_txt = 'invalid,ok,true');
+    perform set_config('app.platform_actor', '', true);
 
     -- 10 ------------------------------------------------------------- the file gains its English (0191)
     -- 1.0.1 has «jeden» (pl) carried for PS-FF-1; give it an English row that agrees with the file's English
@@ -169,8 +170,7 @@ begin
   -- 9 ---------------------------------------------------------------- nothing left
   select count(*)::text into v_txt from (
     select id::text from app.question_modules where key = 'probe-sync'
-    union all select key from app.legal_reviews where key = 'msg:no:probe'
-    union all select id::text from auth.users where email like '%@msy-test.example') x;
+    union all select key from app.legal_reviews where key = 'msg:no:probe') x;
   v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'every probe row was rolled back', 'expected', '0', 'actual', v_txt, 'pass', v_txt = '0');
 
   insert into public._msy

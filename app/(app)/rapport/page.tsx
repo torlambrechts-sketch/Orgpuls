@@ -1,4 +1,3 @@
-import { countView } from '@/lib/analytics/product'
 import { isFreePlan } from '@/lib/billing/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { PlanLocked } from '@/components/shell/PlanLocked'
@@ -79,7 +78,6 @@ export default async function RapportPage({
     getExtraQuestions(),
     getMeasures(),
     getViewerRole(),
-    countView('report_viewed'),
   ])
 
   const audience: Audience = AUDIENCE_KEYS.includes(params.mottaker as Audience)

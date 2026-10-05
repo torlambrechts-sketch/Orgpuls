@@ -5,7 +5,7 @@
  * hash) per file, for psql (as the design fixture is applied). The function decides what happens
  * (0122, X-096): a module it has not seen becomes a draft, the same body is a no-op, a changed draft
  * is replaced, and a changed live module becomes its next version — so running this twice, or on
- * every deploy, is safe. On the hosted project the same happens from admin › Industry modules.
+ * every deploy, is safe. On the hosted project the same happens through the platform's modules.sync command.
  *
  * Without arguments it seeds every file under modules/.
  */

@@ -30,8 +30,7 @@ import { DPA_SHA256, DPA_VERSION } from './dpa'
  * because they are rules in code or one organisation's own data rather than text (D-130): the
  * chapter 1A coverage map and the BHT industry codes (components/oppsett/RegelverkTab.tsx,
  * SelskapTab.tsx), the Lovdata link targets (lib/marketing/lovdata.ts), and a measure's own
- * law_ref. The CRM's platform-wide templates and lists are read from the database, as the
- * instrument's law references are.
+ * law_ref. The instrument's law references are read from the database.
  */
 
 export type LegalLang = Locale
@@ -48,12 +47,12 @@ export type LegalUnit = {
   /** stable: the approval's key (0082's key rule) */
   key: string
   section: LegalSection
-  /** a message key under admin.legal.unit, with the names it quotes */
+  /** a label key the legal review words (under admin.legal.unit until D-230), with the names it quotes */
   title: Msg
   lang: LegalLang
   /** where the text lives, for whoever edits it */
   source: string
-  /** where a reader meets it: a message key under admin.legal.whereAt, with the path it names */
+  /** where a reader meets it: a label key (admin.legal.whereAt until D-230), with the path it names */
   where: Msg
   /** published now, in this language */
   live: boolean
@@ -123,7 +122,7 @@ type MessageSpec = {
   live?: (lang: LegalLang) => boolean
   /** the languages it exists in; default: both. The admin app is English in either file (D-90) */
   langs?: readonly LegalLang[]
-  /** a title naming the text by its own heading: admin.legal.unit.<key> with {title} from this path */
+  /** a title naming the text by its own heading: the label <key> with {title} from this path */
   title?: { key: string; from: string }
 }
 
@@ -310,14 +309,10 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   {
     id: 'mail.legal',
     section: 'messages',
-    paths: ['mail.invitasjon.anonymous', 'mail.forvarsel.alle_ansatte', 'mail.forvarsel.verneombud', 'mail.sms', 'mail.lifecycle', 'mail.ticket.footer', 'mail.evaluering'],
+    paths: ['mail.invitasjon.anonymous', 'mail.forvarsel.alle_ansatte', 'mail.forvarsel.verneombud', 'mail.sms', 'mail.lifecycle', 'mail.evaluering'],
     where: place('mail'),
   },
-  { id: 'mail.crm', section: 'messages', paths: ['mail.crm'], where: place('crm') },
-  { id: 'consent.newsletter', section: 'messages', paths: ['newsletter', 'unsubscribe', 'mail.optin'], where: place('newsletter') },
   { id: 'consent.signup', section: 'messages', paths: ['registrer.consent', 'registrer.googleHint'], where: onSite('/registrer') },
-  // the team's own reading of the law it mails on: who may be mailed without consent
-  { id: 'admin.crmBasis', section: 'messages', paths: ['admin.crm.settings.lead', 'admin.crm.settings.on'], where: place('crmSettings'), langs: ['en'] },
 ]
 
 function messageUnits(messages: Record<LegalLang, unknown> = MESSAGES): LegalUnit[] {
@@ -486,7 +481,7 @@ function moduleUnits(published: ReadonlySet<string>): LegalUnit[] {
 
 /** The instrument's law references (app.factors.law_ref): language-independent, from the database */
 function instrumentUnit(factors: { key: string; lawRef: string }[] | null): LegalUnit[] {
-  // null: the read failed, and the page says so (lib/legal/inputs.ts)
+  // null: the read failed, and the review says so
   if (!factors) return []
   return [
     unit({
@@ -504,66 +499,12 @@ function instrumentUnit(factors: { key: string; lawRef: string }[] | null): Lega
 
 // ---------------------------------------------------------------- all of it
 
-/** The CRM's platform-wide e-mail templates and consent lists (0055, 0056), from the database */
-export type CrmTemplate = { key: string; name: string; subject: string; preheader: string; blocks: unknown[] }
-export type CrmList = { key: string; name_no: string; name_en: string; description_no: string; description_en: string; public: boolean; archived: boolean }
-
-function crmUnits(templates: CrmTemplate[] | null, lists: CrmList[] | null): LegalUnit[] {
-  const out: LegalUnit[] = []
-  if (templates) {
-    for (const x of templates) {
-      const lines: LegalLine[] = [
-        { path: 'subject', text: x.subject },
-        { path: 'preheader', text: x.preheader },
-      ]
-      leaves(x.blocks, 'blocks', lines)
-      out.push(
-        unit({
-          key: `db:no:crm_template:${x.key}`,
-          section: 'messages',
-          title: { key: 'crm.template', values: { name: x.name } },
-          lang: 'no',
-          source: `app.crm_templates › ${x.key}`,
-          where: place('crmTemplate'),
-          live: true,
-          lines: lines.filter((l) => l.text.trim()),
-        }),
-      )
-    }
-  }
-  // every list archived, or none yet, is a real state rather than a broken source: nothing to review
-  const shown = lists?.filter((l) => !l.archived) ?? []
-  if (shown.length) {
-    for (const lang of LANGS) {
-      out.push(
-        unit({
-          key: `db:${lang}:crm_lists`,
-          section: 'messages',
-          title: { key: 'crm.lists' },
-          lang,
-          source: 'app.crm_lists',
-          where: place('newsletter'),
-          live: shown.some((l) => l.public),
-          lines: shown.flatMap((l) => [
-            { path: `${l.key}.name`, text: lang === 'en' ? l.name_en : l.name_no },
-            { path: `${l.key}.description`, text: lang === 'en' ? l.description_en : l.description_no },
-          ]),
-        }),
-      )
-    }
-  }
-  return out
-}
-
-/** What the registry reads from the database, loaded by lib/legal/inputs.ts for the page and the action alike */
+/** What the registry reads from the database: the platform's legal review supplies it (D-230) */
 export type LegalInputs = {
   /** null when the read failed: the instrument's unit is then absent, and the page says so */
   factors: { key: string; lawRef: string }[] | null
   /** modules with a version published in the database, by key: whether a module's texts are live */
   publishedModules?: ReadonlySet<string>
-  /** null when the read failed: those units are then absent, and the page says so */
-  crmTemplates?: CrmTemplate[] | null
-  crmLists?: CrmList[] | null
   /** the message files as shown, with their approved overrides (0101); the files alone when absent */
   messages?: Record<LegalLang, unknown>
 }
@@ -576,7 +517,6 @@ export function legalUnits(input: LegalInputs | NonNullable<LegalInputs['factors
     ...moduleUnits(i.publishedModules ?? new Set()),
     ...messageUnits(i.messages),
     ...instrumentUnit(i.factors),
-    ...crmUnits(i.crmTemplates ?? null, i.crmLists ?? null),
   ]
   return LEGAL_SECTIONS.flatMap((s) => all.filter((u) => u.section === s))
 }

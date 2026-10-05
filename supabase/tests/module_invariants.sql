@@ -9,11 +9,12 @@
 --   * a round's modules: another organisation cannot read them; a client cannot change them once
 --     the round is open (9, 10)
 --   * module answers are append-only, and go with their round (11)
---   * publishing from the admin: super-admin only, with a reason, audited (12)
+--   * retiring through the platform: only under a platform actor, with a reason, recorded in
+--     app.platform_commands; the operation is executable by neither anon nor authenticated (12, 0206)
 --   * nothing written here survives (13)
 --   * a translation (0072) is stored on seeding and frozen with the published version (16)
 --   * a pilot (0068): the draft is visible to its organisation's members only, and only its
---     rounds may ask it; adding one is a super-admin's, audited (14, 15)
+--     rounds may ask it; adding one is the platform's, recorded in app.platform_commands (14, 15)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/module_invariants.sql
 --
@@ -23,12 +24,22 @@
 create unlogged table if not exists public._mod(seq int, name text, expected text, actual text, pass bool);
 truncate public._mod;
 
+-- a command token as the platform would sign it (HS256 under the Vault secret)
+create or replace function pg_temp.tok(p_claims jsonb) returns text
+  language plpgsql as $$
+declare
+  h text := rtrim(translate(encode(convert_to('{"alg":"HS256","typ":"JWT"}', 'UTF8'), 'base64'), E'+/\n', '-_'), '=');
+  p text := rtrim(translate(encode(convert_to(p_claims::text, 'UTF8'), 'base64'), E'+/\n', '-_'), '=');
+begin
+  return h || '.' || p || '.' ||
+    rtrim(translate(encode(extensions.hmac(h || '.' || p, app.platform_secret('token'), 'sha256'), 'base64'), E'+/\n', '-_'), '=');
+end $$;
+
 do $$
 declare
   v_org      uuid := '00000000-0000-4000-8000-000000000001';
   v_other    uuid := 'de000000-0000-4000-8000-000000000001';
   v_out      uuid := '00000000-0000-4000-8000-00000d0de001';
-  v_sa       uuid := '00000000-0000-4000-8000-00000d0de002';
   v_mod      uuid;
   v_hash     text;
   v_item     uuid;
@@ -39,7 +50,8 @@ declare
   v_rows     jsonb := '[]';
   v_txt      text;
   v_n        int;
-  v_audit    int;
+  v_cmd      jsonb := jsonb_build_object('aud', 'orgpuls', 'sub', 'tor@platform', 'scope', 'modules:write',
+                                         'iat', extract(epoch from now())::bigint, 'exp', extract(epoch from now())::bigint + 120);
   claims     constant text := '{"sub":"%s","role":"authenticated","aal":"%s"}';
 begin
 
@@ -78,17 +90,21 @@ begin
       'segments', '[{"id":"sted","text":"Hvor?","options":["Her","Der"]}]'::jsonb), v_hash);
     select m.id into v_mod from app.question_modules m where m.key = 'probe-modul';
 
-    insert into auth.users (id, email) values (v_out, 'out@mod-test.example'), (v_sa, 'sa@mod-test.example');
+    insert into auth.users (id, email) values (v_out, 'out@mod-test.example');
     insert into app.profiles (id, full_name) values (v_out, 'Ute Fra') on conflict (id) do nothing;
     insert into app.memberships (org_id, user_id, role, active) values (v_other, v_out, 'daglig_leder', true);
-    insert into app.platform_admins (user_id, role) values (v_sa, 'super_admin');
 
     -- 14 --------------------------------------------------------------- a pilot sees the draft
-    perform set_config('request.jwt.claims', format(claims, v_out, 'aal2'), true);
-    v_txt := coalesce(public.admin_module_pilot('probe-modul', '0.0.1', v_other, true, 'Pilot')->>'error', 'ok');
-    perform set_config('request.jwt.claims', format(claims, v_sa, 'aal2'), true);
-    v_txt := v_txt || ',' || coalesce(public.admin_module_pilot('probe-modul', '0.0.1', v_other, true, 'Pilot for test')->>'error', 'ok');
-    v_txt := v_txt || ',' || (select count(*) from app.admin_audit where action = 'module.pilot_add' and org_id = v_other);
+    -- no client may call the operation; without a platform actor it refuses; through the API it runs, recorded
+    v_txt := (has_function_privilege('anon', 'app.op_module_pilot(text,text,uuid,boolean,text)', 'execute')
+              or has_function_privilege('authenticated', 'app.op_module_pilot(text,text,uuid,boolean,text)', 'execute'))::text;
+    perform set_config('app.platform_actor', '', true);
+    v_txt := v_txt || ',' || coalesce(app.op_module_pilot('probe-modul', '0.0.1', v_other, true, 'Pilot for test')->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(public.platform_command(pg_temp.tok(v_cmd || '{"jti":"mod-pilot-001"}'), 'modules.pilot',
+               jsonb_build_object('p_key', 'probe-modul', 'p_version', '0.0.1', 'p_org', v_other, 'p_on', true, 'p_reason', 'Pilot for test'))
+               #>> '{result,error}', 'ok');
+    perform set_config('app.platform_actor', '', true);
+    v_txt := v_txt || ',' || (select count(*) from app.platform_commands where jti = 'mod-pilot-001' and command = 'modules.pilot' and ok);
     perform set_config('request.jwt.claims', format(claims, v_out, 'aal1'), true);
     set local role authenticated;
     select v_txt || ',' || count(*) || ',' || (select count(*) from app.module_items where module_id = v_mod)
@@ -99,8 +115,8 @@ begin
     set local role anon;
     select v_txt || ',' || count(*) into v_txt from app.question_modules where id = v_mod;
     reset role;
-    v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'a super-admin adds a pilot, audited; its members see the draft, anon does not',
-      'expected', 'not_allowed,ok,1,1,5,1,0,0', 'actual', v_txt, 'pass', v_txt = 'not_allowed,ok,1,1,5,1,0,0');
+    v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'no client may add a pilot, nor anyone without a platform actor; the platform adds one, recorded; its members see the draft, anon does not',
+      'expected', 'false,not_allowed,ok,1,1,5,1,0,0', 'actual', v_txt, 'pass', v_txt = 'false,not_allowed,ok,1,1,5,1,0,0');
 
     -- 15 --------------------------------------------------------------- only a pilot's round asks a draft
     select array_agg(i.id order by i.sort) into v_items from app.module_items i where i.module_id = v_mod and i.kind = 'likert5';
@@ -268,18 +284,22 @@ begin
       'expected', 'refused,refused,0,0', 'actual', v_txt, 'pass', v_txt = 'refused,refused,0,0');
 
     -- 12 --------------------------------------------------------------- the admin's path
-    perform set_config('request.jwt.claims', format(claims, v_out, 'aal2'), true);
-    v_txt := coalesce(public.admin_module_set_status('probe-modul', '0.0.1', 'retired', 'Ny versjon ute')->>'error', 'ok');
-    perform set_config('request.jwt.claims', format(claims, v_sa, 'aal2'), true);
-    v_txt := v_txt || ',' || coalesce(public.admin_module_set_status('probe-modul', '0.0.1', 'retired', '')->>'error', 'ok');
-    select count(*) into v_audit from app.admin_audit where action = 'module.retire';
-    v_txt := v_txt || ',' || coalesce(public.admin_module_set_status('probe-modul', '0.0.1', 'retired', 'Ny versjon ute')->>'error', 'ok');
-    v_txt := v_txt || ',' || ((select count(*) from app.admin_audit where action = 'module.retire') - v_audit)
+    v_txt := (has_function_privilege('anon', 'app.op_module_set_status(text,text,text,text)', 'execute')
+              or has_function_privilege('authenticated', 'app.op_module_set_status(text,text,text,text)', 'execute'))::text;
+    perform set_config('app.platform_actor', '', true);
+    v_txt := v_txt || ',' || coalesce(app.op_module_set_status('probe-modul', '0.0.1', 'retired', 'Ny versjon ute')->>'error', 'ok');
+    perform set_config('app.platform_actor', 'test@platform', true);
+    v_txt := v_txt || ',' || coalesce(app.op_module_set_status('probe-modul', '0.0.1', 'retired', '')->>'error', 'ok');
+    perform set_config('app.platform_actor', '', true);
+    v_txt := v_txt || ',' || coalesce(public.platform_command(pg_temp.tok(v_cmd || '{"jti":"mod-retire-001"}'), 'modules.set_status',
+               jsonb_build_object('p_key', 'probe-modul', 'p_version', '0.0.1', 'p_status', 'retired', 'p_reason', 'Ny versjon ute'))
+               #>> '{result,error}', 'ok');
+    perform set_config('app.platform_actor', '', true);
+    v_txt := v_txt || ',' || (select count(*) from app.platform_commands where jti = 'mod-retire-001' and command = 'modules.set_status' and ok)
                    || ',' || (select status from app.question_modules where id = v_mod);
-    perform set_config('request.jwt.claims', '', true);
-    v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'only a super-admin retires, with a reason, and it is audited',
-      'expected', 'not_allowed,reason_required,ok,1,retired', 'actual', v_txt,
-      'pass', v_txt = 'not_allowed,reason_required,ok,1,retired');
+    v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'no client may retire, nor anyone without a platform actor; the platform retires with a reason, recorded',
+      'expected', 'false,not_allowed,reason_required,ok,1,retired', 'actual', v_txt,
+      'pass', v_txt = 'false,not_allowed,reason_required,ok,1,retired');
 
     -- 16 --------------------------------------------------------------- English travels with the version (0072)
     perform app.module_seed(jsonb_build_object(
@@ -324,9 +344,11 @@ begin
 
   v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'every probe change was rolled back', 'expected', 'true',
     'actual', (not exists (select 1 from auth.users where email like '%@mod-test.example')
-               and not exists (select 1 from app.question_modules where key = 'probe-modul'))::text,
+               and not exists (select 1 from app.question_modules where key = 'probe-modul')
+               and not exists (select 1 from app.platform_commands where jti like 'mod-%'))::text,
     'pass', not exists (select 1 from auth.users where email like '%@mod-test.example')
-               and not exists (select 1 from app.question_modules where key = 'probe-modul'));
+               and not exists (select 1 from app.question_modules where key = 'probe-modul')
+               and not exists (select 1 from app.platform_commands where jti like 'mod-%'));
 
   insert into public._mod
   select (x->>'seq')::int, x->>'name', x->>'expected', x->>'actual', (x->>'pass')::boolean from jsonb_array_elements(v_rows) x;

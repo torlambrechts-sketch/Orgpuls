@@ -5,7 +5,8 @@
 --   * a trial ends today; deletion thirty Oslo days on; the answer and the source are kept (3)
 --   * a confirmed subscription runs to the end of the month (4)
 --   * a second cancellation is refused (5)
---   * withdrawing clears everything, by the customer or by support (6, 7)
+--   * withdrawing clears everything, by the customer or by the platform; only a platform command
+--     reaches the platform's operation (6, 7; 0206)
 --   * nothing written here survives (8)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/customer_cancel_invariants.sql
@@ -17,7 +18,6 @@ do $$
 declare
   v_org     uuid := '00000000-0000-4000-8000-000000000001';
   v_vo      uuid := '00000000-0000-4000-8000-00000c0c0e01';
-  v_sup     uuid := '00000000-0000-4000-8000-00000c0c0e02';
   v_dl      uuid;
   v_rows    jsonb := '[]';
   v_json    jsonb;
@@ -39,10 +39,9 @@ begin
     update app.billing set cancelled_at = null, cancelled_by = null, cancel_effective_at = null, deletion_due_at = null,
                            confirmed_at = null, trial_ends_at = now() + interval '5 days'
     where org_id = v_org;
-    insert into auth.users (id, email) values (v_vo, 'vo@cc-test.example'), (v_sup, 'sup@cc-test.example');
+    insert into auth.users (id, email) values (v_vo, 'vo@cc-test.example');
     insert into app.profiles (id, full_name) values (v_vo, 'Verne Ombud') on conflict (id) do nothing;
     insert into app.memberships (org_id, user_id, role, active) values (v_org, v_vo, 'verneombud', true);
-    insert into app.platform_admins (user_id, role) values (v_sup, 'support');
 
     -- 2 ------------------------------------------------------------------ who, and how
     perform set_config('request.jwt.claims', format(claims, v_vo, 'aal1'), true);
@@ -86,17 +85,22 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'a confirmed subscription runs to the end of the month, still active',
       'expected', v_eom || '|true|active', 'actual', v_txt, 'pass', v_txt = v_eom || '|true|active');
 
-    -- 7 ------------------------------------------------------------------ support withdraws it
-    perform set_config('request.jwt.claims', format(claims, v_sup, 'aal2'), true);
-    v_txt := coalesce(public.admin_cancel_withdraw(v_org, 'Kunden ringte og angret')->>'error', 'ok');
+    -- 7 ------------------------------------------------------------------ the platform withdraws it
+    -- the daglig leder, still signed in, cannot reach the platform's operation without a platform command
+    perform set_config('app.platform_actor', '', true);
+    v_txt := coalesce(app.op_cancel_withdraw(v_org, 'Kunden ringte og angret')->>'error', 'ok');
+    perform set_config('request.jwt.claims', '', true);
+    perform set_config('app.platform_actor', 'test@platform', true);
+    v_txt := v_txt || '|' || coalesce(app.op_cancel_withdraw(v_org, 'Kunden ringte og angret')->>'error', 'ok');
     select v_txt || '|' || concat_ws(',', coalesce(b.cancel_source, '-'), coalesce(b.cancel_reason, '-')) into v_txt
     from app.billing b where b.org_id = v_org;
-    perform public.admin_cancel_org(v_org, v_today + 3, 'Kunden sendte e-post');
+    perform app.op_cancel_org(v_org, v_today + 3, 'Kunden sendte e-post');
     select v_txt || '|' || coalesce(b.cancel_source, '-') into v_txt from app.billing b where b.org_id = v_org;
-    v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'support''s withdrawal clears who and why too; its own is marked admin',
-      'expected', 'ok|-,-|admin', 'actual', v_txt, 'pass', v_txt = 'ok|-,-|admin');
+    v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'only a platform command withdraws for the customer; it clears who and why; its own is marked admin',
+      'expected', 'not_allowed|ok|-,-|admin', 'actual', v_txt, 'pass', v_txt = 'not_allowed|ok|-,-|admin');
 
     perform set_config('request.jwt.claims', '', true);
+    perform set_config('app.platform_actor', '', true);
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;

@@ -6,9 +6,9 @@
  *
  * **Nothing is kept on the device (D-104).** The tags and the visit's first page used to
  * live in sessionStorage so the signup form could send them. Ekomlov § 3-15 asks consent for
- * storing anything on the user's device, not only cookies, so they are no longer stored:
- * each page's beacon carries the tags of its own address, and the signup's first and last
- * touch are read on the server from the events those beacons left (0059).
+ * storing anything on the user's device, not only cookies, so they are no longer stored: a
+ * page's analytics events carry the tags of its own address (lib/marketing/events.ts), and the
+ * site's own beacon that once read the signup's first touch from them is gone (D-230).
  */
 export const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const
 export type Utm = Partial<Record<(typeof UTM_KEYS)[number], string>>
@@ -25,28 +25,7 @@ export function utmFrom(search: string): Utm {
   return out
 }
 
-/**
- * A partner's referral code from the address (`?ref=REGNVEST`), upper-cased, or nothing (0143, D-184).
- * It travels with the page's campaign tags, and the signup reads it back from the day's events like
- * the first and last touch: nothing is kept on the device.
- */
-export function refFrom(search: string): string | undefined {
-  const v = new URLSearchParams(search).get('ref')?.trim().toUpperCase()
-  return v && /^[A-Z0-9]{2,20}$/.test(v) ? v : undefined
-}
-
-/** The tags of the current address, if it has any, and a partner's code. */
-export function currentUtm(): Utm & { ref?: string } {
-  const ref = refFrom(window.location.search)
-  return ref ? { ...utmFrom(window.location.search), ref } : utmFrom(window.location.search)
-}
-
-/** The referring host, or nothing when it is this site or not a URL. A full referring URL can carry someone else's query string. */
-export function referrerHost(referrer: string, self: string): string | undefined {
-  try {
-    const host = new URL(referrer).hostname.toLowerCase()
-    return host && host !== self.toLowerCase() ? host : undefined
-  } catch {
-    return undefined
-  }
+/** The tags of the current address, if it has any. */
+export function currentUtm(): Utm {
+  return utmFrom(window.location.search)
 }

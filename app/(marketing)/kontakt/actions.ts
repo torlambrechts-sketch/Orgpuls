@@ -4,9 +4,9 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 
 /**
- * "Skriv til oss" (D-92): the message becomes a ticket in the admin's queue through
- * `submit_contact` (0051), which refuses a malformed address, drops a filled honeypot and
- * limits one address to three messages an hour. The message itself is never logged.
+ * "Skriv til oss" (D-92): `submit_contact` hands the message to the platform as a
+ * `contact.submitted` event (0206, D-230). It refuses a malformed address, drops a filled
+ * honeypot and limits one address to three messages an hour. The message itself is never logged.
  */
 export type ContactResult = { ok: true } | { ok: false; problem: 'invalid' | 'rate_limited' | 'failed' }
 

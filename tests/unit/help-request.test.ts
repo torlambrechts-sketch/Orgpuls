@@ -33,15 +33,15 @@ describe('sendHelpRequest — the page reaches submit_help_request as a path onl
   const base = { category: 'bug' as const, subject: '', body: 'Noe virker ikke.', browser: 'test' }
   beforeEach(() => {
     rpc.mockReset()
-    rpc.mockResolvedValue({ data: { ok: true, number: 1042 }, error: null })
+    rpc.mockResolvedValue({ data: { ok: true }, error: null })
   })
 
   it('passes the screen path through', async () => {
-    expect(await sendHelpRequest({ ...base, page: '/resultater' })).toEqual({ ok: true, number: 1042 })
+    expect(await sendHelpRequest({ ...base, page: '/resultater' })).toEqual({ ok: true })
     expect(rpc).toHaveBeenCalledWith('submit_help_request', expect.objectContaining({ p_page: '/resultater' }))
   })
   it('accepts no page', async () => {
-    expect(await sendHelpRequest({ ...base, page: '' })).toEqual({ ok: true, number: 1042 })
+    expect(await sendHelpRequest({ ...base, page: '' })).toEqual({ ok: true })
     expect(rpc).toHaveBeenCalledWith('submit_help_request', expect.objectContaining({ p_page: '' }))
   })
   it('refuses a query string, a fragment, a host, a respondent path or an overlong path before the database', async () => {

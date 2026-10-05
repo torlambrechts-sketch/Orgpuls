@@ -3,16 +3,15 @@
  *
  *   www.orgpuls.com    the product and the Norwegian public site
  *   en.orgpuls.com     the same, in English: the host decides the language (lib/i18n/request)
- *   admin.orgpuls.com  the platform admin, and only the admin
  *
- * `ADMIN_HOST` and `EN_HOST` override the defaults, e.g. for a staging domain. Local and
- * preview builds match none of these, so /admin and the language switch work there on one host.
+ * `EN_HOST` overrides the default, e.g. for a staging domain. Local and preview builds match
+ * none of these, so the language switch works there on one host. The platform admin is no
+ * longer here (D-230).
  */
 export const MAIN_HOST = 'www.orgpuls.com'
-export const ADMIN_HOST = process.env.ADMIN_HOST?.trim().toLowerCase() || 'admin.orgpuls.com'
 export const EN_HOST = process.env.EN_HOST?.trim().toLowerCase() || 'en.orgpuls.com'
 
-/** The hosts where /admin must not exist. */
+/** The production hosts of the product and the public site. */
 export const PUBLIC_HOSTS: readonly string[] = [MAIN_HOST, 'orgpuls.com', EN_HOST]
 
 export const hostOf = (value: string | null | undefined) => (value ?? '').split(':')[0]?.toLowerCase() ?? ''

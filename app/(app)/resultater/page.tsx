@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import { K_DEFAULT } from '@/lib/org/threshold'
-import { countView } from '@/lib/analytics/product'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { ResultaterEmpty, ResultaterFrame } from '@/components/resultater/ResultaterFrame'
@@ -117,7 +116,6 @@ export default async function ResultaterPage({
     getOwnResults(selected.id),
     // «Tiltakene … har hatt positiv effekt» (0097); null when the round did not ask it
     getEffect(selected.id),
-    countView('results_viewed'),
   ])
 
   // the round's page for employees (0100, D-151): its link and switch, for the daglig leder

@@ -5,10 +5,9 @@ import { CtaBand } from '@/components/marketing/CtaBand'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, ldLanguage, organization } from '@/lib/marketing/schema'
-import { cmsList } from '@/lib/cms/read'
 import { absolute, ARTICLES } from '@/lib/marketing/site'
 
-/** The article index: every article, newest first: those written in the CMS (X-094), then those in lib/marketing/site.ts. */
+/** The article index: every article in lib/marketing/site.ts, newest first. */
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
@@ -17,7 +16,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ArticleIndex() {
   const t = await getTranslations()
-  const written = (await cmsList('article', await getLocale())).map((w) => ({ slug: w.slug, h1: w.h1 ?? '', description: w.description ?? '' }))
   return (
     <div>
       <JsonLd
@@ -30,7 +28,6 @@ export default async function ArticleIndex() {
             description: t('seo.index.description'),
             inLanguage: ldLanguage(await getLocale()),
             hasPart: [
-              ...written.map((w) => ({ '@type': 'Article', url: absolute(`/artikler/${w.slug}`), headline: w.h1 })),
               ...ARTICLES.map((a) => ({
                 '@type': 'Article',
                 url: absolute(`/artikler/${a.slug}`),
@@ -50,7 +47,7 @@ export default async function ArticleIndex() {
           {t('seo.index.h1')}
         </h1>
         <p className="mt-[14px] max-w-[60ch] text-[16.5px] leading-[1.65] text-body [text-wrap:pretty]">{t('seo.index.lead')}</p>
-        <ArticleCards slugs={ARTICLES.map((a) => a.slug)} written={written} />
+        <ArticleCards slugs={ARTICLES.map((a) => a.slug)} />
       </div>
       <CtaBand title={t('start.finalTitle')} body={t('start.finalBody')} />
     </div>

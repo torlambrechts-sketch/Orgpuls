@@ -11394,3 +11394,45 @@ On the owner's word («gjør de nå»), the two texts D-227 left:
   checked with `checkImport` (no problems), and written to the registry as machine drafts.
 - **Numbering:** the parallel CRM branch holds 0203 and its own D-227. This change takes 0204 and
   D-229 so neither is reused.
+
+
+## D-230 — What left with admin, and what is not there until the platform is (0206, X-105) (2026-10-05)
+
+- **The contact form loses its newsletter box (D-101).**
+  - The design never had it, so /kontakt is now as drawn.
+  - «Send melding» hands the message to the platform. The thank-you line is unchanged.
+- **Hjelp no longer gives a case number.** The ticket queue that issued one is gone. The thank-you now
+  reads «Takk! Vi har fått meldingen og svarer deg på e-post.» (en «Thank you! We’ve received your
+  message and will reply by email.»).
+- **Until the platform is connected, nobody reads these messages.**
+  - Contact-form messages, Hjelp requests and demo leads wait in `app.platform_events`, undelivered.
+  - They are kept until they are delivered (the 30-day limit does not apply to them) and can be read by
+    SQL: `select kind, created_at, payload from app.platform_events where kind in ('contact.submitted',
+    'support.requested', 'demo.requested') and delivered_at is null`.
+  - The promise «svarer deg på e-post» therefore depends on someone reading that query, or connecting
+    the platform.
+- **Sign-up attribution is the person's own answer only.**
+  - The first page and campaign tags came from the site's own beacon (D-91), which is gone. The beacon
+    was cookieless, so a removed beacon leaves no trace on anyone's device.
+  - Vercel's cookieless analytics stays; the privacy policy says so and no longer describes our own
+    statistics.
+  - A partner's `?ref=` code is no longer read; partners left with the CRM.
+- **Removed from the public site:** the newsletter pages (/nyhetsbrev and its archive, /avmeld), the
+  rating page /vurdering, CMS pages, redirects and previews, the media route /media/[key], the content
+  block kind «image» (only the media library produced it), and IndexNow's key file.
+  - The coded pages and articles are unchanged.
+  - An address the site does not own is a 404, as before the CMS.
+- **The legal registry stays in code** (`lib/legal/registry.ts`, `documents.ts`): it reads the product's
+  own texts. Its labels were the admin's messages, so the platform's legal review has to word them.
+  Units for CRM templates and lists, and for the admin's own reading of the law, are gone.
+- **Lifecycle mail (trial reminders) stays in Orgpuls**, against PLAN § 4. It is the product's service
+  mail and reads no CRM data.
+- **Demo copies no longer reach the platform.** Found while proving 0206:
+  - `demo_build` made the organisation before marking it a demo, and `demo_drop` unmarked it before it
+    went. So 0205's triggers queued `org.created`, `billing.changed` and `org.deleted` for every sandbox.
+  - Both functions now take back what they caused, and what was queued for a copy was removed.
+- **Still deployed but no longer built:**
+  - The edge functions `orgpuls-seo` and `orgpuls-brreg-triggers`, and the Vault secrets that were only
+    theirs and the CRM's. Tor may delete them in the Supabase dashboard.
+  - The `admin.orgpuls.com` domain now serves the product's site; remove it from Vercel, or point it at
+    the platform when the platform exists.

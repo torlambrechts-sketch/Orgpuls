@@ -113,17 +113,12 @@ describe('nothing stating law is left out of the review', () => {
     else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) strings(x, path ? `${path}.${k}` : k, out)
     return out
   }
-  /**
-   * Not texts anyone outside the team reads: the admin app's own help (the one legal reading it
-   * acts on, the CRM's basis, is reviewed), and the page-template blocks /plattform, /bruksomrader
-   * and /priser do not render (lib/legal/registry.ts' header).
-   */
+  /** Not texts anyone reads: the page-template blocks /plattform, /bruksomrader and /priser do not render (lib/legal/registry.ts' header). */
   const UNRENDERED = /^seo\.pages\.(plattform|bruksomrader)\.(blocks|lead)|^seo\.pages\.priser\.blocks/
-  // the admin app renders messages/en.json only, so its Norwegian copy is never read
-  const NOT_PUBLISHED = { no: [/^admin\./, UNRENDERED], en: [/^admin\.(?!crm\.settings\.)/, UNRENDERED] }
+  const NOT_PUBLISHED = { no: [UNRENDERED], en: [UNRENDERED] }
 
   it('covers every message that cites a section of a law, in both files', () => {
-    const all = legalUnits({ factors, crmTemplates: [], crmLists: [] })
+    const all = legalUnits({ factors })
     for (const [lang, messages] of [['no', no], ['en', en]] as const) {
       const covered = new Set(all.filter((u) => u.key.startsWith(`msg:${lang}:`)).flatMap((u) => u.lines.map((l) => l.path)))
       const left = strings(messages, '', [])
@@ -131,36 +126,9 @@ describe('nothing stating law is left out of the review', () => {
         .map((l) => l.path)
       expect(left, `${lang}: add these to MESSAGE_SPECS`).toEqual([])
     }
-    // the one legal reading in the admin app, by name
-    const basis = all.find((u) => u.key === 'msg:en:admin.crmBasis')
-    expect(basis?.lines.map((l) => l.path)).toContain('admin.crm.settings.lead')
-  })
-
-  it('shows no CRM lists unit when every list is archived, rather than a broken one', () => {
-    const list = { key: 'l', name_no: 'N', name_en: 'N', description_no: 'D', description_en: 'D', public: true }
-    const units = legalUnits({ factors, crmLists: [{ ...list, archived: true }] })
-    expect(units.filter((u) => u.key.includes('crm_lists'))).toEqual([])
-    const live = legalUnits({ factors, crmLists: [{ ...list, archived: false }] })
-    expect(live.filter((u) => u.key.includes('crm_lists') && !u.missing)).toHaveLength(2)
   })
 
   it('leaves the instrument out when its read failed, rather than showing it broken', () => {
     expect(legalUnits({ factors: null }).some((u) => u.key === 'db:no:factors.law_ref')).toBe(false)
-  })
-
-  it('names every unit and its place with a message the admin page has', () => {
-    const all = legalUnits({
-      factors,
-      crmTemplates: [{ key: 't', name: 'T', subject: 'S', preheader: 'P', blocks: [] }],
-      crmLists: [{ key: 'l', name_no: 'N', name_en: 'N', description_no: 'D', description_en: 'D', public: true, archived: false }],
-    })
-    const at = (m: unknown, key: string) => key.split('.').reduce<unknown>((o, k) => (o as Record<string, unknown> | undefined)?.[k], m)
-    for (const messages of [no, en]) {
-      const legal = (messages as { admin: { legal: unknown } }).admin.legal
-      for (const u of all) {
-        expect(typeof at(legal, `unit.${u.title.key}`), `unit.${u.title.key}`).toBe('string')
-        expect(typeof at(legal, `whereAt.${u.where.key}`), `whereAt.${u.where.key}`).toBe('string')
-      }
-    }
   })
 })

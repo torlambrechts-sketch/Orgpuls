@@ -14,7 +14,7 @@
 --   9 the person turns it off with their key; any other key changes nothing
 --  10 closing the conversation forgets the link
 --  11 who may call what
---  12 the anonymity firewall still passes every rule
+--  12 the anonymity firewall (app.anonymity_firewall, 0206) still passes every rule
 --  13 nothing written here survives
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/reply_notice_invariants.sql
@@ -230,7 +230,7 @@ begin
     'expected', 'true', 'actual', v_ok::text, 'pass', v_ok);
 
   -- 12 --------------------------------------------------------------- the firewall
-  select string_agg(f.rule, ',') filter (where not f.pass) into v_txt from app.growth_firewall() f;
+  select string_agg(f.rule, ',') filter (where not f.pass) into v_txt from app.anonymity_firewall() f;
   v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'the anonymity firewall passes every rule',
     'expected', 'none', 'actual', coalesce(v_txt, 'none'), 'pass', v_txt is null);
 

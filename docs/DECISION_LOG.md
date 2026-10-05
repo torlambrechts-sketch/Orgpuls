@@ -3311,3 +3311,27 @@ The plan, nothing built yet, is docs/platform/PLAN.md:
 - six steps, with dropping tables on the hosted project waiting for Tor's approval of the list
 
 From now on there is no new admin or CRM work in Orgpuls, and the parallel CRM branch is not merged.
+
+### X-105 — Admin is deleted from Orgpuls; the platform API is the only way in (0205, 0206)
+
+Tor, 2026-10-05: «Gjør det som er mest naturlig — du kan slette admin og bygge APIet.» Done in two
+migrations:
+
+- **0205, the API** (X-104 § 5): signed HS256 commands through `public.platform_command`, verified by
+  the database against a Vault secret, scoped and audited in `app.platform_commands`; signed events out
+  through the dispatcher, from a registry of kinds that names no respondent field.
+- **0206, the deletion**:
+  - The admin screens, the CRM, the CMS, growth, support tickets, prospects, consent ledger and the
+    site's own analytics are gone, with their 79 tables, about 340 functions, 7 cron jobs and all their
+    data. Nothing was exported.
+  - The 32 operations the platform calls are `app.op_*`, executable by nobody but their owner. The admin
+    role exists only inside a verified command.
+  - The contact form, Hjelp, «hvordan hørte du om oss» and the demo send `contact.submitted`,
+    `support.requested`, `org.attribution` and `demo.requested` to the platform. A person's message
+    waits for the platform past the 30 days other events are kept, until it is delivered.
+  - The anonymity firewall's two answer-table rules stay as `app.anonymity_firewall()`.
+- **Edge functions:** `orgpuls-seo` and `orgpuls-brreg-triggers` are no longer built, and the dispatcher
+  sends no marketing or ticket mail.
+- **Proved by:** `platform_split_invariants.sql`. Among other things it shows that no function left names
+  anything that went.
+- **What the platform still has to give back** is in D-230.
