@@ -3335,3 +3335,19 @@ migrations:
 - **Proved by:** `platform_split_invariants.sql`. Among other things it shows that no function left names
   anything that went.
 - **What the platform still has to give back** is in D-230.
+
+### X-106 — The platform is connected, and can ask for everything again (0207)
+
+The platform (repository `Owntheagenda_Admin`, Supabase project `zuvqbaejoktpekfsiyyr`, eu-central-1) is
+Orgpuls' installation since 2026-10-05:
+
+- **Secrets:** the two shared secrets went from Orgpuls' Vault to the platform's Vault database to
+  database, through the platform's `secret-intake` function and a one-time number that lives fifteen
+  minutes. No person, log or repository saw them.
+- **Events:** `app.platform_installation` points at the platform's `orgpuls-events` function and is on.
+- **orgs.resync (0207):** an organisation that existed before the platform did, or a platform database
+  rebuilt from nothing, has heard none of the events. `orgs.resync` queues for one organisation, or for
+  all, what the triggers would have said: `org.created`, its billing, its active members and today's
+  usage. It goes through `app.platform_emit`, so the field lists and the demo rule hold. The scope is
+  `orgs:read`, because it sends nothing that `orgs.get` does not already show. Proved by
+  `platform_resync_invariants.sql`.

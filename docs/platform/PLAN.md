@@ -1,6 +1,6 @@
 # The platform split: admin and CRM leave Orgpuls (X-104)
 
-Status: **T1 and T5 done in Orgpuls** (0205 the API, 0206 the deletion, X-105, D-230); T2–T4 are the platform's
+Status: **T1 and T5 done in Orgpuls** (0205 the API, 0206 the deletion, X-105, D-230); **T2 connected** (X-106: secrets, events, orgs.resync 0207); T2–T4 are the platform's
 own repository. Owner: Tor. Written 2026-10-05.
 
 ## 1. Decisions
