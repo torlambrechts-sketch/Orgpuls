@@ -11467,3 +11467,20 @@ them only through the sitemap.
 - **Footers:** «Alle artikler» first under Ressurser on the start page, and first under Om oss on the
   subpages, which have no Ressurser column.
 - The header now differs from every page's baseline, and the start page from its own below Roller.
+
+## D-233 — Text pages use the width: a sidebar beside the blocks (2026-10-06)
+
+On the owner's word: the pages built from blocks – Lovkrav, Verneombud, Små bedrifter, Sikkerhet,
+Kontakt, Personvernerklæring, Vilkår and every article – set their text at 68–76ch inside the
+1120px column, so on a wide screen the right third stood empty. The v3 pages, the industry pages
+and their question pages already used the width and are unchanged.
+
+- **Sidebar (`WithAside`), 1024px and up:** the blocks take the left column, and a 292px column on
+  the right follows the reader down with «På denne siden» (the page's H2s, when it has three or
+  more) and the page's own closing offer in a small ink card. The document pages (terms, privacy)
+  get the contents list only. Under 1024px nothing changes: no sidebar, the closing band as before.
+- **Blocks:** prose, quotes, law rows, notes and tables lose their own ch caps; the reading column
+  is the measure. Each H2 gets an anchor from its words. Cards are laid out by count – three side by
+  side, two and four in pairs – so a row never ends with one card.
+- **Hero without a product shot (Sikkerhet, Kontakt):** the signup field, price line and trust strip
+  move into a card on the right, as the demo page's form sits, instead of under the lead.

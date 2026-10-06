@@ -12,22 +12,51 @@ import { Rich } from './Rich'
  * uses, at a reading measure. A page is its blocks in order; nothing here knows which page.
  */
 export function Blocks({ blocks }: { blocks: Block[] }) {
+  const ids = headingIds(blocks)
   return (
     <div className="flex flex-col gap-[16px]">
       {blocks.map((b, i) => (
-        <BlockView key={i} block={b} />
+        <BlockView key={i} block={b} id={ids[i]} />
       ))}
     </div>
   )
 }
 
-const prose = 'max-w-[68ch] text-[16px] leading-[1.7] text-body [text-wrap:pretty]'
+/**
+ * Each H2's anchor, by block index, for the contents list beside the text (WithAside): the
+ * heading's own words as a slug, numbered when two would be the same.
+ */
+export function headingIds(blocks: Block[]): (string | undefined)[] {
+  const seen = new Map<string, number>()
+  return blocks.map((b) => {
+    if (b.t !== 'h2') return undefined
+    const base =
+      b.text
+        .toLowerCase()
+        .replace(/æ/g, 'ae')
+        .replace(/ø/g, 'o')
+        .replace(/å/g, 'a')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '') || 'del'
+    const n = (seen.get(base) ?? 0) + 1
+    seen.set(base, n)
+    return n === 1 ? base : `${base}-${n}`
+  })
+}
 
-function BlockView({ block: b }: { block: Block }) {
+// the column is the measure: the reading column beside the sidebar (WithAside, D-233) is what keeps lines short
+const prose = 'text-[16px] leading-[1.7] text-body [text-wrap:pretty]'
+
+function BlockView({ block: b, id }: { block: Block; id?: string }) {
   switch (b.t) {
     case 'h2':
       return (
-        <h2 className="mt-[26px] max-w-[30ch] font-display text-[clamp(23px,3vw,29px)] font-semibold leading-[1.18] [overflow-wrap:break-word] [text-wrap:balance]">
+        <h2
+          id={id}
+          className="mt-[26px] max-w-[30ch] scroll-mt-[118px] font-display text-[clamp(23px,3vw,29px)] font-semibold leading-[1.18] [overflow-wrap:break-word] [text-wrap:balance]"
+        >
           {b.text}
         </h2>
       )
@@ -54,7 +83,7 @@ function BlockView({ block: b }: { block: Block }) {
     }
     case 'quote':
       return (
-        <figure className="m-0 max-w-[68ch] border-l-[3px] border-ac pl-[18px]">
+        <figure className="m-0 border-l-[3px] border-ac pl-[18px]">
           <blockquote className="m-0 text-[15.5px] italic leading-[1.65] text-body [text-wrap:pretty]">«{b.text}»</blockquote>
           <figcaption className="mt-[6px] text-[12.5px] font-semibold text-mut">
             <Rich text={b.cite} />
@@ -63,7 +92,7 @@ function BlockView({ block: b }: { block: Block }) {
       )
     case 'law':
       return (
-        <div className="flex max-w-[76ch] flex-col gap-[9px]">
+        <div className="flex flex-col gap-[9px]">
           {b.items.map((item, i) => (
             <span
               key={i}
@@ -79,7 +108,7 @@ function BlockView({ block: b }: { block: Block }) {
       )
     case 'box':
       return (
-        <aside className="max-w-[72ch] rounded-note border-2 border-ink bg-sbg px-[23px] py-[20px]">
+        <aside className="rounded-note border-2 border-ink bg-sbg px-[23px] py-[20px]">
           <span className="block text-[15.5px] font-bold leading-[1.35]">{b.title}</span>
           <span className="mt-[7px] block text-[14.5px] leading-[1.65] text-body [text-wrap:pretty]">
             <Rich text={b.text} />
@@ -88,7 +117,16 @@ function BlockView({ block: b }: { block: Block }) {
       )
     case 'cards':
       return (
-        <div className="grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]">
+        // by count, so a row is never left with one card: three side by side, two and four in pairs
+        <div
+          className={`grid gap-[13px] ${
+            b.items.length === 3
+              ? 'md:grid-cols-3'
+              : b.items.length % 2 === 0
+                ? 'sm:grid-cols-2'
+                : '[grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]'
+          }`}
+        >
           {b.items.map((item, i) => (
             <div key={i} className="rounded-note border border-line bg-sf px-[23px] py-[22px]">
               <span className="block text-[15.5px] font-bold leading-[1.35] [text-wrap:pretty]">{item.title}</span>
@@ -121,7 +159,7 @@ function BlockView({ block: b }: { block: Block }) {
       return <ProductShot id={b.id} className="my-[8px]" />
     case 'table':
       return (
-        <div className="max-w-[76ch] overflow-x-auto rounded-note border border-line bg-sf">
+        <div className="overflow-x-auto rounded-note border border-line bg-sf">
           <table className="w-full border-collapse text-left text-[14px] leading-[1.5]">
             <thead>
               <tr>

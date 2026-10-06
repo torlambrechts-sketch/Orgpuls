@@ -13,6 +13,7 @@ import { CtaBand } from './CtaBand'
 import { JsonLd } from './JsonLd'
 import { ProductShot } from './ProductShot'
 import { SignupStart } from './SignupStart'
+import { WithAside } from './WithAside'
 
 /** A page's words, wherever they come from: messages (PageTemplate) or the CMS (0114, X-094) */
 export type PageContent = {
@@ -88,7 +89,16 @@ export async function PageView({
       />
 
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[clamp(20px,4vw,54px)]">
-        <div className={heroShot ? 'grid items-center gap-[36px] lg:[grid-template-columns:minmax(0,1.05fr)_minmax(0,1fr)]' : ''}>
+        {/* without a product shot the signup sits in a card on the right, so the hero uses the width (D-233) */}
+        <div
+          className={
+            heroShot
+              ? 'grid items-center gap-[36px] lg:[grid-template-columns:minmax(0,1.05fr)_minmax(0,1fr)]'
+              : plain
+                ? ''
+                : 'grid items-end gap-[36px] lg:[grid-template-columns:minmax(0,1.2fr)_minmax(0,1fr)]'
+          }
+        >
           <div className="min-w-0">
             {crumbs ? (
               <nav aria-label={t('seo.common.breadcrumb')} className="text-[12.5px] text-mut">
@@ -107,11 +117,11 @@ export async function PageView({
               <span className="block h-[7px] w-[7px] rounded-pill bg-link" />
               {c.kicker}
             </span>
-            <h1 className="mt-[16px] max-w-[22ch] font-display text-[clamp(28px,5vw,50px)] font-semibold leading-[1.08] [overflow-wrap:break-word] [hyphens:auto] [text-wrap:balance]">
+            <h1 className="mt-[16px] max-w-[24ch] font-display text-[clamp(28px,5vw,50px)] font-semibold leading-[1.08] [overflow-wrap:break-word] [hyphens:auto] [text-wrap:balance]">
               {c.h1}
             </h1>
             <p className="mt-[14px] max-w-[58ch] text-[16.5px] leading-[1.6] text-body [text-wrap:pretty]">{c.lead}</p>
-            {plain ? null : (
+            {plain || !heroShot ? null : (
               <>
                 <div className="mt-[22px]">
                   <SignupStart
@@ -142,12 +152,36 @@ export async function PageView({
             <div className="flex min-w-0 justify-center lg:justify-end">
               <ProductShot id={heroShot} priority />
             </div>
-          ) : null}
+          ) : plain ? null : (
+            <div className="min-w-0 rounded-note border border-line bg-sf px-[24px] py-[22px] shadow-[0_18px_40px_-28px_rgba(25,21,16,.35)]">
+              <SignupStart
+                label={c.signupLabel || t('seo.signup.label')}
+                submit={t('seo.signup.submit')}
+                invalid={t('seo.signup.invalid')}
+                invalidChecksum={t('seo.signup.invalidChecksum')}
+              />
+              <p className="mb-0 mt-[12px] text-[13px] leading-[1.6] text-mut">
+                <span className="block">{t('seo.common.priceLine')}</span>
+                <span className="block">{t('seo.common.anonymity')}</span>
+              </p>
+              <TrustStrip items={['qps', 'law']} className="mt-[16px]" />
+            </div>
+          )}
         </div>
       </div>
 
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[40px]">
-        <Blocks blocks={blocks} />
+        <WithAside
+          blocks={blocks}
+          cta={
+            plain
+              ? undefined
+              : {
+                  title: c.finalTitle || t('start.finalTitle'),
+                  body: c.finalBody || t('start.finalBody'),
+                }
+          }
+        />
       </div>
 
       {children}
@@ -175,10 +209,7 @@ export async function PageView({
         </div>
       ) : null}
 
-      <CtaBand
-        title={c.finalTitle || t('start.finalTitle')}
-        body={c.finalBody || t('start.finalBody')}
-      />
+      <CtaBand title={c.finalTitle || t('start.finalTitle')} body={c.finalBody || t('start.finalBody')} />
     </div>
   )
 }

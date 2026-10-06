@@ -4797,7 +4797,9 @@
   "site.chrome.nav.fraResultater",
   "site.chrome.nav.sporsmalssettet",
   "site.chrome.nav.sikkerhet",
-  "site.chrome.footer.link.alleArtikler"
+  "site.chrome.footer.link.alleArtikler",
+  "seo.common.aside",
+  "seo.common.onThisPage"
  ],
  "unseen": [
   "factor.motstrid.short",

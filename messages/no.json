@@ -4346,6 +4346,8 @@
     },
     "common": {
       "home": "Forside",
+      "onThisPage": "På denne siden",
+      "aside": "Innhold og tilbud",
       "breadcrumb": "Brødsmulesti",
       "articles": "Artikler",
       "priceLine": "Fra 265 kr/mnd eks. mva · 15 dager gratis · Ingen kort · Svar lagres i EU",

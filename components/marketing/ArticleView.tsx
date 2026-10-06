@@ -9,6 +9,7 @@ import { ArticleCards } from './ArticleCards'
 import { Blocks } from './Blocks'
 import { CtaBand } from './CtaBand'
 import { JsonLd } from './JsonLd'
+import { WithAside } from './WithAside'
 
 export const Sources = z.array(z.object({ label: z.string(), url: z.string().url() }))
 
@@ -128,37 +129,37 @@ export async function ArticleBody({
       </header>
 
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[22px]">
-        <Blocks blocks={blocks} />
+        <WithAside blocks={blocks} cta={{ title: c.ctaTitle, body: c.ctaBody }}>
+          {next ? (
+            <aside className="mt-[34px] rounded-note border border-line bg-sf px-[23px] py-[20px]">
+              <span className="block text-[15.5px] font-bold">{t('seo.common.nextTitle')}</span>
+              <span className="mt-[7px] block text-[14.5px] leading-[1.65] text-body">
+                {next.text}{' '}
+                <Link href={next.href as Route} className="font-semibold">
+                  {t('seo.common.nextLink', { page: next.page })}
+                </Link>
+              </span>
+            </aside>
+          ) : null}
 
-        {next ? (
-          <aside className="mt-[34px] max-w-[72ch] rounded-note border border-line bg-sf px-[23px] py-[20px]">
-            <span className="block text-[15.5px] font-bold">{t('seo.common.nextTitle')}</span>
-            <span className="mt-[7px] block text-[14.5px] leading-[1.65] text-body">
-              {next.text}{' '}
-              <Link href={next.href as Route} className="font-semibold">
-                {t('seo.common.nextLink', { page: next.page })}
-              </Link>
-            </span>
-          </aside>
-        ) : null}
-
-        {sources.length ? (
-          <section className="mt-[34px] max-w-[72ch]" aria-labelledby="kilder">
-          <h2 id="kilder" className="text-[13px] font-bold uppercase tracking-[0.1em] text-mut">
-            {t('seo.common.sources')}
-          </h2>
-          <ul className="mt-[10px] flex list-disc flex-col gap-[5px] pl-[20px] text-[14px] leading-[1.55]">
-            {sources.map((s) => (
-              <li key={s.url}>
-                <a href={s.url} target="_blank" rel="noopener noreferrer">
-                  {s.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-[12px] text-[12.5px] leading-[1.6] text-mut [text-wrap:pretty]">{t('seo.common.disclaimer')}</p>
-          </section>
-        ) : null}
+          {sources.length ? (
+            <section className="mt-[34px]" aria-labelledby="kilder">
+              <h2 id="kilder" className="text-[13px] font-bold uppercase tracking-[0.1em] text-mut">
+                {t('seo.common.sources')}
+              </h2>
+              <ul className="mt-[10px] flex list-disc flex-col gap-[5px] pl-[20px] text-[14px] leading-[1.55]">
+                {sources.map((s) => (
+                  <li key={s.url}>
+                    <a href={s.url} target="_blank" rel="noopener noreferrer">
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-[12px] text-[12.5px] leading-[1.6] text-mut [text-wrap:pretty]">{t('seo.common.disclaimer')}</p>
+            </section>
+          ) : null}
+        </WithAside>
       </div>
 
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">

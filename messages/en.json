@@ -4346,6 +4346,8 @@
     },
     "common": {
       "home": "Home",
+      "onThisPage": "On this page",
+      "aside": "Contents and offer",
       "breadcrumb": "Breadcrumb",
       "articles": "Articles",
       "priceLine": "From NOK 265/month excl. VAT · 15 days free · No card · Answers stored in the EU",
