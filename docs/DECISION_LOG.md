@@ -2904,7 +2904,8 @@ the app calls it any more (wiring R1, known).
   customer is told (D-107; the DPA's Vedlegg 2 limits staff access today).
 - [x] Google Search Console: connected 2026-09-28 (`sc-domain:orgpuls.com`, read-only service
   account); the backfill returned no rows yet, the nightly sync fills admin › Search and content (D-106).
-- [ ] Bing Webmaster Tools: verify orgpuls.com; an API key would add Copilot citations (D-106).
+- [ ] Bing Webmaster Tools: verify orgpuls.com – import from Google Search Console, or set
+  `BING_SITE_VERIFICATION` in Vercel for the meta tag; then `npm run seo:indexnow` after deploys (D-106, D-234).
 - [ ] Legal read of `/personvernerklaering` (D-104), and of whether the cookieless beacon and
   Vercel Web Analytics need consent under ekomlov § 3-15 (the research found no regulator's
   ruling either way).

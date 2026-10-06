@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'Orgpuls',
   description: 'Psykososialt arbeidsmiljø for norske virksomheter.',
+  // Bing Webmaster Tools' meta-tag check, when the site is verified that way rather than imported
+  // from Google Search Console (D-234); the value is the code Bing shows, set in Vercel's environment
+  ...(process.env.BING_SITE_VERIFICATION ? { verification: { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } } : {}),
 }
 
 export default async function RootLayout({

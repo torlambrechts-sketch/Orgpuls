@@ -91,6 +91,8 @@ const PUBLIC_PATHS = [
   '/robots.txt',
   // the site as a reading list for AI search (llmstxt.org), the same pages as the sitemap
   '/llms.txt',
+  // the IndexNow key (D-234): search engines fetch it to check that a URL submission is ours
+  '/6eae893c3286a989d0a624bd3b86edc1.txt',
   // choosing a language on this host, then back to the page (D-109)
   '/api/sprak',
   // the approved site texts, public as the pages that show them, for the weekly fold-back (X-090)

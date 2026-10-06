@@ -11484,3 +11484,16 @@ and their question pages already used the width and are unchanged.
   side, two and four in pairs – so a row never ends with one card.
 - **Hero without a product shot (Sikkerhet, Kontakt):** the signup field, price line and trust strip
   move into a card on the right, as the demo page's form sits, instead of under the lead.
+
+## D-234 — Bing Webmaster Tools and IndexNow (2026-10-06)
+
+On the owner's word. Bing (and Copilot, which searches through it) gets the site the way Google does.
+
+- **Verification:** the quickest is Bing's «Import from Google Search Console», which reuses the
+  `sc-domain:orgpuls.com` property and needs no code. Otherwise Bing's meta-tag code goes in Vercel's
+  environment as `BING_SITE_VERIFICATION`; the root layout then prints `msvalidate.01`. Unset, nothing
+  is printed.
+- **IndexNow:** the key is `public/<32 hex>.txt`, served on both hosts and public by design (the
+  engines fetch it to check a submission came from the site). `npm run seo:indexnow` reads each host's
+  sitemap and submits its URLs; `--dry` lists them. Run it after a deploy that adds or changes public
+  pages. Google does not take part in IndexNow; it keeps reading the sitemap.
