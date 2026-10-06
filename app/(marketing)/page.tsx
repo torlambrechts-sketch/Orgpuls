@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const Str = z.string()
-const Slide = z.object({ tab: Str, eyebrow: Str, title: Str, lead: Str, link: Str, caption: Str })
+const Slide = z.object({ tab: Str, eyebrow: Str.optional(), title: Str, lead: Str, link: Str, caption: Str })
 const Row = z.object({ t: Str, s: Str })
 const Measure = z.object({ t: Str, s: Str, pill: Str })
 const Trust = z.object({ tile: Str, t: Str })
@@ -129,10 +129,12 @@ export default async function StartPage() {
     )
     return (
       <div className="max-w-[580px]">
-        <span className="inline-block rounded-bar bg-ink px-[12px] py-[7px] text-[11px] font-bold uppercase tracking-[.12em] text-bg">
-          {keep(s.eyebrow)}
-        </span>
-        <h2 className="m-0 mt-[22px] font-display text-[60px] font-semibold leading-[1.04] tracking-[-.01em] [overflow-wrap:break-word] [text-wrap:balance] max-sm:text-[40px] max-sm:leading-[1.08] max-[359px]:text-[34px]">
+        {s.eyebrow && (
+          <span className="mb-[22px] inline-block rounded-bar bg-ink px-[12px] py-[7px] text-[11px] font-bold uppercase tracking-[.12em] text-bg">
+            {keep(s.eyebrow)}
+          </span>
+        )}
+        <h2 className="m-0 font-display text-[48px] font-semibold leading-[1.06] tracking-[-.01em] [overflow-wrap:break-word] [text-wrap:balance] max-sm:text-[34px] max-sm:leading-[1.1] max-[359px]:text-[30px]">
           {s.title}
         </h2>
         <p className="m-0 mt-[20px] max-w-[50ch] text-[17.5px] leading-[1.65] text-body [text-wrap:pretty]">{s.lead}</p>

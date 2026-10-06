@@ -11444,7 +11444,9 @@ arbeidsmiljøundersøkelser for små og mellomstore bedrifter» instead of the d
 folk ut – før det blir sykmelding eller oppsigelse.» English follows: «Employee and work environment surveys
 for small and medium-sized businesses».
 
-- The slide's eyebrow still says «For små og mellomstore bedrifter», so the phrase now appears twice; left
-  as it is until the owner says otherwise.
+- The slide's eyebrow «For små og mellomstore bedrifter» repeated the headline, so on the owner's word it is
+  gone from slide 1 (no and en). `eyebrow` is optional in the slide schema; slides 2 and 3 keep theirs.
+- On the owner's word the hero headline is smaller on every slide: 48 px (was 60), 34 px under `sm` (was
+  40) and 30 px under 360 px (was 34). The home hero no longer matches its baseline.
 - The page title and description in the metadata never carried the old line and are unchanged. The other
   slides, and the design bundle, are unchanged.
