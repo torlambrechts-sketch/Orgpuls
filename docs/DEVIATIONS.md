@@ -11436,3 +11436,15 @@ On the owner's word («gjør de nå»), the two texts D-227 left:
     theirs and the CRM's. Tor may delete them in the Supabase dashboard.
   - The `admin.orgpuls.com` domain now serves the product's site; remove it from Vercel, or point it at
     the platform when the platform exists.
+
+## D-231 — The home page's first headline names what Orgpuls is (2026-10-06)
+
+On the owner's word: the first slide of the home hero (`site.home.slides[0].title`) reads «Medarbeider- og
+arbeidsmiljøundersøkelser for små og mellomstore bedrifter» instead of the design's «Fang opp det som sliter
+folk ut – før det blir sykmelding eller oppsigelse.» English follows: «Employee and work environment surveys
+for small and medium-sized businesses».
+
+- The slide's eyebrow still says «For små og mellomstore bedrifter», so the phrase now appears twice; left
+  as it is until the owner says otherwise.
+- The page title and description in the metadata never carried the old line and are unchanged. The other
+  slides, and the design bundle, are unchanged.
