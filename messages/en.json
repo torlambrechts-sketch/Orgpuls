@@ -4454,8 +4454,170 @@
             ]
           },
           {
+            "t": "p",
+            "text": "The survey is one of eight duties in § 3-1 second paragraph. The others include setting health and safety goals, having an overview of who is responsible, assessing the working environment when something is to change (letter d), preventing and following up sickness absence, and regularly reviewing that the health and safety work functions. The psychosocial survey is letter c, and it belongs in the same system."
+          },
+          {
+            "t": "h2",
+            "text": "The factors the law names – and how Orgpuls measures them"
+          },
+          {
+            "t": "p",
+            "text": "The Working Environment Act § 4-3 and regulation § 1A-1 name the factors that make up the psychosocial working environment. The list applies «among other things», and Arbeidstilsynet writes that it is not a minimum: which factors you must survey depends on the nature, activities and risks of your business. But the factors are relevant to most."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Factor in the rules",
+              "Legal basis",
+              "In Orgpuls"
+            ],
+            "rows": [
+              [
+                "Unclear or conflicting demands and expectations",
+                "aml § 4-⁠3 (2) a · regulation § 1A-⁠1 a",
+                "[Role clarity](/artikler/rolleklarhet) and [Conflicting demands](/artikler/motstridende-krav)"
+              ],
+              [
+                "Emotional demands and strain in work with people",
+                "aml § 4-⁠3 (2) b · § 1A-⁠1 b",
+                "[Emotional demands](/artikler/emosjonelle-krav)"
+              ],
+              [
+                "Workload and time pressure",
+                "aml § 4-⁠3 (2) c · § 1A-⁠1 c",
+                "[Workload and time pressure](/artikler/arbeidsmengde-og-tidspress)"
+              ],
+              [
+                "Support and help in the work",
+                "aml § 4-⁠3 (2) d · § 1A-⁠1 d",
+                "[Support from manager](/artikler/stotte-fra-leder) and [Support from colleagues](/artikler/stotte-fra-kollegaer)"
+              ],
+              [
+                "Integrity and dignity",
+                "aml § 4-⁠3 (3)",
+                "[Integrity and dignity](/artikler/integritet-og-verdighet)"
+              ],
+              [
+                "Contact and communication with others",
+                "aml § 4-⁠3 (4) · § 1A-⁠1 e",
+                "[Contact and communication](/artikler/kontakt-og-kommunikasjon)"
+              ],
+              [
+                "Harassment, including sexual harassment",
+                "aml § 4-⁠3 (5) · § 1A-⁠1 f",
+                "Integrity and dignity, and a separate question about offensive behaviour that is only counted"
+              ],
+              [
+                "Violence and threats",
+                "aml § 4-⁠3 (6) · § 1A-⁠1 g",
+                "A separate question that is only counted"
+              ],
+              [
+                "Self-determination and influence in the work",
+                "aml § 4-⁠2 (2) c · § 1A-⁠1 h",
+                "[Participation and control](/artikler/medvirkning-og-kontroll)"
+              ],
+              [
+                "Development, variety and seeing how tasks connect",
+                "aml § 4-⁠2 (2) a and d",
+                "[Recognition and meaning](/artikler/anerkjennelse-og-mening)"
+              ],
+              [
+                "The right to report censurable conditions",
+                "aml chapter 2 A",
+                "[Freedom to speak up](/artikler/ytringsklima)"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The questions about offensive behaviour and about violence and threats are not part of the index. They are shown only as counts for the whole organisation, never per department, so nobody can work out who answered yes."
+          },
+          {
+            "t": "h2",
+            "text": "Regulation chapter 1A, section by section"
+          },
+          {
+            "t": "p",
+            "text": "The chapter was added to the regulation on the performance of work on 1 January 2026. It has five sections:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Regulation § 1A-1",
+                "text": "Work must be organised, planned and carried out so that the psychosocial working environment is fully sound. Arbeidstilsynet writes that being busy or having a demanding job is not forbidden, but the strain must not become too great – and that the assessment as a rule concerns organisation and management, not individuals."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "text": "Survey the factors, and assess the risk in the short and long term: each factor separately, how they affect each other, and together. In cooperation with employees, adapted to the business, repeated regularly and when things change, and documented. **In Orgpuls:** a risk band per factor, a heatmap per department, and the risk assessment brought together in the report."
+              },
+              {
+                "ref": "Regulation § 1A-3",
+                "text": "Draw up the necessary plans and put the necessary measures in place to eliminate or reduce the risk, together with employees. Measures should as far as possible address the causes. **In Orgpuls:** measures with an owner, a deadline and the factor they should move, and ready suggestions to start from."
+              },
+              {
+                "ref": "Regulation § 1A-4",
+                "text": "Employees and their representatives must get the information they need about the risk factors and the measures, and the training they need. **In Orgpuls:** a page of its own you share with employees when the round is closed – what they said, and what you are doing about it."
+              },
+              {
+                "ref": "Regulation § 1A-5",
+                "text": "Employees must take part in the work, cf. Working Environment Act § 2-3. Arbeidstilsynet stresses that this does not make the individual responsible for solving the problems alone. **In Orgpuls:** about four minutes per employee, anonymous, sent by e-mail or SMS or shared as a link and QR code."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Read more about [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo) and about [getting from results to measures](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "h2",
+            "text": "Who must take part"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "The employer",
+                "text": "Is responsible. The employer must ensure the Act is complied with (aml § 2-1). Tasks can be shared out, but the survey is the employer's duty – not the safety representative's or the employees'."
+              },
+              {
+                "title": "The safety representative",
+                "text": "Must be consulted in the health and safety work and must in particular see that the psychosocial working environment is taken care of (aml § 6-2). Every business must have one; with fewer than 5 employees the parties may agree another arrangement in writing (§ 6-1)."
+              },
+              {
+                "title": "The working environment committee",
+                "text": "Required where at least 30 people are regularly employed, and with 10–30 when either party demands it (aml § 7-1). Among other things it deals with establishing and maintaining the health and safety work (§ 7-2)."
+              },
+              {
+                "title": "The employees",
+                "text": "The survey must be done in cooperation with them and their union representatives (aml § 3-1 first paragraph), and they have a duty to take part themselves (§ 2-3 and regulation § 1A-5)."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Whistleblowing routines belong here too",
+            "text": "If you regularly employ at least five people, you must have written routines for internal reporting, drawn up with your employees (aml § 2 A-6). Freedom to speak up in the survey shows whether people actually dare to use them. Read more about [freedom to speak up](/artikler/ytringsklima)."
+          },
+          {
             "t": "h2",
             "text": "The documentation builds itself"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that the survey, the risk assessment and the results must be set down in writing in a way that makes it possible to follow the work up, and that the documentation must serve as the basis for measures. Its scope and form are adapted to the nature, size and risks of the business. At the very least it should show:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "what was surveyed, when, and how",
+              "that employees and the safety representative took part",
+              "the risk assessment, with reasons for each factor and group",
+              "which measures were chosen, with who is responsible and by when",
+              "the follow-up: whether the measures worked"
+            ]
           },
           {
             "t": "p",
@@ -4469,6 +4631,18 @@
             "t": "box",
             "title": "What Orgpuls does not cover",
             "text": "Orgpuls covers the mapping and risk assessment of the psychosocial working environment. HSE goals, deviation handling, sickness absence follow-up and safety inspections live elsewhere. Arbeidstilsynet expects mapping to draw on several sources – a survey is one of them."
+          },
+          {
+            "t": "h2",
+            "text": "What happens if the requirement is not met"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet supervises compliance with the Act. If it finds shortcomings, it can issue an order with a deadline (aml § 18-6). An order can be followed by a coercive fine until it is complied with (§ 18-7). If the Act has been breached negligently or wilfully, the business can be given an infringement fine (§ 18-10)."
+          },
+          {
+            "t": "p",
+            "text": "When Arbeidstilsynet considers an infringement fine, it must among other things weigh whether the business could have prevented the breach through guidelines, training, checks or other measures. A survey that has been done, assessed and followed up – and can be shown – is therefore also the best answer to an inspection."
           },
           {
             "t": "h2",
@@ -4512,6 +4686,22 @@
           {
             "q": "How often must we map?",
             "a": "The regulation says mapping shall be repeated regularly and when changes may affect the risk. It sets no fixed interval. A common rhythm is one main survey a year with short pulses in between."
+          },
+          {
+            "q": "Who is responsible for the survey?",
+            "a": "The employer. Working Environment Act § 2-1 says the employer must ensure the Act is complied with. Tasks can be shared out, but the safety representative and employees take part – carrying out the survey is not their responsibility."
+          },
+          {
+            "q": "Do we need a safety representative?",
+            "a": "Yes, as a rule. Every business covered by the Act must elect a safety representative (§ 6-1). With fewer than 5 employees the parties may agree another arrangement in writing, including having none. Arbeidstilsynet can still decide that you must have one."
+          },
+          {
+            "q": "Must we survey every factor the regulation names?",
+            "a": "Not necessarily. The list in § 1A-1 applies «among other things», and Arbeidstilsynet writes that it does not set a minimum. Which factors you must survey depends on the nature, activities and risks of your business. Most of the factors are still relevant to most businesses."
+          },
+          {
+            "q": "What can Arbeidstilsynet do if we have not surveyed?",
+            "a": "Issue an order with a deadline to put it right (aml § 18-6), possibly with a coercive fine until it is done (§ 18-7). For negligent or wilful breaches, the business can be given an infringement fine (§ 18-10)."
           }
         ],
         "finalTitle": "Do all four steps in one rhythm",

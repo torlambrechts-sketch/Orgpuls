@@ -4454,8 +4454,170 @@
             ]
           },
           {
+            "t": "p",
+            "text": "Kartleggingen er én av åtte plikter i § 3-1 andre ledd. De andre er blant annet å fastsette mål for HMS, ha oversikt over hvem som har ansvaret, vurdere arbeidsmiljøet når noe skal endres (bokstav d), forebygge og følge opp sykefravær, og jevnlig gå gjennom at HMS-arbeidet fungerer. Den psykososiale kartleggingen er bokstav c, og den hører hjemme i det samme systemet."
+          },
+          {
+            "t": "h2",
+            "text": "Faktorene loven nevner – og hvordan Orgpuls måler dem"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven § 4-3 og forskriften § 1A-1 nevner faktorene det psykososiale arbeidsmiljøet består av. Listen gjelder «blant annet», og Arbeidstilsynet skriver at den ikke er et minimum: hvilke faktorer dere må kartlegge, avhenger av virksomhetens art, aktiviteter og risikobilde. Men faktorene er relevante for de fleste."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Faktor i regelverket",
+              "Hjemmel",
+              "I Orgpuls"
+            ],
+            "rows": [
+              [
+                "Uklare eller motstridende krav og forventninger",
+                "aml § 4-⁠3 (2) a · forskriften § 1A-⁠1 a",
+                "[Rolleklarhet](/artikler/rolleklarhet) og [Motstridende krav](/artikler/motstridende-krav)"
+              ],
+              [
+                "Emosjonelle krav og belastninger i arbeid med mennesker",
+                "aml § 4-⁠3 (2) b · § 1A-⁠1 b",
+                "[Emosjonelle krav](/artikler/emosjonelle-krav)"
+              ],
+              [
+                "Arbeidsmengde og tidspress",
+                "aml § 4-⁠3 (2) c · § 1A-⁠1 c",
+                "[Arbeidsmengde og tidspress](/artikler/arbeidsmengde-og-tidspress)"
+              ],
+              [
+                "Støtte og hjelp i arbeidet",
+                "aml § 4-⁠3 (2) d · § 1A-⁠1 d",
+                "[Støtte fra leder](/artikler/stotte-fra-leder) og [Støtte fra kollegaer](/artikler/stotte-fra-kollegaer)"
+              ],
+              [
+                "Integritet og verdighet",
+                "aml § 4-⁠3 (3)",
+                "[Integritet og verdighet](/artikler/integritet-og-verdighet)"
+              ],
+              [
+                "Kontakt og kommunikasjon med andre",
+                "aml § 4-⁠3 (4) · § 1A-⁠1 e",
+                "[Kontakt og kommunikasjon](/artikler/kontakt-og-kommunikasjon)"
+              ],
+              [
+                "Trakassering, herunder seksuell trakassering",
+                "aml § 4-⁠3 (5) · § 1A-⁠1 f",
+                "Integritet og verdighet, og et eget spørsmål om krenkende atferd som bare telles"
+              ],
+              [
+                "Vold og trusler",
+                "aml § 4-⁠3 (6) · § 1A-⁠1 g",
+                "Et eget spørsmål som bare telles"
+              ],
+              [
+                "Selvbestemmelse og innflytelse i arbeidet",
+                "aml § 4-⁠2 (2) c · § 1A-⁠1 h",
+                "[Medvirkning og kontroll](/artikler/medvirkning-og-kontroll)"
+              ],
+              [
+                "Utvikling, variasjon og sammenheng i arbeidet",
+                "aml § 4-⁠2 (2) a og d",
+                "[Anerkjennelse og mening](/artikler/anerkjennelse-og-mening)"
+              ],
+              [
+                "Retten til å si fra om kritikkverdige forhold",
+                "aml kapittel 2 A",
+                "[Ytringsklima](/artikler/ytringsklima)"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Spørsmålene om krenkende atferd og om vold og trusler går ikke inn i indeksen. De vises bare som antall for hele virksomheten, aldri per avdeling, så ingen kan regne seg fram til hvem som har svart ja."
+          },
+          {
+            "t": "h2",
+            "text": "Forskriften kapittel 1A, paragraf for paragraf"
+          },
+          {
+            "t": "p",
+            "text": "Kapittelet kom inn i forskrift om utførelse av arbeid 1. januar 2026. Det består av fem paragrafer:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Forskriften § 1A-1",
+                "text": "Arbeidet skal organiseres, planlegges og gjennomføres slik at det psykososiale arbeidsmiljøet er fullt forsvarlig. Arbeidstilsynet skriver at det ikke er forbudt å ha det travelt eller krevende, men at belastningene ikke må bli for store – og at vurderingen som hovedregel gjelder organisering og styring, ikke enkeltpersoner."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "text": "Kartlegg faktorene, og vurder risikoen på kort og lang sikt: hver faktor for seg, hvordan de påvirker hverandre, og samlet. I samarbeid med de ansatte, tilpasset virksomheten, gjentatt regelmessig og ved endringer, og dokumentert. **I Orgpuls:** risikobånd per faktor, varmekart per avdeling, og risikovurderingen samlet i rapporten."
+              },
+              {
+                "ref": "Forskriften § 1A-3",
+                "text": "Lag nødvendige planer og sett i verk nødvendige tiltak for å fjerne eller redusere risikoen, sammen med de ansatte. Tiltakene bør så langt som mulig rette seg mot årsakene. **I Orgpuls:** tiltak med eier, frist og faktoren de skal flytte, og ferdige forslag å starte fra."
+              },
+              {
+                "ref": "Forskriften § 1A-4",
+                "text": "De ansatte og representantene deres skal få nødvendig informasjon om risikofaktorene og om tiltakene, og nødvendig opplæring. **I Orgpuls:** en egen side dere deler med de ansatte når runden er lukket – hva de sa, og hva dere gjør med det."
+              },
+              {
+                "ref": "Forskriften § 1A-5",
+                "text": "Arbeidstakerne skal medvirke i arbeidet, jf. arbeidsmiljøloven § 2-3. Arbeidstilsynet presiserer at det ikke betyr at den enkelte har ansvar for å løse utfordringene alene. **I Orgpuls:** rundt fire minutter per ansatt, anonymt, sendt på e-post eller SMS eller delt som lenke og QR-kode."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Les mer om [risikovurderingen](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo) og om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "h2",
+            "text": "Hvem som skal være med"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Arbeidsgiver",
+                "text": "Har ansvaret. Arbeidsgiver skal sørge for at loven blir overholdt (aml § 2-1). Oppgaver kan fordeles, men kartleggingen er arbeidsgivers plikt – ikke verneombudets eller de ansattes."
+              },
+              {
+                "title": "Verneombudet",
+                "text": "Skal tas med på råd i det systematiske HMS-arbeidet og særlig påse at det psykososiale arbeidsmiljøet er ivaretatt (aml § 6-2). Alle virksomheter skal ha verneombud; under 5 ansatte kan partene skriftlig avtale en annen ordning (§ 6-1)."
+              },
+              {
+                "title": "Arbeidsmiljøutvalget",
+                "text": "Kreves der det jevnlig er minst 30 ansatte, og der det er 10–30 når en av partene krever det (aml § 7-1). Utvalget behandler blant annet etableringen og vedlikeholdet av HMS-arbeidet (§ 7-2)."
+              },
+              {
+                "title": "De ansatte",
+                "text": "Kartleggingen skal gjøres i samarbeid med dem og deres tillitsvalgte (aml § 3-1 første ledd), og de har selv plikt til å medvirke (§ 2-3 og forskriften § 1A-5)."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Varslingsrutiner hører med",
+            "text": "Har dere jevnlig minst fem ansatte, skal dere ha skriftlige rutiner for intern varsling, laget sammen med de ansatte (aml § 2 A-6). Ytringsklimaet i undersøkelsen viser om folk faktisk tør å bruke dem. Les mer om [ytringsklima](/artikler/ytringsklima)."
+          },
+          {
             "t": "h2",
             "text": "Dokumentasjonen lager seg selv"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at kartleggingen, risikovurderingen og resultatene skal være skriftlig nedfelt på en måte som gjør det mulig å følge opp arbeidet, og at dokumentasjonen skal danne grunnlag for tiltak. Omfang og form tilpasses virksomhetens art, størrelse og risikobilde. Dokumentasjonen bør i alle fall vise:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "hva som ble kartlagt, når, og hvordan",
+              "at de ansatte og verneombudet var med",
+              "risikovurderingen, med begrunnelse for hver faktor og gruppe",
+              "hvilke tiltak som ble valgt, med ansvarlig og frist",
+              "oppfølgingen: om tiltakene virket"
+            ]
           },
           {
             "t": "p",
@@ -4469,6 +4631,18 @@
             "t": "box",
             "title": "Hva Orgpuls ikke dekker",
             "text": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. HMS-mål, avvikshåndtering, oppfølging av sykefravær og vernerunder har dere et annet sted. Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+          },
+          {
+            "t": "h2",
+            "text": "Hva som skjer om kravet ikke følges"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet fører tilsyn med at loven følges. Finner de mangler, kan de gi pålegg med en frist (aml § 18-6). Et pålegg kan følges av tvangsmulkt til det er oppfylt (§ 18-7). Er loven brutt uaktsomt eller med vilje, kan virksomheten få overtredelsesgebyr (§ 18-10)."
+          },
+          {
+            "t": "p",
+            "text": "Når Arbeidstilsynet vurderer et overtredelsesgebyr, skal de blant annet legge vekt på om virksomheten kunne ha forebygget bruddet med retningslinjer, opplæring, kontroll eller andre tiltak. En kartlegging som er gjort, vurdert og fulgt opp – og som kan vises fram – er altså også det beste svaret på et tilsyn."
           },
           {
             "t": "h2",
@@ -4512,6 +4686,22 @@
           {
             "q": "Hvor ofte må vi kartlegge?",
             "a": "Forskriften sier at kartleggingen skal gjentas regelmessig og ved endringer som kan påvirke risikoen. Den setter ikke et fast intervall. En vanlig rytme er én hovedmåling i året og korte pulser imellom."
+          },
+          {
+            "q": "Hvem har ansvaret for kartleggingen?",
+            "a": "Arbeidsgiver. Arbeidsmiljøloven § 2-1 sier at arbeidsgiver skal sørge for at loven blir overholdt. Oppgaver kan fordeles, men verneombudet og de ansatte skal være med – det er ikke deres ansvar å gjennomføre kartleggingen."
+          },
+          {
+            "q": "Må vi ha verneombud?",
+            "a": "Ja, som hovedregel. Alle virksomheter som går inn under loven, skal velge verneombud (§ 6-1). Har dere færre enn 5 ansatte, kan partene skriftlig avtale en annen ordning, også at dere ikke har verneombud. Arbeidstilsynet kan likevel bestemme at dere skal ha det."
+          },
+          {
+            "q": "Må vi kartlegge alle faktorene forskriften nevner?",
+            "a": "Ikke nødvendigvis. Listen i § 1A-1 gjelder «blant annet», og Arbeidstilsynet skriver at den ikke fastsetter et minimum. Hvilke faktorer dere må kartlegge, avhenger av virksomhetens art, aktiviteter og risikobilde. De fleste faktorene er likevel relevante for de fleste virksomheter."
+          },
+          {
+            "q": "Hva kan Arbeidstilsynet gjøre hvis vi ikke har kartlagt?",
+            "a": "Gi pålegg med en frist for å rette opp (aml § 18-6), eventuelt med tvangsmulkt til det er gjort (§ 18-7). Ved uaktsomme eller forsettlige brudd kan virksomheten få overtredelsesgebyr (§ 18-10)."
           }
         ],
         "finalTitle": "Gjør alle fire stegene i én og samme rytme",

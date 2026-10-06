@@ -96,7 +96,7 @@ function BlockView({ block: b, id }: { block: Block; id?: string }) {
           {b.items.map((item, i) => (
             <span
               key={i}
-              className="grid items-baseline gap-[13px] rounded-cta border border-line bg-sf px-[15px] py-[13px] [grid-template-columns:110px_minmax(0,1fr)]"
+              className="grid items-baseline gap-[13px] rounded-cta border border-line bg-sf px-[15px] py-[13px] [grid-template-columns:110px_minmax(0,1fr)] max-sm:grid-cols-1 max-sm:gap-[4px]"
             >
               <LawRef text={item.ref} className="text-[12.5px] font-bold" />
               <span className="text-[14px] leading-[1.55] [text-wrap:pretty]">
@@ -159,34 +159,55 @@ function BlockView({ block: b, id }: { block: Block; id?: string }) {
       return <ProductShot id={b.id} className="my-[8px]" />
     case 'table':
       return (
-        <div className="overflow-x-auto rounded-note border border-line bg-sf">
-          <table className="w-full border-collapse text-left text-[14px] leading-[1.5]">
-            <thead>
-              <tr>
-                {b.head.map((h, i) => (
-                  <th
-                    key={i}
-                    scope="col"
-                    className="border-b border-line px-[15px] py-[11px] text-[12px] font-bold uppercase tracking-[0.06em] text-mut"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {b.rows.map((row, r) => (
-                <tr key={r} className={r < b.rows.length - 1 ? 'border-b border-line' : ''}>
-                  {row.map((cell, c) => (
-                    <td key={c} className={`px-[15px] py-[11px] align-top ${c === 0 ? 'font-semibold' : ''}`}>
+        <>
+          {/* under 640px each row is a card of label–value pairs, so no column is cut off at the edge (D-233) */}
+          <div className="flex flex-col gap-[9px] sm:hidden">
+            {b.rows.map((row, r) => (
+              <dl key={r} className="m-0 rounded-note border border-line bg-sf px-[16px] py-[13px] text-[14px] leading-[1.5]">
+                {row.map((cell, c) =>
+                  c === 0 ? (
+                    <dt key={c} className="font-semibold">
                       <Rich text={cell} />
-                    </td>
+                    </dt>
+                  ) : (
+                    <dd key={c} className="m-0 mt-[6px]">
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.06em] text-mut">{b.head[c]}</span>
+                      <Rich text={cell} />
+                    </dd>
+                  ),
+                )}
+              </dl>
+            ))}
+          </div>
+          <div className="hidden overflow-x-auto rounded-note border border-line bg-sf sm:block">
+            <table className="w-full border-collapse text-left text-[14px] leading-[1.5]">
+              <thead>
+                <tr>
+                  {b.head.map((h, i) => (
+                    <th
+                      key={i}
+                      scope="col"
+                      className="border-b border-line px-[15px] py-[11px] text-[12px] font-bold uppercase tracking-[0.06em] text-mut"
+                    >
+                      {h}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {b.rows.map((row, r) => (
+                  <tr key={r} className={r < b.rows.length - 1 ? 'border-b border-line' : ''}>
+                    {row.map((cell, c) => (
+                      <td key={c} className={`px-[15px] py-[11px] align-top ${c === 0 ? 'font-semibold' : ''}`}>
+                        <Rich text={cell} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )
   }
 }
