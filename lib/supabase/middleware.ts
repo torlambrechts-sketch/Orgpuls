@@ -89,6 +89,8 @@ const PUBLIC_PATHS = [
   '/artikler',
   '/sitemap.xml',
   '/robots.txt',
+  // the site as a reading list for AI search (llmstxt.org), the same pages as the sitemap
+  '/llms.txt',
   // choosing a language on this host, then back to the page (D-109)
   '/api/sprak',
   // the approved site texts, public as the pages that show them, for the weekly fold-back (X-090)

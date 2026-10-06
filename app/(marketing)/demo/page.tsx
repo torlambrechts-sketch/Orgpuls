@@ -6,6 +6,9 @@ import { Tick } from '@/components/site/parts'
 import { DEMO_ROLES } from '@/lib/demo/roles'
 import type { ShotId } from '@/lib/marketing/shot-ids'
 import { pageMeta } from '@/lib/marketing/meta'
+import { JsonLd } from '@/components/marketing/JsonLd'
+import { breadcrumbs, graph, ldLanguage, organization } from '@/lib/marketing/schema'
+import { absolute } from '@/lib/marketing/site'
 import { DemoShot } from './DemoShot'
 
 /**
@@ -28,7 +31,7 @@ const EXPLORE: ShotId[] = ['oversikt', 'varmekart', 'samtaler', 'tiltak', 'arshj
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('demo')
-  return pageMeta({ title: `${t('metaTitle')} · Orgpuls`, description: t('metaDescription'), path: '/demo' })
+  return pageMeta({ title: `${t('metaTitle')} | Orgpuls`, description: t('metaDescription'), path: '/demo' })
 }
 
 const section = 'mx-auto box-border max-w-[1240px] px-[20px] sm:px-[32px] lg:px-[56px]'
@@ -38,7 +41,8 @@ const h2 = 'm-0 mt-[12px] max-w-[24ch] font-display text-[clamp(28px,3.4vw,38px)
 export default async function DemoPage({ searchParams }: { searchParams: Promise<{ feil?: string }> }) {
   const { feil } = await searchParams
   const t = await getTranslations('demo')
-  const lang = (await getLocale()) === 'en' ? 'en' : 'no'
+  const locale = await getLocale()
+  const lang = locale === 'en' ? 'en' : 'no'
   const points = t.raw('points') as string[]
   const rules = t.raw('rules') as string[]
   const helpCount = (t.raw('sent.help') as string[]).length
@@ -86,6 +90,16 @@ export default async function DemoPage({ searchParams }: { searchParams: Promise
 
   return (
     <div className="animate-entry">
+      <JsonLd
+        data={graph(
+          organization(),
+          { '@type': 'WebPage', url: absolute('/demo'), name: t('metaTitle'), description: t('metaDescription'), inLanguage: ldLanguage(locale) },
+          breadcrumbs([
+            { name: (await getTranslations('seo.common'))('home'), path: '/' },
+            { name: t('metaTitle'), path: '/demo' },
+          ]),
+        )}
+      />
       {/* ------------------------------------------------------------ hero and signup */}
       <section className="border-b border-line bg-mint">
         <div

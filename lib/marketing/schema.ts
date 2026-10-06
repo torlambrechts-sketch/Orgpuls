@@ -99,6 +99,8 @@ export const article = (a: {
   /** the page's own card (public/og/...); the site's otherwise */
   image?: string
   locale?: string
+  /** the sources the article cites (its «Kilder»), so a reader — or a model — can check the claim */
+  sources?: { label: string; url: string }[]
 }) => ({
   '@type': 'Article',
   headline: a.headline,
@@ -111,6 +113,7 @@ export const article = (a: {
   image: absolute(a.image ?? '/og.png'),
   author: { '@id': `${SITE_URL}/#organization` },
   publisher: { '@id': `${SITE_URL}/#organization` },
+  ...(a.sources?.length ? { citation: a.sources.map((c) => ({ '@type': 'CreativeWork', name: c.label, url: c.url })) } : {}),
 })
 
 export const graph = (...nodes: Record<string, unknown>[]) => ({ '@context': 'https://schema.org', '@graph': nodes })

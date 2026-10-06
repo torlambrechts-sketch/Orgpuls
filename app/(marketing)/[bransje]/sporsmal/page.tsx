@@ -47,8 +47,8 @@ async function resolve(props: Props) {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { page, preview, twinLive } = await resolve(props)
   const meta = await pageMeta({
-    title: `${page.questionPage.crumb}: ${page.navLabel} | Orgpuls`,
-    description: page.questionPage.lead,
+    title: page.questionPage.metaTitle,
+    description: page.questionPage.metaDescription,
     path: `/${page.slug}/sporsmal`,
     image: `/og/${page.slug}.png`,
     noTwin: !twinLive,

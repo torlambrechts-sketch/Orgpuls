@@ -38,6 +38,8 @@ export const byggOgAnlegg: IndustryPage = {
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
+    metaTitle: 'Spørsmål til arbeidsmiljøundersøkelse i bygg og anlegg | Orgpuls',
+    metaDescription: 'Se alle 24 påstandene bygg-modulen legger til arbeidsmiljøundersøkelsen – 8 faktorer, hver med begrunnelse, hjemmel og forslag til tiltak.',
     h1: 'Spørsmåls\u00ADsettet for bygg og anlegg',
     lead: 'Se alle 24 påstandene bygg-modulen legger til hovedundersøkelsen – 8 faktorer med 3 påstander hver. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
     scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',

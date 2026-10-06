@@ -104,6 +104,7 @@ export async function ArticleBody({
             words,
             image,
             locale,
+            sources,
           }),
           breadcrumbs([
             { name: t('seo.common.home'), path: '/' },

@@ -14,6 +14,8 @@ export const barnehageOgSkoleEn: IndustryPage = {
   moduleName: 'The kindergarten and school module',
   questionPage: {
     crumb: 'The question set',
+    metaTitle: 'Work environment survey questions for kindergartens and schools | Orgpuls',
+    metaDescription: 'See all 24 statements the kindergarten and school module adds to the work environment survey – 8 factors with a rationale, legal basis and measures.',
     h1: 'The question set for kindergartens and schools',
     lead: 'See all 24 statements the module adds to the main survey – 8 factors with 3 statements each. Every factor has a rationale from research, inspection or the regulations, a legal basis and 3 suggested measures you can measure again in the pulse.',
     scaleNote: 'Each person gets the statements in random order. The wording is fixed, so you can compare the figures from one survey to the next.',

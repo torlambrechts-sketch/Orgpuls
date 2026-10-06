@@ -8,7 +8,6 @@
     "site.home.h1",
     "site.home.carousel.roledescription",
     "site.home.carousel.label",
-    "site.home.slides.0.eyebrow",
     "site.home.slides.0.title",
     "site.home.slides.0.lead",
     "site.home.cta",
@@ -4030,6 +4029,10 @@
   "site.chrome.nav.alleBransjer",
   "site.chrome.start.fetching",
   "site.chrome.start.invalid",
-  "industry.preview"
+  "industry.preview",
+  "seo.llms.articles",
+  "seo.llms.forWho",
+  "seo.llms.industries",
+  "seo.llms.pages"
  ]
 }

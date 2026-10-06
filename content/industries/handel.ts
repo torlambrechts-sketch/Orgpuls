@@ -50,6 +50,8 @@ export const handel: IndustryPage = {
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
+    metaTitle: 'Spørsmål til arbeidsmiljøundersøkelse i handel | Orgpuls',
+    metaDescription: 'Se alle 24 påstandene handelsmodulen legger til arbeidsmiljøundersøkelsen – 8 faktorer, hver med begrunnelse, hjemmel og forslag til tiltak.',
     h1: 'Spørsmåls­settet for handel',
     lead: 'Se alle 24 påstandene handel-modulen legger til hovedundersøkelsen – 8 faktorer med 3 påstander hver. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
     scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',

@@ -15,6 +15,8 @@ export const kunnskapOgKontorEn: IndustryPage = {
   moduleName: 'The office module',
   questionPage: {
     crumb: 'The question set',
+    metaTitle: 'Work environment survey questions for office work | Orgpuls',
+    metaDescription: 'Extended has 15 factors and up to 62 statements, simplified 8 factors with 3 each. Every factor with a rationale, legal basis and suggested measures.',
     h1: 'The question set for knowledge and office work',
     lead: 'Extended has 15 factors and up to 62 statements. Simplified has 8 factors with 3 statements each – all core statements that are also part of extended. Every factor has a rationale from research or the regulations, a legal basis and 3 suggested measures you can measure again in the pulse.',
     scaleNote: 'Each person gets the statements in random order. The wording is fixed, so you can compare the figures from one survey to the next.',

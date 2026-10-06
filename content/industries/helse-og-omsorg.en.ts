@@ -57,6 +57,8 @@ export const helseOgOmsorgEn: IndustryPage = {
   },
   questionPage: {
     crumb: 'The question set',
+    metaTitle: 'Work environment survey questions for health and care | Orgpuls',
+    metaDescription: 'See all 24 statements the health and care module adds to the work environment survey – 8 factors, each with a rationale, legal basis and suggested measures.',
     h1: 'The question set for health and care',
     lead: 'See all 24 statements the health and care module adds to the main survey – 8 factors with 3 statements each. Every factor has a rationale from research and inspection, a legal basis and 3 suggested measures you can measure again in the pulse.',
     scaleNote: 'Each person gets the statements in random order. The wording is fixed, so you can compare the figures from one survey to the next.',

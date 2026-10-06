@@ -4338,6 +4338,12 @@
     "problem": "Det gikk ikke å lagre. Prøv igjen."
   },
   "seo": {
+    "llms": {
+      "pages": "Sider",
+      "forWho": "Hvem det er for",
+      "industries": "Bransjer",
+      "articles": "Artikler"
+    },
     "common": {
       "home": "Forside",
       "breadcrumb": "Brødsmulesti",
@@ -6335,7 +6341,7 @@
         ]
       },
       "kontakt": {
-        "title": "Kontakt Orgpuls",
+        "title": "Kontakt Orgpuls – spørsmål om arbeidsmiljøundersøkelser",
         "description": "Spørsmål om Orgpuls, hjelp med oppsettet eller avtale for flere selskaper? Skriv til hjelp@orgpuls.no.",
         "crumb": "Kontakt",
         "kicker": "Kontakt",

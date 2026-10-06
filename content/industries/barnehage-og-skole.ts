@@ -46,6 +46,8 @@ export const barnehageOgSkole: IndustryPage = {
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
+    metaTitle: 'Spørsmål til arbeidsmiljøundersøkelse i barnehage og skole | Orgpuls',
+    metaDescription: 'Se alle 24 påstandene modulen for barnehage og skole legger til arbeidsmiljøundersøkelsen – 8 faktorer med begrunnelse, hjemmel og forslag til tiltak.',
     h1: 'Spørsmåls­settet for barnehage og skole',
     lead: 'Se alle 24 påstandene modulen legger til hovedundersøkelsen – 8 faktorer med 3 påstander hver. Hver faktor har en begrunnelse fra forskning, tilsyn eller regelverket, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
     scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',

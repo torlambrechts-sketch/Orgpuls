@@ -39,6 +39,8 @@ export const kunnskapOgKontor: IndustryPage = {
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
+    metaTitle: 'Spørsmål til arbeidsmiljøundersøkelse for kontor | Orgpuls',
+    metaDescription: 'Utvidet har 15 faktorer og opptil 62 påstander, forenklet 8 faktorer med 3 påstander hver. Hver faktor med begrunnelse, hjemmel og forslag til tiltak.',
     h1: 'Spørsmåls­settet for kunnskap og kontor',
     lead: 'Utvidet har 15 faktorer og opptil 62 påstander. Forenklet har 8 faktorer med 3 påstander hver – alle kjernepåstander som også er med i utvidet. Hver faktor har en begrunnelse fra forskning eller regelverket, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
     scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',

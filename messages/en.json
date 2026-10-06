@@ -4338,6 +4338,12 @@
     "problem": "It could not be saved. Try again."
   },
   "seo": {
+    "llms": {
+      "pages": "Pages",
+      "forWho": "Who it is for",
+      "industries": "Industries",
+      "articles": "Articles"
+    },
     "common": {
       "home": "Home",
       "breadcrumb": "Breadcrumb",
@@ -6335,7 +6341,7 @@
         ]
       },
       "kontakt": {
-        "title": "Contact Orgpuls",
+        "title": "Contact Orgpuls – questions about work environment surveys",
         "description": "Questions about Orgpuls, help with setup, or an agreement for several companies? Write to hjelp@orgpuls.no.",
         "crumb": "Contact",
         "kicker": "Contact",

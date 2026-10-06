@@ -20,6 +20,9 @@ export type IndustryPage = {
   /** /<slug>/sporsmal, generated from the module file; its own words only */
   questionPage?: {
     crumb: string
+    /** the page's <title> and meta description, written for search (under ~60 and 160 characters) */
+    metaTitle: string
+    metaDescription: string
     h1: string
     lead: string
     scaleNote: string

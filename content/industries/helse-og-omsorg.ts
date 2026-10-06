@@ -55,6 +55,8 @@ export const helseOgOmsorg: IndustryPage = {
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
+    metaTitle: 'Spørsmål til arbeidsmiljøundersøkelse i helse og omsorg | Orgpuls',
+    metaDescription: 'Se alle 24 påstandene helse-modulen legger til arbeidsmiljøundersøkelsen – 8 faktorer, hver med begrunnelse, hjemmel og forslag til tiltak.',
     h1: 'Spørsmåls­settet for helse og omsorg',
     lead: 'Se alle 24 påstandene helse-modulen legger til hovedundersøkelsen – 8 faktorer med 3 påstander hver. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
     scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',
