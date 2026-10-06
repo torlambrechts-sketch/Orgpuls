@@ -4878,6 +4878,556 @@
       }
     },
     "articles": {
+      "resultaterTilTiltak": {
+        "title": "From survey results to measures | Orgpuls",
+        "description": "How to get from the results of your work environment survey to measures that work: prioritise, find the cause, give each measure an owner, measure again.",
+        "h1": "From results to measures: following up your work environment survey",
+        "lead": "The survey is only the first step. The regulation requires you to assess the risk, make plans and put measures in place – together with your employees. Here are five steps that turn figures into change, and that hold up when the Labour Inspection Authority asks.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the rules require after the survey"
+          },
+          {
+            "t": "p",
+            "text": "Since 1 January 2026 the regulation on the performance of work has had its own chapter on the psychosocial working environment. It describes a chain: survey and assess the risk (§ 1A-2), make plans and put measures in place (§ 1A-3), and inform employees about the risks and the measures (§ 1A-4)."
+          },
+          {
+            "t": "quote",
+            "text": "On the basis of the risk assessment, the employer shall draw up the necessary plans and implement the necessary measures to eliminate or reduce risk. This shall be done in cooperation with the employees and their representatives.",
+            "cite": "Regulation on the performance of work § 1A-3 (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "A survey without measures meets only half the duty. It also costs trust: people who answer and see nothing happen are less willing next time."
+          },
+          {
+            "t": "h2",
+            "text": "Step 1: Read the results in the right order"
+          },
+          {
+            "t": "p",
+            "text": "It is tempting to go straight to the lowest number. Look at three things instead, in this order:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Level** – which factors are low for the whole organisation? Those are the shared challenges.",
+              "**Spread** – which departments or groups stand out? A low score in one group is often a different matter from a low score everywhere.",
+              "**Change** – what has moved since the last survey? A drop often says more than a level that has stayed put."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Look at the statements behind each factor too. Workload can be low because people have too much to do, or because they never get their breaks – and those call for different measures."
+          },
+          {
+            "t": "h2",
+            "text": "Step 2: Choose two or three factors"
+          },
+          {
+            "t": "p",
+            "text": "The most common mistake is to tackle everything. Ten measures nobody follows up achieve less than three that actually get done. Prioritise by risk: how serious it is, how many it affects, and how long it has lasted."
+          },
+          {
+            "t": "p",
+            "text": "The regulation also says the factors must be seen together. Arbeidstilsynet's own example is that a high workload can add to the strain of emotional demands, while support from managers and colleagues can ease it."
+          },
+          {
+            "t": "box",
+            "title": "Rule of thumb",
+            "text": "Choose what carries the highest risk, and one thing that is easy to act on quickly. The first takes the working environment seriously. The second shows people the survey was worth it."
+          },
+          {
+            "t": "h2",
+            "text": "Step 3: Find the cause together with your employees"
+          },
+          {
+            "t": "p",
+            "text": "The number tells you where it hurts, not why. You find the cause best with the people it concerns – in a team meeting, with the safety representative present. The regulation requires cooperation with employees and their representatives both in the risk assessment and when the measures are drawn up. Good questions to start with:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "What do you think lies behind this number?",
+              "When do you notice it most – in which situations, which weeks?",
+              "What would make the biggest difference, and what can we do ourselves?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Do not ask who answered what. The survey was anonymous, and the meeting should be too in practice: talk about the work, not about individuals. Read more about [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "h2",
+            "text": "Step 4: Give every measure an owner, a deadline and a goal"
+          },
+          {
+            "t": "p",
+            "text": "A measure without an owner is a wish. Write each one so that someone can check whether it was done:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Part",
+              "Weak",
+              "Good"
+            ],
+            "rows": [
+              [
+                "What",
+                "Better communication",
+                "A fixed 15-minute stand-up on Mondays and Thursdays"
+              ],
+              [
+                "Who",
+                "Management",
+                "The warehouse department manager"
+              ],
+              [
+                "When",
+                "Soon",
+                "In place by 1 March"
+              ],
+              [
+                "Goal",
+                "Better well-being",
+                "Role clarity up from below 50 to above 60 in the next pulse"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that measures should as far as possible address the causes, such as organisational or work-related conditions. A stress management course does little if the problem is staffing."
+          },
+          {
+            "t": "h2",
+            "text": "Step 5: Tell people what happens, and measure again"
+          },
+          {
+            "t": "p",
+            "text": "Regulation § 1A-4 requires that employees and their representatives get the information they need about the risk factors and the measures. Say what you found, what you have chosen to do, and what you are leaving – and why. The last part is often forgotten, but it is what people remember."
+          },
+          {
+            "t": "p",
+            "text": "Then measure again. A short pulse on the factors with measures running, a couple of months later, shows whether the number has moved. If it has not, that is a finding in itself: the measure missed the cause, and you try something else. Read more about [how often to measure](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Document as you go"
+          },
+          {
+            "t": "p",
+            "text": "The survey and the risk assessment must be documented and form part of your systematic health and safety work (§ 1A-2 letter d). It does not have to be heavy. It is enough that you can show what you found, how you assessed it, which measures you chose and what happened next. Read more about [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "Findings become measures on a board, each with an owner, a deadline and the factor it should move. A measure cannot be closed until its effect has been measured, and the report brings the survey, the risk assessment, the measures and the follow-up together in one place."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Regulation on the performance of work (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Working Environment Act § 3-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          }
+        ],
+        "ctaTitle": "Make measures part of the rhythm",
+        "ctaBody": "In Orgpuls every measure gets an owner and a deadline, and the pulse shows whether it worked. Start with your organisation number – the first 15 days are free."
+      },
+      "gjennomgang": {
+        "title": "Going through survey results with employees | Orgpuls",
+        "description": "The meeting after the employee survey: when to hold it, a one-hour agenda, questions that open the conversation and four things to avoid.",
+        "h1": "How to go through the results with your employees",
+        "lead": "The meeting after the survey decides whether people answer next time. Hold it soon, show the figures as they are, and spend the time finding causes and measures together – not explaining the result away.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Why the meeting matters more than the report"
+          },
+          {
+            "t": "p",
+            "text": "A report tells you what people answered. The meeting is where they see whether anyone listened. The regulation on the performance of work requires the survey, the risk assessment and the measures to be done in cooperation with employees and their representatives, and requires that they are informed about the risk factors and the measures (§§ 1A-2 to 1A-4). The review is where that cooperation happens in practice."
+          },
+          {
+            "t": "h2",
+            "text": "When: within a couple of weeks"
+          },
+          {
+            "t": "p",
+            "text": "The longer you wait, the less people connect the figures with what they answered. Book the time before the survey goes out, so it does not get pushed back. Go through the figures with the safety representative and any union representatives first, so they know them before the rest of the group."
+          },
+          {
+            "t": "h2",
+            "text": "Who: the group the figures are about"
+          },
+          {
+            "t": "p",
+            "text": "Go through the results with the group they concern – the whole company in a small business, otherwise department by department. The manager leads the meeting, and the safety representative takes part. If the result is about the manager, for instance a low score on support from the manager, it can be wise for the safety representative or another manager to lead that part."
+          },
+          {
+            "t": "h2",
+            "text": "A one-hour agenda"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Minutes",
+              "What"
+            ],
+            "rows": [
+              [
+                "5",
+                "Why we ran the survey, and how many answered"
+              ],
+              [
+                "10",
+                "What is going well – with figures"
+              ],
+              [
+                "15",
+                "What is weakest – with figures, without explaining it away"
+              ],
+              [
+                "20",
+                "Groups of 3–4: what lies behind it, and what would help?"
+              ],
+              [
+                "10",
+                "Choose 2–3 things to act on, and agree when you will follow up"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Start with what is going well. Not to soften the blow, but because those are findings too: they tell you what you must take care to keep."
+          },
+          {
+            "t": "h2",
+            "text": "Questions that open the conversation"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Do you recognise yourselves in this number?",
+              "What do you think lies behind it?",
+              "When do you notice this most in your working day?",
+              "What would make the biggest difference – and what can we do ourselves?",
+              "What should we stop doing?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Small groups get more people talking than a plenary round. Ask the groups to write their answers down, so nobody has to stand behind a view alone."
+          },
+          {
+            "t": "h2",
+            "text": "Four things to avoid"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Do not look for who",
+                "text": "«Who is it that thinks this?» breaks anonymity in practice, even though the survey was anonymous. Talk about the work, not about people."
+              },
+              {
+                "title": "Do not explain it away",
+                "text": "«It was a busy period» may be true, but it is not the manager's call. Let the group say whether they recognise it."
+              },
+              {
+                "title": "Do not promise everything",
+                "text": "It is better to say no to something and explain why than to promise ten things and do two."
+              },
+              {
+                "title": "Do not show groups that are too small",
+                "text": "If only three in a group answered, it is easy to guess who thought what. Show the figures for a larger unit instead."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "After the meeting"
+          },
+          {
+            "t": "p",
+            "text": "Write down what you agreed, with owners and deadlines, and send it to everyone – including those who were not there. Say what you have chosen not to do, and why."
+          },
+          {
+            "t": "p",
+            "text": "When the next survey comes, start by telling people what happened after the last one. People answer when they see it makes a difference. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "A department is shown only when enough people have answered – five by default – so the figures you present cannot be traced to anyone. When the round is closed, you can share a page of its own with your employees: what they said, and what you are doing about it."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Share the results without exposing anyone",
+        "ctaBody": "Orgpuls shows only groups with enough answers, and gives you a page to share with your employees when the round is closed. The first 15 days are free."
+      },
+      "risikovurdering": {
+        "title": "Risk assessment of the psychosocial environment | Orgpuls",
+        "description": "How to assess the risk in the psychosocial working environment under regulation § 1A-2: what to assess, a simple method and what to document.",
+        "h1": "Risk assessment of the psychosocial working environment: how to do it",
+        "lead": "The survey shows how people are doing. The risk assessment says what it means: what could cause harm, how serious it is, and what must be done first. Since 2026 the requirement has been spelled out in the regulation.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the regulation requires"
+          },
+          {
+            "t": "quote",
+            "text": "On the basis of the survey, the employer shall assess the risk of harmful effects, both in the short and the long term. The risk assessment shall cover the individual factors separately, how they affect each other, and whether together they constitute a risk.",
+            "cite": "Regulation on the performance of work § 1A-2 (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "The survey and the risk assessment must also be done in cooperation with employees and their representatives, be adapted to the nature, activities and size of the business, be repeated regularly and when things change, and be documented as part of your health and safety work."
+          },
+          {
+            "t": "h2",
+            "text": "A survey is not a risk assessment"
+          },
+          {
+            "t": "p",
+            "text": "The survey collects: how are people doing with workload, role clarity, support and the other factors? The risk assessment interprets: which of these could harm health, safety or welfare, and how likely and how serious is that? A survey on its own is therefore not a risk assessment. The risk assessment is what you do with the figures afterwards."
+          },
+          {
+            "t": "h2",
+            "text": "Three things to assess"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Each factor separately",
+                "text": "How low is the factor, how many does it affect, and how long has it lasted?"
+              },
+              {
+                "title": "How they affect each other",
+                "text": "Arbeidstilsynet notes that a high workload can add to emotional strain, while support from managers and colleagues can ease it."
+              },
+              {
+                "title": "The overall risk",
+                "text": "A group with several moderately weak factors may carry more risk than a group with one low one."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet also points out that factors can be both straining and protective. A good climate for speaking up and good support are not just an absence of risk – they keep risk down."
+          },
+          {
+            "t": "h2",
+            "text": "Short and long term"
+          },
+          {
+            "t": "p",
+            "text": "The regulation asks you to assess harmful effects in both the short and the long term. Some things are acute: violence and threats, harassment, a conflict that has locked up. Others work over time: a workload that never eases, roles that are never clarified. The latter are easier to overlook, because no single event sets them off."
+          },
+          {
+            "t": "h2",
+            "text": "A simple method in four steps"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Mark** the factors and groups that are low or have dropped since last time.",
+              "**Assess** each one: how serious could it get, how many does it affect, and how long has it lasted? Use the statements behind the number and what employees tell you.",
+              "**Look for connections**: do some factors reinforce each other in the same group? Is anything protective?",
+              "**Conclude** with a risk level – for instance low, medium or high – and a short reason, and let the conclusion decide which measures you prioritise."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Do the assessment with the safety representative. They know the working day from a different side than management, and the regulation requires employee representatives to take part."
+          },
+          {
+            "t": "h2",
+            "text": "When to assess again"
+          },
+          {
+            "t": "p",
+            "text": "Regularly, and when changes could affect the risk. Arbeidstilsynet mentions changes in organisation, staffing, tasks, management, technology, working hours or operating conditions. A reorganisation is therefore a reason to look at the psychosocial working environment again – preferably before it happens. Read more about [how often to measure](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "What to document"
+          },
+          {
+            "t": "p",
+            "text": "The documentation must make it possible to follow the work up and serve as the basis for measures. Its scope can be adapted to the size of the business and its risks. As a minimum:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "what was surveyed, when, and who took part",
+              "which factors and groups were assessed, and the conclusion for each",
+              "the reasoning – why something is high or low risk",
+              "which measures the assessment led to, with owners and deadlines"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The next step is the measures. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "Each factor gets an index from 0 to 100 with a risk band: 65 or more is low risk, 50–64 medium and below 50 high. That is a starting point, not a conclusion. The safety representative sees the same figures as management, and the report brings the survey, the risk assessment, the measures and the follow-up together."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Regulation on the performance of work (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Working Environment Act § 3-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          }
+        ],
+        "ctaTitle": "From figures to a risk assessment",
+        "ctaBody": "Orgpuls gives each factor a risk band and brings the assessment, the measures and the follow-up together in one report. The first 15 days are free."
+      },
+      "arbeidsmengde": {
+        "title": "Workload and time pressure: causes and measures | Orgpuls",
+        "description": "A low workload score in your work environment survey? What the regulation says, how to read the number, common causes and measures that work.",
+        "h1": "Workload and time pressure: when the score is low",
+        "lead": "Being busy is not against the rules. But when the work to be done and the time available do not match over time, it is a risk the employer must act on. Here is how to read the number, find the cause and choose measures.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the regulation says"
+          },
+          {
+            "t": "p",
+            "text": "The regulation on the performance of work § 1A-1 names «workload and time pressure that involve an imbalance between the work to be done and the time available» as one of the psychosocial factors. In its comments, Arbeidstilsynet writes that this can mean working a lot, for long hours or at a high pace, without enough breaks or recovery."
+          },
+          {
+            "t": "quote",
+            "text": "It is not forbidden to be busy or have a demanding job, but the employer must make sure the strain does not become too great.",
+            "cite": "Arbeidstilsynet's comment on regulation § 1A-1 (our translation)"
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "p",
+            "text": "A low workload score means many experience an imbalance. Before you choose measures, look at:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Who** – is it the whole organisation or one group? A department that stands out often has a local cause.",
+              "**Which statements** – is it the amount, the pace or the lack of breaks that pulls the score down?",
+              "**The trend** – has it dropped since last time? Then something has changed.",
+              "**What surrounds it** – low support from the manager or unclear roles at the same time make the load heavier."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet points out that the strain often comes from many, large or demanding tasks while time or resources fall short. In practice it is often about:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "staffing that does not fit the tasks, or absence that is not covered",
+              "unclear priorities, so everything is equally urgent",
+              "interruptions and tasks arriving from many directions",
+              "deadlines set without asking the people who will do the work",
+              "new tasks added without anything being taken away"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Measures that address the cause"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that measures should as far as possible address the causes, such as organisational conditions. For workload, that means measures aimed at the individual – a stress management course, a time management app – are rarely enough on their own."
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Prioritise clearly",
+                "text": "The manager says what can wait when something new comes in. «What should we stop doing?» matters as much as «what should we do?»."
+              },
+              {
+                "title": "Look at staffing",
+                "text": "Compare the tasks with the people who are to do them, especially during absence or peak season."
+              },
+              {
+                "title": "Protect time",
+                "text": "Fixed periods without meetings and interruptions, or a fixed arrangement for who handles requests."
+              },
+              {
+                "title": "Involve people in deadlines",
+                "text": "Let those who will do the work take part when deadlines are set."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "A workload measure is often felt quickly – or not at all. Run a short pulse on workload a couple of months after the measure is in place. If the number has not moved, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "box",
+            "title": "When it is urgent",
+            "text": "If someone is at risk of becoming ill from the strain, do not wait for the next survey. Raise it with the person concerned and with the safety representative, and act now."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Workload and time pressure» is one of eleven factors in the main survey, with three statements. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Follow workload over time",
+        "ctaBody": "Orgpuls measures workload and ten other factors, and the pulse shows whether your measures work. The first 15 days are free."
+      },
       "nyeRegler2026": {
         "title": "New rules on the psychosocial work environment, 2026 | Orgpuls",
         "description": "Since 1 January 2026 the regulation has its own chapter on the psychosocial working environment. What it means for mapping, measures and documentation.",

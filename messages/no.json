@@ -4878,6 +4878,556 @@
       }
     },
     "articles": {
+      "resultaterTilTiltak": {
+        "title": "Fra resultater til tiltak i arbeidsmiljøet | Orgpuls",
+        "description": "Slik går dere fra resultatene i arbeidsmiljøundersøkelsen til tiltak som virker: prioriter, finn årsaken, gi tiltaket en eier og mål om det hjalp.",
+        "h1": "Fra resultater til tiltak: slik følger dere opp arbeidsmiljøundersøkelsen",
+        "lead": "Undersøkelsen er bare første steg. Forskriften krever at dere vurderer risikoen, lager planer og setter i gang tiltak – sammen med de ansatte. Her er fem steg som gjør tall om til endring, og som holder når Arbeidstilsynet spør.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva regelverket krever etter kartleggingen"
+          },
+          {
+            "t": "p",
+            "text": "Siden 1. januar 2026 har forskrift om utførelse av arbeid et eget kapittel om psykososialt arbeidsmiljø. Det beskriver en kjede: kartlegge og vurdere risikoen (§ 1A-2), lage planer og sette i gang tiltak (§ 1A-3), og informere de ansatte om risikoen og tiltakene (§ 1A-4)."
+          },
+          {
+            "t": "quote",
+            "text": "På grunnlag av risikovurderingen skal arbeidsgiveren utarbeide nødvendige planer og iverksette nødvendige tiltak for å fjerne eller redusere risiko. Dette skal gjøres i samarbeid med arbeidstakerne og deres representanter.",
+            "cite": "Forskrift om utførelse av arbeid § 1A-3"
+          },
+          {
+            "t": "p",
+            "text": "En undersøkelse uten tiltak oppfyller altså bare halve plikten. Den koster også tillit: folk som svarer uten å se at noe skjer, gidder mindre neste gang."
+          },
+          {
+            "t": "h2",
+            "text": "Steg 1: Les resultatene i riktig rekkefølge"
+          },
+          {
+            "t": "p",
+            "text": "Det er fristende å gå rett til det laveste tallet. Se heller på tre ting, i denne rekkefølgen:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Nivå** – hvilke faktorer ligger lavt for hele virksomheten? Det er de felles utfordringene.",
+              "**Spredning** – hvilke avdelinger eller grupper skiller seg ut? Et lavt tall i én gruppe er ofte en annen sak enn et lavt tall overalt.",
+              "**Utvikling** – hva har endret seg siden forrige måling? Et fall sier ofte mer enn et nivå som har ligget stabilt."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Se også på påstandene bak hver faktor. Arbeidsmengde kan ligge lavt fordi folk har for mye å gjøre, eller fordi de ikke rekker pausene – og det er to forskjellige tiltak."
+          },
+          {
+            "t": "h2",
+            "text": "Steg 2: Velg to eller tre faktorer"
+          },
+          {
+            "t": "p",
+            "text": "Det vanligste feilgrepet er å ta tak i alt. Ti tiltak som ingen følger opp, gir mindre enn tre som faktisk blir gjort. Prioriter etter risiko: hvor alvorlig det er, hvor mange det gjelder, og hvor lenge det har vart."
+          },
+          {
+            "t": "p",
+            "text": "Forskriften sier også at faktorene skal ses i sammenheng. Arbeidstilsynet bruker selv eksempelet at høy arbeidsmengde kan forsterke belastningen fra emosjonelle krav, mens støtte fra leder og kolleger kan dempe den."
+          },
+          {
+            "t": "box",
+            "title": "Tommelfingerregel",
+            "text": "Velg det som har høyest risiko, og én ting som er lett å gjøre noe med raskt. Det første tar arbeidsmiljøet på alvor. Det andre viser folk at undersøkelsen nytter."
+          },
+          {
+            "t": "h2",
+            "text": "Steg 3: Finn årsaken sammen med de ansatte"
+          },
+          {
+            "t": "p",
+            "text": "Tallet sier hvor det gjør vondt, ikke hvorfor. Årsaken finner dere best sammen med dem det gjelder – i et teammøte, med verneombudet til stede. Forskriften krever samarbeid med arbeidstakerne og deres representanter både i risikovurderingen og når tiltakene lages. Gode spørsmål å starte med:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Hva tror dere ligger bak dette tallet?",
+              "Når merker dere det mest – i hvilke situasjoner, hvilke uker?",
+              "Hva ville gjort størst forskjell, og hva kan vi gjøre selv?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Ikke spør hvem som svarte hva. Undersøkelsen var anonym, og møtet bør være det i praksis også: snakk om arbeidet, ikke om enkeltpersoner. Les mer om [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "h2",
+            "text": "Steg 4: Gi hvert tiltak en eier, en frist og et mål"
+          },
+          {
+            "t": "p",
+            "text": "Et tiltak uten eier er et ønske. Skriv hvert tiltak slik at noen kan sjekke om det er gjort:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Del",
+              "Svakt",
+              "Godt"
+            ],
+            "rows": [
+              [
+                "Hva",
+                "Bedre kommunikasjon",
+                "Fast tavlemøte på 15 minutter mandag og torsdag"
+              ],
+              [
+                "Hvem",
+                "Ledelsen",
+                "Avdelingslederen på lageret"
+              ],
+              [
+                "Når",
+                "Snart",
+                "Innført innen 1. mars"
+              ],
+              [
+                "Mål",
+                "Bedre trivsel",
+                "Rolleklarhet opp fra under 50 til over 60 i neste puls"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at tiltakene så langt som mulig bør rette seg mot årsakene, for eksempel organisatoriske eller arbeidsmessige forhold. Et kurs i stressmestring hjelper lite hvis problemet er bemanningen."
+          },
+          {
+            "t": "h2",
+            "text": "Steg 5: Fortell hva som skjer, og mål igjen"
+          },
+          {
+            "t": "p",
+            "text": "Forskriften § 1A-4 krever at de ansatte og representantene deres får nødvendig informasjon om risikofaktorene og om tiltakene. Fortell hva dere fant, hva dere har valgt å gjøre, og hva dere lar ligge – og hvorfor. Det siste glemmes ofte, men det er det folk husker."
+          },
+          {
+            "t": "p",
+            "text": "Mål så igjen. En kort puls på faktorene der tiltakene løper, et par måneder etter, viser om tallet har flyttet seg. Har det ikke det, er det et funn i seg selv: tiltaket traff ikke årsaken, og dere prøver noe annet. Les mer om [hvor ofte dere bør måle](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Dokumenter underveis"
+          },
+          {
+            "t": "p",
+            "text": "Kartleggingen og risikovurderingen skal dokumenteres og inngå i det systematiske HMS-arbeidet (§ 1A-2 bokstav d). Det trenger ikke være tungt. Det holder at dere kan vise hva dere fant, hvordan dere vurderte det, hvilke tiltak dere valgte og hva som skjedde etterpå. Les mer om [risikovurderingen](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "Funnene blir tiltak på en tavle, hvert med eier, frist og faktoren det skal flytte. Et tiltak kan ikke lukkes før effekten er målt, og rapporten samler kartlegging, risikovurdering, tiltak og oppfølging på ett sted."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid (Lovdata)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 3-1 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          }
+        ],
+        "ctaTitle": "Gjør tiltakene til en del av rytmen",
+        "ctaBody": "I Orgpuls får hvert tiltak eier og frist, og pulsen viser om det virket. Start med organisasjonsnummeret – de første 15 dagene er gratis."
+      },
+      "gjennomgang": {
+        "title": "Slik går dere gjennom resultatene med de ansatte | Orgpuls",
+        "description": "Møtet etter medarbeiderundersøkelsen: når det bør holdes, et opplegg på en time, spørsmål som åpner samtalen og fire ting dere bør unngå.",
+        "h1": "Slik går dere gjennom resultatene med de ansatte",
+        "lead": "Møtet etter undersøkelsen avgjør om folk svarer neste gang. Hold det raskt, vis tallene slik de er, og bruk tiden på å finne årsaker og tiltak sammen – ikke på å forklare bort resultatet.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hvorfor møtet betyr mer enn rapporten"
+          },
+          {
+            "t": "p",
+            "text": "En rapport forteller hva folk svarte. I møtet ser de om noen lyttet. Forskrift om utførelse av arbeid krever at kartlegging, risikovurdering og tiltak gjøres i samarbeid med arbeidstakerne og deres representanter, og at de får informasjon om risikofaktorene og tiltakene (§§ 1A-2 til 1A-4). Gjennomgangen er der det samarbeidet skjer i praksis."
+          },
+          {
+            "t": "h2",
+            "text": "Når: innen et par uker"
+          },
+          {
+            "t": "p",
+            "text": "Jo lenger det går, jo mindre kobler folk tallene til det de selv svarte. Sett av tid til gjennomgangen før undersøkelsen sendes ut, så den ikke blir skjøvet. Gå først gjennom tallene med verneombudet og eventuelle tillitsvalgte, så de kjenner dem før resten av gruppen."
+          },
+          {
+            "t": "h2",
+            "text": "Hvem: gruppen tallene gjelder"
+          },
+          {
+            "t": "p",
+            "text": "Gå gjennom resultatene med gruppen de gjelder – hele virksomheten i en liten bedrift, ellers avdeling for avdeling. Lederen leder møtet, og verneombudet er med. Handler resultatet om lederen selv, for eksempel lav score på støtte fra leder, kan det være lurt at verneombudet eller en annen leder tar den delen av samtalen."
+          },
+          {
+            "t": "h2",
+            "text": "Et opplegg på en time"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Minutter",
+              "Hva"
+            ],
+            "rows": [
+              [
+                "5",
+                "Hvorfor vi gjorde undersøkelsen, og hvor mange som svarte"
+              ],
+              [
+                "10",
+                "Det som går bra – med tall"
+              ],
+              [
+                "15",
+                "Det som er svakest – med tall, uten å forklare det bort"
+              ],
+              [
+                "20",
+                "Grupper på 3–4: hva ligger bak, og hva ville hjulpet?"
+              ],
+              [
+                "10",
+                "Velg 2–3 ting å gjøre noe med, og avtal når dere følger opp"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Start med det som går bra. Ikke for å myke opp, men fordi det også er funn: det sier hva dere må passe på å beholde."
+          },
+          {
+            "t": "h2",
+            "text": "Spørsmål som åpner samtalen"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Kjenner dere dere igjen i dette tallet?",
+              "Hva tror dere ligger bak?",
+              "Når merker dere dette mest i hverdagen?",
+              "Hva ville gjort størst forskjell – og hva kan vi gjøre selv?",
+              "Hva bør vi slutte med?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Små grupper får flere til å si noe enn en runde i plenum. Be gruppene skrive ned svarene, så ingen trenger å stå inne for et synspunkt alene."
+          },
+          {
+            "t": "h2",
+            "text": "Fire ting å unngå"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Ikke let etter hvem",
+                "text": "«Hvem er det som mener dette?» ødelegger anonymiteten i praksis, selv om undersøkelsen var anonym. Snakk om arbeidet, ikke om personer."
+              },
+              {
+                "title": "Ikke forklar bort",
+                "text": "«Det var en travel periode» kan være sant, men det er ikke lederen som skal konkludere. La gruppen si om de kjenner seg igjen."
+              },
+              {
+                "title": "Ikke lov alt",
+                "text": "Det er bedre å si nei til noe og begrunne det enn å love ti ting og gjøre to."
+              },
+              {
+                "title": "Ikke vis for små grupper",
+                "text": "Har bare tre i en gruppe svart, er det lett å gjette hvem som mente hva. Vis heller tallene for en større enhet."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Etter møtet"
+          },
+          {
+            "t": "p",
+            "text": "Skriv ned hva dere ble enige om, med eier og frist, og send det til alle – også dem som ikke var der. Fortell hva dere har valgt å ikke gjøre, og hvorfor."
+          },
+          {
+            "t": "p",
+            "text": "Når neste måling kommer, start med å fortelle hva som skjedde etter den forrige. Folk svarer når de ser at det nytter. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "En avdeling vises bare når nok har svart – som standard fem – så tallene dere viser fram, kan ikke spores til noen. Når runden er lukket, kan dere dele en egen side med de ansatte: hva de sa, og hva dere gjør med det."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Del resultatene uten å avsløre noen",
+        "ctaBody": "Orgpuls viser bare grupper med nok svar, og gir dere en side å dele med de ansatte når runden er lukket. De første 15 dagene er gratis."
+      },
+      "risikovurdering": {
+        "title": "Risikovurdering av psykososialt arbeidsmiljø | Orgpuls",
+        "description": "Slik risikovurderer dere det psykososiale arbeidsmiljøet etter forskriften § 1A-2: hva som skal vurderes, en enkel metode og hva som må dokumenteres.",
+        "h1": "Risikovurdering av psykososialt arbeidsmiljø: slik gjør dere det",
+        "lead": "Kartleggingen viser hvordan folk har det. Risikovurderingen sier hva det betyr: hva som kan føre til skade, hvor alvorlig det er, og hva som må gjøres først. Siden 2026 står kravet uttrykkelig i forskriften.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva forskriften krever"
+          },
+          {
+            "t": "quote",
+            "text": "På grunnlag av kartleggingen skal arbeidsgiveren vurdere risikoen for skadelig påvirkning, både på kort og lang sikt. Risikovurderingen skal omfatte de enkelte faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko.",
+            "cite": "Forskrift om utførelse av arbeid § 1A-2"
+          },
+          {
+            "t": "p",
+            "text": "Kartleggingen og risikovurderingen skal også gjøres i samarbeid med arbeidstakerne og deres representanter, tilpasses virksomhetens art, aktiviteter og størrelse, gjentas regelmessig og ved endringer, og dokumenteres som en del av HMS-arbeidet."
+          },
+          {
+            "t": "h2",
+            "text": "Kartlegging og risikovurdering er ikke det samme"
+          },
+          {
+            "t": "p",
+            "text": "Kartleggingen samler inn: hvordan har folk det med arbeidsmengde, rolleklarhet, støtte og de andre faktorene? Risikovurderingen tolker: hvilke av disse kan skade helse, sikkerhet eller velferd, og hvor sannsynlig og alvorlig er det? En undersøkelse alene er derfor ikke en risikovurdering. Risikovurderingen er det dere gjør med tallene etterpå."
+          },
+          {
+            "t": "h2",
+            "text": "Tre ting som skal vurderes"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Hver faktor for seg",
+                "text": "Hvor lavt ligger faktoren, hvor mange gjelder det, og hvor lenge har det vart?"
+              },
+              {
+                "title": "Hvordan de påvirker hverandre",
+                "text": "Arbeidstilsynet nevner at høy arbeidsmengde kan forsterke emosjonelle belastninger, mens støtte fra leder og kolleger kan dempe dem."
+              },
+              {
+                "title": "Den samlede risikoen",
+                "text": "En gruppe med flere middels svake faktorer kan ha høyere risiko enn en gruppe med én lav."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet påpeker også at faktorene kan virke både belastende og beskyttende. Godt ytringsklima og god støtte er altså ikke bare fravær av risiko, men noe som holder risikoen nede."
+          },
+          {
+            "t": "h2",
+            "text": "Kort og lang sikt"
+          },
+          {
+            "t": "p",
+            "text": "Forskriften ber dere vurdere skadelig påvirkning både på kort og lang sikt. Noe er akutt: vold og trusler, trakassering, en konflikt som har låst seg. Annet virker over tid: arbeidsmengde som aldri går ned, roller som aldri blir avklart. Det siste er lettere å overse, fordi ingen enkelthendelse utløser det."
+          },
+          {
+            "t": "h2",
+            "text": "En enkel metode i fire steg"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Marker** faktorene og gruppene som ligger lavt eller har falt siden sist.",
+              "**Vurder** hver av dem: hvor alvorlig kan det bli, hvor mange gjelder det, og hvor lenge har det vart? Bruk påstandene bak tallet og det de ansatte forteller.",
+              "**Se sammenhenger**: forsterker noen faktorer hverandre i samme gruppe? Er det noe som beskytter?",
+              "**Konkluder** med et risikonivå – for eksempel lav, middels eller høy – og en kort begrunnelse, og la konklusjonen styre hvilke tiltak dere prioriterer."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Gjør vurderingen sammen med verneombudet. Verneombudet kjenner hverdagen fra en annen side enn ledelsen, og forskriften krever at arbeidstakernes representanter er med."
+          },
+          {
+            "t": "h2",
+            "text": "Når risikovurderingen må gjøres på nytt"
+          },
+          {
+            "t": "p",
+            "text": "Regelmessig, og ved endringer som kan påvirke risikoen. Arbeidstilsynet nevner endringer i organisering, bemanning, arbeidsoppgaver, ledelse, teknologi, arbeidstid eller rammebetingelser. En omorganisering er altså en grunn til å se på det psykososiale arbeidsmiljøet igjen – helst før den gjennomføres. Les mer om [hvor ofte dere bør måle](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Hva som bør dokumenteres"
+          },
+          {
+            "t": "p",
+            "text": "Dokumentasjonen skal gjøre det mulig å følge opp arbeidet og danne grunnlag for tiltak. Omfanget kan tilpasses virksomhetens størrelse og risikobilde. Et minimum er:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "hva som ble kartlagt, når, og hvem som deltok",
+              "hvilke faktorer og grupper som ble vurdert, og konklusjonen for hver",
+              "begrunnelsen – hvorfor noe er høy eller lav risiko",
+              "hvilke tiltak vurderingen førte til, med eier og frist"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Neste steg er tiltakene. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "Hver faktor får en indeks fra 0 til 100 med et risikobånd: 65 eller mer er lav risiko, 50–64 middels og under 50 høy. Det er et utgangspunkt, ikke en konklusjon. Verneombudet ser de samme tallene som ledelsen, og rapporten samler kartlegging, risikovurdering, tiltak og oppfølging."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid (Lovdata)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 3-1 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          }
+        ],
+        "ctaTitle": "Fra tall til risikovurdering",
+        "ctaBody": "Orgpuls gir hver faktor et risikobånd og samler vurderingen, tiltakene og oppfølgingen i én rapport. De første 15 dagene er gratis."
+      },
+      "arbeidsmengde": {
+        "title": "Arbeidsmengde og tidspress: årsaker og tiltak | Orgpuls",
+        "description": "Lav score på arbeidsmengde i arbeidsmiljøundersøkelsen? Hva forskriften sier, hvordan dere leser tallet, vanlige årsaker og tiltak som virker.",
+        "h1": "Arbeidsmengde og tidspress: når tallet er lavt",
+        "lead": "Det er ikke forbudt å ha det travelt. Men når arbeidet som skal gjøres og tiden dere har, ikke henger sammen over tid, er det en risiko arbeidsgiveren må gjøre noe med. Slik leser dere tallet, finner årsaken og velger tiltak.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva forskriften sier"
+          },
+          {
+            "t": "p",
+            "text": "Forskrift om utførelse av arbeid § 1A-1 nevner «arbeidsmengde og tidspress som innebærer ubalanse mellom arbeidet som skal utføres, og den tiden som er til rådighet» som en av de psykososiale arbeidsmiljøfaktorene. Arbeidstilsynet skriver i sin kommentar at det kan handle om å arbeide mye, i mange timer eller i høyt tempo, uten tilstrekkelig pause eller restitusjon."
+          },
+          {
+            "t": "quote",
+            "text": "Det er ikke forbudt å ha det travelt eller krevende på jobb, men arbeidsgiveren må sørge for at belastningene ikke blir for store.",
+            "cite": "Arbeidstilsynets kommentar til forskrift om utførelse av arbeid § 1A-1"
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "p",
+            "text": "Et lavt tall på arbeidsmengde betyr at mange opplever ubalanse. Før dere velger tiltak, se etter:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Hvem** – gjelder det hele virksomheten eller én gruppe? En avdeling som skiller seg ut, har ofte en lokal årsak.",
+              "**Hvilke påstander** – er det mengden, tempoet eller mangelen på pauser som trekker ned?",
+              "**Utviklingen** – har det falt siden sist? Da har noe endret seg.",
+              "**Det som ligger rundt** – lav støtte fra leder eller uklare roller samtidig gjør belastningen tyngre."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet peker på at belastningen ofte kommer av mange, store eller krevende oppgaver samtidig som tiden eller ressursene ikke strekker til. I praksis handler det ofte om:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "bemanning som ikke passer oppgavene, eller fravær som ikke dekkes inn",
+              "uklare prioriteringer, så alt haster like mye",
+              "avbrytelser og oppgaver som kommer fra mange hold",
+              "frister som settes uten at de som skal gjøre jobben, blir spurt",
+              "nye oppgaver som kommer til uten at noe tas bort"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tiltak som retter seg mot årsaken"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at tiltakene så langt som mulig bør rette seg mot årsakene, for eksempel organisatoriske forhold. For arbeidsmengde betyr det at tiltak rettet mot den enkelte – et kurs i stressmestring, en app for tidsstyring – sjelden er nok alene."
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Prioriter tydelig",
+                "text": "Lederen sier hva som kan vente når noe nytt kommer inn. «Hva skal vi slutte med?» er like viktig som «hva skal vi gjøre?»."
+              },
+              {
+                "title": "Se på bemanningen",
+                "text": "Sammenlign oppgavene med folkene som skal gjøre dem, særlig i perioder med fravær eller høysesong."
+              },
+              {
+                "title": "Beskytt tid",
+                "text": "Faste perioder uten møter og avbrytelser, eller en fast ordning for hvem som tar henvendelser."
+              },
+              {
+                "title": "Ta folk med på fristene",
+                "text": "La dem som skal gjøre jobben, være med når fristene settes."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Et tiltak mot arbeidsmengde merkes ofte raskt – eller ikke i det hele tatt. Ta en kort puls på arbeidsmengde et par måneder etter at tiltaket er innført. Har tallet ikke flyttet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "box",
+            "title": "Når det haster",
+            "text": "Står noen i fare for å bli syke av belastningen, venter dere ikke på neste måling. Ta det opp med den det gjelder og med verneombudet, og gjør noe med det nå."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Arbeidsmengde og tidspress» er en av elleve faktorer i hovedundersøkelsen, med tre påstander. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Følg arbeidsmengden over tid",
+        "ctaBody": "Orgpuls måler arbeidsmengde og ti andre faktorer, og pulsen viser om tiltakene virker. De første 15 dagene er gratis."
+      },
       "nyeRegler2026": {
         "title": "Nye regler for psykososialt arbeidsmiljø fra 2026 | Orgpuls",
         "description": "Fra 1. januar 2026 har forskriften et eget kapittel om psykososialt arbeidsmiljø. Dette betyr endringen for kartlegging, tiltak og dokumentasjon.",

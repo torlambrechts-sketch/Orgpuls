@@ -32,6 +32,38 @@ export type Article = {
 /** Newest first: the order the index lists them in. */
 export const ARTICLES: Article[] = [
   {
+    slug: 'fra-resultater-til-tiltak',
+    key: 'resultaterTilTiltak',
+    published: '2026-10-06',
+    modified: '2026-10-06',
+    landing: 'lovkrav',
+    related: ['slik-gar-dere-gjennom-resultatene-med-de-ansatte', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
+  },
+  {
+    slug: 'slik-gar-dere-gjennom-resultatene-med-de-ansatte',
+    key: 'gjennomgang',
+    published: '2026-10-06',
+    modified: '2026-10-06',
+    landing: 'smaa-bedrifter',
+    related: ['fra-resultater-til-tiltak', 'anonym-medarbeiderundersokelse'],
+  },
+  {
+    slug: 'risikovurdering-av-psykososialt-arbeidsmiljo',
+    key: 'risikovurdering',
+    published: '2026-10-06',
+    modified: '2026-10-06',
+    landing: 'lovkrav',
+    related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'fra-resultater-til-tiltak'],
+  },
+  {
+    slug: 'arbeidsmengde-og-tidspress',
+    key: 'arbeidsmengde',
+    published: '2026-10-06',
+    modified: '2026-10-06',
+    landing: 'smaa-bedrifter',
+    related: ['fra-resultater-til-tiltak', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
+  },
+  {
     slug: 'nye-regler-psykososialt-arbeidsmiljo-2026',
     key: 'nyeRegler2026',
     published: '2026-09-25',
