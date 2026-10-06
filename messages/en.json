@@ -4414,7 +4414,7 @@
     "lp": {
       "lovkrav": {
         "title": "Mapping the psychosocial working environment | Orgpuls",
-        "description": "Mapping the psychosocial working environment under the Working Environment Act: what is required, and how to do it in one steady rhythm. 15 days free.",
+        "description": "What the Working Environment Act and regulation ch. 1A require of a psychosocial survey: factor by factor, who must take part, and the documentation.",
         "crumb": "The legal requirement",
         "card": {
           "title": "The legal requirement",
@@ -4709,7 +4709,7 @@
       },
       "verneombud": {
         "title": "Safety representatives and work environment mapping | Orgpuls",
-        "description": "As a safety representative you shall be consulted on the mapping. In Orgpuls you see the same figures as management, at no extra cost. 15 days free.",
+        "description": "The safety representative's rights when the working environment is surveyed: what the law says, your role at each step, and the same figures as management.",
         "crumb": "For safety representatives",
         "card": {
           "title": "Safety representatives",
@@ -4731,6 +4731,70 @@
           {
             "t": "p",
             "text": "Section 6-2 of the Working Environment Act says the safety representative shall see to it that the employees' psychosocial working environment is safeguarded. The safety representative shall also be consulted during the planning and implementation of measures that matter for the working environment. Section 1A-2 of the regulation on the performance of work also requires the mapping and risk assessment to be done together with the employees and their representatives."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "AML § 6-1",
+                "text": "Every business must elect a safety representative. The number depends on size and the nature of the work, and with several departments or shift teams there should as a rule be one per department or shift. Who the representative is must be announced at the workplace."
+              },
+              {
+                "ref": "AML § 6-2",
+                "text": "The safety representative looks after employees' interests in working environment matters, must in particular see that the psychosocial working environment is taken care of, must be consulted in the health and safety work and takes part when Arbeidstilsynet inspects."
+              },
+              {
+                "ref": "AML § 6-3",
+                "text": "In immediate danger to life or health, the safety representative can stop the work until Arbeidstilsynet has decided. That rarely concerns the psychosocial environment, but it shows how strong the role is."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "text": "The survey and risk assessment must be done in cooperation with employees and their representatives. Arbeidstilsynet writes that this means the safety representative, where the business has one."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Your role at each step"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Step",
+              "Your role",
+              "In Orgpuls"
+            ],
+            "rows": [
+              [
+                "Planning",
+                "Take part when the rhythm and the questions are chosen.",
+                "The annual wheel plans the rounds, and safety and union representatives are told before employees."
+              ],
+              [
+                "Survey",
+                "Encourage colleagues to answer, and be able to explain why it is safe.",
+                "Answers are stored with no link to a person, and no group is shown before at least 5 have answered."
+              ],
+              [
+                "Risk assessment",
+                "Assess the figures together with management – not get a summary afterwards.",
+                "You see the same figures and the same risk assessment as management."
+              ],
+              [
+                "Measures",
+                "Take part when measures are chosen, and see that they address the causes.",
+                "Every measure has an owner, a deadline and the factor it should move."
+              ],
+              [
+                "Follow-up",
+                "See that measures are done, and that someone checks whether they worked.",
+                "A measure cannot be closed until the next pulse has measured its effect."
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Read more about [the safety representative's role in the survey](/artikler/verneombudets-rolle-i-kartleggingen) and about [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -4772,6 +4836,27 @@
           },
           {
             "t": "h2",
+            "text": "When management does not act"
+          },
+          {
+            "t": "p",
+            "text": "The law gives the safety representative a set route. If you become aware of conditions that could harm health, you must make the employer aware of them, and the employer must give you an answer. If the report has not been taken into account within a reasonable time, you must inform Arbeidstilsynet or the working environment committee (aml § 6-2 third paragraph)."
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Raise it with your line manager or the managing director, preferably in writing.",
+              "Point to the figures: which factors, which groups, and how they have developed.",
+              "Ask for an answer, and for what will be done and when.",
+              "If you get no answer within a reasonable time: take it to the working environment committee, where there is one, or to Arbeidstilsynet."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Employees can also report censurable conditions through the safety representative (aml § 2 A-2). Read more about [freedom to speak up](/artikler/ytringsklima)."
+          },
+          {
+            "t": "h2",
             "text": "When a department is not shown"
           },
           {
@@ -4795,6 +4880,18 @@
           {
             "q": "What if management does not want to?",
             "a": "The mapping requirement applies whatever tool you use – Orgpuls is one way to meet it. If the organisation has a working environment committee, you can raise it there."
+          },
+          {
+            "q": "How many safety representatives do we need?",
+            "a": "It depends on size, the nature of the work and the working conditions (aml § 6-1). If the business has several separate departments or works in shifts, there should as a rule be at least one per department or shift team. With more than one, there must be a chief safety representative."
+          },
+          {
+            "q": "Should the safety representative take part in the risk assessment?",
+            "a": "Yes. Regulation § 1A-2 requires the survey and risk assessment to be done in cooperation with employees and their representatives, and Arbeidstilsynet writes that this means the safety representative where there is one. The same applies to the measures (§ 1A-3)."
+          },
+          {
+            "q": "What do I do if the employer does not answer?",
+            "a": "The employer must answer the safety representative. If the report has not been taken into account within a reasonable time, the safety representative must inform Arbeidstilsynet or the working environment committee (aml § 6-2 third paragraph)."
           }
         ],
         "finalTitle": "Tip management, or start yourself",
@@ -4803,7 +4900,7 @@
       },
       "smaaBedrifter": {
         "title": "Employee survey for small businesses | Orgpuls",
-        "description": "Employee survey for small businesses: map, act and follow up for NOK 265/month excl. VAT. Anonymous, in Norwegian. 15 days free.",
+        "description": "An employee survey for small businesses: what the law requires by headcount, anonymous from 5 answers, set up in under an hour. Free to start.",
         "crumb": "Small businesses",
         "card": {
           "title": "Small businesses",
@@ -4824,6 +4921,61 @@
           {
             "t": "p",
             "text": "The limit lives in the database. If you are very few, the managing director can lower it to 3 or 4 – you then see figures for smaller groups, but it also becomes easier to recognise who said what. That is why 5 is strongly recommended. A round keeps the limit it started with, and nobody can set it below 3. The answer is stored without name, e-mail address or IP address, and no column can link an answer to a person."
+          },
+          {
+            "t": "h2",
+            "text": "What the law requires – by headcount"
+          },
+          {
+            "t": "p",
+            "text": "The duty to survey the working environment applies from the first employee. Other requirements come as you grow:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Requirement",
+              "Applies to",
+              "Legal basis"
+            ],
+            "rows": [
+              [
+                "Survey, assess risk, set measures and follow up",
+                "Everyone with employees – adapted to size",
+                "aml § 3-1 · regulation ch. 1A"
+              ],
+              [
+                "Safety representative",
+                "Everyone; under 5 employees you may agree another arrangement in writing",
+                "aml § 6-1"
+              ],
+              [
+                "Written internal whistleblowing routines",
+                "From 5 employees, or fewer when conditions call for it",
+                "aml § 2 A-6"
+              ],
+              [
+                "Working environment committee",
+                "From 30 employees; from 10 when either party demands it",
+                "aml § 7-1"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Read more about [what the law requires of the survey](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "Simpler – but not optional"
+          },
+          {
+            "t": "p",
+            "text": "The regulation says the survey and risk assessment must be adapted to the nature, activities and size of the business. Arbeidstilsynet writes that this applies to the scope, methods and content, and that the documentation can be adapted too. A small business can do it more simply than a large one. But the duty to survey, assess risk, set measures and follow up applies all the same."
+          },
+          {
+            "t": "box",
+            "title": "In a small business, everything shows",
+            "text": "When one person goes on sick leave or leaves, everyone notices. That is why a simple, fixed rhythm pays off more for a small business than for a large one – not less."
           },
           {
             "t": "h2",
@@ -4864,6 +5016,20 @@
           },
           {
             "t": "h2",
+            "text": "A year in a small business"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Sign up** with your organisation number and add employees from a spreadsheet.",
+              "**Send the main survey** – about 4 minutes per employee, with one reminder from the system.",
+              "**Go through the results** with employees and the safety representative within a couple of weeks. Read [how to do it](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte).",
+              "**Choose two or three measures** with an owner and a deadline. Read [from results to measures](/artikler/fra-resultater-til-tiltak).",
+              "**Measure again** with a short pulse on the factors where measures are running, and run the next main survey in a year."
+            ]
+          },
+          {
+            "t": "h2",
             "text": "What you get"
           },
           {
@@ -4878,7 +5044,7 @@
           {
             "t": "box",
             "title": "Price",
-            "text": "Small: NOK 265 a month excl. VAT for up to 25 employees. Everything included, no start-up fee and no lock-in. Try it free for 15 days – no card details."
+            "text": "The free plan: an annual main survey with standard questions, results and measures – for as long as you like. Small: NOK 265 a month excl. VAT for up to 25 employees, with pulses, industry modules and your own questions. No set-up fee and no lock-in. Try everything free for 15 days – no card details."
           }
         ],
         "faq": [
@@ -4897,6 +5063,18 @@
           {
             "q": "Can we cancel at any time?",
             "a": "Yes. The agreement is monthly, with no lock-in and no start-up fee."
+          },
+          {
+            "q": "Do we need a safety representative when we are few?",
+            "a": "As a rule, yes (aml § 6-1). With fewer than 5 employees you may agree another arrangement in writing, including having none. The agreement lasts 2 years unless otherwise agreed, and Arbeidstilsynet can still decide you must have one."
+          },
+          {
+            "q": "Do we need whistleblowing routines?",
+            "a": "Yes, if you regularly employ at least 5 people (aml § 2 A-6). The routines must be written, drawn up with your employees, and at least encourage reporting, describe how to report, and how reports are handled."
+          },
+          {
+            "q": "Is there a free version?",
+            "a": "Yes. After the trial you can stay on the free plan for as long as you like: an annual main survey with standard questions, results and measures. Pulses, industry modules and your own questions need a plan."
           }
         ],
         "finalTitle": "Try it on your own organisation",
@@ -8344,9 +8522,54 @@
             "text": "You are the controller and Orgpuls the processor, under GDPR Article 28. The managing director reads and signs the agreement under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS), and a fourth for organisations that send the survey in Teams: Microsoft (Azure Bot Service, EU)."
           },
           {
+            "t": "h2",
+            "text": "Questions to ask any supplier"
+          },
+          {
+            "t": "p",
+            "text": "Anonymity is easy to promise and hard to prove. Ask these questions – of us and of others:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Is there any column or log that could link an answer to a person – including for administrators?",
+              "How large must a group be before it is shown, and who can lower the threshold?",
+              "Can a hidden group be calculated from the total and the other groups?",
+              "Does the group come with a comment when it is shown?",
+              "Where is the data stored, and which sub-processors are used?",
+              "Are the answers used for anything else, such as training AI models?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Read more about [what anonymous must mean in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
             "t": "box",
             "title": "Questions about privacy?",
             "text": "Write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Read also [what anonymous has to mean in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Can the employer see who answered what?",
+            "a": "No. The answer is stored in a table with no column that could link it to a person. No screen, export or query shows what a named person answered, not even for administrators."
+          },
+          {
+            "q": "What happens when a group is too small?",
+            "a": "By default no group is shown before at least 5 have answered; a dash is shown instead. The threshold can be raised to 10, and small teams can lower it to 3 – never lower. If a hidden group could be calculated from the others, one more group is hidden."
+          },
+          {
+            "q": "Where is the data stored?",
+            "a": "On servers in the EU (Frankfurt), under the GDPR. The sub-processors are Supabase, Vercel and Brevo, and Microsoft for organisations that send the survey in Teams."
+          },
+          {
+            "q": "Why is consent not used?",
+            "a": "Because an employee cannot freely consent towards their employer. Processing rests on legal obligation, GDPR Article 6(1)(c), cf. Working Environment Act §§ 3-1 and 4-3."
+          },
+          {
+            "q": "Are the answers used to train AI?",
+            "a": "No. We do not share answers with third parties and use no answers to train AI models."
           }
         ]
       },
