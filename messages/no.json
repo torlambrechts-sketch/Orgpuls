@@ -4878,6 +4878,1254 @@
       }
     },
     "articles": {
+      "faktorYtring": {
+        "title": "Ytringsklima på arbeidsplassen: årsaker og tiltak | Orgpuls",
+        "description": "Lav score på ytringsklima? Hva loven sier om å si fra, hva tallet betyr, vanlige årsaker og tre tiltak som flytter det.",
+        "h1": "Ytringsklima: når folk ikke sier fra",
+        "lead": "Et godt ytringsklima betyr ikke at alle er enige. Det betyr at folk tør å si fra om feil, uenighet og det som ikke fungerer – og at det skjer noe når de gjør det. Slik leser dere tallet og gjør noe med det.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven kapittel 2 A gir arbeidstakere rett til å varsle om kritikkverdige forhold, og nevner uforsvarlig arbeidsmiljø som et eksempel. Gjengjeldelse mot den som varsler, er forbudt."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 2 A-1",
+                "text": "Arbeidstaker har rett til å varsle om kritikkverdige forhold i arbeidsgivers virksomhet."
+              },
+              {
+                "ref": "aml § 2 A-4",
+                "text": "Gjengjeldelse mot arbeidstaker som varsler, er forbudt."
+              },
+              {
+                "ref": "aml § 2 A-6",
+                "text": "Virksomheter som jevnlig sysselsetter minst fem arbeidstakere, skal ha skriftlige rutiner for intern varsling, laget i samarbeid med de ansatte."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Ytringsklimaet er det som avgjør om rettighetene brukes i praksis. En rutine på papiret hjelper lite hvis folk ikke tror det er trygt å si fra, eller ikke tror at noe skjer."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Ytringsklima» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser»",
+              "«Når noen melder fra om et problem, skjer det noe med det»",
+              "«Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Hvilken påstand er lavest?** Frykt for konsekvenser er noe annet enn at meldinger ikke følges opp. Det første handler om trygghet, det andre om oppfølging.",
+              "**Hvem gjelder det?** Et lavt tall i én avdeling peker ofte på hvordan lederen der møter innvendinger.",
+              "**Kommentarene** – er det få som skriver i fritekstfeltet, kan også det si noe om klimaet."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Ytringsklimaet formes mest av hva som skjer rett etter at noen har sagt fra. Typiske årsaker til et lavt tall:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "meldinger og innspill som aldri får svar",
+              "ledere som forsvarer seg eller blir irritert når noen er uenige",
+              "uenighet som glattes over i møtet og tas i gangen etterpå",
+              "erfaringer med at den som sa fra, ble stemplet som vanskelig",
+              "uklart hvor og hvordan man kan si fra"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Svar på hver melding innen fem dager",
+                "text": "Hver avviksmelding og hvert innspill får et navngitt svar: hva som skjer, eller hvorfor ingenting skjer. Ingen melding blir liggende. Tidsbruk: Løpende. Følg med på: «Når noen melder fra om et problem, skjer det noe med det»"
+              },
+              {
+                "title": "Workshop: Hva hindrer oss i å si fra?",
+                "text": "Teamet skriver anonymt ned situasjoner der de lot være å si fra. Lederen lytter uten å forsvare seg, og dere avslutter med to konkrete endringer. Tidsbruk: 90 min. Følg med på: «Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser»"
+              },
+              {
+                "title": "Lederen spør først og snakker sist",
+                "text": "Lederen ber om innvendinger før beslutninger og takker for dem som kommer. Uenighet skrives ned i stedet for å glattes over. Tidsbruk: I hvert møte. Følg med på: «Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** forskning på psykologisk trygghet (Edmondson). Det som flytter tallet mest, er hva lederen gjør i øyeblikket etter at noen har sagt fra."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Ytringsklima» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven, kapittel 2 A om varsling (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/lover/arbeidsmiljoloven--aml/"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Ytringsklima» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorRolle": {
+        "title": "Rolleklarhet: når folk ikke vet hva som forventes | Orgpuls",
+        "description": "Lav score på rolleklarhet i arbeidsmiljøundersøkelsen? Hva loven sier, hva tallet betyr, vanlige årsaker og tre tiltak som gir tydeligere roller.",
+        "h1": "Rolleklarhet: når folk ikke vet hva som forventes",
+        "lead": "Rolleklarhet handler om tre ting: å vite hva som forventes, hvor ansvaret slutter, og hva som er godt nok. Mangler én av dem, går energien til å gjette i stedet for å jobbe.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) a",
+                "text": "Uklare eller motstridende krav og forventninger i arbeidet er en psykososial arbeidsmiljøfaktor."
+              },
+              {
+                "ref": "Forskriften § 1A-1 a",
+                "text": "Samme faktor er nevnt i forskrift om utførelse av arbeid, som også krever at den kartlegges og risikovurderes der den er relevant."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver i sin kommentar at kravene kan handle om arbeidsoppgaver, arbeidsmetoder, kvalitet, tempo, frister, ansvarsområder, rollefordeling eller prioriteringer, og at de kan komme fra ledere, kolleger, samarbeidspartnere eller arbeidstakeren selv. Uklare krav kalles ofte rolleuklarhet, motstridende krav rollekonflikt. Les mer om [motstridende krav](/artikler/motstridende-krav)."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Rolleklarhet» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg vet hva som forventes av meg i jobben min»",
+              "«Jeg vet hvor mitt ansvar slutter og andres begynner»",
+              "«Jeg vet hva som regnes som godt arbeid hos oss»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Hvilken påstand er lavest?** Uklare forventninger, uklart ansvar og uklart «godt nok» løses på hver sin måte.",
+              "**Nyansatte eller alle?** Lav rolleklarhet hos dem som er nye, peker på opplæringen. Hos alle peker det på organiseringen.",
+              "**Etter en endring?** En omorganisering eller en ny leder gir ofte et fall som ikke retter seg av seg selv."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Rolleuklarhet oppstår sjelden fordi noen vil det. Det kommer oftest av:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "stillinger som har vokst uten at noen har skrevet ned hva de nå omfatter",
+              "gråsoner mellom to roller eller to avdelinger",
+              "endringer i organisering eller ledelse som ikke er fulgt opp med nye avklaringer",
+              "opplæring som stopper etter første uke",
+              "tilbakemeldinger som er for sjeldne til at folk vet om de treffer"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Forventningssamtale med hver ansatt",
+                "text": "Lederen og den ansatte skriver ned de tre viktigste ansvarsområdene og hva som regnes som godt nok. Tidsbruk: 30 min. Følg med på: «Jeg vet hva som forventes av meg i jobben min»"
+              },
+              {
+                "title": "Workshop: Hvem gjør hva",
+                "text": "Teamet går gjennom gråsonene der det er uklart hvem som har ansvaret, og fordeler dem. Tidsbruk: 90 min. Følg med på: «Jeg vet hvor mitt ansvar slutter og andres begynner»"
+              },
+              {
+                "title": "Opplæringsplan for nyansatte",
+                "text": "En skriftlig plan for hva nyansatte skal lære, av hvem, og når de regnes som ferdig opplært. Tidsbruk: De første 3 månedene. Følg med på: «Jeg vet hva som regnes som godt arbeid hos oss»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** rolleklarhet henger tett sammen med jobbtilfredshet og lavere stress, og god opplæring i starten har varig effekt."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Rolleklarhet» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Rolleklarhet» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorMotstrid": {
+        "title": "Motstridende krav på jobb: årsaker og tiltak | Orgpuls",
+        "description": "Når to ledere eller to hensyn ber om ting som ikke går sammen. Hva loven sier om motstridende krav, vanlige årsaker og tre tiltak som rydder opp.",
+        "h1": "Motstridende krav: når ingen sier hva som skal vike",
+        "lead": "Motstridende krav oppstår når to ledere, to systemer eller to hensyn ber om ting som ikke går sammen, og ingen sier hva som skal vike. Det løses i organiseringen, ikke hos den enkelte.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) a",
+                "text": "Uklare eller motstridende krav og forventninger i arbeidet er en psykososial arbeidsmiljøfaktor."
+              },
+              {
+                "ref": "Forskriften § 1A-1 a",
+                "text": "Samme faktor er nevnt i forskrift om utførelse av arbeid, som krever at den kartlegges og risikovurderes der den er relevant."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet påpeker at kravene kan være formelle eller uformelle, og komme fra ledere, kolleger, samarbeidspartnere – eller fra arbeidstakeren selv, for eksempel fra faglige eller moralske verdier som kolliderer med det som blir bedt om. Det siste kalles ofte rollekonflikt."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Motstridende krav» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg får sjelden oppgaver uten å vite hva som skal prioriteres ned»",
+              "«Kravene fra ulike hold henger sammen»",
+              "«Jeg vet hvem som bestemmer når to ting kolliderer»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Hvilken påstand er lavest?** Mangler det prioritering, henger ikke kravene sammen, eller er det uklart hvem som bestemmer?",
+              "**Hvor mange bestillere?** Grupper som jobber for flere ledere eller avdelinger, ligger ofte lavere.",
+              "**Sammen med arbeidsmengde?** Motstridende krav og høy arbeidsmengde forsterker ofte hverandre. Les mer om [arbeidsmengde og tidspress](/artikler/arbeidsmengde-og-tidspress)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Typiske årsaker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "flere som bestiller arbeid fra de samme folkene, uten at noen prioriterer mellom dem",
+              "mål og måltall som trekker i hver sin retning, for eksempel kvalitet og tempo",
+              "nye oppgaver som legges til uten at noe tas bort",
+              "uklart hvem som har siste ord når to krav kolliderer",
+              "krav som strider mot faglig skjønn eller etikk"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Én som bestemmer når to krav kolliderer",
+                "text": "Avklar skriftlig hvem som har siste ord når krav fra ulike hold ikke går sammen, og gjør det kjent for alle. Tidsbruk: Én beslutning. Følg med på: «Jeg vet hvem som bestemmer når to ting kolliderer»"
+              },
+              {
+                "title": "Workshop: Ansvarskart",
+                "text": "Teamet tegner opp de viktigste oppgavene: hvem bestiller, hvem utfører, hvem godkjenner. Der det er to som bestiller, velger dere én. Tidsbruk: 90 min. Følg med på: «Kravene fra ulike hold henger sammen»"
+              },
+              {
+                "title": "Ny oppgave inn, en annen ned",
+                "text": "Når lederen gir en ny oppgave, sier hun eller han samtidig hva som skal prioriteres ned. Tidsbruk: Løpende. Følg med på: «Jeg får sjelden oppgaver uten å vite hva som skal prioriteres ned»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** forskning på rollekonflikt. Uklare prioriteringer mellom flere som bestiller arbeid, er en sterk kilde til stress, og det løses i organiseringen, ikke hos den enkelte."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Motstridende krav» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Motstridende krav» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorKontakt": {
+        "title": "Kontakt og kommunikasjon – også ved alenearbeid | Orgpuls",
+        "description": "Lav score på kontakt og kommunikasjon? Hva loven sier om kontakt med andre og alenearbeid, vanlige årsaker og tre tiltak som virker.",
+        "h1": "Kontakt og kommunikasjon: når jobben blir ensom",
+        "lead": "Arbeidet skal gi mulighet for kontakt med andre. For dem som jobber alene, handler det om mer enn trivsel: de må også kunne tilkalle hjelp når noe skjer.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "quote",
+            "text": "Arbeidet skal søkes utformet slik at det gir mulighet for kontakt og kommunikasjon med andre arbeidstakere i virksomheten.",
+            "cite": "Arbeidsmiljøloven § 4-3 fjerde ledd"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren står også i forskrift om utførelse av arbeid § 1A-1 bokstav e. Arbeidstilsynet skriver at kontakt er viktig for informasjonsdeling, samarbeid, støtte, tilhørighet og for å forebygge sosial isolasjon, og at begrenset kontakt kan forekomme ved fjernarbeid, skiftarbeid, nattarbeid, alenearbeid eller arbeid utenfor de faste arbeidsstedene."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Kontakt og kommunikasjon» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg har mulighet til kontakt med kollegaer i løpet av arbeidsdagen»",
+              "«Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene»",
+              "«Jeg føler meg ikke isolert i jobben min»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Isolasjon eller sikkerhet?** Påstanden om å kunne tilkalle hjelp krever et annet tiltak enn påstanden om å føle seg isolert.",
+              "**Hvilke grupper?** Natt, helg, hjemmekontor og alenevakter ligger ofte lavere enn resten.",
+              "**Sammen med støtte?** Lav kontakt henger ofte sammen med lav støtte fra kollegaer. Les mer om [støtte fra kollegaer](/artikler/stotte-fra-kollegaer)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Typiske årsaker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "alenevakter eller arbeid på steder uten andre til stede",
+              "hjemmekontor eller hybridarbeid uten faste møtepunkter",
+              "turnus som gjør at folk sjelden er på jobb samtidig",
+              "ingen fast løsning for å varsle eller tilkalle hjelp"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Varslingsløsning for alenearbeid",
+                "text": "Sørg for at alle som jobber alene har en fast måte å tilkalle hjelp på, og test at den virker. Tidsbruk: Én gang, så jevnlig test. Følg med på: «Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene»"
+              },
+              {
+                "title": "Fast møtepunkt for dem som jobber alene",
+                "text": "Et kort, fast møte, fysisk eller på Teams, der de som jobber alene møter kolleger og leder. Tidsbruk: 15 min i uka. Følg med på: «Jeg føler meg ikke isolert i jobben min»"
+              },
+              {
+                "title": "Makkerordning",
+                "text": "Den som ofte jobber alene får en fast kollega å ringe og drøfte saker med. Tidsbruk: Løpende. Følg med på: «Jeg har mulighet til kontakt med kollegaer i løpet av arbeidsdagen»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** sosial støtte demper virkningen av høye krav (Johnson og Hall). Ved alenearbeid krever regelverket i tillegg at man kan tilkalle hjelp."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Kontakt og kommunikasjon» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Kontakt og kommunikasjon» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorEmosjon": {
+        "title": "Emosjonelle krav i arbeidet: årsaker og tiltak | Orgpuls",
+        "description": "Krevende møter med kunder, brukere eller pasienter? Hva loven sier om emosjonelle krav, hva tallet betyr og tre tiltak som virker.",
+        "h1": "Emosjonelle krav: når jobben går inn på folk",
+        "lead": "I mange jobber er det å møte mennesker i vanskelige situasjoner en del av arbeidet. Det kan ikke fjernes, men ingen skal stå alene i det. Slik leser dere tallet og gjør noe med det.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) b",
+                "text": "Emosjonelle krav og belastninger i arbeid med mennesker er en psykososial arbeidsmiljøfaktor."
+              },
+              {
+                "ref": "aml § 4-3 (6)",
+                "text": "Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at emosjonelle krav kan oppstå i arbeid med pasienter, brukere, pårørende, klienter, barn, elever, kunder og andre, og handle om å håndtere andres følelser og atferd, skjule egne reaksjoner eller tilpasse seg dem man jobber med. De understreker at det ikke er forbudt å ha en krevende jobb – men at belastningene ikke må bli for store."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Emosjonelle krav» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner»",
+              "«Vi snakker om vanskelige hendelser etterpå»",
+              "«Jeg får lov til å reagere som menneske på jobb»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Står folk alene?** Påstanden om å bli stående alene sier mest om organiseringen.",
+              "**Snakker dere om det?** Lav score på å snakke om vanskelige hendelser peker på oppfølgingen etterpå.",
+              "**Sammen med arbeidsmengde?** Arbeidstilsynet bruker selv eksempelet at høy arbeidsmengde forsterker emosjonelle belastninger. Les mer om [arbeidsmengde og tidspress](/artikler/arbeidsmengde-og-tidspress)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Typiske årsaker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "krevende møter med kunder eller brukere der man er alene",
+              "ingen fast praksis for å følge opp etter vanskelige hendelser",
+              "en kultur der det å bli berørt oppfattes som svakhet",
+              "for lite tid mellom tunge oppgaver til å hente seg inn"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Kort kollegaprat etter krevende hendelser",
+                "text": "Etter en vanskelig hendelse tar de involverte en kort, frivillig prat samme dag. Lederen følger opp noen dager etterpå. Tidsbruk: 15 min. Følg med på: «Vi snakker om vanskelige hendelser etterpå»"
+              },
+              {
+                "title": "Workshop: Når jobben går inn på oss",
+                "text": "Teamet deler hvilke situasjoner som tapper mest, og blir enige om hvordan de hjelper hverandre gjennom dem. Tidsbruk: 90 min. Følg med på: «Jeg får lov til å reagere som menneske på jobb»"
+              },
+              {
+                "title": "Ingen står alene i de tyngste møtene",
+                "text": "Bestem hvilke møter med kunder eller brukere som alltid skal ha to personer til stede. Tidsbruk: Én beslutning. Følg med på: «Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** forskning på emosjonelt arbeid (Hochschild). Merk: én enkelt debriefing rett etter en hendelse har ikke vist effekt i systematiske oversikter. Det som virker, er støtte fra kolleger og oppfølging over tid."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Emosjonelle krav» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Emosjonelle krav» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorLeder": {
+        "title": "Støtte fra leder: når tallet er lavt | Orgpuls",
+        "description": "Lav score på støtte fra leder i arbeidsmiljøundersøkelsen? Hva loven sier, hvordan dere leser tallet, vanlige årsaker og tre tiltak som virker.",
+        "h1": "Støtte fra leder: når tallet er lavt",
+        "lead": "Støtte fra leder handler om at lederen er tilgjengelig når det brenner, og at støtten er praktisk, ikke bare velment. Et lavt tall her er ubehagelig å få, men det er blant de enkleste å gjøre noe med.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) d",
+                "text": "Støtte og hjelp i arbeidet er en psykososial arbeidsmiljøfaktor."
+              },
+              {
+                "ref": "Forskriften § 1A-1 d",
+                "text": "Samme faktor er nevnt i forskrift om utførelse av arbeid."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at støtte kan være emosjonell, som omsorg, forståelse og anerkjennelse, eller instrumentell, som faglige råd, praktisk hjelp og tilbakemeldinger. Den kan også være forankret i systemer, rutiner og tydelige ansvarsforhold – den skal altså ikke bare hvile på den enkelte lederens personlighet."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Støtte fra leder» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg får støtte fra lederen min når jobben blir krevende»",
+              "«Lederen min vet nok om hva jobben min faktisk innebærer»",
+              "«Jeg kan ta opp vanskelige ting med lederen min»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Tilgjengelighet eller innsikt?** Lav score på at lederen vet hva jobben innebærer, krever noe annet enn lav score på å få støtte når det er krevende.",
+              "**Én avdeling?** Støtte fra leder handler om én bestemt leder. Se på hver avdeling før dere konkluderer for hele virksomheten.",
+              "**Lederens egne rammer** – en leder med for mange ansatte eller for mye annet arbeid kan ikke være tilgjengelig, uansett vilje."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Typiske årsaker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "for mange ansatte per leder, eller ledere med full egen arbeidsportefølje",
+              "ledere som sitter langt unna arbeidet de leder",
+              "ingen faste samtaler, så kontakt bare skjer når noe har gått galt",
+              "nye ledere uten opplæring i å være leder"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Når resultatet handler om lederen selv, kan det være lurt at verneombudet eller en annen leder tar den delen av gjennomgangen med de ansatte, så samtalen blir åpen."
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Fast samtale hver 14. dag",
+                "text": "Korte, faste samtaler der den ansatte setter dagsordenen. De flyttes, men avlyses ikke. Tidsbruk: 20 min. Følg med på: «Jeg kan ta opp vanskelige ting med lederen min»"
+              },
+              {
+                "title": "Lederen jobber en dag med teamet",
+                "text": "Lederen deltar i det vanlige arbeidet en dag for å se hva jobben faktisk innebærer. Tidsbruk: Én dag i kvartalet. Følg med på: «Lederen min vet nok om hva jobben min faktisk innebærer»"
+              },
+              {
+                "title": "Fadder for nyansatte",
+                "text": "En erfaren kollega følger opp nyansatte, slik at lederen ikke er den eneste de kan spørre. Tidsbruk: De første 8 ukene. Følg med på: «Jeg får støtte fra lederen min når jobben blir krevende»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** studier av lederutvikling viser effekt når opplæringen er praktisk og følges opp over tid. Faste samtaler mellom leder og ansatt er et av de enkleste grepene."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Støtte fra leder» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Støtte fra leder» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorMedvirk": {
+        "title": "Medvirkning og kontroll i arbeidet | Orgpuls",
+        "description": "Lav score på medvirkning og kontroll? Hva loven sier om innflytelse over eget arbeid, hva tallet betyr, vanlige årsaker og tre tiltak som virker.",
+        "h1": "Medvirkning og kontroll: innflytelse over egen arbeidsdag",
+        "lead": "Innflytelse over eget arbeid – rekkefølge, tempo, metode og endringer som treffer en – er en av de best dokumenterte beskyttelsesfaktorene i arbeidsmiljøforskningen. Den gjør høye krav lettere å bære.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "quote",
+            "text": "I utformingen av den enkeltes arbeidssituasjon skal […] det legges vekt på å gi arbeidstaker mulighet til selvbestemmelse, innflytelse og faglig ansvar.",
+            "cite": "Arbeidsmiljøloven § 4-2 andre ledd bokstav c"
+          },
+          {
+            "t": "p",
+            "text": "Forskrift om utførelse av arbeid § 1A-1 nevner «selvbestemmelse og innflytelse i arbeidet» som en psykososial faktor. Arbeidstilsynet skriver at det gjelder både formelle medvirkningsprosesser og et faktisk handlingsrom i hverdagen. Ved omstilling krever § 4-2 tredje ledd at arbeidsgiveren sørger for nødvendig informasjon og medvirkning."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Medvirkning og kontroll» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg har innflytelse over hvordan jeg utfører arbeidet»",
+              "«Jeg blir hørt når noe skal endres»",
+              "«Jeg kan påvirke tempoet i eget arbeid»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Hverdag eller endringer?** Lav innflytelse over egen arbeidsdag er noe annet enn at man ikke blir hørt før endringer.",
+              "**Hvilke grupper?** Arbeid styrt av turnus, systemer eller kunder gir naturlig mindre rom – men sjelden ingen.",
+              "**Sammen med arbeidsmengde?** Krav–kontroll-modellen beskriver høye krav og lav kontroll samtidig som den mest belastende kombinasjonen. Les mer om [arbeidsmengde og tidspress](/artikler/arbeidsmengde-og-tidspress)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Typiske årsaker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "endringer som besluttes før de berørte er spurt",
+              "detaljstyring av hvordan oppgavene skal løses",
+              "systemer eller rutiner som låser rekkefølge og tempo",
+              "innspill som ikke får svar, så folk slutter å komme med dem"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Workshop: Jobbutforming",
+                "text": "Hver ansatt går gjennom egne oppgaver og foreslår én endring i hvordan de gjøres. Lederen sier ja, eller begrunner et nei. Tidsbruk: 2 timer. Følg med på: «Jeg har innflytelse over hvordan jeg utfører arbeidet»"
+              },
+              {
+                "title": "De berørte med før endringer besluttes",
+                "text": "Endringer som treffer arbeidshverdagen, legges fram for dem det gjelder før beslutningen tas, ikke etter. Tidsbruk: Løpende. Følg med på: «Jeg blir hørt når noe skal endres»"
+              },
+              {
+                "title": "Teamet planlegger egen uke",
+                "text": "Lederen setter mål og frister. Teamet bestemmer rekkefølge og fordeling. Tidsbruk: Løpende. Følg med på: «Jeg kan påvirke tempoet i eget arbeid»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** innflytelse over eget arbeid er en av de best dokumenterte beskyttelsesfaktorene (Karasek). Jobbutforming, der de ansatte selv justerer oppgavene sine, gir målbare, men moderate effekter."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Medvirkning og kontroll» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven § 4-2 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-2"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Medvirkning og kontroll» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorIntegritet": {
+        "title": "Integritet og verdighet på arbeidsplassen | Orgpuls",
+        "description": "Respekt, grenser og vern mot trakassering. Hva loven sier om integritet og verdighet, hvordan dere leser tallet og tre tiltak som virker.",
+        "h1": "Integritet og verdighet: respekt, grenser og vern mot trakassering",
+        "lead": "Faktoren handler om at folk møtes med respekt og likeverd, at grensene deres holdes, og at de får bruke faglig og etisk skjønn. Det er også her loven forankrer vernet mot trakassering.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (3)",
+                "text": "Arbeidet skal legges til rette slik at arbeidstakers integritet og verdighet ivaretas."
+              },
+              {
+                "ref": "aml § 4-3 (5)",
+                "text": "Arbeidstaker skal ikke utsettes for trakassering, herunder seksuell trakassering, eller annen utilbørlig opptreden."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Loven definerer trakassering som handlinger, unnlatelser eller ytringer som har som formål eller virkning å være krenkende, skremmende, fiendtlige, nedverdigende eller ydmykende. Det er virkningen som teller, ikke bare hensikten. Forskrift om utførelse av arbeid har i tillegg egne regler om kartlegging av og tiltak mot trakassering i kapittel 2A."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Integritet og verdighet» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg blir møtt med respekt uansett hvem jeg er»",
+              "«Jeg får bruke faglig skjønn når jeg mener noe bør gjøres annerledes»",
+              "«Grensene mine for privatliv blir respektert på jobb»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Respekt, skjønn eller grenser?** De tre påstandene peker mot hver sin type problem.",
+              "**Små grupper?** Lave tall i en liten gruppe kan skyldes én alvorlig situasjon. Se tallene sammen med verneombudet før dere trekker konklusjoner.",
+              "**Screeningen** – Orgpuls spør i tillegg om krenkende atferd utenfor indeksen, vist bare som antall for hele virksomheten."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Typiske årsaker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "nedsettende kommentarer eller utestenging som ingen griper inn mot",
+              "konflikter som får vokse fordi ingen tar tak tidlig",
+              "uklart hvordan man melder fra, og hva som skjer etterpå",
+              "styring som overstyrer faglig skjønn uten begrunnelse"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Når noen er utsatt",
+            "text": "En undersøkelse er ikke stedet å håndtere en enkeltsak. Får dere vite at noen er utsatt for trakassering, skal det følges opp med en gang etter rutinen deres – ikke vente til neste måling."
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Gå gjennom rutinen for krenkende atferd",
+                "text": "Vis hvordan man melder fra og hva som skjer etterpå. Sørg for at det finnes en vei utenom nærmeste leder. Tidsbruk: 30 min per team. Følg med på: «Jeg blir møtt med respekt uansett hvem jeg er»"
+              },
+              {
+                "title": "Workshop: Slik vil vi ha det her",
+                "text": "Teamet blir enige om konkrete spilleregler for hvordan de snakker til og om hverandre, og hva de gjør når noen går over streken. Tidsbruk: 90 min. Følg med på: «Grensene mine for privatliv blir respektert på jobb»"
+              },
+              {
+                "title": "Lederen griper inn tidlig",
+                "text": "Lederen tar tak i nedsettende kommentarer og utestenging med en gang, i en rolig samtale, før det blir en sak. Tidsbruk: Løpende. Følg med på: «Jeg blir møtt med respekt uansett hvem jeg er»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** forskningsgruppen for mobbing ved Universitetet i Bergen (Einarsen m.fl.). Tidlig inngripen fra leder og klare rutiner hindrer at konflikter utvikler seg til mobbing."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Integritet og verdighet» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Integritet og verdighet» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorKollega": {
+        "title": "Støtte fra kollegaer: årsaker og tiltak | Orgpuls",
+        "description": "Lav score på støtte fra kollegaer? Hva loven sier, hva tallet betyr, vanlige årsaker og tre tiltak som bygger støtte i det daglige arbeidet.",
+        "h1": "Støtte fra kollegaer: når folk ikke stiller opp for hverandre",
+        "lead": "Støtte fra kollegaer demper virkningen av høye krav. Den bygges i det daglige arbeidet – i hvordan folk deler kunnskap og ber om hjelp – mer enn på sosiale arrangementer.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) d",
+                "text": "Støtte og hjelp i arbeidet er en psykososial arbeidsmiljøfaktor."
+              },
+              {
+                "ref": "Forskriften § 1A-1 d",
+                "text": "Samme faktor er nevnt i forskrift om utførelse av arbeid."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at støtte og hjelp handler om at arbeidstakerne kan få den støtten de trenger, fra leder og kolleger, og at den kan være både emosjonell og praktisk. Arbeidstilsynet nevner også at støtte er en beskyttende faktor som kan redusere risikoen fra andre belastninger."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Støtte fra kollegaer» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Kollegaene mine stiller opp når jeg trenger hjelp»",
+              "«Vi deler kunnskap i stedet for å holde på den»",
+              "«Jeg føler meg som en del av laget»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Hjelp, kunnskap eller tilhørighet?** De tre påstandene løses på ulike måter.",
+              "**Nye eller gamle?** Lav tilhørighet hos nyansatte peker på hvordan de tas imot.",
+              "**Sammen med kontakt?** Folk som sjelden er på jobb samtidig, får naturlig mindre støtte. Les mer om [kontakt og kommunikasjon](/artikler/kontakt-og-kommunikasjon)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Typiske årsaker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "høyt tempo, så ingen har tid til å hjelpe",
+              "konkurranse eller måltall per person som gjør hjelp til et tap",
+              "kunnskap som sitter hos enkeltpersoner",
+              "grupper eller klikker som står utenfor hverandre"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Faste læringsmøter",
+                "text": "En kollega deler noe hun eller han har lært eller løst. Kunnskapsdeling blir en vane, ikke en tilfeldighet. Tidsbruk: 30 min i måneden. Følg med på: «Vi deler kunnskap i stedet for å holde på den»"
+              },
+              {
+                "title": "Gjør det vanlig å be om hjelp",
+                "text": "Lederen ber selv om hjelp og løfter fram dem som stiller opp for andre. Tidsbruk: Løpende. Følg med på: «Kollegaene mine stiller opp når jeg trenger hjelp»"
+              },
+              {
+                "title": "Workshop: Slik hjelper vi hverandre",
+                "text": "Teamet finner ut når de trenger hverandre mest, og hvordan de gjør det lett å få hjelp. Tidsbruk: 60 min. Følg med på: «Jeg føler meg som en del av laget»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** støtte fra kolleger demper virkningen av høye krav. Tiltak som bygger støtte i det daglige arbeidet, virker bedre enn enkeltstående sosiale arrangementer."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Støtte fra kollegaer» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Støtte fra kollegaer» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
+      "faktorMening": {
+        "title": "Anerkjennelse og mening i arbeidet | Orgpuls",
+        "description": "Lav score på anerkjennelse og mening? Hva loven sier, hva tallet betyr, vanlige årsaker og tre tiltak som gjør innsatsen synlig.",
+        "h1": "Anerkjennelse og mening: når innsatsen ikke blir sett",
+        "lead": "Folk orker mer når arbeidet oppleves meningsfullt og innsatsen blir sett av noen som betyr noe. Anerkjennelse virker best når den er konkret og kommer raskt.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven sier"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven § 4-2 andre ledd stiller krav til hvordan den enkeltes arbeidssituasjon utformes. Blant annet skal det legges til rette for:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-2 (2) a",
+                "text": "at arbeidstaker gis mulighet for faglig og personlig utvikling gjennom sitt arbeid."
+              },
+              {
+                "ref": "aml § 4-2 (2) d",
+                "text": "at arbeidstaker så langt som mulig gis mulighet til variasjon og for å se sammenheng mellom enkeltoppgaver."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Å se sammenhengen mellom egen oppgave og helheten er nettopp det som gir mening. Arbeidstilsynet nevner også anerkjennelse som en form for støtte i arbeidet."
+          },
+          {
+            "t": "h2",
+            "text": "Hva Orgpuls spør om"
+          },
+          {
+            "t": "p",
+            "text": "Faktoren «Anerkjennelse og mening» måles med tre påstander, besvart på en femdelt skala fra helt uenig til helt enig:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Arbeidet jeg gjør betyr noe»",
+              "«Innsatsen min blir lagt merke til»",
+              "«Jeg er stolt av å jobbe her»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Les tallet riktig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Mening, anerkjennelse eller stolthet?** Lav score på at innsatsen blir lagt merke til, er lettest å flytte raskt.",
+              "**Hvilke grupper?** Støttefunksjoner som sjelden ser resultatet av arbeidet sitt, ligger ofte lavere.",
+              "**Sammen med andre faktorer?** Lav mening sammen med lav medvirkning peker ofte på at folk ikke ser hva de bidrar til. Les mer om [medvirkning og kontroll](/artikler/medvirkning-og-kontroll)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vanlige årsaker"
+          },
+          {
+            "t": "p",
+            "text": "Typiske årsaker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "tilbakemeldinger fra kunder og brukere som aldri når fram til dem som gjorde jobben",
+              "ros som bare kommer i medarbeidersamtalen, eller som er for generell",
+              "oppgaver som er stykket opp så mye at sammenhengen forsvinner",
+              "endringer som gjør at folk ikke lenger får gjort jobben slik de mener den bør gjøres"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre tiltak som virker"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Vis hvem arbeidet gjør en forskjell for",
+                "text": "Del tilbakemeldinger fra kunder og brukere med dem som faktisk gjorde jobben. Tidsbruk: Løpende. Følg med på: «Arbeidet jeg gjør betyr noe»"
+              },
+              {
+                "title": "Konkret anerkjennelse samme uke",
+                "text": "Ros det som faktisk ble gjort, og si hvorfor det betydde noe. Ikke vent til medarbeidersamtalen. Tidsbruk: Løpende. Følg med på: «Innsatsen min blir lagt merke til»"
+              },
+              {
+                "title": "Workshop: Det vi er stolte av",
+                "text": "Teamet deler eksempler på arbeid de er stolte av og hva som gjorde det mulig, og finner ut hva dere bør gjøre mer av. Tidsbruk: 60 min. Følg med på: «Jeg er stolt av å jobbe her»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Forskningsgrunnlaget:** forskning viser at kontakt med dem arbeidet kommer til gode, øker både motivasjon og innsats (Grant). Anerkjennelse virker best når den er konkret og kommer raskt."
+          },
+          {
+            "t": "h2",
+            "text": "Mål om det hjalp"
+          },
+          {
+            "t": "p",
+            "text": "Ta en kort puls på faktoren et par måneder etter at tiltaket er innført. Flytter ikke tallet seg, traff tiltaket ikke årsaken, og dere må tilbake til gruppen og spørre på nytt. Les mer om [hvordan dere går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak) og [hvordan dere går gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "Slik gjør Orgpuls det",
+            "text": "«Anerkjennelse og mening» er en av elleve faktorer i hovedundersøkelsen. De tre tiltakene over ligger klare under faktoren i resultatene og kan gjøres til egne tiltak med ett trykk. Setter dere et tiltak på faktoren, kommer den med i neste puls, så dere ser om tallet flytter seg."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven § 4-2 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-2"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Se hvordan dere ligger an",
+        "ctaBody": "Orgpuls måler «Anerkjennelse og mening» og ti andre faktorer anonymt, og foreslår tiltak der tallet er lavt. De første 15 dagene er gratis."
+      },
       "resultaterTilTiltak": {
         "title": "Fra resultater til tiltak i arbeidsmiljøet | Orgpuls",
         "description": "Slik går dere fra resultatene i arbeidsmiljøundersøkelsen til tiltak som virker: prioriter, finn årsaken, gi tiltaket en eier og mål om det hjalp.",
@@ -4937,6 +6185,26 @@
             "t": "box",
             "title": "Tommelfingerregel",
             "text": "Velg det som har høyest risiko, og én ting som er lett å gjøre noe med raskt. Det første tar arbeidsmiljøet på alvor. Det andre viser folk at undersøkelsen nytter."
+          },
+          {
+            "t": "p",
+            "text": "Vi har skrevet om hver av de elleve faktorene – hva den måler, vanlige årsaker og tre tiltak som virker:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "[Ytringsklima](/artikler/ytringsklima)",
+              "[Arbeidsmengde og tidspress](/artikler/arbeidsmengde-og-tidspress)",
+              "[Motstridende krav](/artikler/motstridende-krav)",
+              "[Kontakt og kommunikasjon](/artikler/kontakt-og-kommunikasjon)",
+              "[Emosjonelle krav](/artikler/emosjonelle-krav)",
+              "[Støtte fra leder](/artikler/stotte-fra-leder)",
+              "[Medvirkning og kontroll](/artikler/medvirkning-og-kontroll)",
+              "[Integritet og verdighet](/artikler/integritet-og-verdighet)",
+              "[Rolleklarhet](/artikler/rolleklarhet)",
+              "[Støtte fra kollegaer](/artikler/stotte-fra-kollegaer)",
+              "[Anerkjennelse og mening](/artikler/anerkjennelse-og-mening)"
+            ]
           },
           {
             "t": "h2",

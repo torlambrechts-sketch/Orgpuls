@@ -4878,6 +4878,1254 @@
       }
     },
     "articles": {
+      "faktorYtring": {
+        "title": "Freedom to speak up at work: causes and measures | Orgpuls",
+        "description": "A low score on freedom to speak up? What the law says about raising concerns, what the number means, common causes and three measures that move it.",
+        "h1": "Freedom to speak up: when people stay silent",
+        "lead": "A good climate for speaking up does not mean everyone agrees. It means people dare to raise mistakes, disagreement and what is not working – and that something happens when they do. Here is how to read the number and act on it.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "p",
+            "text": "Chapter 2 A of the Working Environment Act gives employees the right to report censurable conditions, and names an unsound working environment as an example. Retaliation against someone who reports is prohibited."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 2 A-1",
+                "text": "Employees have the right to report censurable conditions in the employer's business."
+              },
+              {
+                "ref": "aml § 2 A-4",
+                "text": "Retaliation against an employee who reports is prohibited."
+              },
+              {
+                "ref": "aml § 2 A-6",
+                "text": "Businesses that regularly employ at least five people must have written routines for internal reporting, drawn up together with the employees."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The climate is what decides whether these rights are used in practice. A routine on paper does little if people do not believe it is safe to speak up, or that anything will happen."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Freedom to speak up» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I can report censurable conditions without fearing consequences»",
+              "«When someone reports a problem, something is done about it»",
+              "«Disagreement is raised openly here, not in the corridor afterwards»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Which statement is lowest?** Fear of consequences is different from reports not being followed up. The first is about safety, the second about follow-up.",
+              "**Who does it concern?** A low score in one department often points to how the manager there meets objections.",
+              "**The comments** – if few people write in the free-text field, that too may say something about the climate."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "The climate is shaped most by what happens right after someone speaks up. Typical causes of a low score:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "reports and suggestions that never get an answer",
+              "managers who get defensive or irritated when people disagree",
+              "disagreement smoothed over in the meeting and aired in the corridor afterwards",
+              "experience that whoever spoke up was labelled difficult",
+              "no clear place or way to speak up"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Answer every report within five days",
+                "text": "Every deviation report and every suggestion gets a named answer: what will happen, or why nothing will. No report is left lying. Time: Ongoing. Watch: «When someone reports a problem, something is done about it»"
+              },
+              {
+                "title": "Workshop: What stops us from speaking up?",
+                "text": "The team writes down, anonymously, situations where they chose not to speak up. The leader listens without defending, and you end with two concrete changes. Time: 90 min. Watch: «I can report censurable conditions without fearing consequences»"
+              },
+              {
+                "title": "The leader asks first and speaks last",
+                "text": "The leader asks for objections before decisions and thanks those who raise them. Disagreement is written down instead of smoothed over. Time: In every meeting. Watch: «Disagreement is raised openly here, not in the corridor afterwards»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** research on psychological safety (Edmondson). What moves the number most is what the leader does in the moment after someone speaks up."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Freedom to speak up» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act, chapter 2 A on whistleblowing (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/lover/arbeidsmiljoloven--aml/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Freedom to speak up» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorRolle": {
+        "title": "Role clarity: when people do not know what is expected | Orgpuls",
+        "description": "A low role clarity score in your work environment survey? What the law says, what the number means, common causes and three measures for clearer roles.",
+        "h1": "Role clarity: when people do not know what is expected",
+        "lead": "Role clarity is about three things: knowing what is expected, where your responsibility ends, and what counts as good enough. Without one of them, energy goes into guessing instead of working.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) a",
+                "text": "Unclear or conflicting demands and expectations in the work are a psychosocial working environment factor."
+              },
+              {
+                "ref": "Regulation § 1A-1 a",
+                "text": "The same factor is named in the regulation on the performance of work, which also requires it to be surveyed and risk-assessed where relevant."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "In its comments, Arbeidstilsynet writes that the demands can concern tasks, methods, quality, pace, deadlines, areas of responsibility, division of roles or priorities, and that they can come from managers, colleagues, partners or the employee themselves. Unclear demands are often called role ambiguity, conflicting demands role conflict. Read more about [conflicting demands](/artikler/motstridende-krav)."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Role clarity» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I know what is expected of me in my job»",
+              "«I know where my responsibility ends and others begin»",
+              "«I know what counts as good work here»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Which statement is lowest?** Unclear expectations, unclear responsibility and an unclear «good enough» are each solved differently.",
+              "**New starters or everyone?** Low role clarity among new people points to onboarding. Among everyone, it points to the organisation.",
+              "**After a change?** A reorganisation or a new manager often brings a drop that does not fix itself."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Role ambiguity rarely happens because anyone wants it. It most often comes from:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "jobs that have grown without anyone writing down what they now cover",
+              "grey zones between two roles or two departments",
+              "changes in organisation or management not followed by new clarification",
+              "onboarding that stops after the first week",
+              "feedback too rare for people to know whether they are on target"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "An expectations conversation with every employee",
+                "text": "The leader and the employee write down the three most important areas of responsibility and what counts as good enough. Time: 30 min. Watch: «I know what is expected of me in my job»"
+              },
+              {
+                "title": "Workshop: Who does what",
+                "text": "The team goes through the grey zones where it is unclear who is responsible, and assigns them. Time: 90 min. Watch: «I know where my responsibility ends and others begin»"
+              },
+              {
+                "title": "A training plan for new hires",
+                "text": "A written plan for what new hires are to learn, from whom, and when they count as fully trained. Time: The first 3 months. Watch: «I know what counts as good work here»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** role clarity is closely tied to job satisfaction and lower stress, and good training at the start has a lasting effect."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Role clarity» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Role clarity» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorMotstrid": {
+        "title": "Conflicting demands at work: causes and measures | Orgpuls",
+        "description": "When two managers or two concerns ask for things that do not fit together. What the law says, common causes and three measures that sort it out.",
+        "h1": "Conflicting demands: when no one says what should give way",
+        "lead": "Conflicting demands arise when two managers, two systems or two concerns ask for things that do not go together, and no one says what should give way. It is solved in the organisation, not by the individual.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) a",
+                "text": "Unclear or conflicting demands and expectations in the work are a psychosocial working environment factor."
+              },
+              {
+                "ref": "Regulation § 1A-1 a",
+                "text": "The same factor is named in the regulation on the performance of work, which requires it to be surveyed and risk-assessed where relevant."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet points out that demands can be formal or informal, and come from managers, colleagues, partners – or from the employee themselves, for instance professional or moral values that clash with what is asked. The latter is often called role conflict."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Conflicting demands» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I rarely get tasks without knowing what should be deprioritised»",
+              "«The demands from different quarters hang together»",
+              "«I know who decides when two things collide»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Which statement is lowest?** Is prioritisation missing, do the demands not fit together, or is it unclear who decides?",
+              "**How many people order work?** Groups that work for several managers or departments often score lower.",
+              "**Together with workload?** Conflicting demands and a high workload often reinforce each other. Read more about [workload and time pressure](/artikler/arbeidsmengde-og-tidspress)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Typical causes:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "several people ordering work from the same team, with no one prioritising between them",
+              "goals and targets pulling in different directions, such as quality and speed",
+              "new tasks added without anything being taken away",
+              "no clear final say when two demands collide",
+              "demands that go against professional judgement or ethics"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "One person decides when two demands collide",
+                "text": "Settle in writing who has the last word when demands from different directions do not fit together, and make it known to everyone. Time: One decision. Watch: «I know who decides when two things collide»"
+              },
+              {
+                "title": "Workshop: Responsibility map",
+                "text": "The team maps the most important tasks: who orders, who carries out, who approves. Where two people order, you choose one. Time: 90 min. Watch: «The demands from different quarters hang together»"
+              },
+              {
+                "title": "A new task in, another one down",
+                "text": "When the leader hands out a new task, they say at the same time what is to be deprioritised. Time: Ongoing. Watch: «I rarely get tasks without knowing what should be deprioritised»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** research on role conflict. Unclear priorities between several people who order work is a strong source of stress, and it is solved in the organisation, not in the individual."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Conflicting demands» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Conflicting demands» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorKontakt": {
+        "title": "Contact and communication – also when working alone | Orgpuls",
+        "description": "A low score on contact and communication? What the law says about contact with others and lone working, common causes and three measures that work.",
+        "h1": "Contact and communication: when the job gets lonely",
+        "lead": "Work must allow contact with others. For people who work alone, this is about more than well-being: they must also be able to call for help when something happens.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "quote",
+            "text": "The work shall as far as possible be designed so that it allows contact and communication with other employees in the business.",
+            "cite": "Working Environment Act § 4-3 fourth paragraph (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "The factor also appears in the regulation on the performance of work § 1A-1 letter e. Arbeidstilsynet writes that contact matters for sharing information, cooperation, support, belonging and preventing social isolation, and that limited contact can occur with remote work, shift work, night work, lone working or work away from fixed workplaces."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Contact and communication» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I have the opportunity for contact with colleagues during the working day»",
+              "«I can call for help quickly if something happens while I am alone»",
+              "«I do not feel isolated in my job»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Isolation or safety?** The statement about calling for help needs a different measure from the one about feeling isolated.",
+              "**Which groups?** Nights, weekends, home offices and lone shifts often score lower than the rest.",
+              "**Together with support?** Low contact often goes with low support from colleagues. Read more about [support from colleagues](/artikler/stotte-fra-kollegaer)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Typical causes:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "lone shifts or work at sites with nobody else present",
+              "remote or hybrid work without fixed meeting points",
+              "rotas that mean people are rarely at work at the same time",
+              "no fixed way to raise an alarm or call for help"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "An alarm arrangement for lone work",
+                "text": "Make sure everyone who works alone has a fixed way to call for help, and test that it works. Time: Once, then tested regularly. Watch: «I can call for help quickly if something happens while I am alone»"
+              },
+              {
+                "title": "A fixed meeting point for those who work alone",
+                "text": "A short, fixed meeting, in person or on Teams, where those who work alone meet colleagues and the leader. Time: 15 min a week. Watch: «I do not feel isolated in my job»"
+              },
+              {
+                "title": "Buddy arrangement",
+                "text": "Whoever often works alone gets a fixed colleague to call and discuss matters with. Time: Ongoing. Watch: «I have the opportunity for contact with colleagues during the working day»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** social support dampens the effect of high demands (Johnson and Hall). For lone work the regulations also require a way to call for help."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Contact and communication» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Contact and communication» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorEmosjon": {
+        "title": "Emotional demands at work: causes and measures | Orgpuls",
+        "description": "Demanding encounters with customers, users or patients? What the law says about emotional demands, what the number means and three measures that work.",
+        "h1": "Emotional demands: when the job gets to people",
+        "lead": "In many jobs, meeting people in difficult situations is part of the work. It cannot be removed, but nobody should face it alone. Here is how to read the number and act on it.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) b",
+                "text": "Emotional demands and strain in work with people are a psychosocial working environment factor."
+              },
+              {
+                "ref": "aml § 4-3 (6)",
+                "text": "Employees shall, as far as possible, be protected against violence, threats and undue strain from contact with others."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that emotional demands can arise in work with patients, users, relatives, clients, children, pupils, customers and others, and can mean handling other people's feelings and behaviour, concealing your own reactions or adapting to those you work with. It stresses that a demanding job is not forbidden – but the strain must not become too great."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Emotional demands» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I am rarely left alone in emotionally demanding situations»",
+              "«We talk about difficult incidents afterwards»",
+              "«I am allowed to react as a human being at work»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Are people left alone?** The statement about being left alone says most about the organisation.",
+              "**Do you talk about it?** A low score on talking about difficult incidents points to the follow-up afterwards.",
+              "**Together with workload?** Arbeidstilsynet's own example is that a high workload adds to emotional strain. Read more about [workload and time pressure](/artikler/arbeidsmengde-og-tidspress)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Typical causes:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "demanding encounters with customers or users faced alone",
+              "no fixed practice for following up after difficult incidents",
+              "a culture where being affected is seen as weakness",
+              "too little time between heavy tasks to recover"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "A short talk with colleagues after demanding incidents",
+                "text": "After a difficult incident those involved have a short, voluntary talk the same day. The leader follows up a few days later. Time: 15 min. Watch: «We talk about difficult incidents afterwards»"
+              },
+              {
+                "title": "Workshop: When the job gets to us",
+                "text": "The team shares which situations drain the most, and agrees on how they help each other through them. Time: 90 min. Watch: «I am allowed to react as a human being at work»"
+              },
+              {
+                "title": "Nobody stands alone in the hardest meetings",
+                "text": "Decide which meetings with customers or clients always have two people present. Time: One decision. Watch: «I am rarely left alone in emotionally demanding situations»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** research on emotional labour (Hochschild). Note: a single debriefing right after an incident has not shown effect in systematic reviews. What works is support from colleagues and follow-up over time."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Emotional demands» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Emotional demands» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorLeder": {
+        "title": "Support from managers: when the score is low | Orgpuls",
+        "description": "A low score on support from managers in your work environment survey? What the law says, how to read it, common causes and three measures that work.",
+        "h1": "Support from managers: when the score is low",
+        "lead": "Support from the manager means the manager is available when things get difficult, and that the support is practical, not just well-meaning. A low score here is uncomfortable to receive, but it is among the easiest to act on.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) d",
+                "text": "Support and help in the work is a psychosocial working environment factor."
+              },
+              {
+                "ref": "Regulation § 1A-1 d",
+                "text": "The same factor is named in the regulation on the performance of work."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that support can be emotional, such as care, understanding and recognition, or instrumental, such as professional advice, practical help and feedback. It can also be built into systems, routines and clear lines of responsibility – so it should not rest on the individual manager's personality alone."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Support from manager» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I get support from my manager when the job becomes demanding»",
+              "«My manager knows enough about what my job actually involves»",
+              "«I can raise difficult matters with my manager»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Availability or insight?** A low score on the manager knowing what the job involves needs something different from a low score on getting support when it is demanding.",
+              "**One department?** Support from the manager is about one particular manager. Look at each department before drawing conclusions for the whole organisation.",
+              "**The manager's own conditions** – a manager with too many reports or too much other work cannot be available, however willing."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Typical causes:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "too many employees per manager, or managers with a full workload of their own",
+              "managers far removed from the work they lead",
+              "no regular conversations, so contact only happens when something has gone wrong",
+              "new managers without training in management"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "When the result is about the manager, it can be wise for the safety representative or another manager to lead that part of the review with employees, so the conversation stays open."
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "A fixed conversation every 14 days",
+                "text": "Short, fixed conversations where the employee sets the agenda. They get moved, but never cancelled. Time: 20 min. Watch: «I can raise difficult matters with my manager»"
+              },
+              {
+                "title": "The leader works a day with the team",
+                "text": "The leader takes part in the ordinary work for a day to see what the job actually involves. Time: One day a quarter. Watch: «My manager knows enough about what my job actually involves»"
+              },
+              {
+                "title": "A mentor for new hires",
+                "text": "An experienced colleague follows up new hires, so the leader is not the only one they can ask. Time: The first 8 weeks. Watch: «I get support from my manager when the job becomes demanding»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** studies of leadership development show effect when the training is practical and followed up over time. Regular conversations between leader and employee are one of the simplest moves."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Support from manager» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Support from manager» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorMedvirk": {
+        "title": "Participation and control at work | Orgpuls",
+        "description": "A low score on participation and control? What the law says about influence over your own work, what the number means, common causes and three measures.",
+        "h1": "Participation and control: influence over your own working day",
+        "lead": "Influence over your own work – order, pace, method and changes that affect you – is one of the best documented protective factors in working environment research. It makes high demands easier to carry.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "quote",
+            "text": "In designing the individual employee's work situation, […] emphasis shall be placed on giving the employee the opportunity for self-determination, influence and professional responsibility.",
+            "cite": "Working Environment Act § 4-2 second paragraph letter c (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "The regulation on the performance of work § 1A-1 names «self-determination and influence in the work» as a psychosocial factor. Arbeidstilsynet writes that this covers both formal participation processes and real room to act in everyday work. During reorganisation, § 4-2 third paragraph requires the employer to provide the necessary information and participation."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Participation and control» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I have influence over how I carry out my work»",
+              "«I am heard when something is to be changed»",
+              "«I can influence the pace of my own work»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Everyday work or changes?** Little influence over your working day is different from not being heard before changes.",
+              "**Which groups?** Work governed by rotas, systems or customers naturally leaves less room – but rarely none.",
+              "**Together with workload?** The demand–control model describes high demands combined with low control as the most straining combination. Read more about [workload and time pressure](/artikler/arbeidsmengde-og-tidspress)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Typical causes:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "changes decided before the people affected are asked",
+              "micromanagement of how tasks are to be done",
+              "systems or routines that lock order and pace",
+              "suggestions that get no answer, so people stop making them"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Workshop: Job crafting",
+                "text": "Each employee goes through their own tasks and proposes one change in how they are done. The leader says yes, or gives a reason for a no. Time: 2 hours. Watch: «I have influence over how I carry out my work»"
+              },
+              {
+                "title": "Those affected are involved before changes are decided",
+                "text": "Changes that touch the working day are put to those concerned before the decision is made, not after. Time: Ongoing. Watch: «I am heard when something is to be changed»"
+              },
+              {
+                "title": "The team plans its own week",
+                "text": "The leader sets goals and deadlines. The team decides order and distribution. Time: Ongoing. Watch: «I can influence the pace of my own work»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** influence over one's own work is one of the best documented protective factors (Karasek). Job crafting, where employees adjust their own tasks, gives measurable but moderate effects."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Participation and control» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 4-2 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-2"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Participation and control» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorIntegritet": {
+        "title": "Integrity and dignity at work | Orgpuls",
+        "description": "Respect, boundaries and protection against harassment. What the law says about integrity and dignity, how to read the number and three measures that work.",
+        "h1": "Integrity and dignity: respect, boundaries and protection against harassment",
+        "lead": "This factor is about people being met with respect and equality, their boundaries being upheld, and being able to use professional and ethical judgement. It is also where the law anchors protection against harassment.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (3)",
+                "text": "Work shall be arranged so that the employee's integrity and dignity are safeguarded."
+              },
+              {
+                "ref": "aml § 4-3 (5)",
+                "text": "Employees shall not be subjected to harassment, including sexual harassment, or other improper conduct."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The law defines harassment as acts, omissions or statements whose purpose or effect is to be offensive, frightening, hostile, degrading or humiliating. The effect counts, not only the intent. The regulation on the performance of work also has its own rules on surveying and acting against harassment in chapter 2A."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Integrity and dignity» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I am met with respect regardless of who I am»",
+              "«I may use professional judgement when I think something should be done differently»",
+              "«My boundaries for privacy are respected at work»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Respect, judgement or boundaries?** The three statements each point to a different kind of problem.",
+              "**Small groups?** Low figures in a small group may come from one serious situation. Look at the figures with the safety representative before drawing conclusions.",
+              "**The screening** – Orgpuls also asks about offensive behaviour outside the index, shown only as counts for the whole organisation."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Typical causes:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "belittling comments or exclusion that nobody steps in to stop",
+              "conflicts allowed to grow because nobody acts early",
+              "unclear how to report, and what happens next",
+              "management that overrides professional judgement without explanation"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "When someone is affected",
+            "text": "A survey is not the place to handle an individual case. If you learn that someone is being harassed, follow it up at once under your routine – do not wait for the next survey."
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Go through the routine for offensive behaviour",
+                "text": "Show how to report and what happens afterwards. Make sure there is a route around the immediate leader. Time: 30 min per team. Watch: «I am met with respect regardless of who I am»"
+              },
+              {
+                "title": "Workshop: This is how we want it here",
+                "text": "The team agrees on concrete ground rules for how they speak to and about each other, and what they do when someone crosses the line. Time: 90 min. Watch: «My boundaries for privacy are respected at work»"
+              },
+              {
+                "title": "The leader steps in early",
+                "text": "The leader deals with belittling comments and exclusion at once, in a calm conversation, before it becomes a case. Time: Ongoing. Watch: «I am met with respect regardless of who I am»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** the bullying research group at the University of Bergen (Einarsen et al.). Early intervention by the leader and clear routines stop conflicts from developing into bullying."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Integrity and dignity» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Integrity and dignity» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorKollega": {
+        "title": "Support from colleagues: causes and measures | Orgpuls",
+        "description": "A low score on support from colleagues? What the law says, what the number means, common causes and three measures that build support in daily work.",
+        "h1": "Support from colleagues: when people do not turn up for each other",
+        "lead": "Support from colleagues eases the effect of high demands. It is built in everyday work – in how people share knowledge and ask for help – more than at social events.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-3 (2) d",
+                "text": "Support and help in the work is a psychosocial working environment factor."
+              },
+              {
+                "ref": "Regulation § 1A-1 d",
+                "text": "The same factor is named in the regulation on the performance of work."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that support and help means employees can get the support they need from managers and colleagues, and that it can be both emotional and practical. Arbeidstilsynet also notes that support is a protective factor that can reduce the risk from other strains."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Support from colleagues» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«My colleagues turn up when I need help»",
+              "«We share knowledge instead of holding on to it»",
+              "«I feel like part of the team»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Help, knowledge or belonging?** The three statements are solved in different ways.",
+              "**New or long-serving?** Low belonging among new starters points to how they are welcomed.",
+              "**Together with contact?** People who are rarely at work at the same time naturally get less support. Read more about [contact and communication](/artikler/kontakt-og-kommunikasjon)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Typical causes:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "a high pace, so nobody has time to help",
+              "competition or individual targets that make helping a loss",
+              "knowledge held by individuals",
+              "groups or cliques that keep apart"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Regular learning meetings",
+                "text": "A colleague shares something they have learnt or solved. Sharing knowledge becomes a habit, not a coincidence. Time: 30 min a month. Watch: «We share knowledge instead of holding on to it»"
+              },
+              {
+                "title": "Make asking for help normal",
+                "text": "The leader asks for help themselves and gives credit to those who step up for others. Time: Ongoing. Watch: «My colleagues turn up when I need help»"
+              },
+              {
+                "title": "Workshop: This is how we help each other",
+                "text": "The team works out when they need each other most, and how to make it easy to get help. Time: 60 min. Watch: «I feel like part of the team»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** support from colleagues dampens the effect of high demands. Measures that build support in the daily work do better than one-off social events."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Support from colleagues» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet's comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Support from colleagues» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
+      "faktorMening": {
+        "title": "Recognition and meaning at work | Orgpuls",
+        "description": "A low score on recognition and meaning? What the law says, what the number means, common causes and three measures that make effort visible.",
+        "h1": "Recognition and meaning: when effort goes unseen",
+        "lead": "People can carry more when the work feels meaningful and their effort is seen by someone who matters. Recognition works best when it is specific and comes quickly.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "p",
+            "text": "Working Environment Act § 4-2 second paragraph sets requirements for how each employee's work situation is designed. Among other things, it must allow for:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "aml § 4-2 (2) a",
+                "text": "the employee to have opportunities for professional and personal development through their work."
+              },
+              {
+                "ref": "aml § 4-2 (2) d",
+                "text": "the employee, as far as possible, to have variety and to see the connection between individual tasks."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Seeing how your own task fits the whole is exactly what gives meaning. Arbeidstilsynet also names recognition as a form of support at work."
+          },
+          {
+            "t": "h2",
+            "text": "What Orgpuls asks"
+          },
+          {
+            "t": "p",
+            "text": "The factor «Recognition and meaning» is measured with three statements, answered on a five-point scale from strongly disagree to strongly agree:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«The work I do matters»",
+              "«My effort is noticed»",
+              "«I am proud to work here»"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Read the number right"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Meaning, recognition or pride?** A low score on effort being noticed is the quickest to move.",
+              "**Which groups?** Support functions that rarely see the result of their work often score lower.",
+              "**Together with other factors?** Low meaning together with low participation often means people do not see what they contribute to. Read more about [participation and control](/artikler/medvirkning-og-kontroll)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Common causes"
+          },
+          {
+            "t": "p",
+            "text": "Typical causes:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "feedback from customers and users that never reaches those who did the work",
+              "praise that comes only at the annual review, or is too general",
+              "tasks split up so much that the connection disappears",
+              "changes that stop people doing the job the way they think it should be done"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three measures that work"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Show who the work makes a difference for",
+                "text": "Share feedback from customers and clients with those who actually did the job. Time: Ongoing. Watch: «The work I do matters»"
+              },
+              {
+                "title": "Concrete recognition the same week",
+                "text": "Praise what was actually done, and say why it mattered. Do not wait for the appraisal. Time: Ongoing. Watch: «My effort is noticed»"
+              },
+              {
+                "title": "Workshop: What we are proud of",
+                "text": "The team shares examples of work they are proud of and what made it possible, and works out what you should do more of. Time: 60 min. Watch: «I am proud to work here»"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**The research behind it:** research shows that contact with those the work benefits raises both motivation and effort (Grant). Recognition works best when it is concrete and comes quickly."
+          },
+          {
+            "t": "h2",
+            "text": "Measure whether it helped"
+          },
+          {
+            "t": "p",
+            "text": "Run a short pulse on the factor a couple of months after the measure is in place. If the number does not move, the measure missed the cause, and you need to go back to the group and ask again. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak) and [going through the results with your employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+          },
+          {
+            "t": "box",
+            "title": "How Orgpuls does it",
+            "text": "«Recognition and meaning» is one of eleven factors in the main survey. The three measures above are ready under the factor in the results, and can be made your own with one press. When you set a measure on the factor, it is included in the next pulse, so you can see whether the number moves."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 4-2 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-2"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "See where you stand",
+        "ctaBody": "Orgpuls measures «Recognition and meaning» and ten other factors anonymously, and suggests measures where the number is low. The first 15 days are free."
+      },
       "resultaterTilTiltak": {
         "title": "From survey results to measures | Orgpuls",
         "description": "How to get from the results of your work environment survey to measures that work: prioritise, find the cause, give each measure an owner, measure again.",
@@ -4937,6 +6185,26 @@
             "t": "box",
             "title": "Rule of thumb",
             "text": "Choose what carries the highest risk, and one thing that is easy to act on quickly. The first takes the working environment seriously. The second shows people the survey was worth it."
+          },
+          {
+            "t": "p",
+            "text": "We have written about each of the eleven factors – what it measures, common causes and three measures that work:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "[Freedom to speak up](/artikler/ytringsklima)",
+              "[Workload and time pressure](/artikler/arbeidsmengde-og-tidspress)",
+              "[Conflicting demands](/artikler/motstridende-krav)",
+              "[Contact and communication](/artikler/kontakt-og-kommunikasjon)",
+              "[Emotional demands](/artikler/emosjonelle-krav)",
+              "[Support from manager](/artikler/stotte-fra-leder)",
+              "[Participation and control](/artikler/medvirkning-og-kontroll)",
+              "[Integrity and dignity](/artikler/integritet-og-verdighet)",
+              "[Role clarity](/artikler/rolleklarhet)",
+              "[Support from colleagues](/artikler/stotte-fra-kollegaer)",
+              "[Recognition and meaning](/artikler/anerkjennelse-og-mening)"
+            ]
           },
           {
             "t": "h2",
