@@ -4,6 +4,7 @@
   {
    "path": "/",
    "keys": [
+    "seo.home.title",
     "seo.home.description",
     "site.home.h1",
     "site.home.carousel.roledescription",
@@ -173,6 +174,15 @@
     "site.home.roles.cards.3.get.0",
     "site.home.roles.cards.3.get.1",
     "site.home.roles.cards.3.get.2",
+    "seo.home.articlesEyebrow",
+    "seo.home.articlesTitle",
+    "seo.articles.resultaterTilTiltak.h1",
+    "seo.articles.resultaterTilTiltak.description",
+    "seo.articles.gjennomgang.h1",
+    "seo.articles.gjennomgang.description",
+    "seo.articles.risikovurdering.h1",
+    "seo.articles.risikovurdering.description",
+    "seo.home.articlesAll",
     "site.chrome.band.title",
     "site.chrome.band.leadHome",
     "site.chrome.start.label",
@@ -190,8 +200,7 @@
     "site.chrome.footer.link.lovenForklart",
     "site.chrome.footer.link.sporsmalssettet",
     "site.chrome.footer.link.personvernerklaering",
-    "site.chrome.footer.link.vilkar",
-    "seo.home.title"
+    "site.chrome.footer.link.vilkar"
    ],
    "states": [
     "factor.ytring.short",
@@ -288,9 +297,6 @@
     "respond.thanks.same",
     "respond.thanks.anonymous",
     "respond.thanks.next",
-    "seo.home.articlesEyebrow",
-    "seo.home.articlesTitle",
-    "seo.home.articlesAll",
     "seo.home.showcase.eyebrow",
     "seo.home.showcase.title",
     "seo.home.showcase.lead",
@@ -4785,7 +4791,13 @@
   "seo.common.breadcrumb",
   "seo.common.priceLine",
   "start.ctaFree",
-  "seo.common.readArticle"
+  "seo.common.readArticle",
+  "site.chrome.nav.ressurser",
+  "site.chrome.nav.lovkrav",
+  "site.chrome.nav.fraResultater",
+  "site.chrome.nav.sporsmalssettet",
+  "site.chrome.nav.sikkerhet",
+  "site.chrome.footer.link.alleArtikler"
  ],
  "unseen": [
   "factor.motstrid.short",
@@ -4933,6 +4945,7 @@
   "seo.llms.articles",
   "seo.llms.forWho",
   "seo.llms.industries",
-  "seo.llms.pages"
+  "seo.llms.pages",
+  "site.chrome.nav.alleArtikler"
  ]
 }

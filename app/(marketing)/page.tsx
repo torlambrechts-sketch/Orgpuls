@@ -2,12 +2,14 @@ import type { Metadata, Route } from 'next'
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
+import { ArticleCards } from '@/components/marketing/ArticleCards'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Tick } from '@/components/site/parts'
 import { HeroCarousel } from '@/components/site/v3/HeroCarousel'
 import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
+import { ARTICLES } from '@/lib/marketing/site'
 import { graph, organization, software, website } from '@/lib/marketing/schema'
 import { SHOTS } from '@/lib/marketing/shots'
 import type { ShotId } from '@/lib/marketing/shot-ids'
@@ -529,6 +531,22 @@ export default async function StartPage() {
               </li>
             ))}
           </ul>
+        </section>
+
+        {/* the three newest articles (D-232): the start page is where most visitors arrive, and the articles had no way in from it */}
+        <section id="artikler" data-screen-label="Artikler" className={`${COLUMN} px-[56px] pt-[56px] max-sm:px-[16px] max-sm:pt-[40px]`}>
+          <div className={HEAD}>
+            <span className={PILL}>{seo('home.articlesEyebrow')}</span>
+            <h2 className={H2}>{seo('home.articlesTitle')}</h2>
+          </div>
+          <div className="mt-[26px]">
+            <ArticleCards slugs={ARTICLES.slice(0, 3).map((a) => a.slug)} />
+          </div>
+          <p className="m-0 mt-[20px] text-center">
+            <Link href={'/artikler' as Route} className="text-[14.5px] font-bold text-link">
+              {seo('home.articlesAll')}
+            </Link>
+          </p>
         </section>
 
         <StartBand variant="front" />

@@ -72,6 +72,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           href: i.href,
           label: t(`nav.${i.key}`),
           ...(i.industries ? { children: industries, all: t('nav.alleBransjer') } : {}),
+          ...(i.children ? { children: i.children.map((c) => ({ href: c.href, label: t(`nav.${c.key}`) })), all: t(`nav.${i.all}`) } : {}),
         }))}
         label={t('navLabel')}
         menu={t('menu')}

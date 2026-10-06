@@ -11450,3 +11450,20 @@ for small and medium-sized businesses».
   40) and 30 px under 360 px (was 34). The home hero no longer matches its baseline.
 - The page title and description in the metadata never carried the old line and are unchanged. The other
   slides, and the design bundle, are unchanged.
+
+## D-232 — The articles get a way in: Ressurser in the menu, three on the start page (2026-10-06)
+
+On the owner's word: the site had 20 articles and no link to the article index from anywhere, and a link
+to only one article (the start page's footer, «Spørsmålssettet»). Search engines and readers reached
+them only through the sitemap.
+
+- **Header:** a fifth item, «Ressurser ▾», between Bransjer and Pris. It is a disclosure like Bransjer
+  (the same `SubMenu`), led by «Alle artikler» (/artikler), then Arbeidsmiljøloven forklart (/lovkrav),
+  Fra resultater til tiltak, Spørsmålene som gir svar and Personvern og anonymitet (/sikkerhet). On a
+  phone it is a group in the menu, as Bransjer is. The design's header has four items.
+- **Start page:** a section «Artikler – Les deg opp før dere starter» after Roller, before the start
+  band: the three newest articles as the index's cards, and «Alle artikler →». Its words were already
+  in `seo.home` and unused.
+- **Footers:** «Alle artikler» first under Ressurser on the start page, and first under Om oss on the
+  subpages, which have no Ressurser column.
+- The header now differs from every page's baseline, and the start page from its own below Roller.

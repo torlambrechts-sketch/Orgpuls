@@ -8779,7 +8779,13 @@
         "hvorfor": "Hvorfor Orgpuls",
         "pris": "Pris",
         "bransjer": "Bransjer",
-        "alleBransjer": "Alle bransjer"
+        "alleBransjer": "Alle bransjer",
+        "ressurser": "Ressurser",
+        "alleArtikler": "Alle artikler",
+        "lovkrav": "Arbeidsmiljøloven forklart",
+        "fraResultater": "Fra resultater til tiltak",
+        "sporsmalssettet": "Spørsmålene som gir svar",
+        "sikkerhet": "Personvern og anonymitet"
       },
       "navLabel": "Hovedmeny",
       "menu": "Meny",
@@ -8828,6 +8834,7 @@
           "pulsmalinger": "Pulsmålinger",
           "rapportArbeidstilsynet": "Rapport til Arbeidstilsynet",
           "amu": "Verneombud og AMU",
+          "alleArtikler": "Alle artikler",
           "slikVirker": "Slik virker det",
           "lovenForklart": "Arbeidsmiljøloven forklart",
           "sporsmalssettet": "Spørsmålssettet",

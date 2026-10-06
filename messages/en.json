@@ -8779,7 +8779,13 @@
         "hvorfor": "Why Orgpuls",
         "pris": "Pricing",
         "bransjer": "Industries",
-        "alleBransjer": "All industries"
+        "alleBransjer": "All industries",
+        "ressurser": "Resources",
+        "alleArtikler": "All articles",
+        "lovkrav": "The law explained",
+        "fraResultater": "From results to measures",
+        "sporsmalssettet": "Questions that work",
+        "sikkerhet": "Privacy and anonymity"
       },
       "navLabel": "Main menu",
       "menu": "Menu",
@@ -8828,6 +8834,7 @@
           "pulsmalinger": "Pulse surveys",
           "rapportArbeidstilsynet": "Report for the Labour Inspection Authority",
           "amu": "Safety representative and AMU",
+          "alleArtikler": "All articles",
           "slikVirker": "How it works",
           "lovenForklart": "The Working Environment Act explained",
           "sporsmalssettet": "The question set",

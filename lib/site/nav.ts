@@ -29,14 +29,26 @@ export const isV3Route = (pathname: string) => (V3_ROUTES as readonly string[]).
  * The header's menu: Plattform, Bruksområder, Bransjer, Pris. Bransjer's pages are the industry
  * registry's (content/industries), so a new industry is a new entry there, not a change here.
  */
-export const SITE_NAV: (SiteLink & { href: string; industries?: true })[] = [
+export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?: (SiteLink & { href: string })[]; all?: string })[] = [
   { key: 'plattform', href: '/plattform' },
   { key: 'bruksomrader', href: '/bruksomrader' },
   { key: 'bransjer', href: '/bransjer', industries: true },
+  // Ressurser (D-232): the articles, first in its panel, and the pages that explain the law and the product
+  {
+    key: 'ressurser',
+    href: '/artikler',
+    all: 'alleArtikler',
+    children: [
+      { key: 'lovkrav', href: '/lovkrav' },
+      { key: 'fraResultater', href: '/artikler/fra-resultater-til-tiltak' },
+      { key: 'sporsmalssettet', href: '/artikler/medarbeiderundersokelse-sporsmal' },
+      { key: 'sikkerhet', href: '/sikkerhet' },
+    ],
+  },
   { key: 'pris', href: '/priser' },
 ]
 
-/** Forside's footer: Produkt (6), Bruksområder (4), Ressurser (4), Om oss (3) */
+/** Forside's footer: Produkt (6), Bruksområder (4), Ressurser (5, with the articles since D-232), Om oss (3) */
 const FOOTER_HOME: FooterColumn[] = [
   {
     head: 'produkt',
@@ -61,6 +73,7 @@ const FOOTER_HOME: FooterColumn[] = [
   {
     head: 'ressurser',
     links: [
+      { key: 'alleArtikler', href: '/artikler' },
       { key: 'slikVirker', href: '/plattform' },
       { key: 'lovenForklart', href: '/lovkrav' },
       { key: 'sporsmalssettet', href: '/artikler/medarbeiderundersokelse-sporsmal' },
@@ -109,6 +122,7 @@ const subpageFooter = (long: boolean): FooterColumn[] => [
   {
     head: 'omOss',
     links: [
+      { key: 'alleArtikler', href: '/artikler' },
       { key: 'personvernAnonymitet', href: '/sikkerhet' },
       { key: 'kontakt', href: '/kontakt#skriv' },
     ],
