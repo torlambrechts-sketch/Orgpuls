@@ -11658,10 +11658,9 @@ page under /maler/<slug> and a form beside its hero; «Kartleggingspakken» give
   if given, the page's language and the consent box, unticked by default (markedsføringsloven § 15).
   An httpOnly cookie then names the template, and `/maler/fil/<file>` serves a file only to a browser
   whose cookie names a template holding it. Nothing new is stored in Orgpuls.
-- **Until 0208 is on the hosted project**, PostgREST answers PGRST202 and the action sends the same
-  request as a `contact.submitted` message (topic product), which the platform already receives, so no
-  address is lost. The bridge can go once 0208 is applied. The Supabase MCP of this session cannot see
-  the Orgpuls project, so the migration waits for whoever can apply it.
+- **0208 is on the hosted project** (applied 7 October 2026 through the Supabase management API, recorded
+  in its migration history as 0208_template_requests), and its five invariants pass there too, rolled
+  back. The contact-message bridge the first version carried for the time before is gone.
 - **The privacy statement** has a section on template downloads, the cookie and how long the data is
   kept, and is dated 7 October 2026.
 - **Proved by** `supabase/tests/template_request_invariants.sql` (run here against a stub of the
