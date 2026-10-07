@@ -15,7 +15,8 @@
  * message is one person already, and keeps its one id on the outbox row.
  *
  * Marketing mail and support tickets left Orgpuls with the admin (D-230): the platform sends its
- * own, from its own domain.
+ * own, from its own domain. What Orgpuls still sends for its leads is one copy of each – a contact
+ * message, a demo request, a template download – to ORGPULS_LEAD_COPY_TO, as a backstop (0209, D-242).
  *
  * The loop: claim a batch (the database mints each respondent link, leases the row and,
  * since 0033, picks the channel), render, send, and report each row as done or failed. An
@@ -49,6 +50,7 @@
  */
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { brevoSend, brevoSendSms, type SendResult } from '../_shared/brevo.ts'
+import { renderLeadCopy, type LeadEvent } from '../_shared/lead-copy.ts'
 import {
   groupsOf,
   inTurns,
@@ -645,6 +647,36 @@ Deno.serve(async (req) => {
     }
   }
   if (platform.sent + platform.failed) console.log(`[dispatch] platform events: sent ${platform.sent}, failed ${platform.failed}`)
+
+  // a copy of every lead by e-mail (0209, D-242): to ORGPULS_LEAD_COPY_TO, once per event, whatever the
+  // platform delivery did. A copy Brevo refuses is given back for the next run; a rejected key stops the
+  // copies and gives every unsent one back. No address is logged.
+  const copyTo = (Deno.env.get('ORGPULS_LEAD_COPY_TO') ?? '').trim()
+  if (copyTo) {
+    const copies = { sent: 0, failed: 0 }
+    const { data, error } = await svc.rpc('lead_copies_claim', { p_batch: 20 })
+    if (error) console.error(`[dispatch] lead copy claim failed: ${error.code ?? ''}`)
+    const leads = (Array.isArray(data) ? data : []) as LeadEvent[]
+    const back: number[] = []
+    let stop = false
+    for (const lead of leads) {
+      if (stop) {
+        back.push(lead.id)
+        continue
+      }
+      const m = renderLeadCopy(lead)
+      const res = await brevoSend(key, { sender, to: [{ email: copyTo }], subject: m.subject, html: m.html, text: m.text, tag: 'orgpuls-lead-copy', replyTo: m.replyTo })
+      if (res.ok) copies.sent++
+      else {
+        copies.failed++
+        back.push(lead.id)
+        console.error(`[dispatch] lead copy ${lead.id}: ${res.code}`)
+        if (res.auth) stop = true
+      }
+    }
+    if (back.length) await svc.rpc('lead_copies_release', { p_ids: back })
+    if (copies.sent + copies.failed) console.log(`[dispatch] lead copies: sent ${copies.sent}, failed ${copies.failed}`)
+  }
 
   // the trial's mail is answered to the support inbox
   const replyTo = { email: Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no', name: 'Orgpuls' }

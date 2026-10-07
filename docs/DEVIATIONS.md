@@ -11665,3 +11665,25 @@ page under /maler/<slug> and a form beside its hero; «Kartleggingspakken» give
   kept, and is dated 7 October 2026.
 - **Proved by** `supabase/tests/template_request_invariants.sql` (run here against a stub of the
   platform tables, all five green) and `tests/unit/templates.test.ts`.
+
+## D-242 — A copy of every lead by e-mail (0209) (2026-10-07)
+
+Tor asked for every contact message and every lead to go in copy to his own address too, «for
+sikkerhet». The platform remains where leads are worked (X-104); this is a backstop in a mailbox, so
+that a lead survives a platform that is down, misconfigured, or does not yet handle a kind – as with
+`template.requested`, which the platform stores in `events_in` but does not yet turn into a lead.
+
+- **What is copied:** `contact.submitted`, `demo.requested` and `template.requested`, once per event,
+  whatever the platform delivery did. Support requests from customers in Hjelp are not leads and are not
+  copied.
+- **How:** 0209 adds `app.platform_events.copied_at` and two service-role calls. `lead_copies_claim` marks
+  the uncopied lead events of the last seven days as copied in the same statement that returns them, and
+  `lead_copies_release` gives back the ones Brevo refused. The dispatcher sends each copy through Brevo
+  after the platform delivery (`_shared/lead-copy.ts`), with Reply-To set to the person, and logs no
+  address.
+- **The recipient** is the edge-function secret `ORGPULS_LEAD_COPY_TO`, not in the repository. Unset, no
+  copy is sent.
+- **Applied** to the hosted project on 7 October 2026 (migration history 0209_lead_copies; five
+  invariants green there, rolled back), the functions deployed from this commit with
+  `scripts/functions/deploy.mjs`, and the week's two lead events copied at the first run.
+- **Proved by** `supabase/tests/lead_copy_invariants.sql` and `tests/unit/lead-copy.test.ts`.
