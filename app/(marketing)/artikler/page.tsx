@@ -1,12 +1,17 @@
-import type { Metadata } from 'next'
+import type { Metadata, Route } from 'next'
+import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { ArticleCards } from '@/components/marketing/ArticleCards'
 import { JsonLd } from '@/components/marketing/JsonLd'
+import { TemplateTeaser } from '@/components/marketing/TemplateTeaser'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, ldLanguage, organization } from '@/lib/marketing/schema'
 import { absolute, ARTICLES } from '@/lib/marketing/site'
 
-/** The article index: every article in lib/marketing/site.ts, newest first. Informational, no offer (D-235). */
+/**
+ * The article index: every article in lib/marketing/site.ts, newest first. Informational, no offer (D-235);
+ * under the articles, the free templates (D-243).
+ */
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
@@ -47,6 +52,11 @@ export default async function ArticleIndex() {
         </h1>
         <p className="mt-[14px] max-w-[60ch] text-[16.5px] leading-[1.65] text-body [text-wrap:pretty]">{t('seo.index.lead')}</p>
         <ArticleCards slugs={ARTICLES.map((a) => a.slug)} />
+        {/* the free templates beside the articles (D-243): a resource, named for what it is */}
+        <TemplateTeaser slug="kartleggingspakken" className="mt-[40px]" />
+        <p className="mt-[12px] text-[14px]">
+          <Link href={'/maler' as Route}>{t('seo.maler.teaser.all')} →</Link>
+        </p>
       </div>
       {/* the index of informational articles carries no offer (D-235) */}
       <div className="pb-[72px]" />

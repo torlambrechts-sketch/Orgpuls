@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { Blocks as BlocksSchema, wordCount, type Block } from '@/lib/marketing/blocks'
 import { article as articleLd, breadcrumbs, graph, organization } from '@/lib/marketing/schema'
 import { type Article, articleImage } from '@/lib/marketing/site'
+import { TemplateTeaser } from './TemplateTeaser'
 import { ArticleCards } from './ArticleCards'
 import { Blocks } from './Blocks'
 import { JsonLd } from './JsonLd'
@@ -20,7 +21,8 @@ const WPM = 200
  * An article: the answer first, the argument in the blocks, what the law says quoted and
  * cited to the page it came from, and two neighbouring articles. Informational only (D-235):
  * no offer beside or under the text, no box pointing to a sales page – the site's header and
- * footer are the way to the product.
+ * footer are the way to the product. The one box at the foot is the free template that goes with
+ * the article (D-243): a resource for the reader, named for what it is.
  */
 export async function ArticleView({ article: a }: { article: Article }) {
   const t = await getTranslations()
@@ -40,6 +42,7 @@ export async function ArticleView({ article: a }: { article: Article }) {
       image={articleImage(a.slug)}
       art={artFor(a.art, t)}
       related={a.related}
+      template={a.template}
     />
   )
 }
@@ -74,6 +77,7 @@ export async function ArticleBody({
   image,
   art,
   related,
+  template,
 }: {
   content: ArticleContent
   path: string
@@ -83,6 +87,8 @@ export async function ArticleBody({
   /** a drawn picture beside the title, on wide screens (D-237) */
   art?: React.ReactNode
   related: string[]
+  /** the free template that goes with the article, at its foot (D-243) */
+  template?: string
 }) {
   const t = await getTranslations()
   const locale = await getLocale()
@@ -143,6 +149,7 @@ export async function ArticleBody({
 
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[22px]">
         <WithAside blocks={blocks}>
+          {template ? <TemplateTeaser slug={template} className="mt-[34px]" /> : null}
           {sources.length ? (
             <section className="mt-[34px]" aria-labelledby="kilder">
               <h2 id="kilder" className="text-[13px] font-bold uppercase tracking-[0.1em] text-mut">

@@ -13,6 +13,7 @@ import { CtaBand } from './CtaBand'
 import { JsonLd } from './JsonLd'
 import { ProductShot } from './ProductShot'
 import { SignupStart } from './SignupStart'
+import { TemplateTeaser } from './TemplateTeaser'
 import { WithAside } from './WithAside'
 
 /** A page's words, wherever they come from: messages (PageTemplate) or the CMS (0114, X-094) */
@@ -56,6 +57,7 @@ export async function PageView({
   informational = false,
   heroArt,
   heroAside,
+  template,
 }: {
   content: PageContent
   /** a splash page for an ad or a mailing: the hero without the trail back into the site */
@@ -80,6 +82,8 @@ export async function PageView({
   heroArt?: React.ReactNode
   /** what stands beside the hero on every width: a template's download form (D-241) */
   heroAside?: React.ReactNode
+  /** the free template that belongs with the page, under its blocks (D-243) */
+  template?: string
 }) {
   const t = await getTranslations()
   const plain = plainProp || informational
@@ -200,7 +204,9 @@ export async function PageView({
                   body: c.finalBody || t('start.finalBody'),
                 }
           }
-        />
+        >
+          {template ? <TemplateTeaser slug={template} className="mt-[34px]" /> : null}
+        </WithAside>
       </div>
 
       {children}

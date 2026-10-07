@@ -26,6 +26,7 @@ export default async function Page() {
       schemaType="WebPage"
       articles={['anonym-medarbeiderundersokelse', 'verneombudets-rolle-i-kartleggingen']}
       informational
+      template="informasjonsskriv-og-sjekkliste"
       heroArt={<SecurityArt className="h-auto w-full max-w-[440px]" />}
     />
   )

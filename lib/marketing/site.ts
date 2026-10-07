@@ -30,6 +30,8 @@ export type Article = {
    * `factor:<key>` for a factor article, whose picture is its own three statements
    */
   art: string
+  /** the free template that belongs with it (lib/marketing/templates, D-243): shown at the foot */
+  template?: string
 }
 
 /** Newest first: the order the index lists them in. */
@@ -41,6 +43,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['slik-gar-dere-gjennom-resultatene-med-de-ansatte', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
     art: 'board',
+    template: 'tiltaksbank',
   },
   {
     slug: 'slik-gar-dere-gjennom-resultatene-med-de-ansatte',
@@ -49,6 +52,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['fra-resultater-til-tiltak', 'anonym-medarbeiderundersokelse'],
     art: 'meeting',
+    template: 'tiltaksbank',
   },
   {
     slug: 'risikovurdering-av-psykososialt-arbeidsmiljo',
@@ -57,6 +61,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'fra-resultater-til-tiltak'],
     art: 'risk',
+    template: 'risikovurdering-psykososialt-arbeidsmiljo',
   },
   {
     slug: 'arbeidsmengde-og-tidspress',
@@ -65,6 +70,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['fra-resultater-til-tiltak', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
     art: 'factor:mengde',
+    template: 'tiltaksbank',
   },
   {
     slug: 'ytringsklima',
@@ -73,6 +79,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['integritet-og-verdighet', 'stotte-fra-leder'],
     art: 'factor:ytring',
+    template: 'tiltaksbank',
   },
   {
     slug: 'rolleklarhet',
@@ -81,6 +88,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['motstridende-krav', 'stotte-fra-leder'],
     art: 'factor:rolle',
+    template: 'tiltaksbank',
   },
   {
     slug: 'motstridende-krav',
@@ -89,6 +97,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['rolleklarhet', 'arbeidsmengde-og-tidspress'],
     art: 'factor:motstrid',
+    template: 'tiltaksbank',
   },
   {
     slug: 'kontakt-og-kommunikasjon',
@@ -97,6 +106,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'emosjonelle-krav'],
     art: 'factor:kontakt',
+    template: 'tiltaksbank',
   },
   {
     slug: 'emosjonelle-krav',
@@ -105,6 +115,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'kontakt-og-kommunikasjon'],
     art: 'factor:emosjon',
+    template: 'tiltaksbank',
   },
   {
     slug: 'stotte-fra-leder',
@@ -113,6 +124,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'rolleklarhet'],
     art: 'factor:leder',
+    template: 'tiltaksbank',
   },
   {
     slug: 'medvirkning-og-kontroll',
@@ -121,6 +133,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['arbeidsmengde-og-tidspress', 'anerkjennelse-og-mening'],
     art: 'factor:medvirk',
+    template: 'tiltaksbank',
   },
   {
     slug: 'integritet-og-verdighet',
@@ -129,6 +142,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['ytringsklima', 'anonym-medarbeiderundersokelse'],
     art: 'factor:integritet',
+    template: 'tiltaksbank',
   },
   {
     slug: 'stotte-fra-kollegaer',
@@ -137,6 +151,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['stotte-fra-leder', 'kontakt-og-kommunikasjon'],
     art: 'factor:kollega',
+    template: 'tiltaksbank',
   },
   {
     slug: 'anerkjennelse-og-mening',
@@ -145,6 +160,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['medvirkning-og-kontroll', 'stotte-fra-leder'],
     art: 'factor:mening',
+    template: 'tiltaksbank',
   },
   {
     slug: 'nye-regler-psykososialt-arbeidsmiljo-2026',
@@ -153,6 +169,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'hvor-ofte-bor-dere-male-arbeidsmiljoet'],
     art: 'law',
+    template: 'kartleggingspakken',
   },
   {
     slug: 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo',
@@ -161,6 +178,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['nye-regler-psykososialt-arbeidsmiljo-2026', 'verneombudets-rolle-i-kartleggingen'],
     art: 'law',
+    template: 'kartleggingspakken',
   },
   {
     slug: 'medarbeiderundersokelse-sporsmal',
@@ -169,6 +187,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['anonym-medarbeiderundersokelse', 'hvor-ofte-bor-dere-male-arbeidsmiljoet'],
     art: 'survey',
+    template: 'qpsnordic-sporreskjema',
   },
   {
     slug: 'hvor-ofte-bor-dere-male-arbeidsmiljoet',
@@ -177,6 +196,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['medarbeiderundersokelse-sporsmal', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     art: 'wheel',
+    template: 'arshjul-arbeidsmiljo',
   },
   {
     slug: 'anonym-medarbeiderundersokelse',
@@ -185,6 +205,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['medarbeiderundersokelse-sporsmal', 'verneombudets-rolle-i-kartleggingen'],
     art: 'anon',
+    template: 'informasjonsskriv-og-sjekkliste',
   },
   {
     slug: 'verneombudets-rolle-i-kartleggingen',
@@ -193,6 +214,7 @@ export const ARTICLES: Article[] = [
     modified: '2026-10-07',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
     art: 'rep',
+    template: 'informasjonsskriv-og-sjekkliste',
   },
 ]
 
@@ -215,6 +237,13 @@ export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
  * it». They sit under Artikler in the breadcrumb, with the articles.
  */
 export const INFORMATIONAL_PAGES: readonly LandingSlug[] = ['lovkrav', 'verneombud']
+
+/** the free template under a landing page's blocks (lib/marketing/templates, D-243) */
+export const LANDING_TEMPLATE: Partial<Record<LandingSlug, string>> = {
+  lovkrav: 'kartleggingspakken',
+  verneombud: 'informasjonsskriv-og-sjekkliste',
+  'smaa-bedrifter': 'kartleggingspakken',
+}
 
 /**
  * The picture of the product each landing page shows beside its hero (D-85): the screen

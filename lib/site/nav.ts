@@ -26,12 +26,20 @@ const LANDING_ROUTES = LANDINGS.map((l) => `/${l.slug}`)
 export const isV3Route = (pathname: string) => (V3_ROUTES as readonly string[]).includes(pathname) || LANDING_ROUTES.includes(pathname)
 
 /**
- * The header's menu: Plattform, Bruksområder, Bransjer, Pris. Bransjer's pages are the industry
+ * The header's menu: Plattform (with Bruksområder and Hvorfor under it, D-243), Bransjer, Ressurser, Pris. Bransjer's pages are the industry
  * registry's (content/industries), so a new industry is a new entry there, not a change here.
  */
 export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?: (SiteLink & { href: string })[]; all?: string })[] = [
-  { key: 'plattform', href: '/plattform' },
-  { key: 'bruksomrader', href: '/bruksomrader' },
+  // Plattform (D-243): the product, with what it is used for and why under it, so the bar has one item fewer
+  {
+    key: 'plattform',
+    href: '/plattform',
+    all: 'omPlattformen',
+    children: [
+      { key: 'bruksomrader', href: '/bruksomrader' },
+      { key: 'hvorfor', href: '/hvorfor' },
+    ],
+  },
   { key: 'bransjer', href: '/bransjer', industries: true },
   // Ressurser (D-232): the articles, first in its panel, and the pages that explain the law and the product
   {
@@ -39,18 +47,19 @@ export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?:
     href: '/artikler',
     all: 'alleArtikler',
     children: [
+      // the free templates (D-241), first after the articles (D-243)
+      { key: 'maler', href: '/maler' },
       { key: 'lovkrav', href: '/lovkrav' },
       { key: 'verneombud', href: '/verneombud' },
       { key: 'fraResultater', href: '/artikler/fra-resultater-til-tiltak' },
       { key: 'sporsmalssettet', href: '/artikler/medarbeiderundersokelse-sporsmal' },
-      { key: 'maler', href: '/maler' },
       { key: 'sikkerhet', href: '/sikkerhet' },
     ],
   },
   { key: 'pris', href: '/priser' },
 ]
 
-/** Forside's footer: Produkt (6), Bruksområder (4), Ressurser (5, with the articles since D-232), Om oss (3) */
+/** Forside's footer: Produkt (7), Bruksområder (4), Ressurser (6, with the articles since D-232 and the templates since D-243), Om oss (3) */
 const FOOTER_HOME: FooterColumn[] = [
   {
     head: 'produkt',
@@ -78,6 +87,7 @@ const FOOTER_HOME: FooterColumn[] = [
     head: 'ressurser',
     links: [
       { key: 'alleArtikler', href: '/artikler' },
+      { key: 'maler', href: '/maler' },
       { key: 'slikVirker', href: '/plattform' },
       { key: 'lovenForklart', href: '/lovkrav' },
       { key: 'sporsmalssettet', href: '/artikler/medarbeiderundersokelse-sporsmal' },
@@ -86,7 +96,11 @@ const FOOTER_HOME: FooterColumn[] = [
   },
   {
     head: 'omOss',
-    links: [{ key: 'kontakt', href: '/kontakt#skriv' }, { key: 'personvernerklaering', href: '/personvernerklaering' }, { key: 'vilkar', href: '/vilkar' }],
+    links: [
+      { key: 'kontakt', href: '/kontakt#skriv' },
+      { key: 'personvernerklaering', href: '/personvernerklaering' },
+      { key: 'vilkar', href: '/vilkar' },
+    ],
   },
 ]
 
@@ -130,6 +144,7 @@ const subpageFooter = (long: boolean): FooterColumn[] => [
     head: 'omOss',
     links: [
       { key: 'alleArtikler', href: '/artikler' },
+      { key: 'maler', href: '/maler' },
       { key: 'personvernAnonymitet', href: '/sikkerhet' },
       { key: 'kontakt', href: '/kontakt#skriv' },
     ],

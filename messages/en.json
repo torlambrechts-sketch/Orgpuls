@@ -9947,6 +9947,11 @@
         "readyTitle": "Your templates are ready",
         "readyText": "Download the files below. They are in Norwegian, and you may use and change them freely in your own business."
       },
+      "teaser": {
+        "kicker": "Free template",
+        "cta": "Download the template",
+        "all": "See all the free templates"
+      },
       "pakke": {
         "title": "The survey pack: free work environment templates | Orgpuls",
         "description": "Six free templates in one pack: checklist, information letter, QPSNordic questionnaire, risk assessment, measures bank and annual cycle. In Norwegian.",
@@ -10010,7 +10015,8 @@
             "t": "p",
             "text": "Each template has its own page explaining it: [risk assessment](/maler/risikovurdering-psykososialt-arbeidsmiljo), [measures bank](/maler/tiltaksbank), [annual cycle](/maler/arshjul-arbeidsmiljo), [QPSNordic 34+](/maler/qpsnordic-sporreskjema) and [information letter and checklist](/maler/informasjonsskriv-og-sjekkliste)."
           }
-        ]
+        ],
+        "teaser": "Six templates in one pack: checklist, information letter, questionnaire, risk assessment, measures bank and annual cycle, in Excel and Word."
       },
       "risikovurdering": {
         "title": "Risk assessment template: psychosocial work environment | Orgpuls",
@@ -10087,7 +10093,8 @@
             "t": "p",
             "text": "Read more about [how to assess the risk in the psychosocial work environment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
           }
-        ]
+        ],
+        "teaser": "An Excel template with the factors the law names, a risk matrix and an action plan – ready to fill in."
       },
       "tiltaksbank": {
         "title": "Measures bank: 33 measures for the work environment | Orgpuls",
@@ -10143,7 +10150,8 @@
             "t": "p",
             "text": "Read more about [how results become measures](/artikler/fra-resultater-til-tiltak)."
           }
-        ]
+        ],
+        "teaser": "33 concrete measures, three for each factor, with time, method and what to watch."
       },
       "arshjul": {
         "title": "Annual cycle for work environment work: free template | Orgpuls",
@@ -10201,7 +10209,8 @@
             "t": "p",
             "text": "Read more about [how often to measure the work environment](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
           }
-        ]
+        ],
+        "teaser": "A filled-in annual cycle in Excel for surveying, assessing and following up through the year."
       },
       "qps": {
         "title": "QPSNordic 34+: work environment questionnaire | Orgpuls",
@@ -10259,7 +10268,8 @@
             "t": "p",
             "text": "Source: Skogstad, A., Knardahl, S., Lindström, K., Elo, A.-L., Dallner, M., Gamberale, F., Hottinen, V. and Ørhede, E. (2001). Brukerveiledning QPSNordic (user manual). STAMI report vol. 2, no. 1. National Institute of Occupational Health in Norway."
           }
-        ]
+        ],
+        "teaser": "The Nordic questionnaire QPSNordic 34+ ready to print, with a spreadsheet that calculates the answers."
       },
       "informasjon": {
         "title": "Information letter and checklist for the survey | Orgpuls",
@@ -10302,7 +10312,8 @@
             "t": "p",
             "text": "Read more about [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) and [what anonymous must mean in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
           }
-        ]
+        ],
+        "teaser": "A letter to employees before the survey, and a checklist for those who plan it."
       }
     },
     "shots": {
@@ -10489,6 +10500,7 @@
     "chrome": {
       "nav": {
         "plattform": "Platform",
+        "omPlattformen": "How the platform works",
         "bruksomrader": "Use cases",
         "hvorfor": "Why Orgpuls",
         "pris": "Pricing",
@@ -10551,6 +10563,7 @@
           "rapportArbeidstilsynet": "Report for the Labour Inspection Authority",
           "amu": "Safety representative and AMU",
           "alleArtikler": "All articles",
+          "maler": "Free templates",
           "slikVirker": "How it works",
           "lovenForklart": "The Working Environment Act explained",
           "sporsmalssettet": "The question set",

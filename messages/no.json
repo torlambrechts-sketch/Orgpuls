@@ -9947,6 +9947,11 @@
         "readyTitle": "Malene er klare",
         "readyText": "Last ned filene under. De er på norsk, og du kan bruke og endre dem fritt i egen virksomhet."
       },
+      "teaser": {
+        "kicker": "Gratis mal",
+        "cta": "Last ned malen",
+        "all": "Se alle de gratis malene"
+      },
       "pakke": {
         "title": "Kartleggingspakken: gratis maler for arbeidsmiljøet | Orgpuls",
         "description": "Seks gratis maler i én pakke: sjekkliste, informasjonsskriv, QPSNordic-spørreskjema, risikovurdering, tiltaksbank og årshjul. Excel og Word.",
@@ -10010,7 +10015,8 @@
             "t": "p",
             "text": "Hver mal har en side som forklarer den nærmere: [risikovurdering](/maler/risikovurdering-psykososialt-arbeidsmiljo), [tiltaksbank](/maler/tiltaksbank), [årshjul](/maler/arshjul-arbeidsmiljo), [QPSNordic 34+](/maler/qpsnordic-sporreskjema) og [informasjonsskriv og sjekkliste](/maler/informasjonsskriv-og-sjekkliste)."
           }
-        ]
+        ],
+        "teaser": "Seks maler i én pakke: sjekkliste, informasjonsskriv, spørreskjema, risikovurdering, tiltaksbank og årshjul, i Excel og Word."
       },
       "risikovurdering": {
         "title": "Mal for risikovurdering av psykososialt arbeidsmiljø | Orgpuls",
@@ -10087,7 +10093,8 @@
             "t": "p",
             "text": "Les mer om [hvordan man gjør en risikovurdering av det psykososiale arbeidsmiljøet](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
           }
-        ]
+        ],
+        "teaser": "En Excel-mal med faktorene loven nevner, risikomatrise og tiltaksplan – klar til å fylles ut."
       },
       "tiltaksbank": {
         "title": "Tiltaksbank: 33 tiltak for psykososialt arbeidsmiljø | Orgpuls",
@@ -10143,7 +10150,8 @@
             "t": "p",
             "text": "Les mer om [hvordan resultatene blir til tiltak](/artikler/fra-resultater-til-tiltak)."
           }
-        ]
+        ],
+        "teaser": "33 konkrete tiltak, tre for hver faktor, med tid, fremgangsmåte og hva dere bør følge med på."
       },
       "arshjul": {
         "title": "Årshjul for arbeidsmiljøarbeidet: gratis mal | Orgpuls",
@@ -10201,7 +10209,8 @@
             "t": "p",
             "text": "Les mer om [hvor ofte arbeidsmiljøet bør måles](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
           }
-        ]
+        ],
+        "teaser": "Et ferdig utfylt årshjul i Excel for kartlegging, vurdering og oppfølging gjennom året."
       },
       "qps": {
         "title": "QPSNordic 34+: spørreskjema om arbeidsmiljø | Orgpuls",
@@ -10259,7 +10268,8 @@
             "t": "p",
             "text": "Kilde: Skogstad, A., Knardahl, S., Lindström, K., Elo, A.-L., Dallner, M., Gamberale, F., Hottinen, V. og Ørhede, E. (2001). Brukerveiledning QPSNordic. STAMI-rapport årg. 2, nr. 1. Statens arbeidsmiljøinstitutt."
           }
-        ]
+        ],
+        "teaser": "Det nordiske spørreskjemaet QPSNordic 34+ klart til utskrift, med et regneark som regner ut svarene."
       },
       "informasjon": {
         "title": "Informasjonsskriv og sjekkliste for kartleggingen | Orgpuls",
@@ -10302,7 +10312,8 @@
             "t": "p",
             "text": "Les mer om [kravene til kartleggingen](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) og [hva anonymt må bety i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
           }
-        ]
+        ],
+        "teaser": "Et skriv til de ansatte før undersøkelsen, og en sjekkliste for dem som planlegger den."
       }
     },
     "shots": {
@@ -10489,6 +10500,7 @@
     "chrome": {
       "nav": {
         "plattform": "Plattform",
+        "omPlattformen": "Slik virker plattformen",
         "bruksomrader": "Bruksområder",
         "hvorfor": "Hvorfor Orgpuls",
         "pris": "Pris",
@@ -10551,6 +10563,7 @@
           "rapportArbeidstilsynet": "Rapport til Arbeidstilsynet",
           "amu": "Verneombud og AMU",
           "alleArtikler": "Alle artikler",
+          "maler": "Gratis maler",
           "slikVirker": "Slik virker det",
           "lovenForklart": "Arbeidsmiljøloven forklart",
           "sporsmalssettet": "Spørsmålssettet",

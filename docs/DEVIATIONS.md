@@ -11687,3 +11687,21 @@ that a lead survives a platform that is down, misconfigured, or does not yet han
   invariants green there, rolled back), the functions deployed from this commit with
   `scripts/functions/deploy.mjs`, and the week's two lead events copied at the first run.
 - **Proved by** `supabase/tests/lead_copy_invariants.sql` and `tests/unit/lead-copy.test.ts`.
+
+## D-243 — The free templates where their readers are, and a shorter menu (2026-10-07)
+
+Tor found the templates (D-241) hidden: one link deep under Ressurser, nowhere in the articles that
+describe the work each template is for. He asked for them to be shown where they belong, and for
+Bruksområder to move under Plattform so the top menu has fewer items.
+
+- **The menu:** Plattform is now a menu – «Slik virker plattformen» (`/plattform`), Bruksområder and
+  Hvorfor Orgpuls – so the top row is Plattform, Bransjer, Ressurser, Pris. Under Ressurser, «Gratis maler»
+  comes first after «Alle artikler». Both footers link to `/maler`.
+- **A box at the foot of each article** (`TemplateTeaser`, before the sources): every article names its
+  template in `lib/marketing/site.ts` (`template`), so a new article picks one there, not in a component.
+  The informational pages do the same through `LANDING_TEMPLATE` (Lovkrav and Små bedrifter: the pack;
+  Verneombud: the letter and checklist) and Sikkerhet; the industry pages show the pack at the end of their
+  Orgpuls section; `/artikler` shows it under the cards with a link to all the templates.
+- **Not an offer:** the box names the template and what is in it, and links to its page. D-235's rule – no
+  product offer beside the text – stands; a free document for the reader's own work is a resource.
+- **The front page** is unchanged for now, by Tor's choice.

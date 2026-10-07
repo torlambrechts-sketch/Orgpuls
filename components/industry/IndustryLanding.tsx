@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { keep } from '@/components/marketing/Diagrams'
 import { IndustryArt } from '@/components/marketing/art/IndustryArt'
 import { RiskIcon } from './RiskIcon'
+import { TemplateTeaser } from '@/components/marketing/TemplateTeaser'
 import { Tick } from '@/components/site/parts'
 import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
@@ -554,6 +555,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
           </ol>
           {wordingBlock}
           {factsLine('mt-[24px]')}
+          <TemplateTeaser slug="kartleggingspakken" className="mt-[24px]" />
         </div>
       </section>
 

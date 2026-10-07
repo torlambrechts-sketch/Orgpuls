@@ -369,16 +369,18 @@
     "seo.articles.sporsmal.description",
     "seo.articles.hvorOfte.description",
     "seo.articles.anonym.description",
-    "seo.articles.verneombud.description"
+    "seo.articles.verneombud.description",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
+    "seo.maler.teaser.all"
    ],
    "states": []
   },
   {
    "path": "/artikler/anerkjennelse-og-mening",
    "keys": [
-    "seo.articles.faktorMening.title",
-    "seo.articles.faktorMening.description",
     "seo.articles.faktorMening.h1",
+    "seo.articles.faktorMening.description",
     "seo.articles.faktorMening.sources.0.label",
     "seo.articles.faktorMening.sources.1.label",
     "seo.articles.faktorMening.sources.2.label",
@@ -429,12 +431,15 @@
     "seo.articles.faktorMening.blocks.27.text",
     "seo.articles.faktorMening.blocks.28.text",
     "seo.articles.faktorMening.blocks.29.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorMedvirk.h1",
     "seo.articles.faktorMedvirk.description",
     "seo.articles.faktorLeder.h1",
-    "seo.articles.faktorLeder.description"
+    "seo.articles.faktorLeder.description",
+    "seo.articles.faktorMening.title"
    ],
    "states": [
     "factor.mening.short",
@@ -444,9 +449,8 @@
   {
    "path": "/artikler/anonym-medarbeiderundersokelse",
    "keys": [
-    "seo.articles.anonym.title",
-    "seo.articles.anonym.description",
     "seo.articles.anonym.h1",
+    "seo.articles.anonym.description",
     "seo.articles.anonym.sources.0.label",
     "seo.articles.anonym.sources.1.label",
     "seo.articles.anonym.sources.2.label",
@@ -490,21 +494,23 @@
     "seo.articles.anonym.blocks.26.text",
     "seo.articles.anonym.blocks.27.text",
     "seo.articles.anonym.blocks.28.text",
+    "seo.maler.informasjon.crumb",
+    "seo.maler.informasjon.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.sporsmal.h1",
     "seo.articles.sporsmal.description",
     "seo.articles.verneombud.h1",
-    "seo.articles.verneombud.description"
+    "seo.articles.verneombud.description",
+    "seo.articles.anonym.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/arbeidsmengde-og-tidspress",
    "keys": [
-    "seo.articles.arbeidsmengde.title",
-    "seo.articles.arbeidsmengde.description",
     "seo.articles.arbeidsmengde.h1",
+    "seo.articles.arbeidsmengde.description",
     "seo.articles.arbeidsmengde.sources.0.label",
     "seo.articles.arbeidsmengde.sources.1.label",
     "seo.index.crumb",
@@ -558,12 +564,15 @@
     "seo.articles.arbeidsmengde.blocks.26.text",
     "seo.articles.arbeidsmengde.blocks.27.text",
     "seo.articles.arbeidsmengde.blocks.28.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.resultaterTilTiltak.h1",
     "seo.articles.resultaterTilTiltak.description",
     "seo.articles.risikovurdering.h1",
-    "seo.articles.risikovurdering.description"
+    "seo.articles.risikovurdering.description",
+    "seo.articles.arbeidsmengde.title"
    ],
    "states": [
     "factor.mengde.short",
@@ -573,9 +582,8 @@
   {
    "path": "/artikler/emosjonelle-krav",
    "keys": [
-    "seo.articles.faktorEmosjon.title",
-    "seo.articles.faktorEmosjon.description",
     "seo.articles.faktorEmosjon.h1",
+    "seo.articles.faktorEmosjon.description",
     "seo.articles.faktorEmosjon.sources.0.label",
     "seo.articles.faktorEmosjon.sources.1.label",
     "seo.index.crumb",
@@ -633,12 +641,15 @@
     "seo.articles.faktorEmosjon.blocks.30.text",
     "seo.articles.faktorEmosjon.blocks.31.text",
     "seo.articles.faktorEmosjon.blocks.32.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorKollega.h1",
     "seo.articles.faktorKollega.description",
     "seo.articles.faktorKontakt.h1",
-    "seo.articles.faktorKontakt.description"
+    "seo.articles.faktorKontakt.description",
+    "seo.articles.faktorEmosjon.title"
    ],
    "states": [
     "factor.emosjon.short",
@@ -649,9 +660,8 @@
   {
    "path": "/artikler/fra-resultater-til-tiltak",
    "keys": [
-    "seo.articles.resultaterTilTiltak.title",
-    "seo.articles.resultaterTilTiltak.description",
     "seo.articles.resultaterTilTiltak.h1",
+    "seo.articles.resultaterTilTiltak.description",
     "seo.articles.resultaterTilTiltak.sources.0.label",
     "seo.articles.resultaterTilTiltak.sources.1.label",
     "seo.articles.resultaterTilTiltak.sources.2.label",
@@ -733,21 +743,23 @@
     "seo.articles.resultaterTilTiltak.blocks.30.text",
     "seo.articles.resultaterTilTiltak.blocks.31.text",
     "seo.articles.resultaterTilTiltak.blocks.32.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.gjennomgang.h1",
     "seo.articles.gjennomgang.description",
     "seo.articles.risikovurdering.h1",
-    "seo.articles.risikovurdering.description"
+    "seo.articles.risikovurdering.description",
+    "seo.articles.resultaterTilTiltak.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet",
    "keys": [
-    "seo.articles.hvorOfte.title",
-    "seo.articles.hvorOfte.description",
     "seo.articles.hvorOfte.h1",
+    "seo.articles.hvorOfte.description",
     "seo.articles.hvorOfte.sources.0.label",
     "seo.articles.hvorOfte.sources.1.label",
     "seo.articles.hvorOfte.sources.2.label",
@@ -806,21 +818,23 @@
     "seo.articles.hvorOfte.blocks.27.text",
     "seo.articles.hvorOfte.blocks.28.text",
     "seo.articles.hvorOfte.blocks.29.text",
+    "seo.maler.arshjul.crumb",
+    "seo.maler.arshjul.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.sporsmal.h1",
     "seo.articles.sporsmal.description",
     "seo.articles.kravKartlegging.h1",
-    "seo.articles.kravKartlegging.description"
+    "seo.articles.kravKartlegging.description",
+    "seo.articles.hvorOfte.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/integritet-og-verdighet",
    "keys": [
-    "seo.articles.faktorIntegritet.title",
-    "seo.articles.faktorIntegritet.description",
     "seo.articles.faktorIntegritet.h1",
+    "seo.articles.faktorIntegritet.description",
     "seo.articles.faktorIntegritet.sources.0.label",
     "seo.articles.faktorIntegritet.sources.1.label",
     "seo.articles.faktorIntegritet.sources.2.label",
@@ -874,12 +888,15 @@
     "seo.articles.faktorIntegritet.blocks.23.text",
     "seo.articles.faktorIntegritet.blocks.24.text",
     "seo.articles.faktorIntegritet.blocks.25.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorYtring.h1",
     "seo.articles.faktorYtring.description",
     "seo.articles.anonym.h1",
-    "seo.articles.anonym.description"
+    "seo.articles.anonym.description",
+    "seo.articles.faktorIntegritet.title"
    ],
    "states": [
     "factor.integritet.short",
@@ -891,9 +908,8 @@
   {
    "path": "/artikler/kontakt-og-kommunikasjon",
    "keys": [
-    "seo.articles.faktorKontakt.title",
-    "seo.articles.faktorKontakt.description",
     "seo.articles.faktorKontakt.h1",
+    "seo.articles.faktorKontakt.description",
     "seo.articles.faktorKontakt.sources.0.label",
     "seo.articles.faktorKontakt.sources.1.label",
     "seo.index.crumb",
@@ -945,12 +961,15 @@
     "seo.articles.faktorKontakt.blocks.26.text",
     "seo.articles.faktorKontakt.blocks.27.text",
     "seo.articles.faktorKontakt.blocks.28.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorKollega.h1",
     "seo.articles.faktorKollega.description",
     "seo.articles.faktorEmosjon.h1",
-    "seo.articles.faktorEmosjon.description"
+    "seo.articles.faktorEmosjon.description",
+    "seo.articles.faktorKontakt.title"
    ],
    "states": [
     "factor.kontakt.short",
@@ -961,9 +980,8 @@
   {
    "path": "/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo",
    "keys": [
-    "seo.articles.kravKartlegging.title",
-    "seo.articles.kravKartlegging.description",
     "seo.articles.kravKartlegging.h1",
+    "seo.articles.kravKartlegging.description",
     "seo.articles.kravKartlegging.sources.0.label",
     "seo.articles.kravKartlegging.sources.1.label",
     "seo.articles.kravKartlegging.sources.2.label",
@@ -1042,21 +1060,23 @@
     "seo.articles.kravKartlegging.blocks.24.items.2.title",
     "seo.articles.kravKartlegging.blocks.24.items.2.ref",
     "seo.articles.kravKartlegging.blocks.24.items.2.text",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.nyeRegler2026.h1",
     "seo.articles.nyeRegler2026.description",
     "seo.articles.verneombud.h1",
-    "seo.articles.verneombud.description"
+    "seo.articles.verneombud.description",
+    "seo.articles.kravKartlegging.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/medarbeiderundersokelse-sporsmal",
    "keys": [
-    "seo.articles.sporsmal.title",
-    "seo.articles.sporsmal.description",
     "seo.articles.sporsmal.h1",
+    "seo.articles.sporsmal.description",
     "seo.articles.sporsmal.sources.0.label",
     "seo.articles.sporsmal.sources.1.label",
     "seo.articles.sporsmal.sources.2.label",
@@ -1131,21 +1151,23 @@
     "seo.articles.sporsmal.blocks.24.text",
     "seo.articles.sporsmal.blocks.25.text",
     "seo.articles.sporsmal.blocks.26.text",
+    "seo.maler.qps.crumb",
+    "seo.maler.qps.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.anonym.h1",
     "seo.articles.anonym.description",
     "seo.articles.hvorOfte.h1",
-    "seo.articles.hvorOfte.description"
+    "seo.articles.hvorOfte.description",
+    "seo.articles.sporsmal.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/medvirkning-og-kontroll",
    "keys": [
-    "seo.articles.faktorMedvirk.title",
-    "seo.articles.faktorMedvirk.description",
     "seo.articles.faktorMedvirk.h1",
+    "seo.articles.faktorMedvirk.description",
     "seo.articles.faktorMedvirk.sources.0.label",
     "seo.articles.faktorMedvirk.sources.1.label",
     "seo.index.crumb",
@@ -1200,12 +1222,15 @@
     "seo.articles.faktorMedvirk.blocks.28.text",
     "seo.articles.faktorMedvirk.blocks.29.text",
     "seo.articles.faktorMedvirk.blocks.30.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.arbeidsmengde.h1",
     "seo.articles.arbeidsmengde.description",
     "seo.articles.faktorMening.h1",
-    "seo.articles.faktorMening.description"
+    "seo.articles.faktorMening.description",
+    "seo.articles.faktorMedvirk.title"
    ],
    "states": [
     "factor.medvirk.short",
@@ -1216,9 +1241,8 @@
   {
    "path": "/artikler/motstridende-krav",
    "keys": [
-    "seo.articles.faktorMotstrid.title",
-    "seo.articles.faktorMotstrid.description",
     "seo.articles.faktorMotstrid.h1",
+    "seo.articles.faktorMotstrid.description",
     "seo.articles.faktorMotstrid.sources.0.label",
     "seo.articles.faktorMotstrid.sources.1.label",
     "seo.index.crumb",
@@ -1277,12 +1301,15 @@
     "seo.articles.faktorMotstrid.blocks.30.text",
     "seo.articles.faktorMotstrid.blocks.31.text",
     "seo.articles.faktorMotstrid.blocks.32.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorRolle.h1",
     "seo.articles.faktorRolle.description",
     "seo.articles.arbeidsmengde.h1",
-    "seo.articles.arbeidsmengde.description"
+    "seo.articles.arbeidsmengde.description",
+    "seo.articles.faktorMotstrid.title"
    ],
    "states": [
     "factor.motstrid.short",
@@ -1293,9 +1320,8 @@
   {
    "path": "/artikler/nye-regler-psykososialt-arbeidsmiljo-2026",
    "keys": [
-    "seo.articles.nyeRegler2026.title",
-    "seo.articles.nyeRegler2026.description",
     "seo.articles.nyeRegler2026.h1",
+    "seo.articles.nyeRegler2026.description",
     "seo.articles.nyeRegler2026.sources.0.label",
     "seo.articles.nyeRegler2026.sources.1.label",
     "seo.articles.nyeRegler2026.sources.2.label",
@@ -1379,21 +1405,23 @@
     "seo.articles.nyeRegler2026.blocks.28.text",
     "seo.articles.nyeRegler2026.blocks.29.text",
     "seo.articles.nyeRegler2026.blocks.30.text",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.kravKartlegging.h1",
     "seo.articles.kravKartlegging.description",
     "seo.articles.hvorOfte.h1",
-    "seo.articles.hvorOfte.description"
+    "seo.articles.hvorOfte.description",
+    "seo.articles.nyeRegler2026.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/risikovurdering-av-psykososialt-arbeidsmiljo",
    "keys": [
-    "seo.articles.risikovurdering.title",
-    "seo.articles.risikovurdering.description",
     "seo.articles.risikovurdering.h1",
+    "seo.articles.risikovurdering.description",
     "seo.articles.risikovurdering.sources.0.label",
     "seo.articles.risikovurdering.sources.1.label",
     "seo.articles.risikovurdering.sources.2.label",
@@ -1449,21 +1477,23 @@
     "seo.articles.risikovurdering.blocks.24.items.3",
     "seo.articles.risikovurdering.blocks.25.text",
     "seo.articles.risikovurdering.blocks.26.text",
+    "seo.maler.risikovurdering.crumb",
+    "seo.maler.risikovurdering.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.kravKartlegging.h1",
     "seo.articles.kravKartlegging.description",
     "seo.articles.resultaterTilTiltak.h1",
-    "seo.articles.resultaterTilTiltak.description"
+    "seo.articles.resultaterTilTiltak.description",
+    "seo.articles.risikovurdering.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/rolleklarhet",
    "keys": [
-    "seo.articles.faktorRolle.title",
-    "seo.articles.faktorRolle.description",
     "seo.articles.faktorRolle.h1",
+    "seo.articles.faktorRolle.description",
     "seo.articles.faktorRolle.sources.0.label",
     "seo.articles.faktorRolle.sources.1.label",
     "seo.index.crumb",
@@ -1518,12 +1548,15 @@
     "seo.articles.faktorRolle.blocks.24.text",
     "seo.articles.faktorRolle.blocks.25.text",
     "seo.articles.faktorRolle.blocks.26.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorMotstrid.h1",
     "seo.articles.faktorMotstrid.description",
     "seo.articles.faktorLeder.h1",
-    "seo.articles.faktorLeder.description"
+    "seo.articles.faktorLeder.description",
+    "seo.articles.faktorRolle.title"
    ],
    "states": [
     "factor.rolle.short",
@@ -1533,9 +1566,8 @@
   {
    "path": "/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte",
    "keys": [
-    "seo.articles.gjennomgang.title",
-    "seo.articles.gjennomgang.description",
     "seo.articles.gjennomgang.h1",
+    "seo.articles.gjennomgang.description",
     "seo.articles.gjennomgang.sources.0.label",
     "seo.articles.gjennomgang.sources.1.label",
     "seo.articles.gjennomgang.sources.2.label",
@@ -1591,21 +1623,23 @@
     "seo.articles.gjennomgang.blocks.23.text",
     "seo.articles.gjennomgang.blocks.24.text",
     "seo.articles.gjennomgang.blocks.25.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.resultaterTilTiltak.h1",
     "seo.articles.resultaterTilTiltak.description",
     "seo.articles.anonym.h1",
-    "seo.articles.anonym.description"
+    "seo.articles.anonym.description",
+    "seo.articles.gjennomgang.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/stotte-fra-kollegaer",
    "keys": [
-    "seo.articles.faktorKollega.title",
-    "seo.articles.faktorKollega.description",
     "seo.articles.faktorKollega.h1",
+    "seo.articles.faktorKollega.description",
     "seo.articles.faktorKollega.sources.0.label",
     "seo.articles.faktorKollega.sources.1.label",
     "seo.index.crumb",
@@ -1658,12 +1692,15 @@
     "seo.articles.faktorKollega.blocks.26.text",
     "seo.articles.faktorKollega.blocks.27.text",
     "seo.articles.faktorKollega.blocks.28.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorLeder.h1",
     "seo.articles.faktorLeder.description",
     "seo.articles.faktorKontakt.h1",
-    "seo.articles.faktorKontakt.description"
+    "seo.articles.faktorKontakt.description",
+    "seo.articles.faktorKollega.title"
    ],
    "states": [
     "factor.kollega.short",
@@ -1674,9 +1711,8 @@
   {
    "path": "/artikler/stotte-fra-leder",
    "keys": [
-    "seo.articles.faktorLeder.title",
-    "seo.articles.faktorLeder.description",
     "seo.articles.faktorLeder.h1",
+    "seo.articles.faktorLeder.description",
     "seo.articles.faktorLeder.sources.0.label",
     "seo.articles.faktorLeder.sources.1.label",
     "seo.index.crumb",
@@ -1729,12 +1765,15 @@
     "seo.articles.faktorLeder.blocks.26.text",
     "seo.articles.faktorLeder.blocks.27.text",
     "seo.articles.faktorLeder.blocks.28.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorKollega.h1",
     "seo.articles.faktorKollega.description",
     "seo.articles.faktorRolle.h1",
-    "seo.articles.faktorRolle.description"
+    "seo.articles.faktorRolle.description",
+    "seo.articles.faktorLeder.title"
    ],
    "states": [
     "factor.leder.short",
@@ -1744,9 +1783,8 @@
   {
    "path": "/artikler/verneombudets-rolle-i-kartleggingen",
    "keys": [
-    "seo.articles.verneombud.title",
-    "seo.articles.verneombud.description",
     "seo.articles.verneombud.h1",
+    "seo.articles.verneombud.description",
     "seo.articles.verneombud.sources.0.label",
     "seo.articles.verneombud.sources.1.label",
     "seo.articles.verneombud.sources.2.label",
@@ -1809,21 +1847,23 @@
     "seo.articles.verneombud.blocks.27.text",
     "seo.articles.verneombud.blocks.28.text",
     "seo.articles.verneombud.blocks.29.text",
+    "seo.maler.informasjon.crumb",
+    "seo.maler.informasjon.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.kravKartlegging.h1",
     "seo.articles.kravKartlegging.description",
     "seo.articles.anonym.h1",
-    "seo.articles.anonym.description"
+    "seo.articles.anonym.description",
+    "seo.articles.verneombud.title"
    ],
    "states": []
   },
   {
    "path": "/artikler/ytringsklima",
    "keys": [
-    "seo.articles.faktorYtring.title",
-    "seo.articles.faktorYtring.description",
     "seo.articles.faktorYtring.h1",
+    "seo.articles.faktorYtring.description",
     "seo.articles.faktorYtring.sources.0.label",
     "seo.articles.faktorYtring.sources.1.label",
     "seo.articles.faktorYtring.sources.2.label",
@@ -1883,12 +1923,15 @@
     "seo.articles.faktorYtring.blocks.23.text",
     "seo.articles.faktorYtring.blocks.24.text",
     "seo.articles.faktorYtring.blocks.25.text",
+    "seo.maler.tiltaksbank.crumb",
+    "seo.maler.tiltaksbank.teaser",
     "seo.common.sources",
     "seo.common.disclaimer",
     "seo.articles.faktorIntegritet.h1",
     "seo.articles.faktorIntegritet.description",
     "seo.articles.faktorLeder.h1",
-    "seo.articles.faktorLeder.description"
+    "seo.articles.faktorLeder.description",
+    "seo.articles.faktorYtring.title"
    ],
    "states": []
   },
@@ -2084,6 +2127,8 @@
     "site.bransje.barnehage.wording.items.skole.link",
     "site.bransje.common.facts",
     "site.bransje.barnehage.related.sporsmal",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "site.bransje.barnehage.proof.k",
     "site.bransje.barnehage.proof.title",
     "site.bransje.barnehage.proof.lead",
@@ -2773,6 +2818,8 @@
     "site.bransje.bygg.moduleFactors.a_si_at_man_ikke_har_det_bra",
     "site.bransje.common.facts",
     "site.bransje.bygg.related.sporsmal",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "site.bransje.bygg.proof.k",
     "site.bransje.bygg.proof.title",
     "site.bransje.bygg.proof.lead",
@@ -3184,6 +3231,8 @@
     "factor.integritet.label",
     "site.bransje.common.facts",
     "site.bransje.handel.related.sporsmal",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "site.bransje.handel.proof.k",
     "site.bransje.handel.proof.title",
     "site.bransje.handel.proof.lead",
@@ -3467,6 +3516,8 @@
     "site.bransje.helse.moduleFactors.forflytning_og_tunge_loft",
     "site.bransje.common.facts",
     "site.bransje.helse.related.sporsmal",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "site.bransje.helse.proof.k",
     "site.bransje.helse.proof.title",
     "site.bransje.helse.proof.lead",
@@ -4013,6 +4064,8 @@
     "factor.leder.label",
     "site.bransje.common.facts",
     "site.bransje.kontor.related.sporsmal",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "site.bransje.kontor.variants.k",
     "site.bransje.kontor.variants.title",
     "site.bransje.kontor.variants.lead",
@@ -4368,6 +4421,8 @@
     "seo.lp.lovkrav.blocks.24.items.3.text",
     "seo.lp.lovkrav.blocks.25.text",
     "seo.lp.lovkrav.blocks.26.text",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "start.faqEyebrow",
     "seo.articles.kravKartlegging.h1",
     "seo.articles.kravKartlegging.description",
@@ -5332,6 +5387,8 @@
     "seo.pages.sikkerhet.blocks.18.text",
     "seo.pages.sikkerhet.blocks.19.title",
     "seo.pages.sikkerhet.blocks.19.text",
+    "seo.maler.informasjon.crumb",
+    "seo.maler.informasjon.teaser",
     "start.faqEyebrow",
     "seo.articles.anonym.h1",
     "seo.articles.anonym.description",
@@ -5432,6 +5489,8 @@
     "seo.lp.smaaBedrifter.blocks.17.items.3",
     "seo.lp.smaaBedrifter.blocks.18.title",
     "seo.lp.smaaBedrifter.blocks.18.text",
+    "seo.maler.pakke.crumb",
+    "seo.maler.pakke.teaser",
     "seo.lp.smaaBedrifter.finalTitle",
     "seo.lp.smaaBedrifter.finalBody",
     "start.ctaFree",
@@ -5538,6 +5597,8 @@
     "seo.lp.verneombud.blocks.15.text",
     "seo.lp.verneombud.blocks.16.text",
     "seo.lp.verneombud.blocks.17.text",
+    "seo.maler.informasjon.crumb",
+    "seo.maler.informasjon.teaser",
     "start.faqEyebrow",
     "seo.articles.verneombud.h1",
     "seo.articles.verneombud.description",
@@ -5648,7 +5709,6 @@
   "site.chrome.skip",
   "site.chrome.navLabel",
   "site.chrome.nav.plattform",
-  "site.chrome.nav.bruksomrader",
   "site.chrome.nav.bransjer",
   "site.chrome.nav.ressurser",
   "site.chrome.nav.pris",
@@ -5656,11 +5716,13 @@
   "site.chrome.demo",
   "site.chrome.signIn",
   "site.chrome.getStarted",
+  "site.chrome.nav.bruksomrader",
+  "site.chrome.nav.hvorfor",
+  "site.chrome.nav.maler",
   "site.chrome.nav.lovkrav",
   "site.chrome.nav.verneombud",
   "site.chrome.nav.fraResultater",
   "site.chrome.nav.sporsmalssettet",
-  "site.chrome.nav.maler",
   "site.chrome.nav.sikkerhet",
   "seo.common.readArticle",
   "site.chrome.footerNav",
@@ -5672,6 +5734,7 @@
   "site.chrome.footer.link.hvorfor",
   "site.chrome.footer.head.bruksomrader",
   "site.chrome.footer.link.alleArtikler",
+  "site.chrome.footer.link.maler",
   "site.chrome.footer.link.personvernAnonymitet",
   "site.chrome.footer.head.omOss",
   "site.chrome.footer.link.kontakt",
@@ -5691,6 +5754,8 @@
   "site.chrome.footer.link.helse",
   "seo.common.home",
   "seo.common.breadcrumb",
+  "seo.maler.teaser.kicker",
+  "seo.maler.teaser.cta",
   "seo.common.aside",
   "seo.common.onThisPage",
   "seo.common.readMore"
@@ -5838,7 +5903,7 @@
   "seo.og.pills.0",
   "seo.og.pills.1",
   "seo.og.pills.2",
-  "site.chrome.nav.hvorfor",
+  "site.chrome.nav.omPlattformen",
   "site.chrome.nav.alleBransjer",
   "site.chrome.nav.alleArtikler",
   "site.chrome.start.fetching",

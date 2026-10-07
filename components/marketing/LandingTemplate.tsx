@@ -1,5 +1,13 @@
 import { getTranslations } from 'next-intl/server'
-import { INFORMATIONAL_PAGES, LANDING_ARTICLES, LANDING_HERO, LANDING_RELATED, landingKey, type LandingSlug } from '@/lib/marketing/site'
+import {
+  INFORMATIONAL_PAGES,
+  LANDING_ARTICLES,
+  LANDING_HERO,
+  LANDING_RELATED,
+  LANDING_TEMPLATE,
+  landingKey,
+  type LandingSlug,
+} from '@/lib/marketing/site'
 import { PageTemplate } from './PageTemplate'
 import { LawArt } from './art/LawArt'
 import { SafetyRepArt } from './art/SafetyRepArt'
@@ -20,6 +28,7 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
         path={`/${slug}`}
         parent={{ name: t('seo.index.crumb'), path: '/artikler' }}
         articles={LANDING_ARTICLES[slug]}
+        template={LANDING_TEMPLATE[slug]}
         informational
         heroArt={slug === 'lovkrav' ? <LawArt className="h-auto w-full max-w-[440px]" /> : <SafetyRepArt className="h-auto w-full max-w-[440px]" />}
       />
@@ -30,6 +39,7 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
       path={`/${slug}`}
       parent={parent ?? { name: t('seo.pages.bruksomrader.crumb'), path: '/bruksomrader' }}
       articles={LANDING_ARTICLES[slug]}
+      template={LANDING_TEMPLATE[slug]}
       heroShot={LANDING_HERO[slug]}
       heroArt={slug === 'smaa-bedrifter' ? <SmallBizArt className="h-auto w-full max-w-[440px]" /> : undefined}
       related={LANDING_RELATED[slug].map((r) => ({
