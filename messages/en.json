@@ -4770,6 +4770,31 @@
             "text": "Section 6-2 of the Working Environment Act says the safety representative shall see to it that the employees' psychosocial working environment is safeguarded. The safety representative shall also be consulted during the planning and implementation of measures that matter for the working environment. Section 1A-2 of the regulation on the performance of work also requires the mapping and risk assessment to be done together with the employees and their representatives."
           },
           {
+            "t": "hub",
+            "center": {
+              "title": "The safety representative",
+              "text": "Looks after the employees' interests in matters concerning the working environment (aml § 6-2 first paragraph)."
+            },
+            "items": [
+              {
+                "title": "Sees to",
+                "text": "The employees' psychosocial working environment being taken care of (§ 6-2 second paragraph letter f)."
+              },
+              {
+                "title": "Is consulted",
+                "text": "When measures are planned and carried out, and in the systematic health and safety work (§ 6-2 fourth paragraph)."
+              },
+              {
+                "title": "Alerts",
+                "text": "The employer to conditions that may harm health – and the employer must answer (§ 6-2 third paragraph)."
+              },
+              {
+                "title": "Takes part",
+                "text": "When Arbeidstilsynet inspects the business (§ 6-2 seventh paragraph)."
+              }
+            ]
+          },
+          {
             "t": "law",
             "items": [
               {
@@ -4795,38 +4820,33 @@
             "text": "Your role at each step"
           },
           {
-            "t": "table",
-            "head": [
-              "Step",
-              "Your role",
-              "Questions you can ask"
-            ],
-            "rows": [
-              [
-                "Planning",
-                "Take part when the rhythm and the questions are chosen.",
-                "When will the survey be done, and who helps choose the questions?"
-              ],
-              [
-                "Survey",
-                "Encourage colleagues to answer, and be able to explain why it is safe.",
-                "How is anonymity secured, and how small are the groups that are shown?"
-              ],
-              [
-                "Risk assessment",
-                "Assess the figures together with management – not get a summary afterwards.",
-                "Do I see the same figures as management, and am I involved when the risk is assessed?"
-              ],
-              [
-                "Measures",
-                "Take part when measures are chosen, and see that they address the causes.",
-                "Does every measure have someone responsible and a deadline, and does it address the cause?"
-              ],
-              [
-                "Follow-up",
-                "See that measures are done, and that someone checks whether they worked.",
-                "How, and when, will we see whether the measures worked?"
-              ]
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Step 1 · Planning",
+                "title": "Take part when the rhythm and the questions are chosen.",
+                "text": "**Ask:** When will the survey be done, and who helps choose the questions?"
+              },
+              {
+                "date": "Step 2 · Survey",
+                "title": "Encourage colleagues to answer, and be able to explain why it is safe.",
+                "text": "**Ask:** How is anonymity secured, and how small are the groups that are shown?"
+              },
+              {
+                "date": "Step 3 · Risk assessment",
+                "title": "Assess the figures together with management – not get a summary afterwards.",
+                "text": "**Ask:** Do I see the same figures as management, and am I involved when the risk is assessed?"
+              },
+              {
+                "date": "Step 4 · Measures",
+                "title": "Take part when measures are chosen, and see that they address the causes.",
+                "text": "**Ask:** Does every measure have someone responsible and a deadline, and does it address the cause?"
+              },
+              {
+                "date": "Step 5 · Follow-up",
+                "title": "See that measures are done, and that someone checks whether they worked.",
+                "text": "**Ask:** How, and when, will we see whether the measures worked?"
+              }
             ]
           },
           {
@@ -4880,12 +4900,26 @@
             "text": "The law gives the safety representative a set route. If you become aware of conditions that could harm health, you must make the employer aware of them, and the employer must give you an answer. If the report has not been taken into account within a reasonable time, you must inform Arbeidstilsynet or the working environment committee (aml § 6-2 third paragraph)."
           },
           {
-            "t": "ol",
+            "t": "ladder",
             "items": [
-              "Raise it with your line manager or the managing director, preferably in writing.",
-              "Point to the figures: which factors, which groups, and how they have developed.",
-              "Ask for an answer, and for what will be done and when.",
-              "If you get no answer within a reasonable time: take it to the working environment committee, where there is one, or to Arbeidstilsynet."
+              {
+                "title": "Raise it",
+                "text": "With your line manager or the managing director, preferably in writing."
+              },
+              {
+                "title": "Point to the figures",
+                "text": "Which factors, which groups, and how they have developed."
+              },
+              {
+                "title": "Ask for an answer",
+                "text": "And for what will be done, and when. The employer must answer.",
+                "ref": "aml § 6-2 third paragraph"
+              },
+              {
+                "title": "Take it further",
+                "text": "With no answer within a reasonable time: to the working environment committee, where there is one, or to Arbeidstilsynet.",
+                "ref": "aml § 6-2 third paragraph"
+              }
             ]
           },
           {

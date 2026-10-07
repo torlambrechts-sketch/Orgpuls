@@ -9,6 +9,9 @@ import { Rich } from './Rich'
 
 type Step = { title: string; ref?: string; text: string }
 
+/** A legal reference stays on one line in a narrow card: «§ 6-2» never breaks after § or at the hyphen. */
+const keep = (text: string) => text.replace(/§ (\d+ ?[A-Z]?)-(\d+)/g, (_, a: string, b: string) => `§\u00a0${a.replace(' ', '\u00a0')}-\u2060${b}`)
+
 const STEP_FILLS = ['bg-sbg', 'bg-mint', 'bg-cream', 'bg-pulse', 'bg-sand', 'bg-viz3']
 
 /** An arrow between two of the ring's cards, pointing the way the steps go. */
@@ -39,7 +42,7 @@ export function Cycle({ center, items }: { center: string; items: Step[] }) {
       <span className="block text-[15.5px] font-bold leading-[1.3]">{s.title}</span>
       {s.ref ? <span className="mt-[2px] block text-[12px] font-semibold text-link">{s.ref}</span> : null}
       <span className="mt-[6px] block text-[13.5px] leading-[1.55] text-mut [text-wrap:pretty]">
-        <Rich text={s.text} />
+        <Rich text={keep(s.text)} />
       </span>
     </div>
   )
@@ -81,7 +84,7 @@ export function Cycle({ center, items }: { center: string; items: Step[] }) {
               <span className="block text-[15px] font-bold">{s.title}</span>
               {s.ref ? <span className="block text-[12px] font-semibold text-link">{s.ref}</span> : null}
               <span className="mt-[4px] block text-[13.5px] leading-[1.55] text-mut">
-                <Rich text={s.text} />
+                <Rich text={keep(s.text)} />
               </span>
             </li>
           ))}
@@ -99,7 +102,7 @@ export function Hub({ center, items }: { center: { title: string; text: string }
       <div className="mx-auto max-w-[460px] rounded-note border-2 border-ink bg-ink px-[22px] py-[18px] text-center text-bg">
         <span className="block font-display text-[21px] font-semibold">{center.title}</span>
         <span className="mt-[6px] block text-[13.5px] leading-[1.55] opacity-[0.82] [text-wrap:balance]">
-          <Rich text={center.text} />
+          <Rich text={keep(center.text)} />
         </span>
       </div>
       {/* the bracket from the one to the many, wide screens only */}
@@ -116,7 +119,7 @@ export function Hub({ center, items }: { center: { title: string; text: string }
           <li key={i} className={`rounded-note border border-line px-[18px] py-[16px] ${STEP_FILLS[(i + 1) % STEP_FILLS.length]}`}>
             <span className="block text-[15px] font-bold">{s.title}</span>
             <span className="mt-[6px] block text-[13.5px] leading-[1.55] text-body [text-wrap:pretty]">
-              <Rich text={s.text} />
+              <Rich text={keep(s.text)} />
             </span>
           </li>
         ))}
@@ -140,7 +143,7 @@ export function Ladder({ items }: { items: Step[] }) {
               <span className="block text-[15px] font-bold leading-[1.3]">{s.title}</span>
               {s.ref ? <span className="block text-[12px] font-semibold text-link">{s.ref}</span> : null}
               <span className="mt-[6px] block text-[13px] leading-[1.5] text-mut [text-wrap:pretty]">
-                <Rich text={s.text} />
+                <Rich text={keep(s.text)} />
               </span>
             </div>
             <div
@@ -155,22 +158,48 @@ export function Ladder({ items }: { items: Step[] }) {
   )
 }
 
-/** A timeline: dated steps along one line. */
+/**
+ * A timeline: dated steps along one line – across the column for up to three, down it for more, where
+ * each step's label gets a column of its own so long titles are not squeezed.
+ */
 export function Timeline({ items }: { items: { date: string; title: string; text: string }[] }) {
+  if (items.length <= 3)
+    return (
+      <figure className="m-0 my-[8px]">
+        <ol className="relative m-0 flex list-none flex-col gap-[14px] p-0 md:flex-row md:gap-[16px]">
+          <span aria-hidden="true" className="absolute bottom-[8px] left-[7px] top-[8px] w-[2px] bg-rule md:bottom-auto md:left-[8px] md:right-[8px] md:top-[7px] md:h-[2px] md:w-auto" />
+          {items.map((s, i) => (
+            <li key={i} className="relative flex-1 pl-[30px] md:pl-0 md:pt-[30px]">
+              <span
+                aria-hidden="true"
+                className={`absolute left-0 top-[2px] h-[16px] w-[16px] rounded-pill border-2 border-ink md:top-0 ${i === items.length - 1 ? 'bg-ac' : 'bg-sf'}`}
+              />
+              <span className="block text-[12px] font-bold uppercase tracking-[0.08em] text-mut">{s.date}</span>
+              <span className="mt-[4px] block text-[15px] font-bold leading-[1.3]">{s.title}</span>
+              <span className="mt-[4px] block text-[13.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                <Rich text={keep(s.text)} />
+              </span>
+            </li>
+          ))}
+        </ol>
+      </figure>
+    )
   return (
     <figure className="m-0 my-[8px]">
-      <ol className="relative m-0 flex list-none flex-col gap-[14px] p-0 md:flex-row md:gap-[16px]">
-        <span aria-hidden="true" className="absolute bottom-[8px] left-[7px] top-[8px] w-[2px] bg-rule md:bottom-auto md:left-[8px] md:right-[8px] md:top-[7px] md:h-[2px] md:w-auto" />
+      <ol className="relative m-0 flex list-none flex-col gap-[18px] p-0">
+        <span aria-hidden="true" className="absolute bottom-[10px] left-[7px] top-[10px] w-[2px] bg-rule" />
         {items.map((s, i) => (
-          <li key={i} className="relative flex-1 pl-[30px] md:pl-0 md:pt-[30px]">
+          <li key={i} className="relative grid gap-x-[20px] gap-y-[4px] pl-[34px] md:grid-cols-[170px_minmax(0,1fr)]">
             <span
               aria-hidden="true"
-              className={`absolute left-0 top-[2px] h-[16px] w-[16px] rounded-pill border-2 border-ink md:top-0 ${i === items.length - 1 ? 'bg-ac' : 'bg-sf'}`}
+              className={`absolute left-0 top-[3px] h-[16px] w-[16px] rounded-pill border-2 border-ink ${i === items.length - 1 ? 'bg-ac' : 'bg-sf'}`}
             />
-            <span className="block text-[12px] font-bold uppercase tracking-[0.08em] text-mut">{s.date}</span>
-            <span className="mt-[4px] block text-[15px] font-bold leading-[1.3]">{s.title}</span>
-            <span className="mt-[4px] block text-[13.5px] leading-[1.55] text-mut [text-wrap:pretty]">
-              <Rich text={s.text} />
+            <span className="pt-[1px] text-[12px] font-bold uppercase leading-[1.5] tracking-[0.08em] text-mut">{s.date}</span>
+            <span className="rounded-note border border-line bg-sf px-[18px] py-[14px]">
+              <span className="block text-[15px] font-bold leading-[1.3]">{s.title}</span>
+              <span className="mt-[5px] block text-[13.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                <Rich text={keep(s.text)} />
+              </span>
             </span>
           </li>
         ))}

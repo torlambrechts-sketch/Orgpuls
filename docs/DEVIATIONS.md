@@ -11556,3 +11556,10 @@ accent, the risk band colours for weight) and the bundle's radius scale.
 - **Hero picture** (components/marketing/art/LawArt.tsx): a document with a checklist, the § seal and
   the ring of four steps, decorative and hidden from screen readers, where a sales page has its
   product shot (`heroArt` on PageView, informational pages only).
+- **Verneombud (same day):** a hand-drawn hero (a shield with a tick before three colleagues and a
+  speech bubble, components/marketing/art/SafetyRepArt.tsx); the role as a hub around the safety
+  representative (§ 6-2 first, second f, third, fourth and seventh paragraphs); the role at each step
+  as a timeline with the question to ask (replacing the table); and the escalation in § 6-2 third
+  paragraph as a ladder (replacing the numbered list). A timeline of more than three steps runs down the
+  column with the step's label beside it; legal references in a figure never break after § or at the
+  hyphen.

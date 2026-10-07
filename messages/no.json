@@ -4770,6 +4770,31 @@
             "text": "Arbeidsmiljøloven § 6-2 sier at verneombudet skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt». Verneombudet skal også «tas med på råd under planlegging og gjennomføring av tiltak som har betydning for arbeidsmiljøet». Forskrift om utførelse av arbeid § 1A-2 krever i tillegg at kartleggingen og risikovurderingen gjøres i samarbeid med arbeidstakerne og deres representanter."
           },
           {
+            "t": "hub",
+            "center": {
+              "title": "Verneombudet",
+              "text": "Skal ivareta arbeidstakernes interesser i saker som angår arbeidsmiljøet (aml § 6-2 første ledd)."
+            },
+            "items": [
+              {
+                "title": "Påser",
+                "text": "At arbeidstakernes psykososiale arbeidsmiljø er ivaretatt (§ 6-2 andre ledd bokstav f)."
+              },
+              {
+                "title": "Tas med på råd",
+                "text": "Under planlegging og gjennomføring av tiltak, og i det systematiske HMS-arbeidet (§ 6-2 fjerde ledd)."
+              },
+              {
+                "title": "Varsler",
+                "text": "Arbeidsgiveren om forhold som kan gi helsefare – og arbeidsgiveren skal svare (§ 6-2 tredje ledd)."
+              },
+              {
+                "title": "Deltar",
+                "text": "Når Arbeidstilsynet inspiserer virksomheten (§ 6-2 sjuende ledd)."
+              }
+            ]
+          },
+          {
             "t": "law",
             "items": [
               {
@@ -4795,38 +4820,33 @@
             "text": "Din rolle i hvert steg"
           },
           {
-            "t": "table",
-            "head": [
-              "Steg",
-              "Din rolle",
-              "Spørsmål du kan stille"
-            ],
-            "rows": [
-              [
-                "Planlegging",
-                "Være med når rytmen og spørsmålene velges.",
-                "Når skal kartleggingen gjøres, og hvem er med på å velge spørsmålene?"
-              ],
-              [
-                "Kartlegging",
-                "Oppfordre kollegene til å svare, og kunne forklare hvorfor det er trygt.",
-                "Hvordan er anonymiteten sikret, og hvor små grupper vises?"
-              ],
-              [
-                "Risikovurdering",
-                "Vurdere tallene sammen med ledelsen – ikke få et sammendrag etterpå.",
-                "Får jeg se de samme tallene som ledelsen, og er jeg med når risikoen vurderes?"
-              ],
-              [
-                "Tiltak",
-                "Være med når tiltakene velges, og se at de retter seg mot årsakene.",
-                "Har hvert tiltak en ansvarlig og en frist, og retter det seg mot årsaken?"
-              ],
-              [
-                "Oppfølging",
-                "Se at tiltakene blir gjort, og at noen sjekker om de virket.",
-                "Hvordan skal vi se om tiltakene virket, og når?"
-              ]
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Steg 1 · Planlegging",
+                "title": "Være med når rytmen og spørsmålene velges.",
+                "text": "**Spør:** Når skal kartleggingen gjøres, og hvem er med på å velge spørsmålene?"
+              },
+              {
+                "date": "Steg 2 · Kartlegging",
+                "title": "Oppfordre kollegene til å svare, og kunne forklare hvorfor det er trygt.",
+                "text": "**Spør:** Hvordan er anonymiteten sikret, og hvor små grupper vises?"
+              },
+              {
+                "date": "Steg 3 · Risikovurdering",
+                "title": "Vurdere tallene sammen med ledelsen – ikke få et sammendrag etterpå.",
+                "text": "**Spør:** Får jeg se de samme tallene som ledelsen, og er jeg med når risikoen vurderes?"
+              },
+              {
+                "date": "Steg 4 · Tiltak",
+                "title": "Være med når tiltakene velges, og se at de retter seg mot årsakene.",
+                "text": "**Spør:** Har hvert tiltak en ansvarlig og en frist, og retter det seg mot årsaken?"
+              },
+              {
+                "date": "Steg 5 · Oppfølging",
+                "title": "Se at tiltakene blir gjort, og at noen sjekker om de virket.",
+                "text": "**Spør:** Hvordan skal vi se om tiltakene virket, og når?"
+              }
             ]
           },
           {
@@ -4880,12 +4900,26 @@
             "text": "Loven gir verneombudet en fast vei å gå. Blir du kjent med forhold som kan gi helsefare, skal du gjøre arbeidsgiveren oppmerksom på det, og arbeidsgiveren skal gi deg svar. Er det ikke tatt hensyn til meldingen innen rimelig tid, skal du underrette Arbeidstilsynet eller arbeidsmiljøutvalget (aml § 6-2 tredje ledd)."
           },
           {
-            "t": "ol",
+            "t": "ladder",
             "items": [
-              "Ta det opp med nærmeste leder eller daglig leder, gjerne skriftlig.",
-              "Vis til tallene: hvilke faktorer, hvilke grupper, og hvordan de har utviklet seg.",
-              "Be om svar, og om hva som skal gjøres og når.",
-              "Får du ikke svar innen rimelig tid: ta det til arbeidsmiljøutvalget, der det finnes, eller til Arbeidstilsynet."
+              {
+                "title": "Ta det opp",
+                "text": "Med nærmeste leder eller daglig leder, gjerne skriftlig."
+              },
+              {
+                "title": "Vis til tallene",
+                "text": "Hvilke faktorer, hvilke grupper, og hvordan de har utviklet seg."
+              },
+              {
+                "title": "Be om svar",
+                "text": "Og om hva som skal gjøres, og når. Arbeidsgiveren skal svare.",
+                "ref": "aml § 6-2 tredje ledd"
+              },
+              {
+                "title": "Gå videre",
+                "text": "Uten svar innen rimelig tid: til arbeidsmiljøutvalget, der det finnes, eller til Arbeidstilsynet.",
+                "ref": "aml § 6-2 tredje ledd"
+              }
             ]
           },
           {

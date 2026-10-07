@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { INFORMATIONAL_PAGES, LANDING_ARTICLES, LANDING_HERO, LANDING_RELATED, landingKey, type LandingSlug } from '@/lib/marketing/site'
 import { PageTemplate } from './PageTemplate'
 import { LawArt } from './art/LawArt'
+import { SafetyRepArt } from './art/SafetyRepArt'
 
 /**
  * A landing page: one search intent, one reader, one offer (D-79). It is a PageTemplate
@@ -19,7 +20,7 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
         parent={{ name: t('seo.index.crumb'), path: '/artikler' }}
         articles={LANDING_ARTICLES[slug]}
         informational
-        heroArt={slug === 'lovkrav' ? <LawArt className="h-auto w-full max-w-[440px]" /> : undefined}
+        heroArt={slug === 'lovkrav' ? <LawArt className="h-auto w-full max-w-[440px]" /> : <SafetyRepArt className="h-auto w-full max-w-[440px]" />}
       />
     )
   return (
