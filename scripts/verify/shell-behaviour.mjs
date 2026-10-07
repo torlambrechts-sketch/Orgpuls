@@ -4,7 +4,7 @@
  *
  * Signs in with ORGPULS_DEV_EMAIL / ORGPULS_DEV_PASSWORD (read from the environment, used
  * once, never printed) against a running app on :3000 with the design fixture seeded, then
- * walks the layout toggle, the rail, Enkel/Full, the keyboard order and focus rings, the help
+ * walks the layout toggle, the rail, that no Enkel/Full switch is offered (D-247), the keyboard order and focus rings, the help
  * panel by keyboard, and a phone-width load in the side layout. Prints PASS/FAIL per check.
  *
  *   node scripts/verify/shell-behaviour.mjs
@@ -43,22 +43,15 @@ await p.getByRole('button', { name: 'Utvid menyen' }).click()
 await p.getByRole('button', { name: 'Bytt til toppmeny' }).click(); await p.waitForTimeout(400)
 ok('back to the top layout', (await railWidth()) === 0 && await p.evaluate(() => getComputedStyle(document.querySelector('main')).maxWidth) === '1180px')
 
-await p.getByRole('button', { name: 'Enkel', exact: true }).click(); await p.waitForURL('**/innsikt'); await p.waitForLoadState('networkidle')
-ok('Enkel on Tiltak goes to Innsikt', new URL(p.url()).pathname === '/innsikt')
-ok('Enkel nav is Oversikt alone', JSON.stringify(await navNames()) === JSON.stringify(['Oversikt']), JSON.stringify(await navNames()))
-await p.reload({ waitUntil: 'networkidle' })
-ok('Enkel survives a reload', (await navNames()).length === 1)
-await p.getByRole('button', { name: 'Full', exact: true }).click(); await p.waitForTimeout(800)
-ok('Full brings the five back', (await navNames()).length === 5)
+// the Enkel/Full switch waits (D-247): the header offers none, and the five screens stay
+ok('no Enkel/Full switch in the header', (await p.getByRole('button', { name: 'Enkel', exact: true }).count()) === 0)
+ok('the nav has its five screens', (await navNames()).length === 5)
 
-// Oppsett is reached from the account menu (D-81), and Enkel keeps you there
+// Oppsett is reached from the account menu (D-81)
 await p.getByRole('button', { name: /^Konto/ }).click()
 await Promise.all([p.waitForURL('**/oppsett'), p.getByRole('link', { name: 'Oppsett', exact: true }).click()])
 ok('Oppsett opens from the account menu', new URL(p.url()).pathname === '/oppsett')
 ok('on Oppsett, no nav entry is current and the menu marks the page', (await p.locator('header nav a[aria-current="page"]').count()) === 0)
-await p.getByRole('button', { name: 'Enkel', exact: true }).click(); await p.waitForTimeout(1000)
-ok('switching to Enkel on Oppsett stays on Oppsett', new URL(p.url()).pathname === '/oppsett')
-await p.getByRole('button', { name: 'Full', exact: true }).click(); await p.waitForTimeout(800)
 
 // keyboard
 await p.goto(base + '/innsikt', { waitUntil: 'networkidle' })

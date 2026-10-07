@@ -23,10 +23,10 @@ const h1 = () => p.getByRole('heading', { level: 1 }).innerText()
 const pressed = () => p.locator('[role=group][aria-label="Visning av Innsikt"] button[aria-pressed=true]').innerText()
 const cookie = async (name) => (await ctx.cookies()).find((c) => c.name === name)?.value
 
-// the shell decides the first view: Enkel → Enkel, Full → Avansert
-await ctx.addCookies([{ name: 'op_view', value: 'enkel', url: base }])
+// design 3's rule decides the first view (D-247): the fixture's daglig leder, 34 employees, opens on Enkel
 await p.goto(base + '/innsikt', { waitUntil: 'networkidle' })
-ok('in the Enkel shell, Innsikt opens on Enkel', (await pressed()) === 'Enkel')
+ok('a small organisation\'s daglig leder opens on Enkel', (await pressed()) === 'Enkel')
+ok('the header offers no Enkel/Full switch', (await p.locator('header [role=group] button', { hasText: /^Full$/ }).count()) === 0)
 ok('Enkel greets by name', /^God (morgen|dag|kveld)/.test(await h1()), await h1())
 ok('Enkel has its five figures', (await p.locator('main .grid > div .text-\\[11px\\]').count()) >= 4)
 for (const name of ['Siden sist', 'Venter på deg', 'Dette går bra', 'Her kan dere bli bedre']) {
@@ -34,9 +34,9 @@ for (const name of ['Siden sist', 'Venter på deg', 'Dette går bra', 'Her kan d
 }
 ok('«Se hele resultatet» goes to Resultater', (await p.getByRole('link', { name: 'Se hele resultatet' }).getAttribute('href')) === '/resultater')
 
-await ctx.addCookies([{ name: 'op_view', value: 'full', url: base }])
+await ctx.addCookies([{ name: 'op_innsikt', value: 'avansert', url: base }])
 await p.goto(base + '/innsikt', { waitUntil: 'networkidle' })
-ok('in the Full shell, Innsikt opens on Avansert', (await pressed()) === 'Avansert')
+ok('a chosen Avansert opens on Avansert', (await pressed()) === 'Avansert')
 ok('Avansert heads with the question', (await h1()) === 'Hvor dere bør bruke tiden')
 const compare = await p.getByRole('link', { name: /^Sammenlign med/ }).getAttribute('href').catch(() => null)
 ok('«Sammenlign med» opens Resultater with the two rounds', !!compare && /^\/resultater\?maling=[0-9a-f-]{36}&mot=[0-9a-f-]{36}$/.test(compare), String(compare))
@@ -48,7 +48,7 @@ await p.waitForFunction(() => document.querySelector('[role=group][aria-label="V
 ok('the switch changes the view', /^God /.test(await h1()))
 ok('and remembers it', (await cookie('op_innsikt')) === 'enkel')
 await p.reload({ waitUntil: 'networkidle' })
-ok('a reload keeps the chosen view, over the shell\'s', (await pressed()) === 'Enkel')
+ok('a reload keeps the chosen view', (await pressed()) === 'Enkel')
 
 // keyboard: the switch is reachable and shows focus
 await p.locator('[role=group][aria-label="Visning av Innsikt"] button').first().focus()

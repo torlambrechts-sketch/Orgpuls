@@ -186,26 +186,7 @@ export function HeaderBar({
             <span className="max-md:hidden">{t('header.help')}</span>
           </button>
 
-          <span
-            role="group"
-            aria-label={t('header.modeAria')}
-            title={t('header.modeTitle')}
-            className="flex rounded-bar bg-track p-[2px]"
-          >
-            {(['enkel', 'full'] as const).map((v) => (
-              <button
-                key={v}
-                type="button"
-                aria-pressed={prefs.view === v}
-                onClick={() => prefs.view !== v && setPref('view', v)}
-                className={`cursor-pointer rounded-[7px] border-none px-[11px] py-[6px] text-[12px] font-bold ${
-                  prefs.view === v ? 'bg-ink text-bg' : 'bg-transparent text-mut'
-                }`}
-              >
-                {v === 'enkel' ? t('header.modeEnkel') : t('header.modeFull')}
-              </button>
-            ))}
-          </span>
+          {/* the Enkel/Full switch waits (Tor, 7 October 2026, D-247): every person is in Full */}
 
           {trailing}
         </span>

@@ -3,8 +3,8 @@
  * (`ixMode`, «Visning»), separate from the shell's Enkel/Full: a person in Full may still want
  * the short page, and the other way round.
  *
- * Unset, it follows the shell: Full opens on Avansert, Enkel on Enkel. A choice the person
- * makes is kept in a first-party cookie, read on the server so the first paint is the right
+ * Unset, design 3's rule decides: a small organisation's daglig leder opens on Enkel, everyone else
+ * on Avansert (D-247; before, the shell's own Enkel/Full did). A choice the person makes is kept in a first-party cookie, read on the server so the first paint is the right
  * view – a convenience, like the shell's own preferences (lib/shell/prefs.ts).
  */
 import type { ViewMode } from '@/lib/shell/prefs'

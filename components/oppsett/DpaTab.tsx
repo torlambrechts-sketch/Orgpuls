@@ -118,7 +118,7 @@ export async function DpaTab({
       <article className="rounded-panel border border-line bg-sf px-[clamp(20px,4vw,40px)] py-[clamp(22px,4vw,36px)] print:border-0 print:p-0">
         <p className="m-0 text-[11px] uppercase tracking-[0.11em] text-mut">{t('oppsett.dpa.versionLabel', { version })}</p>
         <h2 className="m-0 mt-[8px] font-display text-[28px] font-semibold leading-[1.15]">{text.title}</h2>
-        <p className="mb-0 mt-[10px] max-w-[72ch] text-[14px] leading-[1.65] text-body [text-wrap:pretty]">{text.lead}</p>
+        <p className="mb-0 mt-[10px] text-[14px] leading-[1.65] text-body [text-wrap:pretty]">{text.lead}</p>
 
         <dl className="m-0 mt-[18px] grid gap-[10px] sm:grid-cols-2">
           <div className="rounded-cta border border-line bg-bg px-[16px] py-[12px]">
@@ -140,12 +140,12 @@ export async function DpaTab({
             <section key={s.h} className="mt-[18px] break-inside-avoid-page">
               <h3 className="m-0 text-[15px] font-bold">{s.h}</h3>
               {(s.p ?? []).map((p) => (
-                <p key={p} className="mb-0 mt-[6px] max-w-[72ch] text-[13.5px] leading-[1.65] text-body [text-wrap:pretty]">
+                <p key={p} className="mb-0 mt-[6px] text-[13.5px] leading-[1.65] text-body [text-wrap:pretty]">
                   {p}
                 </p>
               ))}
               {s.ul?.length ? (
-                <ul className="mb-0 mt-[6px] flex max-w-[72ch] list-disc flex-col gap-[4px] pl-[20px] text-[13.5px] leading-[1.6] text-body">
+                <ul className="mb-0 mt-[6px] flex list-disc flex-col gap-[4px] pl-[20px] text-[13.5px] leading-[1.6] text-body">
                   {s.ul.map((li) => (
                     <li key={li}>{li}</li>
                   ))}

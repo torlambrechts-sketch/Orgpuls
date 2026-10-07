@@ -11827,3 +11827,19 @@ mail program or copy. It is put together in the browser: Orgpuls neither sends i
 it or to whom, so there is no list of third parties' addresses and no message sent on anyone's
 behalf. The link in it carries `utm_source=verneombud&utm_medium=tips`, never a person. Its texts are
 in the legal review with the page (`lp.verneombud`). The page map for /verneombud is regenerated.
+
+## D-247 — The Enkel/Full switch waits; the data processing agreement uses the card's width (2026-10-07)
+
+Tor, 7 October 2026: «Fjern også enkelt | full valget på toppmenyen, vi venter med den funksjonaliteten».
+
+- **The header** no longer draws design 3's Enkel/Full switch (D-70, D-71). `getShellPrefs` answers
+  Full for everyone, whatever an `op_view` cookie from before says, so nobody is left in Enkel's narrowed
+  navigation with no switch to leave it by. The Enkel code paths stay (`visibleNav`, `labelOf`, the
+  shell context) for when the switch returns; its messages (`header.mode*`) stay with them.
+- **Innsikt's first view** followed the shell (D-244). It now follows design 3's rule directly
+  (`innsiktDefault`): a small organisation's daglig leder opens on Enkel, everyone else on Avansert; a
+  person's own choice still wins. `scripts/verify/innsikt-behaviour.mjs` and `shell-behaviour.mjs`
+  check this and that no switch is offered.
+- **Oppsett › Databehandleravtale**: the agreement's paragraphs and lists were held to 72 characters
+  (`max-w-[72ch]`) inside a full-width card, so the text filled about half of it. They now use the
+  card's width, like the signing panel above them.

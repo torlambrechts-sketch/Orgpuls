@@ -15,7 +15,21 @@ export function defaultView(role: string | null, employees: number | null): View
   return role === 'daglig_leder' && employees !== null && employees < 50 ? 'enkel' : 'full'
 }
 
+/**
+ * The Enkel/Full switch waits (Tor, 7 October 2026, D-247): the header no longer offers it, and every
+ * person is in Full whatever a cookie from before says, so nobody is left in a narrowed navigation
+ * with no way out. The layout and the rail are still the person's.
+ */
 export async function getShellPrefs(): Promise<ShellPrefs> {
-  const [jar, role, org] = await Promise.all([cookies(), getViewerRole(), getOrganization()])
-  return parsePrefs((name) => jar.get(name)?.value, defaultView(role, org?.employee_count ?? null))
+  const jar = await cookies()
+  return { ...parsePrefs((name) => jar.get(name)?.value, 'full'), view: 'full' }
+}
+
+/**
+ * The view Innsikt opens on until a person picks one (D-244, D-247): design 3's rule, which chose the
+ * shell's view before, now chooses Innsikt's – a small organisation's daglig leder starts in Enkel.
+ */
+export async function innsiktDefault(): Promise<ViewMode> {
+  const [role, org] = await Promise.all([getViewerRole(), getOrganization()])
+  return defaultView(role, org?.employee_count ?? null)
 }
