@@ -221,6 +221,27 @@ innvandrerbakgrunn. … Det finnes ikke tall eller statistikk på språknivå, m
 språkforståelse er og har vært en utfordring i sektoren». Siden bruker NOAs «1 av 5 på sykehjem er innvandrere»
 (kilde 3) og påstår ikke noe om språknivå.
 
+## Regelverket under hver utfordring (D-240)
+
+Linjene «Regelverket» på kortene er sjekket mot arbeidsmiljøloven slik den står på Lovdata etter
+endringslov 19. juni 2026 nr. 33, hentet 2026-10-07 (leddene i § 4-3 er nummerert etter gjeldende tekst:
+trakassering femte ledd, vold og trusler sjette ledd), og mot forskriftene som er nevnt over.
+
+| Utfordring | Hjemmel | Det teksten sier |
+|---|---|---|
+| Vold og trusler | aml § 4-3 sjette ledd, § 4-1 tredje ledd; forskriften kap. 3A | «Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre.»; «Det skal vurderes om det er særlig risiko knyttet til alenearbeid i virksomheten.»; forskriften kap. 3A: kartlegging og risikovurdering (§ 3A-2, der bemanning og alenearbeid nevnes), tiltak, opplæring og oppfølging |
+| Følelsene | aml § 4-3 andre ledd b og d | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet» |
+| For få på vakt | aml § 4-3 andre ledd c; forskriften § 3A-2 | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet»; forskriften kap. 3A: kartlegging og risikovurdering (§ 3A-2, der bemanning og alenearbeid nevnes), tiltak, opplæring og oppfølging |
+| Rollekonflikt og seksuell oppmerksomhet | aml § 4-3 andre ledd a, femte ledd | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet»; «Arbeidstaker skal ikke utsettes for trakassering, herunder seksuell trakassering …» |
+| Turnus og natt | aml §§ 10-3, 10-8, 10-11 | arbeidsplan ved arbeid til ulike tider på døgnet, «utarbeides i samarbeid med arbeidstakernes tillitsvalgte»; «minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer», «35 timer i løpet av sju dager»; tredje ledd: unntak ved skriftlig avtale med tillitsvalgte i tariffbundet virksomhet, med kompenserende hvile; «Nattarbeid er ikke tillatt med mindre arbeidets art gjør det nødvendig.» |
+| Deltid | aml §§ 14-3 og 14-4 a | «Deltidsansatte har fortrinnsrett til utvidet stilling fremfor at arbeidsgiver foretar ny ansettelse …»; rett til stilling tilsvarende faktisk arbeidstid de siste 12 månedene, «med mindre arbeidsgiver kan dokumentere at behovet for merarbeidet ikke lenger foreligger» (siden: «som hovedregel») |
+| Nye og vikarer | aml § 3-2 første ledd a, § 4-2 andre ledd b | a «den opplæring, øvelse og instruksjon som er nødvendig», b den som leder eller kontrollerer andre, skal ha «nødvendig kompetanse»; «arbeidet organiseres og tilrettelegges under hensyn til den enkelte arbeidstakers arbeidsevne, kyndighet, alder og øvrige forutsetninger» |
+| Tunge løft | aml § 4-4 andre ledd | «Nødvendige hjelpemidler skal stilles til arbeidstakers disposisjon. Det skal legges til rette for variasjon i arbeidet og for å unngå tunge løft …» |
+
+## Sammenligningen (D-240)
+
+Figuren «Helse og omsorg mot alle sysselsatte» bruker bare tall som står over: vold 34/5 %, rollekonflikt 22/13 %, uønsket seksuell oppmerksomhet 18/5 % og ubekvemme løft 30/14 % (sykehjem, kilde 3), høye emosjonelle krav 38/20 % (hjemmetjenesten, kilde 4), deltid 35/24 % (kilde 1) og sykefravær 9,6/6,6 % (kilde 2), de to siste mot alle næringer.
+
 ## Produktpåstander
 
 Det siden sier om Orgpuls, er sjekket mot koden, ikke mot en kilde utenfor: se D-210 i docs/DEVIATIONS.md

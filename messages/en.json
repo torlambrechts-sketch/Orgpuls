@@ -11280,7 +11280,8 @@
         "facts": "{factors} factors · {statements} statements · about {minutes} min extra",
         "lawSays": "The rules",
         "more": "Read more",
-        "less": "Show less"
+        "less": "Show less",
+        "ownScale": "own scale"
       },
       "handel": {
         "nav": "Retail",
@@ -11344,8 +11345,7 @@
           "k": "Compared",
           "title": "Shop workers against all employed",
           "lead": "The share in shop retail and among all employed. The part-time figures cover the whole of retail.",
-          "retail": "Shop retail",
-          "retailDeltid": "Retail",
+          "industry": "Shop retail",
           "all": "All employed",
           "items": [
             "Work standing",
@@ -11353,7 +11353,10 @@
             "Have conflicts with customers",
             "Do awkward lifts",
             "Work part-time"
-          ]
+          ],
+          "groups": {
+            "varehandel": "Retail"
+          }
         },
         "why": {
           "k": "The law",
@@ -11642,13 +11645,13 @@
       "bygg": {
         "nav": "Construction",
         "seo": {
-          "title": "Work environment survey for construction | Orgpuls",
-          "description": "Survey the work environment on site: time pressure, many companies, language in the team and new people. Anonymous by text or QR. 15 days free."
+          "title": "The work environment in construction: risks, figures and the law | Orgpuls",
+          "description": "Time pressure, many firms on one site, language and near misses in construction: figures from the Labour Inspection Authority, STAMI and Fafo."
         },
         "hero": {
           "k": "Construction · contractors and trades",
-          "h1": "A work environment survey for construction: see what wears the crew down – and follow it up",
-          "lead": "See where time pressure, many companies on site and language in the team create pressure – for the whole business and for each project with enough answers. The crew answers anonymously on their phones. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "h1": "The work environment in construction: risks, figures and the law",
+          "lead": "Time pressure, many firms on the same site, language and long days shape the working day for many in construction. This is what the Labour Inspection Authority, STAMI and Fafo have found about the work environment in the industry, and what the Working Environment Act and the regulations require of the employer.",
           "secondary": "See the construction questions",
           "figure": {
             "title": "How the crew answers",
@@ -11668,7 +11671,8 @@
               "t": "Report for the Labour Inspection Authority",
               "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
             }
-          ]
+          ],
+          "jump": "What Orgpuls does for construction"
         },
         "stats": {
           "k": "Everyday work in figures",
@@ -11696,9 +11700,29 @@
           "note": "Fafo’s report on health and safety in construction describes how reporting unwanted incidents can be seen as snitching, how a loose tie to the employer can lead many not to report, and how fear of reprisals applies particularly to foreign workers.",
           "text": "An anonymous questionnaire gives the crew a way to say it without standing up in front of everyone. The construction module asks about near misses that were not reported, and the answer is shown only as a count for the whole business."
         },
+        "compare": {
+          "k": "Compared",
+          "title": "Construction against all employed",
+          "lead": "The share in construction and among all employed, and occupational injuries per 1,000 employed. Under each row is the part of the industry the figure is for.",
+          "industry": "Construction",
+          "all": "All employed",
+          "items": [
+            "Do heavy physical work",
+            "Work more than 48 hours a week",
+            "Occupational injuries per 1,000 employed"
+          ],
+          "groups": {
+            "bygg": "Building work",
+            "anlegg": "Civil engineering",
+            "begge": "Construction, 2024 – against all industries"
+          },
+          "units": {
+            "per1000": "per 1,000"
+          }
+        },
         "why": {
-          "k": "Why survey",
-          "title": "Why a construction company has to survey its work environment",
+          "k": "The law",
+          "title": "What the law requires of employers in construction",
           "lead": "The Working Environment Act applies to every employer with employees, including the trade business with five in the team. On a building site there are requirements of its own on top: coordination when several companies work in one place, and a language everyone in the work team understands.",
           "law": {
             "title": "What the law asks of a construction company",
@@ -11746,56 +11770,83 @@
           }
         },
         "challenges": {
-          "k": "Challenges and solutions",
-          "title": "Eight challenges on the building site – and how to tackle them",
-          "lead": "The challenges come from Norwegian research and inspections. Under each you see which questions measure it, and what you get to work with.",
+          "k": "The challenges",
+          "title": "Eight known risks on the building site – and what the rules say",
+          "lead": "The challenges come from the Labour Inspection Authority, STAMI and Fafo. Under each one is what the Act and the regulations require of the employer.",
           "items": [
             {
               "t": "Time pressure that comes before safety",
               "looks": "The concrete truck is booked, the scaffolding is not finished, and the client is waiting. That is when the shortcuts get taken.",
               "fig": "Fafo’s informants describe ever greater time pressure in projects, making it more tempting to take shortcuts. The accidents the Labour Inspection Authority has analysed typically happened in work that departed from the original plan.",
+              "vl": "The accidents the Labour Inspection Authority has analysed typically happened in work that departed from the original plan.",
+              "ref": "WEA § 4-1 second paragraph · § 4-3 second paragraph c",
+              "law": "The organisation, arrangement and management of work must be such that employees are not exposed to undue strain, and so that safety is ensured (WEA § 4-1, second paragraph). Workload and time pressure is one of the psychosocial factors the Act names (§ 4-3, second paragraph, letter c).",
               "solve": "The factor Safety before progress asks whether safety holds when time is short, and whether people can stop an unsafe job without getting into trouble. Planning and progress shows whether the schedule is realistic. A yes/no question counts how many have been asked to do a job they thought was unsafe."
             },
             {
               "t": "Many companies on one site",
               "looks": "A main contractor, three subcontractors and an electrician who arrived today. Who tells whom when the crane lifts over the roof?",
               "fig": "Lack of planning and communication between businesses has been a cause in many of the accidents the Labour Inspection Authority has analysed. Construction firms in the Oslo region have met the ban on hiring from staffing agencies with, among other things, more subcontractors and more overtime.",
+              "vl": "Lack of planning and communication between businesses has been a cause in many of the accidents the Labour Inspection Authority has analysed.",
+              "ref": "WEA § 2-2 second paragraph",
+              "law": "When several businesses work at the same workplace, the principal enterprise is responsible for coordinating their health, environment and safety work (WEA § 2-2, second paragraph).",
               "solve": "The factor Coordination on site asks whether it is clear who is in charge when several companies work together, and whether you are told about the risk in the work others are doing around you. The suggested measures are concrete, such as a joint morning meeting for every company on site."
             },
             {
               "t": "The instruction nobody understood",
               "looks": "The foreman gives instructions in Norwegian, one person in the team translates, and the rest nod. Nobody asks again.",
               "fig": "In a 2017 survey Fafo refers to, 29 % of employers had seen language problems lead to an accident or near miss. Among Polish and Lithuanian labour migrants living in Norway, 8 % said they did not speak Norwegian, and 30 % that they spoke quite little.",
+              "v": "29 %",
+              "vl": "of employers in a 2017 survey had seen language problems lead to an accident or near miss",
+              "ref": "Construction Client Regulations § 19a",
+              "law": "The employer must in particular make sure that, where safety requires it, at least one person in every team can understand and make themselves understood in a language the others in the team understand (Construction Client Regulations § 19a, second paragraph).",
               "solve": "The factor Language and instructions asks whether safety information is given in a language each person understands well, whether there is always someone in the team who can pass messages between languages, and whether it is fine to ask again. The crew can answer in Polish and Lithuanian as well as Norwegian and English; the Polish and Lithuanian texts are machine-translated."
             },
             {
               "t": "New, young and hired-in workers in the team",
               "looks": "An apprentice on their first project, two hired-in workers who arrived on Monday and a summer temp. All get tasks before they know the site.",
               "fig": "Young people under 25, people new in the job and hired-in workers are among the groups the Labour Inspection Authority names as most exposed to accidents. The injury rate is considerably higher in the youngest age groups.",
+              "vl": "The injury rate is considerably higher in the youngest age groups.",
+              "ref": "WEA § 3-2 first paragraph a and b",
+              "law": "The employer must make sure employees know the accident and health hazards of the work and get the training, practice and instruction they need (WEA § 3-2, first paragraph, letter a). Anyone who leads or supervises others must have the competence to see that the work is done safely (letter b).",
               "solve": "The factor New and young people in the team asks whether new people are trained before they get risky tasks, whether they have a fixed person to ask, and whether they get time to learn. Hired-in workers who are part of the team can be added to your employee list, and then they answer like everyone else."
             },
             {
               "t": "The near miss nobody reports",
               "looks": "A panel slips from the crane and lands where someone stood ten minutes earlier. No deviation report is written.",
               "fig": "Fafo describes how reporting unwanted incidents can be seen as snitching, and that many with a loose tie to the employer do not report. Fear of reprisals applies particularly to foreign workers.",
+              "vl": "Reporting unwanted incidents can be seen as snitching, and fear of reprisals applies particularly to foreign workers, Fafo describes.",
+              "ref": "WEA § 2-3 second paragraph b · § 5-1",
+              "law": "Employees must immediately tell the employer and the safety representative when they become aware of faults or defects that may endanger life or health (WEA § 2-3, second paragraph, letter b). The employer must make sure every injury at work is registered (§ 5-1).",
               "solve": "A yes/no question counts near misses that were not reported – only as a count for the whole business, never per project. Safety in the team asks whether you speak up to each other and learn from incidents, and Freedom to speak up in the main survey shows whether people dare to say something."
             },
             {
               "t": "Teams that do not talk to each other",
               "looks": "Each team eats on its own in the site hut. When something goes wrong, it is easier to blame the others than to speak up.",
               "fig": "An informant in Fafo’s report describes how the divides carry into the break rooms and can cause conflict and a lack of trust between people from different countries. The Labour Inspection Authority names a good climate for speaking up between workers and managers as important for safety.",
+              "vl": "Divides between people from different countries can carry into the break rooms and cause conflict and a lack of trust, an informant tells Fafo.",
+              "ref": "WEA § 4-3 second paragraph d and fourth paragraph",
+              "law": "Support and help at work is one of the psychosocial factors the Act names (WEA § 4-3, second paragraph, letter d). Work must as far as possible be designed to allow contact and communication with other employees (fourth paragraph).",
               "solve": "The main survey measures Support from colleagues and Integrity and dignity, and asks anonymously about offensive behaviour. That question is shown only as a count for the whole business."
             },
             {
               "t": "Long days and a long way home",
               "looks": "Long days to earn the time off, and then the flight or the drive home. On Sunday evening the trip back begins.",
               "fig": "12 % in civil engineering work more than 48 hours a week, against 8.2 % of all employed. Fafo’s informants name working hours as a known risk, particularly for those who commute between their home country and Norway and work long days to earn time off.",
+              "v": "12 %",
+              "vl": "in civil engineering work more than 48 hours a week, against 8.2 % of all employed",
+              "ref": "WEA §§ 10-4 and 10-8",
+              "law": "Normal working hours must not exceed nine hours in 24 hours and 40 hours in seven days (WEA § 10-4). Employees must have at least 11 consecutive hours off work in every 24 hours and 35 hours in every seven days (WEA § 10-8). Exceptions require a written agreement with the employee representatives in a business bound by a collective agreement, and compensating rest.",
               "solve": "The factor Working hours and recovery asks whether working hours give enough rest, whether travel time and commuting are manageable over time, and whether overtime is the exception rather than the rule."
             },
             {
               "t": "When something nearly went wrong",
               "looks": "After a fall from the scaffolding, work is under way again the next morning. Nobody asks those who stood next to it how they are doing.",
               "fig": "3,902 occupational injuries were registered in construction in 2024. 43 % in building work do heavy physical work, against 21 % of all employed.",
+              "v": "43 %",
+              "vl": "in building work do heavy physical work, against 21 % of all employed",
+              "ref": "WEA § 4-4 second paragraph · § 5-1",
+              "law": "The workplace must be designed so that employees avoid undue physical strain, and necessary aids must be provided (WEA § 4-4, second paragraph). Every injury at work must be registered (§ 5-1).",
               "solve": "The factor Saying you're not doing well asks whether there is a talk with those who were there after an accident or near miss, and whether people know where to get help. One of the suggestions is to gather those who were there the same week, with a manager or the occupational health service."
             }
           ]
@@ -11811,6 +11862,12 @@
           "arbeidstid_og_restitusjon": "Working hours and recovery"
         },
         "moduleTag": "Construction module",
+        "orgpuls": {
+          "k": "Orgpuls for construction",
+          "title": "How Orgpuls measures this on the building site",
+          "lead": "Orgpuls is a work environment survey built on QPS Nordic, with its own module for construction on top of the main survey. This is what it asks about, and how the answers become measures.",
+          "measures": "What Orgpuls asks about, challenge by challenge"
+        },
         "proof": {
           "k": "What it looks like",
           "title": "From answers to measures in one tool",
@@ -11958,13 +12015,13 @@
       "kontor": {
         "nav": "Knowledge and office work",
         "seo": {
-          "title": "Work environment survey for knowledge and office work | Orgpuls",
-          "description": "Survey the work environment in consultancy, IT, finance and media: focus, availability, hybrid work and AI. Simplified or extended. Free for 15 days."
+          "title": "The work environment in knowledge and office work: risks, figures and the law | Orgpuls",
+          "description": "Availability, focus, working from home and reorganisation in knowledge and office work: figures from STAMI, Fafo and Statistics Norway."
         },
         "hero": {
           "k": "Knowledge and office work · consultancy, IT, finance, media and real estate",
-          "h1": "A work environment survey for knowledge and office work: see what eats into focus and free time – and follow it up",
-          "lead": "See where interruptions, pressure to answer after hours and hybrid work take their toll – for the whole business and for each team with enough answers. Choose simplified or extended, and pick the factors that fit your working day. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "h1": "The work environment in knowledge and office work: risks, figures and the law",
+          "lead": "Interruptions, expectations of being available, working from home and constant change shape the working day for many in knowledge and office work. This is what STAMI, Fafo and Statistics Norway have found about the work environment, and what the Working Environment Act and the home office regulation require of the employer.",
           "secondary": "See the knowledge and office questions",
           "figure": {
             "title": "How your staff answer",
@@ -11984,7 +12041,8 @@
               "t": "Report for the Labour Inspection Authority",
               "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
             }
-          ]
+          ],
+          "jump": "What Orgpuls does for knowledge and office work"
         },
         "stats": {
           "k": "Working life in figures",
@@ -12012,9 +12070,23 @@
           "note": "86% of people in office workplaces are satisfied with their job, against 83% of all employed, and sick leave is below average. Even so, 1 in 5 report mental health complaints wholly or partly caused by their job.",
           "text": "An anonymous questionnaire shows what is not said at the all-hands. Among other things, the office module asks whether employees have been contacted in their free time with an answer expected. The answer is shown only as a count for the whole business."
         },
+        "compare": {
+          "k": "Compared",
+          "title": "Office workplaces against all employed",
+          "lead": "The share in office workplaces and among all employed.",
+          "industry": "Office workplaces",
+          "all": "All employed",
+          "items": [
+            "Work from home or on the move outside working hours every week",
+            "Feel expected to be available in their free time",
+            "Have been through a reorganisation",
+            "Do repetitive arm and hand movements",
+            "Are satisfied with their job"
+          ]
+        },
         "why": {
-          "k": "Why survey",
-          "title": "Why an office business has to survey its work environment",
+          "k": "The law",
+          "title": "What the law requires of employers in knowledge and office work",
           "lead": "The Working Environment Act applies to every employer with employees – including the consultancy with six consultants. For knowledge work, the law points among other things to workload and time pressure, unclear expectations and support at work, and the home office is part of the work environment.",
           "law": {
             "title": "What the law requires in knowledge and office work",
@@ -12062,56 +12134,88 @@
           }
         },
         "challenges": {
-          "k": "Challenges and solutions",
-          "title": "Eight challenges in knowledge and office work – and how to tackle them",
-          "lead": "Many office workplaces score well on a lot. The challenges here are what is particular to knowledge work, drawn from Norwegian research, statistics and guidance. Under each one you see which questions measure it and what you get to work with.",
+          "k": "The challenges",
+          "title": "Eight known risks in knowledge and office work – and what the rules say",
+          "lead": "The challenges come from STAMI, Fafo, Statistics Norway and Abelia. Under each one is what the Act and the regulations require of the employer.",
           "items": [
             {
               "t": "No peace to think",
               "looks": "A quick question at your desk, notifications in three channels, four meetings before lunch. The work that needs concentration gets done after everyone else has gone home.",
               "fig": "58% of people who work in an office sit in a shared office or open plan all or part of the time. In Fafo's evaluation of an activity-based office in the ministries, work that needs concentration was experienced as harder in the open plan.",
+              "v": "58 %",
+              "vl": "sit in a shared office or open plan all or part of the time",
+              "ref": "WEA § 4-1 first paragraph · § 4-4 first paragraph",
+              "law": "The work environment must be fully satisfactory based on an individual and overall assessment of the factors that may affect employees’ health and welfare (WEA § 4-1, first paragraph). Physical conditions such as indoor climate, light and noise must also be fully satisfactory (§ 4-4, first paragraph).",
               "solve": "Focus and interruptions asks whether people get uninterrupted time for work that needs concentration, and whether they are disturbed when they need quiet. Meeting culture asks whether meetings are useful. In the simplified set they come together as Concentration and workflow, with suggestions such as fixed focus blocks and a meeting review."
             },
             {
               "t": "Always available",
               "looks": "The client e-mails on Sunday evening, and the manager answers in the chat at eleven at night. Nobody has said you must reply – but everyone does.",
               "fig": "22% of people in office workplaces feel they are expected to be available in their free time, against 19% of all employed. Expectations are often informal and unspoken, Fafo writes.",
+              "v": "22 %",
+              "vl": "feel expected to be available in their free time, against 19 % of all employed",
+              "ref": "WEA § 10-8",
+              "law": "Employees must have at least 11 consecutive hours off work in every 24 hours and 35 hours in every seven days (WEA § 10-8). Exceptions require a written agreement with the employee representatives in a business bound by a collective agreement, and compensating rest.",
               "solve": "Availability asks whether it is accepted not to answer outside working hours, and whether the team has clear agreements on when to be available. A yes/no question counts how many have been contacted in their free time with an answer expected – shown only as a count for the whole business. One of the suggestions is a team availability agreement."
             },
             {
               "t": "Work comes home",
               "looks": "The laptop sits on the kitchen table, and “just one more thing” turns into an hour every evening. It is flexible – until it isn't.",
               "fig": "Among employees without management duties, 41% in professional occupations get work enquiries in their free time at least once a week, against 17% of operators and craft workers. Two in three managers with staff get such enquiries every week.",
+              "v": "41 %",
+              "vl": "in professional occupations without management duties get work enquiries in their free time at least once a week",
+              "ref": "WEA § 10-8 first paragraph · § 4-1 second paragraph",
+              "law": "Employees must have at least 11 consecutive hours off work in every 24 hours (WEA § 10-8, first paragraph). Working-time arrangements and the way work is organised must not expose employees to undue mental strain (§ 4-1, second paragraph).",
               "solve": "Work and private life asks whether the job leaves enough time for private life, and Recovery and switching off whether people manage to switch off in their free time. The suggestions include “Off means off” and a quarterly review of evening and weekend work together with the safety representative."
             },
             {
               "t": "Together, but apart",
               "looks": "Half the team is in on Tuesday, the rest on Thursday. The new hire hasn't met everyone yet, and sparring only happens when someone remembers to invite them.",
               "fig": "In Abelia's HR survey of technology and knowledge businesses, 40% of the businesses name weaker social cohesion from flexible and hybrid work as a major challenge. STAMI finds that working from home can give more control and flexibility, but is also linked to higher demands for availability, less support from colleagues and somewhat more role ambiguity and role conflict.",
+              "v": "40 %",
+              "vl": "of the businesses in Abelia’s HR survey see weaker social cohesion from hybrid work as a major challenge",
+              "ref": "WEA § 4-3 fourth paragraph · home office regulation § 3",
+              "law": "Work must as far as possible be designed to allow contact and communication with other employees (WEA § 4-3, fourth paragraph). For regular work from home, the employer must as far as practically possible make sure the working conditions are fully satisfactory, the psychosocial work environment included (home office regulation § 3).",
               "solve": "Hybrid collaboration asks whether collaboration works wherever people work, and Belonging and professional network whether people get informal contact and professional sparring. Role clarity and Support from colleagues in the main survey show the rest. The suggestions include a hybrid team agreement and a weekly one-to-one."
             },
             {
               "t": "The client is always in a hurry",
               "looks": "The deadline was set in the sales meeting, the order changed along the way, and the hours still have to be logged as billable.",
               "fig": "About 1 in 10 employees regularly get work enquiries in their free time and are expected to answer. Most are managers or in particularly independent positions, spend at least 2 hours a week on it, and many report stress and working while ill.",
+              "v": "1 in 10",
+              "vl": "regularly get work enquiries in their free time and are expected to answer",
+              "ref": "WEA § 4-3 second paragraph a and c",
+              "law": "Unclear or conflicting demands and expectations, and workload and time pressure, are among the psychosocial factors the Act names (WEA § 4-3, second paragraph, letters a and c).",
               "solve": "In the extended set you can choose Client and delivery pressure: whether deadlines are realistic, whether people get support from their manager when a client makes unreasonable demands, and whether billable-hour targets are reasonable. Workload and time pressure and Conflicting demands in the main survey are included for everyone."
             },
             {
               "t": "New systems, new structure, new AI",
               "looks": "A new system in spring, a reorganisation in autumn – and now everyone is to use AI, but nobody has said how.",
               "fig": "55% of people in office workplaces have been through a reorganisation, against 48% of all employed. In banking, finance and insurance it is 65%. 9 in 10 businesses in information and communication use AI in 2026.",
+              "v": "55 %",
+              "vl": "have been through a reorganisation, against 48 % of all employed",
+              "ref": "WEA § 4-2 first and third paragraphs",
+              "law": "Employees must be kept informed of the systems used in their work, get the training they need in them and take part in designing them (WEA § 4-2, first paragraph). During change, the employer must provide the information, participation and skills development needed for a fully satisfactory work environment (third paragraph).",
               "solve": "AI and changes in work tasks asks whether people know how to use AI safely, and whether they are involved when new technology changes their work. Job security and restructuring asks whether people feel their skills will be in demand, and in the extended set whether changes are explained. Participation and control in the main survey shows whether employees are heard."
             },
             {
               "t": "Screen, chair and kitchen table",
               "looks": "Eight hours at the screen, half the week at a kitchen table and a channel for every project. Nobody has asked how your neck is doing.",
               "fig": "42% of people in office workplaces do repetitive arm and hand movements, PC work among them, against 25% of all employed. If someone works from home one day every week as a fixed arrangement, the home office regulation applies, the Labour Inspection Authority writes.",
+              "v": "42 %",
+              "vl": "do repetitive arm and hand movements, PC work among them, against 25 % of all employed",
+              "ref": "WEA § 4-4 second paragraph · home office regulation § 3",
+              "law": "The workplace must be designed so that employees avoid undue physical strain, with necessary aids and room for variety (WEA § 4-4, second paragraph). For regular work from home, the employer must as far as practically possible make sure the workplace, equipment and indoor environment cause no undue physical strain (home office regulation § 3).",
               "solve": "Physical workplace and equipment asks whether the office gives peace, and whether people have equipment that is good for the body – at home too. A yes/no question counts how many work from home regularly without a written agreement. Digital tools asks whether the tools make the job easier, and whether the volume of messages is manageable."
             },
             {
               "t": "What isn't said on screen",
               "looks": "In the video meeting, everyone says it's going fine. The one who is struggling says so at lunch – if she is in the office that day.",
               "fig": "Among managers whose staff can work from home, 47% find it demanding to manage employees who work from home, and 45% think it affects the work environment negatively.",
+              "v": "47 %",
+              "vl": "of managers whose staff can work from home find it demanding to manage them",
+              "ref": "WEA § 4-3 second paragraph d · § 2 A-1",
+              "law": "Support and help at work is one of the psychosocial factors the Act names (WEA § 4-3, second paragraph, letter d). Employees have the right to report censurable conditions in the business (§ 2 A-1).",
               "solve": "Freedom to speak up and Support from manager in the main survey show whether people dare to speak up and whether the manager is there for them. Answers are anonymous and shown per team with enough answers – also for those the manager rarely sees. In the comment field they can write what they don't say out loud, and you can reply anonymously."
             }
           ]
@@ -12142,6 +12246,12 @@
           "f_teknologi_ki": "Technological change and AI"
         },
         "moduleTag": "Office module",
+        "orgpuls": {
+          "k": "Orgpuls for knowledge and office work",
+          "title": "How Orgpuls measures this in knowledge and office work",
+          "lead": "Orgpuls is a work environment survey built on QPS Nordic, with its own module for knowledge and office work on top of the main survey. This is what it asks about, and how the answers become measures.",
+          "measures": "What Orgpuls asks about, challenge by challenge"
+        },
         "variants": {
           "k": "Simplified or extended",
           "title": "One module, two variants: choose what fits you",
@@ -12356,13 +12466,13 @@
       "helse": {
         "nav": "Health and care",
         "seo": {
-          "title": "Work environment survey for health and care | Orgpuls",
-          "description": "Survey the work environment in care, home care and clinics: violence and threats, staffing, rotas and part-time. Anonymous by text or QR. 15 days free."
+          "title": "The work environment in health and care: risks, figures and the law | Orgpuls",
+          "description": "Violence, emotional demands, staffing, rotas and heavy lifting in health and care: figures from STAMI, Statistics Norway, Fafo and the inspectorate."
         },
         "hero": {
           "k": "Health and care · care, home care and clinics",
-          "h1": "A work environment survey for health and care: see what wears your staff down – and follow it up",
-          "lead": "See where violence and threats, tight staffing and rotas without rest take their toll – for the whole business and for each department with enough answers. Every shift answers anonymously on their phones. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "h1": "The work environment in health and care: risks, figures and the law",
+          "lead": "Violence and threats, feelings you take home, too few on shift and heavy lifting shape the working day for many in health and care. This is what STAMI, Statistics Norway, Fafo and the Labour Inspection Authority have found about the work environment in the industry, and what the Working Environment Act requires of the employer.",
           "secondary": "See the health and care questions",
           "figure": {
             "title": "How your staff answer",
@@ -12382,7 +12492,8 @@
               "t": "Report for the Labour Inspection Authority",
               "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
             }
-          ]
+          ],
+          "jump": "What Orgpuls does for health and care"
         },
         "stats": {
           "k": "Everyday work in figures",
@@ -12410,9 +12521,30 @@
           "note": "Labour Inspection Authority inspectors describe relatively few incidents being reported in the work environment area in health and social services, even though many should have been. So the real state of the work environment does not become visible either.",
           "text": "An anonymous questionnaire gives employees a way to say it without stepping forward. The health and care module asks about violence and threats that were not reported, and about shifts where the staffing was not responsible. The answers are shown only as a count for the whole business."
         },
+        "compare": {
+          "k": "Compared",
+          "title": "Health and care against all employed",
+          "lead": "The share in health and care and among all employed. Under each row is the part of the industry the figure is for; for part-time and sick leave the comparison is all industries.",
+          "industry": "Health and care",
+          "all": "All employed",
+          "items": [
+            "Have been exposed to violence",
+            "Face high emotional demands",
+            "Experience a high degree of role conflict",
+            "Are exposed to unwanted sexual attention",
+            "Lift in awkward positions",
+            "Work part-time",
+            "Sick leave, 2nd quarter 2026"
+          ],
+          "groups": {
+            "sykehjem": "Nursing homes",
+            "hjemme": "Home care",
+            "hs": "Health and social services"
+          }
+        },
         "why": {
-          "k": "Why survey",
-          "title": "Why a care business has to survey its work environment",
+          "k": "The law",
+          "title": "What the law requires of employers in health and care",
           "lead": "The Working Environment Act applies to every employer with employees, including the GP surgery with five staff and the personal assistance company with assistants in each user’s home. In work with people, the law points in particular to emotional demands, violence and threats, and working alone.",
           "law": {
             "title": "What the law requires in work with people",
@@ -12464,56 +12596,86 @@
           }
         },
         "challenges": {
-          "k": "Challenges and solutions",
-          "title": "Eight challenges in health and care – and how to tackle them",
-          "lead": "The challenges come from Norwegian research, statistics and inspections. Under each you see which questions measure it, and what you get to work with.",
+          "k": "The challenges",
+          "title": "Eight known risks in health and care – and what the rules say",
+          "lead": "The challenges come from STAMI, Statistics Norway, Fafo and the Labour Inspection Authority. Under each one is what the Act and the regulation require of the employer.",
           "items": [
             {
               "t": "Violence and threats – often alone with the service user",
               "looks": "A service user who becomes agitated during personal care, a night shift alone on the ward, a home visit where the door closes behind you. Often you are the only one there.",
               "fig": "34 % in nursing homes have been exposed to violence, and 27 % to harassment or threats. In home care the figures are 12 and 18 %. The Labour Inspection Authority uses home care staff as an example of working alone.",
+              "v": "34 %",
+              "vl": "in nursing homes have been exposed to violence, against 5 % of all employed",
+              "ref": "WEA § 4-3 sixth paragraph · § 4-1 third paragraph · regulation ch. 3A",
+              "law": "Employees must as far as possible be protected from violence and threats (WEA § 4-3, sixth paragraph), and the employer must assess whether lone work carries a particular risk (§ 4-1, third paragraph). Chapter 3A of the regulation requires the risk to be surveyed and assessed, measures to be put in place, employees to be trained, and anyone affected to be followed up.",
               "solve": "The factor Violence and threats asks whether you have gone through the situations that can lead to violence, whether small incidents are reported too, and whether the person involved is followed up. A yes/no question counts incidents that were not reported. Contact and communication in the main survey asks whether you can call for help quickly when you are alone."
             },
             {
               "t": "The feelings you take home",
               "looks": "A resident who dies, relatives in despair, a service user angry at everything. You have to stay professional the whole shift – and then drive home.",
               "fig": "38 % in home care and 35 % in nursing homes face high emotional demands, against 20 % of everyone employed. In home care, 34 % are often mentally exhausted after work.",
+              "v": "38 %",
+              "vl": "in home care face high emotional demands, against 20 % of all employed",
+              "ref": "WEA § 4-3 second paragraph b and d",
+              "law": "The Act names emotional demands and strain in work with people, and support and help at work, as psychosocial factors (WEA § 4-3, second paragraph, letters b and d).",
               "solve": "The main survey measures Emotional demands: whether you are rarely left alone in emotionally demanding situations, whether you talk about difficult incidents afterwards, and whether you are allowed to react as a human being at work. The health and care module does not repeat these. Support from manager shows whether the manager is there when the job gets demanding."
             },
             {
               "t": "Too few on shift",
               "looks": "Two are off sick, the temp does not know the service users, and the list is just as long. Something has to wait – and you are the one who has to choose what.",
               "fig": "Labour Inspection Authority inspectors describe an industry with a high workload and time pressure, and an imbalance between tasks and resources.",
+              "vl": "Labour Inspection Authority inspectors describe a high workload and time pressure, and an imbalance between tasks and resources.",
+              "ref": "WEA § 4-3 second paragraph c · regulation § 3A-2",
+              "law": "Workload and time pressure is one of the factors the Act names (WEA § 4-3, second paragraph, letter c). Staffing is among what the risk assessment of violence and threats must look at (regulation § 3A-2).",
               "solve": "The factor Staffing and responsible care asks whether staffing makes it possible to give responsible care, whether you avoid going home with a bad conscience, and whether it is clear what can wait. A yes/no question counts shifts where staffing was not responsible. Time for the core tasks shows whether documentation and systems take time away from service users."
             },
             {
               "t": "Between service user, relatives and manager",
               "looks": "Relatives want more than the service can give, the service user wants something else, and the manager has decided a third thing. And the comments about your body are laughed off.",
               "fig": "In nursing homes, 22 % experience a high degree of role conflict, against 13 % of everyone employed – including conflicting expectations from residents, relatives, managers and colleagues. 18 % are exposed to unwanted sexual attention, against 5 %.",
+              "v": "22 %",
+              "vl": "in nursing homes experience a high degree of role conflict, against 13 % of all employed",
+              "ref": "WEA § 4-3 second paragraph a and fifth paragraph",
+              "law": "Unclear or conflicting demands and expectations at work is one of the psychosocial factors the Act names (WEA § 4-3, second paragraph, letter a). Nobody may be subjected to harassment, including sexual harassment (fifth paragraph).",
               "solve": "The factor Boundaries with service users and relatives asks whether you have agreed what to do when someone crosses the line, whether sexual comments are taken seriously, and whether you get support to say no to relatives. Conflicting demands in the main survey shows whether it is clear who decides when two things collide."
             },
             {
               "t": "Rotas, evenings and nights",
               "looks": "An evening shift until half past ten and a day shift at seven. The call about an extra shift comes on your day off – again.",
               "fig": "About 9 in 10 in nursing homes work outside normal daytime hours, and 1 in 3 work nights. 24 % report sleep problems caused wholly or partly by their job.",
+              "v": "1 in 3",
+              "vl": "in nursing homes work nights",
+              "ref": "WEA §§ 10-3, 10-8 and 10-11",
+              "law": "If employees work at different times of day, there must be a work schedule drawn up with the employee representatives (WEA § 10-3). As a rule, employees must have at least 11 consecutive hours off in every 24 hours (§ 10-8), and night work is allowed only when the nature of the work makes it necessary (§ 10-11).",
               "solve": "The factor Rotas and rest asks whether the rota gives enough rest between shifts, whether you can influence it, and whether extra shifts at short notice are the exception. The suggested measures are concrete, such as a rota workshop and a fixed order for extra shifts. If the night shift is a group of its own, it gets its own figures once enough have answered."
             },
             {
               "t": "Part-time nobody chose",
               "looks": "Many small positions, many temps and a few who take all the extra shifts. Those who work little miss the messages.",
               "fig": "Among rota-based staff in municipal nursing and care, nearly 35 % work full-time. Fafo describes employees who work part-time because the shifts feel too exhausting – an adaptation to a work environment they did not decide.",
+              "vl": "Nearly 35 % of rota-based staff in municipal nursing and care work full-time.",
+              "ref": "WEA §§ 14-3 and 14-4 a",
+              "law": "Part-time employees have a preferential right to an extended position before the employer hires someone new (WEA § 14-3). A part-time employee who has regularly worked more than agreed over the last 12 months is, as a rule, entitled to a position matching the hours actually worked (§ 14-4 a).",
               "solve": "The factor Position and belonging asks whether you have the position size you want, whether important information reaches those who work little too, and whether you feel part of the professional community. One of the suggestions is to offer vacant position fractions to part-time employees first, as the preferential right requires."
             },
             {
               "t": "New staff, temps and many languages",
               "looks": "The agency temp is here for the first time, and the new starter has done two shadow shifts. The handover is quick, and not everyone understands everything.",
               "fig": "Fafo describes how unskilled temps are often called in and have to take responsibility for tasks they lack formal competence for, and how colleagues then have to spend more time guiding them. 1 in 5 working in nursing homes are immigrants.",
+              "v": "1 in 5",
+              "vl": "working in nursing homes are immigrants",
+              "ref": "WEA § 3-2 first paragraph a · § 4-2 second paragraph b",
+              "law": "The employer must make sure employees get the training, practice and instruction they need (WEA § 3-2, first paragraph, letter a). Work must be organised with regard to each person’s working capacity, skills, age and other circumstances (§ 4-2, second paragraph, letter b).",
               "solve": "The factor Professional confidence asks whether new staff and temps get enough training before they are alone on shift, whether you have someone to consult, and whether you understand each other well enough for handovers and messages to be right. The questionnaire is available in Norwegian, English, Polish and Lithuanian."
             },
             {
               "t": "Heavy lifting when it is busy",
               "looks": "The patient hoist is at the other end of the corridor, and it is busy. It is quicker to do it yourself.",
               "fig": "30 % in nursing homes and 34 % in home care lift in awkward positions, against 14 % of everyone employed. 35 % in nursing homes report back pain caused wholly or partly by their job.",
+              "v": "30 %",
+              "vl": "in nursing homes lift in awkward positions, against 14 % of all employed",
+              "ref": "WEA § 4-4 second paragraph",
+              "law": "The workplace must be designed so that employees avoid undue physical strain. Necessary aids must be provided, and work must be arranged for variety and to avoid heavy lifting (WEA § 4-4, second paragraph).",
               "solve": "The factor Patient handling and heavy lifting asks whether you have the equipment you need, whether there is time to use it also when it is busy, and whether there are enough of you for heavy transfers. One of the suggestions is a handling plan per service user."
             }
           ]
@@ -12529,6 +12691,12 @@
           "forflytning_og_tunge_loft": "Patient handling and heavy lifting"
         },
         "moduleTag": "Health and care module",
+        "orgpuls": {
+          "k": "Orgpuls for health and care",
+          "title": "How Orgpuls measures this in health and care",
+          "lead": "Orgpuls is a work environment survey built on QPS Nordic, with its own module for health and care on top of the main survey. This is what it asks about, and how the answers become measures.",
+          "measures": "What Orgpuls asks about, challenge by challenge"
+        },
         "proof": {
           "k": "What it looks like",
           "title": "From answers to measures in one tool",
@@ -12688,13 +12856,13 @@
       "barnehage": {
         "nav": "Kindergartens and schools",
         "seo": {
-          "title": "Work environment survey for kindergartens and schools | Orgpuls",
-          "description": "Survey the work environment in kindergartens and schools: violence and threats, staffing, parents and time for core tasks. Anonymous. 15 days free."
+          "title": "The work environment in kindergartens and schools: risks, figures and the law | Orgpuls",
+          "description": "Violence from children and pupils, staffing, documentation and difficult cases in kindergartens and schools: figures from STAMI, SSB, NIFU and Udir."
         },
         "hero": {
           "k": "Kindergartens, schools and after-school care",
-          "h1": "A work environment survey for kindergartens and schools: see what wears the adults down – and follow it up",
-          "lead": "See where violence and threats, too few adults and demanding work with parents take their toll on staff – for the whole kindergarten or school and for each unit, year group or after-school club with enough answers. The statements say «the children» in a kindergarten and «the pupils» in a school. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "h1": "The work environment in kindergartens and schools: risks, figures and the law",
+          "lead": "Violence and threats, too few adults, documentation requirements and parents who get in touch after working hours shape the working day for many in kindergartens and schools. This is what STAMI, Statistics Norway, NIFU, the Directorate for Education and the Labour Inspection Authority have found about the work environment, and what the Working Environment Act requires of the employer.",
           "secondary": "Choose kindergarten or school",
           "figure": {
             "title": "How your staff answer",
@@ -12714,7 +12882,8 @@
               "t": "Report for the Labour Inspection Authority",
               "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
             }
-          ]
+          ],
+          "jump": "What Orgpuls does for kindergartens and schools"
         },
         "stats": {
           "k": "Everyday work in figures",
@@ -12742,9 +12911,29 @@
           "note": "Nearly 9 in 10 upper secondary teachers say their school has a system for reporting violence and threats. Even so, it is little used, Fafo finds. Those who say it does not work point to too few using it, too few knowing it, and reported incidents not being followed up.",
           "text": "An anonymous questionnaire gives employees a way to say it without stepping forward. The module asks about violence or threats from children or pupils that were not reported, and about days when absence was not covered by a substitute. The answers are shown only as a count for the whole organisation."
         },
+        "compare": {
+          "k": "Compared",
+          "title": "Kindergartens and schools against all employed",
+          "lead": "The share in kindergartens and schools and among all employed. Under each row is the part of the sector the figure is for.",
+          "industry": "Kindergartens and schools",
+          "all": "All employed",
+          "items": [
+            "Exposed to violence at work in the past year",
+            "Work squatting or kneeling",
+            "Lift in awkward positions",
+            "Experience high noise levels",
+            "Face high emotional demands",
+            "Feel the job interferes with their private life"
+          ],
+          "groups": {
+            "gs": "Primary and lower secondary teachers",
+            "bhg": "Kindergartens and after-school care",
+            "und": "Education"
+          }
+        },
         "why": {
-          "k": "Why survey",
-          "title": "Why kindergartens and schools have to survey their work environment",
+          "k": "The law",
+          "title": "What the law requires of employers in kindergartens and schools",
           "lead": "The Working Environment Act applies to every employer with employees – including the small private kindergarten, the independent school and the after-school club. The children’s and pupils’ rights under the Kindergarten Act and the Education Act apply alongside the employees’ rights under the Working Environment Act, and in work with people the law points in particular to emotional demands and to violence and threats.",
           "law": {
             "title": "What the law requires – also in work with children",
@@ -12792,56 +12981,86 @@
           }
         },
         "challenges": {
-          "k": "Challenges and solutions",
-          "title": "Eight challenges in kindergartens and schools – and how you tackle them",
-          "lead": "The challenges come from Norwegian research, statistics and inspections. Most apply to both kindergartens and schools; those that apply to only one are marked. Under each you see which questions measure it and what you get to work with.",
+          "k": "The challenges",
+          "title": "Eight known risks in kindergartens and schools – and what the rules say",
+          "lead": "The challenges come from STAMI, Statistics Norway, NIFU, the Directorate for Education and the Labour Inspection Authority. Under each one is what the Act and the regulation require of the employer.",
           "items": [
             {
               "t": "Violence and threats from children and pupils",
               "looks": "A child who bites and kicks in the cloakroom, a pupil who throws a chair when a transition comes too fast. Often it is the same situations that come back.",
               "fig": "28 % of primary and lower secondary teachers and nearly 1 in 5 kindergarten teachers and kindergarten and school assistants were exposed to violence at work in the past year, against 5.7 % of everyone employed. 8 in 10 primary and lower secondary school leaders report violent incidents in the past year.",
+              "v": "28 %",
+              "vl": "of primary and lower secondary teachers were exposed to violence at work in the past year, against 5.7 % of all employed",
+              "ref": "WEA § 4-3 sixth paragraph · regulation ch. 3A",
+              "law": "Employees must as far as possible be protected from violence and threats (WEA § 4-3, sixth paragraph). Chapter 3A of the regulation requires the risk to be surveyed and assessed, measures to be put in place, employees to be trained, and anyone affected to be followed up.",
               "solve": "The factor Violence and threats asks whether the routines are known, whether people know what room they have to step in when a situation becomes dangerous, and whether the person involved is followed up. A yes/no question counts incidents that were not reported. The statement says «a child» in a kindergarten and «a pupil» in a school."
             },
             {
               "t": "Too few adults at the edges of the day",
               "looks": "The norm holds on paper. But at opening time, during breaks and when the last children are collected, one adult is alone with more children than anyone can keep track of.",
               "fig": "99 % of kindergartens meet the staffing norm. But in a 2019 survey, 86 % of heads said they are fully staffed for less than 6 hours of the day, and the Directorate for Education writes that staffing on paper can be something other than staffing in reality.",
+              "v": "86 %",
+              "vl": "of kindergartens were fully staffed for less than 6 hours of the day in 2019",
+              "ref": "WEA § 4-3 second paragraph c · regulation § 3A-2",
+              "law": "Workload and time pressure is one of the factors the Act names (WEA § 4-3, second paragraph, letter c). Staffing is among what the risk assessment of violence and threats must look at (regulation § 3A-2).",
               "solve": "The factor Staffing and substitutes asks whether staffing makes it possible to give the children what they need, whether a substitute is brought in when someone is away, and whether people are seldom alone with more children than they can keep track of. A yes/no question counts days when absence was not covered by a substitute. Workload and time pressure in the main survey shows whether the pace is too high."
             },
             {
               "t": "Documentation and assessment take the time",
               "looks": "Plans, assessments, minutes and messages. The time for following up the pupil who needs it is what is left over.",
               "fig": "More than half of lower secondary teachers feel a lot of stress from the amount of administrative work and from assessment and grading. «Teachers have many roles and documentation requirements, they work a lot and have little time for breaks in their day», says an inspector at the Labour Inspection Authority.",
+              "vl": "More than half of lower secondary teachers feel a lot of stress from the amount of administrative work.",
+              "ref": "WEA § 4-3 second paragraph c · § 4-2 second paragraph c",
+              "law": "Workload and time pressure is one of the psychosocial factors the Act names (WEA § 4-3, second paragraph, letter c). Weight must be given to each person’s opportunity for self-determination, influence and professional responsibility (§ 4-2, second paragraph, letter c).",
               "solve": "The factor Time for the core tasks asks whether people have time to plan and prepare the work with the pupils, whether documentation and reporting are worth the effort, and whether meeting time is used for what matters most. One of the suggestions is protected planning time. Workload and time pressure in the main survey shows the overall pressure."
             },
             {
               "t": "Parents – also after working hours",
               "looks": "A message late in the evening, a worried parent at the gate, a conversation that gets stuck. The cooperation matters – and is sometimes the heaviest part of the week.",
               "fig": "About half of lower secondary teachers feel a lot of stress from handling parents’ concerns, and this has grown since 2018. At the same time, 76 % feel valued by parents. 41 % in education feel that the job interferes with their private life, partly because pupils and parents get in touch after working hours.",
+              "v": "41 %",
+              "vl": "in education feel the job interferes with their private life, against 31 % of all employed",
+              "ref": "WEA § 4-3 sixth paragraph · § 10-8",
+              "law": "Employees must as far as possible be protected from undue strain from contact with others (WEA § 4-3, sixth paragraph). They must have at least 11 consecutive hours off work in every 24 hours (§ 10-8, first paragraph).",
               "solve": "The factor Cooperation with parents asks whether it is clear what parents can expect, whether people get support from management when the cooperation becomes demanding, and whether they are spared answering parents outside working hours. The suggestions include reply times within working hours and the manager joining the demanding meetings."
             },
             {
               "t": "Children and pupils who need more than you can give",
               "looks": "A child who needs an adult all day, a pupil waiting for an assessment. The adaptation happens in an ordinary group, with the adults who are there.",
               "fig": "More lower secondary teachers than in 2018 report a more varied pupil group and a need for more competence in adapting teaching. NIFU finds that pupils who need individually adapted education are often involved in violent incidents, and that special needs teachers and assistants who work closely with them are the most exposed.",
+              "vl": "Pupils who need individually adapted education are often involved in violent incidents, and those who work closest to them are the most exposed, NIFU finds.",
+              "ref": "WEA § 4-3 second paragraph b and d · § 3-2 first paragraph a",
+              "law": "Emotional demands and strain in work with people, and support and help at work, are among the psychosocial factors the Act names (WEA § 4-3, second paragraph, letters b and d). The employer must provide the training, practice and instruction needed (§ 3-2, first paragraph, letter a).",
               "solve": "The factor Adaptation and inclusion asks whether people get enough support to meet children or pupils with special needs, whether you have access to special needs expertise, and whether people know whom to contact when a child needs more help than you can give. One of the suggestions is regular meetings with the support services."
             },
             {
               "t": "Many without teaching qualifications – and new people all the time",
               "looks": "The permanent assistant knows the children best, the substitute is here for the first time, and it is unclear who is responsible for what.",
               "fig": "In kindergartens, 42.2 % of the core staff are kindergarten teachers and 22.8 % are child and youth workers – 35 % are neither. In primary and lower secondary school the law sets no education requirement for assistants, and assistants and others account for nearly a third of the annual hours of pupil-related work.",
+              "v": "35 %",
+              "vl": "of the core staff in kindergartens are neither kindergarten teachers nor child and youth workers",
+              "ref": "WEA § 3-2 first paragraph a · § 4-2 second paragraph b",
+              "law": "The employer must make sure employees get the training, practice and instruction they need (WEA § 3-2, first paragraph, letter a). Work must be organised with regard to each person’s working capacity, skills, age and other circumstances (§ 4-2, second paragraph, letter b).",
               "solve": "The factor Skills and community among staff asks whether new staff and substitutes are trained before they are responsible for children alone, whether you have time for professional conversations, and whether it is clear how tasks are divided between teachers and other staff. One of the suggestions is a substitute folder and a fixed walk-through on the first day. Support from colleagues in the main survey shows how the team works."
             },
             {
               "t": "Low chairs, lifting and noise",
               "looks": "Dressing children while squatting, a two-year-old on the hip and an adult on a child’s chair at lunch. And the sound of a full unit in one room.",
               "fig": "In kindergartens and after-school care, 60 % work squatting or kneeling and 38 % lift in awkward positions, against 17 and 14 % of everyone employed. 35 % report back pain caused wholly or partly by the job. 24 % experience high noise levels, against 8.6 % – measurements show a low risk of hearing damage, but the noise can be mentally draining.",
+              "v": "60 %",
+              "vl": "in kindergartens and after-school care work squatting or kneeling, against 17 % of all employed",
+              "ref": "WEA § 4-4 first and second paragraphs",
+              "law": "Noise and other physical conditions must be fully satisfactory (WEA § 4-4, first paragraph). The workplace must be designed so that employees avoid undue physical strain, with necessary aids and arrangements to avoid heavy lifting (second paragraph).",
               "solve": "The factor Noise, physical strain and breaks asks whether the noise level is bearable, whether you have furniture and equipment that let people work in a way that is good for the body, and whether people get their breaks. The suggestions are concrete: a noise map, breaks where someone takes over, and adult chairs and height-adjustable changing tables."
             },
             {
               "t": "Difficult cases and the feelings you take home",
               "looks": "A worry about how a child is doing at home, a bullying case that does not let go. You are meant to stay calm and professional – and then go home.",
               "fig": "31 % in kindergartens and after-school care and 32 % in education face high emotional demands, against 20 % of everyone employed. In kindergartens and after-school care, 41 % are often mentally exhausted after work.",
+              "v": "41 %",
+              "vl": "in kindergartens and after-school care are often mentally exhausted after work",
+              "ref": "WEA § 4-3 second paragraph b and d",
+              "law": "The Act names emotional demands and strain in work with people, and support and help at work, as psychosocial factors (WEA § 4-3, second paragraph, letters b and d).",
               "solve": "The factor Difficult cases asks whether people know how you proceed when you are worried about how a child is doing at home, whether people are left alone with cases of bullying and harassment, and whether you have time to follow them up. One of the suggestions is two people responsible for every case, never one. The main survey measures Emotional demands, so the module does not repeat them."
             }
           ]
@@ -12857,6 +13076,12 @@
           "vanskelige_saker": "Difficult cases"
         },
         "moduleTag": "Industry module",
+        "orgpuls": {
+          "k": "Orgpuls for kindergartens and schools",
+          "title": "How Orgpuls measures this in kindergartens and schools",
+          "lead": "Orgpuls is a work environment survey built on QPS Nordic, with its own module for kindergartens and schools on top of the main survey. This is what it asks about, and how the answers become measures.",
+          "measures": "What Orgpuls asks about, challenge by challenge"
+        },
         "audience": {
           "barnehage": "Kindergarten",
           "skole": "School"

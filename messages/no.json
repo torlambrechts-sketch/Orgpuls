@@ -11280,7 +11280,8 @@
         "facts": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra",
         "lawSays": "Regelverket",
         "more": "Les mer",
-        "less": "Vis mindre"
+        "less": "Vis mindre",
+        "ownScale": "egen skala"
       },
       "handel": {
         "nav": "Handel",
@@ -11344,8 +11345,7 @@
           "k": "Sammenlignet",
           "title": "Butikkhandel mot alle sysselsatte",
           "lead": "Andelen i butikkhandelen og blant alle sysselsatte. Tallene for deltid gjelder hele varehandelen.",
-          "retail": "Butikkhandel",
-          "retailDeltid": "Varehandel",
+          "industry": "Butikkhandel",
           "all": "Alle sysselsatte",
           "items": [
             "Jobber stående",
@@ -11353,7 +11353,10 @@
             "Opplever konflikter med kunder",
             "Gjør ubekvemme løft",
             "Jobber deltid"
-          ]
+          ],
+          "groups": {
+            "varehandel": "Varehandel"
+          }
         },
         "why": {
           "k": "Lovkravene",
@@ -11642,13 +11645,13 @@
       "bygg": {
         "nav": "Bygg og anlegg",
         "seo": {
-          "title": "Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls",
-          "description": "Kartlegg arbeidsmiljøet på byggeplassen: tidspress, mange firma, språk på laget og nye folk. Anonymt på SMS eller QR i brakka. 15 dager gratis."
+          "title": "Arbeidsmiljø i bygg og anlegg: risiko, tall og lovkrav | Orgpuls",
+          "description": "Tidspress, mange firma på samme plass, språk og nestenulykker i bygg og anlegg: tall fra Arbeidstilsynet, STAMI og Fafo, og hva loven krever."
         },
         "hero": {
           "k": "Bygg og anlegg · entreprenør og håndverk",
-          "h1": "Arbeidsmiljø­kartlegging for bygg og anlegg: se hva som sliter på laget – og følg det opp",
-          "lead": "Se hvor tidspress, mange firma på plassen og språk på laget skaper press – for hele virksomheten og for hvert prosjekt med nok svar. Mannskapet svarer anonymt på mobilen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "h1": "Arbeidsmiljøet i bygg og anlegg: risiko, tall og lovkrav",
+          "lead": "Tidspress, mange firma på samme byggeplass, språk og lange dager preger hverdagen for mange i bygg og anlegg. Her er hva Arbeidstilsynet, STAMI og Fafo har funnet om arbeidsmiljøet i næringen, og hva arbeidsmiljøloven og forskriftene krever av arbeidsgiveren.",
           "secondary": "Se spørsmålene for bygg og anlegg",
           "figure": {
             "title": "Slik svarer mannskapet",
@@ -11668,7 +11671,8 @@
               "t": "Rapport for Arbeidstilsynet",
               "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
             }
-          ]
+          ],
+          "jump": "Hva Orgpuls gjør for bygg og anlegg"
         },
         "stats": {
           "k": "Hverdagen i tall",
@@ -11696,9 +11700,29 @@
           "note": "Fafos rapport om HMS i bygg beskriver at det å melde uønskede hendelser kan bli sett på som tysting, at løs tilknytning til arbeidsgiver kan få mange til å la være å melde fra, og at frykt for represalier gjelder særlig utenlandske arbeidstakere.",
           "text": "Et anonymt spørreskjema gir mannskapet en måte å si det på uten å stå fram. Bygg-modulen spør om nestenulykker som ikke ble meldt, og svaret vises bare som antall for hele virksomheten."
         },
+        "compare": {
+          "k": "Sammenlignet",
+          "title": "Bygg og anlegg mot alle sysselsatte",
+          "lead": "Andelen i bygg og anlegg og blant alle sysselsatte, og arbeidsskadene per 1 000 sysselsatte. Under hver rad står det hvilken del av næringen tallet gjelder.",
+          "industry": "Bygg og anlegg",
+          "all": "Alle sysselsatte",
+          "items": [
+            "Har tungt fysisk arbeid",
+            "Jobber mer enn 48 timer i uka",
+            "Arbeidsskader per 1 000 sysselsatte"
+          ],
+          "groups": {
+            "bygg": "Byggevirksomhet",
+            "anlegg": "Anleggsvirksomhet",
+            "begge": "Bygge- og anleggsvirksomhet, 2024 – mot alle næringer"
+          },
+          "units": {
+            "per1000": "per 1 000"
+          }
+        },
         "why": {
-          "k": "Hvorfor kartlegge",
-          "title": "Hvorfor byggefirmaet må kartlegge arbeidsmiljøet",
+          "k": "Lovkravene",
+          "title": "Hva loven krever av arbeidsgivere i bygg og anlegg",
           "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte, også håndverksbedriften med fem på laget. På byggeplassen kommer egne krav i tillegg: samordning når flere firma jobber på samme sted, og et språk alle på arbeidslaget forstår.",
           "law": {
             "title": "Det loven krever av byggefirmaet",
@@ -11746,56 +11770,83 @@
           }
         },
         "challenges": {
-          "k": "Utfordringer og løsninger",
-          "title": "Åtte utfordringer på byggeplassen – og hvordan dere tar tak i dem",
-          "lead": "Utfordringene er hentet fra norsk forskning og tilsyn. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "k": "Utfordringene",
+          "title": "Åtte kjente risikoer på byggeplassen – og hva regelverket sier",
+          "lead": "Utfordringene er hentet fra Arbeidstilsynet, STAMI og Fafo. Under hver står det hva loven og forskriftene krever av arbeidsgiveren.",
           "items": [
             {
               "t": "Tidspress som går foran sikkerheten",
               "looks": "Betongbilen er bestilt, stillaset er ikke ferdig, og byggherren venter. Det er da snarveiene blir tatt.",
               "fig": "Fafos informanter beskriver et stadig større tidspress i prosjektene, som gjør det mer fristende å ta snarveier. Ulykkene Arbeidstilsynet har analysert, skjedde typisk ved arbeid som avvek fra den opprinnelige planen.",
+              "vl": "Ulykkene Arbeidstilsynet har analysert, skjedde typisk ved arbeid som avvek fra den opprinnelige planen.",
+              "ref": "aml § 4-1 andre ledd · § 4-3 andre ledd c",
+              "law": "Arbeidets organisering, tilrettelegging og ledelse skal være slik at de ansatte ikke utsettes for uheldige belastninger, og slik at sikkerhetshensyn ivaretas (aml § 4-1 andre ledd). Arbeidsmengde og tidspress er en av de psykososiale faktorene loven nevner (§ 4-3 andre ledd bokstav c).",
               "solve": "Faktoren Sikkerhet foran fremdrift spør om sikkerheten holder når det blir dårlig tid, og om man kan stanse en utrygg jobb uten å få problemer. Planlegging og fremdrift viser om tidsplanen er realistisk. Et ja/nei-spørsmål teller hvor mange som er blitt bedt om å gjøre en jobb de mente var utrygg."
             },
             {
               "t": "Mange firma på samme plass",
               "looks": "Hovedentreprenør, tre underentreprenører og en elektriker som kom i dag. Hvem sier fra til hvem når kranen skal løfte over taket?",
               "fig": "Manglende planlegging og kommunikasjon mellom virksomhetene har vært en årsak i mange av ulykkene Arbeidstilsynet har analysert. Byggfirma i Oslo-området har møtt innleieforbudet blant annet med flere underentreprenører og mer overtid.",
+              "vl": "Manglende planlegging og kommunikasjon mellom virksomhetene har vært en årsak i mange av ulykkene Arbeidstilsynet har analysert.",
+              "ref": "aml § 2-2 andre ledd",
+              "law": "Når flere virksomheter jobber på samme arbeidsplass, har hovedbedriften ansvaret for å samordne virksomhetenes helse-, miljø- og sikkerhetsarbeid (aml § 2-2 andre ledd).",
               "solve": "Faktoren Samordning på byggeplassen spør om det er tydelig hvem som har ansvaret når flere firma jobber sammen, og om dere får vite om risikoen i arbeidet andre gjør rundt dere. Forslagene til tiltak er konkrete, som et felles tavlemøte for alle firma på plassen."
             },
             {
               "t": "Beskjeden som ikke ble forstått",
               "looks": "Bas gir beskjed på norsk, én på laget oversetter, og resten nikker. Ingen spør igjen.",
               "fig": "I en undersøkelse fra 2017 som Fafo viser til, hadde 29 % av arbeidsgiverne opplevd at språkproblemer førte til en ulykke eller nestenulykke. Blant bosatte arbeidsinnvandrere fra Polen og Litauen svarte 8 % at de ikke snakket norsk, og 30 % at de snakket ganske lite.",
+              "v": "29 %",
+              "vl": "av arbeidsgiverne i en undersøkelse fra 2017 hadde opplevd at språkproblemer førte til en ulykke eller nestenulykke",
+              "ref": "byggherreforskriften § 19a",
+              "law": "Arbeidsgiveren skal særlig sørge for at minst én på hvert arbeidslag, når det er nødvendig for sikkerheten, kan forstå og gjøre seg forstått på et språk de andre på laget forstår (byggherreforskriften § 19a andre ledd).",
               "solve": "Faktoren Språk og beskjeder spør om sikkerhetsinformasjonen gis på et språk den enkelte forstår godt, om det alltid er noen på laget som kan formidle mellom språkene, og om det er greit å spørre igjen. Mannskapet kan svare på polsk og litauisk i tillegg til norsk og engelsk; den polske og litauiske teksten er maskinoversatt."
             },
             {
               "t": "Nye, unge og innleide på laget",
               "looks": "En lærling på sitt første prosjekt, to innleide som kom mandag og en sommervikar. Alle får oppgaver før de kjenner plassen.",
               "fig": "Unge under 25 år, nye i jobben og innleide er blant gruppene Arbeidstilsynet peker på som mest utsatt for ulykker. Skadehyppigheten er betydelig høyere i de yngste aldersgruppene.",
+              "vl": "Skadehyppigheten er betydelig høyere i de yngste aldersgruppene.",
+              "ref": "aml § 3-2 første ledd a og b",
+              "law": "Arbeidsgiveren skal sørge for at de ansatte blir kjent med ulykkes- og helsefarene i arbeidet og får den opplæringen, øvelsen og instruksjonen som trengs (aml § 3-2 første ledd bokstav a). Den som leder eller kontrollerer andre, skal ha kompetanse til å se til at arbeidet blir gjort forsvarlig (bokstav b).",
               "solve": "Faktoren Nye og unge på laget spør om nye får opplæring før de får oppgaver med risiko, om de har en fast person å spørre, og om de får tid til å lære. Innleide som er en del av laget, kan dere legge inn i ansattlista, så svarer de som de andre."
             },
             {
               "t": "Nestenulykken ingen melder",
               "looks": "En plate glipper fra kranen og lander der noen sto for ti minutter siden. Det blir ikke skrevet noe avvik.",
               "fig": "Fafo beskriver at det å melde uønskede hendelser kan bli sett på som tysting, og at mange med løs tilknytning lar være å melde fra. Frykt for represalier gjelder særlig utenlandske arbeidstakere.",
+              "vl": "Å melde uønskede hendelser kan bli sett på som tysting, og frykt for represalier gjelder særlig utenlandske arbeidstakere, beskriver Fafo.",
+              "ref": "aml § 2-3 andre ledd b · § 5-1",
+              "law": "De ansatte skal straks si fra til arbeidsgiveren og verneombudet når de blir oppmerksomme på feil eller mangler som kan føre til fare for liv eller helse (aml § 2-3 andre ledd bokstav b). Arbeidsgiveren skal sørge for at alle personskader i arbeidet blir registrert (§ 5-1).",
               "solve": "Et ja/nei-spørsmål teller nestenulykker som ikke ble meldt – bare som antall for hele virksomheten, aldri per prosjekt. Sikkerhet i laget spør om dere sier fra til hverandre og lærer av hendelser, og Ytringsklima i hovedundersøkelsen viser om folk tør å si fra."
             },
             {
               "t": "Lag som ikke snakker sammen",
               "looks": "Hvert lag spiser for seg i brakka. Når noe går galt, er det lettere å skylde på de andre enn å si fra.",
               "fig": "En informant i Fafos rapport beskriver hvordan skillene forplanter seg til pauserommene og kan gi konflikter og manglende tillit mellom folk fra ulike land. Arbeidstilsynet peker på et godt ytringsklima mellom arbeidstakere og ledere som viktig for sikkerheten.",
+              "vl": "Skillene mellom folk fra ulike land kan forplante seg til pauserommene og gi konflikter og manglende tillit, beskriver en informant hos Fafo.",
+              "ref": "aml § 4-3 andre ledd d og fjerde ledd",
+              "law": "Støtte og hjelp i arbeidet er en av de psykososiale faktorene loven nevner (aml § 4-3 andre ledd bokstav d). Arbeidet skal søkes utformet slik at det gir mulighet for kontakt og kommunikasjon med andre arbeidstakere (fjerde ledd).",
               "solve": "Hovedundersøkelsen måler Støtte fra kollegaer og Integritet og verdighet, og spør anonymt om krenkende atferd. Det spørsmålet vises bare som antall for hele virksomheten."
             },
             {
               "t": "Lange dager og lang vei hjem",
               "looks": "Lange dager for å tjene opp friperioden, og så flyet eller bilen hjem. Søndag kveld begynner reisen tilbake.",
               "fig": "12 % i anleggsvirksomhet jobber mer enn 48 timer i uka, mot 8,2 % av alle sysselsatte. Fafos informanter peker på arbeidstid som en kjent risiko, særlig for dem som pendler mellom hjemlandet og Norge og jobber lange dager for å tjene opp friperioder.",
+              "v": "12 %",
+              "vl": "i anleggsvirksomhet jobber mer enn 48 timer i uka, mot 8,2 % av alle sysselsatte",
+              "ref": "aml §§ 10-4 og 10-8",
+              "law": "Den alminnelige arbeidstiden må ikke overstige ni timer i løpet av 24 timer og 40 timer i løpet av sju dager (aml § 10-4). De ansatte skal ha minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer og 35 timer i løpet av sju dager (aml § 10-8). Unntak krever skriftlig avtale med de tillitsvalgte i en tariffbundet virksomhet, og kompenserende hvile.",
               "solve": "Faktoren Arbeidstid og restitusjon spør om arbeidstiden gir nok hvile, om reisetid og pendling er til å leve med over tid, og om overtid er unntaket og ikke normalen."
             },
             {
               "t": "Når noe nesten gikk galt",
               "looks": "Etter et fall fra stillaset er jobben i gang igjen neste morgen. Ingen spør dem som sto ved siden av, hvordan det går.",
               "fig": "3 902 arbeidsskader ble registrert i bygge- og anleggsvirksomhet i 2024. 43 % i byggevirksomhet har tungt fysisk arbeid, mot 21 % av alle sysselsatte.",
+              "v": "43 %",
+              "vl": "i byggevirksomhet har tungt fysisk arbeid, mot 21 % av alle sysselsatte",
+              "ref": "aml § 4-4 andre ledd · § 5-1",
+              "law": "Arbeidsplassen skal utformes slik at de ansatte unngår uheldige fysiske belastninger, og nødvendige hjelpemidler skal stilles til rådighet (aml § 4-4 andre ledd). Alle personskader i arbeidet skal registreres (§ 5-1).",
               "solve": "Faktoren Å si at man ikke har det bra spør om det tas en prat med dem som var der etter en ulykke eller nestenulykke, og om folk vet hvor de kan få hjelp. Et av forslagene er å samle dem som var der samme uke, med leder eller bedriftshelsetjenesten."
             }
           ]
@@ -11811,6 +11862,12 @@
           "arbeidstid_og_restitusjon": "Arbeidstid og restitusjon"
         },
         "moduleTag": "Bygg-modulen",
+        "orgpuls": {
+          "k": "Orgpuls for bygg og anlegg",
+          "title": "Slik måler Orgpuls dette på byggeplassen",
+          "lead": "Orgpuls er en arbeidsmiljøundersøkelse bygd på QPS Nordic, med en egen modul for bygg og anlegg som kommer i tillegg til hovedundersøkelsen. Her er hva den spør om, og hvordan svarene blir til tiltak.",
+          "measures": "Hva Orgpuls spør om, utfordring for utfordring"
+        },
         "proof": {
           "k": "Slik ser det ut",
           "title": "Fra svar til tiltak i samme verktøy",
@@ -11958,13 +12015,13 @@
       "kontor": {
         "nav": "Kunnskap og kontor",
         "seo": {
-          "title": "Arbeidsmiljøundersøkelse for kunnskap og kontor | Orgpuls",
-          "description": "Kartlegg arbeidsmiljøet i rådgivning, IT, finans og media: konsentrasjon, tilgjengelighet, hybridarbeid og KI. Forenklet eller utvidet. 15 dager gratis."
+          "title": "Arbeidsmiljø i kunnskap og kontor: risiko, tall og lovkrav | Orgpuls",
+          "description": "Tilgjengelighet, fokus, hjemmekontor og omstilling i kunnskaps- og kontorarbeid: tall fra STAMI, Fafo og SSB, og hva arbeidsmiljøloven krever."
         },
         "hero": {
           "k": "Kunnskap og kontor · rådgivning, IT, finans, media og eiendom",
-          "h1": "Arbeidsmiljø­kartlegging for kunnskap og kontor: se hva som stjeler fokus og fritid – og følg det opp",
-          "lead": "Se hvor avbrytelser, krav om å svare utenom arbeidstid og hybridarbeid går ut over de ansatte – for hele virksomheten og for hvert team med nok svar. Velg forenklet eller utvidet, og plukk faktorene som passer hverdagen deres. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "h1": "Arbeidsmiljøet i kunnskap og kontor: risiko, tall og lovkrav",
+          "lead": "Avbrytelser, forventninger om å være tilgjengelig, hjemmekontor og stadige omstillinger preger hverdagen for mange i kunnskaps- og kontorarbeid. Her er hva STAMI, Fafo og SSB har funnet om arbeidsmiljøet, og hva arbeidsmiljøloven og hjemmekontorforskriften krever av arbeidsgiveren.",
           "secondary": "Se spørsmålene for kunnskap og kontor",
           "figure": {
             "title": "Slik svarer de ansatte",
@@ -11984,7 +12041,8 @@
               "t": "Rapport for Arbeidstilsynet",
               "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
             }
-          ]
+          ],
+          "jump": "Hva Orgpuls gjør for kunnskap og kontor"
         },
         "stats": {
           "k": "Hverdagen i tall",
@@ -12012,9 +12070,23 @@
           "note": "86 % på kontorarbeidsplasser er fornøyd med jobben, mot 83 % av alle sysselsatte, og sykefraværet er lavere enn snittet. Likevel oppgir 1 av 5 psykiske plager som helt eller delvis skyldes jobben.",
           "text": "Et anonymt spørreskjema viser det som ikke blir sagt i allmøtet. Kontor-modulen spør blant annet om de ansatte er blitt kontaktet i fritiden med forventning om svar. Svaret vises bare som antall for hele virksomheten."
         },
+        "compare": {
+          "k": "Sammenlignet",
+          "title": "Kontorarbeidsplasser mot alle sysselsatte",
+          "lead": "Andelen på kontorarbeidsplasser og blant alle sysselsatte.",
+          "industry": "Kontorarbeidsplasser",
+          "all": "Alle sysselsatte",
+          "items": [
+            "Jobber hjemmefra eller på farten utenom arbeidstid hver uke",
+            "Opplever at de forventes å være tilgjengelige i fritiden",
+            "Har opplevd omorganisering",
+            "Gjør gjentakende arm- og håndbevegelser",
+            "Er fornøyd med jobben"
+          ]
+        },
         "why": {
-          "k": "Hvorfor kartlegge",
-          "title": "Hvorfor kontorbedriften må kartlegge arbeidsmiljøet",
+          "k": "Lovkravene",
+          "title": "Hva loven krever av arbeidsgivere i kunnskap og kontor",
           "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte – også rådgivningsselskapet med seks konsulenter. For kunnskapsarbeid peker loven blant annet på arbeidsmengde og tidspress, uklare forventninger og støtte i arbeidet, og hjemmekontoret er en del av arbeidsmiljøet.",
           "law": {
             "title": "Det loven krever i kunnskaps- og kontorarbeid",
@@ -12062,56 +12134,88 @@
           }
         },
         "challenges": {
-          "k": "Utfordringer og løsninger",
-          "title": "Åtte utfordringer i kunnskaps- og kontorarbeid – og hvordan dere tar tak i dem",
-          "lead": "Mange kontorarbeidsplasser skårer godt på mye. Utfordringene her er det som er særegent for kunnskapsarbeid, hentet fra norsk forskning, statistikk og veiledning. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "k": "Utfordringene",
+          "title": "Åtte kjente risikoer i kunnskaps- og kontorarbeid – og hva regelverket sier",
+          "lead": "Utfordringene er hentet fra STAMI, Fafo, SSB og Abelia. Under hver står det hva loven og forskriftene krever av arbeidsgiveren.",
           "items": [
             {
               "t": "Ingen ro til å tenke",
               "looks": "Et kjapt spørsmål ved pulten, varsler i tre kanaler, fire møter før lunsj. Det som krever konsentrasjon, blir gjort når de andre har gått hjem.",
               "fig": "58 % av dem som jobber på kontor, sitter i delt kontor eller kontorlandskap hele eller deler av tiden. I Fafos evaluering av et aktivitetsbasert kontor i departementene opplevdes konsentrasjonskrevende arbeid som mer krevende i det åpne landskapet.",
+              "v": "58 %",
+              "vl": "sitter i delt kontor eller kontorlandskap hele eller deler av tiden",
+              "ref": "aml § 4-1 første ledd · § 4-4 første ledd",
+              "law": "Arbeidsmiljøet skal være fullt forsvarlig ut fra en enkeltvis og samlet vurdering av faktorene som kan påvirke de ansattes helse og velferd (aml § 4-1 første ledd). Fysiske forhold som inneklima, lys og støy skal også være fullt forsvarlige (§ 4-4 første ledd).",
               "solve": "Fokus og avbrytelser spør om man får sammenhengende tid til arbeid som krever konsentrasjon, og om man blir forstyrret når man trenger ro. Møtekultur spør om møtene er nyttige. I forenklet er de samlet i faktoren Konsentrasjon og arbeidsflyt, med forslag som faste fokusblokker og en møterevisjon."
             },
             {
               "t": "Alltid tilgjengelig",
               "looks": "Kunden sender e-post søndag kveld, og lederen svarer i chatten klokka elleve. Ingen har sagt at du må svare – men alle gjør det.",
               "fig": "22 % på kontorarbeidsplasser opplever at det er forventet at de er tilgjengelige i fritiden, mot 19 % av alle sysselsatte. Forventningene er ofte uformelle og underkommuniserte, skriver Fafo.",
+              "v": "22 %",
+              "vl": "opplever at de forventes å være tilgjengelige i fritiden, mot 19 % av alle sysselsatte",
+              "ref": "aml § 10-8",
+              "law": "De ansatte skal ha minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer og 35 timer i løpet av sju dager (aml § 10-8). Unntak krever skriftlig avtale med de tillitsvalgte i en tariffbundet virksomhet, og kompenserende hvile.",
               "solve": "Tilgjengelighet spør om det er akseptert å ikke svare utenom arbeidstid, og om teamet har klare avtaler om når man skal være tilgjengelig. Et ja/nei-spørsmål teller hvor mange som er blitt kontaktet i fritiden der det var forventet at de svarte – vist bare som antall for hele virksomheten. Ett av forslagene er en tilgjengelighetsavtale i teamet."
             },
             {
               "t": "Jobben følger med hjem",
               "looks": "PC-en står på kjøkkenbordet, og «bare én ting til» blir til en time hver kveld. Det er fleksibelt – helt til det ikke er det.",
               "fig": "Blant ansatte uten lederansvar får 41 % i akademikeryrker jobbhenvendelser i fritiden minst én gang i uka, mot 17 % av operatører og håndverkere. To av tre ledere med personalansvar får slike henvendelser hver uke.",
+              "v": "41 %",
+              "vl": "i akademikeryrker uten lederansvar får jobbhenvendelser i fritiden minst én gang i uka",
+              "ref": "aml § 10-8 første ledd · § 4-1 andre ledd",
+              "law": "De ansatte skal ha minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer (aml § 10-8 første ledd). Arbeidstidsordningene og måten arbeidet er organisert på, skal være slik at de ansatte ikke utsettes for uheldige psykiske belastninger (§ 4-1 andre ledd).",
               "solve": "Arbeid og privatliv spør om jobben gir nok tid til privatlivet, og Restitusjon og løsrivelse om man klarer å koble av i fritiden. Forslagene inkluderer «Fri betyr fri» og en kvartalsvis gjennomgang av kvelds- og helgearbeidet sammen med verneombudet."
             },
             {
               "t": "Sammen, men hver for seg",
               "looks": "Halve teamet er på kontoret tirsdag, resten torsdag. Den nye har ikke møtt alle ennå, og sparringen skjer bare når noen husker å invitere.",
               "fig": "I Abelias HR-undersøkelse blant teknologi- og kunnskapsbedrifter oppgir 40 % av bedriftene svakere sosialt samhold som følge av fleksible og hybride arbeidsformer som en stor utfordring. STAMI finner at hjemmekontor kan gi mer kontroll og fleksibilitet, men også henger sammen med økte krav til tilgjengelighet, mindre kollegastøtte og noe mer rolleuklarhet og rollekonflikt.",
+              "v": "40 %",
+              "vl": "av bedriftene i Abelias HR-undersøkelse ser svakere sosialt samhold fra hybride arbeidsformer som en stor utfordring",
+              "ref": "aml § 4-3 fjerde ledd · hjemmekontorforskriften § 3",
+              "law": "Arbeidet skal søkes utformet slik at det gir mulighet for kontakt og kommunikasjon med andre arbeidstakere (aml § 4-3 fjerde ledd). Ved fast hjemmearbeid skal arbeidsgiveren så langt det er praktisk mulig forsikre seg om at arbeidsforholdene er fullt forsvarlige, også det psykososiale arbeidsmiljøet (hjemmekontorforskriften § 3).",
               "solve": "Hybrid samhandling spør om samarbeidet fungerer uansett hvor man jobber, og Tilhørighet og faglig nettverk om man får uformell kontakt og faglig sparring. Rolleklarhet og Støtte fra kollegaer i hovedundersøkelsen viser resten. Forslagene inkluderer en hybrid teamavtale og ukentlig én-til-én."
             },
             {
               "t": "Kunden har alltid hastverk",
               "looks": "Fristen ble satt i salgsmøtet, bestillingen endret seg underveis, og timene skal fortsatt føres som fakturerbare.",
               "fig": "Om lag 1 av 10 arbeidstakere får jevnlig jobbhenvendelser i fritiden og forventes å svare. De fleste er ledere eller i særlig selvstendige stillinger, bruker minst 2 timer i uka på det, og mange rapporterer stress og arbeid under sykdom.",
+              "v": "1 av 10",
+              "vl": "får jevnlig jobbhenvendelser i fritiden og forventes å svare",
+              "ref": "aml § 4-3 andre ledd a og c",
+              "law": "Uklare eller motstridende krav og forventninger, og arbeidsmengde og tidspress, er blant de psykososiale faktorene loven nevner (aml § 4-3 andre ledd bokstav a og c).",
               "solve": "I utvidet kan dere velge Kunde- og leveransepress: om fristene er realistiske, om man får støtte fra leder når kunden stiller urimelige krav, og om kravene til fakturerbar tid er rimelige. Arbeidsmengde og tidspress og Motstridende krav i hovedundersøkelsen er med for alle."
             },
             {
               "t": "Nye systemer, ny organisering, ny KI",
               "looks": "Nytt fagsystem i vår, ny organisering til høsten – og nå skal alle bruke KI, men ingen har sagt hvordan.",
               "fig": "55 % på kontorarbeidsplasser har opplevd omorganisering, mot 48 % av alle sysselsatte. I bank, finans og forsikring er det 65 %. 9 av 10 foretak i informasjon og kommunikasjon bruker KI i 2026.",
+              "v": "55 %",
+              "vl": "har opplevd omorganisering, mot 48 % av alle sysselsatte",
+              "ref": "aml § 4-2 første og tredje ledd",
+              "law": "De ansatte skal holdes løpende informert om systemene som brukes i arbeidet, få nødvendig opplæring i dem og medvirke når de utformes (aml § 4-2 første ledd). Under omstillinger skal arbeidsgiveren sørge for den informasjonen, medvirkningen og kompetanseutviklingen som trengs for et fullt forsvarlig arbeidsmiljø (tredje ledd).",
               "solve": "KI og endring spør om man vet hvordan man bruker KI trygt, og om man blir involvert når ny teknologi endrer jobben. Jobbtrygghet og omstilling spør om man er trygg på at kompetansen vil være etterspurt, og i utvidet om endringer blir forklart. Medvirkning og kontroll i hovedundersøkelsen viser om de ansatte blir hørt."
             },
             {
               "t": "Skjerm, stol og kjøkkenbord",
               "looks": "Åtte timer foran skjermen, halve uka ved et kjøkkenbord og en kanal for hvert prosjekt. Ingen har spurt hvordan det går med nakken.",
               "fig": "42 % på kontorarbeidsplasser jobber med gjentakende arm- og håndbevegelser, blant annet PC-arbeid, mot 25 % av alle sysselsatte. Jobber noen hjemme én dag hver uke som fast ordning, gjelder hjemmekontorforskriften, skriver Arbeidstilsynet.",
+              "v": "42 %",
+              "vl": "gjør gjentakende arm- og håndbevegelser, blant annet PC-arbeid, mot 25 % av alle sysselsatte",
+              "ref": "aml § 4-4 andre ledd · hjemmekontorforskriften § 3",
+              "law": "Arbeidsplassen skal utformes slik at de ansatte unngår uheldige fysiske belastninger, med nødvendige hjelpemidler og mulighet for variasjon (aml § 4-4 andre ledd). Ved fast hjemmearbeid skal arbeidsgiveren så langt det er praktisk mulig forsikre seg om at arbeidsstedet, utstyret og innemiljøet ikke gir uheldige fysiske belastninger (hjemmekontorforskriften § 3).",
               "solve": "Fysisk arbeidsplass og utstyr spør om kontoret gir ro, og om man har utstyr som er godt for kroppen – også hjemme. Et ja/nei-spørsmål teller hvor mange som jobber fast hjemmefra uten skriftlig avtale. Digitale verktøy spør om verktøyene gjør jobben enklere, og om mengden meldinger er til å håndtere."
             },
             {
               "t": "Det som ikke blir sagt på skjermen",
               "looks": "I videomøtet sier alle at det går fint. Den som strever, sier det i lunsjen – hvis hun er på kontoret den dagen.",
               "fig": "Blant ledere med ansatte som kan jobbe hjemmefra, synes 47 % det er krevende å lede ansatte som jobber hjemmefra, og 45 % mener det påvirker arbeidsmiljøet negativt.",
+              "v": "47 %",
+              "vl": "av ledere med ansatte som kan jobbe hjemmefra, synes det er krevende å lede dem",
+              "ref": "aml § 4-3 andre ledd d · § 2 A-1",
+              "law": "Støtte og hjelp i arbeidet er en av de psykososiale faktorene loven nevner (aml § 4-3 andre ledd bokstav d). De ansatte har rett til å varsle om kritikkverdige forhold i virksomheten (§ 2 A-1).",
               "solve": "Ytringsklima og Støtte fra leder i hovedundersøkelsen viser om folk tør å si fra, og om lederen stiller opp. Svarene er anonyme og vises per team med nok svar – også for dem lederen sjelden ser. I kommentarfeltet kan de skrive det de ikke sier høyt, og dere kan svare anonymt."
             }
           ]
@@ -12142,6 +12246,12 @@
           "f_teknologi_ki": "Teknologisk endring og KI"
         },
         "moduleTag": "Kontor-modulen",
+        "orgpuls": {
+          "k": "Orgpuls for kunnskap og kontor",
+          "title": "Slik måler Orgpuls dette i kunnskaps- og kontorarbeid",
+          "lead": "Orgpuls er en arbeidsmiljøundersøkelse bygd på QPS Nordic, med en egen modul for kunnskap og kontor som kommer i tillegg til hovedundersøkelsen. Her er hva den spør om, og hvordan svarene blir til tiltak.",
+          "measures": "Hva Orgpuls spør om, utfordring for utfordring"
+        },
         "variants": {
           "k": "Forenklet eller utvidet",
           "title": "Én modul, to varianter: velg det som passer dere",
@@ -12356,13 +12466,13 @@
       "helse": {
         "nav": "Helse og omsorg",
         "seo": {
-          "title": "Arbeidsmiljøundersøkelse for helse og omsorg | Orgpuls",
-          "description": "Kartlegg arbeidsmiljøet i omsorg, hjemmetjeneste og klinikk: vold og trusler, bemanning, turnus og deltid. Anonymt på SMS eller QR. 15 dager gratis."
+          "title": "Arbeidsmiljø i helse og omsorg: risiko, tall og lovkrav | Orgpuls",
+          "description": "Vold, emosjonelle krav, bemanning, turnus og tunge løft i helse og omsorg: tall fra STAMI, SSB, Fafo og Arbeidstilsynet, og hva loven krever."
         },
         "hero": {
           "k": "Helse og omsorg · omsorg, hjemmetjeneste og klinikk",
-          "h1": "Arbeidsmiljø­kartlegging for helse og omsorg: se hva som tærer på personalet – og følg det opp",
-          "lead": "Se hvor vold og trusler, stram bemanning og turnus uten hvile går ut over de ansatte – for hele virksomheten og for hver avdeling med nok svar. Alle vakter svarer anonymt på mobilen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "h1": "Arbeidsmiljøet i helse og omsorg: risiko, tall og lovkrav",
+          "lead": "Vold og trusler, følelser man tar med seg hjem, for få på vakt og tunge løft preger hverdagen for mange i helse og omsorg. Her er hva STAMI, SSB, Fafo og Arbeidstilsynet har funnet om arbeidsmiljøet i næringen, og hva arbeidsmiljøloven krever av arbeidsgiveren.",
           "secondary": "Se spørsmålene for helse og omsorg",
           "figure": {
             "title": "Slik svarer de ansatte",
@@ -12382,7 +12492,8 @@
               "t": "Rapport for Arbeidstilsynet",
               "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
             }
-          ]
+          ],
+          "jump": "Hva Orgpuls gjør for helse og omsorg"
         },
         "stats": {
           "k": "Hverdagen i tall",
@@ -12410,9 +12521,30 @@
           "note": "Arbeidstilsynets inspektører beskriver at det meldes relativt få avvik på arbeidsmiljøområdet i helse- og sosialtjenester, selv om mange burde vært meldt. Dermed blir heller ikke den reelle arbeidsmiljøtilstanden synlig.",
           "text": "Et anonymt spørreskjema gir de ansatte en måte å si det på uten å stå fram. Helse-modulen spør om vold og trusler som ikke ble meldt, og om vakter der bemanningen ikke var forsvarlig. Svarene vises bare som antall for hele virksomheten."
         },
+        "compare": {
+          "k": "Sammenlignet",
+          "title": "Helse og omsorg mot alle sysselsatte",
+          "lead": "Andelen i helse og omsorg og blant alle sysselsatte. Under hver rad står det hvilken del av næringen tallet gjelder; for deltid og sykefravær er sammenligningen alle næringer.",
+          "industry": "Helse og omsorg",
+          "all": "Alle sysselsatte",
+          "items": [
+            "Har vært utsatt for vold",
+            "Opplever høye emosjonelle krav",
+            "Opplever høy grad av rollekonflikt",
+            "Er utsatt for uønsket seksuell oppmerksomhet",
+            "Løfter i ubekvemme stillinger",
+            "Jobber deltid",
+            "Sykefravær, 2. kvartal 2026"
+          ],
+          "groups": {
+            "sykehjem": "Sykehjem",
+            "hjemme": "Hjemmetjenesten",
+            "hs": "Helse- og sosialtjenester"
+          }
+        },
         "why": {
-          "k": "Hvorfor kartlegge",
-          "title": "Hvorfor omsorgsvirksomheten må kartlegge arbeidsmiljøet",
+          "k": "Lovkravene",
+          "title": "Hva loven krever av arbeidsgivere i helse og omsorg",
           "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte, også legekontoret med fem ansatte og BPA-firmaet med assistenter hjemme hos hver bruker. I arbeid med mennesker peker loven særlig på emosjonelle krav, vold og trusler og alenearbeid.",
           "law": {
             "title": "Det loven krever i arbeid med mennesker",
@@ -12464,56 +12596,86 @@
           }
         },
         "challenges": {
-          "k": "Utfordringer og løsninger",
-          "title": "Åtte utfordringer i helse og omsorg – og hvordan dere tar tak i dem",
-          "lead": "Utfordringene er hentet fra norsk forskning, statistikk og tilsyn. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "k": "Utfordringene",
+          "title": "Åtte kjente risikoer i helse og omsorg – og hva regelverket sier",
+          "lead": "Utfordringene er hentet fra STAMI, SSB, Fafo og Arbeidstilsynet. Under hver står det hva loven og forskriften krever av arbeidsgiveren.",
           "items": [
             {
               "t": "Vold og trusler – ofte alene hos brukeren",
               "looks": "En bruker som blir urolig under stellet, en nattevakt alene på avdelingen, et hjemmebesøk der døra går igjen bak deg. Ofte er du den eneste der.",
               "fig": "34 % på sykehjem har vært utsatt for vold, og 27 % for hets eller trusler. I hjemmetjenesten er tallene 12 og 18 %. Arbeidstilsynet bruker ansatte i hjemmetjenesten som eksempel på alenearbeid.",
+              "v": "34 %",
+              "vl": "på sykehjem har vært utsatt for vold, mot 5 % av alle sysselsatte",
+              "ref": "aml § 4-3 sjette ledd · § 4-1 tredje ledd · forskriften kap. 3A",
+              "law": "De ansatte skal så langt det er mulig beskyttes mot vold og trusler (aml § 4-3 sjette ledd), og arbeidsgiveren skal vurdere om det er særlig risiko ved alenearbeid (§ 4-1 tredje ledd). Forskriften kapittel 3A krever at risikoen kartlegges og vurderes, at det settes inn tiltak, at de ansatte får opplæring, og at den som rammes, blir fulgt opp.",
               "solve": "Faktoren Vold og trusler spør om dere har gått gjennom situasjonene som kan føre til vold, om også små hendelser blir meldt, og om den som var involvert blir fulgt opp. Et ja/nei-spørsmål teller hendelser som ikke ble meldt. Kontakt og kommunikasjon i hovedundersøkelsen spør om man kan tilkalle hjelp raskt når man er alene."
             },
             {
               "t": "Følelsene man tar med seg hjem",
               "looks": "En beboer som dør, pårørende som er fortvilet, en bruker som er sint på alt. Du skal være profesjonell hele vakta – og så kjøre hjem.",
               "fig": "38 % i hjemmetjenesten og 35 % på sykehjem opplever høye emosjonelle krav, mot 20 % av alle sysselsatte. I hjemmetjenesten er 34 % ofte psykisk utmattet etter jobb.",
+              "v": "38 %",
+              "vl": "i hjemmetjenesten opplever høye emosjonelle krav, mot 20 % av alle sysselsatte",
+              "ref": "aml § 4-3 andre ledd b og d",
+              "law": "Loven nevner emosjonelle krav og belastninger i arbeid med mennesker, og støtte og hjelp i arbeidet, som psykososiale arbeidsmiljøfaktorer (aml § 4-3 andre ledd bokstav b og d).",
               "solve": "Hovedundersøkelsen måler Emosjonelle krav: om man sjelden blir stående alene i følelsesmessig krevende situasjoner, om dere snakker om vanskelige hendelser etterpå, og om man får reagere som menneske på jobb. Helse-modulen gjentar ikke disse. Støtte fra leder viser om lederen stiller opp når jobben blir krevende."
             },
             {
               "t": "For få på vakt",
               "looks": "To er syke, vikaren kjenner ikke brukerne, og lista er like lang. Noe må vente – og det er du som må velge hva.",
               "fig": "Arbeidstilsynets inspektører beskriver en næring med høy arbeidsbelastning og tidspress, og en ubalanse mellom oppgaver og ressurser.",
+              "vl": "Arbeidstilsynets inspektører beskriver høy arbeidsbelastning og tidspress, og en ubalanse mellom oppgaver og ressurser.",
+              "ref": "aml § 4-3 andre ledd c · forskriften § 3A-2",
+              "law": "Arbeidsmengde og tidspress er en av faktorene loven nevner (aml § 4-3 andre ledd bokstav c). Bemanning er blant det risikovurderingen av vold og trusler skal se på (forskriften § 3A-2).",
               "solve": "Faktoren Bemanning og forsvarlig omsorg spør om bemanningen gjør det mulig å gi forsvarlig omsorg, om man slipper å gå hjem med dårlig samvittighet, og om det er tydelig hva som kan vente. Et ja/nei-spørsmål teller vakter der bemanningen ikke var forsvarlig. Tid til kjerneoppgavene viser om dokumentasjon og systemer tar tid fra brukerne."
             },
             {
               "t": "Mellom bruker, pårørende og leder",
               "looks": "Pårørende vil ha mer enn tjenesten kan gi, brukeren vil noe annet, og lederen har bestemt en tredje ting. Og kommentarene om kroppen din blir ledd bort.",
               "fig": "På sykehjem opplever 22 % høy grad av rollekonflikt, mot 13 % av alle sysselsatte – blant annet motstridende forventninger fra beboere, pårørende, ledere og kolleger. 18 % er utsatt for uønsket seksuell oppmerksomhet, mot 5 %.",
+              "v": "22 %",
+              "vl": "på sykehjem opplever høy grad av rollekonflikt, mot 13 % av alle sysselsatte",
+              "ref": "aml § 4-3 andre ledd a og femte ledd",
+              "law": "Uklare eller motstridende krav og forventninger i arbeidet er en av de psykososiale faktorene loven nevner (aml § 4-3 andre ledd bokstav a). Ingen skal utsettes for trakassering, herunder seksuell trakassering (femte ledd).",
               "solve": "Faktoren Grenser mot brukere og pårørende spør om dere har avklart hva dere gjør når noen går over grensen, om seksuelle kommentarer blir tatt på alvor, og om man får støtte til å si nei til pårørende. Motstridende krav i hovedundersøkelsen viser om det er klart hvem som bestemmer når to ting kolliderer."
             },
             {
               "t": "Turnus, kveld og natt",
               "looks": "Kveldsvakt til halv elleve og dagvakt klokka sju. Telefonen om en ekstravakt kommer på fridagen – igjen.",
               "fig": "Om lag 9 av 10 på sykehjem jobber utenom vanlig dagtid, og 1 av 3 jobber om natten. 24 % oppgir søvnvansker som helt eller delvis skyldes jobben.",
+              "v": "1 av 3",
+              "vl": "på sykehjem jobber om natten",
+              "ref": "aml §§ 10-3, 10-8 og 10-11",
+              "law": "Jobber de ansatte til ulike tider på døgnet, skal det lages en arbeidsplan i samarbeid med de tillitsvalgte (aml § 10-3). De ansatte skal som hovedregel ha minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer (§ 10-8), og nattarbeid er bare tillatt når arbeidets art gjør det nødvendig (§ 10-11).",
               "solve": "Faktoren Turnus og hvile spør om turnusen gir nok hvile mellom vaktene, om man kan påvirke den, og om ekstravakter på kort varsel er unntaket. Forslagene til tiltak er konkrete, som turnusverksted og en fast rekkefølge for ekstravakter. Er nattevakten en egen gruppe, får den egne tall når nok har svart."
             },
             {
               "t": "Deltid som ingen har valgt",
               "looks": "Mange små stillinger, mange vikarer og noen som tar alle ekstravaktene. De som jobber lite, får ikke med seg beskjedene.",
               "fig": "Blant turnusansatte i kommunal pleie og omsorg jobber nærmere 35 % heltid. Fafo beskriver ansatte som jobber deltid fordi vaktene oppleves som for slitsomme – en tilpasning til et arbeidsmiljø de ikke har bestemt selv.",
+              "vl": "Nærmere 35 % av turnusansatte i kommunal pleie og omsorg jobber heltid.",
+              "ref": "aml §§ 14-3 og 14-4 a",
+              "law": "Deltidsansatte har fortrinnsrett til utvidet stilling fremfor at arbeidsgiveren ansetter nye (aml § 14-3). Har en deltidsansatt jevnlig jobbet mer enn avtalt de siste 12 månedene, har vedkommende som hovedregel rett til stilling tilsvarende den faktiske arbeidstiden (§ 14-4 a).",
               "solve": "Faktoren Stilling og tilhørighet spør om man har stillingsstørrelsen man ønsker, om viktig informasjon når fram også til dem som jobber lite, og om man føler seg som en del av fagmiljøet. Ett av forslagene er å tilby ledige stillingsandeler til deltidsansatte først, slik fortrinnsretten krever."
             },
             {
               "t": "Nye, vikarer og mange språk",
               "looks": "Vikaren fra byrået er her for første gang, og den nye har gått to følgevakter. Rapporten går fort, og ikke alle forstår alt.",
               "fig": "Fafo beskriver at ufaglærte vikarer ofte kalles inn og må ta ansvar for oppgaver de ikke har formell kompetanse til, og at kollegaer da må bruke mer tid på veiledning. 1 av 5 som jobber på sykehjem, er innvandrere.",
+              "v": "1 av 5",
+              "vl": "som jobber på sykehjem, er innvandrere",
+              "ref": "aml § 3-2 første ledd a · § 4-2 andre ledd b",
+              "law": "Arbeidsgiveren skal sørge for at de ansatte får den opplæringen, øvelsen og instruksjonen som trengs (aml § 3-2 første ledd bokstav a). Arbeidet skal organiseres under hensyn til den enkeltes arbeidsevne, kyndighet, alder og øvrige forutsetninger (§ 4-2 andre ledd bokstav b).",
               "solve": "Faktoren Faglig trygghet spør om nye og vikarer får nok opplæring før de står alene på vakt, om man har noen å rådføre seg med, og om dere forstår hverandre godt nok til at rapport og beskjeder blir riktige. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk."
             },
             {
               "t": "Tunge løft når det er travelt",
               "looks": "Personløfteren står i den andre enden av gangen, og det er travelt. Det går fortere å ta det selv.",
               "fig": "30 % på sykehjem og 34 % i hjemmetjenesten løfter i ubekvemme stillinger, mot 14 % av alle sysselsatte. 35 % på sykehjem oppgir ryggsmerter som helt eller delvis skyldes jobben.",
+              "v": "30 %",
+              "vl": "på sykehjem løfter i ubekvemme stillinger, mot 14 % av alle sysselsatte",
+              "ref": "aml § 4-4 andre ledd",
+              "law": "Arbeidsplassen skal utformes slik at de ansatte unngår uheldige fysiske belastninger. Nødvendige hjelpemidler skal stilles til rådighet, og det skal legges til rette for variasjon og for å unngå tunge løft (aml § 4-4 andre ledd).",
               "solve": "Faktoren Forflytning og tunge løft spør om dere har hjelpemidlene dere trenger, om det er tid til å bruke dem også når det er travelt, og om dere er nok folk til tunge forflytninger. Ett av forslagene er en forflytningsplan per bruker."
             }
           ]
@@ -12529,6 +12691,12 @@
           "forflytning_og_tunge_loft": "Forflytning og tunge løft"
         },
         "moduleTag": "Helse-modulen",
+        "orgpuls": {
+          "k": "Orgpuls for helse og omsorg",
+          "title": "Slik måler Orgpuls dette i helse og omsorg",
+          "lead": "Orgpuls er en arbeidsmiljøundersøkelse bygd på QPS Nordic, med en egen modul for helse og omsorg som kommer i tillegg til hovedundersøkelsen. Her er hva den spør om, og hvordan svarene blir til tiltak.",
+          "measures": "Hva Orgpuls spør om, utfordring for utfordring"
+        },
         "proof": {
           "k": "Slik ser det ut",
           "title": "Fra svar til tiltak i samme verktøy",
@@ -12688,13 +12856,13 @@
       "barnehage": {
         "nav": "Barnehage og skole",
         "seo": {
-          "title": "Arbeidsmiljøundersøkelse for barnehage og skole | Orgpuls",
-          "description": "Kartlegg arbeidsmiljøet i barnehage, skole og SFO: vold og trusler, bemanning, foreldre og tid til kjerneoppgavene. Anonymt på mobilen. 15 dager gratis."
+          "title": "Arbeidsmiljø i barnehage og skole: risiko, tall og lovkrav | Orgpuls",
+          "description": "Vold fra barn og elever, bemanning, dokumentasjon og tunge saker i barnehage og skole: tall fra STAMI, SSB, NIFU og Udir, og hva loven krever."
         },
         "hero": {
           "k": "Barnehage, skole og SFO",
-          "h1": "Arbeidsmiljø­kartlegging for barnehage og skole: se hva som sliter på de voksne – og følg det opp",
-          "lead": "Se hvor vold og trusler, for få voksne og krevende foreldresamarbeid går ut over personalet – for hele barnehagen eller skolen og for hver avdeling, hvert trinn eller SFO med nok svar. Påstandene sier «barna» i barnehagen og «elevene» i skolen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "h1": "Arbeidsmiljøet i barnehage og skole: risiko, tall og lovkrav",
+          "lead": "Vold og trusler, for få voksne, dokumentasjonskrav og foreldre som tar kontakt etter arbeidstid preger hverdagen for mange i barnehage og skole. Her er hva STAMI, SSB, NIFU, Udir og Arbeidstilsynet har funnet om arbeidsmiljøet, og hva arbeidsmiljøloven krever av arbeidsgiveren.",
           "secondary": "Velg barnehage eller skole",
           "figure": {
             "title": "Slik svarer de ansatte",
@@ -12714,7 +12882,8 @@
               "t": "Rapport for Arbeidstilsynet",
               "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
             }
-          ]
+          ],
+          "jump": "Hva Orgpuls gjør for barnehage og skole"
         },
         "stats": {
           "k": "Hverdagen i tall",
@@ -12742,9 +12911,29 @@
           "note": "Nesten 9 av 10 lærere i videregående skole sier at skolen har et system for å melde vold og trusler. Likevel blir det lite brukt, finner Fafo. De som mener det ikke fungerer, peker på at for få bruker det, at det er for dårlig kjent, og at avvik som meldes, ikke blir fulgt opp.",
           "text": "Et anonymt spørreskjema gir de ansatte en måte å si det på uten å stå fram. Modulen spør om hendelser med vold eller trusler fra barn eller elever som ikke ble meldt, og om dager der fravær ikke ble dekket med vikar. Svarene vises bare som antall for hele virksomheten."
         },
+        "compare": {
+          "k": "Sammenlignet",
+          "title": "Barnehage og skole mot alle sysselsatte",
+          "lead": "Andelen i barnehage og skole og blant alle sysselsatte. Under hver rad står det hvilken del av sektoren tallet gjelder.",
+          "industry": "Barnehage og skole",
+          "all": "Alle sysselsatte",
+          "items": [
+            "Ble utsatt for vold på jobb siste år",
+            "Jobber på huk eller på knærne",
+            "Løfter i ubekvemme stillinger",
+            "Opplever høyt lydnivå",
+            "Opplever høye emosjonelle krav",
+            "Opplever at jobben forstyrrer privatlivet"
+          ],
+          "groups": {
+            "gs": "Grunnskolelærere",
+            "bhg": "Barnehage og SFO",
+            "und": "Undervisning"
+          }
+        },
         "why": {
-          "k": "Hvorfor kartlegge",
-          "title": "Hvorfor barnehagen og skolen må kartlegge arbeidsmiljøet",
+          "k": "Lovkravene",
+          "title": "Hva loven krever av arbeidsgivere i barnehage og skole",
           "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte – også den lille private barnehagen, friskolen og SFO-en. Barnas og elevenes rettigheter etter barnehageloven og opplæringsloven gjelder samtidig med de ansattes etter arbeidsmiljøloven, og i arbeid med mennesker peker loven særlig på emosjonelle krav og vold og trusler.",
           "law": {
             "title": "Det loven krever – også i arbeid med barn",
@@ -12792,56 +12981,86 @@
           }
         },
         "challenges": {
-          "k": "Utfordringer og løsninger",
-          "title": "Åtte utfordringer i barnehage og skole – og hvordan dere tar tak i dem",
-          "lead": "Utfordringene er hentet fra norsk forskning, statistikk og tilsyn. De fleste gjelder både barnehage og skole; de som gjelder bare den ene, er merket. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "k": "Utfordringene",
+          "title": "Åtte kjente risikoer i barnehage og skole – og hva regelverket sier",
+          "lead": "Utfordringene er hentet fra STAMI, SSB, NIFU, Udir og Arbeidstilsynet. Under hver står det hva loven og forskriften krever av arbeidsgiveren.",
           "items": [
             {
               "t": "Vold og trusler fra barn og elever",
               "looks": "Et barn som biter og sparker i garderoben, en elev som kaster en stol når overgangen blir for brå. Ofte er det de samme situasjonene som kommer igjen.",
               "fig": "28 % av grunnskolelærerne og nær 1 av 5 barnehagelærere og barnehage- og skoleassistenter ble utsatt for vold på jobb siste år, mot 5,7 % av alle sysselsatte. 8 av 10 ledere i grunnskolen rapporterer voldshendelser det siste året.",
+              "v": "28 %",
+              "vl": "av grunnskolelærerne ble utsatt for vold på jobb siste år, mot 5,7 % av alle sysselsatte",
+              "ref": "aml § 4-3 sjette ledd · forskriften kap. 3A",
+              "law": "De ansatte skal så langt det er mulig beskyttes mot vold og trusler (aml § 4-3 sjette ledd). Forskriften kapittel 3A krever at risikoen kartlegges og vurderes, at det settes inn tiltak, at de ansatte får opplæring, og at den som rammes, blir fulgt opp.",
               "solve": "Faktoren Vold og trusler spør om rutinene er kjent, om man vet hvilket handlingsrom man har til å gripe inn når en situasjon blir farlig, og om den som var involvert, blir fulgt opp. Et ja/nei-spørsmål teller hendelser som ikke ble meldt. Påstanden sier «et barn» i barnehagen og «en elev» i skolen."
             },
             {
               "t": "For få voksne i ytterkantene av dagen",
               "looks": "Normen holder på papiret. Men ved åpning, i pausene og når de siste blir hentet, står én voksen alene med flere barn enn noen kan ha oversikt over.",
               "fig": "99 % av barnehagene oppfyller bemanningsnormen. Men i en spørring fra 2019 oppga 86 % av styrerne at de har full bemanning under 6 timer av dagen, og Udir skriver at bemanning på papiret kan være noe annet enn bemanning i virkeligheten.",
+              "v": "86 %",
+              "vl": "av barnehagene hadde i 2019 full bemanning i mindre enn 6 timer av dagen",
+              "ref": "aml § 4-3 andre ledd c · forskriften § 3A-2",
+              "law": "Arbeidsmengde og tidspress er en av faktorene loven nevner (aml § 4-3 andre ledd bokstav c). Bemanning er blant det risikovurderingen av vold og trusler skal se på (forskriften § 3A-2).",
               "solve": "Faktoren Bemanning og vikarer spør om bemanningen gjør det mulig å gi barna det de trenger, om det blir satt inn vikar når noen er borte, og om man sjelden står alene med flere barn enn man har oversikt over. Et ja/nei-spørsmål teller dager der fravær ikke ble dekket med vikar. Arbeidsmengde og tidspress i hovedundersøkelsen viser om tempoet er for høyt."
             },
             {
               "t": "Dokumentasjon og vurdering tar tiden",
               "looks": "Planer, vurderinger, referater og meldinger. Tiden til å følge opp eleven som trenger det, blir det som er igjen.",
               "fig": "Over halvparten av lærerne på ungdomstrinnet får mye stress av mengden administrativt arbeid og av vurdering og karaktersetting. «Lærere har mange roller og dokumentasjonskrav, og de jobber mye og har lite tid til pause i hverdagen», sier en inspektør i Arbeidstilsynet.",
+              "vl": "Over halvparten av lærerne på ungdomstrinnet får mye stress av mengden administrativt arbeid.",
+              "ref": "aml § 4-3 andre ledd c · § 4-2 andre ledd c",
+              "law": "Arbeidsmengde og tidspress er en av de psykososiale faktorene loven nevner (aml § 4-3 andre ledd bokstav c). Det skal legges vekt på å gi den enkelte mulighet til selvbestemmelse, innflytelse og faglig ansvar (§ 4-2 andre ledd bokstav c).",
               "solve": "Faktoren Tid til kjerneoppgavene spør om man har tid til å planlegge og forberede arbeidet med elevene, om dokumentasjon og rapportering står i forhold til nytten, og om møtetid og fellestid brukes til det som er viktigst. Ett av forslagene er beskyttet planleggingstid. Arbeidsmengde og tidspress i hovedundersøkelsen viser det samlede presset."
             },
             {
               "t": "Foreldre – også etter arbeidstid",
               "looks": "En melding sent på kvelden, en bekymret forelder ved porten, en samtale som låser seg. Samarbeidet er viktig – og noen ganger det tyngste i uka.",
               "fig": "Om lag halvparten av lærerne på ungdomstrinnet får mye stress av å håndtere foreldres bekymringer, og det har økt siden 2018. Samtidig føler 76 % seg verdsatt av foreldrene. 41 % i undervisning opplever at jobben forstyrrer privatlivet, blant annet fordi elever og foresatte tar kontakt etter arbeidstid.",
+              "v": "41 %",
+              "vl": "i undervisning opplever at jobben forstyrrer privatlivet, mot 31 % av alle sysselsatte",
+              "ref": "aml § 4-3 sjette ledd · § 10-8",
+              "law": "De ansatte skal så langt det er mulig beskyttes mot uheldige belastninger som følge av kontakt med andre (aml § 4-3 sjette ledd). De skal ha minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer (§ 10-8 første ledd).",
               "solve": "Faktoren Samarbeid med foreldre spør om det er tydelig hva foreldre kan forvente, om man får støtte fra ledelsen når samarbeidet blir krevende, og om man slipper å svare foreldre utenom arbeidstiden. Forslagene er blant annet svartid i arbeidstiden og at lederen er med i de krevende møtene."
             },
             {
               "t": "Barn og elever som trenger mer enn dere kan gi",
               "looks": "Et barn som trenger en voksen hele dagen, en elev som venter på utredning. Tilretteleggingen skjer i en vanlig gruppe, med de voksne som er der.",
               "fig": "Flere lærere på ungdomstrinnet enn i 2018 melder om en mer sammensatt elevgruppe og behov for mer kompetanse til tilpasning. NIFU finner at elever med behov for tilrettelagt opplæring ofte er involvert i voldshendelser, og at spesialpedagoger og assistenter som jobber tett med dem, er mest utsatt.",
+              "vl": "Elever med behov for tilrettelagt opplæring er ofte involvert i voldshendelser, og de som jobber tettest med dem, er mest utsatt, finner NIFU.",
+              "ref": "aml § 4-3 andre ledd b og d · § 3-2 første ledd a",
+              "law": "Emosjonelle krav og belastninger i arbeid med mennesker, og støtte og hjelp i arbeidet, er blant de psykososiale faktorene loven nevner (aml § 4-3 andre ledd bokstav b og d). Arbeidsgiveren skal sørge for den opplæringen, øvelsen og instruksjonen som trengs (§ 3-2 første ledd bokstav a).",
               "solve": "Faktoren Tilrettelegging og inkludering spør om man får nok støtte til å møte barn eller elever med særskilte behov, om dere har tilgang til spesialpedagogisk kompetanse, og om man vet hvem man kan kontakte når et barn trenger mer hjelp enn dere kan gi. Ett av forslagene er faste møter med støttetjenestene."
             },
             {
               "t": "Mange uten pedagogisk utdanning – og nye hele tiden",
               "looks": "Den faste assistenten kjenner barna best, vikaren er her for første gang, og det er uklart hvem som har ansvaret for hva.",
               "fig": "I barnehagene er 42,2 % av grunnbemanningen barnehagelærere og 22,8 % barne- og ungdomsarbeidere – 35 % er verken det ene eller det andre. I grunnskolen stiller loven ingen krav til utdanning for assistenter, og assistenter og andre står for nesten en tredjedel av årstimene i elevrettet arbeid.",
+              "v": "35 %",
+              "vl": "av grunnbemanningen i barnehagene er verken barnehagelærere eller barne- og ungdomsarbeidere",
+              "ref": "aml § 3-2 første ledd a · § 4-2 andre ledd b",
+              "law": "Arbeidsgiveren skal sørge for at de ansatte får den opplæringen, øvelsen og instruksjonen som trengs (aml § 3-2 første ledd bokstav a). Arbeidet skal organiseres under hensyn til den enkeltes arbeidsevne, kyndighet, alder og øvrige forutsetninger (§ 4-2 andre ledd bokstav b).",
               "solve": "Faktoren Kompetanse og fellesskap i personalet spør om nye og vikarer får opplæring før de har ansvar for barn alene, om dere har tid til faglige samtaler, og om det er tydelig hvordan oppgavene fordeles mellom pedagoger og andre ansatte. Ett av forslagene er en vikarmappe og en fast gjennomgang første dag. Støtte fra kollegaer i hovedundersøkelsen viser hvordan laget fungerer."
             },
             {
               "t": "Lave stoler, løft og støy",
               "looks": "Påkledning på huk, en toåring på hofta og en voksen på barnestol ved lunsjen. Og lyden av en full avdeling i ett rom.",
               "fig": "I barnehage og SFO jobber 60 % på huk eller på knærne og 38 % løfter i ubekvemme stillinger, mot 17 og 14 % av alle sysselsatte. 35 % oppgir ryggsmerter som helt eller delvis skyldes jobben. 24 % opplever høyt lydnivå, mot 8,6 % – målinger viser lav risiko for hørselsskade, men lyden kan være mentalt belastende.",
+              "v": "60 %",
+              "vl": "i barnehage og SFO jobber på huk eller på knærne, mot 17 % av alle sysselsatte",
+              "ref": "aml § 4-4 første og andre ledd",
+              "law": "Støy og andre fysiske forhold skal være fullt forsvarlige (aml § 4-4 første ledd). Arbeidsplassen skal utformes slik at de ansatte unngår uheldige fysiske belastninger, med nødvendige hjelpemidler og tilrettelegging for å unngå tunge løft (andre ledd).",
               "solve": "Faktoren Støy, kropp og pauser spør om støynivået er til å leve med, om dere har møbler og utstyr som gjør at man kan jobbe godt for kroppen, og om man får tatt pauser. Forslagene er konkrete: et støykart, pauser der man er avløst, og voksenstoler og stellebord med heis."
             },
             {
               "t": "Tunge saker og følelsene man tar med hjem",
               "looks": "En bekymring for hvordan et barn har det hjemme, en mobbesak som ikke slipper taket. Man skal være rolig og profesjonell – og så gå hjem.",
               "fig": "31 % i barnehage og SFO og 32 % i undervisning opplever høye emosjonelle krav, mot 20 % av alle sysselsatte. I barnehage og SFO er 41 % ofte psykisk utmattet etter jobb.",
+              "v": "41 %",
+              "vl": "i barnehage og SFO er ofte psykisk utmattet etter jobb",
+              "ref": "aml § 4-3 andre ledd b og d",
+              "law": "Loven nevner emosjonelle krav og belastninger i arbeid med mennesker, og støtte og hjelp i arbeidet, som psykososiale arbeidsmiljøfaktorer (aml § 4-3 andre ledd bokstav b og d).",
               "solve": "Faktoren Vanskelige saker spør om man vet hvordan dere går fram ved bekymring for hvordan et barn har det hjemme, om man står alene med saker om mobbing og krenkelser, og om dere har tid til å følge dem opp. Ett av forslagene er to ansvarlige på hver sak, aldri én. Hovedundersøkelsen måler Emosjonelle krav, så modulen gjentar dem ikke."
             }
           ]
@@ -12857,6 +13076,12 @@
           "vanskelige_saker": "Vanskelige saker"
         },
         "moduleTag": "Bransjemodulen",
+        "orgpuls": {
+          "k": "Orgpuls for barnehage og skole",
+          "title": "Slik måler Orgpuls dette i barnehage og skole",
+          "lead": "Orgpuls er en arbeidsmiljøundersøkelse bygd på QPS Nordic, med en egen modul for barnehage og skole som kommer i tillegg til hovedundersøkelsen. Her er hva den spør om, og hvordan svarene blir til tiltak.",
+          "measures": "Hva Orgpuls spør om, utfordring for utfordring"
+        },
         "audience": {
           "barnehage": "Barnehage",
           "skole": "Skole"

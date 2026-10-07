@@ -37,13 +37,12 @@ const PAGES = [
   { slug: 'lovkrav', h1: no.seo.lp.lovkrav.h1, article: true },
   { slug: 'verneombud', h1: no.seo.lp.verneombud.h1, article: true },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
-  // an industry on the landing template (content/industries/landing.ts, D-207): the H1 is its message
-  // an industry page written as an article (D-240): the article card, under the industry's name
+  // the industry pages, written as articles (D-240): the article card, under the industry's name
   { slug: 'handel', h1: no.site.bransje.handel.hero.h1, article: true, kicker: no.site.bransje.handel.nav },
-  { slug: 'bygg-og-anlegg', h1: no.site.bransje.bygg.hero.h1, shot: 'sporsmal' },
-  { slug: 'helse-og-omsorg', h1: no.site.bransje.helse.hero.h1, shot: 'sporsmal' },
-  { slug: 'kunnskap-og-kontor', h1: no.site.bransje.kontor.hero.h1, shot: 'sporsmal' },
-  { slug: 'barnehage-og-skole', h1: no.site.bransje.barnehage.hero.h1, shot: 'sporsmal' },
+  { slug: 'bygg-og-anlegg', h1: no.site.bransje.bygg.hero.h1, article: true, kicker: no.site.bransje.bygg.nav },
+  { slug: 'helse-og-omsorg', h1: no.site.bransje.helse.hero.h1, article: true, kicker: no.site.bransje.helse.nav },
+  { slug: 'kunnskap-og-kontor', h1: no.site.bransje.kontor.hero.h1, article: true, kicker: no.site.bransje.kontor.nav },
+  { slug: 'barnehage-og-skole', h1: no.site.bransje.barnehage.hero.h1, article: true, kicker: no.site.bransje.barnehage.nav },
   // the hub (D-207): its H1, and the overview a leader gets
   { slug: 'bransjer', h1: no.site.bransjer.h1, shot: 'oversikt' },
 ]

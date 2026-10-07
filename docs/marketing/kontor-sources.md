@@ -253,6 +253,27 @@ hjemmefra (n = 642). <https://www.fafo.no/images/pub/2025/Ledelsesbarometeret_hj
 |---|---|
 | Blant ledere med ansatte som kan jobbe hjemmefra, synes 47 % det er krevende å lede ansatte som jobber hjemmefra, og 45 % mener det påvirker arbeidsmiljøet negativt | s. 3: «45 prosent mener ansatte på hjemmekontor påvirker arbeidsmiljøet negativt, og 47 prosent svarer at de synes det er krevende å lede ansatte som jobber hjemmefra.» |
 
+## Regelverket under hver utfordring (D-240)
+
+Linjene «Regelverket» på kortene er sjekket mot arbeidsmiljøloven slik den står på Lovdata etter
+endringslov 19. juni 2026 nr. 33, hentet 2026-10-07 (leddene i § 4-3 er nummerert etter gjeldende tekst:
+trakassering femte ledd, vold og trusler sjette ledd), og mot forskriftene som er nevnt over.
+
+| Utfordring | Hjemmel | Det teksten sier |
+|---|---|---|
+| Ingen ro | aml § 4-1 første ledd, § 4-4 første ledd | «Arbeidsmiljøet i virksomheten skal være fullt forsvarlig ut fra en enkeltvis og samlet vurdering av faktorer i arbeidsmiljøet …»; fysiske faktorer som «inneklima, lysforhold, støy» skal være «fullt forsvarlig» |
+| Alltid tilgjengelig | aml § 10-8 | «minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer», «35 timer i løpet av sju dager»; tredje ledd: unntak ved skriftlig avtale med tillitsvalgte i tariffbundet virksomhet, med kompenserende hvile |
+| Jobben følger med hjem | aml § 10-8 første ledd, § 4-1 andre ledd | «minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer», «35 timer i løpet av sju dager»; tredje ledd: unntak ved skriftlig avtale med tillitsvalgte i tariffbundet virksomhet, med kompenserende hvile; «Arbeidets organisering, tilrettelegging og ledelse, arbeidstidsordninger … skal være slik at arbeidstakerne ikke utsettes for uheldige fysiske eller psykiske belastninger og slik at sikkerhetshensyn ivaretas.» |
+| Sammen, men hver for seg | aml § 4-3 fjerde ledd; hjemmekontorforskriften § 3 | «Arbeidet skal søkes utformet slik at det gir mulighet for kontakt og kommunikasjon med andre arbeidstakere …»; hjemmekontorforskriften § 3 som under kilde 7 |
+| Kunden har hastverk | aml § 4-3 andre ledd a og c | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet» |
+| Omstilling og KI | aml § 4-2 første og tredje ledd | informert om systemer, «nødvendig opplæring», «medvirke ved utformingen av dem»; «Under omstillingsprosesser … skal arbeidsgiver sørge for den informasjon, medvirkning og kompetanseutvikling som er nødvendig …» |
+| Skjerm, stol og kjøkkenbord | aml § 4-4 andre ledd; hjemmekontorforskriften § 3 | «Nødvendige hjelpemidler skal stilles til arbeidstakers disposisjon. Det skal legges til rette for variasjon i arbeidet og for å unngå tunge løft …»; hjemmekontorforskriften § 3 som under kilde 7 |
+| Det som ikke blir sagt | aml § 4-3 andre ledd d, § 2 A-1 | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet»; «Arbeidstaker har rett til å varsle om kritikkverdige forhold i arbeidsgivers virksomhet.» |
+
+## Sammenligningen (D-240)
+
+Figuren «Kontorarbeidsplasser mot alle sysselsatte» bruker bare tall fra kilde 2 som står over: hjemmearbeid utenom arbeidstid 29/17 %, forventet tilgjengelighet 22/19 %, omorganisering 55/48 %, gjentakende arm- og håndbevegelser 42/25 % og fornøyd med jobben 86/83 %.
+
 ## Produktpåstander
 
 Det siden sier om Orgpuls, er sjekket mot koden, ikke mot en kilde utenfor: se D-212 i docs/DEVIATIONS.md for

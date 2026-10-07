@@ -189,6 +189,27 @@ arbeidsmiljø 2022.
   <https://nfa.elsevierpure.com/en/publications/nordic-safety-climate-questionnaire-nosacq-50-a-new-tool-for-diag/>,
   hentet 2026-10-03. Modulfilen bygger sikkerhetsfaktorene på det; landingssiden nevner det ikke.
 
+## Regelverket under hver utfordring (D-240)
+
+Linjene «Regelverket» på kortene er sjekket mot arbeidsmiljøloven slik den står på Lovdata etter
+endringslov 19. juni 2026 nr. 33, hentet 2026-10-07 (leddene i § 4-3 er nummerert etter gjeldende tekst:
+trakassering femte ledd, vold og trusler sjette ledd), og mot forskriftene som er nevnt over.
+
+| Utfordring | Hjemmel | Det teksten sier |
+|---|---|---|
+| Tidspress | aml § 4-1 andre ledd, § 4-3 andre ledd c | «Arbeidets organisering, tilrettelegging og ledelse, arbeidstidsordninger … skal være slik at arbeidstakerne ikke utsettes for uheldige fysiske eller psykiske belastninger og slik at sikkerhetshensyn ivaretas.»; a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet» |
+| Mange firma | aml § 2-2 andre ledd | «Hovedbedriften skal ha ansvaret for samordningen av de enkelte virksomheters helse-, miljø- og sikkerhetsarbeid.» |
+| Språk | byggherreforskriften § 19a andre ledd | ; som under kilde 5 |
+| Nye, unge og innleide | aml § 3-2 første ledd a og b | a «den opplæring, øvelse og instruksjon som er nødvendig», b den som leder eller kontrollerer andre, skal ha «nødvendig kompetanse» |
+| Nestenulykker | aml § 2-3 andre ledd b, § 5-1 | «straks underrette arbeidsgiver og verneombudet … når arbeidstakeren blir oppmerksom på feil eller mangler som kan medføre fare for liv eller helse»; «Arbeidsgiver skal sørge for registrering av alle personskader som oppstår under utførelse av arbeid.» |
+| Lag som ikke snakker sammen | aml § 4-3 andre ledd d, fjerde ledd | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet»; «Arbeidet skal søkes utformet slik at det gir mulighet for kontakt og kommunikasjon med andre arbeidstakere …» |
+| Lange dager | aml §§ 10-4 og 10-8 | «Den alminnelige arbeidstid må ikke overstige ni timer i løpet av 24 timer og 40 timer i løpet av sju dager.»; «minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer», «35 timer i løpet av sju dager»; tredje ledd: unntak ved skriftlig avtale med tillitsvalgte i tariffbundet virksomhet, med kompenserende hvile |
+| Tungt arbeid og skader | aml § 4-4 andre ledd, § 5-1 | «Nødvendige hjelpemidler skal stilles til arbeidstakers disposisjon. Det skal legges til rette for variasjon i arbeidet og for å unngå tunge løft …»; «Arbeidsgiver skal sørge for registrering av alle personskader som oppstår under utførelse av arbeid.» |
+
+## Sammenligningen (D-240)
+
+Figuren «Bygg og anlegg mot alle sysselsatte» bruker bare tall som står over: tungt fysisk arbeid 43/21 % (kilde 2, byggevirksomhet), arbeidsuker over 48 timer 12/8,2 % (kilde 12, anleggsvirksomhet) og arbeidsskader 16/11,8 per 1 000 sysselsatte i 2024 (kilde 1, mot alle næringer), den siste på egen skala.
+
 ## Produktpåstander
 
 Det siden sier om Orgpuls, er sjekket mot koden, ikke mot en kilde utenfor: se D-208 i docs/DEVIATIONS.md

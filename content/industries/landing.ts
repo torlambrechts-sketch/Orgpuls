@@ -20,6 +20,43 @@ import type { IndustryPage } from './types'
  */
 export type LandingSource = { key: string; url: string; year: string }
 
+/** The hero drawings of the industry pages written as articles (D-240) */
+export type IndustryArtKind = 'handel' | 'bygg' | 'helse' | 'kontor' | 'barnehage'
+
+/** The challenge drawings of those pages (D-240): one per challenge, by what it shows */
+export type RiskKind =
+  | 'threat'
+  | 'alone'
+  | 'customer'
+  | 'staffing'
+  | 'rota'
+  | 'newcomer'
+  | 'lifting'
+  | 'harassment'
+  | 'clock'
+  | 'sites'
+  | 'language'
+  | 'report'
+  | 'team'
+  | 'longday'
+  | 'helmet'
+  | 'heart'
+  | 'role'
+  | 'night'
+  | 'parttime'
+  | 'focus'
+  | 'phone'
+  | 'home'
+  | 'hybrid'
+  | 'deadline'
+  | 'change'
+  | 'desk'
+  | 'silence'
+  | 'paper'
+  | 'parents'
+  | 'child'
+  | 'noise'
+
 export type LandingChallenge = {
   /** sources for the figure line (`fig`) */
   cites: string[]
@@ -76,12 +113,18 @@ export type IndustryLanding = {
    * Absent, the page is the product page it was (D-207).
    */
   article?: {
-    art: 'handel'
+    /** the hero's drawing (components/marketing/art/IndustryArt.tsx) */
+    art: IndustryArtKind
     /** each challenge's key figure's sources (`v`, `vl`): the one among the challenge's `cites` that backs it */
     figCites: string[][]
-    /** each challenge's drawing, in the challenges' order (components/industry/IndustryLanding.tsx RiskIcon) */
-    icons: ('threat' | 'alone' | 'customer' | 'staffing' | 'rota' | 'newcomer' | 'lifting' | 'harassment' | 'alert')[]
-    compare: { v: number; all: number; cites: string[]; group?: 'deltid' }[]
+    /** each challenge's drawing, in the challenges' order (components/industry/RiskIcon.tsx) */
+    icons: RiskKind[]
+    /**
+     * A bar pair per `compare.items` message. `group` names the part of the industry a figure is for
+     * (`compare.groups.<group>`), where it is not the industry as the legend names it; `unit` a figure
+     * that is not a percentage (`compare.units.<unit>`), drawn on its own scale up to `max`.
+     */
+    compare: { v: number; all: number; cites: string[]; group?: string; unit?: string; max?: number }[]
     lawCites: string[][]
   }
   /** `site.bransje.<msg>.proof.blocks`, one picture each */
@@ -111,7 +154,7 @@ export const LANDINGS: IndustryLanding[] = [
         { v: 33, all: 17, cites: ['stami'] },
         { v: 27, all: 16, cites: ['stami'] },
         { v: 22, all: 14, cites: ['stami'] },
-        { v: 37, all: 24, cites: ['ssb'], group: 'deltid' },
+        { v: 37, all: 24, cites: ['ssb'], group: 'varehandel' },
       ],
       lawCites: [
         ['lovdata_aml', 'lovdata_forskrift'],
@@ -184,6 +227,26 @@ export const LANDINGS: IndustryLanding[] = [
     live: { no: true, en: true },
     module: 'bygg-og-anlegg',
     heroShot: 'sporsmal',
+    article: {
+      art: 'bygg',
+      figCites: [['at_kompass25'], ['at_kompass25'], ['fafo_hms'], ['at_kompass26'], ['fafo_hms'], ['fafo_hms'], ['noa_anlegg'], ['noa']],
+      icons: ['clock', 'sites', 'language', 'newcomer', 'report', 'team', 'longday', 'helmet'],
+      compare: [
+        { v: 43, all: 21, cites: ['noa'], group: 'bygg' },
+        { v: 12, all: 8.2, cites: ['noa_anlegg'], group: 'anlegg' },
+        { v: 16, all: 11.8, cites: ['at_kompass26'], group: 'begge', unit: 'per1000', max: 20 },
+      ],
+      lawCites: [
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_bhf'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+      ],
+    },
     stats: {
       leadCites: ['at_kompass26'],
       items: [['at_kompass26'], ['at_kompass26'], ['noa'], ['noa']],
@@ -250,6 +313,39 @@ export const LANDINGS: IndustryLanding[] = [
     live: { no: true, en: true },
     module: 'helse-og-omsorg',
     heroShot: 'sporsmal',
+    article: {
+      art: 'helse',
+      figCites: [
+        ['noa_sykehjem'],
+        ['noa_hjemme'],
+        ['at_signal'],
+        ['noa_sykehjem'],
+        ['noa_sykehjem'],
+        ['fafo_deltid'],
+        ['noa_sykehjem'],
+        ['noa_sykehjem'],
+      ],
+      icons: ['threat', 'heart', 'staffing', 'role', 'night', 'parttime', 'newcomer', 'lifting'],
+      compare: [
+        { v: 34, all: 5, cites: ['noa_sykehjem'], group: 'sykehjem' },
+        { v: 38, all: 20, cites: ['noa_hjemme'], group: 'hjemme' },
+        { v: 22, all: 13, cites: ['noa_sykehjem'], group: 'sykehjem' },
+        { v: 18, all: 5, cites: ['noa_sykehjem'], group: 'sykehjem' },
+        { v: 30, all: 14, cites: ['noa_sykehjem'], group: 'sykehjem' },
+        { v: 35, all: 24, cites: ['ssb_aku'], group: 'hs' },
+        { v: 9.6, all: 6.6, cites: ['ssb_fravaer'], group: 'hs' },
+      ],
+      lawCites: [
+        ['lovdata_aml', 'lovdata_forskrift'],
+        ['lovdata_aml'],
+        ['lovdata_aml', 'lovdata_forskrift'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+      ],
+    },
     stats: {
       leadCites: ['ssb_aku'],
       items: [['ssb_fravaer'], ['noa_sykehjem'], ['noa_hjemme'], ['ssb_aku']],
@@ -315,6 +411,28 @@ export const LANDINGS: IndustryLanding[] = [
     live: { no: true, en: true },
     module: 'kunnskap-og-kontor',
     heroShot: 'sporsmal',
+    article: {
+      art: 'kontor',
+      figCites: [['noa_kontor'], ['noa_kontor'], ['fafo_koble'], ['abelia_hr'], ['fafo_koble'], ['noa_kontor'], ['noa_kontor'], ['fafo_ledelse']],
+      icons: ['focus', 'phone', 'home', 'hybrid', 'deadline', 'change', 'desk', 'silence'],
+      compare: [
+        { v: 29, all: 17, cites: ['noa_kontor'] },
+        { v: 22, all: 19, cites: ['noa_kontor'] },
+        { v: 55, all: 48, cites: ['noa_kontor'] },
+        { v: 42, all: 25, cites: ['noa_kontor'] },
+        { v: 86, all: 83, cites: ['noa_kontor'] },
+      ],
+      lawCites: [
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml', 'lovdata_hjemmekontor'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml', 'lovdata_hjemmekontor'],
+        ['lovdata_aml'],
+      ],
+    },
     stats: {
       leadCites: ['ssb_aku', 'noa_kontor'],
       items: [['noa_kontor'], ['fafo_koble'], ['stami_varig'], ['nav_fravaer']],
@@ -402,6 +520,29 @@ export const LANDINGS: IndustryLanding[] = [
     module: 'barnehage-og-skole',
     heroShot: 'sporsmal',
     wording: { example: 'BS-BE-3' },
+    article: {
+      art: 'barnehage',
+      figCites: [['ssb_vold'], ['udir_norm'], ['talis'], ['noa_und'], ['nifu_vold'], ['udir_ansatte'], ['noa_bhg'], ['noa_bhg']],
+      icons: ['threat', 'staffing', 'paper', 'parents', 'child', 'newcomer', 'noise', 'heart'],
+      compare: [
+        { v: 28, all: 5.7, cites: ['ssb_vold'], group: 'gs' },
+        { v: 60, all: 17, cites: ['noa_bhg'], group: 'bhg' },
+        { v: 38, all: 14, cites: ['noa_bhg'], group: 'bhg' },
+        { v: 24, all: 8.6, cites: ['noa_bhg'], group: 'bhg' },
+        { v: 31, all: 20, cites: ['noa_bhg'], group: 'bhg' },
+        { v: 41, all: 31, cites: ['noa_und'], group: 'und' },
+      ],
+      lawCites: [
+        ['lovdata_aml', 'lovdata_forskrift'],
+        ['lovdata_aml', 'lovdata_forskrift'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+      ],
+    },
     stats: {
       leadCites: ['noa_bhg', 'noa_und', 'udir_bhg'],
       items: [['ssb_bhg_fravaer'], ['ssb_vold'], ['noa_bhg'], ['at_skole']],

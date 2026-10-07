@@ -252,6 +252,27 @@ Nicolai Stensig, publisert 02.02.2026, tall fra Grunnskolens informasjonssystem 
 | I grunnskolen stiller loven ingen krav til utdanning for assistenter | «Opplæringsloven stiller ingen krav til utdannelse for assistenter i grunnskolen.» |
 | Assistenter og andre står for nesten en tredjedel av årstimene i elevrettet arbeid | «Årstimer til elevrettet arbeid utført av andre enn lærere i undervisningsstilling utgjør nå nesten en tredjedel av årstimene som utføres av undervisningspersonell og assistenter.» (2025/26: ca. 20,7 mill. årstimer for assistenter og andre mot ca. 44,2 mill. for undervisningspersonalet; 20,7 / 64,9 = 32 %) |
 
+## Regelverket under hver utfordring (D-240)
+
+Linjene «Regelverket» på kortene er sjekket mot arbeidsmiljøloven slik den står på Lovdata etter
+endringslov 19. juni 2026 nr. 33, hentet 2026-10-07 (leddene i § 4-3 er nummerert etter gjeldende tekst:
+trakassering femte ledd, vold og trusler sjette ledd), og mot forskriftene som er nevnt over.
+
+| Utfordring | Hjemmel | Det teksten sier |
+|---|---|---|
+| Vold og trusler | aml § 4-3 sjette ledd; forskriften kap. 3A | «Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre.»; forskriften kap. 3A: kartlegging og risikovurdering (§ 3A-2, der bemanning og alenearbeid nevnes), tiltak, opplæring og oppfølging |
+| For få voksne | aml § 4-3 andre ledd c; forskriften § 3A-2 | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet»; forskriften kap. 3A: kartlegging og risikovurdering (§ 3A-2, der bemanning og alenearbeid nevnes), tiltak, opplæring og oppfølging |
+| Dokumentasjon | aml § 4-3 andre ledd c, § 4-2 andre ledd c | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet»; «det legges vekt på å gi arbeidstaker mulighet til selvbestemmelse, innflytelse og faglig ansvar» |
+| Foreldre etter arbeidstid | aml § 4-3 sjette ledd, § 10-8 første ledd | «Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre.»; «minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer», «35 timer i løpet av sju dager»; tredje ledd: unntak ved skriftlig avtale med tillitsvalgte i tariffbundet virksomhet, med kompenserende hvile |
+| Barn som trenger mer | aml § 4-3 andre ledd b og d, § 3-2 første ledd a | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet»; a «den opplæring, øvelse og instruksjon som er nødvendig», b den som leder eller kontrollerer andre, skal ha «nødvendig kompetanse» |
+| Mange uten utdanning | aml § 3-2 første ledd a, § 4-2 andre ledd b | a «den opplæring, øvelse og instruksjon som er nødvendig», b den som leder eller kontrollerer andre, skal ha «nødvendig kompetanse»; «arbeidet organiseres og tilrettelegges under hensyn til den enkelte arbeidstakers arbeidsevne, kyndighet, alder og øvrige forutsetninger» |
+| Stoler, løft og støy | aml § 4-4 første og andre ledd | fysiske faktorer som «inneklima, lysforhold, støy» skal være «fullt forsvarlig»; «Nødvendige hjelpemidler skal stilles til arbeidstakers disposisjon. Det skal legges til rette for variasjon i arbeidet og for å unngå tunge løft …» |
+| Tunge saker | aml § 4-3 andre ledd b og d | a «uklare eller motstridende krav og forventninger», b «emosjonelle krav og belastninger i arbeid med mennesker», c «arbeidsmengde og tidspress …», d «støtte og hjelp i arbeidet» |
+
+## Sammenligningen (D-240)
+
+Figuren «Barnehage og skole mot alle sysselsatte» bruker bare tall som står over: vold mot grunnskolelærere 28/5,7 % (kilde 5), arbeid på huk 60/17 %, ubekvemme løft 38/14 %, høyt lydnivå 24/8,6 % og høye emosjonelle krav 31/20 % (barnehage og SFO, kilde 1), og at jobben forstyrrer privatlivet 41/31 % (undervisning, kilde 2).
+
 ## Produktpåstander
 
 Det siden sier om Orgpuls, er sjekket mot koden, ikke mot en kilde utenfor: se D-211 i docs/DEVIATIONS.md for

@@ -4,7 +4,8 @@ import { Fragment } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { keep } from '@/components/marketing/Diagrams'
-import { RetailArt } from '@/components/marketing/art/RetailArt'
+import { IndustryArt } from '@/components/marketing/art/IndustryArt'
+import { RiskIcon } from './RiskIcon'
 import { Tick } from '@/components/site/parts'
 import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
@@ -55,7 +56,16 @@ const Challenge = z.object({
   vl: Str.optional(),
   ref: Str.optional(),
 })
-const CompareWords = z.object({ k: Str, title: Str, lead: Str, retail: Str, retailDeltid: Str, all: Str, items: z.array(Str) })
+const CompareWords = z.object({
+  k: Str,
+  title: Str,
+  lead: Str,
+  industry: Str,
+  all: Str,
+  items: z.array(Str),
+  groups: z.record(Str, Str).optional(),
+  units: z.record(Str, Str).optional(),
+})
 const OrgpulsWords = z.object({ k: Str, title: Str, lead: Str, measures: Str })
 const Block = z.object({ k: Str, h3: Str, ticks: z.array(Str).min(1), caption: Str })
 const Qa = z.object({ q: Str, a: Str })
@@ -207,6 +217,47 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
     </p>
   )
 
+  // a worded module's wordings (D-211): with the challenges on a product page, with Orgpuls in an article (D-240)
+  const wordingBlock =
+    wordingWords && example?.text_variants ? (
+      <div
+        id="ordbruk"
+        className="mt-[40px] grid scroll-mt-[24px] items-start gap-x-[56px] gap-y-[24px] rounded-[24px] border border-line bg-bg px-[40px] py-[40px] [grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr))] max-sm:px-[16px] max-sm:py-[26px]"
+      >
+        <div>
+          <span className={`${EYEBROW} text-mut`}>{wordingWords.k}</span>
+          <h3 className="m-0 mt-[12px] max-w-[20ch] font-display text-[30px] font-semibold leading-[1.12] [text-wrap:balance] max-sm:text-[26px]">
+            {wordingWords.title}
+          </h3>
+          <p className={`${LEAD} mt-[14px] max-w-[46ch]`}>{wordingWords.lead}</p>
+          <p className="m-0 mt-[14px] max-w-[46ch] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{wordingWords.begge}</p>
+        </div>
+        <div>
+          <p className="m-0 text-[13px] font-semibold text-mut">{wordingWords.example}</p>
+          <ul className="m-0 mt-[10px] flex list-none flex-col gap-[10px] p-0">
+            {wordings.map((w) => {
+              const words = wordingWords.items[w]
+              if (!words) return null
+              return (
+                <li key={w} className="rounded-card border border-line bg-sf px-[20px] py-[18px] max-sm:px-[16px]">
+                  <span className="block text-[15px] font-bold">{words.t}</span>
+                  <span className="mt-[8px] block rounded-row border border-line bg-bg px-[14px] py-[11px] text-[14px] leading-[1.5] text-body [text-wrap:pretty]">
+                    «{example.text_variants?.[w]}»
+                  </span>
+                  <Link
+                    href={`/${landing.slug}/sporsmal?ordbruk=${w}` as Route}
+                    className="mt-[12px] inline-flex min-h-[24px] items-center text-[14.5px] font-bold hover:no-underline"
+                  >
+                    {words.link} <span aria-hidden="true">&nbsp;→</span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </div>
+    ) : null
+
   // ------------------------------------------------------------------ why
   const whySection = (
     <section id="hvorfor" data-screen-label="Hvorfor" aria-labelledby="hvorfor-h" className={`${COLUMN} pb-[24px] pt-[72px] max-sm:pt-[48px]`}>
@@ -348,7 +399,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
             </div>
             {article ? (
               <div aria-hidden="true" className="flex min-w-0 justify-center max-sm:hidden">
-                <RetailArt className="h-auto w-full max-w-[460px]" />
+                <IndustryArt kind={article.art} className="h-auto w-full max-w-[460px]" />
               </div>
             ) : (
               phoneFigure
@@ -470,7 +521,12 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
             {compare.title}
           </h2>
           <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{compare.lead}</p>
-          <Compare words={compare} rows={article.compare.map((c, i) => ({ ...c, label: compare.items[i] ?? '', cite: cites(c.cites) }))} />
+          <Compare
+            words={compare}
+            lang={lang}
+            ownScale={common('ownScale')}
+            rows={article.compare.map((c, i) => ({ ...c, label: compare.items[i] ?? '', cite: cites(c.cites) }))}
+          />
         </section>
       ) : null}
 
@@ -491,9 +547,16 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
               {challenges.map((c, i) => (
                 <li key={c.t} className="flex flex-col rounded-card border border-line bg-bg px-[20px] pb-[16px] pt-[18px] max-sm:px-[16px]">
                   <div className="flex items-start justify-between gap-[12px]">
-                    <RiskIcon kind={article.icons[i] ?? 'alert'} />
-                    <span aria-hidden="true" className="font-display text-[15px] font-semibold tabular-nums text-mut">
-                      {String(i + 1).padStart(2, '0')}
+                    <RiskIcon kind={article.icons[i] ?? 'threat'} />
+                    <span className="flex flex-col items-end gap-[6px]">
+                      <span aria-hidden="true" className="font-display text-[15px] font-semibold tabular-nums text-mut">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      {landing.challenges[i]?.audience ? (
+                        <span className="rounded-pill bg-sbg px-[9px] py-[3px] text-[11.5px] font-bold text-ink">
+                          {audiences[landing.challenges[i]!.audience!] ?? landing.challenges[i]!.audience}
+                        </span>
+                      ) : null}
                     </span>
                   </div>
                   <h3 className="m-0 mt-[14px] font-display text-[19px] font-semibold leading-[1.2] [text-wrap:balance]">{c.t}</h3>
@@ -589,44 +652,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
               })}
             </ol>
           )}
-          {wordingWords && example?.text_variants ? (
-            <div
-              id="ordbruk"
-              className="mt-[40px] grid scroll-mt-[24px] items-start gap-x-[56px] gap-y-[24px] rounded-[24px] border border-line bg-bg px-[40px] py-[40px] [grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr))] max-sm:px-[16px] max-sm:py-[26px]"
-            >
-              <div>
-                <span className={`${EYEBROW} text-mut`}>{wordingWords.k}</span>
-                <h3 className="m-0 mt-[12px] max-w-[20ch] font-display text-[30px] font-semibold leading-[1.12] [text-wrap:balance] max-sm:text-[26px]">
-                  {wordingWords.title}
-                </h3>
-                <p className={`${LEAD} mt-[14px] max-w-[46ch]`}>{wordingWords.lead}</p>
-                <p className="m-0 mt-[14px] max-w-[46ch] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{wordingWords.begge}</p>
-              </div>
-              <div>
-                <p className="m-0 text-[13px] font-semibold text-mut">{wordingWords.example}</p>
-                <ul className="m-0 mt-[10px] flex list-none flex-col gap-[10px] p-0">
-                  {wordings.map((w) => {
-                    const words = wordingWords.items[w]
-                    if (!words) return null
-                    return (
-                      <li key={w} className="rounded-card border border-line bg-sf px-[20px] py-[18px] max-sm:px-[16px]">
-                        <span className="block text-[15px] font-bold">{words.t}</span>
-                        <span className="mt-[8px] block rounded-row border border-line bg-bg px-[14px] py-[11px] text-[14px] leading-[1.5] text-body [text-wrap:pretty]">
-                          «{example.text_variants?.[w]}»
-                        </span>
-                        <Link
-                          href={`/${landing.slug}/sporsmal?ordbruk=${w}` as Route}
-                          className="mt-[12px] inline-flex min-h-[24px] items-center text-[14.5px] font-bold hover:no-underline"
-                        >
-                          {words.link} <span aria-hidden="true">&nbsp;→</span>
-                        </Link>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            </div>
-          ) : null}
+          {article ? null : wordingBlock}
           {article ? null : factsLine('mt-[24px]')}
         </div>
       </section>
@@ -685,6 +711,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                 )
               })}
             </ol>
+            {wordingBlock}
             {factsLine('mt-[24px]')}
           </div>
         </section>
@@ -1049,24 +1076,34 @@ function MeasuredBy({ label, items }: { label: string; items: { id: string; labe
 }
 
 /**
- * The industry beside all employed (D-240): a pair of bars per measure on one 0–100 % scale, the
- * industry in rust, all employed in sage – the design's colour for a compared figure – each bar with
- * its value written at its end, so nothing is read by colour alone. The drawing is hidden from screen
- * readers, which read the same figures as a table.
+ * The industry beside all employed (D-240): a pair of bars per measure, the industry in rust, all
+ * employed in sage – the design's colour for a compared figure – each bar with its value written at
+ * its end, so nothing is read by colour alone. Percentages share one 0–100 scale; a figure in another
+ * unit (injuries per 1 000) has its own, up to the row's `max`, set apart by a rule and marked as its own scale. A row for a part of the industry names
+ * that part under its label. Screen readers read each row's figures as text; the bars are hidden.
  */
 function Compare({
   words,
   rows,
+  lang,
+  ownScale,
 }: {
-  words: { retail: string; retailDeltid: string; all: string }
-  rows: { v: number; all: number; label: string; group?: 'deltid'; cite: React.ReactNode }[]
+  words: z.infer<typeof CompareWords>
+  ownScale: string
+  rows: { v: number; all: number; label: string; group?: string; unit?: string; max?: number; cite: React.ReactNode }[]
+  lang: 'no' | 'en'
 }) {
-  const bar = (v: number, tone: string) => (
-    // the value stands at the end of its bar; the scale runs 0–100 % of the track, the value's room aside
-    <div className="relative h-[16px] mr-[56px]">
-      <span className={`absolute inset-y-[1px] left-0 rounded-r-[4px] ${tone}`} style={{ width: `${v}%` }} />
-      <span className="absolute top-1/2 -translate-y-1/2 pl-[8px] text-[13px] font-bold leading-none tabular-nums text-ink" style={{ left: `${v}%` }}>
-        {v} %
+  const num = (v: number) => v.toLocaleString(lang === 'en' ? 'en-GB' : 'nb-NO')
+  const show = (v: number, unit?: string) => (unit ? `${num(v)} ${words.units?.[unit] ?? unit}` : `${num(v)} %`)
+  const bar = (v: number, max: number, unit: string | undefined, tone: string) => (
+    // the value stands at the end of its bar; the scale runs 0–max over the track, the value's room aside
+    <div className={`relative h-[16px] ${unit ? 'mr-[96px]' : 'mr-[56px]'}`}>
+      <span className={`absolute inset-y-[1px] left-0 rounded-r-[4px] ${tone}`} style={{ width: `${(v / max) * 100}%` }} />
+      <span
+        className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap pl-[8px] text-[13px] font-bold leading-none tabular-nums text-ink"
+        style={{ left: `${(v / max) * 100}%` }}
+      >
+        {show(v, unit)}
       </span>
     </div>
   )
@@ -1075,7 +1112,7 @@ function Compare({
       <div aria-hidden="true" className="flex flex-wrap gap-x-[22px] gap-y-[6px] text-[13px] font-semibold text-body">
         <span className="flex items-center gap-[8px]">
           <span className="h-[12px] w-[12px] rounded-[3px] bg-rustbar" />
-          {words.retail}
+          {words.industry}
         </span>
         <span className="flex items-center gap-[8px]">
           <span className="h-[12px] w-[12px] rounded-[3px] bg-sage" />
@@ -1084,129 +1121,32 @@ function Compare({
       </div>
       <ul className="m-0 mt-[20px] flex list-none flex-col gap-[18px] p-0">
         {rows.map((r) => {
-          const retail = r.group === 'deltid' ? words.retailDeltid : words.retail
+          const group = r.group ? (words.groups?.[r.group] ?? r.group) : null
+          const max = r.unit ? (r.max ?? Math.max(r.v, r.all) * 1.25) : 100
           return (
-            <li key={r.label} className="grid items-center gap-x-[24px] gap-y-[8px] md:grid-cols-[260px_minmax(0,1fr)]">
+            <li
+              key={r.label}
+              className={`grid items-center gap-x-[24px] gap-y-[8px] md:grid-cols-[260px_minmax(0,1fr)] ${r.unit ? 'border-t border-dashed border-rule pt-[18px]' : ''}`}
+            >
               <span className="text-[14.5px] font-semibold leading-[1.35]">
                 {r.label}
                 {r.cite}
-                {r.group === 'deltid' ? <span className="block text-[12px] font-normal text-mut">{words.retailDeltid}</span> : null}
+                {group || r.unit ? (
+                  <span className="block text-[12px] font-normal text-mut">{[group, r.unit ? ownScale : null].filter(Boolean).join(' · ')}</span>
+                ) : null}
                 <span className="sr-only">
                   {' – '}
-                  {retail}: {r.v} %, {words.all}: {r.all} %
+                  {group ?? words.industry}: {show(r.v, r.unit)}, {words.all}: {show(r.all, r.unit)}
                 </span>
               </span>
               <span aria-hidden="true" className="flex flex-col gap-[3px] border-l-2 border-ink">
-                {bar(r.v, 'bg-rustbar')}
-                {bar(r.all, 'bg-sage')}
+                {bar(r.v, max, r.unit, 'bg-rustbar')}
+                {bar(r.all, max, r.unit, 'bg-sage')}
               </span>
             </li>
           )
         })}
       </ul>
     </figure>
-  )
-}
-
-/**
- * A challenge's drawing (D-240): a line icon in ink on a coloured disc, in the site's art style –
- * decorative, the card's title says what it is. The kinds are the registry's (`article.icons`).
- */
-export type RiskKind = 'threat' | 'alone' | 'customer' | 'staffing' | 'rota' | 'newcomer' | 'lifting' | 'harassment' | 'alert'
-const RISK_FILL: Record<RiskKind, string> = {
-  threat: '#F0B9A0',
-  alone: '#F5C64A',
-  customer: '#FBD5C4',
-  staffing: '#CFE7E4',
-  rota: '#FBEBBE',
-  newcomer: '#CFE7E4',
-  lifting: '#F5DC96',
-  harassment: '#FBD5C4',
-  alert: '#F5C64A',
-}
-function RiskIcon({ kind }: { kind: RiskKind }) {
-  const ink = { stroke: '#191510', strokeWidth: 2.2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, fill: 'none' }
-  const paper = { ...ink, fill: '#FFFDF6' }
-  const draw: Record<RiskKind, React.ReactNode> = {
-    // a warning triangle
-    threat: (
-      <>
-        <path d="M28 12 L45 42 H11 Z" {...paper} />
-        <path d="M28 23 V32" {...ink} strokeWidth={3} />
-        <circle cx="28" cy="37" r="1.8" fill="#191510" />
-      </>
-    ),
-    // one person under the moon
-    alone: (
-      <>
-        <circle cx="26" cy="24" r="6" {...paper} />
-        <path d="M15 44 C15 34 20 31 26 31 C32 31 37 34 37 44 Z" {...paper} />
-        <path d="M41 11 A7 7 0 1 0 46 22 A6 6 0 0 1 41 11 Z" fill="#191510" />
-      </>
-    ),
-    // a speech bubble with a jagged mark
-    customer: (
-      <>
-        <path d="M12 14 H44 A4 4 0 0 1 48 18 V34 A4 4 0 0 1 44 38 H24 L16 45 V38 H12 A4 4 0 0 1 8 34 V18 A4 4 0 0 1 12 14 Z" {...paper} />
-        <path d="M17 26 L22 21 L27 30 L32 21 L37 30 L40 26" {...ink} />
-      </>
-    ),
-    // a queue of three before a clock
-    staffing: (
-      <>
-        {[12, 22, 32].map((x) => (
-          <g key={x}>
-            <circle cx={x} cy="27" r="4" {...paper} />
-            <path d={`M${x - 6} 44 C${x - 6} 36 ${x - 3} 33 ${x} 33 C${x + 3} 33 ${x + 6} 36 ${x + 6} 44`} {...paper} />
-          </g>
-        ))}
-        <circle cx="42" cy="16" r="8" {...paper} />
-        <path d="M42 11 V16 L45 18" {...ink} />
-      </>
-    ),
-    // a calendar
-    rota: (
-      <>
-        <rect x="11" y="14" width="34" height="30" rx="4" {...paper} />
-        <path d="M11 22 H45 M19 10 V17 M37 10 V17" {...ink} />
-        {[0, 1, 2].map((c) =>
-          [0, 1].map((r) => (
-            <rect key={`${c}${r}`} x={17 + c * 9} y={27 + r * 8} width="5" height="4" rx="1" fill={c === 2 && r === 1 ? '#191510' : '#C4BCA8'} />
-          )),
-        )}
-      </>
-    ),
-    // a person with a name badge
-    newcomer: (
-      <>
-        <circle cx="28" cy="20" r="7" {...paper} />
-        <path d="M14 45 C14 34 20 30 28 30 C36 30 42 34 42 45 Z" {...paper} />
-        <rect x="30" y="35" width="10" height="6" rx="1.5" fill="#F5C64A" stroke="#191510" strokeWidth="1.6" />
-      </>
-    ),
-    // a heavy box with an arrow up
-    lifting: (
-      <>
-        <rect x="12" y="24" width="28" height="20" rx="3" {...paper} />
-        <path d="M12 31 H40 M26 24 V31" {...ink} />
-        <path d="M44 34 V12 M39 17 L44 12 L49 17" {...ink} />
-      </>
-    ),
-    // a raised hand: stop
-    harassment: (
-      <>
-        <path
-          d="M19 30 V17 A2.5 2.5 0 0 1 24 17 V27 V13 A2.5 2.5 0 0 1 29 13 V27 V15 A2.5 2.5 0 0 1 34 15 V28 V20 A2.5 2.5 0 0 1 39 20 V33 C39 40 34 45 28 45 C23 45 20 42 17 37 L13 31 A2.5 2.5 0 0 1 17 28 Z"
-          {...paper}
-        />
-      </>
-    ),
-    alert: <circle cx="28" cy="28" r="12" {...paper} />,
-  }
-  return (
-    <svg aria-hidden="true" viewBox="0 0 56 56" className="h-[56px] w-[56px] flex-none">
-      <circle cx="28" cy="28" r="27" fill={RISK_FILL[kind]} />
-      {draw[kind]}
-    </svg>
   )
 }

@@ -11625,3 +11625,15 @@ lead side by side, the four figures and the note in a single row, smaller type �
 challenges are cards four across, each with a drawn icon, its key figure with the source that backs
 it (`article.figCites`, one of the challenge's own sources), and its provisions in short (`ref`); the
 situation, the finding and what the law says fold out under «Les mer», a native details element.
+
+Approved on /handel, the article form now covers all five industry pages: bygg og anlegg, helse og
+omsorg, kunnskap og kontor, and barnehage og skole have their own drawing (IndustryArt.tsx), an icon per
+challenge (components/industry/RiskIcon.tsx), a comparison with all employed, a key figure and the
+provisions on each card, and Orgpuls at the foot. Each figure is one the page already cited, and each
+legal line is checked against the Act's current text, recorded in docs/marketing/<msg>-sources.md.
+A comparison row may name the part of the industry its figure is for (sykehjem, anleggsvirksomhet) and
+may be in another unit than percent (arbeidsskader per 1 000), drawn on its own scale, set apart by a
+rule and marked as such. Barnehage og skole's cards keep their audience label, and its wording block
+moves with the question page into the Orgpuls section; kunnskap og kontor's variants follow it there.
+Where a challenge has no figure in its sources (tidspress, mange firma, bemanning), its card states
+the finding in words instead of inventing one.
