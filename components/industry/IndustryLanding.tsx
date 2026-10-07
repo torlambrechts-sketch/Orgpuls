@@ -18,21 +18,21 @@ import { SHOTS } from '@/lib/marketing/shots'
 import type { ShotId } from '@/lib/marketing/shot-ids'
 
 /**
- * The industry landing page (D-207), drawn from its registry entry (content/industries/landing.ts)
- * and its messages (`site.bransje.<msg>`, `site.bransje.common`). No layout of its own exists in
- * the design, so every block is a v3 pattern, at the v3 values:
+ * The industry page (D-207), written as an article about the industry (D-240), drawn from its registry
+ * entry (content/industries/landing.ts) and its messages (`site.bransje.<msg>`, `site.bransje.common`).
+ * Every block is a v3 pattern, at the v3 values:
  *
- *   hero ............ Bransjer/Plattform hero in the mint band (crumbs, ink eyebrow, 56px H1, the
- *                     yellow «Prøv gratis i 15 dager →» and a text link), the Forside slide's
- *                     picture column, and Bransjer's three tiles under it
- *   tallene ......... Forside's ink band: pill, H2, four 52px figures
+ *   hero ............ the mint band (crumbs, ink eyebrow, 56px H1), a link down to Orgpuls, and the
+ *                     industry's drawing (IndustryArt)
+ *   tallene ......... Forside's ink band in one compact row: heading and lead, four figures, the note
+ *   sammenlignet .... the industry beside all employed, a bar pair per measure
+ *   utfordringer .... a card per challenge, four across: icon (RiskIcon), key figure, provisions,
+ *                     and the situation, finding and law folded out; an audience label where a
+ *                     challenge concerns one (barnehage og skole, D-211)
  *   hvorfor ......... Forside slide 2's law card (✓ rows), beside r20 cards
- *   utfordringer .... Forside's problem/solution cards (rust eyebrow, mint foot), two across, on
- *                     Bransjer's sf band; a worded module (barnehage og skole, D-211) labels the
- *                     cards that concern one audience, and ends the band with the question page
- *                     in each wording (the anonymity panel's frame, the law card's rows)
- *   varianter ....... only for a module in two variants (D-212): both sets in the why section's
- *                     r20 cards, with the challenge cards' chips and the hero's tiles
+ *   orgpuls ......... what Orgpuls does for the industry: the product picture and tiles, how each
+ *                     challenge is measured, the question page in each wording (D-211)
+ *   varianter ....... only for a module in two variants (D-212): both sets in r20 cards
  *   slik ser det ut . Plattform's zigzag cases with a real screen in the browser frame
  *   steg ............ Forside's Sløyfen pillars
  *   anonymitet ...... ✓ rows in an r24 panel
@@ -51,10 +51,10 @@ const Challenge = z.object({
   looks: Str,
   fig: Str,
   solve: Str,
-  law: Str.optional(),
+  law: Str,
   v: Str.optional(),
-  vl: Str.optional(),
-  ref: Str.optional(),
+  vl: Str,
+  ref: Str,
 })
 const CompareWords = z.object({
   k: Str,
@@ -76,8 +76,6 @@ const EYEBROW = 'text-[11px] font-bold uppercase tracking-[.12em]'
 const H2 =
   'm-0 font-display text-[38px] font-semibold leading-[1.1] [overflow-wrap:break-word] [text-wrap:balance] max-sm:text-[30px] max-sm:leading-[1.12]'
 const LEAD = 'm-0 text-[16px] leading-[1.65] text-body [text-wrap:pretty]'
-const CTA =
-  'items-center gap-[9px] rounded-tile border border-ink bg-ac px-[22px] text-[15.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline'
 const SHOT_SHADOW = 'shadow-[0_18px_40px_-28px_rgba(25,21,16,.35)]'
 
 export async function IndustryLanding({ landing, lang }: { landing: Landing; lang: 'no' | 'en' }) {
@@ -104,15 +102,13 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
   const audiences = landing.challenges.some((c) => c.audience) ? z.record(Str, Str).parse(t.raw('audience')) : {}
   // the page as an article (D-240): the industry first, Orgpuls in a section of its own at the foot
   const article = landing.article
-  const compare = article ? CompareWords.parse(t.raw('compare')) : null
-  const orgpuls = article ? OrgpulsWords.parse(t.raw('orgpuls')) : null
+  const compare = CompareWords.parse(t.raw('compare'))
+  const orgpuls = OrgpulsWords.parse(t.raw('orgpuls'))
   if (
-    article &&
-    (compare?.items.length !== article.compare.length ||
-      article.lawCites.length !== challenges.length ||
-      article.icons.length !== challenges.length ||
-      article.figCites.length !== challenges.length ||
-      challenges.some((c) => !c.law || !c.vl || !c.ref))
+    compare.items.length !== article.compare.length ||
+    article.lawCites.length !== challenges.length ||
+    article.icons.length !== challenges.length ||
+    article.figCites.length !== challenges.length
   )
     throw new Error(`${landing.slug}: the article's messages and registry differ`)
 
@@ -153,7 +149,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
   const wordings =
     wordingWords && mod.wording ? mod.wording.modes.filter((w): w is 'barnehage' | 'skole' => w !== 'begge' && w !== mod.wording?.default) : []
 
-  // the product's picture and the hero's tiles: in the hero of a product page, at the foot of an article (D-240)
+  // the product's picture and the module's tiles, in the Orgpuls section (D-240)
   const phoneFigure = (
     <figure className="m-0 min-w-0" aria-labelledby="hero-shot-title">
       <div
@@ -172,7 +168,6 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
             width={hero.width}
             height={hero.height}
             alt={all(`seo.shots.${landing.heroShot}.alt`)}
-            fetchPriority={article ? undefined : 'high'}
             className="block h-auto w-full"
           />
         </div>
@@ -217,7 +212,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
     </p>
   )
 
-  // a worded module's wordings (D-211): with the challenges on a product page, with Orgpuls in an article (D-240)
+  // a worded module's wordings (D-211), in the Orgpuls section with the question page (D-240)
   const wordingBlock =
     wordingWords && example?.text_variants ? (
       <div
@@ -302,12 +297,6 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
               {t('why.tilsyn.p')}
               {cites(landing.why.tilsynCites)}
             </p>
-            {article ? null : (
-              <p className="m-0 mt-[10px] flex items-start gap-[10px] text-[14px] font-semibold leading-[1.5]">
-                <Tick />
-                <span>{t('why.tilsyn.d')}</span>
-              </p>
-            )}
           </div>
           <div className="rounded-card border border-line bg-sf px-[24px] py-[22px] max-sm:px-[16px] max-sm:py-[18px]">
             <h3 className="m-0 font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">{t('why.gap.t')}</h3>
@@ -369,168 +358,77 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                 {t('hero.h1')}
               </h1>
               <p className="m-0 mt-[20px] max-w-[52ch] text-[17px] leading-[1.65] text-body [text-wrap:pretty]">{t('hero.lead')}</p>
-              {article ? (
-                <a href="#orgpuls" className="mt-[24px] inline-flex min-h-[44px] items-center gap-[8px] text-[15.5px] font-bold hover:no-underline">
-                  {t('hero.jump')} <span aria-hidden="true">↓</span>
-                </a>
-              ) : (
-                <>
-                  <div className="mt-[26px] flex flex-wrap items-center gap-x-[26px] gap-y-[12px]">
-                    <a href="#kom-i-gang" className={`flex min-h-[50px] ${CTA}`}>
-                      {chrome('trial')} <span aria-hidden="true">→</span>
-                    </a>
-                    {wordingWords ? (
-                      <a href="#ordbruk" className="text-[15.5px] font-bold hover:no-underline">
-                        {t('hero.secondary')} <span aria-hidden="true">↓</span>
-                      </a>
-                    ) : questionPage ? (
-                      <Link href={`/${landing.slug}/sporsmal` as Route} className="text-[15.5px] font-bold hover:no-underline">
-                        {t('hero.secondary')} <span aria-hidden="true">→</span>
-                      </Link>
-                    ) : (
-                      <Link href="/demo" className="text-[15.5px] font-bold hover:no-underline">
-                        {chrome('demo')} <span aria-hidden="true">→</span>
-                      </Link>
-                    )}
-                  </div>
-                  <p className="m-0 mt-[16px] text-[13px] text-mut">{all('site.home.risk')}</p>
-                </>
-              )}
+              <a href="#orgpuls" className="mt-[24px] inline-flex min-h-[44px] items-center gap-[8px] text-[15.5px] font-bold hover:no-underline">
+                {t('hero.jump')} <span aria-hidden="true">↓</span>
+              </a>
             </div>
-            {article ? (
-              <div aria-hidden="true" className="flex min-w-0 justify-center max-sm:hidden">
-                <IndustryArt kind={article.art} className="h-auto w-full max-w-[460px]" />
-              </div>
-            ) : (
-              phoneFigure
-            )}
+            <div aria-hidden="true" className="flex min-w-0 justify-center max-sm:hidden">
+              <IndustryArt kind={article.art} className="h-auto w-full max-w-[460px]" />
+            </div>
           </div>
-          {article ? null : tileList('mt-[44px]')}
         </section>
       </SiteTop>
 
       <div className="flex flex-col gap-[18px] px-[18px] pt-[18px] max-sm:px-0">
         {/* ------------------------------------------------------------ the figures */}
-        {article ? (
-          // an article's figures (D-240): the same words in one compact row – heading and lead, four
-          // figures and the note – so the band introduces the page rather than filling a screen
-          <section
-            id="tallene"
-            data-screen-label="Tallene"
-            aria-labelledby="tallene-h"
-            className="w-full max-w-[1240px] self-center rounded-[24px] border border-line bg-ink px-[40px] py-[36px] text-bg max-sm:mx-[16px] max-sm:w-auto max-sm:self-stretch max-sm:px-[18px] max-sm:py-[28px]"
-          >
-            <div className="grid items-end gap-x-[40px] gap-y-[12px] [grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))]">
-              <div>
-                <span className="inline-flex items-center gap-[7px] rounded-pill bg-ac px-[12px] py-[5px] text-[11.5px] font-bold text-ink">
-                  <span aria-hidden="true">▤</span> {t('stats.k')}
-                </span>
-                <h2
-                  id="tallene-h"
-                  className="m-0 mt-[12px] max-w-[26ch] font-display text-[26px] font-semibold leading-[1.15] [text-wrap:balance] max-sm:text-[23px]"
-                >
-                  {t('stats.title')}
-                </h2>
-              </div>
-              <p className="m-0 max-w-[56ch] text-[14.5px] leading-[1.6] opacity-[.78] [text-wrap:pretty]">
-                {t('stats.lead')}
-                {cites(landing.stats.leadCites, 'cream')}
-              </p>
-            </div>
-            <ul className="m-0 mt-[28px] grid list-none gap-x-[20px] gap-y-[18px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr))] lg:[grid-template-columns:repeat(4,minmax(0,1fr))_minmax(0,1.6fr)]">
-              {stats.map((s, i) => (
-                <li key={s.v + s.l} className="border-l border-[rgba(252,246,233,.22)] pl-[16px]">
-                  <span className="block font-display text-[36px] font-semibold leading-none tabular-nums">{s.v}</span>{' '}
-                  <span className="mt-[8px] block text-[13.5px] leading-[1.45] [text-wrap:pretty]">
-                    <span className="opacity-[.78]">{s.l}</span>
-                    {cites(landing.stats.items[i] ?? [], 'cream')}
-                  </span>
-                </li>
-              ))}
-              <li className="rounded-[14px] bg-[rgba(252,246,233,.08)] px-[18px] py-[14px]">
-                <h3 className="m-0 font-display text-[18px] font-semibold leading-[1.2] [text-wrap:balance]">{t('stats.h3')}</h3>
-                <p className="m-0 mt-[6px] text-[13.5px] leading-[1.5] opacity-[.78] [text-wrap:pretty]">
-                  {t('stats.note')}
-                  {cites(landing.stats.noteCites, 'cream')}
-                </p>
-              </li>
-            </ul>
-          </section>
-        ) : (
-          <section
-            id="tallene"
-            data-screen-label="Tallene"
-            aria-labelledby="tallene-h"
-            className="w-full max-w-[1240px] self-center rounded-[24px] border border-line bg-ink px-[56px] py-[72px] text-bg max-sm:mx-[16px] max-sm:w-auto max-sm:self-stretch max-sm:px-[18px] max-sm:py-[48px]"
-          >
-            <div className="flex flex-col items-center gap-[14px] text-center">
-              <span className="inline-flex items-center gap-[7px] rounded-pill bg-ac px-[13px] py-[6px] text-[12px] font-bold text-ink">
+        {/* the figures in one compact row (D-240) – heading and lead, four figures and the note – so the band introduces the page */}
+        <section
+          id="tallene"
+          data-screen-label="Tallene"
+          aria-labelledby="tallene-h"
+          className="w-full max-w-[1240px] self-center rounded-[24px] border border-line bg-ink px-[40px] py-[36px] text-bg max-sm:mx-[16px] max-sm:w-auto max-sm:self-stretch max-sm:px-[18px] max-sm:py-[28px]"
+        >
+          <div className="grid items-end gap-x-[40px] gap-y-[12px] [grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))]">
+            <div>
+              <span className="inline-flex items-center gap-[7px] rounded-pill bg-ac px-[12px] py-[5px] text-[11.5px] font-bold text-ink">
                 <span aria-hidden="true">▤</span> {t('stats.k')}
               </span>
-              <h2 id="tallene-h" className={`${H2} max-w-[24ch]`}>
+              <h2
+                id="tallene-h"
+                className="m-0 mt-[12px] max-w-[26ch] font-display text-[26px] font-semibold leading-[1.15] [text-wrap:balance] max-sm:text-[23px]"
+              >
                 {t('stats.title')}
               </h2>
-              <p className="m-0 max-w-[58ch] text-[16px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">
-                {t('stats.lead')}
-                {cites(landing.stats.leadCites, 'cream')}
+            </div>
+            <p className="m-0 max-w-[56ch] text-[14.5px] leading-[1.6] opacity-[.78] [text-wrap:pretty]">
+              {t('stats.lead')}
+              {cites(landing.stats.leadCites, 'cream')}
+            </p>
+          </div>
+          <ul className="m-0 mt-[28px] grid list-none gap-x-[20px] gap-y-[18px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr))] lg:[grid-template-columns:repeat(4,minmax(0,1fr))_minmax(0,1.6fr)]">
+            {stats.map((s, i) => (
+              <li key={s.v + s.l} className="border-l border-[rgba(252,246,233,.22)] pl-[16px]">
+                <span className="block font-display text-[36px] font-semibold leading-none tabular-nums">{s.v}</span>{' '}
+                <span className="mt-[8px] block text-[13.5px] leading-[1.45] [text-wrap:pretty]">
+                  <span className="opacity-[.78]">{s.l}</span>
+                  {cites(landing.stats.items[i] ?? [], 'cream')}
+                </span>
+              </li>
+            ))}
+            <li className="rounded-[14px] bg-[rgba(252,246,233,.08)] px-[18px] py-[14px]">
+              <h3 className="m-0 font-display text-[18px] font-semibold leading-[1.2] [text-wrap:balance]">{t('stats.h3')}</h3>
+              <p className="m-0 mt-[6px] text-[13.5px] leading-[1.5] opacity-[.78] [text-wrap:pretty]">
+                {t('stats.note')}
+                {cites(landing.stats.noteCites, 'cream')}
               </p>
-            </div>
-            <ul className="m-0 mt-[52px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))]">
-              {stats.map((s, i) => (
-                <li key={s.v + s.l} className="px-[12px] py-[10px] text-center">
-                  <span className="block font-display text-[52px] font-semibold leading-none tabular-nums max-sm:text-[44px]">{s.v}</span>{' '}
-                  <span className="mx-auto mt-[12px] block max-w-[24ch] text-[15px] leading-[1.5] [text-wrap:balance]">
-                    <span className="opacity-[.78]">{s.l}</span>
-                    {cites(landing.stats.items[i] ?? [], 'cream')}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <div className="mx-auto mt-[56px] grid max-w-[980px] items-center gap-x-[48px] gap-y-[24px] border-t border-[rgba(252,246,233,.22)] pt-[40px] [grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))]">
-              <div>
-                <h3 className="m-0 max-w-[20ch] font-display text-[30px] font-semibold leading-[1.12] [text-wrap:balance] max-sm:text-[26px]">
-                  {t('stats.h3')}
-                </h3>
-                <p className="m-0 mt-[14px] max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">
-                  {t('stats.note')}
-                  {cites(landing.stats.noteCites, 'cream')}
-                </p>
-              </div>
-              {article ? null : (
-                <div>
-                  <p className="m-0 max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">{t('stats.text')}</p>
-                  <a href="#kom-i-gang" className={`mt-[22px] inline-flex min-h-[50px] focus-visible:outline-bg ${CTA}`}>
-                    {chrome('getStarted')} <span aria-hidden="true">→</span>
-                  </a>
-                </div>
-              )}
-            </div>
-          </section>
-        )}
+            </li>
+          </ul>
+        </section>
       </div>
 
-      {article && compare ? (
-        <section
-          id="sammenlignet"
-          data-screen-label="Sammenlignet"
-          aria-labelledby="sammenlignet-h"
-          className={`${COLUMN} pt-[72px] max-sm:pt-[48px]`}
-        >
-          <span className={`${EYEBROW} text-mut`}>{compare.k}</span>
-          <h2 id="sammenlignet-h" className={`${H2} mt-[12px] max-w-[24ch]`}>
-            {compare.title}
-          </h2>
-          <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{compare.lead}</p>
-          <Compare
-            words={compare}
-            lang={lang}
-            ownScale={common('ownScale')}
-            rows={article.compare.map((c, i) => ({ ...c, label: compare.items[i] ?? '', cite: cites(c.cites) }))}
-          />
-        </section>
-      ) : null}
-
-      {article ? null : whySection}
+      <section id="sammenlignet" data-screen-label="Sammenlignet" aria-labelledby="sammenlignet-h" className={`${COLUMN} pt-[72px] max-sm:pt-[48px]`}>
+        <span className={`${EYEBROW} text-mut`}>{compare.k}</span>
+        <h2 id="sammenlignet-h" className={`${H2} mt-[12px] max-w-[24ch]`}>
+          {compare.title}
+        </h2>
+        <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{compare.lead}</p>
+        <Compare
+          words={compare}
+          lang={lang}
+          ownScale={common('ownScale')}
+          rows={article.compare.map((c, i) => ({ ...c, label: compare.items[i] ?? '', cite: cites(c.cites) }))}
+        />
+      </section>
 
       {/* ----------------------------------------------------------- challenges */}
       <section id="utfordringer" data-screen-label="Utfordringer" aria-labelledby="utfordringer-h" className="mt-[48px] border-y border-line bg-sf">
@@ -540,182 +438,124 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
             {t('challenges.title')}
           </h2>
           <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{t('challenges.lead')}</p>
-          {article ? (
-            // an article's challenges (D-240): a card each, four across – a drawing, the key figure, the
-            // title and the provisions at a glance, the situation, the finding and the law folded under it
-            <ol className="m-0 mt-[36px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))] has-[details[open]]:items-start">
-              {challenges.map((c, i) => (
-                <li key={c.t} className="flex flex-col rounded-card border border-line bg-bg px-[20px] pb-[16px] pt-[18px] max-sm:px-[16px]">
-                  <div className="flex items-start justify-between gap-[12px]">
-                    <RiskIcon kind={article.icons[i] ?? 'threat'} />
-                    <span className="flex flex-col items-end gap-[6px]">
-                      <span aria-hidden="true" className="font-display text-[15px] font-semibold tabular-nums text-mut">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      {landing.challenges[i]?.audience ? (
-                        <span className="rounded-pill bg-sbg px-[9px] py-[3px] text-[11.5px] font-bold text-ink">
-                          {audiences[landing.challenges[i]!.audience!] ?? landing.challenges[i]!.audience}
-                        </span>
-                      ) : null}
+          {/* a card per challenge (D-240), four across: a drawing, the key figure, the title and the provisions at a glance; the situation, the finding and the law fold out */}
+          <ol className="m-0 mt-[36px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))] has-[details[open]]:items-start">
+            {challenges.map((c, i) => (
+              <li key={c.t} className="flex flex-col rounded-card border border-line bg-bg px-[20px] pb-[16px] pt-[18px] max-sm:px-[16px]">
+                <div className="flex items-start justify-between gap-[12px]">
+                  <RiskIcon kind={article.icons[i] ?? 'threat'} />
+                  <span className="flex flex-col items-end gap-[6px]">
+                    <span aria-hidden="true" className="font-display text-[15px] font-semibold tabular-nums text-mut">
+                      {String(i + 1).padStart(2, '0')}
                     </span>
-                  </div>
-                  <h3 className="m-0 mt-[14px] font-display text-[19px] font-semibold leading-[1.2] [text-wrap:balance]">{c.t}</h3>
-                  <p className="m-0 mt-[10px] text-[13.5px] leading-[1.45] text-body [text-wrap:pretty]">
-                    {c.v ? (
-                      <span className="mb-[4px] block font-display text-[30px] font-semibold leading-none tabular-nums text-ink">{c.v}</span>
+                    {landing.challenges[i]?.audience ? (
+                      <span className="rounded-pill bg-sbg px-[9px] py-[3px] text-[11.5px] font-bold text-ink">
+                        {audiences[landing.challenges[i]!.audience!] ?? landing.challenges[i]!.audience}
+                      </span>
                     ) : null}
-                    {c.vl}
-                    {cites(article.figCites[i] ?? [])}
-                  </p>
-                  <p className="m-0 mt-[12px] flex items-start gap-[8px] text-[12.5px] font-bold leading-[1.4] text-link">
-                    <span
-                      aria-hidden="true"
-                      className="flex h-[18px] w-[18px] flex-none items-center justify-center rounded-pill bg-greenbar text-[10.5px] text-sf"
-                    >
-                      §
+                  </span>
+                </div>
+                <h3 className="m-0 mt-[14px] font-display text-[19px] font-semibold leading-[1.2] [text-wrap:balance]">{c.t}</h3>
+                <p className="m-0 mt-[10px] text-[13.5px] leading-[1.45] text-body [text-wrap:pretty]">
+                  {c.v ? (
+                    <span className="mb-[4px] block font-display text-[30px] font-semibold leading-none tabular-nums text-ink">{c.v}</span>
+                  ) : null}
+                  {c.vl}
+                  {cites(article.figCites[i] ?? [])}
+                </p>
+                <p className="m-0 mt-[12px] flex items-start gap-[8px] text-[12.5px] font-bold leading-[1.4] text-link">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-[18px] w-[18px] flex-none items-center justify-center rounded-pill bg-greenbar text-[10.5px] text-sf"
+                  >
+                    §
+                  </span>
+                  <span>{keep(c.ref)}</span>
+                </p>
+                <details className="group mt-auto pt-[12px]">
+                  <summary className="flex min-h-[32px] cursor-pointer list-none items-center gap-[6px] border-t border-line pt-[10px] text-[13.5px] font-bold text-ink [&::-webkit-details-marker]:hidden">
+                    <span className="group-open:hidden">{common('more')}</span>
+                    <span className="hidden group-open:inline">{common('less')}</span>
+                    <span aria-hidden="true" className="transition-transform group-open:rotate-180">
+                      ▾
                     </span>
-                    <span>{keep(c.ref ?? '')}</span>
-                  </p>
-                  <details className="group mt-auto pt-[12px]">
-                    <summary className="flex min-h-[32px] cursor-pointer list-none items-center gap-[6px] border-t border-line pt-[10px] text-[13.5px] font-bold text-ink [&::-webkit-details-marker]:hidden">
-                      <span className="group-open:hidden">{common('more')}</span>
-                      <span className="hidden group-open:inline">{common('less')}</span>
-                      <span aria-hidden="true" className="transition-transform group-open:rotate-180">
-                        ▾
-                      </span>
-                    </summary>
-                    <div className="flex flex-col gap-[10px] pt-[6px] text-[13.5px] leading-[1.55] text-body [text-wrap:pretty]">
-                      <p className="m-0">{c.looks}</p>
-                      <p className="m-0 border-l-[3px] border-rustbar pl-[10px] font-semibold text-ink">
-                        {c.fig}
-                        {cites(landing.challenges[i]?.cites ?? [])}
-                      </p>
-                      <p className="m-0">
-                        <span className={`${EYEBROW} mb-[4px] block text-link`}>{common('lawSays')}</span>
-                        {keep(c.law ?? '')}
-                        {cites(article.lawCites[i] ?? [])}
-                      </p>
-                    </div>
-                  </details>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <ol className="m-0 mt-[40px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr))]">
-              {challenges.map((c, i) => {
-                const reg = landing.challenges[i]!
-                const measures = [
-                  ...reg.module.map((id) => ({ id, label: moduleNames[id] ?? id, tag: t('moduleTag'), tone: 'bg-ac text-ink' })),
-                  ...reg.core.map((id) => ({ id, label: all(`factor.${id}.label`), tag: common('coreTag'), tone: 'bg-track text-ink' })),
-                ]
-                return (
-                  <li key={c.t} className="flex flex-col overflow-hidden rounded-card border border-line bg-bg">
-                    <div className="flex flex-1 flex-col gap-[10px] px-[24px] pb-[20px] pt-[22px] max-sm:px-[16px]">
-                      <div className="flex items-center gap-[10px]">
-                        <span
-                          aria-hidden="true"
-                          className="flex h-[28px] w-[28px] flex-none items-center justify-center rounded-pill bg-ink text-[12.5px] font-bold text-bg"
-                        >
-                          {i + 1}
-                        </span>
-                        <span className={`${EYEBROW} text-danger`}>{common('problem')}</span>
-                        {reg.audience ? (
-                          <span className="ml-auto rounded-pill bg-sbg px-[10px] py-[4px] text-[12px] font-bold text-ink">
-                            {audiences[reg.audience] ?? reg.audience}
-                          </span>
-                        ) : null}
-                      </div>
-                      <h3 className="m-0 font-display text-[24px] font-semibold leading-[1.15] [text-wrap:balance] max-sm:text-[22px]">{c.t}</h3>
-                      <p className="m-0 text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{c.looks}</p>
-                      <p className="m-0 border-l-[3px] border-rustbar pl-[12px] text-[14px] font-semibold leading-[1.55] text-ink [text-wrap:pretty]">
-                        {c.fig}
-                        {cites(reg.cites)}
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-[8px] border-t border-line bg-mint px-[24px] pb-[20px] pt-[16px] max-sm:px-[16px]">
-                      <span className={`${EYEBROW} text-greendeep`}>{common('solution')}</span>
-                      <p className="m-0 text-[14.5px] leading-[1.6] text-greendeep [text-wrap:pretty]">{c.solve}</p>
-                      <div className="mt-[4px] flex flex-wrap items-center gap-[6px]">
-                        <span className="text-[12px] font-bold text-greendeep">{common('measured')}</span>
-                        <ul className="m-0 flex list-none flex-wrap gap-[6px] p-0">
-                          {measures.map((m) => (
-                            <li key={m.tag + m.id} className={`rounded-pill px-[10px] py-[4px] text-[12px] font-bold ${m.tone}`}>
-                              {m.label}
-                              <span className="font-semibold"> · {m.tag}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                )
-              })}
-            </ol>
-          )}
-          {article ? null : wordingBlock}
-          {article ? null : factsLine('mt-[24px]')}
+                  </summary>
+                  <div className="flex flex-col gap-[10px] pt-[6px] text-[13.5px] leading-[1.55] text-body [text-wrap:pretty]">
+                    <p className="m-0">{c.looks}</p>
+                    <p className="m-0 border-l-[3px] border-rustbar pl-[10px] font-semibold text-ink">
+                      {c.fig}
+                      {cites(landing.challenges[i]?.cites ?? [])}
+                    </p>
+                    <p className="m-0">
+                      <span className={`${EYEBROW} mb-[4px] block text-link`}>{common('lawSays')}</span>
+                      {keep(c.law)}
+                      {cites(article.lawCites[i] ?? [])}
+                    </p>
+                  </div>
+                </details>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      {article ? whySection : null}
+      {whySection}
 
       {/* ------------------------------------- what Orgpuls does, at the foot of an article */}
-      {article && orgpuls ? (
-        <section
-          id="orgpuls"
-          data-screen-label="Orgpuls"
-          aria-labelledby="orgpuls-h"
-          className="mt-[48px] scroll-mt-[24px] border-y border-line bg-mint"
-        >
-          <div className={`${COLUMN} py-[72px] max-sm:py-[48px]`}>
-            <div className="grid items-center gap-x-[56px] gap-y-[32px] [grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))]">
-              <div className="min-w-0">
-                <span className={`${EYEBROW} text-greendeep`}>{orgpuls.k}</span>
-                <h2 id="orgpuls-h" className={`${H2} mt-[12px] max-w-[22ch]`}>
-                  {orgpuls.title}
-                </h2>
-                <p className={`${LEAD} mt-[14px] max-w-[52ch]`}>{orgpuls.lead}</p>
-                <ul className="m-0 mt-[20px] flex list-none flex-col gap-[10px] p-0">
-                  {[t('stats.text'), t('why.tilsyn.d')].map((x) => (
-                    <li key={x} className="flex items-start gap-[10px] text-[14.5px] font-semibold leading-[1.55] [text-wrap:pretty]">
-                      <Tick />
-                      <span>{x}</span>
-                    </li>
-                  ))}
-                </ul>
-                {tileList('mt-[24px]', true)}
-              </div>
-              {phoneFigure}
-            </div>
-            <h3 className="m-0 mt-[56px] font-display text-[26px] font-semibold leading-[1.15] [text-wrap:balance]">{orgpuls.measures}</h3>
-            <ol className="m-0 mt-[20px] grid list-none gap-[10px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr))]">
-              {challenges.map((c, i) => {
-                const reg = landing.challenges[i]!
-                return (
-                  <li key={c.t} className="flex flex-col gap-[8px] rounded-note border border-line bg-sf px-[20px] py-[16px] max-sm:px-[16px]">
-                    <span className="text-[15px] font-bold">
-                      <span aria-hidden="true" className="mr-[8px] tabular-nums text-mut">
-                        {i + 1}.
-                      </span>
-                      {c.t}
-                    </span>
-                    <span className="text-[14px] leading-[1.55] text-body [text-wrap:pretty]">{c.solve}</span>
-                    <MeasuredBy
-                      label={common('measured')}
-                      items={[
-                        ...reg.module.map((id) => ({ id, label: moduleNames[id] ?? id, tag: t('moduleTag'), tone: 'bg-ac text-ink' })),
-                        ...reg.core.map((id) => ({ id, label: all(`factor.${id}.label`), tag: common('coreTag'), tone: 'bg-track text-ink' })),
-                      ]}
-                    />
+      <section
+        id="orgpuls"
+        data-screen-label="Orgpuls"
+        aria-labelledby="orgpuls-h"
+        className="mt-[48px] scroll-mt-[24px] border-y border-line bg-mint"
+      >
+        <div className={`${COLUMN} py-[72px] max-sm:py-[48px]`}>
+          <div className="grid items-center gap-x-[56px] gap-y-[32px] [grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))]">
+            <div className="min-w-0">
+              <span className={`${EYEBROW} text-greendeep`}>{orgpuls.k}</span>
+              <h2 id="orgpuls-h" className={`${H2} mt-[12px] max-w-[22ch]`}>
+                {orgpuls.title}
+              </h2>
+              <p className={`${LEAD} mt-[14px] max-w-[52ch]`}>{orgpuls.lead}</p>
+              <ul className="m-0 mt-[20px] flex list-none flex-col gap-[10px] p-0">
+                {[t('stats.text'), t('why.tilsyn.d')].map((x) => (
+                  <li key={x} className="flex items-start gap-[10px] text-[14.5px] font-semibold leading-[1.55] [text-wrap:pretty]">
+                    <Tick />
+                    <span>{x}</span>
                   </li>
-                )
-              })}
-            </ol>
-            {wordingBlock}
-            {factsLine('mt-[24px]')}
+                ))}
+              </ul>
+              {tileList('mt-[24px]', true)}
+            </div>
+            {phoneFigure}
           </div>
-        </section>
-      ) : null}
+          <h3 className="m-0 mt-[56px] font-display text-[26px] font-semibold leading-[1.15] [text-wrap:balance]">{orgpuls.measures}</h3>
+          <ol className="m-0 mt-[20px] grid list-none gap-[10px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr))]">
+            {challenges.map((c, i) => {
+              const reg = landing.challenges[i]!
+              return (
+                <li key={c.t} className="flex flex-col gap-[8px] rounded-note border border-line bg-sf px-[20px] py-[16px] max-sm:px-[16px]">
+                  <span className="text-[15px] font-bold">
+                    <span aria-hidden="true" className="mr-[8px] tabular-nums text-mut">
+                      {i + 1}.
+                    </span>
+                    {c.t}
+                  </span>
+                  <span className="text-[14px] leading-[1.55] text-body [text-wrap:pretty]">{c.solve}</span>
+                  <MeasuredBy
+                    label={common('measured')}
+                    items={[
+                      ...reg.module.map((id) => ({ id, label: moduleNames[id] ?? id, tag: t('moduleTag'), tone: 'bg-ac text-ink' })),
+                      ...reg.core.map((id) => ({ id, label: all(`factor.${id}.label`), tag: common('coreTag'), tone: 'bg-track text-ink' })),
+                    ]}
+                  />
+                </li>
+              )
+            })}
+          </ol>
+          {wordingBlock}
+          {factsLine('mt-[24px]')}
+        </div>
+      </section>
 
       {/* -------------------------------------------- the variants, where there are two */}
       {landing.variants && mod.variants ? (

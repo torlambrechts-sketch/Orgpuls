@@ -109,10 +109,10 @@ export type IndustryLanding = {
    * `compare` sets the industry beside all employed, one bar pair per `compare.items` message, in
    * percent, each pair with its sources; `lawCites` gives each challenge's `law` line its sources.
    * Each challenge's card shows its key figure (`v`, `vl`, backed by the challenge's `cites`) and its
-   * provisions in short (`ref`); the situation, the finding and the law fold out under it.
-   * Absent, the page is the product page it was (D-207).
+   * provisions in short (`ref`); the situation, the finding and the law fold out under it. Every
+   * industry page is written this way; the product page they were (D-207) is gone.
    */
-  article?: {
+  article: {
     /** the hero's drawing (components/marketing/art/IndustryArt.tsx) */
     art: IndustryArtKind
     /** each challenge's key figure's sources (`v`, `vl`): the one among the challenge's `cites` that backs it */

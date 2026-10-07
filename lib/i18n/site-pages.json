@@ -2196,9 +2196,7 @@
     "site.bransje.barnehage.sources.udir_ansatte",
     "site.bransje.barnehage.sources.udf_assist"
    ],
-   "states": [
-    "site.bransje.barnehage.hero.secondary"
-   ]
+   "states": []
   },
   {
    "path": "/barnehage-og-skole/sporsmal",
@@ -2874,9 +2872,7 @@
     "site.bransje.bygg.sources.fafo_innleie",
     "site.bransje.bygg.sources.noa_anlegg"
    ],
-   "states": [
-    "site.bransje.bygg.hero.secondary"
-   ]
+   "states": []
   },
   {
    "path": "/bygg-og-anlegg/sporsmal",
@@ -3277,9 +3273,7 @@
     "site.bransje.handel.sources.lovdata_forskrift",
     "site.bransje.handel.sources.lovdata_aml"
    ],
-   "states": [
-    "site.bransje.handel.hero.secondary"
-   ]
+   "states": []
   },
   {
    "path": "/handel/sporsmal",
@@ -3582,9 +3576,7 @@
     "site.bransje.helse.sources.at_alene",
     "site.bransje.helse.sources.fafo_ufaglaerte"
    ],
-   "states": [
-    "site.bransje.helse.hero.secondary"
-   ]
+   "states": []
   },
   {
    "path": "/helse-og-omsorg/sporsmal",
@@ -4174,9 +4166,7 @@
     "site.bransje.kontor.sources.at_hjemmekontor",
     "site.bransje.kontor.sources.fafo_ledelse"
    ],
-   "states": [
-    "site.bransje.kontor.hero.secondary"
-   ]
+   "states": []
   },
   {
    "path": "/kunnskap-og-kontor/sporsmal",
@@ -5525,8 +5515,6 @@
   "site.chrome.nav.alleArtikler",
   "site.chrome.start.fetching",
   "site.chrome.start.invalid",
-  "site.bransje.common.problem",
-  "site.bransje.common.solution",
   "industry.preview"
  ]
 }

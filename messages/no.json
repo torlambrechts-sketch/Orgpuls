@@ -11268,8 +11268,6 @@
     },
     "bransje": {
       "common": {
-        "problem": "Utfordring",
-        "solution": "Slik tar Orgpuls tak i det",
         "measured": "Måles med",
         "coreTag": "Hovedundersøkelsen",
         "sourceMark": "Kilde {n}",
@@ -11293,7 +11291,6 @@
           "k": "Handel · butikk, kjede og lager",
           "h1": "Arbeidsmiljøet i varehandelen: risiko, tall og lovkrav",
           "lead": "Trusler, alenevakter, krevende kunder og travle timer er en del av hverdagen i mange butikker. Her er hva norsk forskning og offentlig statistikk viser om arbeidsmiljøet i varehandelen, hva arbeidsmiljøloven krever av arbeidsgiveren, og hva Arbeidstilsynet ser etter.",
-          "secondary": "Se spørsmålene for handel",
           "figure": {
             "title": "Slik svarer de ansatte",
             "meta": "På mobilen · ca. 4 + {minutes} min",
@@ -11652,7 +11649,6 @@
           "k": "Bygg og anlegg · entreprenør og håndverk",
           "h1": "Arbeidsmiljøet i bygg og anlegg: risiko, tall og lovkrav",
           "lead": "Tidspress, mange firma på samme byggeplass, språk og lange dager preger hverdagen for mange i bygg og anlegg. Her er hva Arbeidstilsynet, STAMI og Fafo har funnet om arbeidsmiljøet i næringen, og hva arbeidsmiljøloven og forskriftene krever av arbeidsgiveren.",
-          "secondary": "Se spørsmålene for bygg og anlegg",
           "figure": {
             "title": "Slik svarer mannskapet",
             "meta": "På mobilen · ca. 4 + {minutes} min",
@@ -12022,7 +12018,6 @@
           "k": "Kunnskap og kontor · rådgivning, IT, finans, media og eiendom",
           "h1": "Arbeidsmiljøet i kunnskap og kontor: risiko, tall og lovkrav",
           "lead": "Avbrytelser, forventninger om å være tilgjengelig, hjemmekontor og stadige omstillinger preger hverdagen for mange i kunnskaps- og kontorarbeid. Her er hva STAMI, Fafo og SSB har funnet om arbeidsmiljøet, og hva arbeidsmiljøloven og hjemmekontorforskriften krever av arbeidsgiveren.",
-          "secondary": "Se spørsmålene for kunnskap og kontor",
           "figure": {
             "title": "Slik svarer de ansatte",
             "meta": "På mobil eller PC · ca. 4 + {minutes} min",
@@ -12473,7 +12468,6 @@
           "k": "Helse og omsorg · omsorg, hjemmetjeneste og klinikk",
           "h1": "Arbeidsmiljøet i helse og omsorg: risiko, tall og lovkrav",
           "lead": "Vold og trusler, følelser man tar med seg hjem, for få på vakt og tunge løft preger hverdagen for mange i helse og omsorg. Her er hva STAMI, SSB, Fafo og Arbeidstilsynet har funnet om arbeidsmiljøet i næringen, og hva arbeidsmiljøloven krever av arbeidsgiveren.",
-          "secondary": "Se spørsmålene for helse og omsorg",
           "figure": {
             "title": "Slik svarer de ansatte",
             "meta": "På mobilen · ca. 4 + {minutes} min",
@@ -12863,7 +12857,6 @@
           "k": "Barnehage, skole og SFO",
           "h1": "Arbeidsmiljøet i barnehage og skole: risiko, tall og lovkrav",
           "lead": "Vold og trusler, for få voksne, dokumentasjonskrav og foreldre som tar kontakt etter arbeidstid preger hverdagen for mange i barnehage og skole. Her er hva STAMI, SSB, NIFU, Udir og Arbeidstilsynet har funnet om arbeidsmiljøet, og hva arbeidsmiljøloven krever av arbeidsgiveren.",
-          "secondary": "Velg barnehage eller skole",
           "figure": {
             "title": "Slik svarer de ansatte",
             "meta": "På mobilen · ca. 4 + {minutes} min",

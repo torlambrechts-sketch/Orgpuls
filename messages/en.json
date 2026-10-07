@@ -11268,8 +11268,6 @@
     },
     "bransje": {
       "common": {
-        "problem": "Challenge",
-        "solution": "How Orgpuls tackles it",
         "measured": "Measured by",
         "coreTag": "Main survey",
         "sourceMark": "Source {n}",
@@ -11293,7 +11291,6 @@
           "k": "Retail · shops, chains and warehouses",
           "h1": "The work environment in retail: risks, figures and the law",
           "lead": "Threats, lone shifts, difficult customers and busy hours are part of everyday work in many shops. This is what Norwegian research and official statistics show about the work environment in retail, what the Working Environment Act requires of the employer, and what the Labour Inspection Authority looks for.",
-          "secondary": "See the retail questions",
           "figure": {
             "title": "How employees answer",
             "meta": "On the phone · about 4 + {minutes} min",
@@ -11652,7 +11649,6 @@
           "k": "Construction · contractors and trades",
           "h1": "The work environment in construction: risks, figures and the law",
           "lead": "Time pressure, many firms on the same site, language and long days shape the working day for many in construction. This is what the Labour Inspection Authority, STAMI and Fafo have found about the work environment in the industry, and what the Working Environment Act and the regulations require of the employer.",
-          "secondary": "See the construction questions",
           "figure": {
             "title": "How the crew answers",
             "meta": "On the phone · about 4 + {minutes} min",
@@ -12022,7 +12018,6 @@
           "k": "Knowledge and office work · consultancy, IT, finance, media and real estate",
           "h1": "The work environment in knowledge and office work: risks, figures and the law",
           "lead": "Interruptions, expectations of being available, working from home and constant change shape the working day for many in knowledge and office work. This is what STAMI, Fafo and Statistics Norway have found about the work environment, and what the Working Environment Act and the home office regulation require of the employer.",
-          "secondary": "See the knowledge and office questions",
           "figure": {
             "title": "How your staff answer",
             "meta": "On phone or PC · about 4 + {minutes} min",
@@ -12473,7 +12468,6 @@
           "k": "Health and care · care, home care and clinics",
           "h1": "The work environment in health and care: risks, figures and the law",
           "lead": "Violence and threats, feelings you take home, too few on shift and heavy lifting shape the working day for many in health and care. This is what STAMI, Statistics Norway, Fafo and the Labour Inspection Authority have found about the work environment in the industry, and what the Working Environment Act requires of the employer.",
-          "secondary": "See the health and care questions",
           "figure": {
             "title": "How your staff answer",
             "meta": "On the phone · about 4 + {minutes} min",
@@ -12863,7 +12857,6 @@
           "k": "Kindergartens, schools and after-school care",
           "h1": "The work environment in kindergartens and schools: risks, figures and the law",
           "lead": "Violence and threats, too few adults, documentation requirements and parents who get in touch after working hours shape the working day for many in kindergartens and schools. This is what STAMI, Statistics Norway, NIFU, the Directorate for Education and the Labour Inspection Authority have found about the work environment, and what the Working Environment Act requires of the employer.",
-          "secondary": "Choose kindergarten or school",
           "figure": {
             "title": "How your staff answer",
             "meta": "On the phone · about 4 + {minutes} min",
