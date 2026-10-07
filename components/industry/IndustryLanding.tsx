@@ -45,7 +45,16 @@ const Str = z.string()
 const Item = z.object({ t: Str, d: Str })
 const Stat = z.object({ v: Str, l: Str })
 const LawRow = z.object({ ref: Str, t: Str })
-const Challenge = z.object({ t: Str, looks: Str, fig: Str, solve: Str, law: Str.optional() })
+const Challenge = z.object({
+  t: Str,
+  looks: Str,
+  fig: Str,
+  solve: Str,
+  law: Str.optional(),
+  v: Str.optional(),
+  vl: Str.optional(),
+  ref: Str.optional(),
+})
 const CompareWords = z.object({ k: Str, title: Str, lead: Str, retail: Str, retailDeltid: Str, all: Str, items: z.array(Str) })
 const OrgpulsWords = z.object({ k: Str, title: Str, lead: Str, measures: Str })
 const Block = z.object({ k: Str, h3: Str, ticks: z.array(Str).min(1), caption: Str })
@@ -89,7 +98,11 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
   const orgpuls = article ? OrgpulsWords.parse(t.raw('orgpuls')) : null
   if (
     article &&
-    (compare?.items.length !== article.compare.length || article.lawCites.length !== challenges.length || challenges.some((c) => !c.law))
+    (compare?.items.length !== article.compare.length ||
+      article.lawCites.length !== challenges.length ||
+      article.icons.length !== challenges.length ||
+      article.figCites.length !== challenges.length ||
+      challenges.some((c) => !c.law || !c.vl || !c.ref))
   )
     throw new Error(`${landing.slug}: the article's messages and registry differ`)
 
@@ -347,55 +360,102 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
 
       <div className="flex flex-col gap-[18px] px-[18px] pt-[18px] max-sm:px-0">
         {/* ------------------------------------------------------------ the figures */}
-        <section
-          id="tallene"
-          data-screen-label="Tallene"
-          aria-labelledby="tallene-h"
-          className="w-full max-w-[1240px] self-center rounded-[24px] border border-line bg-ink px-[56px] py-[72px] text-bg max-sm:mx-[16px] max-sm:w-auto max-sm:self-stretch max-sm:px-[18px] max-sm:py-[48px]"
-        >
-          <div className="flex flex-col items-center gap-[14px] text-center">
-            <span className="inline-flex items-center gap-[7px] rounded-pill bg-ac px-[13px] py-[6px] text-[12px] font-bold text-ink">
-              <span aria-hidden="true">▤</span> {t('stats.k')}
-            </span>
-            <h2 id="tallene-h" className={`${H2} max-w-[24ch]`}>
-              {t('stats.title')}
-            </h2>
-            <p className="m-0 max-w-[58ch] text-[16px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">
-              {t('stats.lead')}
-              {cites(landing.stats.leadCites, 'cream')}
-            </p>
-          </div>
-          <ul className="m-0 mt-[52px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))]">
-            {stats.map((s, i) => (
-              <li key={s.v + s.l} className="px-[12px] py-[10px] text-center">
-                <span className="block font-display text-[52px] font-semibold leading-none tabular-nums max-sm:text-[44px]">{s.v}</span>{' '}
-                <span className="mx-auto mt-[12px] block max-w-[24ch] text-[15px] leading-[1.5] [text-wrap:balance]">
-                  <span className="opacity-[.78]">{s.l}</span>
-                  {cites(landing.stats.items[i] ?? [], 'cream')}
+        {article ? (
+          // an article's figures (D-240): the same words in one compact row – heading and lead, four
+          // figures and the note – so the band introduces the page rather than filling a screen
+          <section
+            id="tallene"
+            data-screen-label="Tallene"
+            aria-labelledby="tallene-h"
+            className="w-full max-w-[1240px] self-center rounded-[24px] border border-line bg-ink px-[40px] py-[36px] text-bg max-sm:mx-[16px] max-sm:w-auto max-sm:self-stretch max-sm:px-[18px] max-sm:py-[28px]"
+          >
+            <div className="grid items-end gap-x-[40px] gap-y-[12px] [grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))]">
+              <div>
+                <span className="inline-flex items-center gap-[7px] rounded-pill bg-ac px-[12px] py-[5px] text-[11.5px] font-bold text-ink">
+                  <span aria-hidden="true">▤</span> {t('stats.k')}
                 </span>
-              </li>
-            ))}
-          </ul>
-          <div className="mx-auto mt-[56px] grid max-w-[980px] items-center gap-x-[48px] gap-y-[24px] border-t border-[rgba(252,246,233,.22)] pt-[40px] [grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))]">
-            <div>
-              <h3 className="m-0 max-w-[20ch] font-display text-[30px] font-semibold leading-[1.12] [text-wrap:balance] max-sm:text-[26px]">
-                {t('stats.h3')}
-              </h3>
-              <p className="m-0 mt-[14px] max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">
-                {t('stats.note')}
-                {cites(landing.stats.noteCites, 'cream')}
+                <h2
+                  id="tallene-h"
+                  className="m-0 mt-[12px] max-w-[26ch] font-display text-[26px] font-semibold leading-[1.15] [text-wrap:balance] max-sm:text-[23px]"
+                >
+                  {t('stats.title')}
+                </h2>
+              </div>
+              <p className="m-0 max-w-[56ch] text-[14.5px] leading-[1.6] opacity-[.78] [text-wrap:pretty]">
+                {t('stats.lead')}
+                {cites(landing.stats.leadCites, 'cream')}
               </p>
             </div>
-            {article ? null : (
+            <ul className="m-0 mt-[28px] grid list-none gap-x-[20px] gap-y-[18px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr))] lg:[grid-template-columns:repeat(4,minmax(0,1fr))_minmax(0,1.6fr)]">
+              {stats.map((s, i) => (
+                <li key={s.v + s.l} className="border-l border-[rgba(252,246,233,.22)] pl-[16px]">
+                  <span className="block font-display text-[36px] font-semibold leading-none tabular-nums">{s.v}</span>{' '}
+                  <span className="mt-[8px] block text-[13.5px] leading-[1.45] [text-wrap:pretty]">
+                    <span className="opacity-[.78]">{s.l}</span>
+                    {cites(landing.stats.items[i] ?? [], 'cream')}
+                  </span>
+                </li>
+              ))}
+              <li className="rounded-[14px] bg-[rgba(252,246,233,.08)] px-[18px] py-[14px]">
+                <h3 className="m-0 font-display text-[18px] font-semibold leading-[1.2] [text-wrap:balance]">{t('stats.h3')}</h3>
+                <p className="m-0 mt-[6px] text-[13.5px] leading-[1.5] opacity-[.78] [text-wrap:pretty]">
+                  {t('stats.note')}
+                  {cites(landing.stats.noteCites, 'cream')}
+                </p>
+              </li>
+            </ul>
+          </section>
+        ) : (
+          <section
+            id="tallene"
+            data-screen-label="Tallene"
+            aria-labelledby="tallene-h"
+            className="w-full max-w-[1240px] self-center rounded-[24px] border border-line bg-ink px-[56px] py-[72px] text-bg max-sm:mx-[16px] max-sm:w-auto max-sm:self-stretch max-sm:px-[18px] max-sm:py-[48px]"
+          >
+            <div className="flex flex-col items-center gap-[14px] text-center">
+              <span className="inline-flex items-center gap-[7px] rounded-pill bg-ac px-[13px] py-[6px] text-[12px] font-bold text-ink">
+                <span aria-hidden="true">▤</span> {t('stats.k')}
+              </span>
+              <h2 id="tallene-h" className={`${H2} max-w-[24ch]`}>
+                {t('stats.title')}
+              </h2>
+              <p className="m-0 max-w-[58ch] text-[16px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">
+                {t('stats.lead')}
+                {cites(landing.stats.leadCites, 'cream')}
+              </p>
+            </div>
+            <ul className="m-0 mt-[52px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))]">
+              {stats.map((s, i) => (
+                <li key={s.v + s.l} className="px-[12px] py-[10px] text-center">
+                  <span className="block font-display text-[52px] font-semibold leading-none tabular-nums max-sm:text-[44px]">{s.v}</span>{' '}
+                  <span className="mx-auto mt-[12px] block max-w-[24ch] text-[15px] leading-[1.5] [text-wrap:balance]">
+                    <span className="opacity-[.78]">{s.l}</span>
+                    {cites(landing.stats.items[i] ?? [], 'cream')}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div className="mx-auto mt-[56px] grid max-w-[980px] items-center gap-x-[48px] gap-y-[24px] border-t border-[rgba(252,246,233,.22)] pt-[40px] [grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))]">
               <div>
-                <p className="m-0 max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">{t('stats.text')}</p>
-                <a href="#kom-i-gang" className={`mt-[22px] inline-flex min-h-[50px] focus-visible:outline-bg ${CTA}`}>
-                  {chrome('getStarted')} <span aria-hidden="true">→</span>
-                </a>
+                <h3 className="m-0 max-w-[20ch] font-display text-[30px] font-semibold leading-[1.12] [text-wrap:balance] max-sm:text-[26px]">
+                  {t('stats.h3')}
+                </h3>
+                <p className="m-0 mt-[14px] max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">
+                  {t('stats.note')}
+                  {cites(landing.stats.noteCites, 'cream')}
+                </p>
               </div>
-            )}
-          </div>
-        </section>
+              {article ? null : (
+                <div>
+                  <p className="m-0 max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">{t('stats.text')}</p>
+                  <a href="#kom-i-gang" className={`mt-[22px] inline-flex min-h-[50px] focus-visible:outline-bg ${CTA}`}>
+                    {chrome('getStarted')} <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
       </div>
 
       {article && compare ? (
@@ -424,54 +484,91 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
             {t('challenges.title')}
           </h2>
           <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{t('challenges.lead')}</p>
-          <ol className="m-0 mt-[40px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr))]">
-            {challenges.map((c, i) => {
-              const reg = landing.challenges[i]!
-              const measures = [
-                ...reg.module.map((id) => ({ id, label: moduleNames[id] ?? id, tag: t('moduleTag'), tone: 'bg-ac text-ink' })),
-                ...reg.core.map((id) => ({ id, label: all(`factor.${id}.label`), tag: common('coreTag'), tone: 'bg-track text-ink' })),
-              ]
-              return (
-                <li key={c.t} className="flex flex-col overflow-hidden rounded-card border border-line bg-bg">
-                  <div className="flex flex-1 flex-col gap-[10px] px-[24px] pb-[20px] pt-[22px] max-sm:px-[16px]">
-                    <div className="flex items-center gap-[10px]">
-                      <span
-                        aria-hidden="true"
-                        className="flex h-[28px] w-[28px] flex-none items-center justify-center rounded-pill bg-ink text-[12.5px] font-bold text-bg"
-                      >
-                        {i + 1}
-                      </span>
-                      <span className={`${EYEBROW} text-danger`}>{common('problem')}</span>
-                      {reg.audience ? (
-                        <span className="ml-auto rounded-pill bg-sbg px-[10px] py-[4px] text-[12px] font-bold text-ink">
-                          {audiences[reg.audience] ?? reg.audience}
-                        </span>
-                      ) : null}
-                    </div>
-                    <h3 className="m-0 font-display text-[24px] font-semibold leading-[1.15] [text-wrap:balance] max-sm:text-[22px]">{c.t}</h3>
-                    <p className="m-0 text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{c.looks}</p>
-                    <p className="m-0 border-l-[3px] border-rustbar pl-[12px] text-[14px] font-semibold leading-[1.55] text-ink [text-wrap:pretty]">
-                      {c.fig}
-                      {cites(reg.cites)}
-                    </p>
+          {article ? (
+            // an article's challenges (D-240): a card each, four across – a drawing, the key figure, the
+            // title and the provisions at a glance, the situation, the finding and the law folded under it
+            <ol className="m-0 mt-[36px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))] has-[details[open]]:items-start">
+              {challenges.map((c, i) => (
+                <li key={c.t} className="flex flex-col rounded-card border border-line bg-bg px-[20px] pb-[16px] pt-[18px] max-sm:px-[16px]">
+                  <div className="flex items-start justify-between gap-[12px]">
+                    <RiskIcon kind={article.icons[i] ?? 'alert'} />
+                    <span aria-hidden="true" className="font-display text-[15px] font-semibold tabular-nums text-mut">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
                   </div>
-                  {article ? (
-                    <div className="flex flex-col gap-[8px] border-t border-line bg-sf px-[24px] pb-[20px] pt-[16px] max-sm:px-[16px]">
-                      <span className={`${EYEBROW} flex items-center gap-[8px] text-link`}>
-                        <span
-                          aria-hidden="true"
-                          className="flex h-[20px] w-[20px] items-center justify-center rounded-pill bg-greenbar text-[11px] font-bold normal-case tracking-normal text-sf"
-                        >
-                          §
-                        </span>
-                        {common('lawSays')}
+                  <h3 className="m-0 mt-[14px] font-display text-[19px] font-semibold leading-[1.2] [text-wrap:balance]">{c.t}</h3>
+                  <p className="m-0 mt-[10px] text-[13.5px] leading-[1.45] text-body [text-wrap:pretty]">
+                    {c.v ? (
+                      <span className="mb-[4px] block font-display text-[30px] font-semibold leading-none tabular-nums text-ink">{c.v}</span>
+                    ) : null}
+                    {c.vl}
+                    {cites(article.figCites[i] ?? [])}
+                  </p>
+                  <p className="m-0 mt-[12px] flex items-start gap-[8px] text-[12.5px] font-bold leading-[1.4] text-link">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-[18px] w-[18px] flex-none items-center justify-center rounded-pill bg-greenbar text-[10.5px] text-sf"
+                    >
+                      §
+                    </span>
+                    <span>{keep(c.ref ?? '')}</span>
+                  </p>
+                  <details className="group mt-auto pt-[12px]">
+                    <summary className="flex min-h-[32px] cursor-pointer list-none items-center gap-[6px] border-t border-line pt-[10px] text-[13.5px] font-bold text-ink [&::-webkit-details-marker]:hidden">
+                      <span className="group-open:hidden">{common('more')}</span>
+                      <span className="hidden group-open:inline">{common('less')}</span>
+                      <span aria-hidden="true" className="transition-transform group-open:rotate-180">
+                        ▾
                       </span>
-                      <p className="m-0 text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">
+                    </summary>
+                    <div className="flex flex-col gap-[10px] pt-[6px] text-[13.5px] leading-[1.55] text-body [text-wrap:pretty]">
+                      <p className="m-0">{c.looks}</p>
+                      <p className="m-0 border-l-[3px] border-rustbar pl-[10px] font-semibold text-ink">
+                        {c.fig}
+                        {cites(landing.challenges[i]?.cites ?? [])}
+                      </p>
+                      <p className="m-0">
+                        <span className={`${EYEBROW} mb-[4px] block text-link`}>{common('lawSays')}</span>
                         {keep(c.law ?? '')}
                         {cites(article.lawCites[i] ?? [])}
                       </p>
                     </div>
-                  ) : (
+                  </details>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <ol className="m-0 mt-[40px] grid list-none gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr))]">
+              {challenges.map((c, i) => {
+                const reg = landing.challenges[i]!
+                const measures = [
+                  ...reg.module.map((id) => ({ id, label: moduleNames[id] ?? id, tag: t('moduleTag'), tone: 'bg-ac text-ink' })),
+                  ...reg.core.map((id) => ({ id, label: all(`factor.${id}.label`), tag: common('coreTag'), tone: 'bg-track text-ink' })),
+                ]
+                return (
+                  <li key={c.t} className="flex flex-col overflow-hidden rounded-card border border-line bg-bg">
+                    <div className="flex flex-1 flex-col gap-[10px] px-[24px] pb-[20px] pt-[22px] max-sm:px-[16px]">
+                      <div className="flex items-center gap-[10px]">
+                        <span
+                          aria-hidden="true"
+                          className="flex h-[28px] w-[28px] flex-none items-center justify-center rounded-pill bg-ink text-[12.5px] font-bold text-bg"
+                        >
+                          {i + 1}
+                        </span>
+                        <span className={`${EYEBROW} text-danger`}>{common('problem')}</span>
+                        {reg.audience ? (
+                          <span className="ml-auto rounded-pill bg-sbg px-[10px] py-[4px] text-[12px] font-bold text-ink">
+                            {audiences[reg.audience] ?? reg.audience}
+                          </span>
+                        ) : null}
+                      </div>
+                      <h3 className="m-0 font-display text-[24px] font-semibold leading-[1.15] [text-wrap:balance] max-sm:text-[22px]">{c.t}</h3>
+                      <p className="m-0 text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{c.looks}</p>
+                      <p className="m-0 border-l-[3px] border-rustbar pl-[12px] text-[14px] font-semibold leading-[1.55] text-ink [text-wrap:pretty]">
+                        {c.fig}
+                        {cites(reg.cites)}
+                      </p>
+                    </div>
                     <div className="flex flex-col gap-[8px] border-t border-line bg-mint px-[24px] pb-[20px] pt-[16px] max-sm:px-[16px]">
                       <span className={`${EYEBROW} text-greendeep`}>{common('solution')}</span>
                       <p className="m-0 text-[14.5px] leading-[1.6] text-greendeep [text-wrap:pretty]">{c.solve}</p>
@@ -487,11 +584,11 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                         </ul>
                       </div>
                     </div>
-                  )}
-                </li>
-              )
-            })}
-          </ol>
+                  </li>
+                )
+              })}
+            </ol>
+          )}
           {wordingWords && example?.text_variants ? (
             <div
               id="ordbruk"
@@ -1008,5 +1105,108 @@ function Compare({
         })}
       </ul>
     </figure>
+  )
+}
+
+/**
+ * A challenge's drawing (D-240): a line icon in ink on a coloured disc, in the site's art style –
+ * decorative, the card's title says what it is. The kinds are the registry's (`article.icons`).
+ */
+export type RiskKind = 'threat' | 'alone' | 'customer' | 'staffing' | 'rota' | 'newcomer' | 'lifting' | 'harassment' | 'alert'
+const RISK_FILL: Record<RiskKind, string> = {
+  threat: '#F0B9A0',
+  alone: '#F5C64A',
+  customer: '#FBD5C4',
+  staffing: '#CFE7E4',
+  rota: '#FBEBBE',
+  newcomer: '#CFE7E4',
+  lifting: '#F5DC96',
+  harassment: '#FBD5C4',
+  alert: '#F5C64A',
+}
+function RiskIcon({ kind }: { kind: RiskKind }) {
+  const ink = { stroke: '#191510', strokeWidth: 2.2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, fill: 'none' }
+  const paper = { ...ink, fill: '#FFFDF6' }
+  const draw: Record<RiskKind, React.ReactNode> = {
+    // a warning triangle
+    threat: (
+      <>
+        <path d="M28 12 L45 42 H11 Z" {...paper} />
+        <path d="M28 23 V32" {...ink} strokeWidth={3} />
+        <circle cx="28" cy="37" r="1.8" fill="#191510" />
+      </>
+    ),
+    // one person under the moon
+    alone: (
+      <>
+        <circle cx="26" cy="24" r="6" {...paper} />
+        <path d="M15 44 C15 34 20 31 26 31 C32 31 37 34 37 44 Z" {...paper} />
+        <path d="M41 11 A7 7 0 1 0 46 22 A6 6 0 0 1 41 11 Z" fill="#191510" />
+      </>
+    ),
+    // a speech bubble with a jagged mark
+    customer: (
+      <>
+        <path d="M12 14 H44 A4 4 0 0 1 48 18 V34 A4 4 0 0 1 44 38 H24 L16 45 V38 H12 A4 4 0 0 1 8 34 V18 A4 4 0 0 1 12 14 Z" {...paper} />
+        <path d="M17 26 L22 21 L27 30 L32 21 L37 30 L40 26" {...ink} />
+      </>
+    ),
+    // a queue of three before a clock
+    staffing: (
+      <>
+        {[12, 22, 32].map((x) => (
+          <g key={x}>
+            <circle cx={x} cy="27" r="4" {...paper} />
+            <path d={`M${x - 6} 44 C${x - 6} 36 ${x - 3} 33 ${x} 33 C${x + 3} 33 ${x + 6} 36 ${x + 6} 44`} {...paper} />
+          </g>
+        ))}
+        <circle cx="42" cy="16" r="8" {...paper} />
+        <path d="M42 11 V16 L45 18" {...ink} />
+      </>
+    ),
+    // a calendar
+    rota: (
+      <>
+        <rect x="11" y="14" width="34" height="30" rx="4" {...paper} />
+        <path d="M11 22 H45 M19 10 V17 M37 10 V17" {...ink} />
+        {[0, 1, 2].map((c) =>
+          [0, 1].map((r) => (
+            <rect key={`${c}${r}`} x={17 + c * 9} y={27 + r * 8} width="5" height="4" rx="1" fill={c === 2 && r === 1 ? '#191510' : '#C4BCA8'} />
+          )),
+        )}
+      </>
+    ),
+    // a person with a name badge
+    newcomer: (
+      <>
+        <circle cx="28" cy="20" r="7" {...paper} />
+        <path d="M14 45 C14 34 20 30 28 30 C36 30 42 34 42 45 Z" {...paper} />
+        <rect x="30" y="35" width="10" height="6" rx="1.5" fill="#F5C64A" stroke="#191510" strokeWidth="1.6" />
+      </>
+    ),
+    // a heavy box with an arrow up
+    lifting: (
+      <>
+        <rect x="12" y="24" width="28" height="20" rx="3" {...paper} />
+        <path d="M12 31 H40 M26 24 V31" {...ink} />
+        <path d="M44 34 V12 M39 17 L44 12 L49 17" {...ink} />
+      </>
+    ),
+    // a raised hand: stop
+    harassment: (
+      <>
+        <path
+          d="M19 30 V17 A2.5 2.5 0 0 1 24 17 V27 V13 A2.5 2.5 0 0 1 29 13 V27 V15 A2.5 2.5 0 0 1 34 15 V28 V20 A2.5 2.5 0 0 1 39 20 V33 C39 40 34 45 28 45 C23 45 20 42 17 37 L13 31 A2.5 2.5 0 0 1 17 28 Z"
+          {...paper}
+        />
+      </>
+    ),
+    alert: <circle cx="28" cy="28" r="12" {...paper} />,
+  }
+  return (
+    <svg aria-hidden="true" viewBox="0 0 56 56" className="h-[56px] w-[56px] flex-none">
+      <circle cx="28" cy="28" r="27" fill={RISK_FILL[kind]} />
+      {draw[kind]}
+    </svg>
   )
 }

@@ -11278,7 +11278,9 @@
         "realShot": "Ekte skjermbilde fra demo-virksomheten Nordvik Anlegg AS.",
         "related": "Les videre",
         "facts": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra",
-        "lawSays": "Regelverket"
+        "lawSays": "Regelverket",
+        "more": "Les mer",
+        "less": "Vis mindre"
       },
       "handel": {
         "nav": "Handel",
@@ -11412,6 +11414,9 @@
               "looks": "En kunde blir stoppet med varer i jakka og blir truende. Den ansatte må bestemme seg på sekunder: gripe inn, tilkalle hjelp eller la det gå.",
               "fig": "12 % hadde det siste året opplevd trusler så alvorlige at de ble redde. Flest varsler til Arbeidstilsynet om vold og trusler i varehandelen kommer fra dagligvarebutikker og bensinstasjoner.",
               "solve": "Handel-modulen spør om rutinene er kjent, om hjelpen kommer raskt og om dere blir fulgt opp etterpå. Et eget ja/nei-spørsmål teller hendelser som ikke ble meldt. Hovedundersøkelsen teller hvor mange som har opplevd vold eller trusler.",
+              "v": "12 %",
+              "vl": "opplevde det siste året trusler så alvorlige at de ble redde",
+              "ref": "aml § 4-3 sjette ledd · forskriften kap. 3A",
               "law": "Arbeidstakerne skal så langt det er mulig beskyttes mot vold og trusler (aml § 4-3 sjette ledd). Forskriften kapittel 3A krever at risikoen kartlegges og vurderes, at det settes inn tiltak, at de ansatte får opplæring, og at den som rammes, blir fulgt opp (§§ 3A-2, 3A-3, 3A-5 og 3A-6)."
             },
             {
@@ -11419,6 +11424,9 @@
               "looks": "Den siste går gjennom butikken, teller opp kassa og låser. Skjer det noe, er det ingen å rope på.",
               "fig": "32 % jobber alene av og til eller oftere. I kjedebutikker med alenearbeid hadde 1 av 3 ikke gjort en egen risikovurdering av det.",
               "solve": "Faktoren Alene på vakt måler om det er trygt, om det blir pauser og om leder er lett å nå. Et ja/nei-spørsmål teller hvor mange som har følt seg utrygge alene – aldri per butikk eller vakt. Svarene er grunnlaget for risikovurderingen loven krever.",
+              "v": "32 %",
+              "vl": "jobber alene av og til eller oftere",
+              "ref": "aml § 4-1 tredje ledd · forskriften § 3A-2",
               "law": "Arbeidsgiveren skal vurdere om det er særlig risiko knyttet til alenearbeid, og sette i verk tiltakene som trengs (aml § 4-1 tredje ledd). Når vold og trusler kartlegges, skal alenearbeid være med i vurderingen (forskriften § 3A-2)."
             },
             {
@@ -11426,6 +11434,9 @@
               "looks": "Klagen i kassakøen tas med et smil, og kjeften over prisene tas imot uten å svare igjen – vakt etter vakt.",
               "fig": "27 % opplever konflikter med kunder, og 33 % må skjule negative følelser. Blant alle sysselsatte er tallene 16 og 17 %.",
               "solve": "Hovedundersøkelsen måler emosjonelle krav med tre påstander. Handel-modulen legger til Grenser mot kunder: om det er greit å avslutte en samtale som går over grensen, og om lederen stiller opp.",
+              "v": "27 %",
+              "vl": "opplever konflikter med kunder, mot 16 % av alle sysselsatte",
+              "ref": "aml § 4-3 andre ledd b og tredje ledd",
               "law": "Loven nevner emosjonelle krav og belastninger i arbeid med mennesker som en psykososial arbeidsmiljøfaktor (aml § 4-3 andre ledd bokstav b). Arbeidet skal også legges til rette slik at de ansattes integritet og verdighet ivaretas (tredje ledd)."
             },
             {
@@ -11433,6 +11444,8 @@
               "looks": "Fredag ettermiddag: lang kø, hyller som skal fylles, og én som også skal svare på telefonen.",
               "fig": "Lav bemanning gjør det vanskeligere å forebygge og håndtere vold og trusler, skriver Arbeidstilsynet. Forskriften nevner bemanning blant det risikovurderingen skal se på.",
               "solve": "Faktoren Bemanning og tempo viser om bemanningen følger de travle timene, og om det er tydelig hva som kan vente. Sammen med Arbeidsmengde og tidspress ser dere hvilke butikker som strekker seg for langt.",
+              "vl": "Lav bemanning gjør det vanskeligere å forebygge og håndtere vold og trusler, skriver Arbeidstilsynet.",
+              "ref": "aml § 4-3 andre ledd c · forskriften § 3A-2",
               "law": "Arbeidsmengde og tidspress er en av faktorene loven nevner (aml § 4-3 andre ledd bokstav c). Bemanning er blant det risikovurderingen av vold og trusler skal se på (forskriften § 3A-2)."
             },
             {
@@ -11440,6 +11453,9 @@
               "looks": "Vaktplanen kommer sent, og en ledig vakt dukker opp på telefonen samme morgen.",
               "fig": "85 % jobber lørdager, og 60 % har vakter tidlig kveld på hverdager. Arbeid utover avtalt tid er vanligst i varehandelen og i helse og omsorg.",
               "solve": "Faktoren Vaktplan og forutsigbarhet måler om planen kommer i god tid, og om de ansatte kan påvirke vaktene. Medvirkning og kontroll i hovedundersøkelsen viser om de har noe de skulle ha sagt.",
+              "v": "85 %",
+              "vl": "jobber lørdager",
+              "ref": "aml § 10-3",
               "law": "Jobber de ansatte til ulike tider på døgnet, skal det lages en arbeidsplan som viser hvilke uker, dager og tider hver enkelt skal jobbe. Den lages i samarbeid med de tillitsvalgte og drøftes som hovedregel senest to uker før den tas i bruk (aml § 10-3)."
             },
             {
@@ -11447,6 +11463,9 @@
               "looks": "En student tar lørdagsvakter, jobber noen timer i uka og møter sjelden de andre.",
               "fig": "37 % i varehandelen jobber deltid, og 1 av 4 under 20 timer i uka. 28 % av dem som jobber alene, har ikke fått opplæring i hva de skal gjøre hvis noe skjer.",
               "solve": "Undersøkelsen går på SMS eller QR-plakat, så ekstrahjelpen svarer like lett som butikksjefen. Den står åpen i 14 dager, så alle vakter rekker å svare. Opplæring og nye på jobb og Stilling og tilhørighet viser om de nye blir tatt imot.",
+              "v": "28 %",
+              "vl": "av dem som jobber alene, har ikke fått opplæring i hva de skal gjøre hvis noe skjer",
+              "ref": "aml § 3-2 første ledd a · forskriften § 3A-5",
               "law": "Arbeidsgiveren skal sørge for at de ansatte blir kjent med farene i arbeidet og får den opplæringen, øvelsen og instruksjonen som trengs (aml § 3-2 første ledd bokstav a). Forskriften krever i tillegg opplæring i å forebygge og håndtere vold og trusler (§ 3A-5)."
             },
             {
@@ -11454,6 +11473,9 @@
               "looks": "Varemottak med tunge kasser, påfylling på huk og en hel vakt stående i kassa.",
               "fig": "73 % jobber stående, mot 35 % av alle sysselsatte. 22 % gjør ubekvemme løft, mot 14 %.",
               "solve": "Faktoren Fysisk arbeid og hjelpemidler viser om hjelpemidlene finnes, om det er tid til å bruke dem, og om de ansatte kan variere arbeidsstillingen – per butikk og lager.",
+              "v": "73 %",
+              "vl": "jobber stående, mot 35 % av alle sysselsatte",
+              "ref": "aml § 4-4 andre ledd",
               "law": "Arbeidsplassen skal utformes slik at de ansatte unngår uheldige fysiske belastninger. Nødvendige hjelpemidler skal stilles til rådighet, og det skal legges til rette for variasjon og for å unngå tunge løft (aml § 4-4 andre ledd)."
             },
             {
@@ -11461,6 +11483,9 @@
               "looks": "Kommentarer over disken, eller en kunde som kommer tilbake igjen og igjen. Mange lar være å si fra.",
               "fig": "16 % hadde opplevd uønsket seksuell oppmerksomhet det siste året. Bare 1 av 3 av dem meldte fra til arbeidsgiver.",
               "solve": "Hovedundersøkelsen spør anonymt om krenkende atferd og måler integritet og verdighet. Grenser mot kunder spør om seksuelle kommentarer og berøring blir tatt på alvor. Loven sier at dere skal forebygge trakassering, også fra kunder.",
+              "v": "16 %",
+              "vl": "hadde opplevd uønsket seksuell oppmerksomhet det siste året",
+              "ref": "aml § 4-3 femte ledd",
               "law": "Ingen skal utsettes for trakassering, herunder seksuell trakassering (aml § 4-3 femte ledd). Loven regner enhver form for uønsket seksuell oppmerksomhet som har som formål eller virkning å være krenkende, skremmende, fiendtlig, nedverdigende, ydmykende eller plagsom, som seksuell trakassering."
             }
           ]

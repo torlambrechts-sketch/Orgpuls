@@ -35,6 +35,14 @@ describe('industry landing pages', () => {
         if (!l.article) continue
         expect(arr(cat, `${base}.compare.items`)).toHaveLength(l.article.compare.length)
         expect(l.article.lawCites).toHaveLength(l.challenges.length)
+        expect(l.article.figCites).toHaveLength(l.challenges.length)
+        expect(l.article.icons).toHaveLength(l.challenges.length)
+        // a card's key figure is backed by one of the challenge's own sources
+        l.article.figCites.forEach((keys, i) => keys.forEach((k) => expect(l.challenges[i]!.cites, k).toContain(k)))
+        for (const c of arr(cat, `${base}.challenges.items`) as { vl?: string; ref?: string }[]) {
+          expect(c.vl).toEqual(expect.any(String))
+          expect(c.ref).toEqual(expect.any(String))
+        }
         for (const c of arr(cat, `${base}.challenges.items`) as { law?: string }[]) expect(c.law).toEqual(expect.any(String))
         for (const k of ['k', 'title', 'lead', 'measures']) expect(at(cat, `${base}.orgpuls.${k}`), k).toEqual(expect.any(String))
         expect(at(cat, `${base}.hero.jump`)).toEqual(expect.any(String))

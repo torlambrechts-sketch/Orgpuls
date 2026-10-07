@@ -11619,3 +11619,9 @@ against the Act's current text and recorded in handel-sources.md. The comparison
 for the industry and sage for all employed, the design's colour for a compared figure; sage reads as
 a muted colour by design, so every bar carries its value as text and the figure never depends on
 colour alone. The page's social card is the article card under the industry's name.
+
+The same day, at the owner's request: the article's figures band is one compact row – heading and
+lead side by side, the four figures and the note in a single row, smaller type – and the eight
+challenges are cards four across, each with a drawn icon, its key figure with the source that backs
+it (`article.figCites`, one of the challenge's own sources), and its provisions in short (`ref`); the
+situation, the finding and what the law says fold out under «Les mer», a native details element.

@@ -71,10 +71,16 @@ export type IndustryLanding = {
    * shows a drawing (`art`) instead of the product, which moves to that section with the hero's tiles.
    * `compare` sets the industry beside all employed, one bar pair per `compare.items` message, in
    * percent, each pair with its sources; `lawCites` gives each challenge's `law` line its sources.
+   * Each challenge's card shows its key figure (`v`, `vl`, backed by the challenge's `cites`) and its
+   * provisions in short (`ref`); the situation, the finding and the law fold out under it.
    * Absent, the page is the product page it was (D-207).
    */
   article?: {
     art: 'handel'
+    /** each challenge's key figure's sources (`v`, `vl`): the one among the challenge's `cites` that backs it */
+    figCites: string[][]
+    /** each challenge's drawing, in the challenges' order (components/industry/IndustryLanding.tsx RiskIcon) */
+    icons: ('threat' | 'alone' | 'customer' | 'staffing' | 'rota' | 'newcomer' | 'lifting' | 'harassment' | 'alert')[]
     compare: { v: number; all: number; cites: string[]; group?: 'deltid' }[]
     lawCites: string[][]
   }
@@ -98,6 +104,8 @@ export const LANDINGS: IndustryLanding[] = [
     heroShot: 'sporsmal',
     article: {
       art: 'handel',
+      figCites: [['fafo'], ['fafo'], ['stami'], ['at_vold'], ['fafo'], ['fafo'], ['stami'], ['fafo']],
+      icons: ['threat', 'alone', 'customer', 'staffing', 'rota', 'newcomer', 'lifting', 'harassment'],
       compare: [
         { v: 73, all: 35, cites: ['stami'] },
         { v: 33, all: 17, cites: ['stami'] },
@@ -497,6 +505,6 @@ export function citedKeys(l: IndustryLanding): string[] {
     ...l.why.gapCites,
     ...l.why.costCites.flat(),
     ...l.challenges.flatMap((c) => c.cites),
-    ...(l.article ? [...l.article.compare.flatMap((c) => c.cites), ...l.article.lawCites.flat()] : []),
+    ...(l.article ? [...l.article.compare.flatMap((c) => c.cites), ...l.article.lawCites.flat(), ...l.article.figCites.flat()] : []),
   ]
 }
