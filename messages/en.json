@@ -11277,18 +11277,19 @@
         "sourcesLead": "Figures and legal references retrieved {date}. Each source is listed with its year.",
         "realShot": "A real screenshot from the demo company Nordvik Anlegg AS (Norwegian interface).",
         "related": "Read on",
-        "facts": "{factors} factors · {statements} statements · about {minutes} min extra"
+        "facts": "{factors} factors · {statements} statements · about {minutes} min extra",
+        "lawSays": "The rules"
       },
       "handel": {
         "nav": "Retail",
         "seo": {
-          "title": "Work environment survey for shops and retail | Orgpuls",
-          "description": "Survey the work environment in your shops: violence and threats, lone shifts, difficult customers and staffing. Anonymous, on the phone. 15 days free."
+          "title": "The work environment in shops and retail: risks, figures and the law | Orgpuls",
+          "description": "Violence and threats, lone shifts, difficult customers and staffing in shops: figures from Fafo, STAMI and Statistics Norway, and what the law requires."
         },
         "hero": {
           "k": "Retail · shops, chains and warehouses",
-          "h1": "A work environment survey for shops: see what makes shifts hard – and follow it up",
-          "lead": "See where threats, lone shifts and busy hours wear your staff down – for the whole business and for each shop with enough answers. Everyone answers anonymously on their phone, and you get suggested measures and a report showing the survey was done.",
+          "h1": "The work environment in retail: risks, figures and the law",
+          "lead": "Threats, lone shifts, difficult customers and busy hours are part of everyday work in many shops. This is what Norwegian research and official statistics show about the work environment in retail, what the Working Environment Act requires of the employer, and what the Labour Inspection Authority looks for.",
           "secondary": "See the retail questions",
           "figure": {
             "title": "How employees answer",
@@ -11308,7 +11309,8 @@
               "t": "Report for the Labour Inspection Authority",
               "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
             }
-          ]
+          ],
+          "jump": "What Orgpuls does for retail"
         },
         "stats": {
           "k": "Everyday work in figures",
@@ -11336,9 +11338,24 @@
           "note": "Of those who were threatened, 30 % did not tell their employer. Only 5 % of shop managers in the same study had received a report of violence or threats in the past year.",
           "text": "An anonymous questionnaire picks up what is not reported. The retail module asks about incidents that were never reported, and the answer is shown only as a count for the whole business."
         },
+        "compare": {
+          "k": "Compared",
+          "title": "Shop workers against all employed",
+          "lead": "The share in shop retail and among all employed. The part-time figures cover the whole of retail.",
+          "retail": "Shop retail",
+          "retailDeltid": "Retail",
+          "all": "All employed",
+          "items": [
+            "Work standing",
+            "Have to hide negative feelings",
+            "Have conflicts with customers",
+            "Do awkward lifts",
+            "Work part-time"
+          ]
+        },
         "why": {
-          "k": "Why survey",
-          "title": "Why a shop has to survey its work environment",
+          "k": "The law",
+          "title": "What the law requires of employers in retail",
           "lead": "The Working Environment Act applies to every employer with employees, including the shop with 6 staff. For retail, the rules point to the same things as the figures: violence and threats, lone work and staffing.",
           "law": {
             "title": "What the law asks of a shop",
@@ -11386,57 +11403,65 @@
           }
         },
         "challenges": {
-          "k": "Challenges and solutions",
-          "title": "Eight challenges in shops – and how to tackle them",
-          "lead": "The challenges come from Norwegian research and inspections. Under each one you see which questions measure it, and what you get to work with.",
+          "k": "The challenges",
+          "title": "Eight known risks in shops – and what the rules say",
+          "lead": "The challenges come from Norwegian research and inspections. Under each one is what the Act and the regulation require of the employer.",
           "items": [
             {
               "t": "Violence and threats in shops – theft and robbery",
               "looks": "A customer is stopped with goods in their jacket and turns threatening. The employee has seconds to decide: step in, call for help or let it go.",
               "fig": "12 % had faced threats so serious they were frightened in the past year. In retail, most reports of violence and threats to the Labour Inspection Authority come from grocery shops and petrol stations.",
-              "solve": "The retail module asks whether the routines are known, whether help comes quickly and whether people are followed up afterwards. A separate yes/no question counts incidents that were never reported. The main survey counts how many have experienced violence or threats."
+              "solve": "The retail module asks whether the routines are known, whether help comes quickly and whether people are followed up afterwards. A separate yes/no question counts incidents that were never reported. The main survey counts how many have experienced violence or threats.",
+              "law": "Employees must as far as possible be protected from violence and threats (WEA § 4-3, sixth paragraph). Chapter 3A of the regulation requires the risk to be surveyed and assessed, measures to be put in place, employees to be trained, and anyone affected to be followed up (§§ 3A-2, 3A-3, 3A-5 and 3A-6)."
             },
             {
               "t": "Alone on shift at opening, closing and in the evening",
               "looks": "The last person walks through the shop, cashes up and locks. If something happens, there is nobody to call out to.",
               "fig": "32 % work alone sometimes or more often. In chain shops with lone work, 1 in 3 had not made a separate risk assessment of it.",
-              "solve": "The factor Alone on shift measures whether it feels safe, whether there are breaks and whether a manager is easy to reach. A yes/no question counts how many have felt unsafe alone – never per shop or shift. The answers are the basis for the risk assessment the law requires."
+              "solve": "The factor Alone on shift measures whether it feels safe, whether there are breaks and whether a manager is easy to reach. A yes/no question counts how many have felt unsafe alone – never per shop or shift. The answers are the basis for the risk assessment the law requires.",
+              "law": "The employer must assess whether lone work carries a particular risk, and put the necessary measures in place (WEA § 4-1, third paragraph). When violence and threats are surveyed, lone work must be part of the assessment (regulation § 3A-2)."
             },
             {
               "t": "Difficult customers and feelings kept inside",
               "looks": "The complaint in the checkout queue is met with a smile, and the anger about prices is taken without answering back – shift after shift.",
               "fig": "27 % have conflicts with customers, and 33 % have to hide negative feelings. Across all employed, the figures are 16 and 17 %.",
-              "solve": "The main survey measures emotional demands with three statements. The retail module adds Boundaries with customers: whether it is fine to end a conversation that crosses the line, and whether the manager backs you up."
+              "solve": "The main survey measures emotional demands with three statements. The retail module adds Boundaries with customers: whether it is fine to end a conversation that crosses the line, and whether the manager backs you up.",
+              "law": "The Act names emotional demands and strain in work with people as a psychosocial factor (WEA § 4-3, second paragraph, letter b). Work must also be arranged so that employees’ integrity and dignity are safeguarded (third paragraph)."
             },
             {
               "t": "Too few at work when it is busy",
               "looks": "Friday afternoon: a long queue, shelves to fill, and one person who also has to answer the phone.",
               "fig": "Low staffing makes violence and threats harder to prevent and handle, the Labour Inspection Authority writes. The regulation names staffing among the things the risk assessment must look at.",
-              "solve": "The factor Staffing and pace shows whether staffing follows the busy hours, and whether it is clear what can wait. Together with Workload and time pressure you see which shops are stretched too far."
+              "solve": "The factor Staffing and pace shows whether staffing follows the busy hours, and whether it is clear what can wait. Together with Workload and time pressure you see which shops are stretched too far.",
+              "law": "Workload and time pressure is one of the factors the Act names (WEA § 4-3, second paragraph, letter c). Staffing is among what the risk assessment of violence and threats must look at (regulation § 3A-2)."
             },
             {
               "t": "Evenings, Saturdays and rotas at short notice",
               "looks": "The rota arrives late, and a free shift pops up on the phone the same morning.",
               "fig": "85 % work Saturdays, and 60 % have early evening shifts on weekdays. Working beyond agreed hours is most common in retail and in health and care.",
-              "solve": "The factor Shift schedule and predictability measures whether the shift schedule comes in good time, and whether employees can influence their shifts. Participation and control in the main survey shows whether they have a say."
+              "solve": "The factor Shift schedule and predictability measures whether the shift schedule comes in good time, and whether employees can influence their shifts. Participation and control in the main survey shows whether they have a say.",
+              "law": "If employees work at different times of day, there must be a work schedule showing which weeks, days and hours each person works. It is drawn up with the employee representatives and, as a rule, discussed no later than two weeks before it takes effect (WEA § 10-3)."
             },
             {
               "t": "Part-time, young and new staff who are soon on their own",
               "looks": "A student takes Saturday shifts, works a few hours a week and rarely meets the others.",
               "fig": "37 % in retail work part-time, and 1 in 4 under 20 hours a week. 28 % of those who work alone have had no training in what to do if something happens.",
-              "solve": "The survey goes out by text message or QR poster, so the Saturday helper answers as easily as the shop manager. It stays open for 14 days, so every shift has time to answer. Training and new staff and Position and belonging show whether new people are welcomed."
+              "solve": "The survey goes out by text message or QR poster, so the Saturday helper answers as easily as the shop manager. It stays open for 14 days, so every shift has time to answer. Training and new staff and Position and belonging show whether new people are welcomed.",
+              "law": "The employer must make sure employees know the hazards of the work and get the training, practice and instruction they need (WEA § 3-2, first paragraph, letter a). The regulation also requires training in preventing and handling violence and threats (§ 3A-5)."
             },
             {
               "t": "Heavy lifting and long hours on your feet",
               "looks": "Deliveries with heavy boxes, restocking on your knees and a whole shift standing at the till.",
               "fig": "73 % work standing, against 35 % of all employed. 22 % do awkward lifts, against 14 %.",
-              "solve": "The factor Physical work and equipment shows whether lifting aids exist, whether there is time to use them, and whether employees can vary their working position – per shop and warehouse."
+              "solve": "The factor Physical work and equipment shows whether lifting aids exist, whether there is time to use them, and whether employees can vary their working position – per shop and warehouse.",
+              "law": "The workplace must be designed so that employees avoid undue physical strain. Necessary aids must be provided, and work must be arranged for variety and to avoid heavy lifting (WEA § 4-4, second paragraph)."
             },
             {
               "t": "Unwanted sexual attention from customers",
               "looks": "Comments across the counter, or a customer who comes back again and again. Many say nothing.",
               "fig": "16 % had experienced unwanted sexual attention in the past year. Only 1 in 3 of them told their employer.",
-              "solve": "The main survey asks anonymously about offensive behaviour and measures integrity and dignity. Boundaries with customers asks whether sexual comments and touching are taken seriously. The law says you must prevent harassment, including from customers."
+              "solve": "The main survey asks anonymously about offensive behaviour and measures integrity and dignity. Boundaries with customers asks whether sexual comments and touching are taken seriously. The law says you must prevent harassment, including from customers.",
+              "law": "Nobody may be subjected to harassment, including sexual harassment (WEA § 4-3, fifth paragraph). The Act counts any form of unwanted sexual attention whose purpose or effect is offensive, frightening, hostile, degrading, humiliating or troublesome as sexual harassment."
             }
           ]
         },
@@ -11451,6 +11476,12 @@
           "fysisk_arbeid": "Physical work and equipment"
         },
         "moduleTag": "Retail module",
+        "orgpuls": {
+          "k": "Orgpuls for retail",
+          "title": "How Orgpuls measures this in shops",
+          "lead": "Orgpuls is a work environment survey built on QPS Nordic, with its own retail module on top of the main survey. This is what it asks about, and how the answers become measures.",
+          "measures": "What Orgpuls asks about, challenge by challenge"
+        },
         "proof": {
           "k": "What it looks like",
           "title": "From answers to measures in one tool",

@@ -38,7 +38,8 @@ const PAGES = [
   { slug: 'verneombud', h1: no.seo.lp.verneombud.h1, article: true },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
   // an industry on the landing template (content/industries/landing.ts, D-207): the H1 is its message
-  { slug: 'handel', h1: no.site.bransje.handel.hero.h1, shot: 'sporsmal' },
+  // an industry page written as an article (D-240): the article card, under the industry's name
+  { slug: 'handel', h1: no.site.bransje.handel.hero.h1, article: true, kicker: no.site.bransje.handel.nav },
   { slug: 'bygg-og-anlegg', h1: no.site.bransje.bygg.hero.h1, shot: 'sporsmal' },
   { slug: 'helse-og-omsorg', h1: no.site.bransje.helse.hero.h1, shot: 'sporsmal' },
   { slug: 'kunnskap-og-kontor', h1: no.site.bransje.kontor.hero.h1, shot: 'sporsmal' },
@@ -80,7 +81,7 @@ const article = (p) => `<!doctype html><html lang="nb"><head><base href="${base}
   h1 { margin-top: 18px; max-width: 1000px; font-family: 'Playfair Display', serif; font-weight: 600; font-size: 60px; line-height: 1.08; text-wrap: balance }
 </style></head><body>
   <div class="brand"><span class="mark"><svg width="40" height="24" viewBox="0 0 20 12" fill="none"><path d="${markPath}" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${markDot[1]}" cy="${markDot[2]}" r="${markDot[3]}" fill="#191510"/></svg></span>Orgpuls</div>
-  <span class="kicker">${esc(no.seo.index.eyebrow)}</span>
+  <span class="kicker">${esc(p.kicker ?? no.seo.index.eyebrow)}</span>
   <h1>${esc(p.h1)}</h1>
 </body></html>`
 

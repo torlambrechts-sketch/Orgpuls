@@ -11598,3 +11598,24 @@ SmallBizArt.tsx), and the signup now sits under the lead whenever a hero has a p
 The table of what the law requires by headcount becomes a timeline from the first employee to 30, with
 the same provisions (aml §§ 3-1, 6-1, 2 A-6, 7-1); «Et år i en liten bedrift» becomes a timeline with
 the same five steps.
+
+## D-240 — The retail page as an article, with Orgpuls at the foot (2026-10-07)
+
+/handel read as a sales page with figures in it: a trial button in the hero, an offer under the
+figures, and «how Orgpuls tackles it» on every challenge. It is now an article about the work
+environment in retail, and what Orgpuls does for the industry is a section of its own at the foot,
+reached from the hero by a link. The other four industry pages are unchanged until this one is approved:
+the template draws an industry as an article when its registry entry has `article`
+(content/industries/landing.ts), and as the product page it was (D-207) otherwise.
+
+In the article, in order: the hero with a drawing (RetailArt.tsx) instead of the product, the figures
+without an offer, a new figure setting shop retail beside all employed (only figures the page already
+cited, docs/marketing/handel-sources.md), the eight challenges with what the Act and the regulation
+require under each in place of the product's answer, the law and the inspection, and then «Orgpuls for
+handel»: the product picture and the hero's three tiles, the two claims that were in the figures and
+the inspection card, each challenge with how the module measures it, the question page, and the
+proof, steps, anonymity, questions and start band as before. Every legal reference added is checked
+against the Act's current text and recorded in handel-sources.md. The comparison's colours are rust
+for the industry and sage for all employed, the design's colour for a compared figure; sage reads as
+a muted colour by design, so every bar carries its value as text and the figure never depends on
+colour alone. The page's social card is the article card under the industry's name.

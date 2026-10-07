@@ -31,6 +31,20 @@ describe('industry landing pages', () => {
         expect(arr(cat, `${base}.faq.items`)).toHaveLength(l.faqCount)
         expect(arr(cat, `${base}.hero.tiles`)).toHaveLength(3)
         for (const r of l.related) expect(at(cat, `${base}.related.${r.key}`), r.key).toEqual(expect.any(String))
+        // an industry page written as an article (D-240): a figure per compared measure, a law line per challenge
+        if (!l.article) continue
+        expect(arr(cat, `${base}.compare.items`)).toHaveLength(l.article.compare.length)
+        expect(l.article.lawCites).toHaveLength(l.challenges.length)
+        for (const c of arr(cat, `${base}.challenges.items`) as { law?: string }[]) expect(c.law).toEqual(expect.any(String))
+        for (const k of ['k', 'title', 'lead', 'measures']) expect(at(cat, `${base}.orgpuls.${k}`), k).toEqual(expect.any(String))
+        expect(at(cat, `${base}.hero.jump`)).toEqual(expect.any(String))
+      }
+      for (const c of l.article?.compare ?? []) {
+        expect(c.v).toBeGreaterThanOrEqual(0)
+        expect(c.v).toBeLessThanOrEqual(100)
+        expect(c.all).toBeGreaterThanOrEqual(0)
+        expect(c.all).toBeLessThanOrEqual(100)
+        expect(c.cites.length).toBeGreaterThan(0)
       }
     })
 

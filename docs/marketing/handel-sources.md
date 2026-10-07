@@ -155,6 +155,30 @@ vurdere særlig risiko ved alenearbeid.
 - § 3-1 andre ledd bokstav c og § 4-3: ordlyden er den samme som på /lovkrav (`seo.lp.lovkrav`), som er
   sjekket tidligere.
 
+Linjene «Regelverket» under hver utfordring (D-240) er sjekket mot lovteksten slik den står på Lovdata
+etter endringslov 19. juni 2026 nr. 33, hentet 2026-10-07:
+
+| Utfordring | Hjemmel | Det lovteksten sier |
+|---|---|---|
+| Vold og trusler | aml § 4-3 sjette ledd; forskriften §§ 3A-2, 3A-3, 3A-5, 3A-6 | «Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler …»; kapittel 3A som under kilde 10 |
+| Alenevakter | aml § 4-1 tredje ledd; forskriften § 3A-2 | som over; alenearbeid er blant det § 3A-2 sier skal vurderes |
+| Krevende kunder | aml § 4-3 andre ledd bokstav b og tredje ledd | «emosjonelle krav og belastninger i arbeid med mennesker»; «integritet og verdighet ivaretas» |
+| Bemanning | aml § 4-3 andre ledd bokstav c; forskriften § 3A-2 | «arbeidsmengde og tidspress …»; bemanning er blant det § 3A-2 sier skal vurderes |
+| Vaktplan | aml § 10-3 | arbeidsplan ved arbeid til ulike tider på døgnet, utarbeidet i samarbeid med de tillitsvalgte, drøftet senest to uker før iverksettelsen «dersom ikke annet fremgår av tariffavtale» (siden sier «som hovedregel») |
+| Deltid, unge og nye | aml § 3-2 første ledd bokstav a; forskriften § 3A-5 | «den opplæring, øvelse og instruksjon som er nødvendig»; opplæring etter kapittel 3A |
+| Tunge løft | aml § 4-4 andre ledd | «Nødvendige hjelpemidler skal stilles til arbeidstakers disposisjon … unngå tunge løft» |
+| Seksuell oppmerksomhet | aml § 4-3 femte ledd | forbudet mot trakassering, herunder seksuell trakassering, og lovens definisjon av seksuell trakassering |
+
+Leddene i § 4-3 er nummerert etter lovteksten slik den står nå: trakassering er femte ledd og vold og
+trusler sjette ledd.
+
+## Sammenligningen (D-240)
+
+Figuren «Butikkhandel mot alle sysselsatte» bruker bare tall som står over: stående arbeid 73/35, skjule
+negative følelser 33/17, konflikter med kunder 27/16 og ubekvemme løft 22/14 (kilde 5, butikkhandel mot
+alle sysselsatte), og deltid 37/24 (kilde 6, hele varehandelen mot alle næringer, merket «Varehandel» i
+figuren).
+
 ## Produktpåstander
 
 Det siden sier om Orgpuls, er sjekket mot koden, ikke mot en kilde utenfor: se D-207 i

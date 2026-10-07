@@ -10,7 +10,8 @@ import { Rich } from './Rich'
 type Step = { title: string; ref?: string; text: string }
 
 /** A legal reference stays on one line in a narrow card: «§ 6-2» never breaks after § or at the hyphen. */
-const keep = (text: string) => text.replace(/§ (\d+ ?[A-Z]?)-(\d+)/g, (_, a: string, b: string) => `§\u00a0${a.replace(' ', '\u00a0')}-\u2060${b}`)
+export const keep = (text: string) =>
+  text.replace(/§ (\d+ ?[A-Z]?)-(\d+)/g, (_, a: string, b: string) => `§\u00a0${a.replace(' ', '\u00a0')}-\u2060${b}`)
 
 const STEP_FILLS = ['bg-sbg', 'bg-mint', 'bg-cream', 'bg-pulse', 'bg-sand', 'bg-viz3']
 

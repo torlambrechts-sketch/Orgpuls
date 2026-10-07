@@ -174,7 +174,15 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     (l): MessageSpec => ({
       id: `site.${l.msg}`,
       section: 'site',
-      paths: [`site.bransje.${l.msg}.why`, `site.bransje.${l.msg}.challenges.items`, `site.bransje.${l.msg}.trust`, `site.bransje.${l.msg}.faq`, `site.bransje.${l.msg}.sources`],
+      paths: [
+        `site.bransje.${l.msg}.why`,
+        `site.bransje.${l.msg}.challenges.items`,
+        // an industry page written as an article (D-240) also compares the industry with all employed
+        ...(l.article ? [`site.bransje.${l.msg}.compare`] : []),
+        `site.bransje.${l.msg}.trust`,
+        `site.bransje.${l.msg}.faq`,
+        `site.bransje.${l.msg}.sources`,
+      ],
       where: onSite(`/${l.slug}`),
       live: (lang) => l.live[lang === 'en' ? 'en' : 'no'],
     }),

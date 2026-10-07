@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { Fragment } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
+import { keep } from '@/components/marketing/Diagrams'
+import { RetailArt } from '@/components/marketing/art/RetailArt'
 import { Tick } from '@/components/site/parts'
 import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
@@ -43,7 +45,9 @@ const Str = z.string()
 const Item = z.object({ t: Str, d: Str })
 const Stat = z.object({ v: Str, l: Str })
 const LawRow = z.object({ ref: Str, t: Str })
-const Challenge = z.object({ t: Str, looks: Str, fig: Str, solve: Str })
+const Challenge = z.object({ t: Str, looks: Str, fig: Str, solve: Str, law: Str.optional() })
+const CompareWords = z.object({ k: Str, title: Str, lead: Str, retail: Str, retailDeltid: Str, all: Str, items: z.array(Str) })
+const OrgpulsWords = z.object({ k: Str, title: Str, lead: Str, measures: Str })
 const Block = z.object({ k: Str, h3: Str, ticks: z.array(Str).min(1), caption: Str })
 const Qa = z.object({ q: Str, a: Str })
 const WordingWords = z.object({ k: Str, title: Str, lead: Str, begge: Str, example: Str, items: z.record(Str, z.object({ t: Str, link: Str })) })
@@ -79,6 +83,15 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
   const faq = z.array(Qa).length(landing.faqCount).parse(t.raw('faq.items'))
   const moduleNames = z.record(Str, Str).parse(t.raw('moduleFactors'))
   const audiences = landing.challenges.some((c) => c.audience) ? z.record(Str, Str).parse(t.raw('audience')) : {}
+  // the page as an article (D-240): the industry first, Orgpuls in a section of its own at the foot
+  const article = landing.article
+  const compare = article ? CompareWords.parse(t.raw('compare')) : null
+  const orgpuls = article ? OrgpulsWords.parse(t.raw('orgpuls')) : null
+  if (
+    article &&
+    (compare?.items.length !== article.compare.length || article.lawCites.length !== challenges.length || challenges.some((c) => !c.law))
+  )
+    throw new Error(`${landing.slug}: the article's messages and registry differ`)
 
   const number = new Map(landing.sources.map((s, i) => [s.key, i + 1]))
   const cites = (keys: string[], tone: 'ink' | 'cream' = 'ink') =>
@@ -106,14 +119,157 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
   // the question page exists in a language only where the industry's page there is launched (D-118);
   // it is drawn from the content file, so an English one follows from the module's translation (D-120)
   const questionPage = liveQuestionPages(lang).includes(landing.slug)
-  const related = [...landing.related.map((r) => ({ href: r.href, label: t(`related.${r.key}`) })), ...articles]
-    .filter((r) => questionPage || r.href !== `/${landing.slug}/sporsmal`)
+  const related = [...landing.related.map((r) => ({ href: r.href, label: t(`related.${r.key}`) })), ...articles].filter(
+    (r) => questionPage || r.href !== `/${landing.slug}/sporsmal`,
+  )
   const hero = SHOTS[landing.heroShot].img
   // a worded module (D-211): the question page in each wording but the file's default («begge»),
   // each shown by the registry's example statement as that wording says it
   const example = landing.wording && mod.factors.flatMap((f) => f.items).find((i) => i.id === landing.wording?.example)
   const wordingWords = landing.wording && mod.wording && example?.text_variants && questionPage ? WordingWords.parse(t.raw('wording')) : null
-  const wordings = wordingWords && mod.wording ? mod.wording.modes.filter((w): w is 'barnehage' | 'skole' => w !== 'begge' && w !== mod.wording?.default) : []
+  const wordings =
+    wordingWords && mod.wording ? mod.wording.modes.filter((w): w is 'barnehage' | 'skole' => w !== 'begge' && w !== mod.wording?.default) : []
+
+  // the product's picture and the hero's tiles: in the hero of a product page, at the foot of an article (D-240)
+  const phoneFigure = (
+    <figure className="m-0 min-w-0" aria-labelledby="hero-shot-title">
+      <div
+        className={`mx-auto max-w-[420px] rounded-card border border-line bg-sf px-[24px] py-[22px] ${SHOT_SHADOW} max-sm:px-[16px] max-sm:py-[18px]`}
+      >
+        <div className="mb-[16px] flex flex-wrap items-baseline justify-between gap-x-[12px] gap-y-[6px]">
+          <span id="hero-shot-title" className="text-[15px] font-bold">
+            {t('hero.figure.title')}
+          </span>
+          <span className="text-[12.5px] text-mut">{fmt(t.raw('hero.figure.meta') as string)}</span>
+        </div>
+        <div className="mx-auto max-w-[300px] overflow-hidden rounded-[13px] border border-line">
+          {/* eslint-disable-next-line @next/next/no-img-element -- eager and sized, as the v3 pages draw shots (D-190 §21) */}
+          <img
+            src={hero.src}
+            width={hero.width}
+            height={hero.height}
+            alt={all(`seo.shots.${landing.heroShot}.alt`)}
+            fetchPriority={article ? undefined : 'high'}
+            className="block h-auto w-full"
+          />
+        </div>
+      </div>
+      <figcaption className="mx-auto mt-[14px] max-w-[420px] text-[14px] leading-[1.6] text-body [text-wrap:pretty]">
+        <strong className="text-greendeep">{t('hero.figure.caption')}</strong> {common('realShot')}
+      </figcaption>
+    </figure>
+  )
+  const tileList = (mt: string, stacked = false) => (
+    <ul
+      className={`m-0 ${mt} grid list-none gap-[10px] p-0 ${stacked ? '' : '[grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]'}`}
+    >
+      {tiles.map((w, i) => (
+        <li key={w.t} className="flex items-start gap-[12px] rounded-note border border-line bg-sf px-[16px] py-[14px]">
+          <span
+            aria-hidden="true"
+            className="flex h-[30px] w-[30px] flex-none items-center justify-center rounded-pill bg-track text-[13px] font-bold"
+          >
+            {['＋', '◷', '§'][i]}
+          </span>
+          <span>
+            <span className="block text-[14.5px] font-bold">{fmt(w.t)}</span>
+            <span className="mt-[2px] block text-[12.5px] leading-[1.45] text-body [text-wrap:pretty]">{fmt(w.d)}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  )
+
+  const factsLine = (mt: string) => (
+    <p className={`m-0 ${mt} text-[14px] text-body`}>
+      <span className="tabular-nums">{fmt(common.raw('facts') as string)}</span>
+      {questionPage ? (
+        <>
+          {' · '}
+          <Link href={`/${landing.slug}/sporsmal` as Route} className="font-bold">
+            {t('related.sporsmal')} <span aria-hidden="true">→</span>
+          </Link>
+        </>
+      ) : null}
+    </p>
+  )
+
+  // ------------------------------------------------------------------ why
+  const whySection = (
+    <section id="hvorfor" data-screen-label="Hvorfor" aria-labelledby="hvorfor-h" className={`${COLUMN} pb-[24px] pt-[72px] max-sm:pt-[48px]`}>
+      <span className={`${EYEBROW} text-mut`}>{t('why.k')}</span>
+      <h2 id="hvorfor-h" className={`${H2} mt-[12px] max-w-[24ch]`}>
+        {t('why.title')}
+      </h2>
+      <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{t('why.lead')}</p>
+      <div className="mt-[36px] grid items-start gap-[18px] [grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))]">
+        <div className={`rounded-card border border-line bg-sf p-[24px] ${SHOT_SHADOW} max-sm:px-[16px] max-sm:py-[18px]`}>
+          <div className="mb-[16px] flex flex-wrap items-center justify-between gap-[12px]">
+            <h3 className="m-0 text-[15px] font-bold">
+              {t('why.law.title')}
+              {cites(landing.why.lawCites)}
+            </h3>
+            <span className="rounded-pill bg-mint px-[11px] py-[4px] text-[12px] font-bold text-greendeep">{t('why.law.pill')}</span>
+          </div>
+          <ul className="m-0 flex list-none flex-col gap-[10px] p-0">
+            {law.map((r) => (
+              <li key={r.ref} className="flex items-start gap-[14px] rounded-row border border-line bg-bg px-[18px] py-[15px]">
+                <span
+                  aria-hidden="true"
+                  className="flex h-[26px] w-[26px] flex-none items-center justify-center rounded-pill bg-greenbar text-[13px] font-bold text-sf"
+                >
+                  §
+                </span>
+                <span>
+                  <span className="block whitespace-nowrap text-[15px] font-bold">{r.ref}</span>
+                  <span className="mt-[3px] block text-[13.5px] leading-[1.5] text-body [text-wrap:pretty]">{r.t}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <Link href="/lovkrav" className="mt-[18px] inline-block text-[14.5px] font-bold hover:no-underline">
+            {t('why.law.link')} <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+        <div className="flex flex-col gap-[13px]">
+          <div className="rounded-card border border-ink bg-sbg px-[24px] py-[22px] max-sm:px-[16px] max-sm:py-[18px]">
+            <h3 className="m-0 font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">{t('why.tilsyn.t')}</h3>
+            <p className="m-0 mt-[8px] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">
+              {t('why.tilsyn.p')}
+              {cites(landing.why.tilsynCites)}
+            </p>
+            {article ? null : (
+              <p className="m-0 mt-[10px] flex items-start gap-[10px] text-[14px] font-semibold leading-[1.5]">
+                <Tick />
+                <span>{t('why.tilsyn.d')}</span>
+              </p>
+            )}
+          </div>
+          <div className="rounded-card border border-line bg-sf px-[24px] py-[22px] max-sm:px-[16px] max-sm:py-[18px]">
+            <h3 className="m-0 font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">{t('why.gap.t')}</h3>
+            <p className="m-0 mt-[8px] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">
+              {t('why.gap.p')}
+              {cites(landing.why.gapCites)}
+            </p>
+          </div>
+          <div className="rounded-card border border-line bg-sf px-[24px] py-[22px] max-sm:px-[16px] max-sm:py-[18px]">
+            <h3 className="m-0 font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">{t('why.cost.t')}</h3>
+            <ul className="m-0 mt-[10px] flex list-none flex-col gap-[10px] p-0">
+              {cost.map((c, i) => (
+                <li key={c} className="flex items-start gap-[10px] text-[14.5px] leading-[1.55] text-body [text-wrap:pretty]">
+                  <span aria-hidden="true" className="mt-[8px] h-[6px] w-[6px] flex-none rounded-pill bg-rustbar" />
+                  <span>
+                    {c}
+                    {cites(landing.why.costCites[i] ?? [])}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 
   return (
     <>
@@ -149,67 +305,43 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                 {t('hero.h1')}
               </h1>
               <p className="m-0 mt-[20px] max-w-[52ch] text-[17px] leading-[1.65] text-body [text-wrap:pretty]">{t('hero.lead')}</p>
-              <div className="mt-[26px] flex flex-wrap items-center gap-x-[26px] gap-y-[12px]">
-                <a href="#kom-i-gang" className={`flex min-h-[50px] ${CTA}`}>
-                  {chrome('trial')} <span aria-hidden="true">→</span>
+              {article ? (
+                <a href="#orgpuls" className="mt-[24px] inline-flex min-h-[44px] items-center gap-[8px] text-[15.5px] font-bold hover:no-underline">
+                  {t('hero.jump')} <span aria-hidden="true">↓</span>
                 </a>
-                {wordingWords ? (
-                  <a href="#ordbruk" className="text-[15.5px] font-bold hover:no-underline">
-                    {t('hero.secondary')} <span aria-hidden="true">↓</span>
-                  </a>
-                ) : questionPage ? (
-                  <Link href={`/${landing.slug}/sporsmal` as Route} className="text-[15.5px] font-bold hover:no-underline">
-                    {t('hero.secondary')} <span aria-hidden="true">→</span>
-                  </Link>
-                ) : (
-                  <Link href="/demo" className="text-[15.5px] font-bold hover:no-underline">
-                    {chrome('demo')} <span aria-hidden="true">→</span>
-                  </Link>
-                )}
-              </div>
-              <p className="m-0 mt-[16px] text-[13px] text-mut">{all('site.home.risk')}</p>
+              ) : (
+                <>
+                  <div className="mt-[26px] flex flex-wrap items-center gap-x-[26px] gap-y-[12px]">
+                    <a href="#kom-i-gang" className={`flex min-h-[50px] ${CTA}`}>
+                      {chrome('trial')} <span aria-hidden="true">→</span>
+                    </a>
+                    {wordingWords ? (
+                      <a href="#ordbruk" className="text-[15.5px] font-bold hover:no-underline">
+                        {t('hero.secondary')} <span aria-hidden="true">↓</span>
+                      </a>
+                    ) : questionPage ? (
+                      <Link href={`/${landing.slug}/sporsmal` as Route} className="text-[15.5px] font-bold hover:no-underline">
+                        {t('hero.secondary')} <span aria-hidden="true">→</span>
+                      </Link>
+                    ) : (
+                      <Link href="/demo" className="text-[15.5px] font-bold hover:no-underline">
+                        {chrome('demo')} <span aria-hidden="true">→</span>
+                      </Link>
+                    )}
+                  </div>
+                  <p className="m-0 mt-[16px] text-[13px] text-mut">{all('site.home.risk')}</p>
+                </>
+              )}
             </div>
-            <figure className="m-0 min-w-0" aria-labelledby="hero-shot-title">
-              <div className={`mx-auto max-w-[420px] rounded-card border border-line bg-sf px-[24px] py-[22px] ${SHOT_SHADOW} max-sm:px-[16px] max-sm:py-[18px]`}>
-                <div className="mb-[16px] flex flex-wrap items-baseline justify-between gap-x-[12px] gap-y-[6px]">
-                  <span id="hero-shot-title" className="text-[15px] font-bold">
-                    {t('hero.figure.title')}
-                  </span>
-                  <span className="text-[12.5px] text-mut">{fmt(t.raw('hero.figure.meta') as string)}</span>
-                </div>
-                <div className="mx-auto max-w-[300px] overflow-hidden rounded-[13px] border border-line">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- eager and sized, as the v3 pages draw shots (D-190 §21) */}
-                  <img
-                    src={hero.src}
-                    width={hero.width}
-                    height={hero.height}
-                    alt={all(`seo.shots.${landing.heroShot}.alt`)}
-                    fetchPriority="high"
-                    className="block h-auto w-full"
-                  />
-                </div>
+            {article ? (
+              <div aria-hidden="true" className="flex min-w-0 justify-center max-sm:hidden">
+                <RetailArt className="h-auto w-full max-w-[460px]" />
               </div>
-              <figcaption className="mx-auto mt-[14px] max-w-[420px] text-[14px] leading-[1.6] text-body [text-wrap:pretty]">
-                <strong className="text-greendeep">{t('hero.figure.caption')}</strong> {common('realShot')}
-              </figcaption>
-            </figure>
+            ) : (
+              phoneFigure
+            )}
           </div>
-          <ul className="m-0 mt-[44px] grid list-none gap-[10px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]">
-            {tiles.map((w, i) => (
-              <li key={w.t} className="flex items-start gap-[12px] rounded-note border border-line bg-sf px-[16px] py-[14px]">
-                <span
-                  aria-hidden="true"
-                  className="flex h-[30px] w-[30px] flex-none items-center justify-center rounded-pill bg-track text-[13px] font-bold"
-                >
-                  {['＋', '◷', '§'][i]}
-                </span>
-                <span>
-                  <span className="block text-[14.5px] font-bold">{fmt(w.t)}</span>
-                  <span className="mt-[2px] block text-[12.5px] leading-[1.45] text-body [text-wrap:pretty]">{fmt(w.d)}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
+          {article ? null : tileList('mt-[44px]')}
         </section>
       </SiteTop>
 
@@ -246,102 +378,46 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
           </ul>
           <div className="mx-auto mt-[56px] grid max-w-[980px] items-center gap-x-[48px] gap-y-[24px] border-t border-[rgba(252,246,233,.22)] pt-[40px] [grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))]">
             <div>
-              <h3 className="m-0 max-w-[20ch] font-display text-[30px] font-semibold leading-[1.12] [text-wrap:balance] max-sm:text-[26px]">{t('stats.h3')}</h3>
+              <h3 className="m-0 max-w-[20ch] font-display text-[30px] font-semibold leading-[1.12] [text-wrap:balance] max-sm:text-[26px]">
+                {t('stats.h3')}
+              </h3>
               <p className="m-0 mt-[14px] max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">
                 {t('stats.note')}
                 {cites(landing.stats.noteCites, 'cream')}
               </p>
             </div>
-            <div>
-              <p className="m-0 max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">{t('stats.text')}</p>
-              <a href="#kom-i-gang" className={`mt-[22px] inline-flex min-h-[50px] focus-visible:outline-bg ${CTA}`}>
-                {chrome('getStarted')} <span aria-hidden="true">→</span>
-              </a>
-            </div>
+            {article ? null : (
+              <div>
+                <p className="m-0 max-w-[46ch] text-[15.5px] leading-[1.65] opacity-[.78] [text-wrap:pretty]">{t('stats.text')}</p>
+                <a href="#kom-i-gang" className={`mt-[22px] inline-flex min-h-[50px] focus-visible:outline-bg ${CTA}`}>
+                  {chrome('getStarted')} <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            )}
           </div>
         </section>
       </div>
 
-      {/* ------------------------------------------------------------------ why */}
-      <section id="hvorfor" data-screen-label="Hvorfor" aria-labelledby="hvorfor-h" className={`${COLUMN} pb-[24px] pt-[72px] max-sm:pt-[48px]`}>
-        <span className={`${EYEBROW} text-mut`}>{t('why.k')}</span>
-        <h2 id="hvorfor-h" className={`${H2} mt-[12px] max-w-[24ch]`}>
-          {t('why.title')}
-        </h2>
-        <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{t('why.lead')}</p>
-        <div className="mt-[36px] grid items-start gap-[18px] [grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))]">
-          <div className={`rounded-card border border-line bg-sf p-[24px] ${SHOT_SHADOW} max-sm:px-[16px] max-sm:py-[18px]`}>
-            <div className="mb-[16px] flex flex-wrap items-center justify-between gap-[12px]">
-              <h3 className="m-0 text-[15px] font-bold">
-                {t('why.law.title')}
-                {cites(landing.why.lawCites)}
-              </h3>
-              <span className="rounded-pill bg-mint px-[11px] py-[4px] text-[12px] font-bold text-greendeep">{t('why.law.pill')}</span>
-            </div>
-            <ul className="m-0 flex list-none flex-col gap-[10px] p-0">
-              {law.map((r) => (
-                <li key={r.ref} className="flex items-start gap-[14px] rounded-row border border-line bg-bg px-[18px] py-[15px]">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-[26px] w-[26px] flex-none items-center justify-center rounded-pill bg-greenbar text-[13px] font-bold text-sf"
-                  >
-                    §
-                  </span>
-                  <span>
-                    <span className="block whitespace-nowrap text-[15px] font-bold">{r.ref}</span>
-                    <span className="mt-[3px] block text-[13.5px] leading-[1.5] text-body [text-wrap:pretty]">{r.t}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <Link href="/lovkrav" className="mt-[18px] inline-block text-[14.5px] font-bold hover:no-underline">
-              {t('why.law.link')} <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-          <div className="flex flex-col gap-[13px]">
-            <div className="rounded-card border border-ink bg-sbg px-[24px] py-[22px] max-sm:px-[16px] max-sm:py-[18px]">
-              <h3 className="m-0 font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">{t('why.tilsyn.t')}</h3>
-              <p className="m-0 mt-[8px] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">
-                {t('why.tilsyn.p')}
-                {cites(landing.why.tilsynCites)}
-              </p>
-              <p className="m-0 mt-[10px] flex items-start gap-[10px] text-[14px] font-semibold leading-[1.5]">
-                <Tick />
-                <span>{t('why.tilsyn.d')}</span>
-              </p>
-            </div>
-            <div className="rounded-card border border-line bg-sf px-[24px] py-[22px] max-sm:px-[16px] max-sm:py-[18px]">
-              <h3 className="m-0 font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">{t('why.gap.t')}</h3>
-              <p className="m-0 mt-[8px] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">
-                {t('why.gap.p')}
-                {cites(landing.why.gapCites)}
-              </p>
-            </div>
-            <div className="rounded-card border border-line bg-sf px-[24px] py-[22px] max-sm:px-[16px] max-sm:py-[18px]">
-              <h3 className="m-0 font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">{t('why.cost.t')}</h3>
-              <ul className="m-0 mt-[10px] flex list-none flex-col gap-[10px] p-0">
-                {cost.map((c, i) => (
-                  <li key={c} className="flex items-start gap-[10px] text-[14.5px] leading-[1.55] text-body [text-wrap:pretty]">
-                    <span aria-hidden="true" className="mt-[8px] h-[6px] w-[6px] flex-none rounded-pill bg-rustbar" />
-                    <span>
-                      {c}
-                      {cites(landing.why.costCites[i] ?? [])}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      {article && compare ? (
+        <section
+          id="sammenlignet"
+          data-screen-label="Sammenlignet"
+          aria-labelledby="sammenlignet-h"
+          className={`${COLUMN} pt-[72px] max-sm:pt-[48px]`}
+        >
+          <span className={`${EYEBROW} text-mut`}>{compare.k}</span>
+          <h2 id="sammenlignet-h" className={`${H2} mt-[12px] max-w-[24ch]`}>
+            {compare.title}
+          </h2>
+          <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{compare.lead}</p>
+          <Compare words={compare} rows={article.compare.map((c, i) => ({ ...c, label: compare.items[i] ?? '', cite: cites(c.cites) }))} />
+        </section>
+      ) : null}
+
+      {article ? null : whySection}
 
       {/* ----------------------------------------------------------- challenges */}
-      <section
-        id="utfordringer"
-        data-screen-label="Utfordringer"
-        aria-labelledby="utfordringer-h"
-        className="mt-[48px] border-y border-line bg-sf"
-      >
+      <section id="utfordringer" data-screen-label="Utfordringer" aria-labelledby="utfordringer-h" className="mt-[48px] border-y border-line bg-sf">
         <div className={`${COLUMN} py-[72px] max-sm:py-[48px]`}>
           <span className={`${EYEBROW} text-mut`}>{t('challenges.k')}</span>
           <h2 id="utfordringer-h" className={`${H2} mt-[12px] max-w-[24ch]`}>
@@ -367,7 +443,9 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                       </span>
                       <span className={`${EYEBROW} text-danger`}>{common('problem')}</span>
                       {reg.audience ? (
-                        <span className="ml-auto rounded-pill bg-sbg px-[10px] py-[4px] text-[12px] font-bold text-ink">{audiences[reg.audience] ?? reg.audience}</span>
+                        <span className="ml-auto rounded-pill bg-sbg px-[10px] py-[4px] text-[12px] font-bold text-ink">
+                          {audiences[reg.audience] ?? reg.audience}
+                        </span>
                       ) : null}
                     </div>
                     <h3 className="m-0 font-display text-[24px] font-semibold leading-[1.15] [text-wrap:balance] max-sm:text-[22px]">{c.t}</h3>
@@ -377,21 +455,39 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                       {cites(reg.cites)}
                     </p>
                   </div>
-                  <div className="flex flex-col gap-[8px] border-t border-line bg-mint px-[24px] pb-[20px] pt-[16px] max-sm:px-[16px]">
-                    <span className={`${EYEBROW} text-greendeep`}>{common('solution')}</span>
-                    <p className="m-0 text-[14.5px] leading-[1.6] text-greendeep [text-wrap:pretty]">{c.solve}</p>
-                    <div className="mt-[4px] flex flex-wrap items-center gap-[6px]">
-                      <span className="text-[12px] font-bold text-greendeep">{common('measured')}</span>
-                      <ul className="m-0 flex list-none flex-wrap gap-[6px] p-0">
-                        {measures.map((m) => (
-                          <li key={m.tag + m.id} className={`rounded-pill px-[10px] py-[4px] text-[12px] font-bold ${m.tone}`}>
-                            {m.label}
-                            <span className="font-semibold"> · {m.tag}</span>
-                          </li>
-                        ))}
-                      </ul>
+                  {article ? (
+                    <div className="flex flex-col gap-[8px] border-t border-line bg-sf px-[24px] pb-[20px] pt-[16px] max-sm:px-[16px]">
+                      <span className={`${EYEBROW} flex items-center gap-[8px] text-link`}>
+                        <span
+                          aria-hidden="true"
+                          className="flex h-[20px] w-[20px] items-center justify-center rounded-pill bg-greenbar text-[11px] font-bold normal-case tracking-normal text-sf"
+                        >
+                          §
+                        </span>
+                        {common('lawSays')}
+                      </span>
+                      <p className="m-0 text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">
+                        {keep(c.law ?? '')}
+                        {cites(article.lawCites[i] ?? [])}
+                      </p>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="flex flex-col gap-[8px] border-t border-line bg-mint px-[24px] pb-[20px] pt-[16px] max-sm:px-[16px]">
+                      <span className={`${EYEBROW} text-greendeep`}>{common('solution')}</span>
+                      <p className="m-0 text-[14.5px] leading-[1.6] text-greendeep [text-wrap:pretty]">{c.solve}</p>
+                      <div className="mt-[4px] flex flex-wrap items-center gap-[6px]">
+                        <span className="text-[12px] font-bold text-greendeep">{common('measured')}</span>
+                        <ul className="m-0 flex list-none flex-wrap gap-[6px] p-0">
+                          {measures.map((m) => (
+                            <li key={m.tag + m.id} className={`rounded-pill px-[10px] py-[4px] text-[12px] font-bold ${m.tone}`}>
+                              {m.label}
+                              <span className="font-semibold"> · {m.tag}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
                 </li>
               )
             })}
@@ -434,19 +530,68 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
               </div>
             </div>
           ) : null}
-          <p className="m-0 mt-[24px] text-[14px] text-body">
-            <span className="tabular-nums">{fmt(common.raw('facts') as string)}</span>
-            {questionPage ? (
-              <>
-                {' · '}
-                <Link href={`/${landing.slug}/sporsmal` as Route} className="font-bold">
-                  {t('related.sporsmal')} <span aria-hidden="true">→</span>
-                </Link>
-              </>
-            ) : null}
-          </p>
+          {article ? null : factsLine('mt-[24px]')}
         </div>
       </section>
+
+      {article ? whySection : null}
+
+      {/* ------------------------------------- what Orgpuls does, at the foot of an article */}
+      {article && orgpuls ? (
+        <section
+          id="orgpuls"
+          data-screen-label="Orgpuls"
+          aria-labelledby="orgpuls-h"
+          className="mt-[48px] scroll-mt-[24px] border-y border-line bg-mint"
+        >
+          <div className={`${COLUMN} py-[72px] max-sm:py-[48px]`}>
+            <div className="grid items-center gap-x-[56px] gap-y-[32px] [grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))]">
+              <div className="min-w-0">
+                <span className={`${EYEBROW} text-greendeep`}>{orgpuls.k}</span>
+                <h2 id="orgpuls-h" className={`${H2} mt-[12px] max-w-[22ch]`}>
+                  {orgpuls.title}
+                </h2>
+                <p className={`${LEAD} mt-[14px] max-w-[52ch]`}>{orgpuls.lead}</p>
+                <ul className="m-0 mt-[20px] flex list-none flex-col gap-[10px] p-0">
+                  {[t('stats.text'), t('why.tilsyn.d')].map((x) => (
+                    <li key={x} className="flex items-start gap-[10px] text-[14.5px] font-semibold leading-[1.55] [text-wrap:pretty]">
+                      <Tick />
+                      <span>{x}</span>
+                    </li>
+                  ))}
+                </ul>
+                {tileList('mt-[24px]', true)}
+              </div>
+              {phoneFigure}
+            </div>
+            <h3 className="m-0 mt-[56px] font-display text-[26px] font-semibold leading-[1.15] [text-wrap:balance]">{orgpuls.measures}</h3>
+            <ol className="m-0 mt-[20px] grid list-none gap-[10px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr))]">
+              {challenges.map((c, i) => {
+                const reg = landing.challenges[i]!
+                return (
+                  <li key={c.t} className="flex flex-col gap-[8px] rounded-note border border-line bg-sf px-[20px] py-[16px] max-sm:px-[16px]">
+                    <span className="text-[15px] font-bold">
+                      <span aria-hidden="true" className="mr-[8px] tabular-nums text-mut">
+                        {i + 1}.
+                      </span>
+                      {c.t}
+                    </span>
+                    <span className="text-[14px] leading-[1.55] text-body [text-wrap:pretty]">{c.solve}</span>
+                    <MeasuredBy
+                      label={common('measured')}
+                      items={[
+                        ...reg.module.map((id) => ({ id, label: moduleNames[id] ?? id, tag: t('moduleTag'), tone: 'bg-ac text-ink' })),
+                        ...reg.core.map((id) => ({ id, label: all(`factor.${id}.label`), tag: common('coreTag'), tone: 'bg-track text-ink' })),
+                      ]}
+                    />
+                  </li>
+                )
+              })}
+            </ol>
+            {factsLine('mt-[24px]')}
+          </div>
+        </section>
+      ) : null}
 
       {/* -------------------------------------------- the variants, where there are two */}
       {landing.variants && mod.variants ? (
@@ -597,7 +742,13 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
               {common('sources')}
             </h2>
             <p className="m-0 mt-[6px] text-[13px] text-mut">
-              {common('sourcesLead', { date: new Date(`${landing.fetched}T12:00:00Z`).toLocaleDateString(lang === 'en' ? 'en-GB' : 'nb-NO', { day: 'numeric', month: 'long', year: 'numeric' }) })}
+              {common('sourcesLead', {
+                date: new Date(`${landing.fetched}T12:00:00Z`).toLocaleDateString(lang === 'en' ? 'en-GB' : 'nb-NO', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                }),
+              })}
             </p>
             <ol className="m-0 mt-[12px] pl-[20px] text-[13.5px] leading-[1.5] text-body">
               {landing.sources.map((s) => {
@@ -709,7 +860,9 @@ function Variants({
           >
             <div className="flex flex-wrap items-center justify-between gap-x-[12px] gap-y-[8px]">
               <h3 className="m-0 font-display text-[24px] font-semibold leading-[1.15] max-sm:text-[22px]">{c.words.t}</h3>
-              <span className={`rounded-pill px-[11px] py-[4px] text-[12px] font-bold ${c.emphasis ? 'bg-mint text-greendeep' : 'bg-track text-ink'}`}>
+              <span
+                className={`rounded-pill px-[11px] py-[4px] text-[12px] font-bold ${c.emphasis ? 'bg-mint text-greendeep' : 'bg-track text-ink'}`}
+              >
                 {c.words.badge}
               </span>
             </div>
@@ -778,5 +931,82 @@ function BrowserFrame({ id, bar, alt }: { id: ShotId; bar: string; alt: string }
       {/* eslint-disable-next-line @next/next/no-img-element -- eager and sized, as the v3 pages draw shots (D-190 §21) */}
       <img src={img.src} width={img.width} height={img.height} alt={alt} className="block h-auto w-full" />
     </div>
+  )
+}
+
+/** «Målt med»: the factors that measure a challenge, as chips */
+function MeasuredBy({ label, items }: { label: string; items: { id: string; label: string; tag: string; tone: string }[] }) {
+  return (
+    <div className="mt-[2px] flex flex-wrap items-center gap-[6px]">
+      <span className="text-[12px] font-bold text-greendeep">{label}</span>
+      <ul className="m-0 flex list-none flex-wrap gap-[6px] p-0">
+        {items.map((m) => (
+          <li key={m.tag + m.id} className={`rounded-pill px-[10px] py-[4px] text-[12px] font-bold ${m.tone}`}>
+            {m.label}
+            <span className="font-semibold"> · {m.tag}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+/**
+ * The industry beside all employed (D-240): a pair of bars per measure on one 0–100 % scale, the
+ * industry in rust, all employed in sage – the design's colour for a compared figure – each bar with
+ * its value written at its end, so nothing is read by colour alone. The drawing is hidden from screen
+ * readers, which read the same figures as a table.
+ */
+function Compare({
+  words,
+  rows,
+}: {
+  words: { retail: string; retailDeltid: string; all: string }
+  rows: { v: number; all: number; label: string; group?: 'deltid'; cite: React.ReactNode }[]
+}) {
+  const bar = (v: number, tone: string) => (
+    // the value stands at the end of its bar; the scale runs 0–100 % of the track, the value's room aside
+    <div className="relative h-[16px] mr-[56px]">
+      <span className={`absolute inset-y-[1px] left-0 rounded-r-[4px] ${tone}`} style={{ width: `${v}%` }} />
+      <span className="absolute top-1/2 -translate-y-1/2 pl-[8px] text-[13px] font-bold leading-none tabular-nums text-ink" style={{ left: `${v}%` }}>
+        {v} %
+      </span>
+    </div>
+  )
+  return (
+    <figure className="m-0 mt-[32px] rounded-card border border-line bg-sf px-[28px] py-[26px] max-sm:px-[16px] max-sm:py-[20px]">
+      <div aria-hidden="true" className="flex flex-wrap gap-x-[22px] gap-y-[6px] text-[13px] font-semibold text-body">
+        <span className="flex items-center gap-[8px]">
+          <span className="h-[12px] w-[12px] rounded-[3px] bg-rustbar" />
+          {words.retail}
+        </span>
+        <span className="flex items-center gap-[8px]">
+          <span className="h-[12px] w-[12px] rounded-[3px] bg-sage" />
+          {words.all}
+        </span>
+      </div>
+      <ul className="m-0 mt-[20px] flex list-none flex-col gap-[18px] p-0">
+        {rows.map((r) => {
+          const retail = r.group === 'deltid' ? words.retailDeltid : words.retail
+          return (
+            <li key={r.label} className="grid items-center gap-x-[24px] gap-y-[8px] md:grid-cols-[260px_minmax(0,1fr)]">
+              <span className="text-[14.5px] font-semibold leading-[1.35]">
+                {r.label}
+                {r.cite}
+                {r.group === 'deltid' ? <span className="block text-[12px] font-normal text-mut">{words.retailDeltid}</span> : null}
+                <span className="sr-only">
+                  {' – '}
+                  {retail}: {r.v} %, {words.all}: {r.all} %
+                </span>
+              </span>
+              <span aria-hidden="true" className="flex flex-col gap-[3px] border-l-2 border-ink">
+                {bar(r.v, 'bg-rustbar')}
+                {bar(r.all, 'bg-sage')}
+              </span>
+            </li>
+          )
+        })}
+      </ul>
+    </figure>
   )
 }

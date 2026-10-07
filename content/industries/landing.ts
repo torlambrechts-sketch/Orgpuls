@@ -65,6 +65,19 @@ export type IndustryLanding = {
    * one list per `site.bransje.<msg>.variants.picks.items` entry. Absent for a module asked one way.
    */
   variants?: { picks: string[][] }
+  /**
+   * The page as an article (D-240): the industry's risks, figures and law first, without an offer
+   * beside them, and what Orgpuls does for the industry in a section of its own at the foot. The hero
+   * shows a drawing (`art`) instead of the product, which moves to that section with the hero's tiles.
+   * `compare` sets the industry beside all employed, one bar pair per `compare.items` message, in
+   * percent, each pair with its sources; `lawCites` gives each challenge's `law` line its sources.
+   * Absent, the page is the product page it was (D-207).
+   */
+  article?: {
+    art: 'handel'
+    compare: { v: number; all: number; cites: string[]; group?: 'deltid' }[]
+    lawCites: string[][]
+  }
   /** `site.bransje.<msg>.proof.blocks`, one picture each */
   proof: ShotId[]
   faqCount: number
@@ -83,6 +96,26 @@ export const LANDINGS: IndustryLanding[] = [
     live: { no: true, en: true },
     module: 'handel',
     heroShot: 'sporsmal',
+    article: {
+      art: 'handel',
+      compare: [
+        { v: 73, all: 35, cites: ['stami'] },
+        { v: 33, all: 17, cites: ['stami'] },
+        { v: 27, all: 16, cites: ['stami'] },
+        { v: 22, all: 14, cites: ['stami'] },
+        { v: 37, all: 24, cites: ['ssb'], group: 'deltid' },
+      ],
+      lawCites: [
+        ['lovdata_aml', 'lovdata_forskrift'],
+        ['lovdata_aml', 'lovdata_forskrift'],
+        ['lovdata_aml'],
+        ['lovdata_aml', 'lovdata_forskrift'],
+        ['lovdata_aml'],
+        ['lovdata_aml', 'lovdata_forskrift'],
+        ['lovdata_aml'],
+        ['lovdata_aml'],
+      ],
+    },
     stats: {
       leadCites: ['ssb', 'at_tilsyn'],
       items: [['fafo'], ['fafo'], ['stami'], ['ssb']],
@@ -464,5 +497,6 @@ export function citedKeys(l: IndustryLanding): string[] {
     ...l.why.gapCites,
     ...l.why.costCites.flat(),
     ...l.challenges.flatMap((c) => c.cites),
+    ...(l.article ? [...l.article.compare.flatMap((c) => c.cites), ...l.article.lawCites.flat()] : []),
   ]
 }
