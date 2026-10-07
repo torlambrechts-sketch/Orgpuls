@@ -11637,3 +11637,32 @@ rule and marked as such. Barnehage og skole's cards keep their audience label, a
 moves with the question page into the Orgpuls section; kunnskap og kontor's variants follow it there.
 Where a challenge has no figure in its sources (tidspress, mange firma, bemanning), its card states
 the finding in words instead of inventing one.
+
+## D-241 — Free templates behind an e-mail address (0208) (2026-10-07)
+
+Tor asked for free templates under Ressurser, given for an e-mail address. /maler lists six, each with a
+page under /maler/<slug> and a form beside its hero; «Kartleggingspakken» gives all six in one zip.
+
+- **The files** (private/maler) are built by `scripts/maler/build.py` from what the site already says:
+  the law table on /lovkrav, the risk assessment and «hvor ofte» articles, the playbook and the
+  factors' statements, and QPSNordic 34+ transcribed verbatim from the STAMI manual (X-107) into
+  `scripts/maler/qpsnordic34.json`. Risk assessment, measures bank, annual cycle and the QPSNordic
+  answer register are Excel; the QPSNordic questionnaire and the information letter with checklist are
+  Word. They are Norwegian on both sites, as the law and the questionnaire are; the English pages say
+  so. The build needs openpyxl and python-docx; its outputs are committed, like the social cards.
+- **The scales in the risk matrix are a suggestion**, and the template says so: the regulation sets no
+  thresholds. The answer register shows nothing for a question with fewer than 10 answers, as the
+  manual advises (pp. 14–15).
+- **The gate is soft, on purpose.** The form calls `request_template` (0208), which sends a
+  `template.requested` event to the platform with the name, address, template, organisation and role
+  if given, the page's language and the consent box, unticked by default (markedsføringsloven § 15).
+  An httpOnly cookie then names the template, and `/maler/fil/<file>` serves a file only to a browser
+  whose cookie names a template holding it. Nothing new is stored in Orgpuls.
+- **Until 0208 is on the hosted project**, PostgREST answers PGRST202 and the action sends the same
+  request as a `contact.submitted` message (topic product), which the platform already receives, so no
+  address is lost. The bridge can go once 0208 is applied. The Supabase MCP of this session cannot see
+  the Orgpuls project, so the migration waits for whoever can apply it.
+- **The privacy statement** has a section on template downloads, the cookie and how long the data is
+  kept, and is dated 7 October 2026.
+- **Proved by** `supabase/tests/template_request_invariants.sql` (run here against a stub of the
+  platform tables, all five green) and `tests/unit/templates.test.ts`.

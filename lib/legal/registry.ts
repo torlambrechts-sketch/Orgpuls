@@ -151,6 +151,9 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   { id: 'lp.lovkrav', section: 'site', paths: ['seo.lp.lovkrav'], where: onSite('/lovkrav') },
   { id: 'lp.verneombud', section: 'site', paths: ['seo.lp.verneombud'], where: onSite('/verneombud') },
   { id: 'lp.smaaBedrifter', section: 'site', paths: ['seo.lp.smaaBedrifter'], where: onSite('/smaa-bedrifter') },
+  // the free templates (D-241): what each says the law requires, and the index's account of what they build on
+  { id: 'maler.index', section: 'site', paths: ['seo.maler.index'], where: onSite('/maler') },
+  { id: 'maler.risikovurdering', section: 'site', paths: ['seo.maler.risikovurdering'], where: onSite('/maler/risikovurdering-psykososialt-arbeidsmiljo') },
   // the landing pages bygg and helse had before their industry pages: no address shows them since the
   // landing template took both languages (D-213; /verneombud still links bygg with its card); kept as the record
   { id: 'lp.byggOgAnlegg', section: 'site', paths: ['seo.lp.byggOgAnlegg'], where: onSite('/bygg-og-anlegg'), live: () => false },

@@ -4342,7 +4342,8 @@
       "pages": "Sider",
       "forWho": "Hvem det er for",
       "industries": "Bransjer",
-      "articles": "Artikler"
+      "articles": "Artikler",
+      "templates": "Gratis maler"
     },
     "common": {
       "home": "Forside",
@@ -9446,7 +9447,7 @@
         "crumb": "Personvernerklæring",
         "kicker": "Personvern",
         "h1": "Personvernerklæring",
-        "lead": "Her står hva Orgpuls samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 5. oktober 2026.",
+        "lead": "Her står hva Orgpuls samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 7. oktober 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -9523,11 +9524,19 @@
           },
           {
             "t": "h2",
+            "text": "Når du laster ned en gratis mal"
+          },
+          {
+            "t": "p",
+            "text": "Laster du ned en av de gratis malene, lagrer vi navnet ditt, e-postadressen, hvilken mal du lastet ned, virksomheten og rollen hvis du oppgir dem, og om du krysset av for e-post fra oss. Grunnlaget er vår berettigede interesse i å vite hvem som bruker malene, artikkel 6 nr. 1 bokstav f. E-post om nye maler og artikler får du bare hvis du krysset av for det; da er grunnlaget samtykket ditt, artikkel 6 nr. 1 bokstav a, og du kan trekke det tilbake med lenken i hver e-post. Nettleseren får en informasjonskapsel som husker hvilke maler du har lastet ned, i ett år."
+          },
+          {
+            "t": "h2",
             "text": "Informasjonskapsler"
           },
           {
             "t": "p",
-            "text": "Vi bruker bare informasjonskapsler som trengs for at tjenesten skal virke: innlogging, språkvalget ditt, visningsvalg i appen, og en kortvarig kapsel som husker virksomheten mens du registrerer deg med Google. I demoen husker nettleseren hvilke steder i demoguiden du har vært innom; det lagres bare på enheten din. Ingen brukes til statistikk eller annonser."
+            "text": "Vi bruker bare informasjonskapsler som trengs for at tjenesten skal virke: innlogging, språkvalget ditt, visningsvalg i appen, og en kortvarig kapsel som husker virksomheten mens du registrerer deg med Google. I demoen husker nettleseren hvilke steder i demoguiden du har vært innom; det lagres bare på enheten din. Laster du ned en gratis mal, husker en kapsel hvilke maler det var, i ett år, så du slipper å fylle ut skjemaet igjen. Ingen brukes til statistikk eller annonser."
           },
           {
             "t": "h2",
@@ -9554,7 +9563,13 @@
           },
           {
             "t": "ul",
-            "items": ["Kontoen og virksomhetens opplysninger: så lenge kundeforholdet varer, og deretter så lenge regnskapsloven krever for det som inngår i regnskapet.", "Demo: forespørselen 30 dager. Demoen og innloggingen 14 dager uten innlogging. Kontakten til du ber oss slette den.", "Nyhetsbrev: til du melder deg av. Deretter bare hashen som hindrer nye utsendelser.", "Henvendelser til kundestøtte: så lenge det trengs for å følge opp saken og kundeforholdet."]
+            "items": [
+              "Kontoen og virksomhetens opplysninger: så lenge kundeforholdet varer, og deretter så lenge regnskapsloven krever for det som inngår i regnskapet.",
+              "Demo: forespørselen 30 dager. Demoen og innloggingen 14 dager uten innlogging. Kontakten til du ber oss slette den.",
+              "Nyhetsbrev: til du melder deg av. Deretter bare hashen som hindrer nye utsendelser.",
+              "Henvendelser til kundestøtte: så lenge det trengs for å følge opp saken og kundeforholdet.",
+              "Nedlasting av gratis maler: til du ber oss slette opplysningene. Samtykket til e-post: til du trekker det tilbake."
+            ]
           },
           {
             "t": "h2",
@@ -9842,6 +9857,454 @@
         "crumb": "Bransjer"
       }
     },
+    "maler": {
+      "index": {
+        "title": "Gratis maler for arbeidsmiljøkartlegging | Orgpuls",
+        "description": "Gratis maler for risikovurdering, tiltaksplan, årshjul og spørreskjema (QPSNordic 34+) for det psykososiale arbeidsmiljøet. Excel og Word.",
+        "crumb": "Gratis maler",
+        "kicker": "Ressurser",
+        "h1": "Gratis maler for arbeidet med det psykososiale arbeidsmiljøet",
+        "lead": "Maler i Excel og Word for kartleggingen, risikovurderingen og tiltakene arbeidsmiljøloven krever: ferdig satt opp etter loven og forskriften, med eksempler og forklaring. Gratis å bruke i egen virksomhet.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hele pakken"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Kartleggingspakken",
+                "text": "Alle seks malene i én fil: fra planlegging og spørreskjema til risikovurdering, tiltak og årshjul.",
+                "href": "/maler/kartleggingspakken"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Malene hver for seg"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Risikovurdering av det psykososiale arbeidsmiljøet",
+                "text": "Excel-mal med faktorene loven nevner, risikomatrise og tiltaksplan.",
+                "href": "/maler/risikovurdering-psykososialt-arbeidsmiljo"
+              },
+              {
+                "title": "Tiltaksbank",
+                "text": "33 konkrete tiltak, tre for hver faktor, med tid, fremgangsmåte og forskningen de bygger på.",
+                "href": "/maler/tiltaksbank"
+              },
+              {
+                "title": "Årshjul for arbeidsmiljøarbeidet",
+                "text": "Et ferdig utfylt eksempel på en rytme for kartlegging, vurdering og oppfølging gjennom året.",
+                "href": "/maler/arshjul-arbeidsmiljo"
+              },
+              {
+                "title": "QPSNordic 34+: spørreskjema og svarregistrering",
+                "text": "Det nordiske spørreskjemaet ordrett, klart til utskrift, og et regneark som regner ut resultatene.",
+                "href": "/maler/qpsnordic-sporreskjema"
+              },
+              {
+                "title": "Informasjonsskriv og sjekkliste",
+                "text": "Et skriv til de ansatte før undersøkelsen, og en sjekkliste for dem som planlegger den.",
+                "href": "/maler/informasjonsskriv-og-sjekkliste"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva malene bygger på"
+          },
+          {
+            "t": "p",
+            "text": "Malene følger arbeidsmiljøloven § 3-1 og § 4-3 og forskrift om utførelse av arbeid kapittel 1A, slik de står på Lovdata. Spørreskjemaet er QPSNordic 34+, gjengitt ordrett fra brukerveiledningen Statens arbeidsmiljøinstitutt (STAMI) har gitt ut. Tiltakene og forklaringene er de samme som i [artiklene våre](/artikler)."
+          },
+          {
+            "t": "box",
+            "title": "Gratis, mot en e-postadresse",
+            "text": "Malene er gratis å bruke i egen virksomhet. Vi ber om navn og e-post før du laster ned. Vil du ha e-post fra oss om nye maler og artikler, krysser du av for det – ellers får du ingen."
+          }
+        ]
+      },
+      "form": {
+        "title": "Last ned gratis",
+        "text": "Skriv inn navn og e-post, så kan du laste ned filene med en gang.",
+        "name": "Navn",
+        "mail": "E-post",
+        "org": "Virksomhet",
+        "orgPlaceholder": "Valgfritt",
+        "role": "Rolle",
+        "rolePlaceholder": "Valgfritt",
+        "consent": "Ja takk, send meg e-post når det kommer nye maler og artikler. Jeg kan melde meg av når som helst.",
+        "send": "Last ned",
+        "invalid": "Skriv inn navn og en gyldig e-postadresse.",
+        "limited": "Du har lastet ned mange maler den siste timen. Prøv igjen litt senere.",
+        "failed": "Noe gikk galt. Prøv igjen, eller skriv til {mail}.",
+        "privacy": "Vi lagrer navnet og e-postadressen sammen med malen du lastet ned. Du får bare e-post fra oss hvis du krysser av for det. Les [personvernerklæringen](/personvernerklaering).",
+        "readyTitle": "Malene er klare",
+        "readyText": "Last ned filene under. De er på norsk, og du kan bruke og endre dem fritt i egen virksomhet."
+      },
+      "pakke": {
+        "title": "Kartleggingspakken: gratis maler for arbeidsmiljøet | Orgpuls",
+        "description": "Seks gratis maler i én pakke: sjekkliste, informasjonsskriv, QPSNordic-spørreskjema, risikovurdering, tiltaksbank og årshjul. Excel og Word.",
+        "crumb": "Kartleggingspakken",
+        "kicker": "Gratis maler",
+        "h1": "Kartleggingspakken: seks maler for hele arbeidet med det psykososiale arbeidsmiljøet",
+        "lead": "Fra planleggingen til oppfølgingen: en sjekkliste og et skriv til de ansatte, et spørreskjema med svarregistrering, en mal for risikovurderingen, en tiltaksbank og et årshjul. Alt i én nedlasting.",
+        "files": {
+          "orgpuls-kartleggingspakken.zip": "Hele pakken (zip, seks filer)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Slik henger malene sammen"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Planlegg",
+                "title": "Sjekkliste og informasjonsskriv",
+                "text": "Avklar formål, ansvar og gjennomføring, og fortell de ansatte hva undersøkelsen er til og hvordan anonymiteten sikres."
+              },
+              {
+                "date": "Kartlegg",
+                "title": "QPSNordic 34+",
+                "text": "Spørreskjemaet klart til utskrift, og et regneark som regner ut resultatene per spørsmål."
+              },
+              {
+                "date": "Vurder",
+                "title": "Risikovurdering",
+                "text": "Én rad per faktor loven nevner, med risikomatrise og begrunnelse."
+              },
+              {
+                "date": "Velg tiltak",
+                "title": "Tiltaksbank og tiltaksplan",
+                "text": "33 tiltak å velge fra, og en plan med ansvarlig og frist."
+              },
+              {
+                "date": "Følg opp",
+                "title": "Årshjul",
+                "text": "En rytme for når dere kartlegger, vurderer og følger opp gjennom året."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Dette får du"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Sjekkliste og informasjonsskriv** (Word)",
+              "**QPSNordic 34+** – spørreskjemaet (Word) og svarregistreringen (Excel)",
+              "**Risikovurdering** med risikomatrise og tiltaksplan (Excel)",
+              "**Tiltaksbank** med 33 tiltak (Excel)",
+              "**Årshjul** med eksempel og liste over endringer som bør utløse ny kartlegging (Excel)"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Hver mal har en side som forklarer den nærmere: [risikovurdering](/maler/risikovurdering-psykososialt-arbeidsmiljo), [tiltaksbank](/maler/tiltaksbank), [årshjul](/maler/arshjul-arbeidsmiljo), [QPSNordic 34+](/maler/qpsnordic-sporreskjema) og [informasjonsskriv og sjekkliste](/maler/informasjonsskriv-og-sjekkliste)."
+          }
+        ]
+      },
+      "risikovurdering": {
+        "title": "Mal for risikovurdering av psykososialt arbeidsmiljø | Orgpuls",
+        "description": "Gratis Excel-mal for risikovurdering av det psykososiale arbeidsmiljøet etter forskriften kapittel 1A: faktorene, risikomatrise og tiltaksplan.",
+        "crumb": "Risikovurdering",
+        "kicker": "Gratis mal",
+        "h1": "Mal for risikovurdering av det psykososiale arbeidsmiljøet",
+        "lead": "En Excel-mal for risikovurderingen forskrift om utførelse av arbeid kapittel 1A krever: én rad per faktor loven nevner, med hjemmel, sannsynlighet og konsekvens, risikonivå, begrunnelse og tiltak.",
+        "files": {
+          "orgpuls-risikovurdering-psykososialt-arbeidsmiljo.xlsx": "Risikovurdering (Excel)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva malen inneholder"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Slik bruker du malen:** hva forskriften krever, de tre forholdene som skal vurderes, og en arbeidsmåte i fire steg",
+              "**Risikovurdering:** de elleve faktorene fra arbeidsmiljøloven og forskriften, med hjemmel, ferdig satt opp. Risiko og nivå regnes ut",
+              "**Risikomatrise:** sannsynlighet × konsekvens, med et forslag til skalaer dere kan tilpasse",
+              "**Tiltaksplan:** tiltak, ansvarlig, frist, status og hvordan dere ser om de virket"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva forskriften krever"
+          },
+          {
+            "t": "quote",
+            "text": "På grunnlag av kartleggingen skal arbeidsgiveren vurdere risikoen for skadelig påvirkning, både på kort og lang sikt. Risikovurderingen skal omfatte de enkelte faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko.",
+            "cite": "Forskrift om utførelse av arbeid § 1A-2 andre og tredje ledd"
+          },
+          {
+            "t": "p",
+            "text": "Vurderingen gjøres i samarbeid med de ansatte og deres representanter, gjentas regelmessig og ved endringer, og dokumenteres. Malen er laget for å vise nettopp det."
+          },
+          {
+            "t": "h2",
+            "text": "Slik bruker du den"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Steg 1",
+                "title": "Marker",
+                "text": "faktorene og gruppene som står svakt, eller som har falt siden forrige kartlegging."
+              },
+              {
+                "date": "Steg 2",
+                "title": "Vurder",
+                "text": "hver av dem: Hvor alvorlig kan det bli, hvor mange gjelder det, og hvor lenge har det vart? Bruk både påstandene bak tallene og det de ansatte forteller."
+              },
+              {
+                "date": "Steg 3",
+                "title": "Se sammenhenger",
+                "text": "Forsterker noen faktorer hverandre i samme gruppe? Finnes det noe som beskytter?"
+              },
+              {
+                "date": "Steg 4",
+                "title": "Konkluder",
+                "text": "med et risikonivå og en kort begrunnelse, og la konklusjonen styre hvilke tiltak som prioriteres."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Skalaene er et forslag",
+            "text": "Forskriften angir ingen terskelverdier eller faste skalaer. Tilpass skalaene i malen til virksomheten, og bruk de samme hver gang, så kan dere sammenligne."
+          },
+          {
+            "t": "p",
+            "text": "Les mer om [hvordan man gjør en risikovurdering av det psykososiale arbeidsmiljøet](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+          }
+        ]
+      },
+      "tiltaksbank": {
+        "title": "Tiltaksbank: 33 tiltak for psykososialt arbeidsmiljø | Orgpuls",
+        "description": "Gratis tiltaksbank i Excel: 33 konkrete tiltak for det psykososiale arbeidsmiljøet, tre per faktor, med tid, fremgangsmåte og forskningsgrunnlag.",
+        "crumb": "Tiltaksbank",
+        "kicker": "Gratis mal",
+        "h1": "Tiltaksbank: 33 konkrete tiltak for et bedre psykososialt arbeidsmiljø",
+        "lead": "Tre tiltak for hver av elleve faktorer – arbeidsmengde, rolleklarhet, støtte, ytringsklima og de andre – med hvor lang tid de tar, hvordan dere gjør dem, og hva dere bør følge med på for å se om de virker.",
+        "files": {
+          "orgpuls-tiltaksbank.xlsx": "Tiltaksbank (Excel)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva tiltaksbanken inneholder"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**33 tiltak**, tre for hver faktor, med tittel, tidsbruk og fremgangsmåte",
+              "**Type tiltak:** workshop, rutine eller lederpraksis",
+              "**Følg med på:** påstanden i spørreskjemaet som bør bevege seg hvis tiltaket virker",
+              "**Grunnlag:** forskningen og modellene tiltakene bygger på"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Tre typer tiltak"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Workshop",
+                "text": "En samling der teamet finner løsninger sammen, for eksempel en workshop om tidstyvene."
+              },
+              {
+                "title": "Rutine",
+                "text": "En fast praksis som gjentas, for eksempel et ukentlig prioriteringsmøte."
+              },
+              {
+                "title": "Lederpraksis",
+                "text": "Noe lederen gjør annerledes, for eksempel å spørre først og snakke sist i møter."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Velg to eller tre, ikke ti",
+            "text": "Tiltak virker best når de er få, har en ansvarlig og en frist, og når de som berøres, er med på å velge dem."
+          },
+          {
+            "t": "p",
+            "text": "Les mer om [hvordan resultatene blir til tiltak](/artikler/fra-resultater-til-tiltak)."
+          }
+        ]
+      },
+      "arshjul": {
+        "title": "Årshjul for arbeidsmiljøarbeidet: gratis mal | Orgpuls",
+        "description": "Gratis årshjul i Excel for det psykososiale arbeidsmiljøet: når dere kartlegger, vurderer risiko og følger opp, og hva som bør utløse en ny kartlegging.",
+        "crumb": "Årshjul",
+        "kicker": "Gratis mal",
+        "h1": "Årshjul for arbeidet med det psykososiale arbeidsmiljøet",
+        "lead": "Forskriften sier at kartleggingen skal gjentas regelmessig og ved endringer, men ikke hvor ofte. Årshjulet er et ferdig utfylt eksempel på en rytme dere kan tilpasse: én hovedkartlegging i året og korte oppfølgingsmålinger der tiltakene løper.",
+        "files": {
+          "orgpuls-arshjul-arbeidsmiljo.xlsx": "Årshjul (Excel)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Eksempelet i malen"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Februar",
+                "title": "Hovedkartlegging: hele spørsmålssettet"
+              },
+              {
+                "date": "Mars",
+                "title": "Gjennomgang med de ansatte, risikovurdering og tiltak med eier og frist"
+              },
+              {
+                "date": "Mai",
+                "title": "Oppfølgingsmåling på temaene med åpne tiltak"
+              },
+              {
+                "date": "September",
+                "title": "Oppfølgingsmåling"
+              },
+              {
+                "date": "November",
+                "title": "Oppfølgingsmåling og planlegging av neste år"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva malen inneholder"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Årshjul:** alle tolv måneder, med eksempelet fylt inn og plass til ansvar, deltakere og hjemmel",
+              "**Ved endringer:** endringer som bør utløse en ny kartlegging utenom årshjulet, for eksempel omorganisering eller ny ledelse",
+              "**Slik bruker du malen:** og hvordan dere holder svarviljen oppe"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Les mer om [hvor ofte arbeidsmiljøet bør måles](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          }
+        ]
+      },
+      "qps": {
+        "title": "QPSNordic 34+: spørreskjema om arbeidsmiljø | Orgpuls",
+        "description": "Det nordiske spørreskjemaet QPSNordic 34+ ordrett, klart til utskrift i Word, med svarregistrering i Excel som regner ut resultatene. Gratis.",
+        "crumb": "QPSNordic 34+",
+        "kicker": "Gratis mal",
+        "h1": "QPSNordic 34+: det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeid",
+        "lead": "Kortversjonen av QPSNordic, ordrett som Statens arbeidsmiljøinstitutt har gitt den ut, satt opp for utskrift. Med et regneark der dere registrerer svarene og får antall svar, middelverdi og fordeling per spørsmål.",
+        "files": {
+          "qpsnordic-34-sporreskjema.docx": "Spørreskjema (Word)",
+          "qpsnordic-34-svarregistrering.xlsx": "Svarregistrering (Excel)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva er QPSNordic?"
+          },
+          {
+            "t": "p",
+            "text": "QPSNordic er et spørreskjema for kartlegging av psykologiske, sosiale og organisatoriske faktorer i arbeid. Det ble utviklet av forskere fra Norge, Sverige, Danmark og Finland i et prosjekt Nordisk ministerråd startet i 1994, og prøvd ut i alle fire land. Statens arbeidsmiljøinstitutt (STAMI) ga ut brukerveiledningen i 2001."
+          },
+          {
+            "t": "p",
+            "text": "Brukerveiledningen sier at spørreskjemaet kan kopieres, og at man kan lage egne systemer for registrering, analyse og rapportering. Kortversjonen, QPSNordic 34+, har 37 spørsmål og sju bakgrunnsspørsmål."
+          },
+          {
+            "t": "h2",
+            "text": "Dette får du"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Spørreskjemaet** i Word, med veiledningens egen innledning, bakgrunnsspørsmålene og alle 37 spørsmålene med svarskalaene",
+              "**Svarregistreringen** i Excel: én rad per skjema, og en oppsummering med antall svar, middelverdi, median og fordeling per spørsmål"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Før dere bruker det"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Kortversjonen har ingen skalaer, og veiledningen sier at testingen av validitet og reliabilitet som er gjort for QPSNordic, ikke gjelder for den. Se på spørsmålene ett og ett.",
+              "Veiledningen anbefaler ikke statistiske analyser for grupper under 10 personer. Svarregistreringen viser derfor ingenting før minst 10 har svart.",
+              "De ansatte skal på forhånd få vite hva undersøkelsen skal brukes til, og hvordan anonymiteten sikres. Det skal være frivillig å delta, og ingen resultater om enkeltpersoner skal presenteres."
+            ]
+          },
+          {
+            "t": "quote",
+            "text": "Spørreskjemaet kan kopieres fra Vedlegg 1 i denne brukerveiledningen. Man kan utvikle et PC-basert system for dataregistrering, statistiske analyser og rapportering.",
+            "cite": "Brukerveiledning QPSNordic, s. 5"
+          },
+          {
+            "t": "p",
+            "text": "Kilde: Skogstad, A., Knardahl, S., Lindström, K., Elo, A.-L., Dallner, M., Gamberale, F., Hottinen, V. og Ørhede, E. (2001). Brukerveiledning QPSNordic. STAMI-rapport årg. 2, nr. 1. Statens arbeidsmiljøinstitutt."
+          }
+        ]
+      },
+      "informasjon": {
+        "title": "Informasjonsskriv og sjekkliste for kartleggingen | Orgpuls",
+        "description": "Gratis mal for informasjonsskriv til de ansatte før en arbeidsmiljøundersøkelse, og en sjekkliste for planleggingen. Word.",
+        "crumb": "Informasjonsskriv og sjekkliste",
+        "kicker": "Gratis mal",
+        "h1": "Informasjonsskriv til de ansatte og sjekkliste før kartleggingen",
+        "lead": "To maler i én Word-fil: et skriv som forteller de ansatte hva undersøkelsen er til, hvordan den foregår og hvordan anonymiteten sikres – og en sjekkliste for dem som planlegger den.",
+        "files": {
+          "orgpuls-informasjonsskriv-og-sjekkliste.docx": "Informasjonsskriv og sjekkliste (Word)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva skrivet forteller de ansatte"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "hvorfor dere kartlegger, og at loven krever at det skjer i samarbeid med dem",
+              "hvordan undersøkelsen foregår, og hvor lang tid den tar",
+              "hvordan anonymiteten sikres, og at ingen resultater om enkeltpersoner blir vist",
+              "at det er frivillig å delta",
+              "hva som skjer med svarene, og hvem de kan spørre"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Punktene følger kravene brukerveiledningen til QPSNordic stiller til informasjon før en kartlegging. Tekst i hakeparenteser fylles inn."
+          },
+          {
+            "t": "h2",
+            "text": "Sjekklisten"
+          },
+          {
+            "t": "p",
+            "text": "Sjekklisten gjengir «Viktige momenter ved kartlegginger» fra brukerveiledningen – forholdene som må vektlegges og spørsmålene som må avklares – og legger til det arbeidsmiljøloven og forskriften krever av kartleggingen."
+          },
+          {
+            "t": "p",
+            "text": "Les mer om [kravene til kartleggingen](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) og [hva anonymt må bety i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
+          }
+        ]
+      }
+    },
     "shots": {
       "caption": "{screen} · Nordvik Anlegg AS – eksempel",
       "oversikt": {
@@ -10037,6 +10500,7 @@
         "verneombud": "Verneombudets rolle",
         "fraResultater": "Fra resultater til tiltak",
         "sporsmalssettet": "Spørsmålene som gir svar",
+        "maler": "Gratis maler",
         "sikkerhet": "Personvern og anonymitet"
       },
       "navLabel": "Hovedmeny",

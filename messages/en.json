@@ -4342,7 +4342,8 @@
       "pages": "Pages",
       "forWho": "Who it is for",
       "industries": "Industries",
-      "articles": "Articles"
+      "articles": "Articles",
+      "templates": "Free templates"
     },
     "common": {
       "home": "Home",
@@ -9446,7 +9447,7 @@
         "crumb": "Privacy statement",
         "kicker": "Privacy",
         "h1": "Privacy statement",
-        "lead": "What Orgpuls collects about you, why, how long we keep it and who helps us. Last updated 5 October 2026.",
+        "lead": "What Orgpuls collects about you, why, how long we keep it and who helps us. Last updated 7 October 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -9523,11 +9524,19 @@
           },
           {
             "t": "h2",
+            "text": "When you download a free template"
+          },
+          {
+            "t": "p",
+            "text": "If you download one of the free templates, we store your name, your e-mail address, which template you downloaded, your organisation and role if you give them, and whether you ticked the box for e-mail from us. The legal basis is our legitimate interest in knowing who uses the templates, Article 6(1)(f). You receive e-mail about new templates and articles only if you ticked the box; the basis is then your consent, Article 6(1)(a), and you can withdraw it with the link in every e-mail. Your browser gets a cookie that remembers which templates you have downloaded, for one year."
+          },
+          {
+            "t": "h2",
             "text": "Cookies"
           },
           {
             "t": "p",
-            "text": "We use only the cookies the service needs to work: signing in, your language choice, display choices in the app, and a short-lived cookie that remembers the organisation while you sign up with Google. In the demo, the browser remembers which places in the demo guide you have visited; this is stored on your device only. None is used for statistics or advertising."
+            "text": "We use only the cookies the service needs to work: signing in, your language choice, display choices in the app, and a short-lived cookie that remembers the organisation while you sign up with Google. In the demo, the browser remembers which places in the demo guide you have visited; this is stored on your device only. If you download a free template, a cookie remembers which templates, for one year, so you need not fill in the form again. None is used for statistics or advertising."
           },
           {
             "t": "h2",
@@ -9554,7 +9563,13 @@
           },
           {
             "t": "ul",
-            "items": ["The account and the organisation's data: for as long as the customer relationship lasts, and then as long as the Accounting Act requires for what is part of the accounts.", "Demo: the request 30 days. The demo and its sign-in 14 days without a sign-in. The contact until you ask us to delete it.", "Newsletter: until you unsubscribe. After that, only the hash that prevents new mailings.", "Support enquiries: as long as needed to follow up the case and the customer relationship."]
+            "items": [
+              "The account and the organisation's data: for as long as the customer relationship lasts, and then as long as the Accounting Act requires for what is part of the accounts.",
+              "Demo: the request 30 days. The demo and its sign-in 14 days without a sign-in. The contact until you ask us to delete it.",
+              "Newsletter: until you unsubscribe. After that, only the hash that prevents new mailings.",
+              "Support enquiries: as long as needed to follow up the case and the customer relationship.",
+              "Free template downloads: until you ask us to delete the data. Consent to e-mail: until you withdraw it."
+            ]
           },
           {
             "t": "h2",
@@ -9842,6 +9857,454 @@
         "crumb": "Industries"
       }
     },
+    "maler": {
+      "index": {
+        "title": "Free templates for work environment surveys | Orgpuls",
+        "description": "Free templates for risk assessment, measures, an annual cycle and a questionnaire (QPSNordic 34+) for the psychosocial work environment. In Norwegian.",
+        "crumb": "Free templates",
+        "kicker": "Resources",
+        "h1": "Free templates for work on the psychosocial work environment",
+        "lead": "Excel and Word templates for the survey, the risk assessment and the measures the Working Environment Act requires: set up according to the Act and the regulation, with examples and guidance. Free to use in your own business. The templates are in Norwegian, as the law and the questionnaire are.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "The whole pack"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "The survey pack",
+                "text": "All six templates in one file: from planning and the questionnaire to the risk assessment, measures and the annual cycle.",
+                "href": "/maler/kartleggingspakken"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "The templates one by one"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Risk assessment of the psychosocial work environment",
+                "text": "An Excel template with the factors the law names, a risk matrix and an action plan.",
+                "href": "/maler/risikovurdering-psykososialt-arbeidsmiljo"
+              },
+              {
+                "title": "Measures bank",
+                "text": "33 concrete measures, three for each factor, with time, method and the research behind them.",
+                "href": "/maler/tiltaksbank"
+              },
+              {
+                "title": "Annual cycle for work environment work",
+                "text": "A filled-in example of a rhythm for surveying, assessing and following up through the year.",
+                "href": "/maler/arshjul-arbeidsmiljo"
+              },
+              {
+                "title": "QPSNordic 34+: questionnaire and answer register",
+                "text": "The Nordic questionnaire verbatim, ready to print, and a spreadsheet that calculates the results.",
+                "href": "/maler/qpsnordic-sporreskjema"
+              },
+              {
+                "title": "Information letter and checklist",
+                "text": "A letter to employees before the survey, and a checklist for those who plan it.",
+                "href": "/maler/informasjonsskriv-og-sjekkliste"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What the templates build on"
+          },
+          {
+            "t": "p",
+            "text": "The templates follow sections 3-1 and 4-3 of the Working Environment Act and chapter 1A of the regulation on the performance of work, as they stand on Lovdata. The questionnaire is QPSNordic 34+, reproduced verbatim from the user manual published by the National Institute of Occupational Health (STAMI). The measures and explanations are the same as in [our articles](/artikler)."
+          },
+          {
+            "t": "box",
+            "title": "Free, for an e-mail address",
+            "text": "The templates are free to use in your own business. We ask for your name and e-mail before you download. If you want e-mail from us about new templates and articles, tick the box – otherwise you get none."
+          }
+        ]
+      },
+      "form": {
+        "title": "Download for free",
+        "text": "Enter your name and e-mail, and you can download the files straight away.",
+        "name": "Name",
+        "mail": "E-mail",
+        "org": "Organisation",
+        "orgPlaceholder": "Optional",
+        "role": "Role",
+        "rolePlaceholder": "Optional",
+        "consent": "Yes please, e-mail me when there are new templates and articles. I can unsubscribe at any time.",
+        "send": "Download",
+        "invalid": "Enter your name and a valid e-mail address.",
+        "limited": "You have downloaded many templates in the last hour. Please try again a little later.",
+        "failed": "Something went wrong. Please try again, or write to {mail}.",
+        "privacy": "We store your name and e-mail address with the template you downloaded. You only get e-mail from us if you tick the box. Read the [privacy statement](/personvernerklaering).",
+        "readyTitle": "Your templates are ready",
+        "readyText": "Download the files below. They are in Norwegian, and you may use and change them freely in your own business."
+      },
+      "pakke": {
+        "title": "The survey pack: free work environment templates | Orgpuls",
+        "description": "Six free templates in one pack: checklist, information letter, QPSNordic questionnaire, risk assessment, measures bank and annual cycle. In Norwegian.",
+        "crumb": "The survey pack",
+        "kicker": "Free templates",
+        "h1": "The survey pack: six templates for the whole of your work on the psychosocial work environment",
+        "lead": "From planning to follow-up: a checklist and a letter to employees, a questionnaire with an answer register, a risk assessment template, a measures bank and an annual cycle. All in one download, in Norwegian.",
+        "files": {
+          "orgpuls-kartleggingspakken.zip": "The whole pack (zip, six files)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "How the templates fit together"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Plan",
+                "title": "Checklist and information letter",
+                "text": "Agree the purpose, responsibility and practicalities, and tell employees what the survey is for and how anonymity is kept."
+              },
+              {
+                "date": "Survey",
+                "title": "QPSNordic 34+",
+                "text": "The questionnaire ready to print, and a spreadsheet that calculates the results per question."
+              },
+              {
+                "date": "Assess",
+                "title": "Risk assessment",
+                "text": "One row per factor the law names, with a risk matrix and reasoning."
+              },
+              {
+                "date": "Choose measures",
+                "title": "Measures bank and action plan",
+                "text": "33 measures to choose from, and a plan with an owner and a deadline."
+              },
+              {
+                "date": "Follow up",
+                "title": "Annual cycle",
+                "text": "A rhythm for when you survey, assess and follow up through the year."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What you get"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Checklist and information letter** (Word)",
+              "**QPSNordic 34+** – the questionnaire (Word) and the answer register (Excel)",
+              "**Risk assessment** with risk matrix and action plan (Excel)",
+              "**Measures bank** with 33 measures (Excel)",
+              "**Annual cycle** with an example and a list of changes that should trigger a new survey (Excel)"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Each template has its own page explaining it: [risk assessment](/maler/risikovurdering-psykososialt-arbeidsmiljo), [measures bank](/maler/tiltaksbank), [annual cycle](/maler/arshjul-arbeidsmiljo), [QPSNordic 34+](/maler/qpsnordic-sporreskjema) and [information letter and checklist](/maler/informasjonsskriv-og-sjekkliste)."
+          }
+        ]
+      },
+      "risikovurdering": {
+        "title": "Risk assessment template: psychosocial work environment | Orgpuls",
+        "description": "Free Excel template for the risk assessment of the psychosocial work environment under chapter 1A of the regulation: factors, risk matrix and action plan.",
+        "crumb": "Risk assessment",
+        "kicker": "Free template",
+        "h1": "Template for the risk assessment of the psychosocial work environment",
+        "lead": "An Excel template for the risk assessment chapter 1A of the regulation on the performance of work requires: one row per factor the law names, with the legal basis, likelihood and consequence, risk level, reasoning and measures. In Norwegian.",
+        "files": {
+          "orgpuls-risikovurdering-psykososialt-arbeidsmiljo.xlsx": "Risk assessment (Excel)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the template contains"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**How to use it:** what the regulation requires, the three things to assess, and a way of working in four steps",
+              "**Risk assessment:** the eleven factors from the Act and the regulation, with their legal basis, ready set up. Risk and level are calculated",
+              "**Risk matrix:** likelihood × consequence, with suggested scales you can adapt",
+              "**Action plan:** measure, owner, deadline, status and how you will see whether it worked"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What the regulation requires"
+          },
+          {
+            "t": "quote",
+            "text": "On the basis of the mapping, the employer shall assess the risk of harmful effects, both in the short and the long term. The risk assessment shall cover the individual factors separately, how they affect one another, and whether together they amount to a risk.",
+            "cite": "Regulation on the performance of work § 1A-2, second and third paragraphs (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "The assessment is done in cooperation with employees and their representatives, repeated regularly and when things change, and documented. The template is made to show exactly that."
+          },
+          {
+            "t": "h2",
+            "text": "How to use it"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Step 1",
+                "title": "Flag",
+                "text": "the factors and groups that score weakly, or that have fallen since the previous mapping."
+              },
+              {
+                "date": "Step 2",
+                "title": "Assess",
+                "text": "each of them: how serious could it become, how many does it affect, and how long has it lasted? Use both the statements behind the figures and what employees say."
+              },
+              {
+                "date": "Step 3",
+                "title": "Look for connections",
+                "text": "do some factors reinforce each other in the same group? Is anything protective?"
+              },
+              {
+                "date": "Step 4",
+                "title": "Conclude",
+                "text": "with a risk level and a brief justification, and let the conclusion determine which measures come first."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "The scales are a suggestion",
+            "text": "The regulation sets no thresholds or fixed scales. Adapt the scales in the template to your business, and use the same ones every time so you can compare."
+          },
+          {
+            "t": "p",
+            "text": "Read more about [how to assess the risk in the psychosocial work environment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+          }
+        ]
+      },
+      "tiltaksbank": {
+        "title": "Measures bank: 33 measures for the work environment | Orgpuls",
+        "description": "Free measures bank in Excel: 33 concrete measures for the psychosocial work environment, three per factor, with time, method and research basis.",
+        "crumb": "Measures bank",
+        "kicker": "Free template",
+        "h1": "Measures bank: 33 concrete measures for a better psychosocial work environment",
+        "lead": "Three measures for each of eleven factors – workload, role clarity, support, speaking up and the others – with how long they take, how to do them, and what to watch to see whether they work. In Norwegian.",
+        "files": {
+          "orgpuls-tiltaksbank.xlsx": "Measures bank (Excel)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the measures bank contains"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**33 measures**, three for each factor, with a title, the time it takes and how to do it",
+              "**Type of measure:** workshop, routine or leadership practice",
+              "**Watch:** the statement in the questionnaire that should move if the measure works",
+              "**Basis:** the research and models the measures build on"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Three kinds of measure"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Workshop",
+                "text": "A session where the team finds solutions together, such as a workshop on what eats your time."
+              },
+              {
+                "title": "Routine",
+                "text": "A fixed practice that repeats, such as a weekly priorities meeting."
+              },
+              {
+                "title": "Leadership practice",
+                "text": "Something the manager does differently, such as asking first and speaking last in meetings."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Choose two or three, not ten",
+            "text": "Measures work best when there are few of them, each has an owner and a deadline, and the people affected help choose them."
+          },
+          {
+            "t": "p",
+            "text": "Read more about [how results become measures](/artikler/fra-resultater-til-tiltak)."
+          }
+        ]
+      },
+      "arshjul": {
+        "title": "Annual cycle for work environment work: free template | Orgpuls",
+        "description": "Free annual cycle in Excel for the psychosocial work environment: when to survey, assess risk and follow up, and what should trigger a new survey.",
+        "crumb": "Annual cycle",
+        "kicker": "Free template",
+        "h1": "Annual cycle for work on the psychosocial work environment",
+        "lead": "The regulation says the survey must be repeated regularly and when things change, but not how often. The annual cycle is a filled-in example of a rhythm you can adapt: one main survey a year and short follow-up measurements where measures are running. In Norwegian.",
+        "files": {
+          "orgpuls-arshjul-arbeidsmiljo.xlsx": "Annual cycle (Excel)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "The example in the template"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "February",
+                "title": "Main mapping: the full question set"
+              },
+              {
+                "date": "March",
+                "title": "Review with employees, risk assessment and measures with an owner and a deadline"
+              },
+              {
+                "date": "May",
+                "title": "Follow-up survey on the topics with open measures"
+              },
+              {
+                "date": "September",
+                "title": "Follow-up survey"
+              },
+              {
+                "date": "November",
+                "title": "Follow-up survey and planning for next year"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What the template contains"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Annual cycle:** all twelve months, with the example filled in and room for owner, participants and legal basis",
+              "**When things change:** changes that should trigger a new survey outside the cycle, such as a reorganisation or new management",
+              "**How to use it:** and how to keep the response rate up"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Read more about [how often to measure the work environment](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          }
+        ]
+      },
+      "qps": {
+        "title": "QPSNordic 34+: work environment questionnaire | Orgpuls",
+        "description": "The Nordic questionnaire QPSNordic 34+ verbatim, ready to print in Word, with an Excel answer register that calculates the results. Free, in Norwegian.",
+        "crumb": "QPSNordic 34+",
+        "kicker": "Free template",
+        "h1": "QPSNordic 34+: the Nordic questionnaire on psychological and social factors at work",
+        "lead": "The short version of QPSNordic, verbatim as the National Institute of Occupational Health published it, set up for printing. With a spreadsheet where you register the answers and get the count, mean and distribution per question. In Norwegian.",
+        "files": {
+          "qpsnordic-34-sporreskjema.docx": "Questionnaire (Word)",
+          "qpsnordic-34-svarregistrering.xlsx": "Answer register (Excel)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What is QPSNordic?"
+          },
+          {
+            "t": "p",
+            "text": "QPSNordic is a questionnaire for surveying psychological, social and organisational factors at work. It was developed by researchers from Norway, Sweden, Denmark and Finland in a project the Nordic Council of Ministers started in 1994, and tested in all four countries. The National Institute of Occupational Health (STAMI) published the user manual in 2001."
+          },
+          {
+            "t": "p",
+            "text": "The manual says the questionnaire may be copied, and that you may build your own systems for registering, analysing and reporting. The short version, QPSNordic 34+, has 37 questions and seven background questions."
+          },
+          {
+            "t": "h2",
+            "text": "What you get"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**The questionnaire** in Word, with the manual’s own introduction, the background questions and all 37 questions with their answer scales",
+              "**The answer register** in Excel: one row per form, and a summary with the count, mean, median and distribution per question"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Before you use it"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "The short version has no scales, and the manual says the validity and reliability testing done for QPSNordic does not apply to it. Look at the questions one by one.",
+              "The manual advises against statistical analysis for groups of fewer than 10 people. The answer register therefore shows nothing until at least 10 have answered.",
+              "Employees must be told beforehand what the survey is for and how anonymity is kept. Taking part must be voluntary, and no results about individuals may be presented."
+            ]
+          },
+          {
+            "t": "quote",
+            "text": "Spørreskjemaet kan kopieres fra Vedlegg 1 i denne brukerveiledningen. Man kan utvikle et PC-basert system for dataregistrering, statistiske analyser og rapportering. (The questionnaire may be copied from Appendix 1 of this user manual. You may develop a PC-based system for data registration, statistical analysis and reporting.)",
+            "cite": "Brukerveiledning QPSNordic, p. 5"
+          },
+          {
+            "t": "p",
+            "text": "Source: Skogstad, A., Knardahl, S., Lindström, K., Elo, A.-L., Dallner, M., Gamberale, F., Hottinen, V. and Ørhede, E. (2001). Brukerveiledning QPSNordic (user manual). STAMI report vol. 2, no. 1. National Institute of Occupational Health in Norway."
+          }
+        ]
+      },
+      "informasjon": {
+        "title": "Information letter and checklist for the survey | Orgpuls",
+        "description": "Free template for an information letter to employees before a work environment survey, and a checklist for planning it. Word, in Norwegian.",
+        "crumb": "Information letter and checklist",
+        "kicker": "Free template",
+        "h1": "Information letter to employees and checklist before the survey",
+        "lead": "Two templates in one Word file: a letter telling employees what the survey is for, how it works and how anonymity is kept – and a checklist for those who plan it. In Norwegian.",
+        "files": {
+          "orgpuls-informasjonsskriv-og-sjekkliste.docx": "Information letter and checklist (Word)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the letter tells employees"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "why you are surveying, and that the law requires it to be done together with them",
+              "how the survey works, and how long it takes",
+              "how anonymity is kept, and that no results about individuals are shown",
+              "that taking part is voluntary",
+              "what happens to the answers, and who they can ask"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The points follow what the QPSNordic user manual asks people to be told before a survey. Text in square brackets is filled in."
+          },
+          {
+            "t": "h2",
+            "text": "The checklist"
+          },
+          {
+            "t": "p",
+            "text": "The checklist reproduces «Viktige momenter ved kartlegginger» (key points for surveys) from the user manual – the things to weigh and the questions to settle – and adds what the Working Environment Act and the regulation require of the survey."
+          },
+          {
+            "t": "p",
+            "text": "Read more about [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) and [what anonymous must mean in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
+          }
+        ]
+      }
+    },
     "shots": {
       "caption": "{screen} · Nordvik Anlegg AS — example",
       "oversikt": {
@@ -10037,6 +10500,7 @@
         "verneombud": "The safety representative",
         "fraResultater": "From results to measures",
         "sporsmalssettet": "Questions that work",
+        "maler": "Free templates",
         "sikkerhet": "Privacy and anonymity"
       },
       "navLabel": "Main menu",

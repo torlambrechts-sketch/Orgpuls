@@ -55,6 +55,7 @@ export async function PageView({
   plain: plainProp = false,
   informational = false,
   heroArt,
+  heroAside,
 }: {
   content: PageContent
   /** a splash page for an ad or a mailing: the hero without the trail back into the site */
@@ -77,6 +78,8 @@ export async function PageView({
   informational?: boolean
   /** a drawn picture beside an informational page's hero (D-237), where a product shot would sell */
   heroArt?: React.ReactNode
+  /** what stands beside the hero on every width: a template's download form (D-241) */
+  heroAside?: React.ReactNode
 }) {
   const t = await getTranslations()
   const plain = plainProp || informational
@@ -100,11 +103,13 @@ export async function PageView({
         {/* without a product shot the signup sits in a card on the right, so the hero uses the width (D-233) */}
         <div
           className={
-            heroShot || heroArt
-              ? 'grid items-center gap-[36px] lg:[grid-template-columns:minmax(0,1.05fr)_minmax(0,1fr)]'
-              : plain
-                ? ''
-                : 'grid items-end gap-[36px] lg:[grid-template-columns:minmax(0,1.2fr)_minmax(0,1fr)]'
+            heroAside
+              ? 'grid items-start gap-[36px] lg:[grid-template-columns:minmax(0,1.2fr)_minmax(0,1fr)]'
+              : heroShot || heroArt
+                ? 'grid items-center gap-[36px] lg:[grid-template-columns:minmax(0,1.05fr)_minmax(0,1fr)]'
+                : plain
+                  ? ''
+                  : 'grid items-end gap-[36px] lg:[grid-template-columns:minmax(0,1.2fr)_minmax(0,1fr)]'
           }
         >
           <div className="min-w-0">
@@ -156,7 +161,9 @@ export async function PageView({
               </a>
             ) : null}
           </div>
-          {heroArt ? (
+          {heroAside ? (
+            <div className="min-w-0">{heroAside}</div>
+          ) : heroArt ? (
             <div aria-hidden="true" className="hidden min-w-0 justify-center lg:flex">
               {heroArt}
             </div>

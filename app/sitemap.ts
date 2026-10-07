@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { headers } from 'next/headers'
 import { EN_HOST, EN_URL, hostOf, MAIN_URL } from '@/lib/hosts'
 import { ARTICLES, LANDING_PAGES, SITE_PAGES } from '@/lib/marketing/site'
+import { TEMPLATES } from '@/lib/marketing/templates'
 import { getIndustry, INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 import { siteIndexing } from '@/lib/site/indexing'
 
@@ -70,6 +71,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...questionPages(s),
     entry('/artikler', { lastModified: newest, changeFrequency: 'weekly', priority: 0.7 }),
     ...ARTICLES.map((a) => entry(`/artikler/${a.slug}`, { lastModified: a.modified, changeFrequency: 'monthly', priority: 0.6 })),
+    // the free templates (D-241): the index and each template's page
+    entry('/maler', { changeFrequency: 'monthly', priority: 0.7 }),
+    ...TEMPLATES.map((t) => entry(`/maler/${t.slug}`, { changeFrequency: 'monthly', priority: 0.7 })),
     entry('/demo', { changeFrequency: 'yearly', priority: 0.6 }),
   ]
 }

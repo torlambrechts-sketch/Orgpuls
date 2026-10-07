@@ -87,6 +87,8 @@ const PUBLIC_PATHS = [
   '/personvernerklaering',
   '/vilkar',
   '/artikler',
+  // the free templates and their files (D-241); a file is served only to a browser that asked for it
+  '/maler',
   '/sitemap.xml',
   '/robots.txt',
   // the site as a reading list for AI search (llmstxt.org), the same pages as the sitemap

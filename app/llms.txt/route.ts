@@ -2,6 +2,7 @@ import { headers } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
 import { EN_HOST, EN_URL, hostOf, MAIN_URL } from '@/lib/hosts'
 import { ARTICLES, LANDING_PAGES, landingKey, SITE_PAGES } from '@/lib/marketing/site'
+import { TEMPLATES } from '@/lib/marketing/templates'
 import { getIndustry, INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 import { landingFor } from '@/content/industries/landing'
 import { siteIndexing } from '@/lib/site/indexing'
@@ -20,8 +21,7 @@ export async function GET() {
   const locale = en ? 'en' : 'no'
   const base = en ? EN_URL : MAIN_URL
   const t = await getTranslations({ locale })
-  const line = (path: string, title: string, description: string) =>
-    `- [${title.replace(/ \| Orgpuls$/, '')}](${base}${path}): ${description}`
+  const line = (path: string, title: string, description: string) => `- [${title.replace(/ \| Orgpuls$/, '')}](${base}${path}): ${description}`
 
   const industries = INDUSTRIES.flatMap((i) => {
     const page = pageIn(i, locale)
@@ -60,6 +60,10 @@ export async function GET() {
     `## ${t('seo.llms.articles')}`,
     line('/artikler', t('seo.index.title'), t('seo.index.description')),
     ...ARTICLES.map((a) => line(`/artikler/${a.slug}`, t(`seo.articles.${a.key}.title`), t(`seo.articles.${a.key}.description`))),
+    '',
+    `## ${t('seo.llms.templates')}`,
+    line('/maler', t('seo.maler.index.title'), t('seo.maler.index.description')),
+    ...TEMPLATES.map((m) => line(`/maler/${m.slug}`, t(`seo.maler.${m.key}.title`), t(`seo.maler.${m.key}.description`))),
     '',
   ].join('\n')
 

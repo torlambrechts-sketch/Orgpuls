@@ -70,6 +70,8 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   // raised for the media library (0124), which is gone (D-230); kept so no upload that fits today stops fitting
   experimental: { serverActions: { bodySizeLimit: '3mb' } },
+  // the free templates are served by a route, not from public/ (D-241): their files travel with it
+  outputFileTracingIncludes: { '/maler/fil/[fil]': ['./private/maler/**'] },
   async headers() {
     return [
       { source: '/:path*', headers: securityHeaders },

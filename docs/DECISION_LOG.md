@@ -3352,3 +3352,36 @@ Orgpuls' installation since 2026-10-05:
   usage. It goes through `app.platform_emit`, so the field lists and the demo rule hold. The scope is
   `orgs:read`, because it sends nothing that `orgs.get` does not already show. Proved by
   `platform_resync_invariants.sql`.
+
+### X-107 — QPSNordic may be copied and built on; the licence question is settled
+
+Tor, 2026-10-07, with the user manual in hand (Skogstad, Knardahl, Lindström, Elo, Dallner, Gamberale,
+Hottinen and Ørhede: *Brukerveiledning QPSNordic*, STAMI-rapport årg. 2 nr. 1, 2001): «mitt inntrykk er
+at den er gratis så lenge man følger retningslinjene».
+
+- **What the manual says.** It carries no licence text, no copyright notice and no terms for any use. Under
+  «Krav til ressurser» (p. 5): «Spørreskjemaet kan kopieres fra Vedlegg 1 i denne brukerveiledningen. Man
+  kan utvikle et PC-basert system for dataregistrering, statistiske analyser og rapportering.» It names no
+  fee, registration or agreement. It asks the reader to contact the authors only about the Nordic
+  reference database.
+- **Decided:** the licence question (gap analysis, decision 2; X-070, X-071) is settled. Orgpuls may build
+  on QPSNordic, and may hand out its items word for word, with the manual cited as the source. STAMI's
+  written confirmation is no longer a condition for launch; a short courtesy note to STAMI about the
+  commercial use is still worth sending, and nothing waits for its answer.
+- **The name.** Orgpuls' core statements are agreement statements rewritten from QPSNordic items, which
+  ask about frequency. The product says «bygd på QPS Nordic», never that it *is* QPSNordic. Anything
+  published under the name QPSNordic quotes the manual's own items verbatim.
+- **The guidelines the manual sets, and where Orgpuls stands:**
+  - confidentiality for every participant and no results about individuals (pp. 5, 19): held
+    structurally, by the security invariants;
+  - information before taking part, and taking part voluntary (p. 19): the invitation and the survey's
+    own opening say what the survey is for and how anonymity is kept;
+  - survey feedback with a joint steering group and follow-up (pp. 6, 18): the product's flow and the
+    article on going through the results;
+  - **group size (pp. 14–15): the manual advises no statistical analysis for groups under 10, means and
+    medians for 10–20, and full distributions over 20.** Orgpuls shows a group from 5 answers by default
+    and from 3 at the lowest (`app.k_min()`, `app.k_floor()`), which the manual does not advise for
+    reliability (it is not an anonymity rule). Orgpuls therefore does not claim to follow the manual's
+    guidelines in full until small groups are marked as less certain; that is a product decision of its own.
+- **The short version.** The manual says QPSNordic 34+ has no scales, and that the reliability and validity
+  testing of QPSNordic does not apply to it (p. 2). Anything that hands out 34+ says so.

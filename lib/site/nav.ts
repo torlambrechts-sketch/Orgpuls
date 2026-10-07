@@ -43,6 +43,7 @@ export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?:
       { key: 'verneombud', href: '/verneombud' },
       { key: 'fraResultater', href: '/artikler/fra-resultater-til-tiltak' },
       { key: 'sporsmalssettet', href: '/artikler/medarbeiderundersokelse-sporsmal' },
+      { key: 'maler', href: '/maler' },
       { key: 'sikkerhet', href: '/sikkerhet' },
     ],
   },
