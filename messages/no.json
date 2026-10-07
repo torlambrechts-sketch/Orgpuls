@@ -4431,6 +4431,32 @@
             "text": "Kravet står i arbeidsmiljøloven § 3-1 andre ledd bokstav c: arbeidsgiver skal «kartlegge farer og problemer og på denne bakgrunn vurdere risikoforholdene i virksomheten, utarbeide planer og iverksette tiltak for å redusere risikoen». Forskrift om utførelse av arbeid utdyper dette for det psykososiale arbeidsmiljøet i kapittel 1A. Kapittelet gjelder fra 1. januar 2026."
           },
           {
+            "t": "cycle",
+            "center": "I samarbeid med de ansatte og deres representanter",
+            "items": [
+              {
+                "title": "Kartlegge",
+                "ref": "Forskriften § 1A-2",
+                "text": "Finn de psykososiale forholdene som kan påvirke de ansattes helse, sikkerhet eller velferd."
+              },
+              {
+                "title": "Vurdere risikoen",
+                "ref": "Forskriften § 1A-2",
+                "text": "Hver faktor for seg, hvordan de påvirker hverandre, og samlet – på kort og lang sikt."
+              },
+              {
+                "title": "Sette i verk tiltak",
+                "ref": "Forskriften § 1A-3",
+                "text": "Nødvendige planer og tiltak som fjerner eller reduserer risikoen, rettet mot årsakene."
+              },
+              {
+                "title": "Informere og følge opp",
+                "ref": "Forskriften §§ 1A-2 og 1A-4",
+                "text": "Gi de ansatte informasjon om risikoen og tiltakene, dokumenter, og gjenta regelmessig og ved endringer."
+              }
+            ]
+          },
+          {
             "t": "law",
             "items": [
               {
@@ -4537,6 +4563,26 @@
             "text": "Forskriften kapittel 1A, paragraf for paragraf"
           },
           {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "17. juni 2005",
+                "title": "Arbeidsmiljøloven",
+                "text": "Loven krever systematisk HMS-arbeid (§ 3-1) og et fullt forsvarlig psykososialt arbeidsmiljø (§ 4-3)."
+              },
+              {
+                "date": "1. januar 2024",
+                "title": "§ 4-3 endres",
+                "text": "Paragrafen om det psykososiale arbeidsmiljøet endres ved lov 16. juni 2023 nr. 37."
+              },
+              {
+                "date": "1. januar 2026",
+                "title": "Kapittel 1A trer i kraft",
+                "text": "Forskrift om utførelse av arbeid får et eget kapittel om psykososialt arbeidsmiljø, og § 4-3 endres igjen."
+              }
+            ]
+          },
+          {
             "t": "p",
             "text": "Kapittelet kom inn i forskrift om utførelse av arbeid 1. januar 2026. Det består av fem paragrafer:"
           },
@@ -4574,19 +4620,19 @@
             "text": "Hvem som skal være med"
           },
           {
-            "t": "cards",
+            "t": "hub",
+            "center": {
+              "title": "Arbeidsgiveren",
+              "text": "Har ansvaret for at loven blir overholdt (aml § 2-1). Kartleggingen er arbeidsgiverens plikt."
+            },
             "items": [
               {
-                "title": "Arbeidsgiver",
-                "text": "Har ansvaret. Arbeidsgiver skal sørge for at loven blir overholdt (aml § 2-1). Oppgaver kan fordeles, men kartleggingen er arbeidsgivers plikt – ikke verneombudets eller de ansattes."
-              },
-              {
                 "title": "Verneombudet",
-                "text": "Skal tas med på råd i det systematiske HMS-arbeidet og særlig påse at det psykososiale arbeidsmiljøet er ivaretatt (aml § 6-2). Alle virksomheter skal ha verneombud; under 5 ansatte kan partene skriftlig avtale en annen ordning (§ 6-1)."
+                "text": "Tas med på råd i HMS-arbeidet og skal særlig påse at det psykososiale arbeidsmiljøet er ivaretatt (aml § 6-2). Alle virksomheter skal ha verneombud; under 5 ansatte kan partene skriftlig avtale en annen ordning (§ 6-1)."
               },
               {
                 "title": "Arbeidsmiljøutvalget",
-                "text": "Kreves der det jevnlig er minst 30 ansatte, og der det er 10–30 når en av partene krever det (aml § 7-1). Utvalget behandler blant annet etableringen og vedlikeholdet av HMS-arbeidet (§ 7-2)."
+                "text": "Kreves der det jevnlig er minst 30 ansatte, og der det er 10–30 når en av partene krever det (aml § 7-1). Behandler blant annet etableringen og vedlikeholdet av HMS-arbeidet (§ 7-2)."
               },
               {
                 "title": "De ansatte",
@@ -4629,6 +4675,35 @@
           {
             "t": "p",
             "text": "Arbeidstilsynet fører tilsyn med at loven følges. Finner de mangler, kan de gi pålegg med en frist (aml § 18-6). Et pålegg kan følges av tvangsmulkt til det er oppfylt (§ 18-7). Er loven brutt uaktsomt eller med vilje, kan virksomheten få overtredelsesgebyr (§ 18-10)."
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynets virkemidler, fra det letteste til det tyngste:"
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Pålegg",
+                "ref": "aml § 18-6",
+                "text": "Skriftlig, med en frist for når det skal være utført."
+              },
+              {
+                "title": "Tvangsmulkt",
+                "ref": "aml § 18-7",
+                "text": "Løpende for hver dag, uke eller måned etter fristen – eller som engangsmulkt – til pålegget er oppfylt."
+              },
+              {
+                "title": "Stansing",
+                "ref": "aml § 18-8",
+                "text": "Oppfylles ikke pålegget innen fristen, kan virksomhetens aktiviteter stanses helt eller delvis."
+              },
+              {
+                "title": "Overtredelsesgebyr",
+                "ref": "aml § 18-10",
+                "text": "Ved uaktsomme eller forsettlige brudd: inntil 50 ganger grunnbeløpet eller fire prosent av årsomsetningen."
+              }
+            ]
           },
           {
             "t": "p",

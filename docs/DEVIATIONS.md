@@ -11536,3 +11536,23 @@ informational, like the articles (D-235); Små bedrifter, Sikkerhet and Pris sta
 - **Verneombud:** «I Orgpuls» became «Spørsmål du kan stille», «Det du får i Orgpuls» became «Hva
   verneombudet bør ha innsyn i», and the FAQ about cost is gone. `tip`, `signupLabel`, `finalTitle` and
   `finalBody` are removed from both pages' messages.
+
+## D-237 — Illustrations and diagrams on the informational pages, starting with Lovkrav (2026-10-07)
+
+On the owner's word: the informational pages should be livelier to read. There is no design for them,
+so the pictures are drawn in the site's own tokens (ink lines, sf paper, mint, sbg and the yellow
+accent, the risk band colours for weight) and the bundle's radius scale.
+
+- **Four diagram blocks** (`cycle`, `hub`, `ladder`, `timeline` in lib/marketing/blocks.ts, drawn by
+  components/marketing/Diagrams.tsx). The words are the block's, in messages, so a figure is
+  translated with its page; the drawing is the renderer's. Under 768px each becomes a plain vertical
+  list. The ring is hidden from screen readers, which read its list in step order on every width.
+- **Lovkrav:** the four steps of the law as a ring around «in cooperation with employees and their
+  representatives»; a timeline (the Act of 17 June 2005, § 4-3 amended from 1 January 2024, chapter 1A
+  and § 4-3 again from 1 January 2026 – the dates as the Act's and the regulation's own amendment notes
+  give them); who takes part as a hub around the employer (replacing the four cards); and
+  Arbeidstilsynet's means as a ladder – order, coercive fine, stoppage (§ 18-8, now named) and
+  infringement fine.
+- **Hero picture** (components/marketing/art/LawArt.tsx): a document with a checklist, the § seal and
+  the ring of four steps, decorative and hidden from screen readers, where a sales page has its
+  product shot (`heroArt` on PageView, informational pages only).

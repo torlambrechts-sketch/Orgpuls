@@ -9,6 +9,9 @@ import { SHOT_IDS } from './shot-ids'
  * Text may carry two inline marks, and only two: `**bold**` and `[label](href)`. There is
  * no HTML in a message, so there is nothing to sanitise.
  */
+const Step = z.object({ title: z.string(), ref: z.string().optional(), text: z.string() })
+const TitleText = z.object({ title: z.string(), text: z.string() })
+
 export const Block = z.discriminatedUnion('t', [
   z.object({ t: z.literal('h2'), text: z.string() }),
   z.object({ t: z.literal('h3'), text: z.string() }),
@@ -33,6 +36,15 @@ export const Block = z.discriminatedUnion('t', [
   z.object({ t: z.literal('plans') }),
   /** a picture of the product, by id (lib/marketing/shot-ids); its words are `seo.shots.<id>` */
   z.object({ t: z.literal('shot'), id: z.enum(SHOT_IDS) }),
+  // diagrams (D-237, components/marketing/Diagrams.tsx): the drawing is the renderer's, the words are here
+  /** steps that lead back to the first, around what holds them together (drawn as a ring of four) */
+  z.object({ t: z.literal('cycle'), center: z.string(), items: z.array(Step).length(4) }),
+  /** the one who carries the responsibility, and those who work with them */
+  z.object({ t: z.literal('hub'), center: TitleText, items: z.array(TitleText).min(2).max(4) }),
+  /** measures in rising order of weight */
+  z.object({ t: z.literal('ladder'), items: z.array(Step).min(2).max(5) }),
+  /** dated steps along one line */
+  z.object({ t: z.literal('timeline'), items: z.array(z.object({ date: z.string(), title: z.string(), text: z.string() })).min(2).max(6) }),
 ])
 export type Block = z.infer<typeof Block>
 
@@ -64,6 +76,14 @@ export function wordCount(blocks: Block[]): number {
         case 'plans':
         case 'shot':
           return []
+        case 'cycle':
+          return [b.center, ...b.items.map((i) => `${i.title} ${i.ref ?? ''} ${i.text}`)]
+        case 'hub':
+          return [b.center.title, b.center.text, ...b.items.map((i) => `${i.title} ${i.text}`)]
+        case 'ladder':
+          return b.items.map((i) => `${i.title} ${i.ref ?? ''} ${i.text}`)
+        case 'timeline':
+          return b.items.map((i) => `${i.date} ${i.title} ${i.text}`)
         case 'table':
           return [...b.head, ...b.rows.flat()]
         default:

@@ -4431,6 +4431,32 @@
             "text": "The requirement is in section 3-1, second paragraph, letter c of the Working Environment Act: the employer shall map hazards and problems, assess the risks on that basis, draw up plans and implement measures to reduce the risk. The regulation on the performance of work expands on this for the psychosocial working environment in chapter 1A. The chapter has applied since 1 January 2026."
           },
           {
+            "t": "cycle",
+            "center": "In cooperation with employees and their representatives",
+            "items": [
+              {
+                "title": "Survey",
+                "ref": "Regulation § 1A-2",
+                "text": "Identify the psychosocial conditions that may affect employees' health, safety or welfare."
+              },
+              {
+                "title": "Assess the risk",
+                "ref": "Regulation § 1A-2",
+                "text": "Each factor separately, how they affect each other, and together – in the short and long term."
+              },
+              {
+                "title": "Put measures in place",
+                "ref": "Regulation § 1A-3",
+                "text": "The necessary plans and measures to remove or reduce the risk, aimed at the causes."
+              },
+              {
+                "title": "Inform and follow up",
+                "ref": "Regulation §§ 1A-2 and 1A-4",
+                "text": "Inform employees about the risk and the measures, document, and repeat regularly and when things change."
+              }
+            ]
+          },
+          {
             "t": "law",
             "items": [
               {
@@ -4537,6 +4563,26 @@
             "text": "Regulation chapter 1A, section by section"
           },
           {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "17 June 2005",
+                "title": "The Working Environment Act",
+                "text": "The Act requires systematic health and safety work (§ 3-1) and a fully sound psychosocial working environment (§ 4-3)."
+              },
+              {
+                "date": "1 January 2024",
+                "title": "§ 4-3 amended",
+                "text": "The section on the psychosocial working environment is amended by Act of 16 June 2023 no. 37."
+              },
+              {
+                "date": "1 January 2026",
+                "title": "Chapter 1A in force",
+                "text": "The regulation on the performance of work gains its own chapter on the psychosocial working environment, and § 4-3 is amended again."
+              }
+            ]
+          },
+          {
             "t": "p",
             "text": "The chapter was added to the regulation on the performance of work on 1 January 2026. It has five sections:"
           },
@@ -4574,15 +4620,15 @@
             "text": "Who must take part"
           },
           {
-            "t": "cards",
+            "t": "hub",
+            "center": {
+              "title": "The employer",
+              "text": "Is responsible for compliance with the Act (aml § 2-1). The survey is the employer's duty."
+            },
             "items": [
               {
-                "title": "The employer",
-                "text": "Is responsible. The employer must ensure the Act is complied with (aml § 2-1). Tasks can be shared out, but the survey is the employer's duty – not the safety representative's or the employees'."
-              },
-              {
                 "title": "The safety representative",
-                "text": "Must be consulted in the health and safety work and must in particular see that the psychosocial working environment is taken care of (aml § 6-2). Every business must have one; with fewer than 5 employees the parties may agree another arrangement in writing (§ 6-1)."
+                "text": "Is consulted in the health and safety work and must in particular see that the psychosocial working environment is taken care of (aml § 6-2). Every business must have one; with fewer than 5 employees the parties may agree another arrangement in writing (§ 6-1)."
               },
               {
                 "title": "The working environment committee",
@@ -4590,7 +4636,7 @@
               },
               {
                 "title": "The employees",
-                "text": "The survey must be done in cooperation with them and their union representatives (aml § 3-1 first paragraph), and they have a duty to take part themselves (§ 2-3 and regulation § 1A-5)."
+                "text": "The survey must be done in cooperation with them and their union representatives (aml § 3-1 first paragraph), and they have a duty to take part (§ 2-3 and regulation § 1A-5)."
               }
             ]
           },
@@ -4629,6 +4675,35 @@
           {
             "t": "p",
             "text": "Arbeidstilsynet supervises compliance with the Act. If it finds shortcomings, it can issue an order with a deadline (aml § 18-6). An order can be followed by a coercive fine until it is complied with (§ 18-7). If the Act has been breached negligently or wilfully, the business can be given an infringement fine (§ 18-10)."
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet's means, from the lightest to the heaviest:"
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Order",
+                "ref": "aml § 18-6",
+                "text": "In writing, with a deadline for when it must be carried out."
+              },
+              {
+                "title": "Coercive fine",
+                "ref": "aml § 18-7",
+                "text": "Running for each day, week or month after the deadline – or as a one-off fine – until the order is complied with."
+              },
+              {
+                "title": "Stoppage",
+                "ref": "aml § 18-8",
+                "text": "If the order is not complied with by the deadline, the business's activities can be stopped in whole or in part."
+              },
+              {
+                "title": "Infringement fine",
+                "ref": "aml § 18-10",
+                "text": "For negligent or wilful breaches: up to 50 times the basic amount or four per cent of annual turnover."
+              }
+            ]
           },
           {
             "t": "p",

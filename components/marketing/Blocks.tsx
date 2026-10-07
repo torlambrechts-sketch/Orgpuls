@@ -1,6 +1,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import type { Block } from '@/lib/marketing/blocks'
+import { Cycle, Hub, Ladder, Timeline } from './Diagrams'
 import { LawRef } from './LawRef'
 import { Plans } from './Plans'
 import { ProductShot } from './ProductShot'
@@ -153,6 +154,14 @@ function BlockView({ block: b, id }: { block: Block; id?: string }) {
           ))}
         </div>
       )
+    case 'cycle':
+      return <Cycle center={b.center} items={b.items} />
+    case 'hub':
+      return <Hub center={b.center} items={b.items} />
+    case 'ladder':
+      return <Ladder items={b.items} />
+    case 'timeline':
+      return <Timeline items={b.items} />
     case 'plans':
       return <Plans />
     case 'shot':
