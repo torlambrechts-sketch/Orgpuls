@@ -11497,3 +11497,23 @@ On the owner's word. Bing (and Copilot, which searches through it) gets the site
   engines fetch it to check a submission came from the site). `npm run seo:indexnow` reads each host's
   sitemap and submits its URLs; `--dry` lists them. Run it after a deploy that adds or changes public
   pages. Google does not take part in IndexNow; it keeps reading the sitemap.
+
+## D-235 — The articles are informational, not sales pages (2026-10-07)
+
+On the owner's word: an article answers one question the way a trade paper would, and sells nothing.
+
+- **Template:** no offer in the sidebar (contents only), no box pointing to a landing page, no
+  closing «Prøv gratis» band – on the articles and on the article index. The site's header and footer
+  remain the way to the product. `ctaTitle`/`ctaBody`, `nextTitle`/`nextLink` and the registry's
+  `landing` field are gone.
+- **Share cards:** an article's card is the brand, «Artikler» and its H1 – no product picture and no
+  claims (`scripts/marketing/og-images.mjs`).
+- **Text:** all 20 articles rewritten in Norwegian and English to an editorial brief
+  (`docs`-external, kept with the session): the lead answers the title's question; no mention of the
+  product, prices or trials; links only to other articles; every legal statement traceable to the
+  Act and regulation chapter 1A with Arbeidstilsynet's comments as published on 2026-10-06, quoted
+  verbatim; research named only where the product's measure library already names it (Karasek,
+  Bakker and Demerouti, Edmondson, Hochschild, Johnson and Hall, Einarsen, Grant). Claims the old
+  texts made without a source (for instance «the most common reason HSE work stalls», product scale
+  bands and timings) were dropped rather than kept.
+- `modified` is 2026-10-07 for every article, so the sitemap and the Article schema say they changed.
