@@ -115,7 +115,8 @@
       "s2": "Når noen melder fra om et problem, skjer det noe med det",
       "s3": "Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå",
       "name": "Ytringsklima",
-      "abbr": "Ytring"
+      "abbr": "Ytring",
+      "map": "Ytringsklima"
     },
     "mengde": {
       "label": "Arbeidsmengde og tidspress",
@@ -125,7 +126,8 @@
       "s2": "Jeg har nok tid til å gjøre jobben godt nok",
       "s3": "Jeg kan koble av fra jobben når arbeidsdagen er over",
       "name": "Arbeidsmengde",
-      "abbr": "Mengde"
+      "abbr": "Mengde",
+      "map": "Arbeidsmengde"
     },
     "motstrid": {
       "label": "Motstridende krav",
@@ -135,7 +137,8 @@
       "s2": "Kravene fra ulike hold henger sammen",
       "s3": "Jeg vet hvem som bestemmer når to ting kolliderer",
       "name": "Motstridende krav",
-      "abbr": "Motstrid"
+      "abbr": "Motstrid",
+      "map": "Motstridende krav"
     },
     "kontakt": {
       "label": "Kontakt og kommunikasjon",
@@ -145,7 +148,8 @@
       "s2": "Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene",
       "s3": "Jeg føler meg ikke isolert i jobben min",
       "name": "Kontakt og kommunikasjon",
-      "abbr": "Kontakt"
+      "abbr": "Kontakt",
+      "map": "Kontakt"
     },
     "emosjon": {
       "label": "Emosjonelle krav",
@@ -155,7 +159,8 @@
       "s2": "Vi snakker om vanskelige hendelser etterpå",
       "s3": "Jeg får lov til å reagere som menneske på jobb",
       "name": "Emosjonelle krav",
-      "abbr": "Emosjon"
+      "abbr": "Emosjon",
+      "map": "Emosjonelle krav"
     },
     "leder": {
       "label": "Støtte fra leder",
@@ -165,7 +170,8 @@
       "s2": "Lederen min vet nok om hva jobben min faktisk innebærer",
       "s3": "Jeg kan ta opp vanskelige ting med lederen min",
       "name": "Støtte fra leder",
-      "abbr": "Leder"
+      "abbr": "Leder",
+      "map": "Lederstøtte"
     },
     "medvirk": {
       "label": "Medvirkning og kontroll",
@@ -175,7 +181,8 @@
       "s2": "Jeg blir hørt når noe skal endres",
       "s3": "Jeg kan påvirke tempoet i eget arbeid",
       "name": "Medvirkning",
-      "abbr": "Medvirk."
+      "abbr": "Medvirk.",
+      "map": "Medvirkning"
     },
     "integritet": {
       "label": "Integritet og verdighet",
@@ -185,7 +192,8 @@
       "s2": "Jeg får bruke faglig skjønn når jeg mener noe bør gjøres annerledes",
       "s3": "Grensene mine for privatliv blir respektert på jobb",
       "name": "Integritet og verdighet",
-      "abbr": "Integr."
+      "abbr": "Integr.",
+      "map": "Integritet"
     },
     "rolle": {
       "label": "Rolleklarhet",
@@ -195,7 +203,8 @@
       "s2": "Jeg vet hvor mitt ansvar slutter og andres begynner",
       "s3": "Jeg vet hva som regnes som godt arbeid hos oss",
       "name": "Rolleklarhet",
-      "abbr": "Rolle"
+      "abbr": "Rolle",
+      "map": "Rolleklarhet"
     },
     "kollega": {
       "label": "Støtte fra kollegaer",
@@ -205,7 +214,8 @@
       "s2": "Vi deler kunnskap i stedet for å holde på den",
       "s3": "Jeg føler meg som en del av laget",
       "name": "Støtte fra kollegaer",
-      "abbr": "Kolleger"
+      "abbr": "Kolleger",
+      "map": "Kollegastøtte"
     },
     "mening": {
       "label": "Anerkjennelse og mening",
@@ -215,69 +225,182 @@
       "s2": "Innsatsen min blir lagt merke til",
       "s3": "Jeg er stolt av å jobbe her",
       "name": "Mening og anerkjennelse",
-      "abbr": "Mening"
+      "abbr": "Mening",
+      "map": "Mening"
     }
   },
   "innsikt": {
-    "indexLabel": "Arbeidsmiljøindeks",
-    "delta": "{delta} siden i fjor",
-    "forsvarlig": "{count} forsvarlig",
-    "folgesOpp": "{count} følges opp",
-    "hoyRisiko": "{count} høy risiko",
     "ansatte": "{count, plural, one {# ansatt} other {# ansatte}}",
-    "insufficient": "Færre enn {threshold} svar — resultatet vises ikke",
-    "svarte": "{n} av {total} har svart",
-    "seeResult": "Se hele resultatet",
-    "head": {
-      "daglig_leder": "Dere er i rute",
-      "avdelingsleder": "{group} trenger deg denne uka",
-      "verneombud": "{count, plural, =0 {Ingen faktorer krever handling} one {Én faktor krever handling} =2 {To faktorer krever handling} =3 {Tre faktorer krever handling} other {# faktorer krever handling}}",
-      "none": "Ingen kartlegging er ferdig ennå",
-      "assess": "Risikovurderingen gjenstår"
+    "mode": {
+      "label": "Visning",
+      "enkel": "Enkel",
+      "avansert": "Avansert",
+      "group": "Visning av Innsikt"
+    },
+    "greeting": {
+      "morning": "God morgen, {name}",
+      "day": "God dag, {name}",
+      "evening": "God kveld, {name}",
+      "morningPlain": "God morgen",
+      "dayPlain": "God dag",
+      "eveningPlain": "God kveld"
     },
     "lead": {
-      "daglig_leder": "{assessed, select, yes {Grunnlinjen er tatt og risikovurdert.} other {Grunnlinjen er tatt, men ikke risikovurdert ennå.}} {running, plural, =0 {Ingen tiltak løper.} one {Ett tiltak løper.} =2 {To tiltak løper.} =3 {Tre tiltak løper.} =4 {Fire tiltak løper.} =5 {Fem tiltak løper.} =6 {Seks tiltak løper.} =7 {Sju tiltak løper.} =8 {Åtte tiltak løper.} =9 {Ni tiltak løper.} =10 {Ti tiltak løper.} =11 {Elleve tiltak løper.} =12 {Tolv tiltak løper.} other {# tiltak løper.}} Neste puls måler om de virket.",
+      "none": "Ingen måling er lukket ennå.",
+      "assessed": "{kind, select, puls {Pulsen} other {Grunnlinjen}} er risikovurdert.",
+      "notAssessed": "{kind, select, puls {Pulsen} other {Grunnlinjen}} venter på risikovurdering.",
+      "measures": "{count, plural, one {Ett tiltak er åpent.} =2 {To tiltak er åpne.} =3 {Tre tiltak er åpne.} =4 {Fire tiltak er åpne.} =5 {Fem tiltak er åpne.} =6 {Seks tiltak er åpne.} =7 {Sju tiltak er åpne.} =8 {Åtte tiltak er åpne.} =9 {Ni tiltak er åpne.} =10 {Ti tiltak er åpne.} other {# tiltak er åpne.}}",
+      "measuresAnd": "{count, plural, one {Ett tiltak er åpent} =2 {To tiltak er åpne} =3 {Tre tiltak er åpne} =4 {Fire tiltak er åpne} =5 {Fem tiltak er åpne} =6 {Seks tiltak er åpne} =7 {Sju tiltak er åpne} =8 {Åtte tiltak er åpne} =9 {Ni tiltak er åpne} =10 {Ti tiltak er åpne} other {# tiltak er åpne}}, og {round}.",
+      "roundOnly": "{round}.",
+      "roundIn": "{round} går ut om {days, plural, one {én dag} =2 {to dager} =3 {tre dager} =4 {fire dager} =5 {fem dager} =6 {seks dager} =7 {sju dager} =8 {åtte dager} =9 {ni dager} =10 {ti dager} other {# dager}}",
+      "roundOpen": "{round} er ute nå",
       "avdelingsleder": "Du ser ditt eget team. Tallene under terskelen er skjult også for deg — det er ikke en feil, det er avtalen med de ansatte.",
       "verneombud": "Du ser de samme tallene som ledelsen, og får varsel når en frist ryker. Enkeltkommentarer er ikke tilgjengelige for verneombud."
     },
-    "loopHead": "Sløyfen — der loven vil dere skal være",
-    "loop": {
-      "kartlagt": "Kartlagt",
-      "risikovurdert": "Risikovurdert",
-      "tiltak": "Tiltak løper",
-      "effekt": "Effekt målt"
+    "reportCta": "Last ned rapport",
+    "resultCta": "Se hele resultatet",
+    "kpi": {
+      "index": "Arbeidsmiljøindeks",
+      "indexDelta": "{delta} siden {year}",
+      "rate": "Svarprosent",
+      "pct": "{pct} %",
+      "rateSub": "{answered} av {headcount}",
+      "rateSubDelta": "{answered} av {headcount} · {delta} poeng",
+      "enps": "Anbefaler oss",
+      "enpsSub": "eNPS, fra −100 til +100",
+      "measures": "Åpne tiltak",
+      "measuresLate": "{count} over frist",
+      "measuresOnTime": "Ingen over frist",
+      "conversations": "Ubesvarte samtaler",
+      "conversationsOldest": "Eldste venter {days, plural, one {# dag} other {# dager}}",
+      "conversationsNone": "Ingen venter på svar"
     },
-    "overdue": "{count, plural, one {# over frist} other {# over frist}}",
-    "yearLink": "Arbeidsmiljøåret — sett opp automatikk",
-    "documentedHead": "Kartlegging og risikovurdering",
-    "documentedCta": "Dokumentert — åpne rapporten →",
-    "now": "NÅ",
-    "rateSub": "{pct} % svarte",
-    "closedSub": "lukket",
-    "assessedSub": "{done} av {required} ferdig",
-    "questionSub": "{count, plural, one {# spørsmål} other {# spørsmål}}",
-    "todoHead": "Venter på deg",
-    "todoScope": {
-      "daglig_leder": "Hele virksomheten",
-      "avdelingsleder": "Din avdeling",
-      "verneombud": "Verneombudets saker"
+    "feed": {
+      "title": "Siden sist",
+      "lastSeen": "Du var sist inne {date}",
+      "empty": "Ingenting nytt ennå.",
+      "late": "Fristen for «{title}» gikk ut",
+      "done": "Tiltak gjennomført: {title}",
+      "doneNext": "Effekten måles i {round}",
+      "comment": "Ny anonym kommentar om {factor}",
+      "thread": {
+        "venter": "venter på svar",
+        "dialog": "besvart",
+        "lukket": "lukket"
+      },
+      "risk": "Risikovurderingen er godkjent",
+      "riskHigh": "{count, plural, =0 {Ingen faktorer med høy risiko} one {Én faktor med høy risiko} =2 {To faktorer med høy risiko} =3 {Tre faktorer med høy risiko} other {# faktorer med høy risiko}}",
+      "riskVo": "verneombudet var med",
+      "closed": "{round} er lukket",
+      "answered": "{answered} av {headcount} svarte",
+      "comments": "{count, plural, one {# kommentar} other {# kommentarer}}"
     },
-    "todoEmpty": "Ingenting venter akkurat nå",
-    "todoMeasureMeta": "Ansvarlig {owner} · frist gikk ut · knyttet til {factor}",
-    "todoMeasureCta": "Oppdater",
-    "todoRoundTitle": "Godkjenn pulsen som går ut {date}",
-    "todoRoundMeta": "{count, plural, one {# spørsmål} other {# spørsmål}} · {factors}",
-    "todoRoundCta": "Se utvalget",
-    "forankring": {
-      "law": "Forankring",
-      "plain": "Oppstart"
+    "todo": {
+      "title": "Venter på deg",
+      "empty": "Ingenting venter på deg nå.",
+      "lapsed": "fristen gikk ut {date}",
+      "lapsedYesterday": "fristen gikk ut i går",
+      "update": "Oppdater",
+      "comments": "{count, plural, one {Én anonym kommentar venter på svar} =2 {To anonyme kommentarer venter på svar} =3 {Tre anonyme kommentarer venter på svar} other {# anonyme kommentarer venter på svar}}",
+      "commentsOldest": "Den eldste har ventet i {days, plural, one {# dag} other {# dager}}",
+      "reply": "Svar",
+      "nextRound": "Se over utvalget til {round}",
+      "nextRoundMeta": "{count, plural, one {# spørsmål} other {# spørsmål}} · sendes {date}",
+      "openRound": "{round} er ute",
+      "openRoundMeta": "{count, plural, one {# spørsmål} other {# spørsmål}} · lukkes {date}",
+      "seeRound": "Se utvalget"
     },
-    "forankringSub": {
-      "verneombud": "Verneombud",
-      "tillitsvalgte": "Tillitsvalgte",
-      "begge": "Verneombud og tillitsvalgte"
+    "strengths": {
+      "title": "Dette går bra"
     },
-    "effectSub": "virket tiltakene?"
+    "why": {
+      "ytring": "Folk tør å si fra, og det skjer noe når de gjør det",
+      "mengde": "Arbeidsmengden er til å leve med",
+      "motstrid": "Kravene trekker i samme retning",
+      "kontakt": "Informasjonen kommer fram",
+      "emosjon": "Folk står i det krevende sammen",
+      "leder": "Folk får støtte fra lederen sin",
+      "medvirk": "Folk har innflytelse over egen arbeidsdag",
+      "integritet": "Folk møtes med respekt",
+      "rolle": "De fleste vet hva som forventes",
+      "kollega": "Folk stiller opp for hverandre",
+      "mening": "Folk opplever at arbeidet betyr noe"
+    },
+    "improve": {
+      "title": "Her kan dere bli bedre",
+      "inGroup": "{factor} på {group}",
+      "org": "hele virksomheten {index}",
+      "fell": "falt {n} poeng",
+      "rose": "steg {n} poeng",
+      "same": "uendret",
+      "comments": "{count, plural, one {# kommentar} other {# kommentarer}}"
+    },
+    "wheel": {
+      "title": "Årshjulet",
+      "now": "NÅ",
+      "forankring": "Forankring",
+      "tiltak": "Tiltak",
+      "risiko": "Risikovurdering"
+    },
+    "law": {
+      "title": "Arbeidsmiljøloven",
+      "assessed": "§ 3-1 c kartlagt og vurdert ✓",
+      "assessPending": "§ 3-1 c kartlagt · vurdering gjenstår",
+      "verneombud": "§ 6-2 verneombud med ✓",
+      "verneombudPending": "§ 6-2 verneombud ikke registrert",
+      "droftet": "§ 9-2 drøftet ✓",
+      "droftetOn": "§ 9-2 drøftet {date} ✓",
+      "droftetPending": "§ 9-2 ikke drøftet",
+      "effect": "Effekt målt · {date}"
+    },
+    "adv": {
+      "h1": "Hvor dere bør bruke tiden",
+      "lead": "Faktorene er plassert etter skår og hvor mye de henger sammen med helheten. Lav skår og stor betydning gir mest igjen for innsatsen.",
+      "answered": "{answered} av {headcount} svarte",
+      "closed": "lukket {date}",
+      "compare": "Sammenlign med {year}",
+      "band": {
+        "lav": "{count} forsvarlige",
+        "middels": "{count} følges opp",
+        "hoy": "{count} med høy risiko"
+      },
+      "quad": {
+        "prioriter": "Prioriter",
+        "behold": "Behold",
+        "folg": "Følg med",
+        "rute": "I rute",
+        "y": "Betydning for helheten →",
+        "low": "Lav skår",
+        "x": "Skår →",
+        "high": "Høy skår",
+        "empty": "Betydningen for helheten regnes ut når minst {minimum} har svart på anbefalingsspørsmålet. Til da står faktorene sortert etter skår i tabellen under.",
+        "emptyPlain": "Betydningen for helheten kan ikke regnes ut for denne målingen. Faktorene står sortert etter skår i tabellen under."
+      },
+      "head": {
+        "factor": "Faktor",
+        "index": "Indeks",
+        "delta": "Endring",
+        "importance": "Betydning",
+        "risk": "Risiko",
+        "next": "Neste steg"
+      },
+      "group": {
+        "hoy": "Prioritert · {count}",
+        "middels": "Følges opp · {count}",
+        "lav": "Styrker · {count}"
+      },
+      "groupNote": {
+        "hoy": "Lav skår — her gir innsats mest igjen",
+        "middels": "Under 65 — hold øye med utviklingen",
+        "lav": "Det som virker — behold det"
+      },
+      "running": "{count, plural, one {# tiltak løper} other {# tiltak løper}}",
+      "planned": "{count, plural, one {# tiltak planlagt} other {# tiltak planlagt}}",
+      "suggest": "Se forslag",
+      "keep": "Behold",
+      "insufficient": "Færre enn {threshold} har svart. Resultatet vises ikke.",
+      "none": "Ingen måling er lukket ennå. Resultatene kommer her når den første er ferdig."
+    }
   },
   "malinger": {
     "title": "Målinger",
@@ -3724,59 +3847,6 @@
       "descriptionShort": "Lenken til arbeidsmiljøundersøkelsen, rett i Teams.",
       "descriptionFull": "Orgpuls sender deg lenken til arbeidsmiljøundersøkelsen i virksomheten din som en melding i Teams, i stedet for på e-post. Meldingen har en kort tekst og en knapp som åpner undersøkelsen i nettleseren. Svaret ditt lagres uten kobling til deg, og appen tar ikke imot meldinger."
     }
-  },
-  "oversikt": {
-    "kicker": "{org} · arbeidsmiljøet",
-    "sentence": "Folk trives med {high}. Det som trekker ned, er {low1} og {low2}.",
-    "noResult": "Når den første kartleggingen er lukket, står resultatet her.",
-    "index": "Indeks",
-    "deltaDown": "{n} poeng lavere enn i fjor",
-    "deltaUp": "{n} poeng høyere enn i fjor",
-    "deltaSame": "Samme som i fjor",
-    "rate": "{answered} av {headcount} svarte",
-    "seeAll": "Se alle tall →",
-    "areasTitle": "Slik står det til på hvert område",
-    "areasNote": "Skala 0–100. Under 50 bør dere gjøre noe med. Trykk på et område for tallene bak.",
-    "word": {
-      "low": "Trenger innsats",
-      "mid": "Følg med",
-      "high": "Bra"
-    },
-    "todoTitle": "Gjør dette nå",
-    "todoAll": "Alle tiltak →",
-    "todoEmpty": "Ingen tiltak ennå. Se forslagene under resultatene.",
-    "noOwner": "Ingen eier",
-    "dueYesterday": "frist gikk ut i går",
-    "dueLapsed": "frist gikk ut {date}",
-    "due": "frist {date}",
-    "dueUnset": "ingen frist",
-    "markDone": "Merk «{title}» som gjennomført",
-    "saveProblem": "Kunne ikke lagre. Prøv igjen.",
-    "waitingTitle": "Venter på svar fra deg",
-    "waitingAll": "Alle {count} →",
-    "waitingSub": "Du svarer uten å vite hvem som skrev.",
-    "waitingAge": "Venter · {days, plural, one {# dag} other {# dager}}",
-    "replyPlaceholder": "Svar anonymt …",
-    "replyAria": "Ditt svar på kommentaren",
-    "send": "Send",
-    "waitingEmpty": "Alle kommentarer er besvart.",
-    "replySent": "Sendt. Svaret ligger under Kommentarer.",
-    "replyProblem": "Svaret ble ikke sendt. Prøv igjen.",
-    "upcomingTitle": "Kommende målinger",
-    "upcomingChange": "Endre →",
-    "upcomingEmpty": "Ingen målinger er planlagt.",
-    "kind": {
-      "puls": "Kort oppfølging",
-      "grunnlinje": "Hovedundersøkelse"
-    },
-    "pulsNote": "{count, plural, one {# spørsmål} other {# spørsmål}} om {factors}.",
-    "grunnlinjeNote": "Alle spørsmål, alle ansatte. Setter årets nullpunkt.",
-    "auto": "Går ut av seg selv.",
-    "voLead": "Verneombudet får beskjed {days, plural, one {# dag} other {# dager}} før de ansatte.",
-    "reportKicker": "Til personalmøtet eller styret",
-    "reportTitle": "Lag rapport →",
-    "reportBody": "Funn, vurdering og tiltak. Du leser gjennom og godkjenner.",
-    "lawOk": "Kartleggingen for {year} er gjort og risikovurdert. Dokumentasjonen er klar hvis Arbeidstilsynet spør."
   },
   "resultater": {
     "kicker": "Hovedundersøkelse · lukket {date}",
@@ -10408,7 +10478,11 @@
       },
       {
         "h": "6. Underdatabehandlere",
-        "p": ["Virksomheten godkjenner underdatabehandlerne i vedlegg 3. Orgpuls skal varsle virksomheten på e-post minst 30 dager før en underdatabehandler legges til eller byttes ut, og virksomheten kan protestere. Blir partene ikke enige, kan virksomheten si opp avtalen før endringen trer i kraft.", "Varslingsplikten gjelder ikke en underdatabehandler som bare brukes når virksomheten selv slår på en integrasjon, som Microsoft for Teams. Den står i vedlegg 3 før integrasjonen kan slås på, og virksomheten godkjenner den ved å slå integrasjonen på. Slås integrasjonen av, brukes den ikke lenger for virksomheten.", "Orgpuls skal pålegge underdatabehandlerne de samme pliktene som følger av denne avtalen, og er ansvarlig overfor virksomheten for at de oppfyller dem."]
+        "p": [
+          "Virksomheten godkjenner underdatabehandlerne i vedlegg 3. Orgpuls skal varsle virksomheten på e-post minst 30 dager før en underdatabehandler legges til eller byttes ut, og virksomheten kan protestere. Blir partene ikke enige, kan virksomheten si opp avtalen før endringen trer i kraft.",
+          "Varslingsplikten gjelder ikke en underdatabehandler som bare brukes når virksomheten selv slår på en integrasjon, som Microsoft for Teams. Den står i vedlegg 3 før integrasjonen kan slås på, og virksomheten godkjenner den ved å slå integrasjonen på. Slås integrasjonen av, brukes den ikke lenger for virksomheten.",
+          "Orgpuls skal pålegge underdatabehandlerne de samme pliktene som følger av denne avtalen, og er ansvarlig overfor virksomheten for at de oppfyller dem."
+        ]
       },
       {
         "h": "7. Overføring ut av EØS",
@@ -10460,7 +10534,17 @@
           "De registrerte er de ansatte virksomheten inviterer til kartleggingen, og virksomhetens brukere av Orgpuls: daglig leder, avdelingsledere og verneombud.",
           "Om de ansatte lagres:"
         ],
-        "ul": ["navn og e-postadresse", "mobilnummer, bare hvis virksomheten legger det inn eller velger å hente det fra Microsoft Entra ID, for utsending på SMS", "foretrukket språk, hvis virksomheten legger det inn eller det hentes fra Microsoft Entra ID, slik at målingen kan tilbys på det språket", "for virksomheter som sender målingen i Teams: hvilken samtale Orgpuls-appen har med den ansatte i Teams, og om Teams har avvist en melding til den ansatte", "for virksomheter som sender målingen i Slack: den ansattes medlems-ID i virksomhetens Slack-arbeidsområde, funnet ut fra jobb-e-postadressen, og Slack-tilgangen Orgpuls-appen fikk da virksomheten koblet til – bare for å sende lenken som direktemelding", "hvilken avdeling den ansatte hører til, og eventuelt en rolle som verneombud, tillitsvalgt eller leder", "hvis virksomheten henter de ansatte fra Microsoft Entra ID: personens objekt-ID i katalogen, hvilke av de valgte gruppene personen er med i, og om kontoen er aktiv – bare for å holde registeret oppdatert. Ingenting skrives tilbake til katalogen", "for hver måling: om invitasjon og påminnelse er sendt, og om den ansatte har svart, slik at påminnelser bare går til dem som ikke har svart – aldri hva den ansatte svarte", "navnet på den som er ansvarlig for et tiltak, hvis virksomheten velger en ansatt som ansvarlig"]
+        "ul": [
+          "navn og e-postadresse",
+          "mobilnummer, bare hvis virksomheten legger det inn eller velger å hente det fra Microsoft Entra ID, for utsending på SMS",
+          "foretrukket språk, hvis virksomheten legger det inn eller det hentes fra Microsoft Entra ID, slik at målingen kan tilbys på det språket",
+          "for virksomheter som sender målingen i Teams: hvilken samtale Orgpuls-appen har med den ansatte i Teams, og om Teams har avvist en melding til den ansatte",
+          "for virksomheter som sender målingen i Slack: den ansattes medlems-ID i virksomhetens Slack-arbeidsområde, funnet ut fra jobb-e-postadressen, og Slack-tilgangen Orgpuls-appen fikk da virksomheten koblet til – bare for å sende lenken som direktemelding",
+          "hvilken avdeling den ansatte hører til, og eventuelt en rolle som verneombud, tillitsvalgt eller leder",
+          "hvis virksomheten henter de ansatte fra Microsoft Entra ID: personens objekt-ID i katalogen, hvilke av de valgte gruppene personen er med i, og om kontoen er aktiv – bare for å holde registeret oppdatert. Ingenting skrives tilbake til katalogen",
+          "for hver måling: om invitasjon og påminnelse er sendt, og om den ansatte har svart, slik at påminnelser bare går til dem som ikke har svart – aldri hva den ansatte svarte",
+          "navnet på den som er ansvarlig for et tiltak, hvis virksomheten velger en ansatt som ansvarlig"
+        ]
       },
       {
         "h": "Vedlegg 1 – Svar, brukere og tekniske opplysninger",
@@ -13946,7 +14030,11 @@
       },
       "fits": "Passer dere",
       "fitsSr": "(passer dere)",
-      "interval": {"legend": "Betaling", "month": "Månedlig", "year": "Årlig – 2 måneder gratis"},
+      "interval": {
+        "legend": "Betaling",
+        "month": "Månedlig",
+        "year": "Årlig – 2 måneder gratis"
+      },
       "price": {
         "kr": "{n} kr",
         "perMonth": "per måned",
@@ -14265,7 +14353,7 @@
       "items": {
         "innsikt": {
           "title": "Se hvor dere står",
-          "hint": "Innsikt: indeksen, sløyfen og hva som bør gjøres nå"
+          "hint": "Innsikt: indeksen, hva som har skjedd siden sist og hva som bør gjøres nå"
         },
         "resultater": {
           "title": "Finn det som trekker ned",

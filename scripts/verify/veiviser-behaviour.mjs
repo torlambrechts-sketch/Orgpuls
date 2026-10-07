@@ -1,8 +1,8 @@
 /**
  * The Veiviser's behaviour, checked in a browser (design 3, P7, D-76): it opens by itself
  * on the first run, holds focus, "Fortsett senere" and Escape keep the step for the next
- * session, "Hopp over" puts it aside, Oversikt's "Veiviser" and Oppsett's "Kjør
- * veiviseren" open it, and each step writes through its own action — people pasted in,
+ * session, "Hopp over" puts it aside, Oppsett's "Kjør veiviseren" opens it again
+ * (Innsikt no longer carries a "Veiviser" link, D-244), and each step writes through its own action — people pasted in,
  * the threshold (5 and 8 only), the verneombud, the rhythm, and a first grunnlinje on the
  * Tuesday chosen. Signs in with ORGPULS_DEV_EMAIL / ORGPULS_DEV_PASSWORD (environment,
  * used once, never printed) against :3000, as the fixture's daglig leder.
@@ -70,9 +70,10 @@ await p.waitForTimeout(800)
 ok('Escape is "Fortsett senere": it closes', (await p.getByRole('dialog').count()) === 0)
 await p.reload({ waitUntil: 'networkidle' })
 ok('and does not open again in the same session', !(await opened(p)))
-await p.getByRole('button', { name: 'Veiviser', exact: true }).click()
+await p.goto(base + '/oppsett', { waitUntil: 'networkidle' })
+await p.getByRole('button', { name: 'Kjør veiviseren', exact: true }).click()
 await p.getByRole('dialog').getByRole('heading', { level: 2 }).waitFor()
-ok('Oversikt\'s "Veiviser" reopens it where it was left', (await title(p)) === 'Virksomheten')
+ok('Oppsett\'s "Kjør veiviseren" reopens it where it was left', (await title(p)) === 'Virksomheten')
 await p.context().close()
 
 // B ------------------------------------------------------------ a new session, then aside
@@ -177,7 +178,7 @@ ok('Klart counts the pasted person', await d.getByText('35 lagt inn').isVisible(
 await d.getByRole('button', { name: 'Til oversikten', exact: true }).click()
 await p.waitForURL(/\/innsikt/)
 await p.waitForTimeout(800)
-ok('"Til oversikten" closes it on Oversikt', (await p.getByRole('dialog').count()) === 0)
+ok('"Til oversikten" closes it on Innsikt', (await p.getByRole('dialog').count()) === 0)
 await p.goto(base + '/malinger', { waitUntil: 'networkidle' })
 ok('Målinger lists the planned grunnlinje', await p.getByText('Planlagt', { exact: true }).first().isVisible())
 await p.goto(base + '/oppsett', { waitUntil: 'networkidle' })

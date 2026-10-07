@@ -60,6 +60,14 @@ const config: Config = {
         viz3: '#CFE0F5',
         viz4: '#F3E2C9',
         viz5: '#E7DAF2',
+        // Innsikt, Orgpuls.dc.html of 7 October 2026 (D-244)
+        well: '#EFE8D8',      // the Visning track, a feed rule, a factor row's track
+        mintwash: '#EEF6F4',  // «Dette går bra» rows
+        butter: '#FDF5DD',    // «Her kan dere bli bedre» rows
+        qprio: '#FBE3D7',     // the priority map's «Prioriter»
+        qkeep: '#E9F3F1',     // «Behold»
+        qwatch: '#FBF1D6',    // «Følg med»
+        qok: '#F3F0E6',       // «I rute»
       },
       fontFamily: {
         display: ['var(--font-playfair)', 'Playfair Display', 'serif'],

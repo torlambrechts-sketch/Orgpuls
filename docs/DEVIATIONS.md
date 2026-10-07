@@ -11707,3 +11707,57 @@ Bruksområder to move under Plattform so the top menu has fewer items.
 - **Not an offer:** the box names the template and what is in it, and links to its page. D-235's rule – no
   product offer beside the text – stands; a free document for the reader's own work is a resource.
 - **The front page** is unchanged for now, by Tor's choice.
+
+## D-244 — Innsikt in two views: Enkel and Avansert (0210) (2026-10-07)
+
+Tor sent a new design of Innsikt (`Orgpuls.dc.html` of 7 October, now in `design-reference/orgpuls/`
+with its offline source) with a «Visning» switch beside the screen: **Enkel**, a fuller overview, and
+**Avansert**, «Hvor dere bør bruke tiden». His decisions: the two views *replace* both design 3's
+Oversikt and the earlier Innsikt; the design's «Løfter helheten +6» is left out; every plan gets both
+views, the free plan without comparisons as before (D-217).
+
+- **Which view:** unset, it follows the shell – Full opens on Avansert, Enkel on Enkel. A person's
+  choice is kept in the cookie `op_innsikt` (`lib/innsikt/mode.ts`), read on the server. The switch's
+  group is named «Visning av Innsikt» for assistive technology, because the shell has a «Visning»
+  switch of its own.
+- **Where the figures come from** (`lib/innsikt/home.ts`): `results_digest` for the index, the
+  response rate, «Anbefaler oss», importance (`results_importance`, 0037) and every closed round's
+  groups; the measures, the comment threads, the risk assessment and the round's recorded
+  consultations. An avdelingsleder reads their own department and is refused «Anbefaler oss» and
+  importance; a verneombud reads no comments, so the «Ubesvarte samtaler» figure is left out for them.
+- **«Du var sist inne …»** needed a row: 0210 adds `seen_on` and `previous_seen_on` to
+  `app.memberships`, written only by `innsikt_visit(org)` for the caller's own membership, once a day.
+  Proved by `supabase/tests/innsikt_visit_invariants.sql` (six assertions, green against the hosted
+  project, rolled back). Applied to the hosted project on 7 October 2026.
+- **Siden sist** lists the six latest events that rows record: a deadline passed, a measure completed,
+  a comment opened (by day, never by group – a thread has no group, by design), a risk assessment, a
+  round closed. The design's «Verneombudet er varslet om krenkende atferd» is not shown: nothing
+  records that the notice was given.
+- **Her kan dere bli bedre:** the factors outside the safe band, those that move most with the whole
+  first (the design's own order falls out of this rule on its figures), named on a department when one
+  is ten points or more below the organisation. The design's captions «henger sammen med motstridende
+  krav», «størst fall blant nyansatte» and «om avvik» have no row behind them; the caption gives the
+  index, the change and the organisation's figure or the factor's comment count instead.
+- **Dette går bra:** the design's one-line reasons are message keys per factor (`innsikt.why.*`),
+  written for all eleven.
+- **The priority map:** dots are where the factors are; a label that would sit on another label or
+  dot moves to the nearest free height with a hairline to its dot (`lib/innsikt/map.ts`). Below the
+  importance minimum (20 answers) the map says so and the column is empty, never estimated. On a phone
+  the map scrolls sideways, like the table. The quadrant labels use a new short form per factor
+  (`factor.*.map`, the design's own words).
+- **«Sammenlign med 2025»** is a link to Resultater comparing the two rounds (`?maling=…&mot=…`): in
+  the design it is a static segment with nothing behind it.
+- **«Under 65»**, not the design's «Under 66»: the band is the database's (`app.risk_band`, ≥ 65 lav),
+  and the note says what the table does.
+- **Removed:** `components/oversikt/*` (its checklist and inline replies), the old `InnsiktScreen`,
+  `app/(app)/innsikt/actions.ts`, the `oversikt.*` messages and the old `innsikt.*` ones. Innsikt no
+  longer carries the «Veiviser» link; Oppsett's «Kjør veiviseren» opens the wizard
+  (`scripts/verify/veiviser-behaviour.mjs` follows). `scripts/verify/oversikt-behaviour.mjs` is
+  replaced by `scripts/verify/innsikt-behaviour.mjs` (20 checks, green).
+- **Pixel gate:** the baselines `01-innsikt-home.png` (Enkel) and `01b-innsikt-avansert.png` are
+  captured from the new design. The app's header is still design 3's and stands 2px taller than the
+  new one, so the body is compared with `--at` 2px down: the «Visning» switch, Avansert's heading block,
+  index card and table head diff at 0.000%. The rest differs by the fixture's data – today's date, the
+  greeting's time of day, measures per factor, the law references the database holds and, above all,
+  the importance correlations: the fixture's answers do not reproduce the design's .62/.55/…, so its
+  dots sit lower. Making the generator produce them is a follow-up for the fixture.

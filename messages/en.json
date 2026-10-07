@@ -115,7 +115,8 @@
       "s2": "When someone reports a problem, something is done about it",
       "s3": "Disagreement is raised openly here, not in the corridor afterwards",
       "name": "Freedom to speak up",
-      "abbr": "Voice"
+      "abbr": "Voice",
+      "map": "Speaking up"
     },
     "mengde": {
       "label": "Workload and time pressure",
@@ -125,7 +126,8 @@
       "s2": "I have enough time to do the job well enough",
       "s3": "I can switch off from work when the working day is over",
       "name": "Workload",
-      "abbr": "Load"
+      "abbr": "Load",
+      "map": "Workload"
     },
     "motstrid": {
       "label": "Conflicting demands",
@@ -135,7 +137,8 @@
       "s2": "The demands from different quarters hang together",
       "s3": "I know who decides when two things collide",
       "name": "Conflicting demands",
-      "abbr": "Conflict"
+      "abbr": "Conflict",
+      "map": "Conflicting demands"
     },
     "kontakt": {
       "label": "Contact and communication",
@@ -145,7 +148,8 @@
       "s2": "I can call for help quickly if something happens while I am alone",
       "s3": "I do not feel isolated in my job",
       "name": "Contact and communication",
-      "abbr": "Contact"
+      "abbr": "Contact",
+      "map": "Contact"
     },
     "emosjon": {
       "label": "Emotional demands",
@@ -155,7 +159,8 @@
       "s2": "We talk about difficult incidents afterwards",
       "s3": "I am allowed to react as a human being at work",
       "name": "Emotional demands",
-      "abbr": "Emotion"
+      "abbr": "Emotion",
+      "map": "Emotional demands"
     },
     "leder": {
       "label": "Support from manager",
@@ -165,7 +170,8 @@
       "s2": "My manager knows enough about what my job actually involves",
       "s3": "I can raise difficult matters with my manager",
       "name": "Support from manager",
-      "abbr": "Manager"
+      "abbr": "Manager",
+      "map": "Manager support"
     },
     "medvirk": {
       "label": "Participation and control",
@@ -175,7 +181,8 @@
       "s2": "I am heard when something is to be changed",
       "s3": "I can influence the pace of my own work",
       "name": "Participation",
-      "abbr": "Influence"
+      "abbr": "Influence",
+      "map": "Influence"
     },
     "integritet": {
       "label": "Integrity and dignity",
@@ -185,7 +192,8 @@
       "s2": "I may use professional judgement when I think something should be done differently",
       "s3": "My boundaries for privacy are respected at work",
       "name": "Integrity and dignity",
-      "abbr": "Integr."
+      "abbr": "Integr.",
+      "map": "Integrity"
     },
     "rolle": {
       "label": "Role clarity",
@@ -195,7 +203,8 @@
       "s2": "I know where my responsibility ends and others begin",
       "s3": "I know what counts as good work here",
       "name": "Role clarity",
-      "abbr": "Role"
+      "abbr": "Role",
+      "map": "Role clarity"
     },
     "kollega": {
       "label": "Support from colleagues",
@@ -205,7 +214,8 @@
       "s2": "We share knowledge instead of holding on to it",
       "s3": "I feel like part of the team",
       "name": "Support from colleagues",
-      "abbr": "Peers"
+      "abbr": "Peers",
+      "map": "Peer support"
     },
     "mening": {
       "label": "Recognition and meaning",
@@ -215,69 +225,182 @@
       "s2": "My effort is noticed",
       "s3": "I am proud to work here",
       "name": "Meaning and recognition",
-      "abbr": "Meaning"
+      "abbr": "Meaning",
+      "map": "Meaning"
     }
   },
   "innsikt": {
-    "indexLabel": "Work environment index",
-    "delta": "{delta} since last year",
-    "forsvarlig": "{count} sound",
-    "folgesOpp": "{count} to follow up",
-    "hoyRisiko": "{count} high risk",
     "ansatte": "{count, plural, one {# employee} other {# employees}}",
-    "insufficient": "Fewer than {threshold} responses — the result is not shown",
-    "svarte": "{n} of {total} have responded",
-    "seeResult": "See the full result",
-    "head": {
-      "daglig_leder": "You are on track",
-      "avdelingsleder": "{group} needs you this week",
-      "verneombud": "{count, plural, =0 {No factors need action} one {One factor needs action} =2 {Two factors need action} =3 {Three factors need action} other {# factors need action}}",
-      "none": "No survey has closed yet",
-      "assess": "The risk assessment is still to do"
+    "mode": {
+      "label": "View",
+      "enkel": "Simple",
+      "avansert": "Advanced",
+      "group": "Insights view"
+    },
+    "greeting": {
+      "morning": "Good morning, {name}",
+      "day": "Good afternoon, {name}",
+      "evening": "Good evening, {name}",
+      "morningPlain": "Good morning",
+      "dayPlain": "Good afternoon",
+      "eveningPlain": "Good evening"
     },
     "lead": {
-      "daglig_leder": "{assessed, select, yes {The baseline has been surveyed and risk-assessed.} other {The baseline has been surveyed, but not yet risk-assessed.}} {running, plural, =0 {No measures are under way.} one {One measure is under way.} =2 {Two measures are under way.} =3 {Three measures are under way.} =4 {Four measures are under way.} =5 {Five measures are under way.} =6 {Six measures are under way.} =7 {Seven measures are under way.} =8 {Eight measures are under way.} =9 {Nine measures are under way.} =10 {Ten measures are under way.} =11 {Eleven measures are under way.} =12 {Twelve measures are under way.} other {# measures are under way.}} The next pulse measures whether they worked.",
-      "avdelingsleder": "You see your own team. Figures below the threshold are hidden from you too — that is not a fault, it is the agreement with the employees.",
-      "verneombud": "You see the same figures as management, and are alerted when a deadline passes. Individual comments are not available to a verneombud."
+      "none": "No survey has closed yet.",
+      "assessed": "The {kind, select, puls {pulse} other {baseline}} has been risk-assessed.",
+      "notAssessed": "The {kind, select, puls {pulse} other {baseline}} is waiting for its risk assessment.",
+      "measures": "{count, plural, one {One measure is open.} other {# measures are open.}}",
+      "measuresAnd": "{count, plural, one {One measure is open} other {# measures are open}}, and {round}.",
+      "roundOnly": "{round}.",
+      "roundIn": "{round} goes out in {days, plural, one {one day} other {# days}}",
+      "roundOpen": "{round} is out now",
+      "avdelingsleder": "You see your own team. Figures under the threshold are hidden from you too — that is not a fault, it is the agreement with the employees.",
+      "verneombud": "You see the same figures as management, and are notified when a deadline is missed. Individual comments are not available to safety representatives."
     },
-    "loopHead": "The loop — where the law wants you to be",
-    "loop": {
-      "kartlagt": "Surveyed",
-      "risikovurdert": "Risk-assessed",
-      "tiltak": "Measures under way",
-      "effekt": "Effect measured"
+    "reportCta": "Download report",
+    "resultCta": "See the full result",
+    "kpi": {
+      "index": "Work environment index",
+      "indexDelta": "{delta} since {year}",
+      "rate": "Response rate",
+      "pct": "{pct}%",
+      "rateSub": "{answered} of {headcount}",
+      "rateSubDelta": "{answered} of {headcount} · {delta} points",
+      "enps": "Would recommend us",
+      "enpsSub": "eNPS, from −100 to +100",
+      "measures": "Open measures",
+      "measuresLate": "{count} overdue",
+      "measuresOnTime": "None overdue",
+      "conversations": "Unanswered conversations",
+      "conversationsOldest": "Oldest waiting {days, plural, one {# day} other {# days}}",
+      "conversationsNone": "None waiting for an answer"
     },
-    "overdue": "{count, plural, one {# past deadline} other {# past deadline}}",
-    "yearLink": "The work environment year — set up automation",
-    "documentedHead": "Survey and risk assessment",
-    "documentedCta": "Documented — open the report →",
-    "now": "NOW",
-    "rateSub": "{pct} % responded",
-    "closedSub": "closed",
-    "assessedSub": "{done} of {required} done",
-    "questionSub": "{count, plural, one {# question} other {# questions}}",
-    "todoHead": "Waiting for you",
-    "todoScope": {
-      "daglig_leder": "The whole undertaking",
-      "avdelingsleder": "Your department",
-      "verneombud": "The verneombud's cases"
+    "feed": {
+      "title": "Since last time",
+      "lastSeen": "You were last here on {date}",
+      "empty": "Nothing new yet.",
+      "late": "The deadline for “{title}” passed",
+      "done": "Measure completed: {title}",
+      "doneNext": "The effect is measured in {round}",
+      "comment": "New anonymous comment on {factor}",
+      "thread": {
+        "venter": "waiting for an answer",
+        "dialog": "answered",
+        "lukket": "closed"
+      },
+      "risk": "The risk assessment was approved",
+      "riskHigh": "{count, plural, =0 {No high-risk factors} one {One high-risk factor} other {# high-risk factors}}",
+      "riskVo": "the safety representative took part",
+      "closed": "{round} closed",
+      "answered": "{answered} of {headcount} answered",
+      "comments": "{count, plural, one {# comment} other {# comments}}"
     },
-    "todoEmpty": "Nothing is waiting right now",
-    "todoMeasureMeta": "Owner {owner} · deadline passed · linked to {factor}",
-    "todoMeasureCta": "Update",
-    "todoRoundTitle": "Approve the pulse closing {date}",
-    "todoRoundMeta": "{count, plural, one {# question} other {# questions}} · {factors}",
-    "todoRoundCta": "See the selection",
-    "forankring": {
-      "law": "Consultation",
-      "plain": "Kick-off"
+    "todo": {
+      "title": "Waiting for you",
+      "empty": "Nothing is waiting for you now.",
+      "lapsed": "deadline passed {date}",
+      "lapsedYesterday": "deadline passed yesterday",
+      "update": "Update",
+      "comments": "{count, plural, one {One anonymous comment is waiting for an answer} other {# anonymous comments are waiting for an answer}}",
+      "commentsOldest": "The oldest has waited {days, plural, one {# day} other {# days}}",
+      "reply": "Reply",
+      "nextRound": "Review the questions for {round}",
+      "nextRoundMeta": "{count, plural, one {# question} other {# questions}} · goes out {date}",
+      "openRound": "{round} is out",
+      "openRoundMeta": "{count, plural, one {# question} other {# questions}} · closes {date}",
+      "seeRound": "See the questions"
     },
-    "forankringSub": {
-      "verneombud": "Safety representative",
-      "tillitsvalgte": "Union representatives",
-      "begge": "Safety and union representatives"
+    "strengths": {
+      "title": "What is going well"
     },
-    "effectSub": "did the measures work?"
+    "why": {
+      "ytring": "People dare to speak up, and something happens when they do",
+      "mengde": "The workload is manageable",
+      "motstrid": "The demands pull in the same direction",
+      "kontakt": "Information gets through",
+      "emosjon": "People face the demanding parts together",
+      "leder": "People get support from their manager",
+      "medvirk": "People have a say over their own working day",
+      "integritet": "People are treated with respect",
+      "rolle": "Most people know what is expected",
+      "kollega": "People stand up for one another",
+      "mening": "People find that their work matters"
+    },
+    "improve": {
+      "title": "Where you can improve",
+      "inGroup": "{factor} in {group}",
+      "org": "whole organisation {index}",
+      "fell": "down {n} points",
+      "rose": "up {n} points",
+      "same": "unchanged",
+      "comments": "{count, plural, one {# comment} other {# comments}}"
+    },
+    "wheel": {
+      "title": "The year",
+      "now": "NOW",
+      "forankring": "Grounding",
+      "tiltak": "Measures",
+      "risiko": "Risk assessment"
+    },
+    "law": {
+      "title": "Working Environment Act",
+      "assessed": "§ 3-1 c surveyed and assessed ✓",
+      "assessPending": "§ 3-1 c surveyed · assessment outstanding",
+      "verneombud": "§ 6-2 safety representative involved ✓",
+      "verneombudPending": "§ 6-2 safety representative not recorded",
+      "droftet": "§ 9-2 discussed ✓",
+      "droftetOn": "§ 9-2 discussed {date} ✓",
+      "droftetPending": "§ 9-2 not discussed",
+      "effect": "Effect measured · {date}"
+    },
+    "adv": {
+      "h1": "Where to spend your time",
+      "lead": "The factors are placed by score and by how closely they move with the whole. A low score and a large importance give the most back for the effort.",
+      "answered": "{answered} of {headcount} answered",
+      "closed": "closed {date}",
+      "compare": "Compare with {year}",
+      "band": {
+        "lav": "{count} acceptable",
+        "middels": "{count} to follow up",
+        "hoy": "{count} high risk"
+      },
+      "quad": {
+        "prioriter": "Prioritise",
+        "behold": "Keep",
+        "folg": "Watch",
+        "rute": "On track",
+        "y": "Importance for the whole →",
+        "low": "Low score",
+        "x": "Score →",
+        "high": "High score",
+        "empty": "Importance for the whole is computed once at least {minimum} have answered the recommendation question. Until then the factors are sorted by score in the table below.",
+        "emptyPlain": "Importance for the whole cannot be computed for this survey. The factors are sorted by score in the table below."
+      },
+      "head": {
+        "factor": "Factor",
+        "index": "Index",
+        "delta": "Change",
+        "importance": "Importance",
+        "risk": "Risk",
+        "next": "Next step"
+      },
+      "group": {
+        "hoy": "Prioritised · {count}",
+        "middels": "Follow up · {count}",
+        "lav": "Strengths · {count}"
+      },
+      "groupNote": {
+        "hoy": "Low score — effort pays off most here",
+        "middels": "Under 65 — keep an eye on the trend",
+        "lav": "What works — keep it"
+      },
+      "running": "{count, plural, one {# measure running} other {# measures running}}",
+      "planned": "{count, plural, one {# measure planned} other {# measures planned}}",
+      "suggest": "See suggestions",
+      "keep": "Keep",
+      "insufficient": "Fewer than {threshold} have answered. The result is not shown.",
+      "none": "No survey has closed yet. The results appear here when the first one is done."
+    }
   },
   "malinger": {
     "title": "Measurements",
@@ -3724,59 +3847,6 @@
       "descriptionShort": "The link to your work environment survey, right in Teams.",
       "descriptionFull": "Orgpuls sends you the link to your organisation's work environment survey as a Teams message instead of an e-mail. The message has a short text and a button that opens the survey in your browser. Your answer is stored with no connection to you, and the app takes no messages."
     }
-  },
-  "oversikt": {
-    "kicker": "{org} · the work environment",
-    "sentence": "People thrive on {high}. What pulls down is {low1} and {low2}.",
-    "noResult": "When the first survey has closed, the result appears here.",
-    "index": "Index",
-    "deltaDown": "{n} points lower than last year",
-    "deltaUp": "{n} points higher than last year",
-    "deltaSame": "Same as last year",
-    "rate": "{answered} of {headcount} answered",
-    "seeAll": "See all figures →",
-    "areasTitle": "How each area stands",
-    "areasNote": "Scale 0–100. Below 50 is worth acting on. Select an area for the figures behind it.",
-    "word": {
-      "low": "Needs effort",
-      "mid": "Keep an eye on",
-      "high": "Good"
-    },
-    "todoTitle": "Do this now",
-    "todoAll": "All measures →",
-    "todoEmpty": "No measures yet. See the suggestions under the results.",
-    "noOwner": "No owner",
-    "dueYesterday": "deadline passed yesterday",
-    "dueLapsed": "deadline passed {date}",
-    "due": "due {date}",
-    "dueUnset": "no deadline",
-    "markDone": "Mark “{title}” as carried out",
-    "saveProblem": "Could not save. Try again.",
-    "waitingTitle": "Waiting for your reply",
-    "waitingAll": "All {count} →",
-    "waitingSub": "You reply without knowing who wrote.",
-    "waitingAge": "Waiting · {days, plural, one {# day} other {# days}}",
-    "replyPlaceholder": "Reply anonymously …",
-    "replyAria": "Your reply to the comment",
-    "send": "Send",
-    "waitingEmpty": "Every comment has a reply.",
-    "replySent": "Sent. The reply is under Comments.",
-    "replyProblem": "The reply was not sent. Try again.",
-    "upcomingTitle": "Coming surveys",
-    "upcomingChange": "Change →",
-    "upcomingEmpty": "No surveys are planned.",
-    "kind": {
-      "puls": "Short follow-up",
-      "grunnlinje": "Main survey"
-    },
-    "pulsNote": "{count, plural, one {# question} other {# questions}} about {factors}.",
-    "grunnlinjeNote": "Every question, every employee. Sets the year’s baseline.",
-    "auto": "Goes out by itself.",
-    "voLead": "The safety representative is told {days, plural, one {# day} other {# days}} before the employees.",
-    "reportKicker": "For the staff meeting or the board",
-    "reportTitle": "Make a report →",
-    "reportBody": "Findings, assessment and measures. You read it through and approve it.",
-    "lawOk": "The {year} survey is done and risk-assessed. The documentation is ready if the Labour Inspection asks."
   },
   "resultater": {
     "kicker": "Main survey · closed {date}",
@@ -10408,7 +10478,11 @@
       },
       {
         "h": "6. Sub-processors",
-        "p": ["The organisation authorises the sub-processors in Annex 3. Orgpuls shall notify the organisation by e-mail at least 30 days before a sub-processor is added or replaced, and the organisation may object. If the parties cannot agree, the organisation may terminate the agreement before the change takes effect.", "The duty to notify does not apply to a sub-processor that is used only when the organisation itself switches on an integration, such as Microsoft for Teams. It is listed in Annex 3 before the integration can be switched on, and the organisation authorises it by switching the integration on. When the integration is switched off, it is no longer used for the organisation.", "Orgpuls shall impose the same obligations on sub-processors as follow from this agreement, and is liable to the organisation for their performance."]
+        "p": [
+          "The organisation authorises the sub-processors in Annex 3. Orgpuls shall notify the organisation by e-mail at least 30 days before a sub-processor is added or replaced, and the organisation may object. If the parties cannot agree, the organisation may terminate the agreement before the change takes effect.",
+          "The duty to notify does not apply to a sub-processor that is used only when the organisation itself switches on an integration, such as Microsoft for Teams. It is listed in Annex 3 before the integration can be switched on, and the organisation authorises it by switching the integration on. When the integration is switched off, it is no longer used for the organisation.",
+          "Orgpuls shall impose the same obligations on sub-processors as follow from this agreement, and is liable to the organisation for their performance."
+        ]
       },
       {
         "h": "7. Transfers outside the EEA",
@@ -10460,7 +10534,17 @@
           "The data subjects are the employees the organisation invites to the mapping, and the organisation's users of Orgpuls: the managing director, department managers and safety representatives.",
           "About employees, the following is stored:"
         ],
-        "ul": ["name and e-mail address", "mobile number, only if the organisation enters it or chooses to read it from Microsoft Entra ID, for sending by SMS", "preferred language, if the organisation enters it or it is read from Microsoft Entra ID, so that the survey can be offered in that language", "for organisations that send the survey in Teams: which conversation the Orgpuls app has with the employee in Teams, and whether Teams has turned away a message to the employee", "for organisations that send the survey in Slack: the employee's member ID in the organisation's Slack workspace, found from the work e-mail address, and the Slack access the Orgpuls app was given when the organisation connected – only to send the link as a direct message", "which department the employee belongs to, and any role as safety representative, union representative or manager", "if the organisation brings in its employees from Microsoft Entra ID: the person's object ID in the directory, which of the chosen groups the person is in, and whether the account is active – only to keep the register up to date. Nothing is written back to the directory", "for each survey: whether an invitation and a reminder were sent and whether the employee has answered, so that reminders go only to those who have not – never what the employee answered", "the name of the person responsible for a measure, if the organisation chooses an employee as responsible"]
+        "ul": [
+          "name and e-mail address",
+          "mobile number, only if the organisation enters it or chooses to read it from Microsoft Entra ID, for sending by SMS",
+          "preferred language, if the organisation enters it or it is read from Microsoft Entra ID, so that the survey can be offered in that language",
+          "for organisations that send the survey in Teams: which conversation the Orgpuls app has with the employee in Teams, and whether Teams has turned away a message to the employee",
+          "for organisations that send the survey in Slack: the employee's member ID in the organisation's Slack workspace, found from the work e-mail address, and the Slack access the Orgpuls app was given when the organisation connected – only to send the link as a direct message",
+          "which department the employee belongs to, and any role as safety representative, union representative or manager",
+          "if the organisation brings in its employees from Microsoft Entra ID: the person's object ID in the directory, which of the chosen groups the person is in, and whether the account is active – only to keep the register up to date. Nothing is written back to the directory",
+          "for each survey: whether an invitation and a reminder were sent and whether the employee has answered, so that reminders go only to those who have not – never what the employee answered",
+          "the name of the person responsible for a measure, if the organisation chooses an employee as responsible"
+        ]
       },
       {
         "h": "Annex 1 – Answers, users and technical data",
@@ -13946,7 +14030,11 @@
       },
       "fits": "Fits you",
       "fitsSr": "(fits you)",
-      "interval": {"legend": "Billing", "month": "Monthly", "year": "Yearly – 2 months free"},
+      "interval": {
+        "legend": "Billing",
+        "month": "Monthly",
+        "year": "Yearly – 2 months free"
+      },
       "price": {
         "kr": "NOK {n}",
         "perMonth": "per month",
@@ -14265,7 +14353,7 @@
       "items": {
         "innsikt": {
           "title": "See where you stand",
-          "hint": "Insight: the index, the loop and what to do next"
+          "hint": "Insight: the index, what has happened since last time and what to do next"
         },
         "resultater": {
           "title": "Find what pulls you down",

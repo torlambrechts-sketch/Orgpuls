@@ -131,122 +131,203 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     </sc-if>
   </div>
 
-  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-  <div style="max-width:1180px;margin:0 auto;padding:30px 28px 60px;animation:ht-in .25s ease">
-
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
-      <div style="min-width:0">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">{{ orgLine }}</div>
-        <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:34px;line-height:1.1;margin:6px 0 0">{{ homeHead }}</h1>
-        <p style="font-size:14.5px;line-height:1.6;color:#5F5849;margin:9px 0 0;max-width:520px;text-wrap:pretty">{{ homeLead }}</p>
-      </div>
-      <button onClick="{{ goResult }}" style="cursor:pointer;flex:none;height:44px;padding:0 20px;border-radius:12px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:14.5px;font-weight:700">Se hele resultatet</button>
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div style="max-width:1180px;margin:0 auto;animation:ht-in .25s ease">
+    <div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:20px 28px 0">
+      <span style="font-size:12px;color:#5F5849">Visning</span>
+      <span role="group" aria-label="Visning" style="display:flex;gap:3px;padding:4px;border-radius:12px;background:#EFE8D8">
+        <sc-for list="{{ ix.modes }}" as="m" hint-placeholder-count="2">
+          <button onClick="{{ m.pick }}" aria-pressed="{{ m.on }}" style="cursor:pointer;border:none;padding:7px 14px;border-radius:9px;background:{{ m.bg }};box-shadow:{{ m.sh }};font-size:13px;font-weight:{{ m.w }};color:#191510">{{ m.label }}</button>
+        </sc-for>
+      </span>
     </div>
+    <sc-if value="{{ ix.simple }}" hint-placeholder-val="{{ true }}">
+<div style="padding:18px 28px 60px;display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px 20px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Nordvik Anlegg AS · 34 ansatte · lørdag 4. oktober</div>
+              <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:34px;line-height:1.1;margin:6px 0 0">God morgen, Tuva</h1>
+              <p style="font-size:14.5px;line-height:1.6;color:#5F5849;margin:8px 0 0;max-width:560px">Grunnlinjen er risikovurdert. Fire tiltak er åpne, og Puls 1 går ut om åtte dager.</p>
+            </div>
+            <span style="display:flex;gap:9px">
+              <button onClick="{{ ix.goReport }}" style="cursor:pointer;height:42px;padding:0 18px;border-radius:11px;border:1px solid #E8DFC9;background:transparent;font-size:14px;font-weight:600;color:#191510">Last ned rapport</button>
+              <button onClick="{{ goResult }}" style="cursor:pointer;height:42px;padding:0 18px;border-radius:11px;border:1px solid #191510;background:#F5C64A;font-size:14px;font-weight:700;color:#191510">Se hele resultatet</button>
+            </span>
+          </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:24px;align-items:start">
-
-      <div style="padding:26px;border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Arbeidsmiljøindeks</div>
-        <div style="display:flex;align-items:flex-end;gap:16px;margin-top:10px;flex-wrap:wrap">
-          <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:62px;line-height:.85">{{ idx }}</span>
-          <span style="padding-bottom:9px">
-            <span style="display:block;font-size:14px;font-weight:700;color:#A33A16">{{ idxDelta }}</span>
-            <sc-if value="{{ showBench }}" hint-placeholder-val="{{ true }}">
-              <span style="display:block;font-size:12.5px;color:#5F5849;margin-top:2px">{{ benchLine }}</span>
-            </sc-if>
-          </span>
-        </div>
-        <div style="display:flex;gap:3px;margin-top:20px;height:30px;border-radius:9px;overflow:hidden">
-          <sc-for list="{{ split }}" as="s" hint-placeholder-count="3">
-            <span style="flex:{{ s.flex }};background:{{ s.bg }};display:block"></span>
-          </sc-for>
-        </div>
-        <div style="display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:11.5px;color:#5F5849;flex-wrap:wrap">
-          <sc-for list="{{ split }}" as="s" hint-placeholder-count="3">
-            <span>{{ s.label }}</span>
-          </sc-for>
-        </div>
-
-        <div style="margin-top:24px;padding-top:20px;border-top:1px solid #E8DFC9">
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">{{ loopHead }}</div>
-          <div style="display:flex;align-items:flex-start;margin-top:14px">
-            <sc-for list="{{ loop }}" as="l" hint-placeholder-count="4">
-              <span style="flex:1;min-width:0;text-align:center">
-                <span style="width:32px;height:32px;border-radius:999px;background:{{ l.bg }};border:2px solid {{ l.bd }};color:{{ l.fg }};margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">{{ l.mark }}</span>
-                <span style="display:block;font-size:11.5px;font-weight:600;margin-top:8px;line-height:1.3">{{ l.label }}</span>
-                <span style="display:block;font-size:10.5px;color:{{ l.whenCol }};margin-top:2px">{{ l.when }}</span>
-              </span>
+          <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px">
+            <sc-for list="{{ ix.kpis }}" as="k" hint-placeholder-count="5">
+              <div style="padding:18px 20px;border-radius:16px;border:1px solid #E8DFC9;background:#FFFDF6">
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849">{{ k.l }}</div>
+                <div style="font-size:clamp(26px,2.6vw,36px);font-weight:700;letter-spacing:-.03em;line-height:1;margin-top:10px">{{ k.v }}</div>
+                <div style="font-size:12.5px;font-weight:600;color:{{ k.c }};margin-top:8px">{{ k.s }}</div>
+              </div>
             </sc-for>
           </div>
-        </div>
-      </div>
 
-      <div style="padding:26px;border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
-          <button onClick="{{ goWheel }}" style="cursor:pointer;border:none;background:transparent;padding:0;font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849;font-family:inherit;text-decoration:underline">Arbeidsmiljøåret — sett opp automatikk</button>
-          <button onClick="{{ goReport }}" style="cursor:pointer;text-align:left;padding:8px 13px;border-radius:12px;border:1px solid #2F5D2A;background:#CFE7E4;color:#20431C;font-family:inherit">
-            <span style="display:block;font-size:10.5px;font-weight:600">Kartlegging og risikovurdering</span>
-            <span style="display:block;font-size:13px;font-weight:700;margin-top:1px">Dokumentert — åpne rapporten →</span>
-          </button>
-        </div>
-
-        <div style="padding:18px 0 2px">
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;font-size:10.5px;font-weight:700">
-            <sc-for list="{{ year }}" as="y" hint-placeholder-count="5">
-              <span style="color:{{ y.mcol }}">{{ y.month }}</span>
-            </sc-for>
-          </div>
-          <div style="position:relative;height:26px;margin-top:8px">
-            <span style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:3px;background:#E8DFC9;border-radius:999px;display:block"></span>
-            <span style="position:absolute;left:0;width:50%;top:50%;transform:translateY(-50%);height:3px;background:#2F5D2A;border-radius:999px;display:block"></span>
-            <div style="position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;place-items:center;height:100%">
-              <sc-for list="{{ year }}" as="y" hint-placeholder-count="5">
-                <span style="width:{{ y.size }};height:{{ y.size }};border-radius:999px;background:{{ y.dot }};border:2px solid {{ y.bd }};display:block"></span>
-              </sc-for>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:18px;align-items:start">
+            <div style="padding:22px 24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+                <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:21px;margin:0">Siden sist</h2>
+                <span style="font-size:12.5px;color:#5F5849">Du var sist inne 26. september</span>
+              </div>
+              <div style="display:flex;flex-direction:column;margin-top:12px">
+                <sc-for list="{{ ix.feed }}" as="e" hint-placeholder-count="6">
+                  <div style="display:grid;grid-template-columns:58px 14px minmax(0,1fr);gap:12px;align-items:baseline;padding:12px 0;border-top:1px solid #EFE8D8">
+                    <span style="font-size:12px;font-weight:700;color:#5F5849">{{ e.d }}</span>
+                    <span style="width:9px;height:9px;border-radius:999px;background:{{ e.dot }};display:block"></span>
+                    <span><span style="display:block;font-size:14px;font-weight:600">{{ e.t }}</span><span style="display:block;font-size:12.5px;color:#5F5849;margin-top:2px">{{ e.m }}</span></span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="padding:22px 24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+              <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:21px;margin:0">Venter på deg</h2>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+                <sc-for list="{{ ix.todos }}" as="t" hint-placeholder-count="3">
+                  <div style="display:flex;gap:12px;padding:14px;border-radius:13px;border:1px solid #E8DFC9;background:#FCF6E9">
+                    <span style="flex:none;width:5px;border-radius:999px;background:{{ t.tone }};display:block"></span>
+                    <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ t.t }}</span><span style="display:block;font-size:12.5px;color:#5F5849;margin-top:2px">{{ t.m }}</span></span>
+                    <button onClick="{{ t.go }}" style="cursor:pointer;flex:none;align-self:center;height:32px;padding:0 13px;border-radius:9px;border:1px solid #191510;background:{{ t.bg }};font-size:12px;font-weight:700;color:#191510">{{ t.cta }}</button>
+                  </div>
+                </sc-for>
+              </div>
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:9px;text-align:center;font-size:11.5px;line-height:1.3">
-            <sc-for list="{{ year }}" as="y" hint-placeholder-count="5">
-              <span>
-                <span style="display:block;font-weight:{{ y.weight }}">{{ y.label }}</span>
-                <span style="display:block;color:#5F5849">{{ y.sub }}</span>
-              </span>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:18px">
+            <div style="padding:22px 24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+              <div style="display:flex;align-items:center;gap:9px"><span style="width:10px;height:10px;border-radius:999px;background:#5C9A55;display:block"></span><h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:21px;margin:0">Dette går bra</h2></div>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+                <sc-for list="{{ ix.strengths }}" as="s" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;background:#EEF6F4">
+                    <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ s.label }}</span><span style="display:block;font-size:12.5px;color:#3A342A;margin-top:2px">{{ s.why }}</span></span>
+                    <span style="font-size:22px;font-weight:700">{{ s.idx }}</span>
+                    <span style="width:44px;text-align:right;font-size:12.5px;font-weight:700;color:{{ s.dCol }}">{{ s.d }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="padding:22px 24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+              <div style="display:flex;align-items:center;gap:9px"><span style="width:10px;height:10px;border-radius:999px;background:#F5C64A;display:block"></span><h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:21px;margin:0">Her kan dere bli bedre</h2></div>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+                <sc-for list="{{ ix.improve }}" as="s" hint-placeholder-count="3">
+                  <button onClick="{{ s.go }}" style="cursor:pointer;width:100%;text-align:left;font-family:inherit;color:#191510;display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;border:none;background:#FDF5DD">
+                    <span style="flex:none;width:26px;height:26px;border-radius:999px;background:#191510;color:#FCF6E9;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ s.n }}</span>
+                    <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ s.t }}</span><span style="display:block;font-size:12.5px;color:#3A342A;margin-top:2px">{{ s.m }}</span></span>
+                    <span style="text-align:right"><span style="display:block;font-size:10.5px;color:#5F5849">Løfter helheten</span><span style="display:block;font-size:16px;font-weight:700;color:#2F5D2A">{{ s.lift }}</span></span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:20px 24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:20px 28px;align-items:center">
+            <div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Årshjulet</div>
+              <div style="display:flex;margin-top:14px">
+                <sc-for list="{{ ix.wheel }}" as="w" hint-placeholder-count="5">
+                  <span style="flex:1;min-width:0;text-align:center">
+                    <span style="width:{{ w.size }};height:{{ w.size }};border-radius:999px;background:{{ w.dot }};border:2px solid {{ w.bd }};display:block;margin:0 auto"></span>
+                    <span style="display:block;font-size:11px;font-weight:700;margin-top:7px;color:{{ w.mc }}">{{ w.month }}</span>
+                    <span style="display:block;font-size:12px;font-weight:600;margin-top:1px">{{ w.label }}</span>
+                  </span>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Arbeidsmiljøloven</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:12px">
+                <sc-for list="{{ ix.laws }}" as="l" hint-placeholder-count="4">
+                  <span style="padding:6px 11px;border-radius:999px;background:{{ l.bg }};color:{{ l.fg }};font-size:12px;font-weight:700">{{ l.t }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+    </sc-if>
+    <sc-if value="{{ ix.advanced }}" hint-placeholder-val="{{ false }}">
+<div style="padding:18px 28px 60px;display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px 20px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Grunnlinje 2026 · 28 av 34 svarte · lukket 14. september</div>
+              <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:34px;line-height:1.1;margin:6px 0 0">Hvor dere bør bruke tiden</h1>
+              <p style="font-size:14.5px;line-height:1.6;color:#5F5849;margin:8px 0 0;max-width:620px">Faktorene er plassert etter skår og hvor mye de henger sammen med helheten. Lav skår og stor betydning gir mest igjen for innsatsen.</p>
+            </div>
+            <span style="display:flex;gap:3px;padding:4px;border-radius:12px;background:#EFE8D8">
+              <span style="padding:8px 14px;border-radius:9px;background:#FFFDF6;font-size:13px;font-weight:700;box-shadow:0 1px 2px rgba(25,21,16,.12)">Grunnlinje 2026</span>
+              <span style="padding:8px 14px;border-radius:9px;font-size:13px;font-weight:600;color:#5F5849">Sammenlign med 2025</span>
+            </span>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:stretch">
+            <div style="flex:1 1 300px;max-width:100%;padding:24px;border-radius:18px;background:#191510;color:#FCF6E9;display:flex;flex-direction:column">
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;opacity:.7">Arbeidsmiljøindeks</div>
+              <div style="display:flex;align-items:flex-end;gap:12px;margin-top:10px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:66px;line-height:.85">61</span><span style="font-size:14px;font-weight:700;color:#F0B9A0;padding-bottom:6px">−3 siden 2025</span></div>
+              <div style="display:flex;gap:3px;margin-top:22px;height:26px;border-radius:8px;overflow:hidden"><sc-for list="{{ ix.split }}" as="s" hint-placeholder-count="3"><span style="flex:{{ s.flex }};background:{{ s.bg }};display:block"></span></sc-for></div>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+                <sc-for list="{{ ix.split }}" as="s" hint-placeholder-count="3"><span style="display:flex;align-items:center;gap:8px;font-size:12.5px"><span style="width:10px;height:10px;border-radius:3px;background:{{ s.bg }};display:block"></span>{{ s.label }}</span></sc-for>
+              </div>
+              <div style="margin-top:auto;padding-top:18px;border-top:1px solid rgba(252,246,233,.18);display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <span><span style="display:block;font-size:11px;opacity:.7">Svarprosent</span><span style="display:block;font-size:22px;font-weight:700;margin-top:2px">82 %</span></span>
+                <span><span style="display:block;font-size:11px;opacity:.7">Anbefaler oss</span><span style="display:block;font-size:22px;font-weight:700;margin-top:2px">+22</span></span>
+              </div>
+            </div>
+
+            <div style="flex:999 1 620px;min-width:0;padding:22px 24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+              <div style="display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px">
+                <span style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;font-weight:700;color:#5F5849;text-align:center;letter-spacing:.06em;text-transform:uppercase">Betydning for helheten →</span>
+                <div>
+                  <div style="position:relative;height:380px;border-radius:12px;overflow:hidden">
+                    <div style="position:absolute;inset:0;display:grid;grid-template-columns:54.5% 45.5%;grid-template-rows:50% 50%">
+                      <span style="background:#FBE3D7;padding:10px 12px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6B240C">Prioriter</span>
+                      <span style="background:#E9F3F1;padding:10px 12px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#20431C;text-align:right">Behold</span>
+                      <span style="background:#FBF1D6;padding:10px 12px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5C4600;border-top:1px dashed rgba(25,21,16,.15)">Følg med</span>
+                      <span style="background:#F3F0E6;padding:10px 12px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5F5849;text-align:right;border-top:1px dashed rgba(25,21,16,.15)">I rute</span>
+                    </div>
+                    <sc-for list="{{ ix.quad }}" as="q" hint-placeholder-count="11">
+                      <span style="position:absolute;left:{{ q.x }};top:{{ q.y }};transform:translate({{ q.tx }},-50%);display:flex;flex-direction:{{ q.dir }};align-items:center;gap:7px;white-space:nowrap">
+                        <span style="width:14px;height:14px;border-radius:999px;background:{{ q.dot }};border:2px solid #FFFDF6;box-shadow:0 1px 3px rgba(25,21,16,.35);display:block;flex:none"></span>
+                        <span style="font-size:12px;font-weight:700">{{ q.label }} <span style="font-weight:600;color:#5F5849">{{ q.idx }}</span></span>
+                      </span>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;font-weight:700;color:#5F5849;letter-spacing:.06em;text-transform:uppercase"><span>Lav skår</span><span>Skår →</span><span>Høy skår</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto"><div style="min-width:780px">
+            <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr) 46px 54px 90px 78px 118px;gap:12px;padding:13px 24px;font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849;background:#FCF6E9">
+              <span>Faktor</span><span>2025 → 2026</span><span style="text-align:right">Indeks</span><span style="text-align:right">Endring</span><span>Betydning</span><span>Risiko</span><span>Neste steg</span>
+            </div>
+            <sc-for list="{{ ix.groups }}" as="g" hint-placeholder-count="3">
+              <div style="display:flex;align-items:baseline;gap:12px;padding:14px 24px 8px;border-top:1px solid #E8DFC9">
+                <span style="width:10px;height:10px;border-radius:999px;background:{{ g.dot }};display:block"></span>
+                <span style="font-size:14px;font-weight:700">{{ g.title }} · {{ g.n }}</span>
+                <span style="font-size:12.5px;color:#5F5849">{{ g.note }}</span>
+              </div>
+              <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="4">
+                <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr) 46px 54px 90px 78px 118px;gap:12px;align-items:center;padding:11px 24px">
+                  <span><span style="display:block;font-size:14px;font-weight:600">{{ r.label }}</span><span style="display:block;font-size:11.5px;color:#5F5849;margin-top:1px">{{ r.law }}</span></span>
+                  <span style="position:relative;height:18px;display:block">
+                    <span style="position:absolute;left:0;right:0;top:8px;height:2px;background:#EFE8D8;display:block"></span>
+                    <span style="position:absolute;left:{{ r.l }};width:{{ r.w }};top:7px;height:4px;border-radius:999px;background:{{ r.bar }};display:block"></span>
+                    <span style="position:absolute;left:{{ r.px }};top:3px;width:12px;height:12px;margin-left:-6px;border-radius:999px;background:#FFFDF6;border:2px solid #C4BCA8;display:block"></span>
+                    <span style="position:absolute;left:{{ r.cx }};top:3px;width:12px;height:12px;margin-left:-6px;border-radius:999px;background:#191510;display:block"></span>
+                  </span>
+                  <span style="text-align:right;font-size:17px;font-weight:700">{{ r.idx }}</span>
+                  <span style="text-align:right;font-size:13px;font-weight:700;color:{{ r.dCol }}">{{ r.d }}</span>
+                  <span style="height:7px;border-radius:999px;background:#EFE8D8;overflow:hidden;display:block"><span style="display:block;height:100%;width:{{ r.imp }};background:#191510;border-radius:999px"></span></span>
+                  <span><span style="display:inline-block;padding:4px 10px;border-radius:999px;background:{{ r.rBg }};color:{{ r.rFg }};font-size:11.5px;font-weight:700">{{ r.risk }}</span></span>
+                  <button onClick="{{ r.go }}" style="cursor:pointer;justify-self:start;border:none;background:transparent;padding:0;font-family:inherit;text-align:left;font-size:12.5px;font-weight:600;color:{{ r.nCol }}">{{ r.next }} →</button>
+                </div>
+              </sc-for>
             </sc-for>
-          </div>
+          </div></div>
         </div>
-
-        <sc-if value="{{ tuvaOn }}" hint-placeholder-val="{{ true }}">
-        <div style="margin-top:22px;padding:16px 18px;border-radius:16px;background:#FBEBBE">
-          <div style="display:flex;align-items:flex-start;gap:12px">
-            <span role="img" aria-label="{{ tuvaName }}" style="flex:none;width:34px;height:34px;border-radius:11px;background:#FFFDF6 url({{ tuvaSrc }}) center/cover no-repeat;display:block"></span>
-            <span style="min-width:0">
-              <span style="display:block;font-size:13.5px;line-height:1.6;text-wrap:pretty">{{ tuvaLine }}</span>
-              <button onClick="{{ goResult }}" style="cursor:pointer;margin-top:11px;height:34px;padding:0 15px;border-radius:9px;border:1px solid #191510;background:#FFFDF6;font-size:12.5px;font-weight:700">{{ tuvaCta }}</button>
-            </span>
-          </div>
-        </div>
-        </sc-if>
-      </div>
-    </div>
-
-    <div style="margin-top:26px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
-        <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;margin:0">Venter på deg</h2>
-        <span style="font-size:12.5px;color:#5F5849">{{ todoScope }}</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
-        <sc-for list="{{ todo }}" as="t" hint-placeholder-count="3">
-          <div style="display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:15px;border:1px solid #E8DFC9;background:#FFFDF6">
-            <span style="flex:none;width:7px;align-self:stretch;min-height:38px;border-radius:999px;background:{{ t.tone }};display:block"></span>
-            <span style="flex:1;min-width:0">
-              <span style="display:block;font-size:14.5px;font-weight:600;text-wrap:pretty">{{ t.title }}</span>
-              <span style="display:block;font-size:12.5px;color:#5F5849;margin-top:2px;text-wrap:pretty">{{ t.meta }}</span>
-            </span>
-            <button onClick="{{ t.go }}" style="cursor:pointer;flex:none;height:36px;padding:0 16px;border-radius:10px;border:1px solid #191510;background:{{ t.ctaBg }};color:#191510;font-size:12.5px;font-weight:700;white-space:nowrap">{{ t.cta }}</button>
-          </div>
-        </sc-for>
-      </div>
-    </div>
+    </sc-if>
   </div>
   </sc-if>
 
@@ -2844,6 +2925,188 @@ const ROSTER = [
 
 const CADENCES = [["2uke","Hver 2. uke",26],["4uke","Hver 4. uke",13],["mnd","Månedlig",12],["kvartal","Kvartalsvis",4],["ar","Årlig",1]];
 
+const IX = (function(){
+const F = [
+  ["ytring","Ytringsklima","Ytringsklima","aml. § 4-3",41,48,.62],
+  ["mengde","Arbeidsmengde og tidspress","Arbeidsmengde","forskrift kap. 1A · § 4-1",44,53,.55],
+  ["motstrid","Motstridende krav","Motstridende krav","forskrift kap. 1A",52,58,.42],
+  ["kontakt","Kontakt og kommunikasjon","Kontakt","aml. § 4-3",57,57,.38],
+  ["emosjon","Emosjonelle krav","Emosjonelle krav","forskrift kap. 1A",58,59,.26],
+  ["leder","Støtte fra leder","Lederstøtte","forskrift kap. 1A",64,69,.48],
+  ["medvirk","Medvirkning og kontroll","Medvirkning","aml. § 4-2",66,63,.44],
+  ["integritet","Integritet og verdighet","Integritet","aml. § 4-3",69,70,.35],
+  ["rolle","Rolleklarhet","Rolleklarhet","forskrift kap. 1A",71,73,.24],
+  ["kollega","Støtte fra kollegaer","Kollegastøtte","aml. § 4-3",76,75,.30],
+  ["mening","Anerkjennelse og mening","Mening","aml. § 4-2",78,74,.52]
+].map(([key,label,short,law,idx,prev,imp]) => ({ key,label,short,law,idx,prev,imp }));
+
+const KNOWN = {
+  Drift:{ ytring:49, mengde:51, leder:70, rolle:74, mening:81, kontakt:48 },
+  Prosjekt:{ ytring:46, mengde:31, leder:58, rolle:59, mening:75 },
+  Verksted:{ ytring:28, mengde:47, leder:55, rolle:72, mening:77 }
+};
+const OFF = { Drift:3, Prosjekt:-4, Verksted:-2 };
+const NEXT = { ytring:"2 tiltak løper", mengde:"1 tiltak løper", leder:"1 tiltak planlagt" };
+
+function risk(n){
+  if (n < 50) return { label:"Høy", bg:"#F0B9A0", fg:"#6B240C", bar:"#D4633A" };
+  if (n < 66) return { label:"Middels", bg:"#F5DC96", fg:"#5C4600", bar:"#E0A21F" };
+  return { label:"Lav", bg:"#CFE7E4", fg:"#20431C", bar:"#5C9A55" };
+}
+function tone(n){
+  if (n < 40) return { bg:"#E38258", fg:"#4A1706" };
+  if (n < 50) return { bg:"#EC9B77", fg:"#5E1F09" };
+  if (n < 62) return { bg:"#F5DC96", fg:"#5C4600" };
+  if (n < 72) return { bg:"#CFE7E4", fg:"#20431C" };
+  return { bg:"#B5DAD4", fg:"#20431C" };
+}
+const sgn = d => (d > 0 ? "+" : d < 0 ? "−" : "±") + Math.abs(d);
+const dcol = d => d <= -3 ? "#A33A16" : d >= 3 ? "#2F5D2A" : "#5F5849";
+const dv = (dept, f) => KNOWN[dept][f.key] != null ? KNOWN[dept][f.key] : Math.max(20, Math.min(95, f.idx + OFF[dept]));
+
+function ixData(){
+    const asc = F.slice().sort((a, b) => a.idx - b.idx);
+    const hi = asc.filter(f => f.idx < 50), mid = asc.filter(f => f.idx >= 50 && f.idx < 66), lo = asc.filter(f => f.idx >= 66);
+    const pos = v => ((v - 20) / 70 * 100).toFixed(1) + "%";
+
+    const todos = [
+      { tone:"#D4633A", t:"Fast avvikssvar innen fem dager", m:"Verksted · fristen gikk ut i går", cta:"Oppdater", bg:"#F5C64A" },
+      { tone:"#F5C64A", t:"To anonyme kommentarer venter på svar", m:"Den eldste har ventet i seks dager", cta:"Svar", bg:"transparent" },
+      { tone:"#C4BCA8", t:"Godkjenn utvalget til Puls 1", m:"Fem spørsmål · sendes 12. oktober", cta:"Se utvalget", bg:"transparent" }
+    ];
+    const kpis = [
+      { l:"Arbeidsmiljøindeks", v:"61", s:"−3 siden 2025", c:"#A33A16" },
+      { l:"Svarprosent", v:"82 %", s:"28 av 34 · +5 poeng", c:"#2F5D2A" },
+      { l:"Anbefaler oss", v:"+22", s:"eNPS, fra −100 til +100", c:"#5F5849" },
+      { l:"Åpne tiltak", v:"4", s:"1 over frist", c:"#A33A16" },
+      { l:"Ubesvarte samtaler", v:"2", s:"Eldste venter 6 dager", c:"#A33A16" }
+    ];
+
+    const heat = asc.map(f => ({ label:f.label,
+      cells: [Object.assign({ txt:String(f.idx), ol:"2px solid #191510" }, tone(f.idx))]
+        .concat(["Drift","Prosjekt","Verksted"].map(d => { const v = dv(d, f); return Object.assign({ txt:String(v), ol:"none" }, tone(v)); }))
+        .concat([{ txt:"—", bg:"rgba(25,21,16,.05)", fg:"#8A8272", ol:"none" }]) }));
+
+    const diffs = F.map(f => { const vals = ["Drift","Prosjekt","Verksted"].map(d => [d, dv(d, f)]);
+      vals.sort((a, b) => a[1] - b[1]);
+      return { label:f.label, g: vals[2][1] - vals[0][1],
+        span: vals[0][0] + " " + vals[0][1] + " · " + vals[2][0] + " " + vals[2][1] }; })
+      .sort((a, b) => b.g - a.g).slice(0, 4).map(d => ({ label:d.label, span:d.span, gap:d.g + " poeng" }));
+
+    const step = (cur, late) => ["Foreslått","Besluttet","Pågår","Gjennomført","Effekt målt","Lukket"]
+      .map((x, i) => ({ bg: i <= cur ? (i >= 3 ? "#2F5D2A" : late ? "#D4633A" : "#F5C64A") : "#E8DFC9" }));
+    const stageName = ["Foreslått","Besluttet","Pågår","Gjennomført · venter på effekt","Effekt målt","Lukket"];
+
+    return {
+      nav: ["Innsikt","Målinger","Samtaler","Tiltak","Oppsett"].map((label, i) => ({ label, bg: i === 0 ? "#FBEBBE" : "transparent", w: i === 0 ? "700" : "500" })),
+      kpis, todos,
+
+      feed: [
+        { d:"3. okt", dot:"#D4633A", t:"Fristen for «Fast avvikssvar innen fem dager» gikk ut", m:"Anne Rygg · Verksted" },
+        { d:"2. okt", dot:"#F5C64A", t:"Ny anonym kommentar om arbeidsmengde", m:"Prosjekt · venter på svar" },
+        { d:"19. sep", dot:"#5C9A55", t:"Risikovurderingen er godkjent", m:"To faktorer med høy risiko · verneombudet var med" },
+        { d:"15. sep", dot:"#D4633A", t:"Verneombudet er varslet om krenkende atferd", m:"3 av 28 svarte ja · følges opp etter rutinen" },
+        { d:"14. sep", dot:"#5C9A55", t:"Grunnlinje 2026 er lukket", m:"28 av 34 svarte · 14 skrev en kommentar" },
+        { d:"5. sep", dot:"#5C9A55", t:"Tiltak gjennomført: varslingsrutinen er gjennomgått", m:"Effekten måles i Puls 1, 12. oktober" }
+      ],
+      strengths: lo.slice().reverse().slice(0, 3).map(f => ({ label:f.label, idx:String(f.idx), d:sgn(f.idx - f.prev), dCol:dcol(f.idx - f.prev),
+        why: { mening:"Folk opplever at arbeidet betyr noe", kollega:"Folk stiller opp for hverandre", rolle:"De fleste vet hva som forventes", integritet:"Folk møtes med respekt", medvirk:"Folk har innflytelse over egen arbeidsdag" }[f.key] })),
+      improve: [
+        { n:"1", t:"Ytringsklima på Verksted", m:"28 · falt 11 poeng · 9 kommentarer om avvik", lift:"+6" },
+        { n:"2", t:"Arbeidsmengde på Prosjekt", m:"31 · henger sammen med motstridende krav", lift:"+4" },
+        { n:"3", t:"Støtte fra leder", m:"64 · størst fall blant nyansatte", lift:"+3" }
+      ],
+      wheel: [
+        { month:"FEB", label:"Forankring", dot:"#2F5D2A", bd:"#2F5D2A", size:"14px", mc:"#5F5849" },
+        { month:"SEP", label:"Grunnlinje", dot:"#2F5D2A", bd:"#2F5D2A", size:"14px", mc:"#5F5849" },
+        { month:"NÅ", label:"Tiltak", dot:"#F5C64A", bd:"#191510", size:"20px", mc:"#191510" },
+        { month:"12. OKT", label:"Puls 1", dot:"#FFFDF6", bd:"#C4BCA8", size:"14px", mc:"#5F5849" },
+        { month:"JAN", label:"Puls 2", dot:"#FFFDF6", bd:"#C4BCA8", size:"14px", mc:"#5F5849" }
+      ],
+      laws: [
+        { t:"§ 3-1 c kartlagt og vurdert ✓", bg:"#CFE7E4", fg:"#20431C" },
+        { t:"§ 6-2 verneombud med ✓", bg:"#CFE7E4", fg:"#20431C" },
+        { t:"§ 9-2 drøftet 3. feb ✓", bg:"#CFE7E4", fg:"#20431C" },
+        { t:"Effekt målt · 12. okt", bg:"#FBEBBE", fg:"#5C4600" }
+      ],
+
+      split: [
+        { flex:String(lo.length), bg:"#CFE7E4", label: lo.length + " forsvarlige" },
+        { flex:String(mid.length), bg:"#F5DC96", label: mid.length + " følges opp" },
+        { flex:String(hi.length), bg:"#F0B9A0", label: hi.length + " med høy risiko" }
+      ],
+      quad: F.map(f => { const x = (f.idx - 30) / 55 * 100, y = 58 + (Math.min(1, Math.max(0, (.45 - f.imp) / .23)) * 34), yt = 12 + (Math.min(1, Math.max(0, (.7 - f.imp) / .25)) * 32), y2 = f.imp >= .45 ? yt : y, left = x > 78;
+        return { label:f.short, idx:String(f.idx), x: x.toFixed(1) + "%", y: y2.toFixed(1) + "%", dot: risk(f.idx).bar,
+          dir: left ? "row-reverse" : "row", tx: left ? "calc(-100% + 7px)" : "-7px" }; }),
+      groups: [["Prioritert", "Lav skår — her gir innsats mest igjen", "#D4633A", hi],
+               ["Følges opp", "Under 66 — hold øye med utviklingen", "#E0A21F", mid],
+               ["Styrker", "Det som virker — behold det", "#5C9A55", lo.slice().reverse()]]
+        .map(([title, note, dot, list]) => ({ title, note, dot, n:String(list.length),
+          rows: list.map(f => { const r = risk(f.idx), d = f.idx - f.prev, a = Math.min(f.idx, f.prev), b = Math.max(f.idx, f.prev);
+            return { label:f.label, law:f.law, idx:String(f.idx), d:sgn(d), dCol:dcol(d),
+              l:pos(a), w:((b - a) / 70 * 100).toFixed(1) + "%", px:pos(f.prev), cx:pos(f.idx),
+              bar: d < 0 ? "#D4633A" : "#5C9A55", imp:(f.imp / .7 * 100).toFixed(0) + "%",
+              risk:r.label, rBg:r.bg, rFg:r.fg,
+              next: NEXT[f.key] || (f.idx < 66 ? "Se forslag" : "Behold"),
+              nCol: NEXT[f.key] ? "#191510" : f.idx < 66 ? "#2F5D2A" : "#5F5849" }; }) })),
+
+      months: ["FEB","MAR","APR","MAI","JUN","JUL","AUG","SEP","OKT","NOV","DES","JAN"].map(m => {
+        const ev = { FEB:["Forankring ✓","#CFE7E4"], SEP:["Grunnlinje ✓","#CFE7E4"], OKT:["Puls 1 · 12.","#FBEBBE"], JAN:["Puls 2","#EFE8D8"] }[m];
+        return { m, has: !!ev, ev: ev ? ev[0] : "", bg: ev ? ev[1] : "transparent", mc: m === "OKT" ? "#191510" : "#5F5849" }; }),
+      mapped: [
+        { k:"Svarprosent", v:"82 %", c:"#191510" },
+        { k:"Avdelinger over terskel", v:"3 av 4", c:"#191510" },
+        { k:"Skrev en kommentar", v:"14 av 28", c:"#191510" },
+        { k:"Krenkende atferd", v:"3 ja · følges opp", c:"#A33A16" }
+      ],
+      riskList: hi.concat(mid).map(f => { const r = risk(f.idx);
+        return { label:f.label, idx:String(f.idx), rBg:r.bg, rFg:r.fg, row: f.idx < 50 ? "#FBEEE7" : "#FCF6E9" }; }),
+      lowLine: lo.length + " faktorer er forsvarlige og trenger ingen tiltak nå.",
+      tasks: [
+        { f:"Ytringsklima", t:"Fast svar på avviksmeldinger innen fem dager", o:"AR", due:"Anne Rygg · frist gikk ut i går", dueCol:"#A33A16", bd:"#F0B9A0", steps:step(2, true), stage:stageName[2] },
+        { f:"Arbeidsmengde", t:"Prioriteringsmøte hver mandag på Prosjekt", o:"TV", due:"Tomas Vik · frist 15. okt", dueCol:"#5F5849", bd:"#E8DFC9", steps:step(2), stage:stageName[2] },
+        { f:"Ytringsklima", t:"Varslingsrutinen gjennomgått i alle team", o:"TB", due:"Tuva Berg · gjennomført 5. sep", dueCol:"#5F5849", bd:"#E8DFC9", steps:step(3), stage:stageName[3] },
+        { f:"Støtte fra leder", t:"Fadderordning for nyansatte første åtte uker", o:"AR", due:"Anne Rygg · frist 1. nov", dueCol:"#5F5849", bd:"#E8DFC9", steps:step(1), stage:stageName[1] }
+      ],
+
+      depts: [
+        { name:"Drift", meta:"12 ansatte · 8 svar", idx:"67", d:"+1 siden 2025", dCol:"#2F5D2A", pct:"67%", bar:"#5C9A55",
+          best:"Mening · 81", worst:"Kontakt · 48", open:"Ingen åpne tiltak", conv:"Ingen venter", convCol:"#5F5849",
+          chip:"Over snittet", chipBg:"#CFE7E4", chipFg:"#20431C", bd:"1px solid #E8DFC9", bg:"#FFFDF6", over:true, under:false },
+        { name:"Prosjekt", meta:"9 ansatte · 9 svar", idx:"57", d:"−5 siden 2025", dCol:"#A33A16", pct:"57%", bar:"#E0A21F",
+          best:"Mening · 75", worst:"Arbeidsmengde · 31", open:"1 tiltak løper", conv:"1 samtale venter", convCol:"#A33A16",
+          chip:"Prioritert", chipBg:"#F0B9A0", chipFg:"#6B240C", bd:"1px solid #E8DFC9", bg:"#FFFDF6", over:true, under:false },
+        { name:"Verksted", meta:"8 ansatte · 8 svar", idx:"55", d:"−8 siden 2025", dCol:"#A33A16", pct:"55%", bar:"#E0A21F",
+          best:"Mening · 77", worst:"Ytringsklima · 28", open:"2 tiltak løper", conv:"1 samtale venter", convCol:"#A33A16",
+          chip:"Prioritert", chipBg:"#F0B9A0", chipFg:"#6B240C", bd:"1px solid #E8DFC9", bg:"#FFFDF6", over:true, under:false },
+        { name:"Administrasjon", meta:"5 ansatte · 3 svar", chip:"Under terskel", chipBg:"rgba(25,21,16,.07)", chipFg:"#5F5849",
+          bd:"1.5px dashed #C4BCA8", bg:"transparent", over:false, under:true }
+      ],
+      heatHead: ["Hele","Drift","Prosjekt","Verksted","Admin."],
+      heatRows: heat, diffs,
+      themes: [
+        { label:"Oppfølging av avvik", n:"9", tone:"Negativ", bg:"#FBD5C4", fg:"#6B240C" },
+        { label:"Bemanning i høysesong", n:"6", tone:"Negativ", bg:"#FBD5C4", fg:"#6B240C" },
+        { label:"Samholdet på laget", n:"5", tone:"Positiv", bg:"#CFE7E4", fg:"#20431C" },
+        { label:"Nytt planleggingsverktøy", n:"3", tone:"Blandet", bg:"#FBEBBE", fg:"#5C4600" }
+      ],
+
+      checklist: [
+        { t:"Oppdater tiltaket om avvikssvar", m:"Anne Rygg · Verksted", d:"Over frist", dCol:"#A33A16" },
+        { t:"Svar på de to anonyme kommentarene", m:"Du · den eldste har ventet i seks dager", d:"Denne uka", dCol:"#191510" },
+        { t:"Godkjenn utvalget til Puls 1", m:"Du · fem spørsmål om ytringsklima og arbeidsmengde", d:"Før 10. okt", dCol:"#191510" }
+      ],
+      lawRows: [
+        { ref:"§ 3-1 c", t:"Kartlagt og risikovurdert", s:"Ferdig", bg:"#CFE7E4", fg:"#20431C" },
+        { ref:"§ 6-2", t:"Verneombudet tatt med på råd", s:"Ferdig", bg:"#CFE7E4", fg:"#20431C" },
+        { ref:"§ 9-2", t:"Drøftet med tillitsvalgte 3. februar", s:"Ferdig", bg:"#CFE7E4", fg:"#20431C" },
+        { ref:"§ 3-1 c", t:"Effekten av tiltakene er målt", s:"12. oktober", bg:"#FBEBBE", fg:"#5C4600" }
+      ]
+    };
+  }
+return ixData;
+})();
+
 class Component extends DCLogic {
   state = { screen:"home", role:"Daglig leder", openFactor:"", threshold:0,
     step:0, answers:{}, commentOpen:false, comment:"", done:false,
@@ -4330,7 +4593,21 @@ class Component extends DCLogic {
     const taskStepOf = (t, k) => st.taskStep[k] != null ? st.taskStep[k] : t.step;
     const tPatch = (i, patch) => this.setState(s => ({ tEdits: Object.assign({}, s.tEdits, { [i]: Object.assign({}, (s.tEdits || {})[i], patch) }) }));
 
+    const ixMode = st.ixMode || (() => { try { return localStorage.getItem("orgpuls-innsikt-visning"); } catch (e) { return null; } })() || "enkel";
+    const ixBase = IX();
+    const ix = Object.assign({}, ixBase, {
+      simple: ixMode === "enkel", advanced: ixMode === "avansert",
+      modes: [["enkel","Enkel"],["avansert","Avansert"]].map(([k, label]) => ({ label, on: ixMode === k ? "true" : "false",
+        bg: ixMode === k ? "#FFFDF6" : "transparent", sh: ixMode === k ? "0 1px 2px rgba(25,21,16,.14)" : "none", w: ixMode === k ? "700" : "500",
+        pick: () => { try { localStorage.setItem("orgpuls-innsikt-visning", k); } catch (e) {} this.setState({ ixMode:k }); } })),
+      goReport: this.go("report"),
+      todos: ixBase.todos.map((t, i) => Object.assign({}, t, { go: [this.go("tasks"), this.go("conv"), this.go("measure")][i] })),
+      improve: ixBase.improve.map(t => Object.assign({}, t, { go: this.go("tasks") })),
+      groups: ixBase.groups.map(g => Object.assign({}, g, { rows: g.rows.map(r => Object.assign({}, r,
+        { go: r.next === "Behold" ? this.go("result") : this.go("tasks") })) }))
+    });
     return {
+      ix,
       tuvaSrc: "tuva/" + (st.tuvaFace || "av4") + ".png",
       tuvaName: st.tuvaName || "Tuva",
       tuvaOn: st.tuvaOn !== false,
