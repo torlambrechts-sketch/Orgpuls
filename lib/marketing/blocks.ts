@@ -44,7 +44,7 @@ export const Block = z.discriminatedUnion('t', [
   /** measures in rising order of weight */
   z.object({ t: z.literal('ladder'), items: z.array(Step).min(2).max(5) }),
   /** dated steps along one line */
-  z.object({ t: z.literal('timeline'), items: z.array(z.object({ date: z.string(), title: z.string(), text: z.string() })).min(2).max(6) }),
+  z.object({ t: z.literal('timeline'), items: z.array(z.object({ date: z.string(), title: z.string(), text: z.string().optional() })).min(2).max(6) }),
 ])
 export type Block = z.infer<typeof Block>
 
@@ -83,7 +83,7 @@ export function wordCount(blocks: Block[]): number {
         case 'ladder':
           return b.items.map((i) => `${i.title} ${i.ref ?? ''} ${i.text}`)
         case 'timeline':
-          return b.items.map((i) => `${i.date} ${i.title} ${i.text}`)
+          return b.items.map((i) => `${i.date} ${i.title} ${i.text ?? ''}`)
         case 'table':
           return [...b.head, ...b.rows.flat()]
         default:

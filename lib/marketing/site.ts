@@ -25,6 +25,11 @@ export type Article = {
   modified: string
   /** two other articles, by slug, shown under "Les også" */
   related: [string, string]
+  /**
+   * the picture beside the title (D-237): a drawing by kind (components/marketing/art/ArticleArt), or
+   * `factor:<key>` for a factor article, whose picture is its own three statements
+   */
+  art: string
 }
 
 /** Newest first: the order the index lists them in. */
@@ -35,6 +40,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['slik-gar-dere-gjennom-resultatene-med-de-ansatte', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
+    art: 'board',
   },
   {
     slug: 'slik-gar-dere-gjennom-resultatene-med-de-ansatte',
@@ -42,6 +48,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['fra-resultater-til-tiltak', 'anonym-medarbeiderundersokelse'],
+    art: 'meeting',
   },
   {
     slug: 'risikovurdering-av-psykososialt-arbeidsmiljo',
@@ -49,6 +56,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'fra-resultater-til-tiltak'],
+    art: 'risk',
   },
   {
     slug: 'arbeidsmengde-og-tidspress',
@@ -56,6 +64,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['fra-resultater-til-tiltak', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
+    art: 'factor:mengde',
   },
   {
     slug: 'ytringsklima',
@@ -63,6 +72,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['integritet-og-verdighet', 'stotte-fra-leder'],
+    art: 'factor:ytring',
   },
   {
     slug: 'rolleklarhet',
@@ -70,6 +80,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['motstridende-krav', 'stotte-fra-leder'],
+    art: 'factor:rolle',
   },
   {
     slug: 'motstridende-krav',
@@ -77,6 +88,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['rolleklarhet', 'arbeidsmengde-og-tidspress'],
+    art: 'factor:motstrid',
   },
   {
     slug: 'kontakt-og-kommunikasjon',
@@ -84,6 +96,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'emosjonelle-krav'],
+    art: 'factor:kontakt',
   },
   {
     slug: 'emosjonelle-krav',
@@ -91,6 +104,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'kontakt-og-kommunikasjon'],
+    art: 'factor:emosjon',
   },
   {
     slug: 'stotte-fra-leder',
@@ -98,6 +112,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'rolleklarhet'],
+    art: 'factor:leder',
   },
   {
     slug: 'medvirkning-og-kontroll',
@@ -105,6 +120,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['arbeidsmengde-og-tidspress', 'anerkjennelse-og-mening'],
+    art: 'factor:medvirk',
   },
   {
     slug: 'integritet-og-verdighet',
@@ -112,6 +128,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['ytringsklima', 'anonym-medarbeiderundersokelse'],
+    art: 'factor:integritet',
   },
   {
     slug: 'stotte-fra-kollegaer',
@@ -119,6 +136,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['stotte-fra-leder', 'kontakt-og-kommunikasjon'],
+    art: 'factor:kollega',
   },
   {
     slug: 'anerkjennelse-og-mening',
@@ -126,6 +144,7 @@ export const ARTICLES: Article[] = [
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['medvirkning-og-kontroll', 'stotte-fra-leder'],
+    art: 'factor:mening',
   },
   {
     slug: 'nye-regler-psykososialt-arbeidsmiljo-2026',
@@ -133,6 +152,7 @@ export const ARTICLES: Article[] = [
     published: '2026-09-25',
     modified: '2026-10-07',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'hvor-ofte-bor-dere-male-arbeidsmiljoet'],
+    art: 'law',
   },
   {
     slug: 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo',
@@ -140,6 +160,7 @@ export const ARTICLES: Article[] = [
     published: '2026-09-25',
     modified: '2026-10-07',
     related: ['nye-regler-psykososialt-arbeidsmiljo-2026', 'verneombudets-rolle-i-kartleggingen'],
+    art: 'law',
   },
   {
     slug: 'medarbeiderundersokelse-sporsmal',
@@ -147,6 +168,7 @@ export const ARTICLES: Article[] = [
     published: '2026-09-25',
     modified: '2026-10-07',
     related: ['anonym-medarbeiderundersokelse', 'hvor-ofte-bor-dere-male-arbeidsmiljoet'],
+    art: 'survey',
   },
   {
     slug: 'hvor-ofte-bor-dere-male-arbeidsmiljoet',
@@ -154,6 +176,7 @@ export const ARTICLES: Article[] = [
     published: '2026-09-25',
     modified: '2026-10-07',
     related: ['medarbeiderundersokelse-sporsmal', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
+    art: 'wheel',
   },
   {
     slug: 'anonym-medarbeiderundersokelse',
@@ -161,6 +184,7 @@ export const ARTICLES: Article[] = [
     published: '2026-09-25',
     modified: '2026-10-07',
     related: ['medarbeiderundersokelse-sporsmal', 'verneombudets-rolle-i-kartleggingen'],
+    art: 'anon',
   },
   {
     slug: 'verneombudets-rolle-i-kartleggingen',
@@ -168,6 +192,7 @@ export const ARTICLES: Article[] = [
     published: '2026-09-25',
     modified: '2026-10-07',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    art: 'rep',
   },
 ]
 

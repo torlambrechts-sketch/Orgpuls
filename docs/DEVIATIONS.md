@@ -11563,3 +11563,22 @@ accent, the risk band colours for weight) and the bundle's radius scale.
   paragraph as a ladder (replacing the numbered list). A timeline of more than three steps runs down the
   column with the step's label beside it; legal references in a figure never break after § or at the
   hyphen.
+- **Articles (same day):** every article has a drawn picture beside its title (`art` in the article
+  registry): the law picture for the two law articles, the safety representative's for its article,
+  and six new drawings in components/marketing/art/ArticleArt.tsx – a risk matrix, a board of measures,
+  a meeting, a questionnaire on a phone, the year as a wheel (the months the article names marked) and
+  anonymous answers behind a lock. A factor article's picture is its own three statements as a
+  filled-in form; the marks are illustrative, not data. Seven articles turn a list or table that was a
+  sequence into a figure, word for word: the six steps from results to measures, the four steps of the
+  risk assessment, the four steps of the survey (a ring, with Arbeidstilsynet's means as a ladder), the
+  2005–2024–2026 timeline, the safety representative's five stages, the annual cycle and the one-hour
+  review. A timeline's text is now optional.
+
+## D-238 — Every public page has a way in (2026-10-07)
+
+A crawl of the sitemap counting the internal links into each page found that «Hvorfor Orgpuls» was
+reached by one link in one page's text, Små bedrifter only from the start page's footer, and Verneombud
+(D-236) from no menu. Verneombud is now in Ressurser, Hvorfor under Produkt in every footer, and Små
+bedrifter under Bruksområder in every footer. Every page in the sitemap is now linked from at least one
+other; the industries' question pages are linked from their own industry page only, which is where a
+reader of them comes from. No link points outside the sitemap.

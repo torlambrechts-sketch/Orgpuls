@@ -40,6 +40,7 @@ export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?:
     all: 'alleArtikler',
     children: [
       { key: 'lovkrav', href: '/lovkrav' },
+      { key: 'verneombud', href: '/verneombud' },
       { key: 'fraResultater', href: '/artikler/fra-resultater-til-tiltak' },
       { key: 'sporsmalssettet', href: '/artikler/medarbeiderundersokelse-sporsmal' },
       { key: 'sikkerhet', href: '/sikkerhet' },
@@ -59,6 +60,8 @@ const FOOTER_HOME: FooterColumn[] = [
       { key: 'kommentarer', href: '/plattform#kommentarer' },
       { key: 'tiltak', href: '/plattform#tiltak' },
       { key: 'pris', href: '/priser' },
+      // the argument for the product had no way in but one link in a page's text (D-238)
+      { key: 'hvorfor', href: '/hvorfor' },
     ],
   },
   {
@@ -97,12 +100,15 @@ const subpageFooter = (long: boolean): FooterColumn[] => [
       { key: 'plattform', href: '/plattform' },
       ...(long ? [{ key: 'resultater', href: '/plattform#resultater' }] : []),
       { key: 'pris', href: '/priser' },
+      { key: 'hvorfor', href: '/hvorfor' },
     ],
   },
   {
     head: 'bruksomrader',
     links: [
       { key: 'utenHr', href: '/bruksomrader#uten-hr' },
+      // the landing page for small businesses, linked until now only from the start page's footer (D-238)
+      { key: 'smaaBedrifter', href: '/smaa-bedrifter' },
       { key: 'arlig', href: '/bruksomrader#kartlegging' },
       { key: 'puls', href: '/bruksomrader#puls' },
       { key: 'tilsyn', href: '/bruksomrader#tilsyn' },

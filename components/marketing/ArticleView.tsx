@@ -9,6 +9,7 @@ import { ArticleCards } from './ArticleCards'
 import { Blocks } from './Blocks'
 import { JsonLd } from './JsonLd'
 import { WithAside } from './WithAside'
+import { ArticleArt, FactorArt, type ArtKind } from './art/ArticleArt'
 
 export const Sources = z.array(z.object({ label: z.string(), url: z.string().url() }))
 
@@ -37,9 +38,20 @@ export async function ArticleView({ article: a }: { article: Article }) {
       published={a.published}
       modified={a.modified}
       image={articleImage(a.slug)}
+      art={artFor(a.art, t)}
       related={a.related}
     />
   )
+}
+
+/** The picture beside an article's title (D-237): a drawing by kind, or a factor's own statements. */
+function artFor(art: string, t: Awaited<ReturnType<typeof getTranslations>>): React.ReactNode {
+  const cls = 'h-auto w-full max-w-[400px]'
+  if (art.startsWith('factor:')) {
+    const f = `factor.${art.slice('factor:'.length)}`
+    return <FactorArt label={t(`${f}.label`)} statements={[1, 2, 3].map((n) => t(`${f}.s${n}`))} className={cls} />
+  }
+  return <ArticleArt kind={art as ArtKind} className={cls} />
 }
 
 export type ArticleContent = {
@@ -60,6 +72,7 @@ export async function ArticleBody({
   published,
   modified,
   image,
+  art,
   related,
 }: {
   content: ArticleContent
@@ -67,6 +80,8 @@ export async function ArticleBody({
   published: string
   modified: string
   image?: string
+  /** a drawn picture beside the title, on wide screens (D-237) */
+  art?: React.ReactNode
   related: string[]
 }) {
   const t = await getTranslations()
@@ -106,17 +121,24 @@ export async function ArticleBody({
         )}
       />
 
-      <header className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
-        <nav aria-label={t('seo.common.breadcrumb')} className="text-[12.5px] text-mut">
-          <Link href="/">{t('seo.common.home')}</Link>
-          <span aria-hidden="true"> / </span>
-          <Link href={'/artikler' as Route}>{t('seo.index.crumb')}</Link>
-        </nav>
-        <h1 className="mt-[18px] max-w-[24ch] font-display text-[clamp(27px,4.6vw,46px)] font-semibold leading-[1.1] [overflow-wrap:break-word] [hyphens:auto] [text-wrap:balance]">
-          {c.h1}
-        </h1>
-        <p className="mt-[16px] max-w-[62ch] text-[17.5px] leading-[1.65] text-body [text-wrap:pretty]">{c.lead}</p>
-        <p className="mt-[14px] text-[12.5px] text-mut">{t('seo.common.byline', { date, minutes })}</p>
+      <header className="mx-auto grid max-w-[1120px] items-center gap-[36px] px-[26px] pt-[54px] lg:[grid-template-columns:minmax(0,1.15fr)_minmax(0,0.85fr)]">
+        <div className="min-w-0">
+          <nav aria-label={t('seo.common.breadcrumb')} className="text-[12.5px] text-mut">
+            <Link href="/">{t('seo.common.home')}</Link>
+            <span aria-hidden="true"> / </span>
+            <Link href={'/artikler' as Route}>{t('seo.index.crumb')}</Link>
+          </nav>
+          <h1 className="mt-[18px] max-w-[24ch] font-display text-[clamp(27px,4.6vw,46px)] font-semibold leading-[1.1] [overflow-wrap:break-word] [hyphens:auto] [text-wrap:balance]">
+            {c.h1}
+          </h1>
+          <p className="mt-[16px] max-w-[62ch] text-[17.5px] leading-[1.65] text-body [text-wrap:pretty]">{c.lead}</p>
+          <p className="mt-[14px] text-[12.5px] text-mut">{t('seo.common.byline', { date, minutes })}</p>
+        </div>
+        {art ? (
+          <div aria-hidden="true" className="hidden min-w-0 justify-center lg:flex">
+            {art}
+          </div>
+        ) : null}
       </header>
 
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[22px]">

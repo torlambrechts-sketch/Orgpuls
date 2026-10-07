@@ -7024,6 +7024,35 @@
             "text": "Arbeidstilsynet skriver i kommentaren at hva som er «nødvendige» tiltak, må vurderes konkret ut fra virksomhetens risikobilde, blant annet risikoens alvorlighetsgrad, omfang og varighet. En undersøkelse som ikke følges av en vurdering, og av tiltak der vurderingen tilsier det, oppfyller altså bare en del av plikten."
           },
           {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Steg 1",
+                "title": "Les resultatene i fast rekkefølge"
+              },
+              {
+                "date": "Steg 2",
+                "title": "Prioriter etter risiko"
+              },
+              {
+                "date": "Steg 3",
+                "title": "Finn årsaken sammen med de ansatte"
+              },
+              {
+                "date": "Steg 4",
+                "title": "Rett tiltaket mot årsaken"
+              },
+              {
+                "date": "Steg 5",
+                "title": "Skriv det slik at det kan følges opp"
+              },
+              {
+                "date": "Steg 6",
+                "title": "Fortell, mål på nytt og dokumenter"
+              }
+            ]
+          },
+          {
             "t": "h2",
             "text": "Les resultatene i en fast rekkefølge"
           },
@@ -7263,32 +7292,28 @@
             "text": "Et opplegg på en time"
           },
           {
-            "t": "table",
-            "head": [
-              "Minutter",
-              "Hva"
-            ],
-            "rows": [
-              [
-                "5",
-                "Hvorfor vi gjorde undersøkelsen, og hvor mange som svarte"
-              ],
-              [
-                "10",
-                "Det som går bra – med tall"
-              ],
-              [
-                "15",
-                "Det som er svakest – med tall, uten å forklare det bort"
-              ],
-              [
-                "20",
-                "Grupper på tre–fire: hva ligger bak, og hva ville hjulpet?"
-              ],
-              [
-                "10",
-                "Velg to–tre ting å gjøre noe med, og avtal når dere følger opp"
-              ]
+            "t": "timeline",
+            "items": [
+              {
+                "date": "5 min",
+                "title": "Hvorfor vi gjorde undersøkelsen, og hvor mange som svarte"
+              },
+              {
+                "date": "10 min",
+                "title": "Det som går bra – med tall"
+              },
+              {
+                "date": "15 min",
+                "title": "Det som er svakest – med tall, uten å forklare det bort"
+              },
+              {
+                "date": "20 min",
+                "title": "Grupper på tre–fire: hva ligger bak, og hva ville hjulpet?"
+              },
+              {
+                "date": "10 min",
+                "title": "Velg to–tre ting å gjøre noe med, og avtal når dere følger opp"
+              }
             ]
           },
           {
@@ -7468,12 +7493,28 @@
             "text": "Forskriften foreskriver ingen bestemt metode. En enkel gang i fire steg kan se slik ut:"
           },
           {
-            "t": "ol",
+            "t": "timeline",
             "items": [
-              "**Marker** faktorene og gruppene som står svakt, eller som har falt siden forrige kartlegging.",
-              "**Vurder** hver av dem: Hvor alvorlig kan det bli, hvor mange gjelder det, og hvor lenge har det vart? Bruk både påstandene bak tallene og det de ansatte forteller.",
-              "**Se sammenhenger:** Forsterker noen faktorer hverandre i samme gruppe? Finnes det noe som beskytter?",
-              "**Konkluder** med et risikonivå og en kort begrunnelse, og la konklusjonen styre hvilke tiltak som prioriteres."
+              {
+                "date": "Steg 1",
+                "title": "Marker",
+                "text": "faktorene og gruppene som står svakt, eller som har falt siden forrige kartlegging."
+              },
+              {
+                "date": "Steg 2",
+                "title": "Vurder",
+                "text": "hver av dem: Hvor alvorlig kan det bli, hvor mange gjelder det, og hvor lenge har det vart? Bruk både påstandene bak tallene og det de ansatte forteller."
+              },
+              {
+                "date": "Steg 3",
+                "title": "Se sammenhenger",
+                "text": "Forsterker noen faktorer hverandre i samme gruppe? Finnes det noe som beskytter?"
+              },
+              {
+                "date": "Steg 4",
+                "title": "Konkluder",
+                "text": "med et risikonivå og en kort begrunnelse, og la konklusjonen styre hvilke tiltak som prioriteres."
+              }
             ]
           },
           {
@@ -7712,6 +7753,26 @@
           {
             "t": "p",
             "text": "Arbeidstilsynet skriver i sine kommentarer at kapitlet konkretiserer aml. §§ 4-1 og 4-3, og arbeidsgiverens plikt til systematisk helse-, miljø- og sikkerhetsarbeid etter aml. § 3-1. Plikten til å kartlegge og risikovurdere arbeidsmiljøet fantes også før, blant annet i forskrift om organisering, ledelse og medvirkning § 7-1. Det nye kapitlet presiserer at plikten også gjelder det psykososiale arbeidsmiljøet, og beskriver hvordan arbeidet skal gjøres."
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "17. juni 2005",
+                "title": "Arbeidsmiljøloven",
+                "text": "Loven krever systematisk HMS-arbeid (§ 3-1) og et fullt forsvarlig psykososialt arbeidsmiljø (§ 4-3)."
+              },
+              {
+                "date": "1. januar 2024",
+                "title": "§ 4-3 endres",
+                "text": "Paragrafen om det psykososiale arbeidsmiljøet endres ved lov 16. juni 2023 nr. 37."
+              },
+              {
+                "date": "1. januar 2026",
+                "title": "Kapittel 1A trer i kraft",
+                "text": "Forskrift om utførelse av arbeid får et eget kapittel om psykososialt arbeidsmiljø, og § 4-3 endres igjen."
+              }
+            ]
           },
           {
             "t": "quote",
@@ -8002,12 +8063,25 @@
             "text": "Hva skjer etter kartleggingen?"
           },
           {
-            "t": "ol",
+            "t": "cycle",
+            "center": "I samarbeid med arbeidstakerne og deres representanter",
             "items": [
-              "**Kartlegge.** Samle inn kunnskap om de faktorene som er relevante for virksomheten, i samarbeid med verneombud og tillitsvalgte.",
-              "**Vurdere risiko.** Vurder faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko – på kort og lang sikt. Les mer om [risikovurdering av psykososialt arbeidsmiljø](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo).",
-              "**Sette i verk tiltak.** Forskriften § 1A-3 krever nødvendige planer og tiltak for å fjerne eller redusere risiko. Ifølge Arbeidstilsynet bør tiltakene så langt som mulig rette seg mot årsakene, for eksempel organisatoriske eller arbeidsmessige forhold.",
-              "**Informere og følge opp.** De ansatte og deres representanter skal få nødvendig informasjon om risikofaktorene og tiltakene (§ 1A-4). Om et tiltak virket, viser seg først når virksomheten kartlegger igjen."
+              {
+                "title": "Kartlegge",
+                "text": "Samle inn kunnskap om de faktorene som er relevante for virksomheten, i samarbeid med verneombud og tillitsvalgte."
+              },
+              {
+                "title": "Vurdere risiko",
+                "text": "Vurder faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko – på kort og lang sikt. Les mer om [risikovurdering av psykososialt arbeidsmiljø](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+              },
+              {
+                "title": "Sette i verk tiltak",
+                "text": "Forskriften § 1A-3 krever nødvendige planer og tiltak for å fjerne eller redusere risiko. Ifølge Arbeidstilsynet bør tiltakene så langt som mulig rette seg mot årsakene, for eksempel organisatoriske eller arbeidsmessige forhold."
+              },
+              {
+                "title": "Informere og følge opp",
+                "text": "De ansatte og deres representanter skal få nødvendig informasjon om risikofaktorene og tiltakene (§ 1A-4). Om et tiltak virket, viser seg først når virksomheten kartlegger igjen."
+              }
             ]
           },
           {
@@ -8072,6 +8146,26 @@
           {
             "t": "p",
             "text": "Arbeidstilsynet kan gi pålegg for å få gjennomført bestemmelsene i og i medhold av arbeidsmiljøloven kapittel 3 til 11, der blant annet § 3-1 og § 4-3 står (aml. § 18-6). I et pålegg kan det fastsettes en løpende tvangsmulkt til pålegget er oppfylt (§ 18-7). Tilsynet kan også ilegge overtredelsesgebyr dersom noen som har handlet på vegne av virksomheten, uaktsomt eller forsettlig har overtrådt slike bestemmelser. Gebyret kan utgjøre inntil 50 ganger grunnbeløpet i folketrygden eller fire prosent av årsomsetningen, og det høyeste beløpet er den øvre rammen (§ 18-10)."
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Pålegg",
+                "ref": "aml § 18-6",
+                "text": "Skriftlig, med en frist for når det skal være utført."
+              },
+              {
+                "title": "Tvangsmulkt",
+                "ref": "aml § 18-7",
+                "text": "Løpende eller som engangsmulkt, til pålegget er oppfylt."
+              },
+              {
+                "title": "Overtredelsesgebyr",
+                "ref": "aml § 18-10",
+                "text": "Ved uaktsomme eller forsettlige brudd: inntil 50 ganger grunnbeløpet eller fire prosent av årsomsetningen."
+              }
+            ]
           }
         ],
         "sources": [
@@ -8408,32 +8502,28 @@
             "text": "Et eksempel på et årshjul"
           },
           {
-            "t": "table",
-            "head": [
-              "Måned",
-              "Hva"
-            ],
-            "rows": [
-              [
-                "Februar",
-                "Hovedkartlegging: hele spørsmålssettet"
-              ],
-              [
-                "Mars",
-                "Gjennomgang med de ansatte, risikovurdering og tiltak med eier og frist"
-              ],
-              [
-                "Mai",
-                "Oppfølgingsmåling på temaene med åpne tiltak"
-              ],
-              [
-                "September",
-                "Oppfølgingsmåling"
-              ],
-              [
-                "November",
-                "Oppfølgingsmåling og planlegging av neste år"
-              ]
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Februar",
+                "title": "Hovedkartlegging: hele spørsmålssettet"
+              },
+              {
+                "date": "Mars",
+                "title": "Gjennomgang med de ansatte, risikovurdering og tiltak med eier og frist"
+              },
+              {
+                "date": "Mai",
+                "title": "Oppfølgingsmåling på temaene med åpne tiltak"
+              },
+              {
+                "date": "September",
+                "title": "Oppfølgingsmåling"
+              },
+              {
+                "date": "November",
+                "title": "Oppfølgingsmåling og planlegging av neste år"
+              }
             ]
           },
           {
@@ -8707,32 +8797,33 @@
             "text": "Hva gjør verneombudet i hver fase av kartleggingen?"
           },
           {
-            "t": "table",
-            "head": [
-              "Fase",
-              "Verneombudets rolle"
-            ],
-            "rows": [
-              [
-                "Planlegging",
-                "Tas med på råd om hvordan kartleggingen gjøres, hva den skal dekke og hvordan anonymiteten sikres."
-              ],
-              [
-                "Gjennomføring",
-                "Kan bidra til at de ansatte vet hvorfor de får undersøkelsen, og at den er trygg å svare på."
-              ],
-              [
-                "Resultat og risikovurdering",
-                "Bør se det samme grunnlaget som ledelsen, ikke et sammendrag i etterkant, og delta i vurderingen av risikoen."
-              ],
-              [
-                "Tiltak",
-                "Tas med på råd når tiltak velges og planlegges."
-              ],
-              [
-                "Oppfølging",
-                "Påser at tiltakene blir gjennomført, og at det psykososiale arbeidsmiljøet er ivaretatt."
-              ]
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Fase 1",
+                "title": "Planlegging",
+                "text": "Tas med på råd om hvordan kartleggingen gjøres, hva den skal dekke og hvordan anonymiteten sikres."
+              },
+              {
+                "date": "Fase 2",
+                "title": "Gjennomføring",
+                "text": "Kan bidra til at de ansatte vet hvorfor de får undersøkelsen, og at den er trygg å svare på."
+              },
+              {
+                "date": "Fase 3",
+                "title": "Resultat og risikovurdering",
+                "text": "Bør se det samme grunnlaget som ledelsen, ikke et sammendrag i etterkant, og delta i vurderingen av risikoen."
+              },
+              {
+                "date": "Fase 4",
+                "title": "Tiltak",
+                "text": "Tas med på råd når tiltak velges og planlegges."
+              },
+              {
+                "date": "Fase 5",
+                "title": "Oppfølging",
+                "text": "Påser at tiltakene blir gjennomført, og at det psykososiale arbeidsmiljøet er ivaretatt."
+              }
             ]
           },
           {
@@ -9883,6 +9974,7 @@
         "ressurser": "Ressurser",
         "alleArtikler": "Alle artikler",
         "lovkrav": "Arbeidsmiljøloven forklart",
+        "verneombud": "Verneombudets rolle",
         "fraResultater": "Fra resultater til tiltak",
         "sporsmalssettet": "Spørsmålene som gir svar",
         "sikkerhet": "Personvern og anonymitet"
@@ -9947,6 +10039,7 @@
           "arlig": "Årlig kartlegging",
           "puls": "Puls mellom målingene",
           "utenHr": "Uten HR-avdeling",
+          "smaaBedrifter": "Små bedrifter",
           "tilsyn": "Tilsyn og dokumentasjon",
           "positivt": "Positivt fokus",
           "anonymitet": "Anonymitet",

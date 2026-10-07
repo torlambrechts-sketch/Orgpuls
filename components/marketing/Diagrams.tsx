@@ -78,7 +78,9 @@ export function Cycle({ center, items }: { center: string; items: Step[] }) {
         <ol className="m-0 flex list-none flex-col gap-[10px] border-l-2 border-rule p-0 pl-[18px]">
           {items.map((s, i) => (
             <li key={i} className="relative rounded-note border border-line bg-sf px-[16px] py-[13px]">
-              <span className={`absolute -left-[33px] top-[12px] flex h-[26px] w-[26px] items-center justify-center rounded-pill border border-ink text-[12px] font-bold ${STEP_FILLS[i % STEP_FILLS.length]}`}>
+              <span
+                className={`absolute -left-[33px] top-[12px] flex h-[26px] w-[26px] items-center justify-center rounded-pill border border-ink text-[12px] font-bold ${STEP_FILLS[i % STEP_FILLS.length]}`}
+              >
                 {i + 1}
               </span>
               <span className="block text-[15px] font-bold">{s.title}</span>
@@ -114,7 +116,9 @@ export function Hub({ center, items }: { center: { title: string; text: string }
           return <line key={i} x1={x} y1="18" x2={x} y2="40" stroke="#191510" strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
         })}
       </svg>
-      <ul className={`m-0 mt-[12px] grid list-none gap-[13px] p-0 md:mt-0 ${n === 3 ? 'md:grid-cols-3' : n === 2 ? 'md:grid-cols-2' : 'md:grid-cols-4'}`}>
+      <ul
+        className={`m-0 mt-[12px] grid list-none gap-[13px] p-0 md:mt-0 ${n === 3 ? 'md:grid-cols-3' : n === 2 ? 'md:grid-cols-2' : 'md:grid-cols-4'}`}
+      >
         {items.map((s, i) => (
           <li key={i} className={`rounded-note border border-line px-[18px] py-[16px] ${STEP_FILLS[(i + 1) % STEP_FILLS.length]}`}>
             <span className="block text-[15px] font-bold">{s.title}</span>
@@ -162,12 +166,15 @@ export function Ladder({ items }: { items: Step[] }) {
  * A timeline: dated steps along one line – across the column for up to three, down it for more, where
  * each step's label gets a column of its own so long titles are not squeezed.
  */
-export function Timeline({ items }: { items: { date: string; title: string; text: string }[] }) {
+export function Timeline({ items }: { items: { date: string; title: string; text?: string }[] }) {
   if (items.length <= 3)
     return (
       <figure className="m-0 my-[8px]">
         <ol className="relative m-0 flex list-none flex-col gap-[14px] p-0 md:flex-row md:gap-[16px]">
-          <span aria-hidden="true" className="absolute bottom-[8px] left-[7px] top-[8px] w-[2px] bg-rule md:bottom-auto md:left-[8px] md:right-[8px] md:top-[7px] md:h-[2px] md:w-auto" />
+          <span
+            aria-hidden="true"
+            className="absolute bottom-[8px] left-[7px] top-[8px] w-[2px] bg-rule md:bottom-auto md:left-[8px] md:right-[8px] md:top-[7px] md:h-[2px] md:w-auto"
+          />
           {items.map((s, i) => (
             <li key={i} className="relative flex-1 pl-[30px] md:pl-0 md:pt-[30px]">
               <span
@@ -176,9 +183,11 @@ export function Timeline({ items }: { items: { date: string; title: string; text
               />
               <span className="block text-[12px] font-bold uppercase tracking-[0.08em] text-mut">{s.date}</span>
               <span className="mt-[4px] block text-[15px] font-bold leading-[1.3]">{s.title}</span>
-              <span className="mt-[4px] block text-[13.5px] leading-[1.55] text-mut [text-wrap:pretty]">
-                <Rich text={keep(s.text)} />
-              </span>
+              {s.text ? (
+                <span className="mt-[4px] block text-[13.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                  <Rich text={keep(s.text)} />
+                </span>
+              ) : null}
             </li>
           ))}
         </ol>
@@ -197,9 +206,11 @@ export function Timeline({ items }: { items: { date: string; title: string; text
             <span className="pt-[1px] text-[12px] font-bold uppercase leading-[1.5] tracking-[0.08em] text-mut">{s.date}</span>
             <span className="rounded-note border border-line bg-sf px-[18px] py-[14px]">
               <span className="block text-[15px] font-bold leading-[1.3]">{s.title}</span>
-              <span className="mt-[5px] block text-[13.5px] leading-[1.55] text-mut [text-wrap:pretty]">
-                <Rich text={keep(s.text)} />
-              </span>
+              {s.text ? (
+                <span className="mt-[5px] block text-[13.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                  <Rich text={keep(s.text)} />
+                </span>
+              ) : null}
             </span>
           </li>
         ))}
