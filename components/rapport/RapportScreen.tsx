@@ -39,10 +39,10 @@ import type { Evaluation, EvaluationStatus } from '@/lib/report/evaluation'
  * sentence nobody wrote — which is D-18's rule, and the reason section 4 waited for 0016.
  */
 
-export type Audience = 'tilsyn' | 'amu' | 'ledelse' | 'ansatte'
+export type Audience = 'tilsyn' | 'amu' | 'ledelse' | 'styret' | 'ansatte'
 export type ReportScope = 'ar' | 'grunnlinje'
 
-export const AUDIENCES: Audience[] = ['tilsyn', 'amu', 'ledelse', 'ansatte']
+export const AUDIENCES: Audience[] = ['tilsyn', 'amu', 'ledelse', 'styret', 'ansatte']
 
 export interface ReportRun {
   id: string
@@ -459,6 +459,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
 
         {isFormal ? formalBody() : null}
         {view.audience === 'ledelse' ? ledelseBody() : null}
+        {view.audience === 'styret' ? styretBody() : null}
         {view.audience === 'ansatte' ? (
           <div className="mt-[28px] rounded-cta bg-sbg px-[18px] py-[16px] text-[13px] leading-[1.65] [text-wrap:pretty]">
             {t('rapport.ansatteAnonymity', { threshold: view.threshold })}
@@ -1063,6 +1064,77 @@ export async function RapportScreen({ view }: { view: RapportView }) {
         ) : null}
         <Figure value={String(view.highRiskCount)} label={t('rapport.ledelseHigh')} />
       </div>
+    )
+  }
+
+  /**
+   * «Styrenotat» (D-246): one page for the board, from the same figures as the rest of the document.
+   * Four sentences say where things stand – the index and how it moved, the response rate, the
+   * high-risk factors, the risk assessment and the measures – and a proposed resolution closes it.
+   * Every sentence is printed only when its figure exists; nothing is estimated.
+   */
+  function styretBody() {
+    const delta = view.index !== null && view.prevIndex !== null ? view.index - view.prevIndex : null
+    const high = view.factors.filter((f) => f.band === 'hoy').map((f) => (t.has(`factor.${f.key}.label`) ? t(`factor.${f.key}.label`) : f.key))
+    const list = new Intl.ListFormat(locale, { type: 'conjunction' })
+    const lower = (s: string) => s.toLocaleLowerCase(locale)
+    const decided = view.measures.filter((m) => stepIndex(m.step) >= stepIndex('besluttet'))
+    const done = decided.filter((m) => stepIndex(m.step) >= stepIndex('gjennomfort')).length
+    const late = decided.filter((m) => m.late).length
+
+    const points: string[] = []
+    if (view.index !== null) {
+      points.push(
+        delta === null
+          ? t('rapport.styret.index', { index: view.index })
+          : t('rapport.styret.indexDelta', { index: view.index, delta: Math.abs(delta), dir: delta < 0 ? 'down' : delta > 0 ? 'up' : 'same', year: view.prevYear ?? '' }),
+      )
+    }
+    if (view.primary && view.primary.answered !== null && view.primary.total !== null) {
+      points.push(t('rapport.styret.rate', { answered: view.primary.answered, total: view.primary.total, pct: view.primary.pct ?? 0 }))
+    }
+    if (view.factors.length > 0) {
+      points.push(
+        high.length === 0
+          ? t('rapport.styret.noHigh', { count: view.factors.length })
+          : t('rapport.styret.high', { count: high.length, total: view.factors.length, list: lower(list.format(high)) }),
+      )
+    }
+    if (view.primary) {
+      points.push(view.risk ? t('rapport.styret.assessed', { date: long(view.risk.assessedOn, false) ?? '' }) : t('rapport.styret.notAssessed'))
+    }
+    points.push(
+      decided.length === 0 ? t('rapport.styret.noMeasures') : t('rapport.styret.measures', { count: decided.length, done, late }),
+    )
+
+    return (
+      <>
+        <div className="mt-[24px] flex flex-wrap gap-[26px]">
+          {view.index !== null ? <Figure value={String(view.index)} label={t('rapport.ledelseIndex')} /> : null}
+          {view.primary?.pct != null ? (
+            <Figure value={t('malinger.percent', { pct: view.primary.pct })} label={t('rapport.ledelseRate')} />
+          ) : null}
+          <Figure value={String(view.highRiskCount)} label={t('rapport.ledelseHigh')} />
+        </div>
+
+        <h2 className="mt-[26px] font-display text-[19px] font-semibold">{t('rapport.styret.statusHead')}</h2>
+        <ul className="mt-[8px] flex list-disc flex-col gap-[6px] pl-[20px] text-[13px] leading-[1.6] text-body">
+          {points.map((p) => (
+            <li key={p}>{p}</li>
+          ))}
+        </ul>
+
+        <h2 className="mt-[24px] font-display text-[19px] font-semibold">{t('rapport.styret.resolutionHead')}</h2>
+        <p className="mt-[8px] rounded-cta bg-sbg px-[16px] py-[12px] text-[13px] leading-[1.6] [text-wrap:pretty]">
+          {high.length > 0
+            ? t('rapport.styret.resolutionHigh', { list: lower(list.format(high)) })
+            : t('rapport.styret.resolution')}
+        </p>
+
+        <p className="mt-[18px] text-[11.5px] leading-[1.6] text-mut [text-wrap:pretty]">
+          {t('rapport.styret.note', { threshold: view.threshold })}
+        </p>
+      </>
     )
   }
 }

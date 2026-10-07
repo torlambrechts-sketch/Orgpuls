@@ -149,7 +149,7 @@ function helpWithLaw(): string[] {
 export const MESSAGE_SPECS: MessageSpec[] = [
   // -------- the public site
   { id: 'lp.lovkrav', section: 'site', paths: ['seo.lp.lovkrav'], where: onSite('/lovkrav') },
-  { id: 'lp.verneombud', section: 'site', paths: ['seo.lp.verneombud'], where: onSite('/verneombud') },
+  { id: 'lp.verneombud', section: 'site', paths: ['seo.lp.verneombud', 'seo.voTip'], where: onSite('/verneombud') },
   { id: 'lp.smaaBedrifter', section: 'site', paths: ['seo.lp.smaaBedrifter'], where: onSite('/smaa-bedrifter') },
   // the free templates (D-241): what each says the law requires, and the index's account of what they build on
   { id: 'maler.index', section: 'site', paths: ['seo.maler.index'], where: onSite('/maler') },
@@ -248,7 +248,7 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     paths: [
       'rapport.docLead', 'rapport.docTitle', 'rapport.audienceNote', 'rapport.instrumentBody', 'rapport.section4Empty',
       'rapport.section8EmptyInfo', 'rapport.register.lead', 'rapport.screeningRule', 'rapport.ansatteAnonymity',
-      'rapport.gjennomforingBody', 'rapport.section7Withheld', 'rapport.evaluation.cadence',
+      'rapport.gjennomforingBody', 'rapport.section7Withheld', 'rapport.evaluation.cadence', 'rapport.styret',
     ],
     where: place('report'),
   },

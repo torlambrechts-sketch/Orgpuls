@@ -974,30 +974,34 @@
   "rapport": {
     "backToInnsikt": "← Innsikt",
     "title": "Rapport",
-    "lead": "Samme grunnlag, fire mottakere. Velg hvem rapporten skal til — innholdet endrer seg med det.",
+    "lead": "Samme grunnlag, fem mottakere. Velg hvem rapporten skal til — innholdet endrer seg med det.",
     "print": "Skriv ut eller lagre som PDF",
     "audience": {
       "tilsyn": "Arbeidstilsynet",
       "amu": "AMU og verneombud",
       "ledelse": "Ledergruppa",
+      "styret": "Styret",
       "ansatte": "De ansatte"
     },
     "audienceNote": {
       "tilsyn": "Full dokumentasjon med hjemler, metode, medvirkning og signaturfelt. Dette er versjonen dere legger fram ved tilsyn.",
       "amu": "Saksframlegg med innstilling og plass til protokoll. Uten enkeltkommentarer.",
       "ledelse": "To sider: tallene, de tre prioriteringene, og hva det koster i tid. Uten paragrafhenvisninger.",
+      "styret": "Én side til styremøtet: tallene, status for lovkravene og et forslag til vedtak. Uten tall for grupper og uten sitater.",
       "ansatte": "Klarspråk, ingen tall under terskel, ingen sitater som kan spores. Å gi denne tilbake er en forutsetning for at folk svarer neste gang."
     },
     "docTitle": {
       "tilsyn": "Dokumentasjon av systematisk arbeid med psykososialt arbeidsmiljø",
       "amu": "Sak til arbeidsmiljøutvalget — psykososialt arbeidsmiljø {year}",
       "ledelse": "Arbeidsmiljø {year} — status og prioriteringer",
+      "styret": "Styrenotat: arbeidsmiljøet {year}",
       "ansatte": "Dette sa dere — og dette gjør vi"
     },
     "docLead": {
       "tilsyn": "Utarbeidet etter arbeidsmiljøloven § 3-1 bokstav c og § 4-3, og forskrift om utførelse av arbeid, andre del kapittel 1A. Dokumentet dekker kartlegging og risikovurdering av det psykososiale arbeidsmiljøet — ikke virksomhetens øvrige HMS-plikter. Dokumentet viser kartlegging, risikovurdering, tiltak og effektvurdering for perioden.",
       "amu": "Saksframlegg med funn, risikovurdering og forslag til tiltak. Verneombud og tillitsvalgte har hatt saken til gjennomsyn før møtet.",
       "ledelse": "Kort framstilling av hvor virksomheten står, hva som trekker mest ned, og hva som er besluttet gjort.",
+      "styret": "Orientering til styret om det psykososiale arbeidsmiljøet: kartleggingen, risikovurderingen og tiltakene.",
       "ansatte": "Alle som svarte skal få vite hva som kom ut av det. Dette er tilbakemeldingen til hele virksomheten."
     },
     "filterYear": "År",
@@ -1198,6 +1202,22 @@
         "signers": "signaturer",
         "evaluation": "evalueringen av ordningen"
       }
+    },
+    "styret": {
+      "statusHead": "Status",
+      "index": "Arbeidsmiljøindeksen er {index} av 100.",
+      "indexDelta": "Arbeidsmiljøindeksen er {index} av 100, {dir, select, down {{delta} poeng lavere enn} up {{delta} poeng høyere enn} other {det samme som}} i {year}.",
+      "rate": "{answered} av {total} ansatte svarte ({pct} %).",
+      "high": "{count, plural, one {Én} other {#}} av {total} faktorer har høy risiko: {list}.",
+      "noHigh": "Ingen av de {count} faktorene har høy risiko.",
+      "assessed": "Risikovurderingen ble gjort {date}, slik arbeidsmiljøloven § 3-1 bokstav c krever.",
+      "notAssessed": "Risikovurderingen etter arbeidsmiljøloven § 3-1 bokstav c gjenstår.",
+      "measures": "{count, plural, one {Ett tiltak er bestemt} other {# tiltak er bestemt}}, {done} er gjennomført{late, plural, =0 {} one {, og ett er over fristen} other {, og # er over fristen}}.",
+      "noMeasures": "Ingen tiltak er bestemt ennå.",
+      "resolutionHead": "Forslag til vedtak",
+      "resolution": "Styret tar orienteringen om arbeidsmiljøet til etterretning.",
+      "resolutionHigh": "Styret tar orienteringen om arbeidsmiljøet til etterretning, og ber daglig leder følge opp tiltakene for {list} og orientere styret om effekten.",
+      "note": "Notatet er satt sammen av Orgpuls fra kartleggingen, risikovurderingen og tiltakene. Ingen tall gjelder grupper med færre enn {threshold} svar, og ingen enkeltsvar eller kommentarer er med."
     }
   },
   "tiltak": {
@@ -10454,6 +10474,33 @@
         "Dekker arbeidsmiljøloven",
         "Anonymt, 5 svar som standard"
       ]
+    },
+    "voTip": {
+      "kicker": "For verneombud",
+      "title": "Tips ledelsen om kartleggingen",
+      "lead": "Skriv inn navnene, så får du en ferdig e-post til daglig leder. Du sender den selv, fra din egen e-post. Orgpuls ser ikke hva du skriver, og lagrer ingenting.",
+      "you": "Ditt navn",
+      "leader": "Daglig leders fornavn",
+      "org": "Arbeidsplassen",
+      "optional": "valgfritt",
+      "preview": "E-posten",
+      "open": "Åpne i e-postprogrammet",
+      "copy": "Kopier teksten",
+      "copied": "Kopiert. Lim den inn i en ny e-post.",
+      "failed": "Kunne ikke kopiere. Merk teksten og kopier den selv.",
+      "subject": "Forslag: kartlegging av arbeidsmiljøet",
+      "greeting": "Hei {leader},",
+      "greetingPlain": "Hei,",
+      "inOrg": " i {org}",
+      "body": [
+        "Arbeidsmiljøloven krever at vi kartlegger og risikovurderer det psykososiale arbeidsmiljøet{inOrg} (§ 3-1 og § 4-3). Som verneombud skal jeg ivareta de ansattes interesser i det arbeidet (§ 6-2), og jeg vil gjerne at vi kommer i gang.",
+        "Jeg har sett på Orgpuls, en norsk tjeneste for nettopp dette. De ansatte svarer anonymt på mobilen, og vi får resultatene, forslag til tiltak og dokumentasjonen Arbeidstilsynet ber om.",
+        "Den årlige hovedkartleggingen er gratis, og oppsettet tar under en time. Verneombud og tillitsvalgte får tilgang uten ekstra kostnad, så legg meg gjerne inn som verneombud i oppsettet.",
+        "Her kan du lese mer og komme i gang: {link}",
+        "Kan vi ta det opp på neste møte?"
+      ],
+      "sign": "Hilsen\n{you}\nverneombud",
+      "signPlain": "Hilsen\nverneombudet"
     }
   },
   "dpa": {

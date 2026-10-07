@@ -11799,3 +11799,31 @@ nobody is told.
   hosted project and rolled back; `dispatch_invariants` and `round_page_invariants` still green) and
   `tests/unit/mail.test.ts`. 0211–0213 are applied to the hosted project, and the edge functions were
   deployed before them, so no queued notice met a dispatcher that could not write it.
+
+## D-246 — The board's note, and «Tips ledelsen» for the verneombud (2026-10-07)
+
+The last two points of the growth review of 7 October 2026 (Tor: «fortsett med verneombudet og
+styrenotatet»).
+
+**Styrenotat.** Rapport has a fifth recipient, **Styret** (`?mottaker=styret`): one page from the same
+basis as the other four. Three figures (index, response rate, factors at high risk), a status list –
+the index and how it moved since the comparison year, how many answered, which factors carry high
+risk, whether and when the risk assessment was made (§ 3-1 c), how many measures are decided, done and
+past their deadline – and a proposed resolution: take the briefing to note, and, where factors carry
+high risk, ask the daglig leder to follow up their measures and report on the effect. Every line is
+printed only when its figure exists. It is the whole organisation's: the department chips are not
+offered for it. The review asked for a note «skrevet av Tuva»; it is put together from the figures
+and says so («satt sammen av Orgpuls»), since nothing here writes free text. The Rapport baseline's
+recipient row now has five chips; «fire mottakere» in the lead reads «fem».
+
+**Tips ledelsen.** The review proposed free access for the verneombud with an invitation to the
+management. The verneombud already has access at no cost once the organisation is set up; what
+stands in the way is getting the organisation to start, and a verneombud cannot start the employer's
+duty or own its data. So /verneombud gets «Tips ledelsen om kartleggingen» (`components/marketing/
+VoTip.tsx`): the verneombud writes their own name and, if they like, the daglig leder's and the
+workplace's, and gets a finished e-mail – the legal duty (§ 3-1, § 4-3, § 6-2), what Orgpuls does,
+that the yearly survey is free, and «legg meg inn som verneombud i oppsettet» – to open in their own
+mail program or copy. It is put together in the browser: Orgpuls neither sends it nor stores who wrote
+it or to whom, so there is no list of third parties' addresses and no message sent on anyone's
+behalf. The link in it carries `utm_source=verneombud&utm_medium=tips`, never a person. Its texts are
+in the legal review with the page (`lp.verneombud`). The page map for /verneombud is regenerated.

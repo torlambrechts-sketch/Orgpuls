@@ -443,7 +443,8 @@
    ],
    "states": [
     "factor.mening.short",
-    "factor.mening.desc"
+    "factor.mening.desc",
+    "factor.mening.map"
    ]
   },
   {
@@ -576,7 +577,8 @@
    ],
    "states": [
     "factor.mengde.short",
-    "factor.mengde.desc"
+    "factor.mengde.desc",
+    "factor.mengde.map"
    ]
   },
   {
@@ -654,7 +656,8 @@
    "states": [
     "factor.emosjon.short",
     "factor.emosjon.desc",
-    "factor.emosjon.abbr"
+    "factor.emosjon.abbr",
+    "factor.emosjon.map"
    ]
   },
   {
@@ -902,7 +905,8 @@
     "factor.integritet.short",
     "factor.integritet.desc",
     "factor.integritet.name",
-    "factor.integritet.abbr"
+    "factor.integritet.abbr",
+    "factor.integritet.map"
    ]
   },
   {
@@ -974,7 +978,8 @@
    "states": [
     "factor.kontakt.short",
     "factor.kontakt.desc",
-    "factor.kontakt.abbr"
+    "factor.kontakt.abbr",
+    "factor.kontakt.map"
    ]
   },
   {
@@ -1235,7 +1240,8 @@
    "states": [
     "factor.medvirk.short",
     "factor.medvirk.desc",
-    "factor.medvirk.abbr"
+    "factor.medvirk.abbr",
+    "factor.medvirk.map"
    ]
   },
   {
@@ -1314,7 +1320,8 @@
    "states": [
     "factor.motstrid.short",
     "factor.motstrid.desc",
-    "factor.motstrid.abbr"
+    "factor.motstrid.abbr",
+    "factor.motstrid.map"
    ]
   },
   {
@@ -1560,7 +1567,8 @@
    ],
    "states": [
     "factor.rolle.short",
-    "factor.rolle.desc"
+    "factor.rolle.desc",
+    "factor.rolle.map"
    ]
   },
   {
@@ -1705,7 +1713,8 @@
    "states": [
     "factor.kollega.short",
     "factor.kollega.desc",
-    "factor.kollega.abbr"
+    "factor.kollega.abbr",
+    "factor.kollega.map"
    ]
   },
   {
@@ -1777,7 +1786,8 @@
    ],
    "states": [
     "factor.leder.short",
-    "factor.leder.desc"
+    "factor.leder.desc",
+    "factor.leder.map"
    ]
   },
   {
@@ -5597,6 +5607,24 @@
     "seo.lp.verneombud.blocks.15.text",
     "seo.lp.verneombud.blocks.16.text",
     "seo.lp.verneombud.blocks.17.text",
+    "seo.voTip.kicker",
+    "seo.voTip.title",
+    "seo.voTip.lead",
+    "seo.voTip.you",
+    "seo.voTip.leader",
+    "seo.voTip.optional",
+    "seo.voTip.org",
+    "seo.voTip.preview",
+    "seo.voTip.subject",
+    "seo.voTip.greetingPlain",
+    "seo.voTip.body.0",
+    "seo.voTip.body.1",
+    "seo.voTip.body.2",
+    "seo.voTip.body.3",
+    "seo.voTip.body.4",
+    "seo.voTip.signPlain",
+    "seo.voTip.open",
+    "seo.voTip.copy",
     "seo.maler.informasjon.crumb",
     "seo.maler.informasjon.teaser",
     "start.faqEyebrow",
@@ -5605,7 +5633,13 @@
     "seo.articles.anonym.h1",
     "seo.articles.anonym.description"
    ],
-   "states": []
+   "states": [
+    "seo.voTip.copied",
+    "seo.voTip.failed",
+    "seo.voTip.greeting",
+    "seo.voTip.inOrg",
+    "seo.voTip.sign"
+   ]
   },
   {
    "path": "/vilkar",
@@ -5763,6 +5797,7 @@
  "unseen": [
   "factor.ytring.short",
   "factor.ytring.desc",
+  "factor.ytring.map",
   "start.step.listen.title",
   "start.step.listen.body",
   "start.step.listen.time",

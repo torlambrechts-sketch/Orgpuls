@@ -50,7 +50,7 @@ import { getRoundFactorKeys, getRoundRows, withParticipation, type RoundListItem
  */
 export const dynamic = 'force-dynamic'
 
-const AUDIENCE_KEYS: Audience[] = ['tilsyn', 'amu', 'ledelse', 'ansatte']
+const AUDIENCE_KEYS: Audience[] = ['tilsyn', 'amu', 'ledelse', 'styret', 'ansatte']
 
 export default async function RapportPage({
   searchParams,
@@ -168,7 +168,9 @@ export default async function RapportPage({
    * «avdeling» chips — which could only narrow it to itself — are not offered (AUD-33).
    */
   const scopedTo = summary && summary.scope === 'group' ? (summary.scope_label ?? '') : null
-  const teamResult = params.avdeling && scopedTo === null
+  // the board's note is the whole organisation's (D-246): no department to choose
+  const board = params.mottaker === 'styret'
+  const teamResult = params.avdeling && scopedTo === null && !board
     ? (byGroup?.groups.find((g) => g.group_name === params.avdeling && g.status === 'ok') ?? null)
     : null
   const team = scopedTo ?? teamResult?.group_name ?? null
@@ -237,7 +239,7 @@ export default async function RapportPage({
     team,
     years,
     teams: scopedTo === null ? teams : [],
-    teamLocked: scopedTo !== null,
+    teamLocked: scopedTo !== null || board,
     org: org
       ? { name: org.name, orgNumber: org.org_number, employeeCount: org.employee_count }
       : null,

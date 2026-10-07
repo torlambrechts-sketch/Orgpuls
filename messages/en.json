@@ -974,30 +974,34 @@
   "rapport": {
     "backToInnsikt": "← Insight",
     "title": "Report",
-    "lead": "One basis, four recipients. Choose who the report is for — the content changes with it.",
+    "lead": "One basis, five recipients. Choose who the report is for — the content changes with it.",
     "print": "Print or save as PDF",
     "audience": {
       "tilsyn": "The Labour Inspection Authority",
       "amu": "The working environment committee",
       "ledelse": "The leadership team",
+      "styret": "The board",
       "ansatte": "The employees"
     },
     "audienceNote": {
       "tilsyn": "Full documentation with legal bases, method, participation and signature fields. This is the version you present at an inspection.",
       "amu": "A committee paper with a recommendation and room for the minutes. Without individual comments.",
       "ledelse": "Two pages: the figures, the three priorities, and what they cost in time. Without statutory references.",
+      "styret": "One page for the board meeting: the figures, the status of the legal duties and a proposed resolution. No group figures and no quotes.",
       "ansatte": "Plain language, no figures below the threshold, no quotes that could be traced. Giving this back is what makes people answer next time."
     },
     "docTitle": {
       "tilsyn": "Documentation of systematic work on the psychosocial working environment",
       "amu": "Paper for the working environment committee — psychosocial working environment {year}",
       "ledelse": "Working environment {year} — status and priorities",
+      "styret": "Board note: the work environment {year}",
       "ansatte": "This is what you said — and this is what we are doing"
     },
     "docLead": {
       "tilsyn": "Prepared under the Working Environment Act § 3-1 (c) and § 4-3, and the regulation on the performance of work, part two chapter 1A. The document covers the survey and risk assessment of the psychosocial working environment — not the undertaking's other health and safety duties. It shows the survey, the risk assessment, the measures and the effect assessment for the period.",
       "amu": "A committee paper with findings, risk assessment and proposed measures. The safety representative and the union representatives have reviewed it before the meeting.",
       "ledelse": "A short account of where the undertaking stands, what weighs it down most, and what has been decided.",
+      "styret": "Briefing for the board on the psychosocial work environment: the survey, the risk assessment and the measures.",
       "ansatte": "Everyone who answered should know what came of it. This is the feedback to the whole undertaking."
     },
     "filterYear": "Year",
@@ -1198,6 +1202,22 @@
         "signers": "signatures",
         "evaluation": "the evaluation of the arrangement"
       }
+    },
+    "styret": {
+      "statusHead": "Status",
+      "index": "The work environment index is {index} out of 100.",
+      "indexDelta": "The work environment index is {index} out of 100, {dir, select, down {{delta} points lower than} up {{delta} points higher than} other {the same as}} in {year}.",
+      "rate": "{answered} of {total} employees answered ({pct}%).",
+      "high": "{count, plural, one {One} other {#}} of {total} factors carry high risk: {list}.",
+      "noHigh": "None of the {count} factors carries high risk.",
+      "assessed": "The risk assessment was made on {date}, as section 3-1 (c) of the Working Environment Act requires.",
+      "notAssessed": "The risk assessment under section 3-1 (c) of the Working Environment Act is outstanding.",
+      "measures": "{count, plural, one {One measure is decided} other {# measures are decided}}, {done} completed{late, plural, =0 {} one {, and one is past its deadline} other {, and # are past their deadline}}.",
+      "noMeasures": "No measures have been decided yet.",
+      "resolutionHead": "Proposed resolution",
+      "resolution": "The board takes note of the briefing on the work environment.",
+      "resolutionHigh": "The board takes note of the briefing on the work environment, and asks the managing director to follow up the measures for {list} and report back on their effect.",
+      "note": "The note was put together by Orgpuls from the survey, the risk assessment and the measures. No figure concerns a group with fewer than {threshold} answers, and no individual answer or comment is included."
     }
   },
   "tiltak": {
@@ -10454,6 +10474,33 @@
         "Covers the Working Environment Act",
         "Anonymous – 5 answers by default"
       ]
+    },
+    "voTip": {
+      "kicker": "For safety representatives",
+      "title": "Suggest the survey to management",
+      "lead": "Enter the names and you get a finished e-mail to the managing director. You send it yourself, from your own e-mail. Orgpuls does not see what you write and stores nothing.",
+      "you": "Your name",
+      "leader": "Managing director's first name",
+      "org": "Workplace",
+      "optional": "optional",
+      "preview": "The e-mail",
+      "open": "Open in your e-mail program",
+      "copy": "Copy the text",
+      "copied": "Copied. Paste it into a new e-mail.",
+      "failed": "Could not copy. Select the text and copy it yourself.",
+      "subject": "Suggestion: surveying our work environment",
+      "greeting": "Hi {leader},",
+      "greetingPlain": "Hi,",
+      "inOrg": " at {org}",
+      "body": [
+        "The Working Environment Act requires us to survey and risk-assess the psychosocial work environment{inOrg} (sections 3-1 and 4-3). As safety representative I am to look after the employees' interests in that work (section 6-2), and I would like us to get started.",
+        "I have looked at Orgpuls, a Norwegian service made for exactly this. Employees answer anonymously on their phones, and we get the results, suggested measures and the documentation the Labour Inspection Authority asks for.",
+        "The yearly main survey is free, and setting it up takes less than an hour. Safety representatives and union representatives get access at no extra cost, so do add me as safety representative in the setup.",
+        "You can read more and get started here: {link}",
+        "Could we bring it up at the next meeting?"
+      ],
+      "sign": "Best regards\n{you}\nsafety representative",
+      "signPlain": "Best regards\nthe safety representative"
     }
   },
   "dpa": {

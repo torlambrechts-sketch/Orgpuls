@@ -58,6 +58,7 @@ export async function PageView({
   heroArt,
   heroAside,
   template,
+  extra,
 }: {
   content: PageContent
   /** a splash page for an ad or a mailing: the hero without the trail back into the site */
@@ -84,6 +85,8 @@ export async function PageView({
   heroAside?: React.ReactNode
   /** the free template that belongs with the page, under its blocks (D-243) */
   template?: string
+  /** a page's own tool under its blocks, before the template: the verneombud's «Tips ledelsen» (D-246) */
+  extra?: React.ReactNode
 }) {
   const t = await getTranslations()
   const plain = plainProp || informational
@@ -205,6 +208,7 @@ export async function PageView({
                 }
           }
         >
+          {extra}
           {template ? <TemplateTeaser slug={template} className="mt-[34px]" /> : null}
         </WithAside>
       </div>

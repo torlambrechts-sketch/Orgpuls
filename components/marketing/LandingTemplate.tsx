@@ -9,6 +9,8 @@ import {
   type LandingSlug,
 } from '@/lib/marketing/site'
 import { PageTemplate } from './PageTemplate'
+import { VoTip, type VoTipWords } from './VoTip'
+import { MAIN_URL } from '@/lib/hosts'
 import { LawArt } from './art/LawArt'
 import { SafetyRepArt } from './art/SafetyRepArt'
 import { SmallBizArt } from './art/SmallBizArt'
@@ -29,6 +31,12 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
         parent={{ name: t('seo.index.crumb'), path: '/artikler' }}
         articles={LANDING_ARTICLES[slug]}
         template={LANDING_TEMPLATE[slug]}
+        // «Tips ledelsen»: a finished e-mail to the daglig leder, written in the browser (D-246)
+        extra={
+          slug === 'verneombud' ? (
+            <VoTip words={t.raw('seo.voTip') as VoTipWords} link={`${MAIN_URL}/?utm_source=verneombud&utm_medium=tips`} />
+          ) : undefined
+        }
         informational
         heroArt={slug === 'lovkrav' ? <LawArt className="h-auto w-full max-w-[440px]" /> : <SafetyRepArt className="h-auto w-full max-w-[440px]" />}
       />
