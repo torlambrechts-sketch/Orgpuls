@@ -4416,11 +4416,11 @@
         "crumb": "The legal requirement",
         "card": {
           "title": "The legal requirement",
-          "text": "What the Act and the regulation require of mapping, and how you document it."
+          "text": "What the Act and the regulation require of the survey, factor by factor."
         },
         "kicker": "Working Environment Act § 3-1 and § 4-3",
-        "h1": "Mapping the psychosocial working environment – documented, without a separate project",
-        "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Since 1 January 2026 the regulation says more clearly how. Orgpuls makes each step part of work you do anyway – and the report is ready the day someone asks.",
+        "h1": "What does the Working Environment Act require of a survey of the psychosocial working environment?",
+        "lead": "The employer must survey psychosocial conditions that may affect employees' health, safety or welfare, assess the risk, put the necessary measures in place and follow them up. The requirement is in section 3-1 of the Working Environment Act and is set out in more detail in chapter 1A of the regulation on the performance of work, in force from 1 January 2026. The work must be done in cooperation with employees and their representatives, and it must be documented.",
         "blocks": [
           {
             "t": "h2",
@@ -4435,19 +4435,19 @@
             "items": [
               {
                 "ref": "AML § 3-1 (2) c",
-                "text": "Map, assess risk, make plans and put measures in place. **How Orgpuls does it:** one survey is the mapping, the result shows the risk per factor, and the findings become measures with an owner and a deadline."
+                "text": "Map, assess risk, make plans and put measures in place."
               },
               {
                 "ref": "AML § 4-3",
-                "text": "The psychosocial working environment shall be fully satisfactory. **How Orgpuls does it:** 11 factors covering what the section names, among them unclear and conflicting demands, emotional demands, workload and support."
+                "text": "The psychosocial working environment shall be fully satisfactory."
               },
               {
                 "ref": "Regulation § 1A-2",
-                "text": "Mapping shall be done together with the employees, repeated regularly and documented. **How Orgpuls does it:** the annual wheel plans the rounds, and every round is stored with its date."
+                "text": "Mapping shall be done together with the employees, repeated regularly and documented."
               },
               {
                 "ref": "AML § 6-2",
-                "text": "The safety representative shall be consulted. **How Orgpuls does it:** the safety representative sees the same figures as management, at no extra cost."
+                "text": "The safety representative shall be consulted."
               }
             ]
           },
@@ -4457,7 +4457,7 @@
           },
           {
             "t": "h2",
-            "text": "The factors the law names – and how Orgpuls measures them"
+            "text": "The factors the law names"
           },
           {
             "t": "p",
@@ -4468,7 +4468,7 @@
             "head": [
               "Factor in the rules",
               "Legal basis",
-              "In Orgpuls"
+              "Read more"
             ],
             "rows": [
               [
@@ -4504,12 +4504,12 @@
               [
                 "Harassment, including sexual harassment",
                 "aml § 4-⁠3 (5) · § 1A-⁠1 f",
-                "Integrity and dignity, and a separate question about offensive behaviour that is only counted"
+                "[Integrity and dignity](/artikler/integritet-og-verdighet) · own rules in chapter 2A of the regulation"
               ],
               [
                 "Violence and threats",
                 "aml § 4-⁠3 (6) · § 1A-⁠1 g",
-                "A separate question that is only counted"
+                "Own rules in chapter 3A of the regulation"
               ],
               [
                 "Self-determination and influence in the work",
@@ -4530,7 +4530,7 @@
           },
           {
             "t": "p",
-            "text": "The questions about offensive behaviour and about violence and threats are not part of the index. They are shown only as counts for the whole organisation, never per department, so nobody can work out who answered yes."
+            "text": "Harassment and violence and threats also have their own chapters in the regulation on the performance of work: chapter 2A on harassment and other improper conduct, and chapter 3A on violence and threats. Both have their own provisions on surveying and assessing the risk, and on measures."
           },
           {
             "t": "h2",
@@ -4549,19 +4549,19 @@
               },
               {
                 "ref": "Regulation § 1A-2",
-                "text": "Survey the factors, and assess the risk in the short and long term: each factor separately, how they affect each other, and together. In cooperation with employees, adapted to the business, repeated regularly and when things change, and documented. **In Orgpuls:** a risk band per factor, a heatmap per department, and the risk assessment brought together in the report."
+                "text": "Survey the factors, and assess the risk in the short and long term: each factor separately, how they affect each other, and together. In cooperation with employees, adapted to the business, repeated regularly and when things change, and documented."
               },
               {
                 "ref": "Regulation § 1A-3",
-                "text": "Draw up the necessary plans and put the necessary measures in place to eliminate or reduce the risk, together with employees. Measures should as far as possible address the causes. **In Orgpuls:** measures with an owner, a deadline and the factor they should move, and ready suggestions to start from."
+                "text": "Draw up the necessary plans and put the necessary measures in place to eliminate or reduce the risk, together with employees. Measures should as far as possible address the causes."
               },
               {
                 "ref": "Regulation § 1A-4",
-                "text": "Employees and their representatives must get the information they need about the risk factors and the measures, and the training they need. **In Orgpuls:** a page of its own you share with employees when the round is closed – what they said, and what you are doing about it."
+                "text": "Employees and their representatives must get the information they need about the risk factors and the measures, and the training they need."
               },
               {
                 "ref": "Regulation § 1A-5",
-                "text": "Employees must take part in the work, cf. Working Environment Act § 2-3. Arbeidstilsynet stresses that this does not make the individual responsible for solving the problems alone. **In Orgpuls:** about four minutes per employee, anonymous, sent by e-mail or SMS or shared as a link and QR code."
+                "text": "Employees must take part in the work, cf. Working Environment Act § 2-3. Arbeidstilsynet stresses that this does not make the individual responsible for solving the problems alone."
               }
             ]
           },
@@ -4597,11 +4597,11 @@
           {
             "t": "box",
             "title": "Whistleblowing routines belong here too",
-            "text": "If you regularly employ at least five people, you must have written routines for internal reporting, drawn up with your employees (aml § 2 A-6). Freedom to speak up in the survey shows whether people actually dare to use them. Read more about [freedom to speak up](/artikler/ytringsklima)."
+            "text": "If the business regularly employs at least five people, it must have written routines for internal reporting, drawn up together with the employees (aml § 2 A-6). Whether people actually dare to use them is a question of the climate for speaking up. Read more about [freedom to speak up](/artikler/ytringsklima)."
           },
           {
             "t": "h2",
-            "text": "The documentation builds itself"
+            "text": "What the documentation should show"
           },
           {
             "t": "p",
@@ -4618,17 +4618,9 @@
             ]
           },
           {
-            "t": "p",
-            "text": "The regulation requires the mapping and risk assessment to be documented and to form part of the systematic health, safety and environment work. Orgpuls stores every survey, every risk assessment and every measure with a date and an owner. The report follows the four steps of section 3-1 letter c in order: what was mapped, what the risk assessment concluded, which measures were put in place, and what the follow-up showed."
-          },
-          {
-            "t": "p",
-            "text": "The figures stay as they were when the round closed, so the documentation does not change afterwards. You can print the report or save it as PDF the day someone asks."
-          },
-          {
             "t": "box",
-            "title": "What Orgpuls does not cover",
-            "text": "Orgpuls covers the mapping and risk assessment of the psychosocial working environment. HSE goals, deviation handling, sickness absence follow-up and safety inspections live elsewhere. Arbeidstilsynet expects mapping to draw on several sources – a survey is one of them."
+            "title": "The survey is more than one questionnaire",
+            "text": "A questionnaire for employees is one way to survey. Safety inspections, incident reports, sickness absence figures and conversations with employees can give a fuller picture of the risk. What matters is that the documentation shows what was found, how it was assessed and what was done."
           },
           {
             "t": "h2",
@@ -4643,29 +4635,8 @@
             "text": "When Arbeidstilsynet considers an infringement fine, it must among other things weigh whether the business could have prevented the breach through guidelines, training, checks or other measures. A survey that has been done, assessed and followed up – and can be shown – is therefore also the best answer to an inspection."
           },
           {
-            "t": "h2",
-            "text": "What a year looks like"
-          },
-          {
-            "t": "cards",
-            "items": [
-              {
-                "title": "Baseline",
-                "text": "The full question set once a year: 33 statements across 11 factors. About 4 minutes per employee."
-              },
-              {
-                "title": "Measures",
-                "text": "The result points to what lifts the most. You choose measures and give each an owner and a deadline."
-              },
-              {
-                "title": "Pulse",
-                "text": "Short surveys between baselines, only on the factors where a measure is running. Under 1 minute."
-              },
-              {
-                "title": "Report",
-                "text": "Mapping, risk assessment, measures and follow-up – together, dated, ready for an inspection."
-              }
-            ]
+            "t": "p",
+            "text": "Read more about [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo), [what is new from 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026), [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo) and [how results become measures](/artikler/fra-resultater-til-tiltak)."
           }
         ],
         "faq": [
@@ -4675,15 +4646,15 @@
           },
           {
             "q": "Is an employee survey enough?",
-            "a": "It is a good source, but rarely the only one. Arbeidstilsynet also points to safety inspections and appraisal conversations. What counts is that you map, assess risk, put measures in place and follow up – and can show it."
+            "a": "It can be an important source, but the requirement covers the whole chain: survey, risk assessment, measures and follow-up, in cooperation with employees and their representatives. Safety inspections, incident reports and conversations with employees can give a fuller picture."
           },
           {
             "q": "What changed on 1 January 2026?",
-            "a": "The regulation on the performance of work gained a new chapter 1A on the psychosocial working environment. Arbeidstilsynet writes that the changes bring no new requirements, but clarify the ones that already applied."
+            "a": "The regulation on the performance of work gained a new chapter 1A on the psychosocial working environment. Arbeidstilsynet writes that the provisions spell out sections 4-1 and 4-3 of the Act and the employer's duty to systematic health and safety work under section 3-1."
           },
           {
             "q": "How often must we map?",
-            "a": "The regulation says mapping shall be repeated regularly and when changes may affect the risk. It sets no fixed interval. A common rhythm is one main survey a year with short pulses in between."
+            "a": "The regulation says the survey must be repeated regularly and when changes may affect the risk. It sets no fixed interval. Arbeidstilsynet gives changes in organisation, staffing, tasks, management, technology, working hours or operating conditions as examples."
           },
           {
             "q": "Who is responsible for the survey?",
@@ -4701,26 +4672,19 @@
             "q": "What can Arbeidstilsynet do if we have not surveyed?",
             "a": "Issue an order with a deadline to put it right (aml § 18-6), possibly with a coercive fine until it is done (§ 18-7). For negligent or wilful breaches, the business can be given an infringement fine (§ 18-10)."
           }
-        ],
-        "finalTitle": "Do all four steps in one rhythm",
-        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in 3 minutes, and you give no card details until you have decided."
+        ]
       },
       "verneombud": {
-        "title": "Safety representatives and work environment mapping | Orgpuls",
-        "description": "The safety representative's rights when the working environment is surveyed: what the law says, your role at each step, and the same figures as management.",
+        "title": "The safety representative and the survey | Orgpuls",
+        "description": "The safety representative's rights and duties when the psychosocial working environment is surveyed: the law, the role at each step, and what to do.",
         "crumb": "For safety representatives",
         "card": {
           "title": "Safety representatives",
-          "text": "Access to the mapping and the measures at no extra cost – and a ready e-mail you can send to management."
+          "text": "The safety representative's rights and duties when the working environment is surveyed, step by step."
         },
         "kicker": "Working Environment Act § 6-2",
-        "h1": "Safety representatives in the mapping: you see the same figures as management",
-        "lead": "As a safety representative you shall be consulted when your organisation maps the working environment and puts measures in place. For that you need the same basis as management – not a summary afterwards. Orgpuls gives you that, at no extra cost.",
-        "tip": {
-          "label": "Tip your manager",
-          "subject": "Mapping the working environment",
-          "body": "Hi,\n\nWe are due to map the psychosocial working environment and follow up the measures. I have looked at Orgpuls: the answers are anonymous, it takes about four minutes per employee, and as safety representative I get access at no extra cost. It costs from NOK 265 a month excl. VAT and can be tried free for 15 days: https://www.orgpuls.com/verneombud\n\nCan we talk about it?\n"
-        },
+        "h1": "The safety representative and the survey: rights, duties and how it works",
+        "lead": "The safety representative must see that the psychosocial working environment is taken care of, and must be consulted when measures are planned and carried out. When the working environment is surveyed, the safety representative is one of the representatives the employer must cooperate with – in the survey, in the risk assessment and when measures are chosen. Responsibility for getting it done lies with the employer.",
         "blocks": [
           {
             "t": "h2",
@@ -4760,33 +4724,33 @@
             "head": [
               "Step",
               "Your role",
-              "In Orgpuls"
+              "Questions you can ask"
             ],
             "rows": [
               [
                 "Planning",
                 "Take part when the rhythm and the questions are chosen.",
-                "The annual wheel plans the rounds, and safety and union representatives are told before employees."
+                "When will the survey be done, and who helps choose the questions?"
               ],
               [
                 "Survey",
                 "Encourage colleagues to answer, and be able to explain why it is safe.",
-                "Answers are stored with no link to a person, and no group is shown before at least 5 have answered."
+                "How is anonymity secured, and how small are the groups that are shown?"
               ],
               [
                 "Risk assessment",
                 "Assess the figures together with management – not get a summary afterwards.",
-                "You see the same figures and the same risk assessment as management."
+                "Do I see the same figures as management, and am I involved when the risk is assessed?"
               ],
               [
                 "Measures",
                 "Take part when measures are chosen, and see that they address the causes.",
-                "Every measure has an owner, a deadline and the factor it should move."
+                "Does every measure have someone responsible and a deadline, and does it address the cause?"
               ],
               [
                 "Follow-up",
                 "See that measures are done, and that someone checks whether they worked.",
-                "A measure cannot be closed until the next pulse has measured its effect."
+                "How, and when, will we see whether the measures worked?"
               ]
             ]
           },
@@ -4796,26 +4760,26 @@
           },
           {
             "t": "h2",
-            "text": "What you get in Orgpuls"
+            "text": "What the safety representative should have access to"
           },
           {
             "t": "cards",
             "items": [
               {
-                "title": "The same figures as management",
-                "text": "You see the result for the whole organisation, as the managing director sees it – not a presentation afterwards."
+                "title": "The same basis as management",
+                "text": "To take part in the risk assessment, the safety representative needs the same results as management – not just a summary afterwards."
               },
               {
-                "title": "Measures with an owner and a deadline",
-                "text": "You see which measures are set, who owns them, and when they are due."
+                "title": "The measures",
+                "text": "Which measures were chosen, who is responsible, when they are due, and how they will be followed up."
               },
               {
-                "title": "Anonymity you can vouch for",
-                "text": "By default no group is shown until at least 5 have answered, and the limit applies to administrators too. Small teams can lower it to 3, but never further."
+                "title": "How anonymity is secured",
+                "text": "The safety representative should be able to explain to colleagues why it is safe to answer: what is stored, and how small the groups shown can be."
               },
               {
-                "title": "No extra cost",
-                "text": "The safety representative has access at no extra cost to the organisation."
+                "title": "The documentation",
+                "text": "What was surveyed, how the risk was assessed and what was done. It must form part of the systematic health and safety work."
               }
             ]
           },
@@ -4825,7 +4789,7 @@
           },
           {
             "t": "p",
-            "text": "Do you know the mapping should be done, but not how to raise it? The «Tip your manager» button at the top of this page opens a ready e-mail in your own mail program. You can change it before you send it, and we never see it."
+            "text": "Do you know the survey should have been done, but not how to raise it? Start with questions, not demands: when was the psychosocial working environment last surveyed, what came out of it, and what happened with the findings? You can point to chapter 1A of the regulation, which since 1 January 2026 sets out the requirements more clearly. Read more about [what is new from 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
           },
           {
             "t": "box",
@@ -4859,7 +4823,7 @@
           },
           {
             "t": "p",
-            "text": "When a small department is not shown, nobody is hiding anything from you: the figure is not calculated for anyone. The answers still count in the whole, so no voice is lost. Read more about [what anonymous means in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
+            "text": "In an anonymous survey, results are usually not shown for groups below a certain size, often five answers. When a small department is not shown, nobody is hiding anything from you: the figure has not been calculated for anyone, precisely so that nobody can tell who answered what. The answers still count in the figures for the whole. Read more about [what anonymous means in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
           }
         ],
         "faq": [
@@ -4869,15 +4833,11 @@
           },
           {
             "q": "Can management see who answered what?",
-            "a": "No. The answer is stored without name, e-mail address or IP address, and by default no group is shown until at least 5 have answered."
-          },
-          {
-            "q": "Does it cost me anything as safety representative?",
-            "a": "No. The organisation pays for the subscription, and the safety representative has access at no extra cost."
+            "a": "Not in an anonymous survey. Answers should be stored without anything that could link them to the person who answered, and results for groups below a certain size should not be shown. Ask how this is handled before the survey goes out."
           },
           {
             "q": "What if management does not want to?",
-            "a": "The mapping requirement applies whatever tool you use – Orgpuls is one way to meet it. If the organisation has a working environment committee, you can raise it there."
+            "a": "The duty to survey, assess risk and put measures in place applies regardless, and the responsibility is the employer's (aml § 2-1). If you get no answer within a reasonable time on conditions that may harm health, you must inform Arbeidstilsynet or the working environment committee (aml § 6-2 third paragraph)."
           },
           {
             "q": "How many safety representatives do we need?",
@@ -4891,10 +4851,7 @@
             "q": "What do I do if the employer does not answer?",
             "a": "The employer must answer the safety representative. If the report has not been taken into account within a reasonable time, the safety representative must inform Arbeidstilsynet or the working environment committee (aml § 6-2 third paragraph)."
           }
-        ],
-        "finalTitle": "Tip management, or start yourself",
-        "finalBody": "Both manager and safety representative in a small organisation? Start with the organisation number – you are up and running in 3 minutes.",
-        "signupLabel": "Are you a manager? Organisation number"
+        ]
       },
       "smaaBedrifter": {
         "title": "Employee survey for small businesses | Orgpuls",

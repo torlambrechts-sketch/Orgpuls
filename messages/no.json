@@ -4416,11 +4416,11 @@
         "crumb": "Lovkravet",
         "card": {
           "title": "Lovkravet",
-          "text": "Hva arbeidsmiljøloven og forskriften krever av kartlegging, og hvordan dere dokumenterer det."
+          "text": "Hva arbeidsmiljøloven og forskriften krever av kartleggingen, faktor for faktor."
         },
         "kicker": "Arbeidsmiljøloven § 3-1 og § 4-3",
-        "h1": "Kartlegging av psykososialt arbeidsmiljø – dokumentert, uten et eget prosjekt",
-        "lead": "Arbeidsmiljøloven krever at dere kartlegger det psykososiale arbeidsmiljøet, vurderer risikoen, setter tiltak og følger opp. Fra 1. januar 2026 sier forskriften tydeligere hvordan. Orgpuls gjør hvert steg til en del av jobben dere uansett gjør – og rapporten er klar den dagen noen spør.",
+        "h1": "Hva krever arbeidsmiljøloven av kartleggingen av det psykososiale arbeidsmiljøet?",
+        "lead": "Arbeidsgiveren skal kartlegge psykososiale forhold som kan påvirke de ansattes helse, sikkerhet eller velferd, vurdere risikoen, sette i verk nødvendige tiltak og følge dem opp. Kravet står i arbeidsmiljøloven § 3-1 og er utdypet i forskrift om utførelse av arbeid kapittel 1A, som gjelder fra 1. januar 2026. Arbeidet skal gjøres i samarbeid med de ansatte og deres representanter, og det skal dokumenteres.",
         "blocks": [
           {
             "t": "h2",
@@ -4435,19 +4435,19 @@
             "items": [
               {
                 "ref": "AML § 3-1 (2) c",
-                "text": "Kartlegge, vurdere risiko, lage planer og sette i verk tiltak. **Slik gjør Orgpuls det:** én måling gir kartleggingen, resultatet viser risikoen per faktor, og funnene blir tiltak med eier og frist."
+                "text": "Kartlegge, vurdere risiko, lage planer og sette i verk tiltak."
               },
               {
                 "ref": "AML § 4-3",
-                "text": "Det psykososiale arbeidsmiljøet skal være fullt forsvarlig. **Slik gjør Orgpuls det:** 11 faktorer som dekker det paragrafen nevner, blant annet uklare og motstridende krav, emosjonelle krav, arbeidsmengde og støtte."
+                "text": "Det psykososiale arbeidsmiljøet skal være fullt forsvarlig."
               },
               {
                 "ref": "Forskriften § 1A-2",
-                "text": "Kartleggingen skal gjøres i samarbeid med de ansatte, gjentas regelmessig og dokumenteres. **Slik gjør Orgpuls det:** årshjulet planlegger rundene, og hver runde lagres med dato."
+                "text": "Kartleggingen skal gjøres i samarbeid med de ansatte, gjentas regelmessig og dokumenteres."
               },
               {
                 "ref": "AML § 6-2",
-                "text": "Verneombudet skal tas med på råd. **Slik gjør Orgpuls det:** verneombudet ser de samme tallene som ledelsen, uten ekstra kostnad."
+                "text": "Verneombudet skal tas med på råd."
               }
             ]
           },
@@ -4457,7 +4457,7 @@
           },
           {
             "t": "h2",
-            "text": "Faktorene loven nevner – og hvordan Orgpuls måler dem"
+            "text": "Faktorene loven nevner"
           },
           {
             "t": "p",
@@ -4468,7 +4468,7 @@
             "head": [
               "Faktor i regelverket",
               "Hjemmel",
-              "I Orgpuls"
+              "Les mer"
             ],
             "rows": [
               [
@@ -4504,12 +4504,12 @@
               [
                 "Trakassering, herunder seksuell trakassering",
                 "aml § 4-⁠3 (5) · § 1A-⁠1 f",
-                "Integritet og verdighet, og et eget spørsmål om krenkende atferd som bare telles"
+                "[Integritet og verdighet](/artikler/integritet-og-verdighet) · egne regler i forskriften kapittel 2A"
               ],
               [
                 "Vold og trusler",
                 "aml § 4-⁠3 (6) · § 1A-⁠1 g",
-                "Et eget spørsmål som bare telles"
+                "Egne regler i forskriften kapittel 3A"
               ],
               [
                 "Selvbestemmelse og innflytelse i arbeidet",
@@ -4530,7 +4530,7 @@
           },
           {
             "t": "p",
-            "text": "Spørsmålene om krenkende atferd og om vold og trusler går ikke inn i indeksen. De vises bare som antall for hele virksomheten, aldri per avdeling, så ingen kan regne seg fram til hvem som har svart ja."
+            "text": "Trakassering og vold og trusler har i tillegg egne kapitler i forskrift om utførelse av arbeid: kapittel 2A om trakassering og annen utilbørlig opptreden, og kapittel 3A om vold og trusler. Begge har egne bestemmelser om kartlegging og vurdering av risiko og om tiltak."
           },
           {
             "t": "h2",
@@ -4549,19 +4549,19 @@
               },
               {
                 "ref": "Forskriften § 1A-2",
-                "text": "Kartlegg faktorene, og vurder risikoen på kort og lang sikt: hver faktor for seg, hvordan de påvirker hverandre, og samlet. I samarbeid med de ansatte, tilpasset virksomheten, gjentatt regelmessig og ved endringer, og dokumentert. **I Orgpuls:** risikobånd per faktor, varmekart per avdeling, og risikovurderingen samlet i rapporten."
+                "text": "Kartlegg faktorene, og vurder risikoen på kort og lang sikt: hver faktor for seg, hvordan de påvirker hverandre, og samlet. I samarbeid med de ansatte, tilpasset virksomheten, gjentatt regelmessig og ved endringer, og dokumentert."
               },
               {
                 "ref": "Forskriften § 1A-3",
-                "text": "Lag nødvendige planer og sett i verk nødvendige tiltak for å fjerne eller redusere risikoen, sammen med de ansatte. Tiltakene bør så langt som mulig rette seg mot årsakene. **I Orgpuls:** tiltak med eier, frist og faktoren de skal flytte, og ferdige forslag å starte fra."
+                "text": "Lag nødvendige planer og sett i verk nødvendige tiltak for å fjerne eller redusere risikoen, sammen med de ansatte. Tiltakene bør så langt som mulig rette seg mot årsakene."
               },
               {
                 "ref": "Forskriften § 1A-4",
-                "text": "De ansatte og representantene deres skal få nødvendig informasjon om risikofaktorene og om tiltakene, og nødvendig opplæring. **I Orgpuls:** en egen side dere deler med de ansatte når runden er lukket – hva de sa, og hva dere gjør med det."
+                "text": "De ansatte og representantene deres skal få nødvendig informasjon om risikofaktorene og om tiltakene, og nødvendig opplæring."
               },
               {
                 "ref": "Forskriften § 1A-5",
-                "text": "Arbeidstakerne skal medvirke i arbeidet, jf. arbeidsmiljøloven § 2-3. Arbeidstilsynet presiserer at det ikke betyr at den enkelte har ansvar for å løse utfordringene alene. **I Orgpuls:** rundt fire minutter per ansatt, anonymt, sendt på e-post eller SMS eller delt som lenke og QR-kode."
+                "text": "Arbeidstakerne skal medvirke i arbeidet, jf. arbeidsmiljøloven § 2-3. Arbeidstilsynet presiserer at det ikke betyr at den enkelte har ansvar for å løse utfordringene alene."
               }
             ]
           },
@@ -4597,11 +4597,11 @@
           {
             "t": "box",
             "title": "Varslingsrutiner hører med",
-            "text": "Har dere jevnlig minst fem ansatte, skal dere ha skriftlige rutiner for intern varsling, laget sammen med de ansatte (aml § 2 A-6). Ytringsklimaet i undersøkelsen viser om folk faktisk tør å bruke dem. Les mer om [ytringsklima](/artikler/ytringsklima)."
+            "text": "Har virksomheten jevnlig minst fem ansatte, skal den ha skriftlige rutiner for intern varsling, laget i samarbeid med de ansatte (aml § 2 A-6). Om folk faktisk tør å bruke dem, er et spørsmål om ytringsklima. Les mer om [ytringsklima](/artikler/ytringsklima)."
           },
           {
             "t": "h2",
-            "text": "Dokumentasjonen lager seg selv"
+            "text": "Hva dokumentasjonen bør vise"
           },
           {
             "t": "p",
@@ -4618,17 +4618,9 @@
             ]
           },
           {
-            "t": "p",
-            "text": "Forskriften krever at kartleggingen og risikovurderingen dokumenteres og inngår i det systematiske HMS-arbeidet. Orgpuls lagrer hver måling, hver risikovurdering og hvert tiltak med dato og eier. Rapporten følger de fire stegene i § 3-1 bokstav c i rekkefølge: hva som ble kartlagt, hva risikovurderingen kom til, hvilke tiltak som ble satt i verk, og hva oppfølgingen viste."
-          },
-          {
-            "t": "p",
-            "text": "Tallene står slik de var da runden ble lukket, så dokumentasjonen endrer seg ikke i ettertid. Dere kan skrive ut rapporten eller lagre den som PDF den dagen noen spør."
-          },
-          {
             "t": "box",
-            "title": "Hva Orgpuls ikke dekker",
-            "text": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. HMS-mål, avvikshåndtering, oppfølging av sykefravær og vernerunder har dere et annet sted. Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            "title": "Kartleggingen er mer enn én undersøkelse",
+            "text": "En undersøkelse blant de ansatte er én måte å kartlegge på. Vernerunder, avviksmeldinger, sykefraværstall og samtaler med de ansatte kan gi et mer fullstendig bilde av risikoen. Det avgjørende er at dokumentasjonen viser hva som ble funnet, hvordan det ble vurdert, og hva som ble gjort."
           },
           {
             "t": "h2",
@@ -4643,29 +4635,8 @@
             "text": "Når Arbeidstilsynet vurderer et overtredelsesgebyr, skal de blant annet legge vekt på om virksomheten kunne ha forebygget bruddet med retningslinjer, opplæring, kontroll eller andre tiltak. En kartlegging som er gjort, vurdert og fulgt opp – og som kan vises fram – er altså også det beste svaret på et tilsyn."
           },
           {
-            "t": "h2",
-            "text": "Slik ser et år ut"
-          },
-          {
-            "t": "cards",
-            "items": [
-              {
-                "title": "Grunnlinje",
-                "text": "Hele spørsmålssettet én gang i året: 33 påstander om 11 faktorer. Rundt 4 minutter per ansatt."
-              },
-              {
-                "title": "Tiltak",
-                "text": "Resultatet peker på det som løfter mest. Dere velger tiltak og gir hvert av dem en eier og en frist."
-              },
-              {
-                "title": "Puls",
-                "text": "Korte målinger mellom grunnlinjene, bare om faktorene der et tiltak løper. Under 1 minutt."
-              },
-              {
-                "title": "Rapport",
-                "text": "Kartlegging, risikovurdering, tiltak og oppfølging – samlet, med dato, klar for tilsyn."
-              }
-            ]
+            "t": "p",
+            "text": "Les mer om [kravene til kartleggingen](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo), [hva som er nytt fra 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026), [risikovurderingen](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo) og [hvordan resultatene blir til tiltak](/artikler/fra-resultater-til-tiltak)."
           }
         ],
         "faq": [
@@ -4675,15 +4646,15 @@
           },
           {
             "q": "Er en medarbeiderundersøkelse nok?",
-            "a": "Den er en god kilde, men sjelden den eneste. Arbeidstilsynet peker også på vernerunder og medarbeidersamtaler. Det som teller, er at dere kartlegger, vurderer risiko, setter tiltak og følger opp – og kan vise det."
+            "a": "Den kan være en viktig kilde, men kravet gjelder hele kjeden: kartlegging, risikovurdering, tiltak og oppfølging, i samarbeid med de ansatte og deres representanter. Vernerunder, avviksmeldinger og samtaler med de ansatte kan gi et mer fullstendig bilde."
           },
           {
             "q": "Hva endret seg 1. januar 2026?",
-            "a": "Forskrift om utførelse av arbeid fikk et nytt kapittel 1A om psykososialt arbeidsmiljø. Arbeidstilsynet skriver at endringene ikke innebærer nye krav, men presiserer og tydeliggjør kravene som gjaldt fra før."
+            "a": "Forskrift om utførelse av arbeid fikk et nytt kapittel 1A om psykososialt arbeidsmiljø. Arbeidstilsynet skriver at bestemmelsene konkretiserer arbeidsmiljøloven §§ 4-1 og 4-3 og arbeidsgiverens plikt til systematisk HMS-arbeid etter § 3-1."
           },
           {
             "q": "Hvor ofte må vi kartlegge?",
-            "a": "Forskriften sier at kartleggingen skal gjentas regelmessig og ved endringer som kan påvirke risikoen. Den setter ikke et fast intervall. En vanlig rytme er én hovedmåling i året og korte pulser imellom."
+            "a": "Forskriften sier at kartleggingen skal gjentas regelmessig og ved endringer som kan ha betydning for risikoforholdene. Den setter ikke et fast intervall. Arbeidstilsynet nevner endringer i organisering, bemanning, arbeidsoppgaver, ledelse, teknologi, arbeidstid eller rammebetingelser som eksempler."
           },
           {
             "q": "Hvem har ansvaret for kartleggingen?",
@@ -4701,26 +4672,19 @@
             "q": "Hva kan Arbeidstilsynet gjøre hvis vi ikke har kartlagt?",
             "a": "Gi pålegg med en frist for å rette opp (aml § 18-6), eventuelt med tvangsmulkt til det er gjort (§ 18-7). Ved uaktsomme eller forsettlige brudd kan virksomheten få overtredelsesgebyr (§ 18-10)."
           }
-        ],
-        "finalTitle": "Gjør alle fire stegene i én og samme rytme",
-        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+        ]
       },
       "verneombud": {
-        "title": "Verneombud og kartlegging av arbeidsmiljøet | Orgpuls",
-        "description": "Verneombudets rettigheter når arbeidsmiljøet kartlegges: hva loven sier, din rolle i hvert steg, og de samme tallene som ledelsen i Orgpuls.",
+        "title": "Verneombudet og kartleggingen av arbeidsmiljøet | Orgpuls",
+        "description": "Verneombudets rettigheter og plikter når det psykososiale arbeidsmiljøet kartlegges: hva loven sier, rollen i hvert steg og hva du gjør når ingen svarer.",
         "crumb": "For verneombud",
         "card": {
           "title": "Verneombud",
-          "text": "Innsyn i kartlegging og tiltak uten ekstra kostnad – og en ferdig e-post du kan sende til ledelsen."
+          "text": "Verneombudets rettigheter og plikter når arbeidsmiljøet kartlegges, steg for steg."
         },
         "kicker": "Arbeidsmiljøloven § 6-2",
-        "h1": "Verneombud i kartleggingen: du ser de samme tallene som ledelsen",
-        "lead": "Som verneombud skal du tas med på råd når dere kartlegger arbeidsmiljøet og setter tiltak. Da trenger du det samme grunnlaget som ledelsen – ikke et sammendrag etterpå. Med Orgpuls får du det, uten at det koster noe ekstra.",
-        "tip": {
-          "label": "Tips daglig leder",
-          "subject": "Kartlegging av arbeidsmiljøet",
-          "body": "Hei,\n\nVi skal kartlegge det psykososiale arbeidsmiljøet og følge opp tiltakene. Jeg har sett på Orgpuls: svarene er anonyme, det tar rundt fire minutter per ansatt, og jeg som verneombud får innsyn uten ekstra kostnad. Det koster fra 265 kr i måneden eks. mva, og kan prøves gratis i 15 dager: https://www.orgpuls.com/verneombud\n\nKan vi ta en prat om det?\n"
-        },
+        "h1": "Verneombudet og kartleggingen: rettigheter, plikter og arbeidsgang",
+        "lead": "Verneombudet skal påse at det psykososiale arbeidsmiljøet er ivaretatt, og skal tas med på råd når tiltak planlegges og gjennomføres. Når arbeidsmiljøet kartlegges, er verneombudet en av representantene arbeidsgiveren skal samarbeide med – i kartleggingen, i risikovurderingen og når tiltakene velges. Ansvaret for at det blir gjort, ligger hos arbeidsgiveren.",
         "blocks": [
           {
             "t": "h2",
@@ -4760,33 +4724,33 @@
             "head": [
               "Steg",
               "Din rolle",
-              "I Orgpuls"
+              "Spørsmål du kan stille"
             ],
             "rows": [
               [
                 "Planlegging",
                 "Være med når rytmen og spørsmålene velges.",
-                "Årshjulet planlegger rundene, og verneombud og tillitsvalgte varsles før de ansatte."
+                "Når skal kartleggingen gjøres, og hvem er med på å velge spørsmålene?"
               ],
               [
                 "Kartlegging",
                 "Oppfordre kollegene til å svare, og kunne forklare hvorfor det er trygt.",
-                "Svarene lagres uten kobling til person, og ingen gruppe vises før minst 5 har svart."
+                "Hvordan er anonymiteten sikret, og hvor små grupper vises?"
               ],
               [
                 "Risikovurdering",
                 "Vurdere tallene sammen med ledelsen – ikke få et sammendrag etterpå.",
-                "Du ser de samme tallene og den samme risikovurderingen som ledelsen."
+                "Får jeg se de samme tallene som ledelsen, og er jeg med når risikoen vurderes?"
               ],
               [
                 "Tiltak",
                 "Være med når tiltakene velges, og se at de retter seg mot årsakene.",
-                "Hvert tiltak har eier, frist og faktoren det skal flytte."
+                "Har hvert tiltak en ansvarlig og en frist, og retter det seg mot årsaken?"
               ],
               [
                 "Oppfølging",
                 "Se at tiltakene blir gjort, og at noen sjekker om de virket.",
-                "Et tiltak kan ikke lukkes før neste puls har målt effekten."
+                "Hvordan skal vi se om tiltakene virket, og når?"
               ]
             ]
           },
@@ -4796,26 +4760,26 @@
           },
           {
             "t": "h2",
-            "text": "Det du får i Orgpuls"
+            "text": "Hva verneombudet bør ha innsyn i"
           },
           {
             "t": "cards",
             "items": [
               {
-                "title": "Samme tall som ledelsen",
-                "text": "Du ser resultatet for hele virksomheten, slik daglig leder ser det – ikke en presentasjon i etterkant."
+                "title": "Det samme grunnlaget som ledelsen",
+                "text": "For å kunne være med i risikovurderingen trenger verneombudet de samme resultatene som ledelsen – ikke bare et sammendrag i etterkant."
               },
               {
-                "title": "Tiltak med eier og frist",
-                "text": "Du ser hvilke tiltak som er satt, hvem som eier dem, og når de skal være gjort."
+                "title": "Tiltakene",
+                "text": "Hvilke tiltak som er valgt, hvem som er ansvarlig, når de skal være gjennomført, og hvordan de skal følges opp."
               },
               {
-                "title": "Anonymitet du kan stå inne for",
-                "text": "Som standard vises ingen gruppe før minst 5 har svart, og grensen gjelder også administratorer. Små team kan senke den til 3, men aldri lavere."
+                "title": "Hvordan anonymiteten er sikret",
+                "text": "Verneombudet bør kunne forklare kollegene hvorfor det er trygt å svare: hva som lagres, og hvor små grupper som vises."
               },
               {
-                "title": "Ingen ekstra kostnad",
-                "text": "Verneombudet har tilgang uten at det koster virksomheten ekstra."
+                "title": "Dokumentasjonen",
+                "text": "Hva som ble kartlagt, hvordan risikoen ble vurdert og hva som ble gjort. Den skal inngå i det systematiske HMS-arbeidet."
               }
             ]
           },
@@ -4825,7 +4789,7 @@
           },
           {
             "t": "p",
-            "text": "Vet du at kartleggingen burde vært gjort, men ikke hvordan du skal ta det opp? Knappen «Tips daglig leder» øverst på siden åpner en ferdig e-post i ditt eget e-postprogram. Du kan endre den før du sender, og vi ser den aldri."
+            "text": "Vet du at kartleggingen burde vært gjort, men ikke hvordan du skal ta det opp? Begynn med spørsmål, ikke krav: når ble det psykososiale arbeidsmiljøet sist kartlagt, hva kom fram, og hva skjedde med funnene? Vis gjerne til forskriften kapittel 1A, som siden 1. januar 2026 beskriver kravene tydeligere. Les mer om [hva som er nytt fra 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
           },
           {
             "t": "box",
@@ -4859,7 +4823,7 @@
           },
           {
             "t": "p",
-            "text": "Når en liten avdeling ikke vises, skjuler ingen noe for deg: tallet er ikke regnet ut for noen. Svarene teller likevel med i helheten, så ingen stemmer går tapt. Les mer om [hva anonymt betyr i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
+            "text": "I en anonym undersøkelse vises som regel ikke resultater for grupper under en viss størrelse, ofte fem svar. Når en liten avdeling ikke vises, skjuler ingen noe for deg: tallet er ikke regnet ut for noen, nettopp for at ingen skal kunne kjenne igjen hvem som har svart hva. Svarene teller likevel med i tallene for helheten. Les mer om [hva anonymt betyr i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
           }
         ],
         "faq": [
@@ -4869,15 +4833,11 @@
           },
           {
             "q": "Kan ledelsen se hvem som har svart hva?",
-            "a": "Nei. Svaret lagres uten navn, e-postadresse eller IP-adresse, og som standard vises ingen gruppe før minst 5 har svart."
-          },
-          {
-            "q": "Koster det noe for meg som verneombud?",
-            "a": "Nei. Virksomheten betaler for abonnementet, og verneombudet har tilgang uten ekstra kostnad."
+            "a": "Ikke i en anonym undersøkelse. Svarene skal lagres uten noe som kan knytte dem til personen som svarte, og resultater for grupper under en viss størrelse skal ikke vises. Spør gjerne hvordan dette er løst før undersøkelsen sendes ut."
           },
           {
             "q": "Hva om ledelsen ikke vil?",
-            "a": "Kravet om kartlegging gjelder uansett hvilket verktøy dere bruker – Orgpuls er én måte å gjøre det på. Har virksomheten arbeidsmiljøutvalg, kan du ta det opp der."
+            "a": "Kravet om å kartlegge, vurdere risiko og sette i verk tiltak gjelder uansett, og ansvaret er arbeidsgiverens (aml § 2-1). Får du ikke svar innen rimelig tid på forhold som kan gi helsefare, skal du underrette Arbeidstilsynet eller arbeidsmiljøutvalget (aml § 6-2 tredje ledd)."
           },
           {
             "q": "Hvor mange verneombud skal vi ha?",
@@ -4891,10 +4851,7 @@
             "q": "Hva gjør jeg hvis arbeidsgiver ikke svarer?",
             "a": "Arbeidsgiveren skal gi verneombudet svar på henvendelsen. Er det ikke tatt hensyn til meldingen innen rimelig tid, skal verneombudet underrette Arbeidstilsynet eller arbeidsmiljøutvalget (aml § 6-2 tredje ledd)."
           }
-        ],
-        "finalTitle": "Tips ledelsen, eller start selv",
-        "finalBody": "Er du både leder og verneombud i en liten virksomhet? Start med organisasjonsnummeret – dere er i gang på 3 minutter.",
-        "signupLabel": "Er du leder? Organisasjonsnummer"
+        ]
       },
       "smaaBedrifter": {
         "title": "Medarbeiderundersøkelse for små bedrifter | Orgpuls",

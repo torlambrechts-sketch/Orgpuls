@@ -52,7 +52,8 @@ export async function PageView({
   schemaType = 'WebPage',
   extraSchema = [],
   children,
-  plain = false,
+  plain: plainProp = false,
+  informational = false,
 }: {
   content: PageContent
   /** a splash page for an ad or a mailing: the hero without the trail back into the site */
@@ -71,9 +72,13 @@ export async function PageView({
   children?: React.ReactNode
   /** a document page (the privacy statement, D-104): no signup field or price line in the hero */
   plain?: boolean
+  /** an informational page (D-236): as `plain`, and no offer beside the text or at the end */
+  informational?: boolean
 }) {
   const t = await getTranslations()
-  const { blocks, faq, tip } = c
+  const plain = plainProp || informational
+  const { blocks, faq } = c
+  const tip = informational ? undefined : c.tip
   const trail = [{ name: t('seo.common.home'), path: '/' }, ...(parent ? [parent] : []), { name: c.crumb, path }]
 
   return (
@@ -209,7 +214,11 @@ export async function PageView({
         </div>
       ) : null}
 
-      <CtaBand title={c.finalTitle || t('start.finalTitle')} body={c.finalBody || t('start.finalBody')} />
+      {informational ? (
+        <div className="pb-[72px]" />
+      ) : (
+        <CtaBand title={c.finalTitle || t('start.finalTitle')} body={c.finalBody || t('start.finalBody')} />
+      )}
     </div>
   )
 }

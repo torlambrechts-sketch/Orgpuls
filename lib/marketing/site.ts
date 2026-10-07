@@ -185,6 +185,13 @@ export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
 }
 
 /**
+ * Landing pages that are informational, not sales pages (D-236): Lovkrav and Verneombud explain the
+ * law to whoever asks, so they carry no signup, no product picture, no offer and no «how Orgpuls does
+ * it». They sit under Artikler in the breadcrumb, with the articles.
+ */
+export const INFORMATIONAL_PAGES: readonly LandingSlug[] = ['lovkrav', 'verneombud']
+
+/**
  * The picture of the product each landing page shows beside its hero (D-85): the screen
  * that answers that reader's question — the report for the legal requirement, the heatmap
  * for the safety representative who sees the same numbers, the questionnaire on a phone for

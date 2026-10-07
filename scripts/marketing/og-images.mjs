@@ -33,8 +33,9 @@ const fonts = readFileSync('app/fonts.css', 'utf8')
 
 // the same pairs as LANDING_HERO in lib/marketing/site.ts
 const PAGES = [
-  { slug: 'lovkrav', key: 'lovkrav', shot: 'rapport' },
-  { slug: 'verneombud', key: 'verneombud', shot: 'varmekart' },
+  // informational pages (D-236): the article card, no product picture and no claims
+  { slug: 'lovkrav', h1: no.seo.lp.lovkrav.h1, article: true },
+  { slug: 'verneombud', h1: no.seo.lp.verneombud.h1, article: true },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
   // an industry on the landing template (content/industries/landing.ts, D-207): the H1 is its message
   { slug: 'handel', h1: no.site.bransje.handel.hero.h1, shot: 'sporsmal' },

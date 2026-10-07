@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { LANDING_ARTICLES, LANDING_HERO, LANDING_RELATED, landingKey, type LandingSlug } from '@/lib/marketing/site'
+import { INFORMATIONAL_PAGES, LANDING_ARTICLES, LANDING_HERO, LANDING_RELATED, landingKey, type LandingSlug } from '@/lib/marketing/site'
 import { PageTemplate } from './PageTemplate'
 
 /**
@@ -9,6 +9,17 @@ import { PageTemplate } from './PageTemplate'
  */
 export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; parent?: { name: string; path: string } }) {
   const t = await getTranslations()
+  // an informational page (D-236): under Artikler, no product picture, no sales pages beside it
+  if (INFORMATIONAL_PAGES.includes(slug))
+    return (
+      <PageTemplate
+        k={`seo.lp.${landingKey(slug)}`}
+        path={`/${slug}`}
+        parent={{ name: t('seo.index.crumb'), path: '/artikler' }}
+        articles={LANDING_ARTICLES[slug]}
+        informational
+      />
+    )
   return (
     <PageTemplate
       k={`seo.lp.${landingKey(slug)}`}

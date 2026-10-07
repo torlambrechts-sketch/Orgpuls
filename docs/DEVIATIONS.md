@@ -11517,3 +11517,22 @@ On the owner's word: an article answers one question the way a trade paper would
   texts made without a source (for instance «the most common reason HSE work stalls», product scale
   bands and timings) were dropped rather than kept.
 - `modified` is 2026-10-07 for every article, so the sitemap and the Article schema say they changed.
+
+## D-236 — Lovkrav and Verneombud are informational pages (2026-10-07)
+
+On the owner's word: the two pages in Ressurser that explain the law read as sales pages. They are now
+informational, like the articles (D-235); Små bedrifter, Sikkerhet and Pris stay product pages.
+
+- **Template (`INFORMATIONAL_PAGES` in lib/marketing/site.ts, `informational` on PageView):** no signup
+  field, price line or trust strip in the hero, no product picture, no «Tips daglig leder» mail, no
+  offer in the sidebar, no related sales pages and no closing band. The breadcrumb runs through
+  Artikler. Their share cards are the article card.
+- **Lovkrav:** the law rows lose «Slik gjør Orgpuls det»; the factor table's third column links the
+  factor articles instead of saying how the product measures; «Dokumentasjonen lager seg selv», «Hva
+  Orgpuls ikke dekker» and «Slik ser et år ut» are gone, replaced by a note that a questionnaire is one
+  source among several; chapters 2A and 3A of the regulation are named for harassment and for violence
+  and threats. Three FAQ answers that leaned on unsourced claims now say what Arbeidstilsynet's
+  commentary says.
+- **Verneombud:** «I Orgpuls» became «Spørsmål du kan stille», «Det du får i Orgpuls» became «Hva
+  verneombudet bør ha innsyn i», and the FAQ about cost is gone. `tip`, `signupLabel`, `finalTitle` and
+  `finalBody` are removed from both pages' messages.
