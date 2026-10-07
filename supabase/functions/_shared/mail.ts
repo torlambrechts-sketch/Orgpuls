@@ -44,6 +44,7 @@ export interface NoticeJob {
     | 'siste_paminnelse'
     | 'lenke'
     | 'resultat'
+    | 'tiltak_status'
     | 'tiltak_forfalt'
     | 'svarprosent'
     | 'evaluering'
@@ -71,7 +72,7 @@ export interface NoticeJob {
   greeting?: { text: string; by: string | null } | null
   /** a tiltak_forfalt's measures: a leader's titles and their dates (0099) */
   measures?: { title: string; due: string | null }[] | null
-  /** the round's page for employees, /r/<slug> (0100, P1-3): a results notice's own round, an invitation's last shared one */
+  /** the round's page for employees, /r/<slug> (0100, P1-3): a results notice's or a «dette gjør vi» notice's own round (0212), an invitation's last shared one */
   results_page?: string | null
   /** an evaluation reminder's facts (0103, 0104; A-02): the cadence, the last one, when it fell due */
   evaluation?: { cadence: string | null; last_on: string | null; due_on: string | null } | null
@@ -483,6 +484,26 @@ export function renderNotice(
     const cta = group.member ? { label: pick(m, 'forvarsel.cta'), url: `${base}/malinger` } : null
     const subject = cap(fill(pick(m, 'forvarsel.subject'), { org, round, date }))
     return { subject, ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
+  }
+
+  // «dette gjør vi» (0212, D-245): to everyone asked, once the measures are decided — the page's link
+  // and nothing else; no measure, figure or name travels in the mail
+  if (job.kind === 'tiltak_status') {
+    if (!job.results_page) throw new Error('tiltak_status without a page')
+    const subject = cap(fill(pick(m, 'tiltakStatus.subject'), { org, round }))
+    return {
+      subject,
+      ...layout({
+        brand,
+        title: subject,
+        lang: group.lang,
+        greeting,
+        paragraphs: [cap(fill(pick(m, 'tiltakStatus.lead'), { org, round })), pick(m, 'tiltakStatus.page')],
+        cta: { label: pick(m, 'tiltakStatus.cta'), url: pageLink(base, job.results_page) },
+        after: [pick(m, 'tiltakStatus.anonymous')],
+        footer,
+      }),
+    }
   }
 
   // resultat: a leader reads it in Orgpuls; everyone else on the round's page, where it is shown (0100)

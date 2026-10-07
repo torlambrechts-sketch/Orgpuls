@@ -3,7 +3,7 @@ import { cache } from 'react'
 import { z } from 'zod'
 import { LogoKey } from '@/lib/org/logo'
 import { createClient } from '@/lib/supabase/server'
-import { parseFailed, readFailed } from '@/lib/supabase/read'
+import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
 import { getMaskLabels } from '@/lib/text/labels'
 import { unmask } from '@/lib/text/mask'
 
@@ -80,4 +80,25 @@ export const getRoundShare = cache(async (roundId: string): Promise<RoundShare |
   const parsed = Share.safeParse(data)
   if (parseFailed('rounds.share_slug', parsed)) return null
   return parsed.data
+})
+
+/**
+ * «Fortell de ansatte» (0212, D-245): how many collective measures are decided from the round, and
+ * whether the message about them has been queued and sent. The daglig leder's only; anyone else, or
+ * any refusal, is null and the card shows nothing.
+ */
+const MeasuresNotice = z.object({
+  decided: z.coerce.number().int().min(0),
+  queued_at: z.string().nullable(),
+  sent_at: z.string().nullable(),
+  failed: z.boolean(),
+})
+export type MeasuresNotice = z.infer<typeof MeasuresNotice>
+
+export const getMeasuresNotice = cache(async (roundId: string): Promise<MeasuresNotice | null> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('measures_notice', { p_round: roundId })
+  if (callFailed('measures_notice', error)) return null
+  const parsed = MeasuresNotice.safeParse(data)
+  return parsed.success ? parsed.data : null
 })

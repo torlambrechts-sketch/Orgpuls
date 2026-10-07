@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { RiskBadge } from '@/components/ui/Risk'
 import { getRoundPage, type RoundPage } from '@/lib/results/page'
 import { logoPath } from '@/lib/org/logo'
+import { EN_URL, MAIN_URL } from '@/lib/hosts'
 
 /**
  * «Dette sa dere, dette gjør vi» (gap analysis P1-3, 0100, D-151): one closed round, for everyone
@@ -131,6 +132,23 @@ function Page({ page, t, locale }: { page: RoundPage; t: T; locale: string }) {
         )}
         <p className="mb-0 mt-[14px] text-[12.5px] leading-[1.6] text-mut [text-wrap:pretty]">{t('roundPage.measuresNote')}</p>
       </section>
+
+      {/* where the page comes from (D-245): a plain link, no referrer, so the page's own address
+          never reaches the site, and nothing on it identifies who followed it */}
+      <p className="mb-0 mt-[26px] text-center text-[12px] text-mut">
+        {t('roundPage.madeWith')}{' '}
+        <a
+          href={`${locale === 'en' ? EN_URL : MAIN_URL}/?utm_source=ansattside&utm_medium=referral`}
+          target="_blank"
+          rel="noopener noreferrer"
+          referrerPolicy="no-referrer"
+          className="font-bold text-link"
+        >
+          Orgpuls
+        </a>
+        {' · '}
+        {t('roundPage.madeWithWhat')}
+      </p>
     </main>
   )
 }

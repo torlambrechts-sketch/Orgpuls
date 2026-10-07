@@ -154,6 +154,21 @@ describe('notices', () => {
     expect(() => renderNotice(cat, job({ kind: 'resultat', audience: 'alle_ansatte', token: null, results_page: 'x"><script>' }), { lang: 'no', member: false, name: null }, APP)).toThrow()
   })
 
+  // 0212, D-245: «dette gjør vi», once the measures are decided
+  it('tells everyone asked that the measures are decided, with the page and nothing else', () => {
+    const slug = 't7JvAWGlyRtPExc3'
+    const r = renderNotice(cat, job({ kind: 'tiltak_status', audience: 'alle_ansatte', token: null, results_page: slug }), { lang: 'no', member: false, name: null }, APP)
+    expect(r.subject).toBe('Dette gjør vi etter grunnlinjen 2026')
+    expect(r.text).toContain('Ledelsen i Nordvik Anlegg AS har bestemt hva som skal gjøres etter grunnlinjen 2026.')
+    expect(r.text).toContain(`${APP}/r/${slug}`)
+    expect(r.text).not.toContain(`${APP}/resultat`)
+    expect(r.text).not.toContain('/s/')
+    const en = renderNotice(cat, job({ kind: 'tiltak_status', audience: 'alle_ansatte', token: null, results_page: slug }), { lang: 'en', member: false, name: null }, APP)
+    expect(en.subject).toBe('What we are doing after the 2026 baseline')
+    // no page, no mail: the database never queues one without it, and a hidden page makes it stale
+    expect(() => renderNotice(cat, job({ kind: 'tiltak_status', audience: 'alle_ansatte', token: null, results_page: null }), { lang: 'no', member: false, name: null }, APP)).toThrow()
+  })
+
   // 0106 (audit AUD-06): results wait for the publish date, and the invitation says that day
   it('names the day everyone is told the results, and never promises them at the deadline', () => {
     const dated = renderNotice(cat, job({ results_shared: true, publish_on: '2026-10-20' }), { lang: 'no', member: false, name: 'Ola' }, APP)

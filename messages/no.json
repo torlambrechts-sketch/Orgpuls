@@ -3486,6 +3486,13 @@
       "pageCta": "Se resultatene",
       "memberPage": "De ansatte får en lenke til en side med hovedtallene for hele virksomheten og tiltakene dere bestemmer. Du kan skjule den under Resultater."
     },
+    "tiltakStatus": {
+      "subject": "Dette gjør vi etter {round}",
+      "lead": "Ledelsen i {org} har bestemt hva som skal gjøres etter {round}.",
+      "page": "På siden ser du tiltakene og hva dere svarte, for hele virksomheten samlet. Den viser alltid hvor tiltakene står nå.",
+      "cta": "Se hva som skal gjøres",
+      "anonymous": "Ingen avdeling, ingen kommentar og ingen enkeltsvar vises på siden."
+    },
     "auth": {
       "recovery": {
         "subject": "Nytt passord til Orgpuls",
@@ -4098,7 +4105,17 @@
       "show": "Vis siden",
       "failed": "Det gikk ikke. Prøv igjen.",
       "onlyLeader": "Bare daglig leder kan endre dette.",
-      "opensOn": "Siden åpner for de ansatte {date}. Til da ser bare ledere resultatene."
+      "opensOn": "Siden åpner for de ansatte {date}. Til da ser bare ledere resultatene.",
+      "tell": {
+        "title": "Fortell de ansatte hva dere gjør",
+        "none": "Når dere har bestemt tiltak etter denne målingen, kan dere sende alle som ble spurt en e-post med lenken til siden.",
+        "ready": "{count, plural, one {Ett tiltak er bestemt.} other {# tiltak er bestemt.}} Send alle som ble spurt en e-post med lenken, så de ser at svarene førte til noe. Den kan sendes én gang.",
+        "cta": "Send til de ansatte",
+        "queued": "Meldingen er på vei og sendes i løpet av noen minutter.",
+        "sent": "Sendt til de ansatte {date}.",
+        "failed": "Meldingen kunne ikke sendes. Ta kontakt med oss.",
+        "pageNotShown": "Siden må vises før dere kan sende lenken."
+      }
     }
   },
   "kommentarer": {
@@ -4421,7 +4438,7 @@
       "aside": "Innhold og tilbud",
       "breadcrumb": "Brødsmulesti",
       "articles": "Artikler",
-      "priceLine": "Fra 265 kr/mnd eks. mva · 15 dager gratis · Ingen kort · Svar lagres i EU",
+      "priceLine": "Gratis årlig hovedkartlegging · Alt fra 265 kr/mnd eks. mva · Ingen kort · Svar lagres i EU",
       "readMore": "Les mer",
       "readArticle": "Les artikkelen →",
       "byline": "Oppdatert {date} · {minutes} min lesing",
@@ -5237,7 +5254,7 @@
       },
       "byggOgAnlegg": {
         "title": "Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls",
-        "description": "Arbeidsmiljøundersøkelse for bygg og anlegg som når folk på prosjekt, rigg og verksted: på SMS, anonymt og på norsk. 15 dager gratis.",
+        "description": "Arbeidsmiljøundersøkelse for bygg og anlegg som når folk på prosjekt, rigg og verksted: på SMS, anonymt og på norsk. Gratis å starte.",
         "crumb": "Bygg og anlegg",
         "card": {
           "title": "Bygg og anlegg",
@@ -5301,7 +5318,7 @@
           },
           {
             "q": "Hva koster det?",
-            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med 15 dager gratis."
+            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med Gratis å starte."
           }
         ],
         "finalTitle": "Prøv på neste prosjekt",
@@ -5309,7 +5326,7 @@
       },
       "helseOgOmsorg": {
         "title": "Arbeidsmiljøkartlegging i helse og omsorg | Orgpuls",
-        "description": "Emosjonelle krav, vold og trusler, turnus: kartlegg det psykososiale arbeidsmiljøet i helse og omsorg, anonymt og på mobilen. 15 dager gratis.",
+        "description": "Emosjonelle krav, vold og trusler, turnus: kartlegg det psykososiale arbeidsmiljøet i helse og omsorg, anonymt og på mobilen. Gratis å starte.",
         "crumb": "Helse og omsorg",
         "card": {
           "title": "Helse og omsorg",
@@ -5395,7 +5412,7 @@
           },
           {
             "q": "Hva koster det?",
-            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med 15 dager gratis."
+            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med Gratis å starte."
           }
         ],
         "finalTitle": "Prøv det på deres egen virksomhet",
@@ -10433,7 +10450,7 @@
     },
     "og": {
       "pills": [
-        "15 dager gratis",
+        "Gratis å starte",
         "Dekker arbeidsmiljøloven",
         "Anonymt, 5 svar som standard"
       ]
@@ -10833,7 +10850,7 @@
         "caption": "Slik ser en side ut for den ansatte.",
         "h3": "Fire minutter for den ansatte. Ferdig dokumentasjon for dere.",
         "points": [
-          "Utsending på e-post og SMS – også til dem uten jobbadresse.",
+          "Utsending på e-post, SMS, Teams og Slack – også til dem uten jobbadresse.",
           "Påminnelser går av seg selv, og verneombudet får varsel før hver runde.",
           "Svar på norsk, engelsk, polsk og litauisk.",
           "Rapport klar til Arbeidstilsynet, med hjemmel per faktor."
@@ -11232,17 +11249,17 @@
             "pill": "Klar"
           },
           {
-            "title": "CSV eller lim inn liste",
-            "sub": "Gruppe og rolle rett i tabellen",
+            "title": "CSV, liste eller Entra ID",
+            "sub": "Gruppe og rolle i tabellen, eller hentet fra Microsoft",
             "pill": "Klar"
           },
           {
-            "title": "E-post og SMS",
-            "sub": "For dem uten fast skjerm",
+            "title": "E-post, SMS, Teams og Slack",
+            "sub": "Lenken kommer der folk faktisk leser",
             "pill": "Klar"
           },
           {
-            "title": "Entra ID, Teams, Tripletex, Visma, Huldt & Lillevik",
+            "title": "Tripletex, Visma, Huldt & Lillevik",
             "sub": "Ikke klart ennå – si fra hva dere bruker",
             "pill": "Kommer"
           }
@@ -14122,7 +14139,7 @@
             "items": [
               "Hovedundersøkelse og pulser, helt ned til hver måned",
               "Årshjulet planlegger rundene selv",
-              "Utsending på e-post og SMS",
+              "Utsending på e-post, SMS, Teams og Slack",
               "Svar på norsk, engelsk, polsk og litauisk"
             ]
           },
@@ -14412,7 +14429,9 @@
     "measuresEmpty": "Ingen tiltak er bestemt ennå. Siden oppdateres når ledelsen og verneombudet har bestemt hva som skal gjøres.",
     "measuresNote": "Tiltakene følges opp sammen med verneombudet. Siden viser alltid hvor de står nå.",
     "missingTitle": "Siden finnes ikke",
-    "missingLead": "Lenken er feil, eller siden er ikke delt. Spør lederen din eller verneombudet."
+    "missingLead": "Lenken er feil, eller siden er ikke delt. Spør lederen din eller verneombudet.",
+    "madeWith": "Laget med",
+    "madeWithWhat": "arbeidsmiljøkartlegging etter arbeidsmiljøloven"
   },
   "shell": {
     "orgLogo": "Virksomhetens logo"

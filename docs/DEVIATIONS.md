@@ -11761,3 +11761,41 @@ views, the free plan without comparisons as before (D-217).
   greeting's time of day, measures per factor, the law references the database holds and, above all,
   the importance correlations: the fixture's answers do not reproduce the design's .62/.55/…, so its
   dots sit lower. Making the generator produce them is a follow-up for the fixture.
+
+## D-245 — «Dere sa – vi gjorde», told; the free plan and Teams/Slack on the site (0211–0213) (2026-10-07)
+
+From the growth review of 7 October 2026 (Tor: «Ja» to points 1 and 2 of the answer to it).
+
+**1 · The site says what is already true.** The free plan (D-217) and Teams and Slack (D-203, D-205)
+were built, but some texts still sold «15 dager gratis» and listed e-post and SMS only:
+- `seo.common.priceLine`, `seo.og.pills.0` and the bygg- and helse-landings' descriptions and price
+  answer now lead with the free yearly main survey;
+- the home page's and the price page's channel line name e-post, SMS, Teams and Slack;
+- Plattform's setup card listed «Entra ID, Teams …» as «Kommer». Entra ID and Teams are built, so
+  the rows are now «CSV, liste eller Entra ID», «E-post, SMS, Teams og Slack» (both «Klar») and the
+  accounting and HR systems still to come;
+- the OG cards are regenerated (`og.png`, `bransjer`, `smaa-bedrifter`).
+
+**2 · «Fortell de ansatte».** The round's page for employees, «Dette sa dere, dette gjør vi»
+(0100, D-151), and its link in the results notice existed. What was missing: the results notice goes
+when the round closes, before anything is decided, and when the measures are decided weeks later
+nobody is told.
+- **0211** adds the outbox kind `tiltak_status`. **0212** adds `public.tell_employees(round)`: the
+  daglig leder queues one e-mail to everyone asked, once per round, and only while the page is shown
+  and published and at least one measure it shows is decided. **0213** makes that rule and the count
+  the page's own: a department's measure is not on the page (0129, AUD-22), so it does not count.
+  `public.measures_notice(round)` gives the card its state. `dispatch_claim` carries the page's link
+  for the new kind, and a notice goes stale if the page is hidden before it is sent, or after 14 days.
+- **The mail** (`mail.tiltakStatus`) carries the page's link and nothing else: no measure, figure or
+  name. Like the results notice it is in bokmål and English: the employees' notices about a round
+  were never in the survey languages, only the personal invitation and reminders are (D-133).
+- **Resultater** › «Siden for de ansatte» gets «Fortell de ansatte hva dere gjør» with the count, the
+  button, and «på vei» / «sendt {dato}» afterwards.
+- **The page** ends with «Laget med Orgpuls · arbeidsmiljøkartlegging etter arbeidsmiljøloven», a
+  plain link to the site with `utm_source=ansattside`, `rel=noreferrer` and `referrerPolicy=no-referrer`,
+  so the page's address never reaches the site: every employee sees where the page comes from, and
+  nothing about who followed the link.
+- **Proved by** `supabase/tests/tell_employees_invariants.sql` (nine assertions, green against the
+  hosted project and rolled back; `dispatch_invariants` and `round_page_invariants` still green) and
+  `tests/unit/mail.test.ts`. 0211–0213 are applied to the hosted project, and the edge functions were
+  deployed before them, so no queued notice met a dispatcher that could not write it.

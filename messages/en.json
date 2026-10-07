@@ -3486,6 +3486,13 @@
       "pageCta": "See the results",
       "memberPage": "Employees get a link to a page with the headline figures for the whole organisation and the measures you decide. You can hide it under Results."
     },
+    "tiltakStatus": {
+      "subject": "What we are doing after {round}",
+      "lead": "The management of {org} has decided what to do after {round}.",
+      "page": "The page shows the measures and what you answered, for the whole organisation together. It always shows where the measures stand now.",
+      "cta": "See what will be done",
+      "anonymous": "No department, no comment and no individual answer is shown on the page."
+    },
     "auth": {
       "recovery": {
         "subject": "A new password for Orgpuls",
@@ -4098,7 +4105,17 @@
       "show": "Show the page",
       "failed": "That did not work. Try again.",
       "onlyLeader": "Only the managing director can change this.",
-      "opensOn": "The page opens to employees on {date}. Until then, only leaders see the results."
+      "opensOn": "The page opens to employees on {date}. Until then, only leaders see the results.",
+      "tell": {
+        "title": "Tell the employees what you are doing",
+        "none": "Once you have decided measures after this survey, you can send everyone who was asked an e-mail with the link to the page.",
+        "ready": "{count, plural, one {One measure is decided.} other {# measures are decided.}} Send everyone who was asked an e-mail with the link, so they see that their answers led to something. It can be sent once.",
+        "cta": "Send to the employees",
+        "queued": "The message is on its way and goes out within a few minutes.",
+        "sent": "Sent to the employees on {date}.",
+        "failed": "The message could not be sent. Please contact us.",
+        "pageNotShown": "The page must be shown before you can send the link."
+      }
     }
   },
   "kommentarer": {
@@ -4421,7 +4438,7 @@
       "aside": "Contents and offer",
       "breadcrumb": "Breadcrumb",
       "articles": "Articles",
-      "priceLine": "From NOK 265/month excl. VAT · 15 days free · No card · Answers stored in the EU",
+      "priceLine": "Free yearly main survey · Everything from NOK 265/month excl. VAT · No card · Answers stored in the EU",
       "readMore": "Read more",
       "readArticle": "Read the article →",
       "byline": "Updated {date} · {minutes} min read",
@@ -5237,7 +5254,7 @@
       },
       "byggOgAnlegg": {
         "title": "Work environment survey for construction | Orgpuls",
-        "description": "A work environment survey for construction that reaches people on site, rig and workshop: by SMS, anonymous and in Norwegian. 15 days free.",
+        "description": "A work environment survey for construction that reaches people on site, rig and workshop: by SMS, anonymous and in Norwegian. Free to start.",
         "crumb": "Construction",
         "card": {
           "title": "Construction",
@@ -5301,7 +5318,7 @@
           },
           {
             "q": "What does it cost?",
-            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 15 days free."
+            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and Free to start."
           }
         ],
         "finalTitle": "Try it on the next project",
@@ -5309,7 +5326,7 @@
       },
       "helseOgOmsorg": {
         "title": "Work environment mapping in health and care | Orgpuls",
-        "description": "Emotional demands, violence and threats, shift work: map the psychosocial working environment in health and care, anonymously and on mobile. 15 days free.",
+        "description": "Emotional demands, violence and threats, shift work: map the psychosocial working environment in health and care, anonymously and on mobile. Free to start.",
         "crumb": "Health and care",
         "card": {
           "title": "Health and care",
@@ -5395,7 +5412,7 @@
           },
           {
             "q": "What does it cost?",
-            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 15 days free."
+            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and Free to start."
           }
         ],
         "finalTitle": "Try it on your own organisation",
@@ -10433,7 +10450,7 @@
     },
     "og": {
       "pills": [
-        "15 days free",
+        "Free to start",
         "Covers the Working Environment Act",
         "Anonymous – 5 answers by default"
       ]
@@ -10833,7 +10850,7 @@
         "caption": "This is what a page looks like for the employee.",
         "h3": "Four minutes for the employee. Finished documentation for you.",
         "points": [
-          "Sent by e-mail and SMS – including to people without a work address.",
+          "Sent by e-mail, SMS, Teams and Slack – including to people without a work address.",
           "Reminders go out by themselves, and the safety representative is notified before every round.",
           "Answers in Norwegian, English, Polish and Lithuanian.",
           "A report ready for the Labour Inspection Authority, with the legal basis for each factor."
@@ -11788,17 +11805,17 @@
             "pill": "Ready"
           },
           {
-            "title": "CSV or paste a list",
-            "sub": "Group and role right in the table",
+            "title": "CSV, a list or Entra ID",
+            "sub": "Group and role in the table, or fetched from Microsoft",
             "pill": "Ready"
           },
           {
-            "title": "E-mail and SMS",
-            "sub": "For those without a screen at work",
+            "title": "E-mail, SMS, Teams and Slack",
+            "sub": "The link arrives where people actually read",
             "pill": "Ready"
           },
           {
-            "title": "Entra ID, Teams, Tripletex, Visma, Huldt & Lillevik",
+            "title": "Tripletex, Visma, Huldt & Lillevik",
             "sub": "Not ready yet – tell us what you use",
             "pill": "Coming"
           }
@@ -14122,7 +14139,7 @@
             "items": [
               "Main survey and pulses, as often as every month",
               "The year wheel plans the rounds for you",
-              "Sent by e-mail and SMS",
+              "Sent by e-mail, SMS, Teams and Slack",
               "Answers in Norwegian, English, Polish and Lithuanian"
             ]
           },
@@ -14412,7 +14429,9 @@
     "measuresEmpty": "No measures have been decided yet. This page is updated once management and the safety representative have decided what to do.",
     "measuresNote": "The measures are followed up together with the safety representative. This page always shows where they stand now.",
     "missingTitle": "This page does not exist",
-    "missingLead": "The link is wrong, or the page is not shared. Ask your manager or the safety representative."
+    "missingLead": "The link is wrong, or the page is not shared. Ask your manager or the safety representative.",
+    "madeWith": "Made with",
+    "madeWithWhat": "work environment surveys under the Norwegian Working Environment Act"
   },
   "shell": {
     "orgLogo": "The organisation’s logo"

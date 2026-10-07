@@ -20,7 +20,7 @@ import { SharePageCard } from '@/components/resultater/SharePageCard'
 import { headers } from 'next/headers'
 import { outboundBase } from '@/lib/hosts'
 import { getViewerRole } from '@/lib/org/read'
-import { getRoundShare } from '@/lib/results/page'
+import { getMeasuresNotice, getRoundShare } from '@/lib/results/page'
 import { isFreePlan } from '@/lib/billing/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import {
@@ -120,6 +120,8 @@ export default async function ResultaterPage({
 
   // the round's page for employees (0100, D-151): its link and switch, for the daglig leder
   const share = (await getViewerRole()) === 'daglig_leder' ? await getRoundShare(selected.id) : null
+  // «Fortell de ansatte» (0212, D-245): the daglig leder's, beside the page it points to
+  const notice = share ? await getMeasuresNotice(selected.id) : null
   const h = share ? await headers() : null
   const shareUrl = share && h ? `${outboundBase(h.get('x-forwarded-host') ?? h.get('host'), h.get('x-forwarded-proto'))}/r/${share.share_slug}` : null
 
@@ -334,6 +336,34 @@ export default async function ResultaterPage({
                         new Date(`${share.results_publish_on}T12:00:00Z`),
                       ),
                     })
+                  : null
+              }
+              tell={
+                notice
+                  ? {
+                      decided: notice.decided,
+                      state: notice.sent_at ? 'sent' : notice.failed ? 'failed' : notice.queued_at ? 'queued' : 'ready',
+                      copy: {
+                        title: t('resultater.share.tell.title'),
+                        none: t('resultater.share.tell.none'),
+                        ready: t('resultater.share.tell.ready', { count: notice.decided }),
+                        cta: t('resultater.share.tell.cta'),
+                        queued: t('resultater.share.tell.queued'),
+                        sent: notice.sent_at
+                          ? t('resultater.share.tell.sent', {
+                              date: new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', timeZone: 'Europe/Oslo' }).format(new Date(notice.sent_at)),
+                            })
+                          : '',
+                        failed: t('resultater.share.tell.failed'),
+                        problem: {
+                          not_allowed: t('resultater.share.onlyLeader'),
+                          page_not_shown: t('resultater.share.tell.pageNotShown'),
+                          no_measures: t('resultater.share.tell.none'),
+                          already: t('resultater.share.tell.queued'),
+                          failed: t('resultater.share.failed'),
+                        },
+                      },
+                    }
                   : null
               }
               copy={{
