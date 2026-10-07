@@ -11582,3 +11582,19 @@ reached by one link in one page's text, Små bedrifter only from the start page'
 bedrifter under Bruksområder in every footer. Every page in the sitemap is now linked from at least one
 other; the industries' question pages are linked from their own industry page only, which is where a
 reader of them comes from. No link points outside the sitemap.
+
+## D-239 — Sikkerhet is informational; Sikkerhet and Små bedrifter get pictures and figures (2026-10-07)
+
+Sikkerhet explains how anonymity is kept, and a signup card, a sidebar offer and a closing band beside
+that explanation read as a sales page. It is now drawn as the informational pages are (D-236): no offer
+beside the text or at the end. Its product description stays – what the page explains is how Orgpuls
+stores answers. It gets a drawn picture (an answer card with no name, a padlock and the group of five,
+components/marketing/art/SecurityArt.tsx), the way of an answer as a timeline (invitation, answer,
+result) and the thresholds 3, 5 and 10 as a ladder, both in the page's own facts.
+
+Små bedrifter stays the product page for small businesses, with its signup and price. Its product
+screenshot gives way to a drawing (a small shop, colleagues and a phone with the survey,
+SmallBizArt.tsx), and the signup now sits under the lead whenever a hero has a picture, drawn or shot.
+The table of what the law requires by headcount becomes a timeline from the first employee to 30, with
+the same provisions (aml §§ 3-1, 6-1, 2 A-6, 7-1); «Et år i en liten bedrift» becomes a timeline with
+the same five steps.

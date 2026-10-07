@@ -3,6 +3,7 @@ import { INFORMATIONAL_PAGES, LANDING_ARTICLES, LANDING_HERO, LANDING_RELATED, l
 import { PageTemplate } from './PageTemplate'
 import { LawArt } from './art/LawArt'
 import { SafetyRepArt } from './art/SafetyRepArt'
+import { SmallBizArt } from './art/SmallBizArt'
 
 /**
  * A landing page: one search intent, one reader, one offer (D-79). It is a PageTemplate
@@ -30,6 +31,7 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
       parent={parent ?? { name: t('seo.pages.bruksomrader.crumb'), path: '/bruksomrader' }}
       articles={LANDING_ARTICLES[slug]}
       heroShot={LANDING_HERO[slug]}
+      heroArt={slug === 'smaa-bedrifter' ? <SmallBizArt className="h-auto w-full max-w-[440px]" /> : undefined}
       related={LANDING_RELATED[slug].map((r) => ({
         href: `/${r}`,
         title: t(`seo.lp.${landingKey(r)}.card.title`),

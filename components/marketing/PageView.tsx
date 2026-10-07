@@ -129,7 +129,7 @@ export async function PageView({
               {c.h1}
             </h1>
             <p className="mt-[14px] max-w-[58ch] text-[16.5px] leading-[1.6] text-body [text-wrap:pretty]">{c.lead}</p>
-            {plain || !heroShot ? null : (
+            {plain || !(heroShot || heroArt) ? null : (
               <>
                 <div className="mt-[22px]">
                   <SignupStart

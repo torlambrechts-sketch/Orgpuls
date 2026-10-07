@@ -4995,33 +4995,33 @@
             "text": "Kravet om å kartlegge arbeidsmiljøet gjelder fra første ansatt. Andre krav kommer etter hvert som dere vokser:"
           },
           {
-            "t": "table",
-            "head": [
-              "Krav",
-              "Gjelder",
-              "Hjemmel"
-            ],
-            "rows": [
-              [
-                "Kartlegge, risikovurdere, sette tiltak og følge opp",
-                "Alle med ansatte – tilpasset størrelsen",
-                "aml § 3-1 · forskriften kap. 1A"
-              ],
-              [
-                "Verneombud",
-                "Alle; under 5 ansatte kan dere skriftlig avtale en annen ordning",
-                "aml § 6-1"
-              ],
-              [
-                "Skriftlige rutiner for intern varsling",
-                "Fra 5 ansatte, eller færre når forholdene tilsier det",
-                "aml § 2 A-6"
-              ],
-              [
-                "Arbeidsmiljøutvalg (AMU)",
-                "Fra 30 ansatte; fra 10 når en av partene krever det",
-                "aml § 7-1"
-              ]
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Fra første ansatt",
+                "title": "Kartlegge, risikovurdere, sette tiltak og følge opp",
+                "text": "Tilpasset virksomhetens størrelse. aml § 3-1 og forskriften kapittel 1A."
+              },
+              {
+                "date": "Fra første ansatt",
+                "title": "Verneombud",
+                "text": "Med færre enn 5 ansatte kan dere skriftlig avtale en annen ordning. aml § 6-1."
+              },
+              {
+                "date": "Fra 5 ansatte",
+                "title": "Skriftlige rutiner for intern varsling",
+                "text": "Også med færre når forholdene tilsier det. aml § 2 A-6."
+              },
+              {
+                "date": "Fra 10 ansatte",
+                "title": "Arbeidsmiljøutvalg når en av partene krever det",
+                "text": "aml § 7-1."
+              },
+              {
+                "date": "Fra 30 ansatte",
+                "title": "Arbeidsmiljøutvalg (AMU)",
+                "text": "aml § 7-1."
+              }
             ]
           },
           {
@@ -5083,13 +5083,33 @@
             "text": "Et år i en liten bedrift"
           },
           {
-            "t": "ol",
+            "t": "timeline",
             "items": [
-              "**Registrer** med organisasjonsnummeret og legg inn de ansatte fra et regneark.",
-              "**Send hovedmålingen** – rundt 4 minutter per ansatt, med én påminnelse fra systemet.",
-              "**Gå gjennom resultatene** med de ansatte og verneombudet innen et par uker. Les [hvordan dere gjør det](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte).",
-              "**Velg to eller tre tiltak** med eier og frist. Les [fra resultater til tiltak](/artikler/fra-resultater-til-tiltak).",
-              "**Mål igjen** med en kort puls på faktorene der tiltakene løper, og ta neste hovedmåling om et år."
+              {
+                "date": "Oppstart",
+                "title": "Registrer virksomheten",
+                "text": "Bruk organisasjonsnummeret, og legg inn de ansatte fra et regneark."
+              },
+              {
+                "date": "Hovedmålingen",
+                "title": "Send hovedmålingen",
+                "text": "Rundt 4 minutter per ansatt, med én påminnelse fra systemet."
+              },
+              {
+                "date": "Innen et par uker",
+                "title": "Gå gjennom resultatene",
+                "text": "Sammen med de ansatte og verneombudet. Les [hvordan dere gjør det](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+              },
+              {
+                "date": "Etterpå",
+                "title": "Velg to eller tre tiltak",
+                "text": "Hvert med eier og frist. Les [fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
+              },
+              {
+                "date": "Gjennom året",
+                "title": "Mål igjen",
+                "text": "Ta en kort puls på faktorene der tiltakene løper, og neste hovedmåling om et år."
+              }
             ]
           },
           {
@@ -9254,12 +9274,52 @@
             "text": "Orgpuls kjenner igjen invitasjonslenken på en kryptografisk sjekksum. Invitasjonen husker at den er brukt, så du ikke får påminnelse – men aldri svaret. Ingen skjerm, eksport eller spørring viser hva en navngitt person har svart, heller ikke for administratorer: opplysningen finnes ikke."
           },
           {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Invitasjonen",
+                "title": "Kjennes igjen på en sjekksum",
+                "text": "Lenken slås opp på en kryptografisk sjekksum. Invitasjonen husker bare at den er brukt, så du ikke får påminnelse."
+              },
+              {
+                "date": "Svaret",
+                "title": "Lagres uten kobling til deg",
+                "text": "Raden viser runden, gruppen og timen svaret kom inn. Ingen kolonne kan holde en kobling til en person."
+              },
+              {
+                "date": "Resultatet",
+                "title": "Vises først når nok har svart",
+                "text": "Tallene vises per gruppe, og bare når gruppen har minst like mange svar som grensen."
+              }
+            ]
+          },
+          {
             "t": "h2",
             "text": "Færre enn 5 svar gir en strek – som standard"
           },
           {
             "t": "p",
             "text": "Som standard vises ingen gruppe før minst 5 har svart, og 5 er sterkt anbefalt. Databasen håndhever grensen: dere kan heve den opp til 10, og et lite team kan senke den til 3 – aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva, så daglig leder får en advarsel før grensen senkes. En runde beholder grensen den startet med, så en lavere grense åpner aldri tidligere runder. Ville tallene for de andre gruppene avsløre en skjult gruppe, skjuler Orgpuls én gruppe til, så ingen kan regne seg fram."
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Minst 3 svar",
+                "ref": "Gulvet",
+                "text": "Et lite team kan senke grensen hit, etter en advarsel til daglig leder. Lavere går det ikke."
+              },
+              {
+                "title": "Minst 5 svar",
+                "ref": "Standard",
+                "text": "Sterkt anbefalt. En runde beholder grensen den startet med."
+              },
+              {
+                "title": "Opptil 10 svar",
+                "ref": "Høyeste grense",
+                "text": "Dere kan heve grensen. Jo flere svar per gruppe, jo vanskeligere er det å kjenne igjen hvem som sa hva."
+              }
+            ]
           },
           {
             "t": "h2",

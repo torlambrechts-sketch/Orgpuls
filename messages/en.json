@@ -4995,33 +4995,33 @@
             "text": "The duty to survey the working environment applies from the first employee. Other requirements come as you grow:"
           },
           {
-            "t": "table",
-            "head": [
-              "Requirement",
-              "Applies to",
-              "Legal basis"
-            ],
-            "rows": [
-              [
-                "Survey, assess risk, set measures and follow up",
-                "Everyone with employees – adapted to size",
-                "aml § 3-1 · regulation ch. 1A"
-              ],
-              [
-                "Safety representative",
-                "Everyone; under 5 employees you may agree another arrangement in writing",
-                "aml § 6-1"
-              ],
-              [
-                "Written internal whistleblowing routines",
-                "From 5 employees, or fewer when conditions call for it",
-                "aml § 2 A-6"
-              ],
-              [
-                "Working environment committee",
-                "From 30 employees; from 10 when either party demands it",
-                "aml § 7-1"
-              ]
+            "t": "timeline",
+            "items": [
+              {
+                "date": "From the first employee",
+                "title": "Survey, assess the risk, put measures in place and follow up",
+                "text": "Adapted to the size of the business. aml § 3-1 and chapter 1A of the regulation."
+              },
+              {
+                "date": "From the first employee",
+                "title": "Safety representative",
+                "text": "With fewer than 5 employees you can agree another arrangement in writing. aml § 6-1."
+              },
+              {
+                "date": "From 5 employees",
+                "title": "Written routines for internal reporting",
+                "text": "Also with fewer when conditions call for it. aml § 2 A-6."
+              },
+              {
+                "date": "From 10 employees",
+                "title": "Working environment committee if either side asks for one",
+                "text": "aml § 7-1."
+              },
+              {
+                "date": "From 30 employees",
+                "title": "Working environment committee (AMU)",
+                "text": "aml § 7-1."
+              }
             ]
           },
           {
@@ -5083,13 +5083,33 @@
             "text": "A year in a small business"
           },
           {
-            "t": "ol",
+            "t": "timeline",
             "items": [
-              "**Sign up** with your organisation number and add employees from a spreadsheet.",
-              "**Send the main survey** – about 4 minutes per employee, with one reminder from the system.",
-              "**Go through the results** with employees and the safety representative within a couple of weeks. Read [how to do it](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte).",
-              "**Choose two or three measures** with an owner and a deadline. Read [from results to measures](/artikler/fra-resultater-til-tiltak).",
-              "**Measure again** with a short pulse on the factors where measures are running, and run the next main survey in a year."
+              {
+                "date": "Start",
+                "title": "Sign up",
+                "text": "Use your organisation number, and add employees from a spreadsheet."
+              },
+              {
+                "date": "The main survey",
+                "title": "Send the main survey",
+                "text": "About 4 minutes per employee, with one reminder from the system."
+              },
+              {
+                "date": "Within a couple of weeks",
+                "title": "Go through the results",
+                "text": "Together with employees and the safety representative. Read [how to do it](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+              },
+              {
+                "date": "Then",
+                "title": "Choose two or three measures",
+                "text": "Each with an owner and a deadline. Read [from results to measures](/artikler/fra-resultater-til-tiltak)."
+              },
+              {
+                "date": "Through the year",
+                "title": "Measure again",
+                "text": "Run a short pulse on the factors where measures are running, and the next main survey in a year."
+              }
             ]
           },
           {
@@ -9254,12 +9274,52 @@
             "text": "Orgpuls recognises the invitation link by a cryptographic checksum. The invitation records that it has been used, so you get no reminder – but never the answer. No screen, export or query shows what a named person answered, not even to administrators: the information does not exist."
           },
           {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "The invitation",
+                "title": "Recognised by a checksum",
+                "text": "The link is looked up by a cryptographic checksum. The invitation only records that it has been used, so you get no reminder."
+              },
+              {
+                "date": "The answer",
+                "title": "Stored with no link to you",
+                "text": "The row shows the round, the group and the hour the answer came in. No column can hold a link to a person."
+              },
+              {
+                "date": "The result",
+                "title": "Shown only when enough have answered",
+                "text": "Figures are shown per group, and only when the group has at least as many answers as the limit."
+              }
+            ]
+          },
+          {
             "t": "h2",
             "text": "Fewer than 5 answers show a dash – by default"
           },
           {
             "t": "p",
             "text": "By default no group is shown until at least 5 have answered, and 5 is strongly recommended. The database enforces the limit: you can raise it up to 10, and a small team can lower it to 3 – never further. The fewer the answers, the easier it is to recognise who said what, so the managing director gets a warning before the limit is lowered. A round keeps the limit it started with, so a lower limit never opens earlier rounds. If the figures for the other groups would reveal a hidden group, Orgpuls hides one more, so nobody can work their way back to it."
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "At least 3 answers",
+                "ref": "The floor",
+                "text": "A small team can lower the limit to here, after a warning to the managing director. It cannot go lower."
+              },
+              {
+                "title": "At least 5 answers",
+                "ref": "Default",
+                "text": "Strongly recommended. A round keeps the limit it started with."
+              },
+              {
+                "title": "Up to 10 answers",
+                "ref": "Highest limit",
+                "text": "You can raise the limit. The more answers per group, the harder it is to recognise who said what."
+              }
+            ]
           },
           {
             "t": "h2",

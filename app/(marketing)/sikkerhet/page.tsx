@@ -1,9 +1,13 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { PageTemplate } from '@/components/marketing/PageTemplate'
+import { SecurityArt } from '@/components/marketing/art/SecurityArt'
 import { pageMeta } from '@/lib/marketing/meta'
 
-/** A page of the public site (seo.pages.sikkerhet, D-83); the words are messages, the shape is PageTemplate. */
+/**
+ * A page of the public site (seo.pages.sikkerhet, D-83); the words are messages, the shape is PageTemplate.
+ * It explains how anonymity is kept and offers nothing beside it (D-239).
+ */
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
@@ -21,6 +25,8 @@ export default async function Page() {
       path="/sikkerhet"
       schemaType="WebPage"
       articles={['anonym-medarbeiderundersokelse', 'verneombudets-rolle-i-kartleggingen']}
+      informational
+      heroArt={<SecurityArt className="h-auto w-full max-w-[440px]" />}
     />
   )
 }
