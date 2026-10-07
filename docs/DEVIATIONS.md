@@ -11687,6 +11687,8 @@ that a lead survives a platform that is down, misconfigured, or does not yet han
   invariants green there, rolled back), the functions deployed from this commit with
   `scripts/functions/deploy.mjs`, and the week's two lead events copied at the first run.
 - **Proved by** `supabase/tests/lead_copy_invariants.sql` and `tests/unit/lead-copy.test.ts`.
+- **The privacy statement is unchanged.** The copy is a backup in the owner's own mailbox, not a
+  further use of the data; Tor's decision when asked on 7 October 2026.
 
 ## D-243 — The free templates where their readers are, and a shorter menu (2026-10-07)
 
