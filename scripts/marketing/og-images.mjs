@@ -12,7 +12,7 @@
  *   node scripts/marketing/og-images.mjs --only barnehage-og-skole     # one card
  *
  * Writes public/og/<slug>.png for a landing page, public/og/artikler/<slug>.png for an article
- * (its H1, with its landing page's picture), and public/og.png, the site's own card (the start
+ * (its H1 under the brand, no picture and no claims – D-235), and public/og.png, the site's own card (the start
  * page's first slide title). Run it when an H1, a picture or a pill (messages seo.og.pills) changes.
  */
 import { mkdirSync, readFileSync } from 'node:fs'
@@ -45,16 +45,16 @@ const PAGES = [
   // the hub (D-207): its H1, and the overview a leader gets
   { slug: 'bransjer', h1: no.site.bransjer.h1, shot: 'oversikt' },
 ]
-// each article with the landing page it belongs to, read from lib/marketing/site.ts
+// each article's card is the article's own H1 under the brand and the word «Artikler»: no product
+// picture and no claims, since the articles are informational (D-235)
 const siteSrc = readFileSync('lib/marketing/site.ts', 'utf8')
-const shotOf = Object.fromEntries(PAGES.map((p) => [p.slug, p.shot]))
-const ARTICLE_CARDS = [...siteSrc.matchAll(/slug: '([^']+)',\s*key: '([^']+)',[\s\S]*?landing: '([^']+)'/g)].map((m) => ({
+const ARTICLE_CARDS = [...siteSrc.matchAll(/slug: '([^']+)',\s*key: '([^']+)',/g)].map((m) => ({
   slug: m[1],
   h1: no.seo.articles[m[2]].h1,
-  shot: shotOf[m[3]],
+  article: true,
   file: `artikler/${m[1]}.png`,
 }))
-if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1 || !a.shot)) throw new Error('lib/marketing/site.ts ARTICLES changed shape')
+if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1)) throw new Error('lib/marketing/site.ts ARTICLES changed shape')
 // the site's own card (public/og.png, lib/marketing/meta.ts), for every page without one: the start page's H1
 // the start page's first slide title: its H1 is for screen readers and opens with the brand, which
 // the card already shows beside the logo (D-190)
@@ -69,7 +69,22 @@ const markDot = logoSrc.match(/<circle cx="([\d.]+)" cy="([\d.]+)" r="([\d.]+)"/
 if (!markPath || !markDot) throw new Error('components/shell/Logo.tsx changed shape; update how the mark is read here')
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+const article = (p) => `<!doctype html><html lang="nb"><head><base href="${base}/"><style>${fonts}</style>
+<style>
+  * { box-sizing: border-box; margin: 0 }
+  body { width: 1200px; height: 630px; background: #FCF6E9; color: #191510; font-family: 'DM Sans', sans-serif; overflow: hidden; padding: 72px 80px; display: flex; flex-direction: column }
+  .brand { display: flex; align-items: center; gap: 18px; font-family: 'Playfair Display', serif; font-weight: 600; font-size: 40px }
+  .mark { width: 68px; height: 68px; border: 3px solid #191510; border-radius: 14px; background: #FFFDF6; display: grid; place-items: center }
+  .kicker { margin-top: auto; font-size: 20px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #5F5849 }
+  h1 { margin-top: 18px; max-width: 1000px; font-family: 'Playfair Display', serif; font-weight: 600; font-size: 60px; line-height: 1.08; text-wrap: balance }
+</style></head><body>
+  <div class="brand"><span class="mark"><svg width="40" height="24" viewBox="0 0 20 12" fill="none"><path d="${markPath}" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${markDot[1]}" cy="${markDot[2]}" r="${markDot[3]}" fill="#191510"/></svg></span>Orgpuls</div>
+  <span class="kicker">${esc(no.seo.index.eyebrow)}</span>
+  <h1>${esc(p.h1)}</h1>
+</body></html>`
+
 const html = (p) => {
+  if (p.article) return article(p)
   const img = `data:image/webp;base64,${readFileSync(`assets/produkt/${p.shot}.webp`).toString('base64')}`
   const phone = p.shot === 'sporsmal'
   return `<!doctype html><html lang="nb"><head><base href="${base}/"><style>${fonts}</style>

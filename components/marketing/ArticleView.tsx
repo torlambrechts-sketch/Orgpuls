@@ -4,10 +4,9 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { Blocks as BlocksSchema, wordCount, type Block } from '@/lib/marketing/blocks'
 import { article as articleLd, breadcrumbs, graph, organization } from '@/lib/marketing/schema'
-import { landingKey, type Article, articleImage } from '@/lib/marketing/site'
+import { type Article, articleImage } from '@/lib/marketing/site'
 import { ArticleCards } from './ArticleCards'
 import { Blocks } from './Blocks'
-import { CtaBand } from './CtaBand'
 import { JsonLd } from './JsonLd'
 import { WithAside } from './WithAside'
 
@@ -18,13 +17,13 @@ const WPM = 200
 
 /**
  * An article: the answer first, the argument in the blocks, what the law says quoted and
- * cited to the page it came from, and a way on — to the landing page that answers "and how
- * do we do that", and to two neighbouring articles.
+ * cited to the page it came from, and two neighbouring articles. Informational only (D-235):
+ * no offer beside or under the text, no box pointing to a sales page – the site's header and
+ * footer are the way to the product.
  */
 export async function ArticleView({ article: a }: { article: Article }) {
   const t = await getTranslations()
   const k = `seo.articles.${a.key}`
-  const lk = `seo.lp.${landingKey(a.landing)}`
   return (
     <ArticleBody
       content={{
@@ -33,14 +32,11 @@ export async function ArticleView({ article: a }: { article: Article }) {
         lead: t(`${k}.lead`),
         blocks: BlocksSchema.parse(t.raw(`${k}.blocks`)),
         sources: Sources.parse(t.raw(`${k}.sources`)),
-        ctaTitle: t(`${k}.ctaTitle`),
-        ctaBody: t(`${k}.ctaBody`),
       }}
       path={`/artikler/${a.slug}`}
       published={a.published}
       modified={a.modified}
       image={articleImage(a.slug)}
-      next={{ text: t(`${lk}.description`), href: `/${a.landing}`, page: t(`${lk}.crumb`) }}
       related={a.related}
     />
   )
@@ -52,14 +48,11 @@ export type ArticleContent = {
   lead: string
   blocks: Block[]
   sources: { label: string; url: string }[]
-  ctaTitle: string
-  ctaBody: string
 }
 
 /**
  * An article from its words, wherever they come from: the articles in code (ArticleView) or one
- * written in the CMS (X-094). `next` is the landing page that answers «how do we do that»; an
- * article without one has no such box, and one without sources no sources section.
+ * written in the CMS (X-094). An article without sources has no sources section.
  */
 export async function ArticleBody({
   content: c,
@@ -67,7 +60,6 @@ export async function ArticleBody({
   published,
   modified,
   image,
-  next,
   related,
 }: {
   content: ArticleContent
@@ -75,7 +67,6 @@ export async function ArticleBody({
   published: string
   modified: string
   image?: string
-  next: { text: string; href: string; page: string } | null
   related: string[]
 }) {
   const t = await getTranslations()
@@ -129,19 +120,7 @@ export async function ArticleBody({
       </header>
 
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[22px]">
-        <WithAside blocks={blocks} cta={{ title: c.ctaTitle, body: c.ctaBody }}>
-          {next ? (
-            <aside className="mt-[34px] rounded-note border border-line bg-sf px-[23px] py-[20px]">
-              <span className="block text-[15.5px] font-bold">{t('seo.common.nextTitle')}</span>
-              <span className="mt-[7px] block text-[14.5px] leading-[1.65] text-body">
-                {next.text}{' '}
-                <Link href={next.href as Route} className="font-semibold">
-                  {t('seo.common.nextLink', { page: next.page })}
-                </Link>
-              </span>
-            </aside>
-          ) : null}
-
+        <WithAside blocks={blocks}>
           {sources.length ? (
             <section className="mt-[34px]" aria-labelledby="kilder">
               <h2 id="kilder" className="text-[13px] font-bold uppercase tracking-[0.1em] text-mut">
@@ -162,12 +141,10 @@ export async function ArticleBody({
         </WithAside>
       </div>
 
-      <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
+      <div className="mx-auto max-w-[1120px] px-[26px] pb-[72px] pt-[54px]">
         <span className="block text-[11px] uppercase tracking-[0.12em] text-mut">{t('seo.common.readMore')}</span>
         <ArticleCards slugs={related} />
       </div>
-
-      <CtaBand title={c.ctaTitle} body={c.ctaBody} />
     </article>
   )
 }

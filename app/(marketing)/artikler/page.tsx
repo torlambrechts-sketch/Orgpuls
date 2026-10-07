@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { ArticleCards } from '@/components/marketing/ArticleCards'
-import { CtaBand } from '@/components/marketing/CtaBand'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, ldLanguage, organization } from '@/lib/marketing/schema'
 import { absolute, ARTICLES } from '@/lib/marketing/site'
 
-/** The article index: every article in lib/marketing/site.ts, newest first. */
+/** The article index: every article in lib/marketing/site.ts, newest first. Informational, no offer (D-235). */
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
@@ -49,7 +48,8 @@ export default async function ArticleIndex() {
         <p className="mt-[14px] max-w-[60ch] text-[16.5px] leading-[1.65] text-body [text-wrap:pretty]">{t('seo.index.lead')}</p>
         <ArticleCards slugs={ARTICLES.map((a) => a.slug)} />
       </div>
-      <CtaBand title={t('start.finalTitle')} body={t('start.finalBody')} />
+      {/* the index of informational articles carries no offer (D-235) */}
+      <div className="pb-[72px]" />
     </div>
   )
 }

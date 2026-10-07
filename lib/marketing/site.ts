@@ -23,8 +23,6 @@ export type Article = {
   key: string
   published: string
   modified: string
-  /** the landing page the article sends its reader to */
-  landing: LandingSlug
   /** two other articles, by slug, shown under "Les også" */
   related: [string, string]
 }
@@ -36,7 +34,6 @@ export const ARTICLES: Article[] = [
     key: 'resultaterTilTiltak',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'lovkrav',
     related: ['slik-gar-dere-gjennom-resultatene-med-de-ansatte', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
   },
   {
@@ -44,7 +41,6 @@ export const ARTICLES: Article[] = [
     key: 'gjennomgang',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'smaa-bedrifter',
     related: ['fra-resultater-til-tiltak', 'anonym-medarbeiderundersokelse'],
   },
   {
@@ -52,7 +48,6 @@ export const ARTICLES: Article[] = [
     key: 'risikovurdering',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'lovkrav',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'fra-resultater-til-tiltak'],
   },
   {
@@ -60,7 +55,6 @@ export const ARTICLES: Article[] = [
     key: 'arbeidsmengde',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'smaa-bedrifter',
     related: ['fra-resultater-til-tiltak', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
   },
   {
@@ -68,7 +62,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorYtring',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'verneombud',
     related: ['integritet-og-verdighet', 'stotte-fra-leder'],
   },
   {
@@ -76,7 +69,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorRolle',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'smaa-bedrifter',
     related: ['motstridende-krav', 'stotte-fra-leder'],
   },
   {
@@ -84,7 +76,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorMotstrid',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'smaa-bedrifter',
     related: ['rolleklarhet', 'arbeidsmengde-og-tidspress'],
   },
   {
@@ -92,7 +83,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorKontakt',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'lovkrav',
     related: ['stotte-fra-kollegaer', 'emosjonelle-krav'],
   },
   {
@@ -100,7 +90,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorEmosjon',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'lovkrav',
     related: ['stotte-fra-kollegaer', 'kontakt-og-kommunikasjon'],
   },
   {
@@ -108,7 +97,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorLeder',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'smaa-bedrifter',
     related: ['stotte-fra-kollegaer', 'rolleklarhet'],
   },
   {
@@ -116,7 +104,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorMedvirk',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'lovkrav',
     related: ['arbeidsmengde-og-tidspress', 'anerkjennelse-og-mening'],
   },
   {
@@ -124,7 +111,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorIntegritet',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'verneombud',
     related: ['ytringsklima', 'anonym-medarbeiderundersokelse'],
   },
   {
@@ -132,7 +118,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorKollega',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'smaa-bedrifter',
     related: ['stotte-fra-leder', 'kontakt-og-kommunikasjon'],
   },
   {
@@ -140,7 +125,6 @@ export const ARTICLES: Article[] = [
     key: 'faktorMening',
     published: '2026-10-06',
     modified: '2026-10-06',
-    landing: 'smaa-bedrifter',
     related: ['medvirkning-og-kontroll', 'stotte-fra-leder'],
   },
   {
@@ -148,7 +132,6 @@ export const ARTICLES: Article[] = [
     key: 'nyeRegler2026',
     published: '2026-09-25',
     modified: '2026-09-25',
-    landing: 'lovkrav',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'hvor-ofte-bor-dere-male-arbeidsmiljoet'],
   },
   {
@@ -156,7 +139,6 @@ export const ARTICLES: Article[] = [
     key: 'kravKartlegging',
     published: '2026-09-25',
     modified: '2026-09-25',
-    landing: 'lovkrav',
     related: ['nye-regler-psykososialt-arbeidsmiljo-2026', 'verneombudets-rolle-i-kartleggingen'],
   },
   {
@@ -164,7 +146,6 @@ export const ARTICLES: Article[] = [
     key: 'sporsmal',
     published: '2026-09-25',
     modified: '2026-09-25',
-    landing: 'smaa-bedrifter',
     related: ['anonym-medarbeiderundersokelse', 'hvor-ofte-bor-dere-male-arbeidsmiljoet'],
   },
   {
@@ -172,7 +153,6 @@ export const ARTICLES: Article[] = [
     key: 'hvorOfte',
     published: '2026-09-25',
     modified: '2026-09-25',
-    landing: 'smaa-bedrifter',
     related: ['medarbeiderundersokelse-sporsmal', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
   },
   {
@@ -180,7 +160,6 @@ export const ARTICLES: Article[] = [
     key: 'anonym',
     published: '2026-09-25',
     modified: '2026-09-25',
-    landing: 'smaa-bedrifter',
     related: ['medarbeiderundersokelse-sporsmal', 'verneombudets-rolle-i-kartleggingen'],
   },
   {
@@ -188,7 +167,6 @@ export const ARTICLES: Article[] = [
     key: 'verneombud',
     published: '2026-09-25',
     modified: '2026-09-25',
-    landing: 'verneombud',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
   },
 ]
