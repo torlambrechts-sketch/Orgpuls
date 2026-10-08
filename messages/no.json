@@ -5440,6 +5440,583 @@
       }
     },
     "articles": {
+      "medarbeiderundersokelse": {
+        "title": "Medarbeiderundersøkelse i arbeidsmiljøarbeidet | Orgpuls",
+        "description": "Hva en medarbeiderundersøkelse er, hva arbeidsmiljøloven krever, hva den bør måle, hvordan svarene holdes anonyme og hvordan funnene blir til tiltak.",
+        "h1": "Hva er en medarbeiderundersøkelse, og hvordan bør den brukes?",
+        "lead": "En medarbeiderundersøkelse er en spørreundersøkelse der de ansatte vurderer sitt eget arbeidsmiljø, og der svarene bare vises for grupper der ingen kan kjennes igjen. Brukt riktig er den en del av den lovpålagte kartleggingen av det psykososiale arbeidsmiljøet: den måler faktorene regelverket peker på, resultatene gås gjennom med de ansatte og verneombudet, og funnene blir til tiltak som følges opp og evalueres.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva er en medarbeiderundersøkelse?"
+          },
+          {
+            "t": "p",
+            "text": "I en medarbeiderundersøkelse tar de ansatte stilling til påstander om sin egen arbeidshverdag – arbeidsmengde, rolleklarhet, støtte fra leder og kolleger, innflytelse over eget arbeid og hvordan folk behandler hverandre. Svarene legges sammen for grupper, slik at virksomheten ser mønstre og ikke enkeltpersoner."
+          },
+          {
+            "t": "p",
+            "text": "Navnet dekker mye. Noen medarbeiderundersøkelser måler trivsel og engasjement, andre måler arbeidsmiljøfaktorene på en måte som kan brukes i en risikovurdering. Forskjellen betyr noe, fordi det er faktorene regelverket krever at dere kartlegger. Les mer om forskjellen i artikkelen om [trivselsundersøkelser](/artikler/trivselsundersokelse)."
+          },
+          {
+            "t": "p",
+            "text": "Store norske leksikon beskriver hva en slik undersøkelse kan og ikke kan: «Resultatene vil ikke gi et fullstendig bilde av forholdene som undersøkes, men kan være et godt utgangspunkt for videre utdypning.»"
+          },
+          {
+            "t": "h2",
+            "text": "Én kilde blant flere"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver: «For å få et godt bilde av det psykososiale arbeidsmiljøet, bør virksomheten bruke flere kilder i kartleggingen, som for eksempel arbeidsmiljøundersøkelser, vernerunder, avviksmeldinger, medarbeidersamtaler eller uformelle samtaler.»"
+          },
+          {
+            "t": "p",
+            "text": "En spørreundersøkelse er god til å vise hvor et problem er og hvor stort det er, og den gir alle en stemme samtidig. Den er dårligere til å forklare hvorfor. Det får dere fram i samtalene etterpå – i gjennomgangen med de ansatte, med verneombudet og i medarbeidersamtalene."
+          },
+          {
+            "t": "h2",
+            "text": "Hva krever loven?"
+          },
+          {
+            "t": "p",
+            "text": "Plikten til å kartlegge arbeidsmiljøet er ikke ny. Den står i bestemmelsen om systematisk HMS-arbeid i arbeidsmiljøloven, og fra 1. januar 2026 er den gjort tydelig for det psykososiale arbeidsmiljøet i et eget kapittel i forskrift om utførelse av arbeid."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Arbeidsmiljøloven § 3-1 andre ledd bokstav c",
+                "text": "kartlegge farer og problemer og på denne bakgrunn vurdere risikoforholdene i virksomheten, utarbeide planer og iverksette tiltak for å redusere risikoen"
+              },
+              {
+                "ref": "Forskrift om utførelse av arbeid § 1A-2 fjerde ledd",
+                "text": "Kartleggingen og risikovurderingen skal a. foretas i samarbeid med arbeidstakerne og deres representanter b. tilpasses virksomhetens art, aktiviteter og størrelse c. gjentas regelmessig og ved endringer som kan ha betydning for risikoforholdene i virksomheten d. dokumenteres og inngå i virksomhetens systematiske helse-, miljø- og sikkerhetsarbeid."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Regelverket sier ikke at kartleggingen skal gjøres med en spørreundersøkelse. Arbeidstilsynet skriver at «omfanget, metodene og innholdet i kartleggingen og risikovurderingen skal tilpasses virksomhetens art, aktiviteter og størrelse». En anonym undersøkelse er en praktisk måte å få svar fra alle på samtidig, men den bør suppleres med samtaler. Les mer om [kravene til kartlegging](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Hva bør undersøkelsen måle?"
+          },
+          {
+            "t": "p",
+            "text": "Forskriften § 1A-1 sier at psykososiale arbeidsmiljøfaktorer «blant annet» er:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "uklare eller motstridende krav og forventninger i arbeidet",
+              "emosjonelle krav og belastninger i arbeid med mennesker",
+              "arbeidsmengde og tidspress som innebærer ubalanse mellom arbeidet som skal utføres, og den tiden som er til rådighet",
+              "støtte og hjelp i arbeidet",
+              "mulighet for kontakt og kommunikasjon med andre arbeidstakere i virksomheten",
+              "trakassering, herunder seksuell trakassering",
+              "vold og trusler",
+              "selvbestemmelse og innflytelse i arbeidet"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Listen er ikke uttømmende. Arbeidstilsynet skriver at formuleringen «blant annet» markerer «at bestemmelsen ikke gir en uttømmende liste over psykososiale arbeidsmiljøfaktorer». Hvilke faktorer dere må kartlegge, avhenger av virksomhetens art, aktiviteter og risikobilde."
+          },
+          {
+            "t": "p",
+            "text": "Mål også det som beskytter. Arbeidstilsynet skriver: «Slike faktorer kan virke både belastende og beskyttende. Også beskyttende faktorer kan derfor være relevant å inkludere i kartleggingen.» Støtte fra leder og kolleger, innflytelse over eget arbeid og opplevelsen av mening er eksempler."
+          },
+          {
+            "t": "p",
+            "text": "Et etablert utgangspunkt er spørreskjemaer i QPS Nordic-tradisjonen, et nordisk spørreskjema om psykologiske og sosiale faktorer i arbeidet. STAMI beskriver at det er utviklet «for kartlegging i forbindelse med utviklingsarbeid og tiltak og for forskning», og at det er ment brukt i en «kartleggings-tilbakemeldingsprosess»: resultatene skal tilbake til dem som svarte. Se [hvilke spørsmål som bør være med](/artikler/medarbeiderundersokelse-sporsmal)."
+          },
+          {
+            "t": "h2",
+            "text": "Anonymitet i praksis"
+          },
+          {
+            "t": "p",
+            "text": "Datatilsynet skriver at «Formålet med en arbeidsmiljøundersøkelse vil normalt kunne oppnås ved innsamling av anonyme opplysninger». At navnet ikke lagres, er likevel ikke nok. Datatilsynet peker på at kombinasjonen av opplysninger som stilling, alder og kjønn «nokså enkelt» kan identifisere enkeltpersoner, «og spesielt i små virksomheter», og legger til: «Et annet vanlig problem er bruk av åpne merknadsfelt.»"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Vis ingen gruppe med færre enn fem svar.** Medarbeiderundersøkelsen i staten (MUST), som STAMI står for, har samme grense: «Enheter med minst 5 svar får rapport.»",
+              "**Spør om så få bakgrunnsopplysninger som mulig.** Hver ekstra opplysning deler svarene i mindre grupper.",
+              "**Vær varsom med fritekst.** Om MUST skriver STAMI: «Av hensyn til personvern er det ikke mulig for ansatte å svare fritt med tekst eller kommentarer.»",
+              "**Hindre at noen kan regne seg fram.** Viser dere tallet for hele virksomheten og for alle grupper unntatt én, kan den skjulte gruppen regnes ut. Da må også en annen gruppe skjules."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Les mer om [hva anonym medarbeiderundersøkelse betyr](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "De ansatte og verneombudet er med fra start"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at arbeidsgiveren «ikke kan gjøre dette arbeidet alene, men må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». For en medarbeiderundersøkelse betyr det at verneombudet er med på å velge tema og grupper, kjenner tidsplanen og deltar når resultatene gås gjennom. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+          },
+          {
+            "t": "h2",
+            "text": "Fra resultater til tiltak"
+          },
+          {
+            "t": "p",
+            "text": "En undersøkelse uten oppfølging gjør lite. Arbeidstilsynets kartlegging av det systematiske HMS-arbeidet viser at de fleste virksomheter kartlegger og risikovurderer arbeidsmiljøet minst én gang i året. «Likevel er det under halvparten av virksomhetene som gjør dette på en systematisk måte, og enda færre følger opp med konkrete tiltak basert på vurderingene.»"
+          },
+          {
+            "t": "p",
+            "text": "Tilbakemeldingen ser ut til å være en viktig del av effekten. I en studie STAMI omtalte i 2023, med 30 enheter i sju bedrifter, fikk noen av enhetene tilbakemeldingsmøter med presentasjon og fortolkning av resultatene, og hjelp til å utvikle konkrete tiltak. De hadde lavere langtidssykefravær enn enhetene som bare fikk kartlegging og generelle råd. Forskerne fant imidlertid «få direkte effekter av tiltaket på arbeidsmiljøfaktorene og helseplagene som ble kartlagt»."
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet beskriver hva en handlingsplan bør inneholde:"
+          },
+          {
+            "t": "quote",
+            "text": "En handlingsplan bør beskrive hva som er målet, hva som skal gjøres, hvem som berøres, hvem som har ansvaret, og tidsrammen for tiltaket. For å finne ut om tiltakene har ønsket effekt, må de evalueres.",
+            "cite": "Arbeidstilsynet, Psykososialt arbeidsmiljø"
+          },
+          {
+            "t": "p",
+            "text": "To prinsipper til fra Arbeidstilsynet: «Tiltakene bør så langt som mulig rette seg mot årsakene til risikoen, for eksempel organisatoriske eller arbeidsmessige forhold.» Og: «Kollektive tiltak bør vurderes før individuelle tiltak.» Se [slik går dere gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte) og [fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "h2",
+            "text": "Gjenta, dokumenter og evaluer"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at «Kartlegging og risikovurdering skal ikke være en engangsaktivitet». Ett opplegg er én grundig undersøkelse i året og kortere målinger på temaene der tiltak er satt i verk, en såkalt [pulsundersøkelse](/artikler/pulsundersokelse). Kartleggingen, vurderingene og tiltakene dokumenteres som en del av det systematiske HMS-arbeidet. Se også [hvor ofte dere bør måle arbeidsmiljøet](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Sjekkliste"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Avtal formål, tema, grupper og tidsplan med verneombudet før dere sender.",
+              "Mål faktorene forskriften peker på, og det som beskytter.",
+              "Vis ingen gruppe med færre enn fem svar, og hold bakgrunnsspørsmålene få.",
+              "Gå gjennom resultatene med de ansatte, og spør hva som ligger bak tallene.",
+              "Lag en handlingsplan med mål, tiltak, ansvar og tidsramme.",
+              "Evaluer tiltakene, og dokumenter kartlegging, vurdering og tiltak."
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven § 3-1 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Kompass tema-rapporter: Systematisk HMS-arbeid 2025 (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/om-oss/forskning-og-rapporter/kompass-tema-rapporter/"
+          },
+          {
+            "label": "Ansattundersøkelser (Datatilsynet)",
+            "url": "https://www.datatilsynet.no/personvern-pa-ulike-omrader/personvern-pa-arbeidsplassen/ansattundersokelser/"
+          },
+          {
+            "label": "Resultatrapporter fra MUST (STAMI)",
+            "url": "https://stami.no/vare-tjenester/medarbeiderundersokelsen-i-staten-must/resultatrapporter-fra-must/"
+          },
+          {
+            "label": "Gjennomføre MUST i virksomheten (STAMI)",
+            "url": "https://stami.no/vare-tjenester/medarbeiderundersokelsen-i-staten-must/gjennomfore-must-i-virksomheten/"
+          },
+          {
+            "label": "God effekt av å få veiledning etter arbeidsmiljøkartlegging (STAMI, 2023)",
+            "url": "https://stami.no/god-effekt-av-a-fa-veiledning-etter-arbeidsmiljokartlegging/"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
+          },
+          {
+            "label": "Medarbeiderundersøkelser (Store norske leksikon)",
+            "url": "https://snl.no/medarbeiderunders%C3%B8kelser"
+          }
+        ]
+      },
+      "trivselsundersokelse": {
+        "title": "Trivselsundersøkelse og arbeidsmiljø: hva bør måles? | Orgpuls",
+        "description": "Hva en trivselsundersøkelse måler, hvorfor trivsel er et resultat og ikke en årsak, og hva som må med for å kartlegge det psykososiale arbeidsmiljøet.",
+        "h1": "Hva er en trivselsundersøkelse, og er den nok for å kartlegge arbeidsmiljøet?",
+        "lead": "En trivselsundersøkelse måler hvor fornøyde de ansatte er med jobben. Alene er den ikke nok til å kartlegge det psykososiale arbeidsmiljøet: trivsel er et resultat av hvordan arbeidet er organisert, og regelverket krever at virksomheten kartlegger og vurderer selve arbeidsmiljøfaktorene – det som belaster og det som beskytter – slik at tiltakene kan rettes mot årsakene.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva er trivsel på jobben?"
+          },
+          {
+            "t": "p",
+            "text": "Trivsel er dagligtalens ord for det forskningen gjerne kaller jobbtilfredshet. Store norske leksikon definerer det slik: «Jobbtilfredshet viser til hvor fornøyd en person er med sin jobbsituasjon.»"
+          },
+          {
+            "t": "p",
+            "text": "Leksikonet påpeker at det er «et begrep som mangler en presis definisjon», og at «Hvilken definisjon man legger til grunn for begrepet, vil avgjøre hvordan man måler jobbtilfredshet, for eksempel i en medarbeiderundersøkelse.» To trivselsundersøkelser kan altså måle ganske ulike ting."
+          },
+          {
+            "t": "p",
+            "text": "Ifølge leksikonet påvirkes tilfredsheten av tre slags forhold: kjennetegn ved personen selv, som personlighet og forventninger; kjennetegn ved jobben, som «arbeidsbelastninger, variasjon og autonomi»; og kjennetegn ved organisasjonen, som ledelse, kultur og medvirkning. Det er de to siste arbeidsgiveren kan gjøre noe med, og det er dem regelverket handler om."
+          },
+          {
+            "t": "h2",
+            "text": "Trivsel er et resultat, ikke en årsak"
+          },
+          {
+            "t": "p",
+            "text": "Da Arbeidstilsynet i 2024 foreslo de nye reglene om psykososialt arbeidsmiljø, beskrev etaten et mønster fra tilsynene:"
+          },
+          {
+            "t": "quote",
+            "text": "Mange virksomheter la vekt på resultatet av psykososiale og organisatoriske arbeidsmiljøforhold, som trivsel eller ugunstige helseutfall, heller enn arbeidsmiljøfaktorene i seg selv. Mange virksomheter beskrev psykososialt arbeidsmiljø som trivsel på jobb, men reflekterte i mindre grad rundt hva som skaper trivsel eller hvordan trivsel er koblet til arbeidet.",
+            "cite": "Arbeidstilsynet, høringsnotat om psykososialt arbeidsmiljø (2024)"
+          },
+          {
+            "t": "p",
+            "text": "Høringsnotatet beskriver også følgen: «få gjør gode tiltak for det psykososiale arbeidsmiljøet, trivsels- og velferdstiltak dominerer, og det mangler en rød tråd tilbake til kartlegging og risikovurdering»."
+          },
+          {
+            "t": "p",
+            "text": "Et lavt trivselstall sier at noe er galt, men ikke hva. Er det arbeidsmengden, uklare roller, en konflikt eller for lite støtte? Uten svar på det blir tiltaket lett et sosialt arrangement, mens årsaken blir stående."
+          },
+          {
+            "t": "h2",
+            "text": "Krav og ressurser"
+          },
+          {
+            "t": "p",
+            "text": "Jobbkrav–ressurser-modellen, utviklet av Bakker og Demerouti, deler arbeidsmiljøet i krav – som arbeidsmengde, tidspress og emosjonelle belastninger – og ressurser, som støtte, innflytelse og tilbakemelding. Arbeidstilsynet oppsummerer modellen slik i høringsnotatet:"
+          },
+          {
+            "t": "quote",
+            "text": "Jobbkravene kan sette i gang en helsereduserende prosess, mens jobbressursene kan bidra som en buffer og begrense negative helsekonsekvenser. Jobbressursene kan, i tillegg, bidra til en motiverende eller helsefremmende prosess.",
+            "cite": "Arbeidstilsynet, høringsnotat om psykososialt arbeidsmiljø (2024)"
+          },
+          {
+            "t": "p",
+            "text": "En trivselsmåling fanger opp summen av de to prosessene i ett tall. Den samme middels trivselen kan skjule høye krav som veies opp av gode ressurser, og lave krav i en jobb med lite støtte og innflytelse – to situasjoner som krever helt ulike tiltak."
+          },
+          {
+            "t": "p",
+            "text": "Helheten betyr noe. En STAMI-studie med 6175 arbeidstakere i 62 norske virksomheter fant at høy kontroll over eget arbeid ikke så ut til å beskytte mot smerteplager for dem som samtidig hadde lave eller middels nivåer av andre beskyttende faktorer. Forskerne konkluderte: «Dette tyder på at høy jobbkontroll ikke er tilstrekkelig til å beskytte ansatte mot uheldige effekter av andre arbeidsmiljøfaktorer, og understreker betydningen av å ta helheten i betraktning når man skal vurdere arbeidsmiljøet.»"
+          },
+          {
+            "t": "h2",
+            "text": "Hva krever regelverket?"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Arbeidsmiljøloven § 4-3 første ledd",
+                "text": "Arbeidet skal organiseres, planlegges og gjennomføres slik at de psykososiale arbeidsmiljøfaktorene i virksomheten er fullt forsvarlige ut fra hensynet til arbeidstakernes helse, sikkerhet og velferd."
+              },
+              {
+                "ref": "Forskrift om utførelse av arbeid § 1A-2 første ledd",
+                "text": "Arbeidsgiveren skal kartlegge psykososiale arbeidsmiljøfaktorer som kan påvirke arbeidstakernes helse, sikkerhet eller velferd. På grunnlag av kartleggingen skal arbeidsgiveren vurdere risikoen for skadelig påvirkning, både på kort og lang sikt. Risikovurderingen skal omfatte de enkelte faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Kravet gjelder altså faktorene i arbeidet som kan påvirke helse, sikkerhet og velferd, og hvordan de virker sammen – ikke hvor fornøyde de ansatte er. Ordet trivsel står verken i forskriftens kapittel 1A eller i Arbeidstilsynets kommentarer til det. En trivselsundersøkelse kan være et nyttig supplement, men den oppfyller ikke kravet alene. Les mer om [kravene til kartlegging](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Det som beskytter, hører med"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver i kommentaren til forskriften: «Slike faktorer kan virke både belastende og beskyttende. Også beskyttende faktorer kan derfor være relevant å inkludere i kartleggingen.» Støtte fra leder og kolleger, innflytelse over eget arbeid og opplevelsen av mening er ressurser som gjør kravene lettere å bære. Måler dere dem, ser dere både hva som belaster og hva dere kan bygge videre på."
+          },
+          {
+            "t": "h2",
+            "text": "Ett spørsmål gir ett tall"
+          },
+          {
+            "t": "p",
+            "text": "En trivselsmåling kan være så kort som ett spørsmål om hvor fornøyd man er, eller om man vil anbefale arbeidsplassen til andre. Et slikt spørsmål kan vise et nivå og en retning over tid. Det kan ikke vise årsaken, og det gir ikke grunnlag for å vurdere risikoen faktor for faktor, slik forskriften krever."
+          },
+          {
+            "t": "h2",
+            "text": "Slik blir målingen nyttig"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Behold gjerne trivselsspørsmålet, men mål også det som forklarer det:** arbeidsmengde, rolleklarhet, støtte, innflytelse, emosjonelle krav og hvordan folk behandler hverandre. Se [hvilke spørsmål som bør være med](/artikler/medarbeiderundersokelse-sporsmal).",
+              "**Bruk flere kilder.** Arbeidstilsynet nevner «arbeidsmiljøundersøkelser, vernerunder, avviksmeldinger, medarbeidersamtaler eller uformelle samtaler».",
+              "**Spør de ansatte hva som ligger bak tallene.** Se [slik går dere gjennom resultatene med de ansatte](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte).",
+              "**Rett tiltakene mot årsakene.** «Tiltakene bør så langt som mulig rette seg mot årsakene til risikoen, for eksempel organisatoriske eller arbeidsmessige forhold», skriver Arbeidstilsynet.",
+              "**Følg opp med korte målinger** på temaene der dere har satt i verk tiltak. Se [pulsundersøkelse](/artikler/pulsundersokelse).",
+              "**Hold svarene anonyme.** Se [hva anonym medarbeiderundersøkelse betyr](/artikler/anonym-medarbeiderundersokelse)."
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Kort sagt",
+            "text": "Trivsel er et godt signal, men et dårlig styringsverktøy. Mål det som skaper trivselen, så vet dere hva dere skal gjøre med den."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Høringsnotat: forslag til endringer for å tydeliggjøre reglene om psykososialt arbeidsmiljø (Arbeidstilsynet, 2024)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/horinger/forslag-til-endringer-i-arbeidsmiljoloven-og-tilhorende-forskrift-for-a-tydeliggjore-reglene-om-psykososialt-arbeidsmiljo/horingsnotat/"
+          },
+          {
+            "label": "Jobbtilfredshet (Store norske leksikon)",
+            "url": "https://snl.no/jobbtilfredshet"
+          },
+          {
+            "label": "Beskyttende faktorer i arbeidsmiljøet (STAMI)",
+            "url": "https://stami.no/beskyttende-faktorer-i-arbeidsmiljoet/"
+          }
+        ]
+      },
+      "pulsundersokelse": {
+        "title": "Pulsundersøkelse: når gir korte målinger mening? | Orgpuls",
+        "description": "Hva en pulsundersøkelse er, hva regelverket sier om å følge opp arbeidsmiljøet, og hva forskningen sier om enkeltspørsmål, små grupper og svarvilje.",
+        "h1": "Hva er en pulsundersøkelse, og når gir korte målinger mening?",
+        "lead": "En pulsundersøkelse er en kort undersøkelse som sendes oftere enn den årlige kartleggingen, gjerne med bare noen få påstander. Den gir mening når den følger opp konkrete tiltak eller endringer, med de samme påstandene og store nok grupper. Den erstatter ikke kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet, men kan vise om tiltakene merkes.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva er en pulsundersøkelse?"
+          },
+          {
+            "t": "p",
+            "text": "Pulsundersøkelser er korte spørreskjemaer som sendes med jevne mellomrom. En nyere intervjustudie av hvordan virksomheter bruker dem, beskriver dem som korte, hyppige spørreskjemaer, og påpeker at det finnes lite forskning på hvordan de brukes i praksis. Blant virksomhetene i studien varierte hyppigheten fra hver uke til hver tredje måned."
+          },
+          {
+            "t": "p",
+            "text": "Det skiller pulsundersøkelsen fra hovedkartleggingen, som måler alle de psykososiale faktorene grundig og er grunnlaget for risikovurderingen. Pulsen er en oppfølging, ikke en ny kartlegging."
+          },
+          {
+            "t": "h2",
+            "text": "Hva sier regelverket?"
+          },
+          {
+            "t": "p",
+            "text": "Regelverket bruker ikke ordet pulsundersøkelse, og det fastsetter ikke hvor ofte dere skal måle. Men det stiller krav som en kort måling kan hjelpe dere å oppfylle:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Forskrift om utførelse av arbeid § 1A-2 fjerde ledd bokstav c",
+                "text": "gjentas regelmessig og ved endringer som kan ha betydning for risikoforholdene i virksomheten"
+              },
+              {
+                "ref": "Arbeidsmiljøloven § 3-1 andre ledd bokstav h",
+                "text": "foreta systematisk overvåking og gjennomgang av det systematiske helse-, miljø- og sikkerhetsarbeidet for å sikre at det fungerer som forutsatt"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Om tiltakene skriver Arbeidstilsynet: «For å finne ut om tiltakene har ønsket effekt, må de evalueres. Dersom tiltakene ikke virker som planlagt, må de justeres og eventuelt erstattes eller suppleres av andre tiltak.» En kort måling på temaene der tiltak er satt i verk, er én måte å evaluere på. Den gir ikke hele svaret, men den viser om de ansatte merker en forskjell."
+          },
+          {
+            "t": "h2",
+            "text": "Når gir korte målinger mening?"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Etter et tiltak.** Måler dere de samme påstandene som lå bak tiltaket, ser dere om tallene flytter seg.",
+              "**Ved endringer.** En omorganisering, ny ledelse eller nye systemer kan ha betydning for risikoen. En kort måling på de berørte temaene kan vise om det skjer noe, i påvente av en grundigere kartlegging.",
+              "**For å holde arbeidet levende.** En kort måling mellom hovedkartleggingene minner alle om at arbeidsmiljøet er et tema hele året – forutsatt at noe skjer med svarene."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Intervjustudien konkluderer med at pulsmålinger ikke bør erstatte den årlige, grundige risikokartleggingen, men fungere som et supplement. Den fant også at pulsmålingene i virksomhetene som regel ikke var koblet til arbeidet med psykososial risiko. Det er den koblingen som gjør målingen nyttig."
+          },
+          {
+            "t": "h2",
+            "text": "Hva forskningen sier om målefeil"
+          },
+          {
+            "t": "p",
+            "text": "Korte målinger har en pris: jo færre påstander og jo færre som svarer, desto mer usikkert er tallet."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Enkeltspørsmål er mindre pålitelige enn skalaer.** En gjennomgang av enkeltspørsmål i organisasjonsforskningen beskriver en bred enighet om at mål med flere spørsmål har bedre måleegenskaper, selv om enkeltspørsmål i noen tilfeller gir nyttig informasjon. En klassisk studie anslo den nedre grensen for påliteligheten til ett enkelt spørsmål om generell jobbtilfredshet til mellom 0,45 og 0,69, der 1 er perfekt.",
+              "**Små grupper gir ustabile gjennomsnitt.** Hvor pålitelig et gjennomsnitt for en gruppe er, avhenger blant annet av hvor mange som er i gruppen. I en liten gruppe kan ett svar flytte tallet mye.",
+              "**Tilfeldig variasjon kan se ut som endring.** Regresjon mot gjennomsnittet gjør at en gruppe som skåret uvanlig lavt ved én måling, ofte skårer nærmere gjennomsnittet neste gang – også uten tiltak. Effekten blir større jo mer målefeil det er, og når man bare følger opp gruppene som skåret lavest."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "En studie av pulsmålinger i én helseorganisasjon fant at målingene ga et pålitelig bilde av engasjementet samlet, men at tallene lå stabilt gjennom åtte måneder, og at det knapt var forskjeller mellom grupper eller over tid, til tross for høy deltakelse. Studien konkluderte med at pulsmålinger kan egne seg til å anslå den generelle stemningen, men ikke til å oppdage endring over tid eller forskjeller mellom grupper."
+          },
+          {
+            "t": "p",
+            "text": "Det betyr ikke at korte målinger er verdiløse, men at små utslag ikke bør leses som endring. Se etter tydelige og varige bevegelser, og hold dem opp mot det dere vet fra samtaler, vernerunder og avviksmeldinger."
+          },
+          {
+            "t": "h2",
+            "text": "Sammenlign likt med likt"
+          },
+          {
+            "t": "p",
+            "text": "En pulsmåling bør sammenlignes med den forrige pulsmålingen, med de samme påstandene og de samme gruppene. Endrer dere påstandene, gruppene eller svarskalaen, kan en endring i tallene skyldes målingen og ikke arbeidsmiljøet. Det samme gjelder når en kort pulsmåling sammenlignes med hele hovedkartleggingen. Se [hvor ofte dere bør måle arbeidsmiljøet](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Svarviljen faller når ingenting skjer"
+          },
+          {
+            "t": "p",
+            "text": "Hyppige undersøkelser kan slite på svarviljen. En studie blant studenter fant at flere undersøkelser i løpet av ett studieår ga klart lavere svarprosent på de senere undersøkelsene. En arbeidsplass er ikke et studiested, men mekanismen er lett å kjenne igjen."
+          },
+          {
+            "t": "p",
+            "text": "Det som ser ut til å bety mest, er om svarene blir brukt. I intervjustudien var de ansattes vilje til å svare sterkt avhengig av om de opplevde at svarene ble brukt på en meningsfull måte, og manglende oppfølging kunne føre til tilbaketrekning, undersøkelsestretthet og svekket tillit. En eldre studie av medarbeiderundersøkelser fant at de som ikke svarte, oftere hadde negative oppfatninger av hvordan virksomheten håndterer svarene – for eksempel at den ikke gjør noe med dem."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Fortell hva som er gjort siden forrige måling før dere sender den neste.",
+              "Hold målingen kort, og spør bare om temaene der noe skjer.",
+              "Mål ikke oftere enn dere klarer å følge opp."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Anonymitet i små målinger"
+          },
+          {
+            "t": "p",
+            "text": "Korte målinger sendes ofte til små grupper, og da er anonymiteten mer sårbar. Forfatterne av intervjustudien skriver at gjennomsnitt av enkeltspørsmål for få personer er problematisk både for påliteligheten og for å oppdage endring, og at det verken er etisk eller metodisk akseptabelt å rapportere resultater for grupper helt ned i tre til fem personer."
+          },
+          {
+            "t": "p",
+            "text": "Et praktisk utgangspunkt er å ikke vise noen gruppe med færre enn fem svar, og å se på tallene for hele virksomheten når gruppene er mindre. Medarbeiderundersøkelsen i staten (MUST) har samme grense: «Enheter med minst 5 svar får rapport.» Fordelingen per svaralternativ vises først fra ti svar. Les mer om [hva anonym medarbeiderundersøkelse betyr](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "Pulsmåling og hovedkartlegging"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Hovedkartlegging",
+                "text": "Alle faktorene, hele virksomheten. Grunnlaget for risikovurderingen og handlingsplanen. Gjentas regelmessig og ved endringer."
+              },
+              {
+                "title": "Pulsmåling",
+                "text": "Noen få påstander om temaene der tiltak er satt i verk. Viser om de ansatte merker en forskjell. Erstatter ikke kartleggingen."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "At tiltak er gjennomført, betyr ikke at de virker. En systematisk oversikt over tiltak rettet mot arbeidsforholdene fant at omtrent halvparten av 39 studier viste signifikante effekter, og at tiltak som tok for seg materielle, organisatoriske og arbeidstidsrelaterte forhold samtidig, oftere lyktes. Det er et argument for å måle om tiltakene merkes, ikke bare om de er gjennomført. Se [fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "h2",
+            "text": "Sjekkliste"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Knytt pulsmålingen til tiltak eller endringer, ikke bare til kalenderen.",
+              "Bruk de samme påstandene som i hovedkartleggingen for temaene dere følger opp.",
+              "Hold den kort: få temaer, få påstander.",
+              "Vis ingen gruppe med færre enn fem svar.",
+              "Les små utslag med forsiktighet.",
+              "Fortell hva som har skjedd før neste måling, og la verneombudet være med på opplegget."
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 3-1 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Resultatrapporter fra MUST (STAMI)",
+            "url": "https://stami.no/vare-tjenester/medarbeiderundersokelsen-i-staten-must/resultatrapporter-fra-must/"
+          },
+          {
+            "label": "Taking the pulse: a qualitative study on pulse survey implementation (Frontiers in Organizational Psychology, 2026)",
+            "url": "https://doi.org/10.3389/forgp.2025.1696769"
+          },
+          {
+            "label": "Investigating the promise and pitfalls of pulse surveys (Industrial and Organizational Psychology, 2022)",
+            "url": "https://doi.org/10.1017/iop.2021.124"
+          },
+          {
+            "label": "Developing and investigating the use of single-item measures in organizational research (Journal of Occupational Health Psychology, 2016)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25894198/"
+          },
+          {
+            "label": "Overall job satisfaction: how good are single-item measures? (Journal of Applied Psychology, 1997)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9109282/"
+          },
+          {
+            "label": "Group size, ICC values, and group-level correlations: a simulation (Organizational Research Methods, 1998)",
+            "url": "https://doi.org/10.1177/109442819814001"
+          },
+          {
+            "label": "Regression to the mean: what it is and how to deal with it (International Journal of Epidemiology, 2005)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15333621/"
+          },
+          {
+            "label": "Multiple surveys of students and survey fatigue (New Directions for Institutional Research, 2004)",
+            "url": "https://doi.org/10.1002/ir.101"
+          },
+          {
+            "label": "Employee attitude surveys: examining the attitudes of noncompliant employees (Journal of Applied Psychology, 2000)",
+            "url": "https://experts.umn.edu/en/publications/employee-attitude-surveys-examining-the-attitudes-of-noncompliant/"
+          },
+          {
+            "label": "Effects of organisational-level interventions at work on employees’ health: a systematic review (BMC Public Health, 2014)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24507447/"
+          }
+        ]
+      },
       "faktorYtring": {
         "title": "Ytringsklima på arbeidsplassen: årsaker og tiltak | Orgpuls",
         "description": "Lav score på ytringsklima betyr at folk lar være å si fra, eller ikke tror at noe skjer når de gjør det. Hva loven sier, mulige årsaker og hva som hjelper.",

@@ -11875,29 +11875,42 @@ site. D-230 removed the beacon (D-91) with the admin it fed; Sentral's collector
   class. web-collect does not receive or keep them.
 - Tests: `tests/unit/site-beacon.test.ts`.
 
-## D-249 — Three landing pages for the words people search: medarbeiderundersøkelse, trivselsundersøkelse, pulsundersøkelse (2026-10-08)
+## D-249 — Three articles for the words people search: medarbeiderundersøkelse, trivselsundersøkelse, pulsundersøkelse (2026-10-08)
 
 Tor, 8 October 2026: «Ja, lag de tre sidene. Søkeord vi må ha med er medarbeiderundersøkelser, arbeidsmiljø og
-trivselundersøkelser». Search Console is not connected yet, so the choice rests on gaps in the site, not on data:
-«trivselsundersøkelse» appeared nowhere, «pulsundersøkelse» once, and «medarbeiderundersøkelse» had articles but no page.
+trivselundersøkelser», then, the same day: «Skriv de som artikler med faglig fokus, som de andre». Search Console is not
+connected yet, so the choice rests on gaps in the site, not on data: «trivselsundersøkelse» appeared nowhere,
+«pulsundersøkelse» once, and «medarbeiderundersøkelse» had articles about its questions and anonymity but none about the
+thing itself.
 
-- **The pages** (`/medarbeiderundersokelse`, `/trivselsundersokelse`, `/pulsundersokelse`, no and en) are landing pages on
-  LandingTemplate (D-79), words in `seo.lp.<key>`, so the shape is the one /smaa-bedrifter already has: hero with the
-  organisation-number form and a product picture, blocks, FAQ (FAQPage JSON-LD), related pages, two articles, a free
-  template. Each carries its keyword and «arbeidsmiljø» in the title, H1, description and first paragraph
-  (`scripts/verify/landing-audit.mjs` checks them). No new component, no new design: the same template, so no new
-  baseline.
-- **What they claim** is what the product does, taken from the site's existing words: eleven factors on QPS Nordic,
-  about four minutes, anonymity from 5 answers (never under 3, enforced by the database), the report per factor, three
-  suggested measures per factor with owner and deadline, the safety representative told before sending (2 days by
-  default), the main survey closing after 14 days and a pulse after 7 by default, the pulse asking only about factors
-  with open measures, the questionnaire in Norwegian, English, Polish and Lithuanian, the free plan without pulses and
-  the plans from 265 kr. The trivsel page says plainly that «trivselsundersøkelse» is not a legal term, and what the law
-  does require (aml § 3-1, forskriften kapittel 1A since 2026).
-- **Links in:** the start page's footer «Medarbeiderundersøkelse» now opens /medarbeiderundersokelse (was /smaa-bedrifter)
-  and «Pulsmålinger» /pulsundersokelse (was /bruksomrader#puls); the link texts are the design's, only the targets
-  changed. /smaa-bedrifter's related cards lead with /medarbeiderundersokelse. The three link to each other, and the
-  article «Hvor ofte bør dere måle arbeidsmiljøet?» names pulse surveys with a link. Sitemap, llms.txt, hreflang and the
-  public paths take them from `LANDING_PAGES`.
-- Share cards (`public/og/<slug>.png`), the legal registry's three units, the page map (59 pages), and the landing audit
-  list. Not added: a visible link on Bruksområder or in the header menu, which would change designed pages.
+- **What they are:** three articles under D-235's rules, at `/artikler/medarbeiderundersokelse`,
+  `/artikler/trivselsundersokelse` and `/artikler/pulsundersokelse` (no and en, `seo.articles.<key>`, the `ARTICLES`
+  registry). The lead answers the H1's question; nothing about the product, prices or trials; links only to other
+  articles. Each carries its keyword and «arbeidsmiljø» in the title, description, H1 and lead.
+- **What they say, and on what:** every legal statement is quoted from the Act (§§ 3-1, 4-3) and regulation chapter 1A
+  with Arbeidstilsynet's comments, checked against the pages as published on 2026-10-08. Beyond D-235's sources they quote
+  Arbeidstilsynet's «Psykososialt arbeidsmiljø» page, the 2024 consultation paper (as a proposal, labelled with its year)
+  and the Kompass summary on systematic HSE work; Datatilsynet on employee surveys; STAMI on MUST, the QPSNordic user
+  guide, the 2023 feedback-meeting study (with its caveat that it found few direct effects on the factors) and the 2018
+  protective-factors study; Store norske leksikon on job satisfaction and employee surveys. The pulse article also rests
+  on nine peer-reviewed papers (pulse survey use and limits, single items, group size, regression to the mean, survey
+  fatigue, non-respondents, organisational interventions). They appear in its source list by title and journal, each
+  confirmed against Crossref or PubMed; the text names no researcher outside D-235's list (Bakker and Demerouti appear in
+  the trivsel article) and states each finding with its limits: one organisation, a student sample, a cross-sectional
+  study.
+- **Anonymity, as the articles put it:** «show no group with fewer than five answers», as «Hvor ofte bør dere måle
+  arbeidsmiljøet?» already says, with MUST's 5 and 10 as the published practice. The pulse article also reports, because
+  the study says it, that its authors find reporting on groups of 3–5 neither ethically nor methodologically acceptable
+  for single items. That is stricter than the product's floor (3, with a warning, for small teams; default 5); the
+  articles describe practice and recommend 5, and the product's rule is unchanged.
+- **The landing pages are gone:** the morning's `/medarbeiderundersokelse`, `/trivselsundersokelse` and
+  `/pulsundersokelse` landing pages (`seo.lp.*`, their routes, share cards, legal units, public paths and landing-audit
+  entries) are deleted, and each address redirects permanently (308) to its article, so links already shared still land.
+  `LANDING_PAGES` and /smaa-bedrifter's related cards are as they were before.
+- **Links in:** the start page's footer «Medarbeiderundersøkelse» opens the article (was /smaa-bedrifter) and
+  «Pulsmålinger» the pulse article (was /bruksomrader#puls); the link texts are the design's, only the targets changed.
+  «Hvor ofte bør dere måle arbeidsmiljøet?» names pulse surveys with a link, and the three articles link to each other and
+  to the existing ones. Sitemap, llms.txt, hreflang and the Article schema take them from `ARTICLES`.
+- Share cards (`public/og/artikler/<slug>.png`), and the page map (59 pages: the three articles replace the three landing
+  pages). `seo.shots.kommentarer` and `seo.shots.sporsmal.screen` are again shown on no crawled page, as before the
+  landing pages; they stay, as the shot registry (`lib/marketing/shot-ids.ts`) still names them.

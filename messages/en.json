@@ -5440,6 +5440,583 @@
       }
     },
     "articles": {
+      "medarbeiderundersokelse": {
+        "title": "Employee surveys and the working environment | Orgpuls",
+        "description": "What an employee survey is, what Norwegian law requires, what it should measure, how answers stay anonymous and how findings become measures.",
+        "h1": "What is an employee survey, and how should it be used?",
+        "lead": "An employee survey is a questionnaire in which employees assess their own working environment, and where answers are shown only for groups in which no one can be recognised. Used well, it is part of the statutory mapping of the psychosocial working environment: it measures the factors the rules point to, the results are reviewed with employees and the safety representative, and the findings become measures that are followed up and evaluated.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What is an employee survey?"
+          },
+          {
+            "t": "p",
+            "text": "In an employee survey, employees respond to statements about their own working day – workload, role clarity, support from their manager and colleagues, influence over their own work and how people treat each other. Answers are combined for groups, so the organisation sees patterns rather than individuals."
+          },
+          {
+            "t": "p",
+            "text": "The name covers a lot. Some employee surveys measure satisfaction and engagement; others measure working environment factors in a way that can be used in a risk assessment. The difference matters, because the factors are what the rules require you to map. Read more about the difference in the article on [job satisfaction surveys](/artikler/trivselsundersokelse)."
+          },
+          {
+            "t": "p",
+            "text": "The Norwegian encyclopaedia Store norske leksikon describes what such a survey can and cannot do: the results will not give a complete picture of the conditions examined, but can be a good starting point for looking further."
+          },
+          {
+            "t": "h2",
+            "text": "One source among several"
+          },
+          {
+            "t": "p",
+            "text": "The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that to get a good picture of the psychosocial working environment, an organisation should use several sources in the mapping, such as working environment surveys, safety inspections, incident reports, appraisal conversations or informal conversations."
+          },
+          {
+            "t": "p",
+            "text": "A questionnaire is good at showing where a problem is and how large it is, and it gives everyone a voice at the same time. It is less good at explaining why. That comes out in the conversations afterwards – in the review with employees, with the safety representative and in appraisal conversations."
+          },
+          {
+            "t": "h2",
+            "text": "What does the law require?"
+          },
+          {
+            "t": "p",
+            "text": "The duty to map the working environment is not new. It is part of the provision on systematic health, environment and safety work in the Working Environment Act, and from 1 January 2026 it has been made explicit for the psychosocial working environment in a chapter of its own in the regulation on the performance of work."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Working Environment Act § 3-1(2)(c) (our translation)",
+                "text": "map hazards and problems and on that basis assess the risk factors in the undertaking, prepare plans and implement measures to reduce the risk"
+              },
+              {
+                "ref": "Regulation on the performance of work § 1A-2(4) (our translation)",
+                "text": "The mapping and the risk assessment shall a. be carried out in cooperation with the employees and their representatives b. be adapted to the nature, activities and size of the undertaking c. be repeated regularly and upon changes that may affect the risk conditions in the undertaking d. be documented and form part of the undertaking's systematic health, environment and safety work."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The rules do not say that the mapping must be done with a questionnaire. Arbeidstilsynet writes that the scope, methods and content of the mapping and risk assessment are to be adapted to the nature, activities and size of the undertaking. An anonymous survey is a practical way to hear from everyone at once, but it should be supplemented with conversations. Read more about [the requirements for mapping](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "What should the survey measure?"
+          },
+          {
+            "t": "p",
+            "text": "Section 1A-1 of the regulation says that psychosocial working environment factors include, among others (our translation):"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "unclear or conflicting demands and expectations in the work",
+              "emotional demands and strain in work with people",
+              "workload and time pressure that involve an imbalance between the work to be done and the time available",
+              "support and help in the work",
+              "the opportunity for contact and communication with other employees in the undertaking",
+              "harassment, including sexual harassment",
+              "violence and threats",
+              "autonomy and influence in the work"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The list is not exhaustive. Arbeidstilsynet writes that the words «among others» mark that the provision does not give an exhaustive list of psychosocial working environment factors. Which factors you must map depends on the organisation’s nature, activities and risk profile."
+          },
+          {
+            "t": "p",
+            "text": "Measure what protects as well. Arbeidstilsynet writes that such factors can act both as strains and as protection, and that protective factors may therefore also be relevant to include in the mapping. Support from managers and colleagues, influence over one’s own work and a sense of meaning are examples."
+          },
+          {
+            "t": "p",
+            "text": "An established starting point is questionnaires in the QPS Nordic tradition, a Nordic questionnaire on psychological and social factors at work. The Norwegian National Institute of Occupational Health (STAMI) describes it as developed for mapping in connection with development work and measures, and for research, and intended for a survey-feedback process: the results go back to those who answered. See [which questions belong in an employee survey](/artikler/medarbeiderundersokelse-sporsmal)."
+          },
+          {
+            "t": "h2",
+            "text": "Anonymity in practice"
+          },
+          {
+            "t": "p",
+            "text": "The Norwegian Data Protection Authority (Datatilsynet) writes that the purpose of a working environment survey can normally be achieved by collecting anonymous information. Not storing names is still not enough. Datatilsynet points out that combining details such as position, age and gender can quite easily identify individuals, especially in small organisations – and adds that another common problem is the use of open comment fields."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Show no group with fewer than five answers.** The Norwegian central government’s employee survey (MUST), run by STAMI, uses the same threshold: units with at least five answers get a report.",
+              "**Ask for as few background details as possible.** Every extra detail splits the answers into smaller groups.",
+              "**Be careful with free text.** STAMI writes of MUST that, out of regard for privacy, employees cannot answer freely with text or comments.",
+              "**Stop anyone working it out.** If you show the figure for the whole organisation and for every group but one, the hidden group can be calculated. Then another group must be hidden too."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Read more about [what an anonymous employee survey means](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "Employees and the safety representative are involved from the start"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that the employer cannot do this work alone, but must actively involve employees and the safety representative in the mapping, the risk assessment, and the planning and follow-up of measures. For an employee survey, this means the safety representative helps choose topics and groups, knows the timetable and takes part when the results are reviewed. Read more about [the safety representative’s role in the mapping](/artikler/verneombudets-rolle-i-kartleggingen)."
+          },
+          {
+            "t": "h2",
+            "text": "From results to measures"
+          },
+          {
+            "t": "p",
+            "text": "A survey without follow-up achieves little. Arbeidstilsynet’s own survey of systematic health and safety work shows that most organisations map and assess the risks in their working environment at least once a year. Yet fewer than half do so systematically, and even fewer follow up with concrete measures based on the assessments."
+          },
+          {
+            "t": "p",
+            "text": "Feedback appears to be an important part of the effect. In a study STAMI described in 2023, covering 30 units in seven companies, some units received feedback meetings with a presentation and interpretation of the results, and help to develop concrete measures. They had lower long-term sickness absence than units that received only the mapping and general advice. The researchers did, however, find few direct effects on the working environment factors and health complaints that were mapped."
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet describes what an action plan should contain:"
+          },
+          {
+            "t": "quote",
+            "text": "An action plan should describe what the goal is, what is to be done, who is affected, who is responsible and the time frame for the measure. To find out whether the measures have the desired effect, they must be evaluated.",
+            "cite": "Arbeidstilsynet, Psychosocial working environment (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "Two more principles from Arbeidstilsynet: measures should as far as possible address the causes of the risk, for example organisational or work-related conditions; and collective measures should be considered before individual ones. See [how to review the results with employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte) and [from results to measures](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "h2",
+            "text": "Repeat, document and evaluate"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that mapping and risk assessment are not to be a one-off activity. One approach is a thorough survey once a year and shorter surveys on the topics where measures are under way, a so-called [pulse survey](/artikler/pulsundersokelse). The mapping, the assessments and the measures are documented as part of the systematic health and safety work. See also [how often to measure the working environment](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Checklist"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Agree the purpose, topics, groups and timetable with the safety representative before sending.",
+              "Measure the factors the regulation points to, and what protects.",
+              "Show no group with fewer than five answers, and keep background questions few.",
+              "Review the results with employees, and ask what lies behind the figures.",
+              "Make an action plan with goals, measures, owners and a time frame.",
+              "Evaluate the measures, and document the mapping, assessment and measures."
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 3-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet’s comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Kompass theme reports: Systematic HSE work 2025 (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/om-oss/forskning-og-rapporter/kompass-tema-rapporter/"
+          },
+          {
+            "label": "Employee surveys (Datatilsynet, Norwegian)",
+            "url": "https://www.datatilsynet.no/personvern-pa-ulike-omrader/personvern-pa-arbeidsplassen/ansattundersokelser/"
+          },
+          {
+            "label": "Result reports from MUST (STAMI, Norwegian)",
+            "url": "https://stami.no/vare-tjenester/medarbeiderundersokelsen-i-staten-must/resultatrapporter-fra-must/"
+          },
+          {
+            "label": "Running MUST in the organisation (STAMI, Norwegian)",
+            "url": "https://stami.no/vare-tjenester/medarbeiderundersokelsen-i-staten-must/gjennomfore-must-i-virksomheten/"
+          },
+          {
+            "label": "Good effect of guidance after a working environment survey (STAMI, 2023, Norwegian)",
+            "url": "https://stami.no/god-effekt-av-a-fa-veiledning-etter-arbeidsmiljokartlegging/"
+          },
+          {
+            "label": "QPSNordic user guide (STAMI, Norwegian)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
+          },
+          {
+            "label": "Employee surveys (Store norske leksikon, Norwegian)",
+            "url": "https://snl.no/medarbeiderunders%C3%B8kelser"
+          }
+        ]
+      },
+      "trivselsundersokelse": {
+        "title": "Job satisfaction surveys and the working environment | Orgpuls",
+        "description": "What a job satisfaction survey measures, why satisfaction is an outcome rather than a cause, and what mapping the psychosocial working environment takes.",
+        "h1": "What is a job satisfaction survey, and is it enough to map the working environment?",
+        "lead": "A job satisfaction survey measures how content employees are with their jobs. On its own it is not enough to map the psychosocial working environment: satisfaction is an outcome of how the work is organised, and the rules require the organisation to map and assess the working environment factors themselves – what strains and what protects – so that measures can address the causes.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What is job satisfaction?"
+          },
+          {
+            "t": "p",
+            "text": "In Norwegian workplaces the everyday word is «trivsel»; research usually speaks of job satisfaction. The Norwegian encyclopaedia Store norske leksikon defines it as how content a person is with their job situation."
+          },
+          {
+            "t": "p",
+            "text": "The encyclopaedia notes that the concept lacks a precise definition, and that the definition you choose will determine how you measure job satisfaction, for example in an employee survey. Two satisfaction surveys can therefore measure quite different things."
+          },
+          {
+            "t": "p",
+            "text": "According to the encyclopaedia, satisfaction is shaped by three kinds of conditions: characteristics of the person, such as personality and expectations; characteristics of the job, such as workload, variety and autonomy; and characteristics of the organisation, such as leadership, culture and participation. The last two are what the employer can do something about, and they are what the rules are about."
+          },
+          {
+            "t": "h2",
+            "text": "Satisfaction is an outcome, not a cause"
+          },
+          {
+            "t": "p",
+            "text": "When Arbeidstilsynet proposed the new rules on the psychosocial working environment in 2024, it described a pattern from its inspections:"
+          },
+          {
+            "t": "quote",
+            "text": "Many organisations emphasised the outcome of psychosocial and organisational working conditions, such as satisfaction or adverse health outcomes, rather than the working environment factors themselves. Many organisations described the psychosocial working environment as satisfaction at work, but reflected less on what creates satisfaction or how satisfaction is connected to the work.",
+            "cite": "Arbeidstilsynet, consultation paper on the psychosocial working environment (2024, our translation)"
+          },
+          {
+            "t": "p",
+            "text": "The consultation paper also describes the consequence: few take good measures for the psychosocial working environment, satisfaction and welfare measures dominate, and there is no clear line back to the mapping and risk assessment."
+          },
+          {
+            "t": "p",
+            "text": "A low satisfaction score says something is wrong, but not what. Is it the workload, unclear roles, a conflict or too little support? Without an answer, the measure easily becomes a social event while the cause remains."
+          },
+          {
+            "t": "h2",
+            "text": "Demands and resources"
+          },
+          {
+            "t": "p",
+            "text": "The job demands–resources model, developed by Bakker and Demerouti, divides the working environment into demands – such as workload, time pressure and emotional strain – and resources, such as support, influence and feedback. Arbeidstilsynet summarises the model like this in the consultation paper:"
+          },
+          {
+            "t": "quote",
+            "text": "Job demands can set off a health-impairing process, while job resources can act as a buffer and limit negative health consequences. Job resources can, in addition, contribute to a motivating or health-promoting process.",
+            "cite": "Arbeidstilsynet, consultation paper on the psychosocial working environment (2024, our translation)"
+          },
+          {
+            "t": "p",
+            "text": "A satisfaction survey captures the sum of the two processes in a single number. The same middling satisfaction can hide high demands offset by good resources, and low demands in a job with little support and influence – two situations that call for entirely different measures."
+          },
+          {
+            "t": "p",
+            "text": "The whole picture matters. A STAMI study of 6,175 employees in 62 Norwegian organisations found that high control over one’s own work did not appear to protect against pain complaints for those who at the same time had low or middling levels of other protective factors. The researchers concluded that high job control is not enough to protect employees against the adverse effects of other working environment factors, and that the whole picture must be considered when assessing the working environment."
+          },
+          {
+            "t": "h2",
+            "text": "What do the rules require?"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Working Environment Act § 4-3(1) (our translation)",
+                "text": "The work shall be organised, planned and carried out so that the psychosocial working environment factors in the undertaking are fully satisfactory with regard to the employees' health, safety and welfare."
+              },
+              {
+                "ref": "Regulation on the performance of work § 1A-2(1) (our translation)",
+                "text": "The employer shall map psychosocial working environment factors that may affect the employees' health, safety or welfare. On the basis of the mapping, the employer shall assess the risk of harmful effects, in both the short and the long term. The risk assessment shall cover the individual factors separately, how they affect one another, and whether together they constitute a risk."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The requirement concerns the factors in the work that can affect health, safety and welfare, and how they interact – not how content employees are. The word satisfaction («trivsel») appears neither in chapter 1A of the regulation nor in Arbeidstilsynet’s comments on it. A satisfaction survey can be a useful supplement, but it does not meet the requirement on its own. Read more about [the requirements for mapping](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "What protects belongs too"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes in its comments on the regulation that such factors can act both as strains and as protection, and that protective factors may therefore also be relevant to include in the mapping. Support from managers and colleagues, influence over one’s own work and a sense of meaning are resources that make demands easier to carry. Measure them, and you see both what strains and what you can build on."
+          },
+          {
+            "t": "h2",
+            "text": "One question gives one number"
+          },
+          {
+            "t": "p",
+            "text": "A satisfaction survey can be as short as a single question on how content you are, or whether you would recommend the workplace to others. Such a question can show a level and a direction over time. It cannot show the cause, and it gives no basis for assessing the risk factor by factor, as the regulation requires."
+          },
+          {
+            "t": "h2",
+            "text": "Making the survey useful"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Keep the satisfaction question if you like, but also measure what explains it:** workload, role clarity, support, influence, emotional demands and how people treat each other. See [which questions belong in an employee survey](/artikler/medarbeiderundersokelse-sporsmal).",
+              "**Use several sources.** Arbeidstilsynet names working environment surveys, safety inspections, incident reports, appraisal conversations and informal conversations.",
+              "**Ask employees what lies behind the figures.** See [how to review the results with employees](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte).",
+              "**Aim measures at the causes.** Arbeidstilsynet writes that measures should as far as possible address the causes of the risk, for example organisational or work-related conditions.",
+              "**Follow up with short surveys** on the topics where you have put measures in place. See [pulse survey](/artikler/pulsundersokelse).",
+              "**Keep answers anonymous.** See [what an anonymous employee survey means](/artikler/anonym-medarbeiderundersokelse)."
+            ]
+          },
+          {
+            "t": "box",
+            "title": "In short",
+            "text": "Satisfaction is a good signal but a poor management tool. Measure what creates it, and you will know what to do."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet’s comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Consultation paper on clarifying the rules on the psychosocial working environment (Arbeidstilsynet, 2024, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/horinger/forslag-til-endringer-i-arbeidsmiljoloven-og-tilhorende-forskrift-for-a-tydeliggjore-reglene-om-psykososialt-arbeidsmiljo/horingsnotat/"
+          },
+          {
+            "label": "Job satisfaction (Store norske leksikon, Norwegian)",
+            "url": "https://snl.no/jobbtilfredshet"
+          },
+          {
+            "label": "Protective factors in the working environment (STAMI, Norwegian)",
+            "url": "https://stami.no/beskyttende-faktorer-i-arbeidsmiljoet/"
+          }
+        ]
+      },
+      "pulsundersokelse": {
+        "title": "Pulse surveys: when do short surveys make sense? | Orgpuls",
+        "description": "What a pulse survey is, what Norwegian rules say about following up the working environment, and what research says about single items and small groups.",
+        "h1": "What is a pulse survey, and when do short surveys make sense?",
+        "lead": "A pulse survey is a short survey sent more often than the annual mapping, often with only a few statements. It makes sense when it follows up specific measures or changes, with the same statements and large enough groups. It does not replace the mapping and risk assessment of the psychosocial working environment, but it can show whether the measures are being felt.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What is a pulse survey?"
+          },
+          {
+            "t": "p",
+            "text": "Pulse surveys are short questionnaires sent at regular intervals. A recent interview study of how organisations use them describes them as «short, frequent questionnaires» and notes «a notable lack of research examining these practices». Among the organisations in the study, the frequency varied from weekly to every three months."
+          },
+          {
+            "t": "p",
+            "text": "That sets the pulse survey apart from the main mapping, which measures all the psychosocial factors thoroughly and is the basis for the risk assessment. The pulse is a follow-up, not a new mapping."
+          },
+          {
+            "t": "h2",
+            "text": "What do the rules say?"
+          },
+          {
+            "t": "p",
+            "text": "The Norwegian rules do not use the term pulse survey, and they do not set how often you should measure. But they set requirements that a short survey can help you meet:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Regulation on the performance of work § 1A-2(4)(c) (our translation)",
+                "text": "be repeated regularly and upon changes that may affect the risk conditions in the undertaking"
+              },
+              {
+                "ref": "Working Environment Act § 3-1(2)(h) (our translation)",
+                "text": "carry out systematic monitoring and review of the systematic health, environment and safety work to ensure that it functions as intended"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "On measures, Arbeidstilsynet writes that to find out whether they have the desired effect, they must be evaluated, and that measures that do not work as planned must be adjusted, replaced or supplemented. A short survey on the topics where measures are under way is one way to evaluate. It does not give the whole answer, but it shows whether employees notice a difference."
+          },
+          {
+            "t": "h2",
+            "text": "When do short surveys make sense?"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**After a measure.** If you measure the same statements that led to the measure, you see whether the figures move.",
+              "**Upon changes.** A reorganisation, new management or new systems can affect the risk. A short survey on the topics concerned can show whether something is happening, pending a more thorough mapping.",
+              "**To keep the work alive.** A short survey between main mappings reminds everyone that the working environment is a topic all year – provided something happens with the answers."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The interview study concludes that «pulse surveys should not replace annual comprehensive risk assessment surveys; rather, they should serve as a complementary tool». It also found that pulse survey processes «were generally not integrated with psychosocial risk management practices». That link is what makes the measurement useful."
+          },
+          {
+            "t": "h2",
+            "text": "What research says about measurement error"
+          },
+          {
+            "t": "p",
+            "text": "Short surveys come at a price: the fewer the statements and the fewer who answer, the less certain the figure."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Single items are less reliable than scales.** A review of single-item measures in organisational research states that «multiple item measures have better psychometric properties than single-item measures», though «in some circumstances single-item measures can provide useful information». A classic study estimated the minimum reliability of a single overall job satisfaction item at between .45 and .69, where 1 is perfect.",
+              "**Small groups give unstable averages.** How reliable a group average is depends, among other things, on how many are in the group. In a small group, one answer can move the figure a lot.",
+              "**Random variation can look like change.** Regression to the mean means that a group that scored unusually low on one occasion often scores closer to the average next time – even without a measure. The effect grows with measurement error, and when only the groups that scored lowest are followed up."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "A study of pulse surveys in one healthcare organisation found that they «provided reliable estimates of overall engagement, but scores remained stable across 8 months», with practically no differences between groups or over time despite high participation. It concluded that pulse surveys «may be adequate for estimating overall employee sentiment but not useful for detecting change over time or differences between groups»."
+          },
+          {
+            "t": "p",
+            "text": "That does not make short surveys worthless, but small shifts should not be read as change. Look for clear and lasting movements, and hold them up against what you know from conversations, safety inspections and incident reports."
+          },
+          {
+            "t": "h2",
+            "text": "Compare like with like"
+          },
+          {
+            "t": "p",
+            "text": "A pulse survey should be compared with the previous pulse survey, with the same statements and the same groups. If you change the statements, the groups or the answer scale, a change in the figures may be due to the measurement and not the working environment. The same applies when a short pulse survey is compared with the full main mapping. See [how often to measure the working environment](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Willingness to answer falls when nothing happens"
+          },
+          {
+            "t": "p",
+            "text": "Frequent surveys can wear down the willingness to answer. A study among students found that «administering multiple surveys in one academic year can significantly suppress response rates in later surveys». A workplace is not a university, but the mechanism is easy to recognise."
+          },
+          {
+            "t": "p",
+            "text": "What seems to matter most is whether the answers are used. In the interview study, employees’ willingness to respond «was highly dependent on their perception that their responses from pulse surveys were used meaningfully», and failure to follow up could lead to disengagement, survey fatigue and erosion of trust. An older study of employee surveys found that those who did not answer more often held negative beliefs about how the organisation handles survey data – for example, that it does not act on it."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Say what has been done since the last survey before you send the next.",
+              "Keep the survey short, and ask only about the topics where something is happening.",
+              "Do not measure more often than you can follow up."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Anonymity in small surveys"
+          },
+          {
+            "t": "p",
+            "text": "Short surveys are often sent to small groups, and anonymity is then more fragile. The authors of the interview study write that calculating a group average on single items for a small number of respondents is problematic for reliability and for detecting change, and that «reporting results on small groups of as few as 3–5 people is not an acceptable practice from an ethical or a methodological point of view»."
+          },
+          {
+            "t": "p",
+            "text": "A practical starting point is to show no group with fewer than five answers, and to look at the figures for the whole organisation when groups are smaller. The Norwegian central government’s employee survey (MUST) uses the same threshold for a report, and shows the distribution across answer options only from ten answers. Read more about [what an anonymous employee survey means](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "Pulse survey and main mapping"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Main mapping",
+                "text": "All the factors, the whole organisation. The basis for the risk assessment and the action plan. Repeated regularly and upon changes."
+              },
+              {
+                "title": "Pulse survey",
+                "text": "A few statements on the topics where measures are under way. Shows whether employees notice a difference. Does not replace the mapping."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "A measure being carried out does not mean it works. A systematic review of organisational-level interventions at work found that «About half of the studies (19) reported significant effects», and that «Success rates were higher among more comprehensive interventions tackling material, organisational and work-time related conditions simultaneously». That is an argument for measuring whether measures are felt, not only whether they were carried out. See [from results to measures](/artikler/fra-resultater-til-tiltak)."
+          },
+          {
+            "t": "h2",
+            "text": "Checklist"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Tie the pulse survey to measures or changes, not just to the calendar.",
+              "Use the same statements as in the main mapping for the topics you follow up.",
+              "Keep it short: few topics, few statements.",
+              "Show no group with fewer than five answers.",
+              "Read small shifts with caution.",
+              "Say what has happened before the next survey, and involve the safety representative in the plan."
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet’s comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Working Environment Act § 3-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Result reports from MUST (STAMI, Norwegian)",
+            "url": "https://stami.no/vare-tjenester/medarbeiderundersokelsen-i-staten-must/resultatrapporter-fra-must/"
+          },
+          {
+            "label": "Taking the pulse: a qualitative study on pulse survey implementation (Frontiers in Organizational Psychology, 2026)",
+            "url": "https://doi.org/10.3389/forgp.2025.1696769"
+          },
+          {
+            "label": "Investigating the promise and pitfalls of pulse surveys (Industrial and Organizational Psychology, 2022)",
+            "url": "https://doi.org/10.1017/iop.2021.124"
+          },
+          {
+            "label": "Developing and investigating the use of single-item measures in organizational research (Journal of Occupational Health Psychology, 2016)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25894198/"
+          },
+          {
+            "label": "Overall job satisfaction: how good are single-item measures? (Journal of Applied Psychology, 1997)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9109282/"
+          },
+          {
+            "label": "Group size, ICC values, and group-level correlations: a simulation (Organizational Research Methods, 1998)",
+            "url": "https://doi.org/10.1177/109442819814001"
+          },
+          {
+            "label": "Regression to the mean: what it is and how to deal with it (International Journal of Epidemiology, 2005)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15333621/"
+          },
+          {
+            "label": "Multiple surveys of students and survey fatigue (New Directions for Institutional Research, 2004)",
+            "url": "https://doi.org/10.1002/ir.101"
+          },
+          {
+            "label": "Employee attitude surveys: examining the attitudes of noncompliant employees (Journal of Applied Psychology, 2000)",
+            "url": "https://experts.umn.edu/en/publications/employee-attitude-surveys-examining-the-attitudes-of-noncompliant/"
+          },
+          {
+            "label": "Effects of organisational-level interventions at work on employees’ health: a systematic review (BMC Public Health, 2014)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24507447/"
+          }
+        ]
+      },
       "faktorYtring": {
         "title": "Freedom to speak up at work: causes and measures | Orgpuls",
         "description": "A low speaking-up score means people stay silent, or doubt anything happens when they speak. What the law says, what lies behind it and what helps.",
