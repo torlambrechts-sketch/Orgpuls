@@ -11,7 +11,17 @@ export const SITE_URL = 'https://www.orgpuls.com'
 export const absolute = (path: string) => `${SITE_URL}${path === '/' ? '' : path}`
 
 /** Landing pages, one per search intent. The slug is the route and the message key. */
-export const LANDING_PAGES = ['lovkrav', 'verneombud', 'smaa-bedrifter', 'bygg-og-anlegg', 'helse-og-omsorg'] as const
+export const LANDING_PAGES = [
+  'lovkrav',
+  'verneombud',
+  'smaa-bedrifter',
+  'bygg-og-anlegg',
+  'helse-og-omsorg',
+  // the three searches the site had no page for (D-249)
+  'medarbeiderundersokelse',
+  'trivselsundersokelse',
+  'pulsundersokelse',
+] as const
 export type LandingSlug = (typeof LANDING_PAGES)[number]
 
 /** A landing page's message key: slugs with hyphens are camel-cased in the messages. */
@@ -193,7 +203,7 @@ export const ARTICLES: Article[] = [
     slug: 'hvor-ofte-bor-dere-male-arbeidsmiljoet',
     key: 'hvorOfte',
     published: '2026-09-25',
-    modified: '2026-10-07',
+    modified: '2026-10-08',
     related: ['medarbeiderundersokelse-sporsmal', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     art: 'wheel',
     template: 'arshjul-arbeidsmiljo',
@@ -229,6 +239,9 @@ export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
   'smaa-bedrifter': ['anonym-medarbeiderundersokelse', 'medarbeiderundersokelse-sporsmal'],
   'bygg-og-anlegg': ['hvor-ofte-bor-dere-male-arbeidsmiljoet', 'medarbeiderundersokelse-sporsmal'],
   'helse-og-omsorg': ['medarbeiderundersokelse-sporsmal', 'anonym-medarbeiderundersokelse'],
+  medarbeiderundersokelse: ['medarbeiderundersokelse-sporsmal', 'anonym-medarbeiderundersokelse'],
+  trivselsundersokelse: ['anonym-medarbeiderundersokelse', 'slik-gar-dere-gjennom-resultatene-med-de-ansatte'],
+  pulsundersokelse: ['hvor-ofte-bor-dere-male-arbeidsmiljoet', 'fra-resultater-til-tiltak'],
 }
 
 /**
@@ -243,6 +256,9 @@ export const LANDING_TEMPLATE: Partial<Record<LandingSlug, string>> = {
   lovkrav: 'kartleggingspakken',
   verneombud: 'informasjonsskriv-og-sjekkliste',
   'smaa-bedrifter': 'kartleggingspakken',
+  medarbeiderundersokelse: 'kartleggingspakken',
+  trivselsundersokelse: 'informasjonsskriv-og-sjekkliste',
+  pulsundersokelse: 'arshjul-arbeidsmiljo',
 }
 
 /**
@@ -257,15 +273,22 @@ export const LANDING_HERO: Record<LandingSlug, ShotId> = {
   'smaa-bedrifter': 'oversikt',
   'bygg-og-anlegg': 'sporsmal',
   'helse-og-omsorg': 'samtaler',
+  medarbeiderundersokelse: 'resultater',
+  trivselsundersokelse: 'sporsmal',
+  pulsundersokelse: 'arshjul',
 }
 
 /** Two other landing pages each one points to, for the reader whose case is next door. */
 export const LANDING_RELATED: Record<LandingSlug, [LandingSlug, LandingSlug]> = {
   lovkrav: ['verneombud', 'smaa-bedrifter'],
   verneombud: ['lovkrav', 'bygg-og-anlegg'],
-  'smaa-bedrifter': ['lovkrav', 'verneombud'],
+  // the small business's first question is what an employee survey is (D-249)
+  'smaa-bedrifter': ['medarbeiderundersokelse', 'lovkrav'],
   'bygg-og-anlegg': ['helse-og-omsorg', 'smaa-bedrifter'],
   'helse-og-omsorg': ['bygg-og-anlegg', 'verneombud'],
+  medarbeiderundersokelse: ['trivselsundersokelse', 'pulsundersokelse'],
+  trivselsundersokelse: ['medarbeiderundersokelse', 'smaa-bedrifter'],
+  pulsundersokelse: ['medarbeiderundersokelse', 'trivselsundersokelse'],
 }
 
 /**

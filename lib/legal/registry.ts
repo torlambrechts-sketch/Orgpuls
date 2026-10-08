@@ -151,6 +151,10 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   { id: 'lp.lovkrav', section: 'site', paths: ['seo.lp.lovkrav'], where: onSite('/lovkrav') },
   { id: 'lp.verneombud', section: 'site', paths: ['seo.lp.verneombud', 'seo.voTip'], where: onSite('/verneombud') },
   { id: 'lp.smaaBedrifter', section: 'site', paths: ['seo.lp.smaaBedrifter'], where: onSite('/smaa-bedrifter') },
+  // what each says about the law, anonymity and the price (D-249)
+  { id: 'lp.medarbeiderundersokelse', section: 'site', paths: ['seo.lp.medarbeiderundersokelse'], where: onSite('/medarbeiderundersokelse') },
+  { id: 'lp.trivselsundersokelse', section: 'site', paths: ['seo.lp.trivselsundersokelse'], where: onSite('/trivselsundersokelse') },
+  { id: 'lp.pulsundersokelse', section: 'site', paths: ['seo.lp.pulsundersokelse'], where: onSite('/pulsundersokelse') },
   // the free templates (D-241): what each says the law requires, and the index's account of what they build on
   { id: 'maler.index', section: 'site', paths: ['seo.maler.index'], where: onSite('/maler') },
   { id: 'maler.risikovurdering', section: 'site', paths: ['seo.maler.risikovurdering'], where: onSite('/maler/risikovurdering-psykososialt-arbeidsmiljo') },

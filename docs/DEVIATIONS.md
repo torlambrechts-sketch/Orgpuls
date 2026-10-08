@@ -11874,3 +11874,30 @@ site. D-230 removed the beacon (D-91) with the admin it fed; Sentral's collector
 - **Not restored:** the geography (country, region, city) and the /24 network D-91 stored, and the device
   class. web-collect does not receive or keep them.
 - Tests: `tests/unit/site-beacon.test.ts`.
+
+## D-249 — Three landing pages for the words people search: medarbeiderundersøkelse, trivselsundersøkelse, pulsundersøkelse (2026-10-08)
+
+Tor, 8 October 2026: «Ja, lag de tre sidene. Søkeord vi må ha med er medarbeiderundersøkelser, arbeidsmiljø og
+trivselundersøkelser». Search Console is not connected yet, so the choice rests on gaps in the site, not on data:
+«trivselsundersøkelse» appeared nowhere, «pulsundersøkelse» once, and «medarbeiderundersøkelse» had articles but no page.
+
+- **The pages** (`/medarbeiderundersokelse`, `/trivselsundersokelse`, `/pulsundersokelse`, no and en) are landing pages on
+  LandingTemplate (D-79), words in `seo.lp.<key>`, so the shape is the one /smaa-bedrifter already has: hero with the
+  organisation-number form and a product picture, blocks, FAQ (FAQPage JSON-LD), related pages, two articles, a free
+  template. Each carries its keyword and «arbeidsmiljø» in the title, H1, description and first paragraph
+  (`scripts/verify/landing-audit.mjs` checks them). No new component, no new design: the same template, so no new
+  baseline.
+- **What they claim** is what the product does, taken from the site's existing words: eleven factors on QPS Nordic,
+  about four minutes, anonymity from 5 answers (never under 3, enforced by the database), the report per factor, three
+  suggested measures per factor with owner and deadline, the safety representative told before sending (2 days by
+  default), the main survey closing after 14 days and a pulse after 7 by default, the pulse asking only about factors
+  with open measures, the questionnaire in Norwegian, English, Polish and Lithuanian, the free plan without pulses and
+  the plans from 265 kr. The trivsel page says plainly that «trivselsundersøkelse» is not a legal term, and what the law
+  does require (aml § 3-1, forskriften kapittel 1A since 2026).
+- **Links in:** the start page's footer «Medarbeiderundersøkelse» now opens /medarbeiderundersokelse (was /smaa-bedrifter)
+  and «Pulsmålinger» /pulsundersokelse (was /bruksomrader#puls); the link texts are the design's, only the targets
+  changed. /smaa-bedrifter's related cards lead with /medarbeiderundersokelse. The three link to each other, and the
+  article «Hvor ofte bør dere måle arbeidsmiljøet?» names pulse surveys with a link. Sitemap, llms.txt, hreflang and the
+  public paths take them from `LANDING_PAGES`.
+- Share cards (`public/og/<slug>.png`), the legal registry's three units, the page map (59 pages), and the landing audit
+  list. Not added: a visible link on Bruksområder or in the header menu, which would change designed pages.

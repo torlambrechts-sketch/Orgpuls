@@ -5437,6 +5437,386 @@
         ],
         "finalTitle": "Prøv det på deres egen virksomhet",
         "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, uten kortopplysninger."
+      },
+      "medarbeiderundersokelse": {
+        "title": "Medarbeiderundersøkelse om arbeidsmiljøet – anonym | Orgpuls",
+        "description": "Medarbeiderundersøkelse om arbeidsmiljøet: 11 faktorer, anonym fra 5 svar, rapport og tiltak med eier og frist. Prøv 15 dager gratis.",
+        "crumb": "Medarbeiderundersøkelse",
+        "card": {
+          "title": "Medarbeiderundersøkelse",
+          "text": "Anonym medarbeiderundersøkelse om arbeidsmiljøet, med rapport og tiltak – gratis å starte."
+        },
+        "kicker": "Medarbeiderundersøkelse",
+        "h1": "Medarbeider­undersøkelse som viser hva dere bør gjøre med arbeidsmiljøet",
+        "lead": "En medarbeiderundersøkelse er bare verdt noe hvis noe skjer etterpå. Orgpuls spør de ansatte anonymt om arbeidsmiljøet, viser hvor det står best og dårligst til, og gjør funnene om til tiltak med eier og frist – med dokumentasjonen loven krever.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva medarbeiderundersøkelsen spør om"
+          },
+          {
+            "t": "p",
+            "text": "Undersøkelsen dekker elleve faktorer i det psykososiale arbeidsmiljøet, med tre påstander per faktor på en femdelt skala. Påstandene bygger på QPS Nordic, og faktorene dekker dem forskriften peker på:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Arbeidsmengde",
+              "Rolleklarhet",
+              "Motstridende krav",
+              "Emosjonelle krav",
+              "Støtte fra leder",
+              "Støtte fra kollegaer",
+              "Kontakt og kommunikasjon",
+              "Medvirkning",
+              "Ytringsklima",
+              "Integritet og verdighet",
+              "Mening og anerkjennelse"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "I tillegg spør den om de ansatte ville anbefalt arbeidsplassen til en de kjenner, og gir plass til det de vil si med egne ord. Det tar rundt fire minutter å svare. Se [spørsmålene og hva de bygger på](/artikler/medarbeiderundersokelse-sporsmal)."
+          },
+          {
+            "t": "h2",
+            "text": "Anonym – også når dere er få"
+          },
+          {
+            "t": "p",
+            "text": "Ingen gruppe vises før minst fem har svart. Fem er standard; små team kan gå ned til tre, aldri lavere, og grensen håndheves av databasen, ikke av en innstilling noen kan skru av. Svaret lagres uten navn, e-postadresse eller IP-adresse. Les mer om [hva anonym betyr](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "Fra resultat til tiltak"
+          },
+          {
+            "t": "p",
+            "text": "Resultatet viser hver faktor for hele virksomheten og for hver gruppe som har nok svar. Til hver faktor får dere tre forslag til tiltak. Dere velger, gir tiltaket en eier og en frist, og neste måling viser om det hjalp."
+          },
+          {
+            "t": "shot",
+            "id": "tiltak"
+          },
+          {
+            "t": "h2",
+            "text": "Kartleggingen loven krever – i samme runde"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven krever at dere kartlegger arbeidsmiljøet, vurderer risiko, setter tiltak og følger opp (§ 3-1). Siden 1. januar 2026 sier forskriften tydeligere hvilke psykososiale faktorer kartleggingen gjelder. Orgpuls skriver rapporten ut fra svarene: funn, risikovurdering, tiltak og hjemmel per faktor. Verneombudet får tilgang uten ekstra kostnad. Les [hva loven krever](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "Slik gjennomfører dere medarbeiderundersøkelsen"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Dag 1",
+                "title": "Registrer virksomheten",
+                "text": "Med organisasjonsnummeret. Lim inn de ansatte fra et regneark."
+              },
+              {
+                "date": "Før utsending",
+                "title": "Verneombudet får beskjed",
+                "text": "Som standard to dager før undersøkelsen går ut."
+              },
+              {
+                "date": "Utsending",
+                "title": "De ansatte får invitasjonen",
+                "text": "På e-post eller SMS, eller som lenke og QR-kode. Systemet minner på."
+              },
+              {
+                "date": "Etter to uker",
+                "title": "Undersøkelsen stenger",
+                "text": "Som standard etter 14 dager. Resultatene vises for gruppene som har nok svar."
+              },
+              {
+                "date": "Etterpå",
+                "title": "Gå gjennom og velg tiltak",
+                "text": "Sammen med de ansatte. Les [hvordan dere gjør det](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Medarbeiderundersøkelse eller trivselsundersøkelse?"
+          },
+          {
+            "t": "p",
+            "text": "Ordene brukes om hverandre. En trivselsundersøkelse spør ofte bare om folk trives. En medarbeiderundersøkelse om arbeidsmiljøet spør også hvorfor, og kan dermed være kartleggingen loven krever. Les mer om [trivselsundersøkelser](/trivselsundersokelse) og om [pulsundersøkelser mellom hovedmålingene](/pulsundersokelse)."
+          },
+          {
+            "t": "box",
+            "title": "Pris",
+            "text": "Gratisplanen: årlig medarbeiderundersøkelse med standard spørsmål, resultater og tiltak – så lenge dere vil. Puls, bransjemoduler og egne spørsmål krever en plan, fra 265 kr i måneden eks. mva for til og med 25 ansatte. Ingen bindingstid. Prøv alt gratis i 15 dager – uten kortopplysninger."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Hva er en medarbeiderundersøkelse?",
+            "a": "En spørreundersøkelse der de ansatte svarer anonymt på hvordan de opplever arbeidsmiljøet: arbeidsmengde, ledelse, samarbeid, ytringsklima og mer. Gjort riktig er den også kartleggingen av arbeidsmiljøet som arbeidsmiljøloven krever."
+          },
+          {
+            "q": "Hvor ofte bør vi ha medarbeiderundersøkelse?",
+            "a": "En hovedundersøkelse i året er vanlig. Vi anbefaler tre korte pulser imellom, på faktorene dere jobber med, så dere ser om tiltakene virker."
+          },
+          {
+            "q": "Er svarene anonyme?",
+            "a": "Ja. Svaret lagres uten navn, e-postadresse eller IP-adresse, og ingen gruppe vises før minst fem har svart. Små team kan senke grensen til tre, aldri lavere."
+          },
+          {
+            "q": "Hvor lang tid tar det?",
+            "a": "Rundt fire minutter for den ansatte. Oppsettet første gang tar under en time."
+          },
+          {
+            "q": "Kan de ansatte svare på andre språk enn norsk?",
+            "a": "Ja. Skjemaet finnes på norsk, engelsk, polsk og litauisk, og alle kan bytte språk selv i skjemaet."
+          },
+          {
+            "q": "Hva koster en medarbeiderundersøkelse med Orgpuls?",
+            "a": "Den årlige undersøkelsen med resultater og tiltak er gratis så lenge dere vil. Med puls, bransjemoduler og egne spørsmål koster det fra 265 kr i måneden eks. mva, uten bindingstid."
+          }
+        ],
+        "finalTitle": "Kom i gang med medarbeider­undersøkelsen",
+        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+      },
+      "trivselsundersokelse": {
+        "title": "Trivselsundersøkelse om arbeidsmiljøet – anonym | Orgpuls",
+        "description": "Trivselsundersøkelse som også er kartleggingen av arbeidsmiljøet loven krever: anonym fra 5 svar, ferdige spørsmål. Prøv 15 dager gratis.",
+        "crumb": "Trivselsundersøkelse",
+        "card": {
+          "title": "Trivselsundersøkelse",
+          "text": "Mål trivselen – og få kartleggingen av arbeidsmiljøet loven krever i samme runde."
+        },
+        "kicker": "Trivselsundersøkelse",
+        "h1": "Trivsels­undersøkelse som også dekker kartleggingen av arbeidsmiljøet",
+        "lead": "Mange kaller det en trivselsundersøkelse: dere vil vite om folk trives på jobb. Orgpuls spør anonymt om det som skaper trivsel – arbeidsmengde, støtte, anerkjennelse og ytringsklima – og svarene blir samtidig den kartleggingen av arbeidsmiljøet loven krever.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva en trivselsundersøkelse bør spørre om"
+          },
+          {
+            "t": "p",
+            "text": "«Trives du på jobb?» gir et tall, men ikke svar på hva dere kan gjøre med det. Trivsel henger sammen med konkrete forhold i arbeidsmiljøet. Orgpuls spør om elleve av dem, med tre påstander hver:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Arbeidsmengde",
+              "Rolleklarhet",
+              "Motstridende krav",
+              "Emosjonelle krav",
+              "Støtte fra leder",
+              "Støtte fra kollegaer",
+              "Kontakt og kommunikasjon",
+              "Medvirkning",
+              "Ytringsklima",
+              "Integritet og verdighet",
+              "Mening og anerkjennelse"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "I tillegg spør den om de ansatte ville anbefalt arbeidsplassen til en de kjenner – et enkelt mål dere kan følge over tid – og gir plass til det de vil si med egne ord."
+          },
+          {
+            "t": "h2",
+            "text": "Trivselsundersøkelse eller lovpålagt kartlegging?"
+          },
+          {
+            "t": "p",
+            "text": "Ordet trivselsundersøkelse står ikke i loven. Det som er lovpålagt, er å kartlegge arbeidsmiljøet, vurdere risiko, sette tiltak og følge opp (arbeidsmiljøloven § 3-1), og forskriften peker siden 2026 på hvilke psykososiale faktorer det gjelder. En ren trivselsmåling dekker sjelden det. Spørsmålene i Orgpuls dekker begge deler, så dere slipper to undersøkelser. Les [hva loven krever](/lovkrav)."
+          },
+          {
+            "t": "box",
+            "title": "Vil dere ikke se paragrafer?",
+            "text": "Dere kan skru av lovkoblingen i appen. Da handler de samme elleve områdene om trivsel, ledelse og samarbeid, uten henvisninger til loven."
+          },
+          {
+            "t": "h2",
+            "text": "Anonymt, så folk tør å svare ærlig"
+          },
+          {
+            "t": "p",
+            "text": "En trivselsundersøkelse er bare verdt noe hvis folk svarer ærlig. Ingen gruppe vises før minst fem har svart, og svaret lagres uten navn, e-postadresse eller IP-adresse. Små team kan senke grensen til tre, aldri lavere. Les mer om [hva anonym betyr](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "Når trivselen faller"
+          },
+          {
+            "t": "p",
+            "text": "Resultatet viser hvilke faktorer som trekker ned, for hele virksomheten og for hver gruppe med nok svar. Til hver faktor får dere tre forslag til tiltak, og hvert tiltak får en eier og en frist. Med en kort [pulsundersøkelse](/pulsundersokelse) mellom hovedmålingene ser dere om tiltakene virker."
+          },
+          {
+            "t": "h2",
+            "text": "Kommentarer dere kan svare på"
+          },
+          {
+            "t": "p",
+            "text": "Frisvarene sorteres etter faktor og tone. Lederen kan svare uten å vite hvem som skrev, og den ansatte leser svaret via sin egen lenke."
+          },
+          {
+            "t": "shot",
+            "id": "kommentarer"
+          },
+          {
+            "t": "p",
+            "text": "Vil dere vite mer om hvordan undersøkelsen er bygget, kan dere lese om [medarbeiderundersøkelsen](/medarbeiderundersokelse)."
+          },
+          {
+            "t": "box",
+            "title": "Pris",
+            "text": "Gratisplanen: årlig undersøkelse med standard spørsmål, resultater og tiltak – så lenge dere vil. Puls, bransjemoduler og egne spørsmål krever en plan, fra 265 kr i måneden eks. mva for til og med 25 ansatte. Prøv alt gratis i 15 dager – uten kortopplysninger."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Hva er en trivselsundersøkelse?",
+            "a": "En anonym spørreundersøkelse om hvordan de ansatte har det på jobb. Den bør spørre om det som skaper trivsel, som arbeidsmengde, støtte fra leder og kolleger, anerkjennelse og ytringsklima – ikke bare om folk trives."
+          },
+          {
+            "q": "Er en trivselsundersøkelse lovpålagt?",
+            "a": "Ikke under det navnet. Men alle virksomheter med ansatte skal kartlegge arbeidsmiljøet og vurdere risiko (arbeidsmiljøloven § 3-1). En trivselsundersøkelse som dekker de psykososiale faktorene, kan være den kartleggingen."
+          },
+          {
+            "q": "Hvor mange må svare?",
+            "a": "Som standard vises ingen gruppe før minst fem har svart. Små team kan senke grensen til tre, aldri lavere."
+          },
+          {
+            "q": "Hvor lang tid tar det å svare?",
+            "a": "Rundt fire minutter. En kort puls mellom hovedmålingene tar under ett minutt."
+          },
+          {
+            "q": "Hva koster en trivselsundersøkelse med Orgpuls?",
+            "a": "Den årlige undersøkelsen med resultater og tiltak er gratis så lenge dere vil. Med puls, bransjemoduler og egne spørsmål koster det fra 265 kr i måneden eks. mva, uten bindingstid."
+          }
+        ],
+        "finalTitle": "Start trivsels­undersøkelsen i dag",
+        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+      },
+      "pulsundersokelse": {
+        "title": "Pulsundersøkelse: korte målinger av arbeidsmiljøet | Orgpuls",
+        "description": "Pulsundersøkelse for arbeidsmiljøet mellom de årlige undersøkelsene: bare faktorene dere jobber med, anonym fra 5 svar. Prøv 15 dager gratis.",
+        "crumb": "Pulsundersøkelse",
+        "card": {
+          "title": "Pulsundersøkelse",
+          "text": "Korte målinger mellom hovedundersøkelsene, som viser om tiltakene virker."
+        },
+        "kicker": "Pulsundersøkelse",
+        "h1": "Puls­undersøkelse som viser om arbeidsmiljøet blir bedre",
+        "lead": "En medarbeiderundersøkelse i året viser hvordan arbeidsmiljøet var da – ikke om tiltakene virket. En pulsundersøkelse er en kort måling mellom hovedundersøkelsene. I Orgpuls spør den bare om faktorene dere har satt tiltak på, og tar under ett minutt å svare.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva er en pulsundersøkelse?"
+          },
+          {
+            "t": "p",
+            "text": "En pulsundersøkelse – eller pulsmåling – er en kort spørreundersøkelse som gjentas jevnlig. Den erstatter ikke den grundige kartleggingen av arbeidsmiljøet, men måler utviklingen mellom to hovedundersøkelser, mens det fortsatt er tid til å justere."
+          },
+          {
+            "t": "h2",
+            "text": "Slik fungerer pulsen i Orgpuls"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Pulsen stiller de tre påstandene for hver faktor dere har åpne tiltak på – ikke hele undersøkelsen på nytt.",
+              "En faktor faller ut av pulsen når tiltakene er lukket, så ingen blir spurt om det samme i det uendelige.",
+              "Det tar under ett minutt å svare, også på mobilen.",
+              "Verneombudet får beskjed før pulsen går ut – som standard to dager før – og pulsen stenger som standard etter sju dager.",
+              "Dere legger til en puls i en måned rett i årshjulet."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hvor ofte bør dere ta pulsen?"
+          },
+          {
+            "t": "p",
+            "text": "Vi anbefaler én hovedundersøkelse i året og tre pulser imellom – fire målepunkter i året. Det er nok til å se om tiltakene virker, og sjelden nok til at folk gidder å svare. Les mer om [hvor ofte dere bør måle arbeidsmiljøet](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Hovedundersøkelsen",
+                "title": "Grunnlinjen",
+                "text": "Alle elleve faktorene, rundt fire minutter per ansatt."
+              },
+              {
+                "date": "Etterpå",
+                "title": "Tiltak",
+                "text": "Tre forslag per faktor. Dere velger, og hvert tiltak får eier og frist."
+              },
+              {
+                "date": "Første puls",
+                "title": "Første oppfølging",
+                "text": "Bare faktorene med åpne tiltak."
+              },
+              {
+                "date": "Andre og tredje puls",
+                "title": "Utviklingen",
+                "text": "Kurven viser om tiltakene virker."
+              },
+              {
+                "date": "Neste år",
+                "title": "Ny hovedundersøkelse",
+                "text": "Ny grunnlinje for alle faktorene."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Anonym, også i en kort måling"
+          },
+          {
+            "t": "p",
+            "text": "Pulsen følger de samme reglene som hovedundersøkelsen: ingen gruppe vises før minst fem har svart, aldri under tre, og svaret lagres uten navn, e-postadresse eller IP-adresse. En gruppe med for få svar viser en strek, ikke et tall."
+          },
+          {
+            "t": "h2",
+            "text": "Pulsen og loven"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven krever ikke pulsmålinger. Den krever at dere kartlegger arbeidsmiljøet, vurderer risiko, setter tiltak og følger opp (§ 3-1). Pulsen er en enkel måte å vise oppfølgingen på: tiltaket henger på en faktor, og effekten måles på de samme påstandene. Les [hva loven krever](/lovkrav)."
+          },
+          {
+            "t": "p",
+            "text": "Pulsen bygger på [medarbeiderundersøkelsen](/medarbeiderundersokelse) – mange kaller den en [trivselsundersøkelse](/trivselsundersokelse) – som setter grunnlinjen for arbeidsmiljøet."
+          },
+          {
+            "t": "box",
+            "title": "Pris",
+            "text": "Puls inngår i planene, fra 265 kr i måneden eks. mva for til og med 25 ansatte, uten bindingstid. Gratisplanen har den årlige hovedundersøkelsen, uten puls. Prøv alt gratis i 15 dager – uten kortopplysninger."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Hva er forskjellen på en pulsundersøkelse og en medarbeiderundersøkelse?",
+            "a": "Medarbeiderundersøkelsen er den grundige målingen av hele arbeidsmiljøet, gjerne én gang i året. Pulsundersøkelsen er kort og hyppig, og i Orgpuls spør den bare om faktorene dere jobber med."
+          },
+          {
+            "q": "Hvor mange spørsmål har en puls?",
+            "a": "Tre påstander for hver faktor med åpne tiltak. Har dere tiltak på to faktorer, er det seks påstander."
+          },
+          {
+            "q": "Blir ikke folk lei av å svare?",
+            "a": "Det som sliter ut folk, er å svare uten å se at noe skjer. Pulsen spør bare om det dere jobber med, og alle får se tiltakene."
+          },
+          {
+            "q": "Er pulsen med i gratisplanen?",
+            "a": "Nei. Puls krever en plan, fra 265 kr i måneden eks. mva. Den årlige hovedundersøkelsen, resultatene og tiltakene er gratis."
+          }
+        ],
+        "finalTitle": "Ta pulsen på arbeidsmiljøet",
+        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Prøv alt gratis i 15 dager, og oppgi ikke kort før dere har bestemt dere."
       }
     },
     "articles": {
@@ -8623,7 +9003,7 @@
           },
           {
             "t": "p",
-            "text": "En oppfølgingsmåling bør være kort. Tar den mer enn et par minutter, begynner den å føles som en ny undersøkelse, og da er det færre som svarer. Hold den til temaene der et tiltak løper – ofte to–tre temaer med tre påstander hver."
+            "text": "En oppfølgingsmåling bør være kort. Tar den mer enn et par minutter, begynner den å føles som en ny undersøkelse, og da er det færre som svarer. Hold den til temaene der et tiltak løper – ofte to–tre temaer med tre påstander hver. Slike korte målinger kalles ofte en [pulsundersøkelse](/pulsundersokelse)."
           },
           {
             "t": "h2",

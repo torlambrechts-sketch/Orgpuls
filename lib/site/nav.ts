@@ -78,8 +78,9 @@ const FOOTER_HOME: FooterColumn[] = [
     head: 'bruksomrader',
     links: [
       { key: 'kartleggingNoun', href: '/bruksomrader#kartlegging' },
-      { key: 'medarbeiderundersokelse', href: '/smaa-bedrifter' },
-      { key: 'pulsmalinger', href: '/bruksomrader#puls' },
+      // the words now have their own pages (D-249)
+      { key: 'medarbeiderundersokelse', href: '/medarbeiderundersokelse' },
+      { key: 'pulsmalinger', href: '/pulsundersokelse' },
       { key: 'rapportArbeidstilsynet', href: '/bruksomrader#tilsyn' },
     ],
   },

@@ -37,6 +37,9 @@ const PAGES = [
   { slug: 'lovkrav', h1: no.seo.lp.lovkrav.h1, article: true },
   { slug: 'verneombud', h1: no.seo.lp.verneombud.h1, article: true },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
+  { slug: 'medarbeiderundersokelse', key: 'medarbeiderundersokelse', shot: 'resultater' },
+  { slug: 'trivselsundersokelse', key: 'trivselsundersokelse', shot: 'sporsmal' },
+  { slug: 'pulsundersokelse', key: 'pulsundersokelse', shot: 'arshjul' },
   // the industry pages, written as articles (D-240): the article card, under the industry's name
   { slug: 'handel', h1: no.site.bransje.handel.hero.h1, article: true, kicker: no.site.bransje.handel.nav },
   { slug: 'bygg-og-anlegg', h1: no.site.bransje.bygg.hero.h1, article: true, kicker: no.site.bransje.bygg.nav },
