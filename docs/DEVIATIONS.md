@@ -11843,3 +11843,34 @@ Tor, 7 October 2026: «Fjern også enkelt | full valget på toppmenyen, vi vente
 - **Oppsett › Databehandleravtale**: the agreement's paragraphs and lists were held to 72 characters
   (`max-w-[72ch]`) inside a full-width card, so the text filled about half of it. They now use the
   card's width, like the signing panel above them.
+
+## D-248 — The site counts its own visits again, in Sentral (2026-10-08)
+
+Tor, 8 October 2026, showing Sentral's Vekst › Analytics with no visitors: the tracker was never on the
+site. D-230 removed the beacon (D-91) with the admin it fed; Sentral's collector did not exist yet.
+
+- **Where it goes.** The browser posts each page view, each press that leads to /registrer (a link to
+  it or to the start band `#kom-i-gang`, and the organisation-number form), and the three conversion
+  events (`signup_started`, `signup_completed`, `pricing_viewed`, which also still go to Vercel) to
+  Sentral's `web-collect` edge function (Sentral 0066). Sentral runs on Supabase in Frankfurt; the
+  address carries `forceFunctionRegion=eu-central-1`, so the function reads the visitor's address there
+  and nowhere else (without it, a request was served from `us-east-1` in a test).
+- **What is sent and kept.** The path (no query string), the referring host once per page load, the five
+  `utm_*` tags, and for an event its name and, for a press, which one. Sentral hashes the address and the
+  browser string with the day's salt into a 128-bit visitor code and stores neither; rows live 13 months
+  (Sentral 0025). No organisation number, no name, nothing typed.
+- **What is never sent.** Nothing from a browser with Global Privacy Control or Do Not Track; nothing from
+  a page that carries a capability or is sign-in (`/s`, `/bli-med`, `/r`, `/inn`, `/auth`, `/admin`,
+  `/api`, `/logg-inn`, `/nytt-passord`, the same list Sentral refuses); nothing from a host that is not a
+  production one (previews, local builds) unless `NEXT_PUBLIC_WEB_COLLECT_URL` names a test collector.
+- **Transport.** A keepalive `fetch` in cors mode with a text/plain body, not `navigator.sendBeacon`: the
+  site sends `Referrer-Policy: no-referrer`, under which a no-cors POST (which sendBeacon makes) says
+  `Origin: null`, and web-collect places a request by its origin. text/plain needs no preflight.
+- **CSP.** `connect-src` gains Sentral's Supabase origin (`lib/marketing/collect`), on every page because
+  the headers are global; the beacon is mounted only in the public site's layout.
+- **Privacy statement** (no, en): describes the counting again, GPC/DNT, 13 months, and Supabase as the
+  processor for it. It no longer says we keep no statistics of our own. The data processing agreement's
+  annex is unchanged: the visit counting is Orgpuls' own processing as controller, not the customer's.
+- **Not restored:** the geography (country, region, city) and the /24 network D-91 stored, and the device
+  class. web-collect does not receive or keep them.
+- Tests: `tests/unit/site-beacon.test.ts`.

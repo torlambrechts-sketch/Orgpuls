@@ -9554,7 +9554,7 @@
         "crumb": "Privacy statement",
         "kicker": "Privacy",
         "h1": "Privacy statement",
-        "lead": "What Orgpuls collects about you, why, how long we keep it and who helps us. Last updated 7 October 2026.",
+        "lead": "What Orgpuls collects about you, why, how long we keep it and who helps us. Last updated 8 October 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -9575,11 +9575,11 @@
           },
           {
             "t": "p",
-            "text": "We keep no statistics of our own on visits to orgpuls.com. Vercel, which hosts the website, measures page views and load times without cookies and without storing anything on your device."
+            "text": "We keep our own statistics on the use of orgpuls.com, without cookies and without storing anything on your device. For each page view your browser sends which page it is, the site you came from (the domain only) and any campaign tags in the address (utm) to our own platform. If you press a button that leads to signing up, or start or complete a signup, that is sent too, with nothing of what you typed. The IP address and the browser's identification are not stored. They are used only to make a visit code with a key that changes every day, so we can count visits within a day without being able to follow you from one day to the next. In addition, Vercel, which hosts the website, measures page views and load times without cookies."
           },
           {
             "t": "p",
-            "text": "The legal basis is our legitimate interest in understanding how the website is used, GDPR Article 6(1)(f)."
+            "text": "If your browser asks not to be tracked (Global Privacy Control or Do Not Track), nothing is sent to our platform. The statistics are deleted after 13 months. The legal basis is our legitimate interest in understanding how the website is used, GDPR Article 6(1)(f)."
           },
           {
             "t": "h2",
@@ -9652,7 +9652,7 @@
           {
             "t": "ul",
             "items": [
-              "Supabase Inc. (USA): database, sign-in and background jobs. Data is stored in Frankfurt, Germany.",
+              "Supabase Inc. (USA): database, sign-in, background jobs and our own visit statistics. Data is stored and processed in Frankfurt, Germany.",
               "Vercel Inc. (USA): hosting of the website and the application, and the cookieless measurement of page views. Server functions run in Frankfurt.",
               "Brevo SAS (France): sending e-mail and SMS, and recording delivery, opens and clicks on e-mail.",
               "Google (Ireland): sign-in with Google, only if you choose it.",
@@ -9671,6 +9671,7 @@
           {
             "t": "ul",
             "items": [
+              "Visit statistics: 13 months. The visit code changes every day.",
               "The account and the organisation's data: for as long as the customer relationship lasts, and then as long as the Accounting Act requires for what is part of the accounts.",
               "Demo: the request 30 days. The demo and its sign-in 14 days without a sign-in. The contact until you ask us to delete it.",
               "Newsletter: until you unsubscribe. After that, only the hash that prevents new mailings.",

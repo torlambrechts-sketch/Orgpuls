@@ -4,6 +4,7 @@ import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS } from '@/lib/hosts'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
+import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
 import { SiteHeader } from '@/components/site/v3/SiteHeader'
 import { FOOTERS, SITE_NAV, type FooterId } from '@/lib/site/nav'
@@ -55,6 +56,8 @@ export default async function MarketingLayout({ children }: { children: React.Re
 
   return (
     <div className="min-h-screen bg-bg font-site text-[14px] text-ink">
+      {/* the site's own visit counting, in Sentral (D-248): renders nothing */}
+      <SiteBeacon />
       {/* G-01: the first thing a keyboard reaches; drawn as the header's button while focused */}
       <a
         href="#innhold"

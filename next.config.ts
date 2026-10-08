@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
+import { COLLECT_ORIGIN } from './lib/marketing/collect'
 
 const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts')
 
@@ -26,7 +27,8 @@ const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts')
  * control.
  *
  * **The CSP can be strict precisely because nothing is loaded from a CDN.** `connect-src`
- * needs the Supabase origin, because the browser talks to PostgREST and to auth directly.
+ * needs the Supabase origin, because the browser talks to PostgREST and to auth directly, and
+ * Sentral's, where the public site posts its own visit counting (lib/marketing/collect, D-248).
  * `'unsafe-inline'` in `script-src` is a concession to Next's inlined bootstrap; removing
  * it needs a per-request nonce threaded through the middleware, which is worth doing and is
  * its own piece of work. It does not weaken the three headers above, which is why this
@@ -40,7 +42,7 @@ function csp(img: string, frameAncestors = "'none'", frames = '') {
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self'",
     img,
-    `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''}`.trim(),
+    `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''} ${COLLECT_ORIGIN}`.replace(/\s+/g, ' ').trim(),
     "form-action 'self'",
     `frame-ancestors ${frameAncestors}`,
     "base-uri 'self'",

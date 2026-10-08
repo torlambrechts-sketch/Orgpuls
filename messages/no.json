@@ -9554,7 +9554,7 @@
         "crumb": "Personvernerklæring",
         "kicker": "Personvern",
         "h1": "Personvernerklæring",
-        "lead": "Her står hva Orgpuls samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 7. oktober 2026.",
+        "lead": "Her står hva Orgpuls samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 8. oktober 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -9575,11 +9575,11 @@
           },
           {
             "t": "p",
-            "text": "Vi fører ingen egen statistikk over besøkene på orgpuls.com. Vercel, som drifter nettsidene, måler sidevisninger og lastetid uten informasjonskapsler og uten å lagre noe på enheten din."
+            "text": "Vi fører vår egen statistikk over bruken av orgpuls.com, uten informasjonskapsler og uten å lagre noe på enheten din. For hver sidevisning sender nettleseren hvilken side det er, nettstedet du kom fra (bare domenet) og eventuelle kampanjemerker i adressen (utm) til vår egen plattform. Trykker du på en knapp som fører til registreringen, eller begynner eller fullfører du en registrering, sendes det også, uten noe av det du skrev. IP-adressen og nettleserens identifikasjon lagres ikke. De brukes bare til å lage en besøkskode med en nøkkel som byttes hvert døgn, slik at vi kan telle besøk innenfor et døgn uten å kunne følge deg fra en dag til den neste. I tillegg måler Vercel, som drifter nettsidene, sidevisninger og lastetid uten informasjonskapsler."
           },
           {
             "t": "p",
-            "text": "Grunnlaget er vår berettigede interesse i å forstå hvordan nettsidene brukes, GDPR artikkel 6 nr. 1 bokstav f."
+            "text": "Ber nettleseren din om ikke å bli sporet (Global Privacy Control eller Do Not Track), sendes ingenting til plattformen vår. Statistikken slettes etter 13 måneder. Grunnlaget er vår berettigede interesse i å forstå hvordan nettsidene brukes, GDPR artikkel 6 nr. 1 bokstav f."
           },
           {
             "t": "h2",
@@ -9652,7 +9652,7 @@
           {
             "t": "ul",
             "items": [
-              "Supabase Inc. (USA): database, innlogging og bakgrunnsjobber. Data lagres i Frankfurt, Tyskland.",
+              "Supabase Inc. (USA): database, innlogging, bakgrunnsjobber og vår egen besøksstatistikk. Data lagres og behandles i Frankfurt, Tyskland.",
               "Vercel Inc. (USA): drift av nettsidene og applikasjonen, og den cookiefrie målingen av sidevisninger. Serverfunksjonene kjøres i Frankfurt.",
               "Brevo SAS (Frankrike): utsending av e-post og SMS, og registrering av levering, åpning og klikk på e-post.",
               "Google (Irland): innlogging med Google, bare hvis du velger det.",
@@ -9671,6 +9671,7 @@
           {
             "t": "ul",
             "items": [
+              "Besøksstatistikk: 13 måneder. Besøkskoden byttes hvert døgn.",
               "Kontoen og virksomhetens opplysninger: så lenge kundeforholdet varer, og deretter så lenge regnskapsloven krever for det som inngår i regnskapet.",
               "Demo: forespørselen 30 dager. Demoen og innloggingen 14 dager uten innlogging. Kontakten til du ber oss slette den.",
               "Nyhetsbrev: til du melder deg av. Deretter bare hashen som hindrer nye utsendelser.",
