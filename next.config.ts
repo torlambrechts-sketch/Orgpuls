@@ -93,6 +93,10 @@ const nextConfig: NextConfig = {
       { source: '/arshjulet', destination: '/malinger?fane=arshjul', permanent: true },
       // Om oss was removed (D-95); its contact form is on /kontakt
       { source: '/om-oss', destination: '/kontakt', permanent: true },
+      // the three were landing pages for an hour on 8 October 2026 before they became articles (D-249)
+      { source: '/medarbeiderundersokelse', destination: '/artikler/medarbeiderundersokelse', permanent: true },
+      { source: '/trivselsundersokelse', destination: '/artikler/trivselsundersokelse', permanent: true },
+      { source: '/pulsundersokelse', destination: '/artikler/pulsundersokelse', permanent: true },
     ]
   },
   // The dev overlay's badge is painted into full-page screenshots, in the left margin at
