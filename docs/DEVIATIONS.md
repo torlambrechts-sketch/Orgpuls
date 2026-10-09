@@ -11984,8 +11984,10 @@ decisions (domains, k per market, German roles, the brand split).
    market, language, whether the host decides the language, canonical url); `PUBLIC_HOSTS` and `outboundBase` read it.
    The password sign-up keeps the market in the pending metadata and the Google/Microsoft sign-up in its cookie; both are
    parsed with zod, a value from before this change reads as Norway, and `create_organisation` takes it as `p_market`
-   (last, default `no`, so a four-argument call is unchanged). An unknown market is refused (`invalid_market`) and
-   writes nothing. A new organisation starts at `app.k_min()` or its market's floor if that is higher.
+   (last, default `no`, so a four-argument call is unchanged). The app names `p_market` only when it is not Norway,
+   so a Norwegian sign-up makes exactly the call it made before and works against a database with or without 0214.
+   An unknown market is refused (`invalid_market`) and writes nothing. A new organisation starts at `app.k_min()` or
+   its market's floor if that is higher.
 5. **The language rule is the same, read from the registry:** a site whose host decides (en.orgpuls.com) pins its
    language; elsewhere the cookie, then the site's language, then Norwegian (`lib/i18n/request.ts`).
 
@@ -12001,6 +12003,11 @@ Not in this step, and why: per-market organisation number rules (the column's ni
 unique index is global), prices and VAT, documents per market, the company lookup, sitemaps and hreflang per host,
 and the market in the events sent to Sentral. Each comes with the first market that needs it (phase 2, Sweden), so
 nothing is stored for no one.
+
+**Hosted, 2026-10-09:** 0214 is applied locally and in CI's rebuild, not yet to the hosted project: the apply through
+the Supabase MCP was cancelled, and it waits for Tor's go. Shipping the code first briefly made a Norwegian sign-up name
+`p_market`, which the hosted four-argument function does not have; the follow-up commit names it only for another
+market, so production makes the call it always made.
 
 **Found on the way, not changed:** `npm run test:invariants` (the engagement I1–I7 runner, not part of CI) fails I7,
 «no client-callable function queues a message to those who have not answered», on `public.send_round_reminder`
