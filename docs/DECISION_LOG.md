@@ -3406,3 +3406,19 @@ half, which were restored from the agreed text in the following commit.
   - the gates before a push, and the checks after.
 - **Later:** when Tor declares production, the former stop-and-ask list comes back. It is kept in
   CLAUDE.md under «Production phase (later)».
+
+### X-109 — The Swedish site is se.orgpuls.com, for now
+
+Tor, 2026-10-09: «La oss bruke se.orgpuls.com så lenge». The answer to the address question in
+docs/markets/PLAN.md (orgpuls.se or se.orgpuls.com).
+
+- **Decided:** the Swedish market's host is `se.orgpuls.com`. It is the default of `SE_HOST` in `lib/hosts.ts`,
+  as `en.orgpuls.com` is of `EN_HOST`, so a later move to orgpuls.se is one environment variable plus the domain.
+- **«Så lenge»:** the address is provisional, not the brand decision. Nothing in the database or in a mail
+  depends on it. Links that leave the product are built from the site's own `url`.
+- **Until Sweden's public site exists (SE-F):**
+  - the host serves the sign-up and the product in Swedish;
+  - it does not serve the Norwegian public pages;
+  - nothing on it is indexed (D-256).
+- **Open, still Tor's:** the Swedish anonymity floor (built at 5, raise-only); Swedish in the survey
+  (`locale_sv`); Swedish sole traders; SEK prices; a Bolagsverket API agreement.

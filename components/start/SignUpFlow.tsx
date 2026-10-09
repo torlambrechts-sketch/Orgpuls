@@ -54,6 +54,7 @@ export function SignUpFlow({
   done = null,
   registry = true,
   floor = K_FLOOR,
+  legal = true,
 }: {
   google?: boolean
   microsoft?: boolean
@@ -63,6 +64,8 @@ export function SignUpFlow({
   registry?: boolean
   /** the market's anonymity floor (lib/markets.ts MARKET_K_FLOOR): Norway's note names three */
   floor?: number
+  /** whether the market's law and report are built (lib/markets.ts LEGAL_PACK): no report promised otherwise */
+  legal?: boolean
 }) {
   const t = useTranslations('registrer')
   const router = useRouter()
@@ -546,7 +549,10 @@ export function SignUpFlow({
               {t('inclHead')}
             </span>
             <span className="mt-[13px] flex flex-col gap-[9px]">
-              {(['instrument', 'report', 'measures', 'conversations', 'users'] as const).map((k) => (
+              {(['instrument', 'report', 'measures', 'conversations', 'users'] as const)
+                // the report is written for Norway's law: not promised where the market's is not built (D-256)
+                .filter((k) => legal || k !== 'report')
+                .map((k) => (
                 <span key={k} className="flex items-start gap-[9px]">
                   <span className="mt-[2px] flex h-[16px] w-[16px] flex-none items-center justify-center rounded-focus bg-mint text-[9px] font-bold text-greendeep">
                     ✓
@@ -560,7 +566,7 @@ export function SignUpFlow({
           </div>
           <div className="rounded-note border border-line bg-sbg px-[21px] py-[19px]">
             <span className="block text-[13.5px] leading-[1.6] [text-wrap:pretty]">
-              {t(`reassure${step}`)}
+              {step === 1 && !registry ? t('reassure1Manual') : t(`reassure${step}`)}
             </span>
           </div>
           <p className="text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">

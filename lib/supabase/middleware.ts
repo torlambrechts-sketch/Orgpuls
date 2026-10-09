@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { readSupabaseEnv } from '@/lib/supabase/env'
+import { hostGate } from '@/lib/hosts'
 
 /**
  * Refreshes the auth session on every request and redirects anonymous visitors to
@@ -135,6 +136,24 @@ const isPublic = (path: string) => PUBLIC_PATHS.some((p) => path === p || path.s
 export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname
 
+  // a market's host before its own public site (D-256): the Norwegian site's pages go to the
+  // sign-up, and nothing there is indexed. Pure string work on the host: it cannot throw.
+  const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path))
+  if (gate.redirect) {
+    const url = request.nextUrl.clone()
+    url.pathname = gate.redirect
+    url.search = ''
+    return noindex(NextResponse.redirect(url), true)
+  }
+  return noindex(await route(request, path), gate.noindex)
+}
+
+const noindex = (response: NextResponse, on: boolean) => {
+  if (on) response.headers.set('X-Robots-Tag', 'noindex, nofollow')
+  return response
+}
+
+async function route(request: NextRequest, path: string) {
   // no session needed here, so nothing here may depend on one being obtainable
   if (isPublic(path)) return NextResponse.next({ request })
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS, siteLangs } from '@/lib/hosts'
+import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS, siteLangs, siteOf } from '@/lib/hosts'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
@@ -36,7 +36,8 @@ export default async function MarketingLayout({ children }: { children: React.Re
   const t = await getTranslations('site.chrome')
   // on the production hosts each language has its own; the switch links across (D-98)
   const host = (await headers()).get('host')
-  const hosts = PUBLIC_HOSTS.includes(hostOf(host)) ? { no: MAIN_URL, en: EN_URL } : undefined
+  // Norway's hosts only: on the Swedish one, English is a choice on the same host (D-256)
+  const hosts = PUBLIC_HOSTS.includes(hostOf(host)) && siteOf(host)?.market === 'no' ? { no: MAIN_URL, en: EN_URL } : undefined
   const industries = await industryLinks()
   // Bransjer's column links to the cards /bransjer shows in this language: on English only the
   // industries with an English page have one, so a link to any other card would land nowhere

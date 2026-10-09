@@ -4,7 +4,7 @@ import { microsoftEnabled } from '@/lib/auth/microsoft'
 import { createClient } from '@/lib/supabase/server'
 import { headers } from 'next/headers'
 import { marketOfHost } from '@/lib/hosts'
-import { MARKET_K_FLOOR, REGISTRY_LOOKUP } from '@/lib/markets'
+import { LEGAL_PACK, MARKET_K_FLOOR, REGISTRY_LOOKUP } from '@/lib/markets'
 
 /**
  * Registrering. Orgpuls_Start.dc.html lines 276-434.
@@ -55,6 +55,7 @@ export default async function RegistrerPage({ searchParams }: { searchParams: Pr
       done={done}
       registry={registry}
       floor={MARKET_K_FLOOR[market]}
+      legal={LEGAL_PACK[market]}
     />
   )
 }

@@ -3075,7 +3075,8 @@
     "companyName": "Company name",
     "companyNamePlaceholder": "As registered",
     "lookUpManual": "Continue",
-    "foundHeadManual": "The company"
+    "foundHeadManual": "The company",
+    "reassure1Manual": "Nothing goes out to employees before you have approved the send."
   },
   "headerPanel": {
     "close": "Close",

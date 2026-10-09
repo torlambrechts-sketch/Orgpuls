@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { marketOfHost, outboundBase, PUBLIC_HOSTS, SITES, siteOf } from '@/lib/hosts'
 import { LOCALES } from '@/lib/i18n/locales'
-import { DEFAULT_MARKET, isMarket, MARKET_K_FLOOR, MARKET_LANGS, MARKETS, orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
+import { DEFAULT_MARKET, isMarket, LEGAL_PACK, MARKET_K_FLOOR, MARKET_LANGS, MARKETS, orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
 import { K_FLOOR, thresholdChoices } from '@/lib/org/threshold'
 import { PendingOrg } from '@/lib/signup/pending'
 
@@ -82,8 +82,10 @@ describe('each market', () => {
     expect(REGISTRY_LOOKUP.no).toBe(true)
     expect(MARKET_LANGS.no).toEqual(['no', 'en'])
     expect(orgNumberProblem('no')).toBe('invalid_org_number')
-    // Sweden (D-254): no register to ask yet, Swedish and English, its own message
+    // Sweden (D-254): no register to ask yet, Swedish and English, its own message, and its law not built (D-256)
     expect(REGISTRY_LOOKUP.se).toBe(false)
+    expect(LEGAL_PACK.no).toBe(true)
+    expect(LEGAL_PACK.se).toBe(false)
     expect(MARKET_LANGS.se).toEqual(['sv', 'en'])
     expect(orgNumberProblem('se')).toBe('invalid_org_number_se')
     const no = JSON.parse(readFileSync('messages/no.json', 'utf8')) as { registrer: { problem: Record<string, string> } }
@@ -97,25 +99,47 @@ describe('the Swedish site', () => {
     vi.resetModules()
   })
 
-  it('does not exist until SE_HOST names it, so nobody can join Sweden before then', async () => {
+  it('is se.orgpuls.com (X-109), in Swedish with English beside it, and signs up into Sweden', async () => {
     vi.stubEnv('SE_HOST', '')
     vi.resetModules()
     const hosts = await import('@/lib/hosts')
-    expect(hosts.SITES.some((s) => s.market === 'se')).toBe(false)
-    expect(hosts.marketOfHost('orgpuls.se')).toBe('no')
+    expect(hosts.siteOf('se.orgpuls.com')).toMatchObject({ market: 'se', lang: 'sv', pinned: false, url: 'https://se.orgpuls.com', publicSite: false })
+    expect(hosts.marketOfHost('SE.orgpuls.com:443')).toBe('se')
+    expect(hosts.siteLangs('se.orgpuls.com')).toEqual(['sv', 'en'])
+    expect(hosts.outboundBase('se.orgpuls.com', 'http')).toBe('https://se.orgpuls.com')
+    // Norway's hosts are untouched, and serve their public site as before
+    expect(hosts.marketOfHost('www.orgpuls.com')).toBe('no')
+    expect(hosts.siteLangs('www.orgpuls.com')).toEqual(['no', 'en'])
+    for (const s of hosts.SITES.filter((x) => x.market === 'no')) expect(s.publicSite, s.host).toBe(true)
   })
 
-  it('once named, opens in Swedish, offers Swedish and English, and signs up into Sweden', async () => {
+  it('moves with SE_HOST, as the English site moves with EN_HOST', async () => {
     vi.stubEnv('SE_HOST', 'Orgpuls.SE')
     vi.resetModules()
     const hosts = await import('@/lib/hosts')
-    expect(hosts.siteOf('orgpuls.se')).toMatchObject({ market: 'se', lang: 'sv', pinned: false, url: 'https://orgpuls.se' })
-    expect(hosts.marketOfHost('orgpuls.se:443')).toBe('se')
-    expect(hosts.siteLangs('orgpuls.se')).toEqual(['sv', 'en'])
-    expect(hosts.outboundBase('orgpuls.se', 'http')).toBe('https://orgpuls.se')
-    // Norway's hosts are untouched
-    expect(hosts.marketOfHost('www.orgpuls.com')).toBe('no')
-    expect(hosts.siteLangs('www.orgpuls.com')).toEqual(['no', 'en'])
+    expect(hosts.marketOfHost('orgpuls.se')).toBe('se')
+    expect(hosts.marketOfHost('se.orgpuls.com')).toBe('no')
+  })
+})
+
+describe('a host without its own public site yet (D-256)', () => {
+  it('sends the Norwegian site’s pages to the sign-up, serves the rest, and indexes nothing', async () => {
+    const { hostGate } = await import('@/lib/hosts')
+    const se = 'se.orgpuls.com'
+    expect(hostGate(se, '/', true)).toEqual({ noindex: true, redirect: '/registrer' })
+    expect(hostGate(se, '/priser', true)).toEqual({ noindex: true, redirect: '/registrer' })
+    expect(hostGate(se, '/artikler/medarbeiderundersokelse', true)).toEqual({ noindex: true, redirect: '/registrer' })
+    for (const path of ['/registrer', '/logg-inn', '/auth/callback', '/s/abc', '/r/abc', '/inn/abc', '/bli-med/x', '/nytt-passord', '/api/sprak', '/robots.txt'])
+      expect(hostGate(se, path, true), path).toEqual({ noindex: true, redirect: null })
+    // the product needs a session and is not public: it passes, as everywhere
+    expect(hostGate(se, '/innsikt', false)).toEqual({ noindex: true, redirect: null })
+  })
+
+  it('changes nothing on Norway’s hosts or on any other host', async () => {
+    const { hostGate } = await import('@/lib/hosts')
+    for (const host of ['www.orgpuls.com', 'orgpuls.com', 'en.orgpuls.com', 'localhost:3000', null])
+      for (const path of ['/', '/priser', '/registrer'])
+        expect(hostGate(host, path, true), `${host} ${path}`).toEqual({ noindex: false, redirect: null })
   })
 })
 

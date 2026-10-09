@@ -12278,3 +12278,50 @@ set. Every earlier deploy went through `scripts/functions/deploy.mjs`, which nee
 classifier refused that. The connector's `deploy_edge_function` would mean pasting about 190 KB of source by hand
 into production's mail path. So deploying the functions is a launch step (SE-F, before `SE_HOST` is set), done
 with `node scripts/functions/deploy.mjs`. Any deploy from this commit on carries the change.
+
+## D-256 — se.orgpuls.com is the Swedish host; until Sweden's own pages exist it serves the sign-up and the product only (2026-10-09)
+
+X-109 named the address. `lib/hosts.ts` gives `SE_HOST` the default `se.orgpuls.com`, with the environment able to
+override it, as `EN_HOST` works.
+
+**What the host serves before SE-F.** The public site, its pages, articles and templates, is written for Norwegian
+law. On a Swedish host it would show in English (the `site` namespace is left out of `sv.json`, D-252) and say
+things that are not true in Sweden. A site therefore says whether it serves the public site (`Site.publicSite`):
+Norway's hosts do, Sweden's does not yet. `hostGate` decides, and the middleware applies it before anything else.
+It is pure string work, so it keeps the middleware's rule that nothing there may throw.
+- **A public page** of the Norwegian site (`/`, the landing pages, `/priser`, the articles, `/demo`, the sitemap,
+  `llms.txt`) is redirected to `/registrer`, which is in Swedish.
+- **Served as everywhere:**
+  - signing in and up, and the auth callbacks;
+  - the survey and the respondent's pages (`/s`, `/r`, `/inn`);
+  - invitations and new passwords;
+  - the logo, the API (the language switch among it) and `robots.txt`;
+  - the product itself, which needs a session.
+- **Nothing on the host is indexed:** every response carries `X-Robots-Tag: noindex, nofollow`, and `robots.txt`
+  there disallows everything.
+- **The language switch** on the Swedish host stays on the host: English is a choice there. Only Norway's hosts
+  link across to en.orgpuls.com.
+
+`tests/unit/markets.test.ts` covers four things:
+- the Swedish site's defaults and the `SE_HOST` override;
+- `hostGate` on every kind of path;
+- that Norway's hosts and any other host are unchanged;
+- that Norway's sites all serve the public site.
+
+**The sign-up does not promise the legal pack.** Sign-up's sidebar lists what comes with the product. One line
+there is «a report ready for Arbeidstilsynet, AMU and the board». A Swedish employer reports to no such body, and
+the Swedish report is SE-C, not built yet. `LEGAL_PACK` in `lib/markets.ts` says whether a market's legal pack
+exists: true for Norway, false for Sweden until SE-C. The sidebar leaves the report line out where it is false.
+Step 1's reassurance also changes on such a host. On Norway's host it says «we fetch only public information from
+Brønnøysundregistrene». Where the market has no registry lookup (`REGISTRY_LOOKUP`), that is not true, so the step
+says `reassure1Manual` instead. Checked by curl against a local build:
+- on `Host: se.orgpuls.com`, four list items are rendered and the report line is not among them;
+- on www, all five are rendered, as before.
+
+**Before se.orgpuls.com answers** (Tor's steps; DNS and domains are not mine to change):
+1. **DNS at Spaceship:** `se` CNAME `cname.vercel-dns.com`.
+2. **Vercel:** add `se.orgpuls.com` to the project's domains.
+3. **Supabase Auth › URL Configuration:** add `https://se.orgpuls.com/**` to the redirect URLs, so password
+   confirmation, Google and Microsoft come back to the Swedish host.
+4. **Edge functions:** deploy them (`node scripts/functions/deploy.mjs`), so a Swedish organisation's mail is not
+   in bokmål (D-255).

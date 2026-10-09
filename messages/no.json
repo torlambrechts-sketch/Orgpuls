@@ -3075,7 +3075,8 @@
     "companyName": "Navn på virksomheten",
     "companyNamePlaceholder": "Slik det er registrert",
     "lookUpManual": "Fortsett",
-    "foundHeadManual": "Virksomheten"
+    "foundHeadManual": "Virksomheten",
+    "reassure1Manual": "Ingenting går ut til de ansatte før du har godkjent utsendingen."
   },
   "headerPanel": {
     "close": "Lukk",

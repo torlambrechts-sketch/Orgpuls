@@ -25,6 +25,14 @@ export const DEFAULT_MARKET: Market = 'no'
 export const REGISTRY_LOOKUP: Record<Market, boolean> = { no: true, se: false }
 
 /**
+ * Whether the market's law is in the product: the report, the legal texts and the duties it prints
+ * (Norway's arbeidsmiljøloven today). Sweden's is SE-C; until it is built, nothing tells a Swedish
+ * organisation what Norwegian law requires of it, and no screen promises it a report for Sweden's
+ * authority (D-256).
+ */
+export const LEGAL_PACK: Record<Market, boolean> = { no: true, se: false }
+
+/**
  * The languages a market's site offers and an organisation there may default to: bokmål and English
  * in Norway, Swedish and English in Sweden (D-252, D-254). An organisation already on another
  * language keeps it on offer (components/oppsett/CompanyForm.tsx).

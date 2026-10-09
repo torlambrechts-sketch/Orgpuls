@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { headers } from 'next/headers'
-import { EN_HOST, EN_URL, hostOf, MAIN_URL } from '@/lib/hosts'
+import { EN_HOST, EN_URL, hostOf, MAIN_URL, siteOf } from '@/lib/hosts'
 
 /**
  * The public site is open to crawlers. What is not: the respondent survey and its
@@ -34,7 +34,10 @@ const PRIVATE = [
 
 /** each host names its own sitemap (app/sitemap.ts, D-132) */
 export default async function robots(): Promise<MetadataRoute.Robots> {
-  const base = hostOf((await headers()).get('host')) === EN_HOST ? EN_URL : MAIN_URL
+  const host = (await headers()).get('host')
+  // a market's host before its own public site (D-256): nothing there is for crawlers yet
+  if (siteOf(host)?.publicSite === false) return { rules: [{ userAgent: '*', disallow: '/' }] }
+  const base = hostOf(host) === EN_HOST ? EN_URL : MAIN_URL
   return {
     rules: [{ userAgent: '*', allow: '/', disallow: PRIVATE }],
     sitemap: `${base}/sitemap.xml`,

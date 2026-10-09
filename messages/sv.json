@@ -4,7 +4,7 @@
     "title": "Logga in",
     "lead": "Här loggar du in om du ska lägga upp mätningar, se resultat eller följa upp åtgärder.",
     "email": "E-post på jobbet",
-    "emailPlaceholder": "namn@organisation.no",
+    "emailPlaceholder": "namn@organisation.se",
     "password": "Lösenord",
     "passwordPlaceholder": "Ditt lösenord",
     "submit": "Logga in",
@@ -2786,7 +2786,7 @@
     "name": "Namn",
     "namePlaceholder": "Förnamn Efternamn",
     "email": "E-post på jobbet",
-    "emailPlaceholder": "namn@organisation.no",
+    "emailPlaceholder": "namn@organisation.se",
     "emailHint": "Den blir ditt användarnamn när du loggar in.",
     "password": "Välj ett lösenord",
     "passwordPlaceholder": "Minst 8 tecken",
@@ -2886,7 +2886,8 @@
     "companyName": "Organisationens namn",
     "companyNamePlaceholder": "Som det är registrerat",
     "lookUpManual": "Fortsätt",
-    "foundHeadManual": "Organisationen"
+    "foundHeadManual": "Organisationen",
+    "reassure1Manual": "Inget går ut till de anställda förrän du har godkänt utskicket."
   },
   "headerPanel": {
     "close": "Stäng",

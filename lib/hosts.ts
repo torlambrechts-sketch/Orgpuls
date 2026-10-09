@@ -6,7 +6,9 @@ import { DEFAULT_MARKET, MARKET_LANGS, type Market } from '@/lib/markets'
  *
  *   www.orgpuls.com    the product and the Norwegian public site
  *   en.orgpuls.com     the same, in English: the host decides the language (lib/i18n/request)
- *   SE_HOST            the Swedish site, once its address is set (D-254)
+ *   se.orgpuls.com     the Swedish market (X-109): sign-up and product in Swedish; its public site
+ *                      is SE-F, so until then its public pages are not served there (D-256).
+ *                      SE_HOST overrides it, like EN_HOST
  *
  * `EN_HOST` overrides the default, e.g. for a staging domain. Local and preview builds match
  * none of these, so the language switch works there on one host. The platform admin is no
@@ -34,25 +36,31 @@ export type Site = {
   pinned: boolean
   /** the languages its language switch offers (D-252) */
   langs: readonly Locale[]
+  /**
+   * Whether the host serves the public site (D-256). Norway's do. A new market's host does not until
+   * its own pages exist: the public site is written for Norwegian law, so there a visitor is taken
+   * to the sign-up and nothing is indexed (hostGate).
+   */
+  publicSite: boolean
 }
 
 /** what the Norwegian site offers, and every host that is not a site (local, a preview) */
 const NORWAY_LANGS: readonly Locale[] = MARKET_LANGS.no
 
 /**
- * The Swedish site (D-254). Its address is the owner's decision (orgpuls.se or se.orgpuls.com,
- * docs/markets/PLAN.md), so SE_HOST names it; unset, no host is Swedish and nobody can join the
- * Swedish market. It opens in Swedish and offers English beside it.
+ * The Swedish site (D-254): se.orgpuls.com, Tor's choice «så lenge» (X-109); SE_HOST overrides it,
+ * as EN_HOST does the English one. It opens in Swedish and offers English beside it. Nobody reaches
+ * it before the address is routed to the app (DNS and the Vercel domain, docs/markets/PLAN.md SE-F).
  */
-export const SE_HOST = process.env.SE_HOST?.trim().toLowerCase() || null
+export const SE_HOST = process.env.SE_HOST?.trim().toLowerCase() || 'se.orgpuls.com'
+export const SE_URL = `https://${SE_HOST}`
 
 export const SITES: readonly Site[] = [
-  { host: MAIN_HOST, url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
-  { host: 'orgpuls.com', url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
-  { host: EN_HOST, url: EN_URL, brand: 'orgpuls', market: 'no', lang: 'en', pinned: true, langs: NORWAY_LANGS },
-  ...(SE_HOST
-    ? [{ host: SE_HOST, url: `https://${SE_HOST}`, brand: 'orgpuls', market: 'se', lang: 'sv', pinned: false, langs: MARKET_LANGS.se } as const]
-    : []),
+  { host: MAIN_HOST, url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS, publicSite: true },
+  { host: 'orgpuls.com', url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS, publicSite: true },
+  { host: EN_HOST, url: EN_URL, brand: 'orgpuls', market: 'no', lang: 'en', pinned: true, langs: NORWAY_LANGS, publicSite: true },
+  // the Swedish public site is SE-F; until it is built, the host serves the sign-up and the product
+  { host: SE_HOST, url: SE_URL, brand: 'orgpuls', market: 'se', lang: 'sv', pinned: false, langs: MARKET_LANGS.se, publicSite: false },
 ]
 
 /** The production hosts of the product and the public site. */
@@ -96,4 +104,29 @@ export function outboundBase(host: string | null | undefined, proto: string | nu
   if (site) return site.url
   if (LOOPBACK.has(name) || raw.startsWith('[::1]')) return `${proto === 'https' ? 'https' : 'http'}://${raw}`
   return MAIN_URL
+}
+
+/**
+ * The addresses a host without its own public site still serves (D-256): signing in and up, the
+ * auth callbacks, the respondent's survey and pages, an invitation and a new password, the logo, the
+ * API (the language switch among it) and robots.txt. The product's own screens need a session and
+ * are not public, so they pass as everywhere.
+ */
+const WITHOUT_SITE = ['/logg-inn', '/registrer', '/auth', '/s', '/inn', '/r', '/logo', '/bli-med', '/nytt-passord', '/api', '/robots.txt']
+
+/**
+ * What a request to this host may see (D-256). On a host that serves the public site: everything,
+ * indexed as before. On one that does not yet (Sweden until SE-F): a public page of the Norwegian
+ * site is sent to the sign-up, and nothing on the host is indexed. `publicPath` is the middleware's
+ * own test of whether the path is the public site's (lib/supabase/middleware.ts isPublic).
+ */
+export function hostGate(
+  host: string | null | undefined,
+  path: string,
+  publicPath: boolean,
+): { noindex: boolean; redirect: string | null } {
+  const site = siteOf(host)
+  if (!site || site.publicSite) return { noindex: false, redirect: null }
+  const served = WITHOUT_SITE.some((p) => path === p || path.startsWith(`${p}/`))
+  return { noindex: true, redirect: publicPath && !served ? '/registrer' : null }
 }
