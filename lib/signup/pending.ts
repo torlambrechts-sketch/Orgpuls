@@ -59,7 +59,9 @@ export async function completePendingSignup(supabase: Client): Promise<PendingOu
     p_org_number: pending.data.orgNumber,
     p_employee_count: pending.data.employeeCount,
     p_full_name: fullName,
-    p_market: pending.data.market,
+    // Norway is the database's default too: named only when it is another market, so the call
+    // resolves against a database with or without 0214
+    ...(pending.data.market === DEFAULT_MARKET ? {} : { p_market: pending.data.market }),
   })
   const outcome = z.object({ ok: z.boolean(), error: z.string().optional() }).safeParse(data)
   if (error || !outcome.success || !outcome.data.ok) {

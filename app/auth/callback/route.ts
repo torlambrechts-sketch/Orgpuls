@@ -119,7 +119,8 @@ export async function GET(request: NextRequest) {
       p_org_number: pending.orgNumber,
       p_employee_count: pending.employeeCount,
       p_full_name: fullName,
-      p_market: pending.market,
+      // named only when it is not Norway, the database's default (lib/signup/pending.ts)
+      ...(pending.market === DEFAULT_MARKET ? {} : { p_market: pending.market }),
     })
     const outcome = z.object({ ok: z.boolean(), error: z.string().optional() }).safeParse(made)
     if (madeError || !outcome.success || !outcome.data.ok) {
