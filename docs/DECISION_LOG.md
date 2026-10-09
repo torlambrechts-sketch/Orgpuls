@@ -3385,3 +3385,24 @@ at den er gratis så lenge man følger retningslinjene».
     guidelines in full until small groups are marked as less certain; that is a product decision of its own.
 - **The short version.** The manual says QPSNordic 34+ has no scales, and that the reliability and validity
   testing of QPSNordic does not apply to it (p. 2). Anything that hands out 34+ says so.
+
+### X-108 — Build phase: full deployment authority until the product is in production
+
+Tor, 2026-10-09: «Why do you suddenly ask permission! Everything is allowed, stop asking! You are allowed
+to change production», then «ja, oppdater CLAUDE for optimalt depolyment, vi strammer til når alt er i
+produksjon». Tor committed the new section himself (f80590d); the paste lost its formatting and second
+half, which were restored from the agreed text in the following commit.
+
+- **Decided:** until Tor declares the product in production, CLAUDE.md › Operating authority grants
+  full authority. That covers hosted migrations, table drops and bulk deletes, deploys, edge functions,
+  env vars, key rotation, plan and billing settings, and force-pushing branches the session created.
+  Everything runs without asking and is reported afterwards.
+- **Kept:** the security invariants are product rules, not deployment steps. Only an X-entry of Tor's
+  changes them. Secrets stay unprinted and untracked, and `main` is never force-pushed.
+- **Added:** a deployment playbook from what 0214 taught:
+  - database first, or code compatible with both schemas;
+  - hosted migrations through `apply_migration` with the committed file;
+  - no `DROP` in a migration, because the connector cancels it silently;
+  - the gates before a push, and the checks after.
+- **Later:** when Tor declares production, the former stop-and-ask list comes back. It is kept in
+  CLAUDE.md under «Production phase (later)».

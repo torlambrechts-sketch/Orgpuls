@@ -138,18 +138,68 @@ states), i18n complete for `no` and `en`, invariants green, no console errors, k
 and focus-visible work — the design specifies focus styles, so implement them.
 
 ## Operating authority
-Operating authority
-Build phase — in force until Tor declares the product in production (X-108). Full authority.
+**Build phase — in force until Tor declares the product in production (X-108).** Full authority.
 Run everything end to end and report afterwards. Never stop to ask permission for an action;
 ask only for a product decision nobody has made (a price, a wording, a market's k).
-Run freely, local and hosted:
-any local command
-database work: migrations through the Supabase MCP, seeds, data fixes, dropping or truncating a
-table, bulk deletes. Look at the target first and record what was removed in the commit.
-production deploys: push to main, Vercel production and preview, edge functions, env vars
-git: branches, commits, PRs, merges. Force-push only a branch this session created, never main.
-rotating keys (through env or Vault, never printed) and plan or billing settings
-launching pages and publishing modules. Legal review in admin is a record, not a gate (X-078).
+
+**Run freely, local and hosted:**
+- any local command
+- database work: migrations through the Supabase MCP, seeds, data fixes, dropping or truncating a
+  table, bulk deletes. Look at the target first and record what was removed in the commit.
+- production deploys: push to `main`, Vercel production and preview, edge functions, env vars
+- git: branches, commits, PRs, merges. Force-push only a branch this session created, never `main`.
+- rotating keys (through env or Vault, never printed) and plan or billing settings
+- launching pages and publishing modules. Legal review in admin is a record, not a gate (X-078).
+
+**Not a deployment decision:** weakening a security invariant (above). That covers disabling RLS,
+a select policy on an answer table, lowering the k floor, or a column that could link a person.
+These are product rules, changed only by an X-entry of Tor's, never as a side effect of shipping.
+
+**Secrets:** read them from the environment. Never print one, never write one into a
+tracked file, never put one in a commit message or PR body. If a credential is missing,
+say which one and how to provide it — do not work around it by weakening a control.
+
+**When a tool refuses:** a refusal is a technical fact, not Tor saying no.
+- Find the cause and take another sanctioned route: a non-destructive migration, another tool,
+  a workflow. Say what happened in the report.
+- Only when no route exists, say which tool, which command, and what Tor must do.
+- Never retry an action an automated classifier denied, and never weaken a control to get past one.
+
+### Deployment playbook
+1. **Database first, code second.** Code that needs new schema ships after the hosted migration,
+   or works against both the old and the new schema while it is pending (expand → migrate →
+   contract). A new RPC parameter is optional with a default, and the app sends it only when it
+   differs from the default (D-251).
+2. **Hosted migrations go through the Supabase MCP `apply_migration`, with the committed file
+   verbatim and named after its file.** CI rebuilds a local database from migrations; it never
+   touches the hosted project.
+3. **Write migrations without destructive statements.** The Supabase connector answers a `DROP …`
+   with `{"status":"cancelled"}` and no prompt reaches anyone. Set objects aside instead:
+   - for a function: `alter function … set schema app; … rename to …_retired; revoke all …`
+     (0201, 0214);
+   - for a table: rename it and revoke its grants.
+   A migration not yet applied to the hosted project may be edited to get there. Once applied, it
+   is superseded, never edited.
+4. **Before every push**, with exit codes read:
+   - `npx tsc --noEmit`, `npm run lint`, `npm run verify:i18n`, `npx vitest run`
+   - `NEXT_DIST_DIR=.next-build npx next build`, then `git checkout tsconfig.json`
+   - when SQL changed: `npm run qa:up -- --reset`, `npm run test:db` and `node scripts/audit/wiring.mjs`
+5. **Ship:** push the branch, fast-forward `main` with `git push origin HEAD:main`, and watch the
+   commit's «checks, security invariants and screens» job. Vercel deploys `main`.
+6. **After:** on hosted, run `list_migrations`, a SELECT that proves the change and
+   `get_advisors security`, and check that the production path the change touches still works.
+   Then report what shipped.
+7. **Local stack:** if `supabase db reset` fails with «volume is in use» by a container Docker cannot
+   find, stop dockerd, move `/var/lib/docker/containers/<id>` aside, start dockerd and remove the volume.
+
+### Production phase (later)
+When Tor declares the product in production, this replaces the build-phase list. Stop and ask first
+before:
+- dropping or truncating a table, or bulk-deleting rows, on the hosted project;
+- anything that weakens an invariant;
+- rotating keys or altering billing;
+- force-pushing or rewriting history on a branch that is not your own.
+The playbook stays.
 
 ## Cloud sessions
 A cloud session is a fresh VM with a clone of this repo and nothing from a laptop.
