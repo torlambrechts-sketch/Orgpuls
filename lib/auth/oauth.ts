@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { marketOfHost } from '@/lib/hosts'
+import { normalizeOrgNumber, validOrgNumber } from '@/lib/org-number'
 import { SIGNUP_COOKIE } from './cookies'
 
 /**
@@ -31,7 +32,7 @@ const Flow = z.discriminatedUnion('flow', [
   z.object({ flow: z.literal('invite'), token: z.string().regex(/^[0-9a-f]{64}$/) }),
   z.object({
     flow: z.literal('signup'),
-    orgNumber: z.string().regex(/^\d{9}$/),
+    orgNumber: z.string().transform((v) => normalizeOrgNumber(v)).pipe(z.string().regex(/^\d{9,10}$/)),
     companyName: z.string().trim().min(1).max(200),
     employeeCount: z.coerce.number().int().min(0).max(100_000),
     consent: z.literal('on'),
@@ -58,6 +59,8 @@ async function startOAuth(provider: Provider, formData: FormData): Promise<void>
   callback.searchParams.set('flow', f.flow)
   if (provider === 'azure') callback.searchParams.set('p', 'azure')
   if (f.flow === 'invite') callback.searchParams.set('token', f.token)
+  // the number has to be one in the market of the host the sign-up started on (0218)
+  if (f.flow === 'signup' && !validOrgNumber(marketOfHost(callback.host), f.orgNumber)) redirect(failed as never)
   if (f.flow === 'signup') {
     ;(await cookies()).set(
       SIGNUP_COOKIE,

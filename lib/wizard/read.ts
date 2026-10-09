@@ -1,4 +1,5 @@
 import 'server-only'
+import { DEFAULT_MARKET, isMarket, MARKET_K_FLOOR, REGISTRY_LOOKUP } from '@/lib/markets'
 import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
@@ -94,6 +95,10 @@ export interface WizardModel {
   employees: { id: string; name: string; dutyRole: DutyRole | null }[]
   groups: { id: string; name: string; headcount: number }[]
   threshold: number
+  /** the market's anonymity floor: the lowest threshold on offer (D-254) */
+  floor: number
+  /** whether the market's register can be asked (Brønnøysund); a Swedish organisation names itself */
+  registry: boolean
   lawMode: boolean
   factorKeys: string[]
   /** statements over every factor plus the questions outside the index: a grunnlinje */
@@ -153,6 +158,7 @@ export async function getWizard(): Promise<WizardModel | null> {
   const rs = z.array(PlannedRow).safeParse(rounds.data)
   if (parseFailed('getWizard.rounds', rs)) return null
 
+  const market = isMarket(company.market) ? company.market : DEFAULT_MARKET
   const tz = org.timezone ?? 'Europe/Oslo'
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date())
   const active = roster.filter((p) => p.active)
@@ -173,6 +179,8 @@ export async function getWizard(): Promise<WizardModel | null> {
     employees: active.map((p) => ({ id: p.id, name: p.name, dutyRole: p.dutyRole })),
     groups: groups.map((g) => ({ id: g.id, name: g.name, headcount: g.headcount })),
     threshold: company.threshold,
+    floor: MARKET_K_FLOOR[market],
+    registry: REGISTRY_LOOKUP[market],
     lawMode: company.law_mode,
     factorKeys: factors.map((f) => f.key),
     questions: factors.reduce((n, f) => n + f.ordinals.length, 0) + extras.length,

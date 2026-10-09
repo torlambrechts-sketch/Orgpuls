@@ -10,6 +10,7 @@ import { IndustryForm } from '@/components/oppsett/IndustryForm'
 import { LogoCard } from '@/components/oppsett/LogoCard'
 import { INDUSTRIES_IN_ORDER, resolveIndustry } from '@/content/industries/meta'
 import { isLocale } from '@/lib/i18n/locales'
+import { DEFAULT_MARKET, isMarket, MARKET_LANGS, REGISTRY_LOOKUP } from '@/lib/markets'
 
 /**
  * Selskap. Bundle lines 1987-2108.
@@ -76,6 +77,9 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
       : new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeZone: 'Europe/Oslo' }).format(
           new Date(iso),
         )
+
+  // the market decides the register to ask and the languages on offer (D-254)
+  const market = isMarket(c.market) ? c.market : DEFAULT_MARKET
 
   const facts = [
     ['name', c.name],
@@ -167,29 +171,31 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             {t('oppsett.selskap.lead')}
           </p>
 
-          <RegistryForm
-            // grouped for reading, as the design prints it; the action strips the spaces
-            orgNumber={formatOrgNumber(c.org_number) ?? ''}
-            canWrite={view.canWrite}
-            fetched={c.registry_fetched_at !== null}
-            note={
-              longDate(c.registry_fetched_at) === null
-                ? t('oppsett.selskap.noteUnfetched')
-                : t('oppsett.selskap.noteFetched', { date: longDate(c.registry_fetched_at)! })
-            }
-            labels={{
-              field: t('oppsett.selskap.orgNumberLabel'),
-              placeholder: t('oppsett.selskap.orgNumberPlaceholder'),
-              fetch: t('oppsett.selskap.fetch'),
-              refetch: t('oppsett.selskap.refetch'),
-              busy: t('oppsett.selskap.fetching'),
-              problems: Object.fromEntries(
-                ['invalid_org_number', 'not_found', 'deleted', 'unreachable', 'denied'].map(
-                  (k) => [k, t(`oppsett.selskap.problem.${k}`)],
+          {REGISTRY_LOOKUP[market] ? (
+            <RegistryForm
+              // grouped for reading, as the design prints it; the action strips the spaces
+              orgNumber={formatOrgNumber(c.org_number) ?? ''}
+              canWrite={view.canWrite}
+              fetched={c.registry_fetched_at !== null}
+              note={
+                longDate(c.registry_fetched_at) === null
+                  ? t('oppsett.selskap.noteUnfetched')
+                  : t('oppsett.selskap.noteFetched', { date: longDate(c.registry_fetched_at)! })
+              }
+              labels={{
+                field: t('oppsett.selskap.orgNumberLabel'),
+                placeholder: t('oppsett.selskap.orgNumberPlaceholder'),
+                fetch: t('oppsett.selskap.fetch'),
+                refetch: t('oppsett.selskap.refetch'),
+                busy: t('oppsett.selskap.fetching'),
+                problems: Object.fromEntries(
+                  ['invalid_org_number', 'not_found', 'deleted', 'unreachable', 'denied'].map(
+                    (k) => [k, t(`oppsett.selskap.problem.${k}`)],
+                  ),
                 ),
-              ),
-            }}
-          />
+              }}
+            />
+          ) : null}
 
           {facts.length > 0 ? (
             <div className="mt-[18px] overflow-hidden rounded-tile border border-line">
@@ -253,6 +259,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
           <CompanyForm
             canWrite={view.canWrite}
             lang={isLocale(c.default_lang) ? c.default_lang : 'no'}
+            langs={MARKET_LANGS[market]}
             baselineMonth={view.baselineMonth}
             // Intl gives "januar"; the design's chips are capitalised, and a month name
             // at the head of a chip is a label rather than prose
@@ -356,6 +363,8 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             {t('oppsett.industry.lead')}
           </p>
           <div className="mt-[14px] flex flex-col gap-[4px] text-[13px] leading-[1.55] text-body">
+            {REGISTRY_LOOKUP[market] ? (
+            <>
             <span>
               {c.registry_nace_code === null
                 ? t('oppsett.industry.registeredUnknown')
@@ -371,6 +380,11 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             <span className="text-mut">
               {industry.source === 'manual' ? t('oppsett.industry.manual') : t('oppsett.industry.followsCode')}
             </span>
+            </>
+            ) : (
+              // no register in this market (Sweden, D-254): no code to follow, the industry is chosen here
+              <span>{t('oppsett.industry.chooseManual')}</span>
+            )}
           </div>
           <IndustryForm
             canWrite={view.canWrite}

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useActionState, useEffect, useRef, useState, useTransition } from 'react'
 import { bandOf, countFor, SIZES, type SizeKey } from '@/lib/start/size'
+import { K_DEFAULT, K_FLOOR } from '@/lib/org/threshold'
 import { useTranslations } from 'next-intl'
 import {
   createAccount,
@@ -38,6 +39,10 @@ import { HeardAbout } from '@/components/start/HeardAbout'
  * **Microsoft (D-201):** the same, through the `azure` provider, above Google as on /logg-inn.
  * The callback runs the Microsoft sign-in rules once the organisation exists, which binds the
  * new membership to the Microsoft person who made it.
+ *
+ * **A market without a register to ask (`registry` false, Sweden until Bolagsverket, D-254):**
+ * step 1 asks for the company's name beside its number, the number is held to the market's rule
+ * on the server, and the confirmation shows what was typed. Norway's step 1 is unchanged.
  */
 
 
@@ -47,11 +52,17 @@ export function SignUpFlow({
   microsoft = false,
   problem = null,
   done = null,
+  registry = true,
+  floor = K_FLOOR,
 }: {
   google?: boolean
   microsoft?: boolean
   problem?: string | null
   done?: { firstName: string; company: string } | null
+  /** whether the market's register can be asked (lib/markets.ts REGISTRY_LOOKUP) */
+  registry?: boolean
+  /** the market's anonymity floor (lib/markets.ts MARKET_K_FLOOR): Norway's note names three */
+  floor?: number
 }) {
   const t = useTranslations('registrer')
   const router = useRouter()
@@ -72,6 +83,9 @@ export function SignUpFlow({
     trackEvent('signup_completed')
   }, [done])
   const [email, setEmail] = useState('')
+  // controlled, so a number the market refuses does not take the typed name with it (React resets a form's
+  // uncontrolled fields after its action)
+  const [companyName, setCompanyName] = useState('')
   const [consent, setConsent] = useState(false)
   const [, startTransition] = useTransition()
 
@@ -92,7 +106,7 @@ export function SignUpFlow({
   // Arriving from a landing page's form (SignupStart) with ?orgnr=: fill it in and look it
   // up at once, so the visitor lands on their company rather than on an empty field.
   const prefill = (useSearchParams().get('orgnr') ?? '').replace(/\s/g, '')
-  const prefilled = /^\d{9}$/.test(prefill) ? prefill : ''
+  const prefilled = registry && /^\d{9}$/.test(prefill) ? prefill : ''
   const looked = useRef(false)
   useEffect(() => {
     if (!prefilled || looked.current) return
@@ -164,7 +178,7 @@ export function SignUpFlow({
                 {t('step1Title')}
               </h1>
               <p className="mt-[11px] max-w-[52ch] text-[14.5px] leading-[1.65] text-mut [text-wrap:pretty]">
-                {t('step1Lead')}
+                {t(registry ? 'step1Lead' : 'step1LeadManual')}
               </p>
 
               <label className="mt-[22px] block max-w-[340px]">
@@ -174,7 +188,7 @@ export function SignUpFlow({
                   inputMode="numeric"
                   required
                   defaultValue={found?.orgNumber ?? prefilled}
-                  placeholder={t('orgNumberPlaceholder')}
+                  placeholder={t(registry ? 'orgNumberPlaceholder' : 'orgNumberPlaceholderManual')}
                   className="h-[50px] w-full rounded-tile border-[1.5px] bg-bg px-[16px] text-[19px] font-semibold tracking-[0.06em] text-ink outline-none"
                   style={{ borderColor: found ? '#191510' : '#E8DFC9' }}
                 />
@@ -188,14 +202,29 @@ export function SignUpFlow({
                   ? t(`problem.${lookup.problem}`)
                   : found
                     ? t('lookupAgain')
-                    : t('orgNumberHint')}
+                    : t(registry ? 'orgNumberHint' : 'orgNumberHintManual')}
               </div>
+
+              {registry ? null : (
+                <label className="mt-[14px] block max-w-[340px]">
+                  <span className="mb-[7px] block text-[13px] font-bold">{t('companyName')}</span>
+                  <input
+                    name="companyName"
+                    required
+                    autoComplete="organization"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    placeholder={t('companyNamePlaceholder')}
+                    className="h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
+                  />
+                </label>
+              )}
 
               {found ? (
                 <>
                   <div className="mt-[18px] rounded-note border-[1.5px] border-ink bg-sbg px-[22px] py-[20px]">
                     <span className="block text-[11px] uppercase tracking-[0.1em] text-mut">
-                      {t('foundHead')}
+                      {t(registry ? 'foundHead' : 'foundHeadManual')}
                     </span>
                     <span className="mt-[6px] block font-display text-[23px] font-semibold leading-[1.2]">
                       {found.name}
@@ -236,7 +265,7 @@ export function SignUpFlow({
                   disabled={lookingUp}
                   className="mt-[16px] inline-flex h-[48px] cursor-pointer items-center rounded-tile border border-ink bg-ac px-[22px] text-[15.5px] font-bold text-ink"
                 >
-                  {lookingUp ? t('looking') : t('lookUp')}
+                  {lookingUp ? t('looking') : t(registry ? 'lookUp' : 'lookUpManual')}
                 </button>
               )}
             </form>
@@ -486,7 +515,9 @@ export function SignUpFlow({
                         {t(`todo.${k}.title`)}
                       </span>
                       <span className="mt-[2px] block text-[12.5px] text-mut">
-                        {t(`todo.${k}.note`)}
+                        {k === 'threshold' && floor > K_FLOOR
+                          ? t('todo.threshold.noteAt', { standard: Math.max(K_DEFAULT, floor), floor })
+                          : t(`todo.${k}.note`)}
                       </span>
                     </span>
                     <span className="flex-none text-[12px] font-bold text-mut">

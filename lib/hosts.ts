@@ -1,11 +1,12 @@
 import type { Locale } from '@/lib/i18n/locales'
-import { DEFAULT_MARKET, type Market } from '@/lib/markets'
+import { DEFAULT_MARKET, MARKET_LANGS, type Market } from '@/lib/markets'
 
 /**
  * The production hosts (D-90, D-98). Edge-safe: read by the middleware as well as the server.
  *
  *   www.orgpuls.com    the product and the Norwegian public site
  *   en.orgpuls.com     the same, in English: the host decides the language (lib/i18n/request)
+ *   SE_HOST            the Swedish site, once its address is set (D-254)
  *
  * `EN_HOST` overrides the default, e.g. for a staging domain. Local and preview builds match
  * none of these, so the language switch works there on one host. The platform admin is no
@@ -36,12 +37,22 @@ export type Site = {
 }
 
 /** what the Norwegian site offers, and every host that is not a site (local, a preview) */
-const NORWAY_LANGS: readonly Locale[] = ['no', 'en']
+const NORWAY_LANGS: readonly Locale[] = MARKET_LANGS.no
+
+/**
+ * The Swedish site (D-254). Its address is the owner's decision (orgpuls.se or se.orgpuls.com,
+ * docs/markets/PLAN.md), so SE_HOST names it; unset, no host is Swedish and nobody can join the
+ * Swedish market. It opens in Swedish and offers English beside it.
+ */
+export const SE_HOST = process.env.SE_HOST?.trim().toLowerCase() || null
 
 export const SITES: readonly Site[] = [
   { host: MAIN_HOST, url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
   { host: 'orgpuls.com', url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
   { host: EN_HOST, url: EN_URL, brand: 'orgpuls', market: 'no', lang: 'en', pinned: true, langs: NORWAY_LANGS },
+  ...(SE_HOST
+    ? [{ host: SE_HOST, url: `https://${SE_HOST}`, brand: 'orgpuls', market: 'se', lang: 'sv', pinned: false, langs: MARKET_LANGS.se } as const]
+    : []),
 ]
 
 /** The production hosts of the product and the public site. */

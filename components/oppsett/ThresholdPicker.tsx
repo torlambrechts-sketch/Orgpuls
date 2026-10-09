@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { setThreshold } from '@/app/(app)/oppsett/actions'
-import { belowDefault } from '@/lib/org/threshold'
+import { belowDefault, K_FLOOR, thresholdChoices } from '@/lib/org/threshold'
 
 /**
  * The threshold chips.
@@ -31,10 +31,13 @@ export type LowChoice = { n: number; warn: string; confirm: string }
 export function ThresholdPicker({
   value,
   canWrite,
+  floor = K_FLOOR,
   labels,
 }: {
   value: number
   canWrite: boolean
+  /** the market's floor (lib/markets.ts MARKET_K_FLOOR): no chip under it is offered (D-254) */
+  floor?: number
   labels: {
     floorNote: string
     /** the note under the chips while the saved threshold is under five */
@@ -81,7 +84,7 @@ export function ThresholdPicker({
   return (
     <>
       <div className="mt-[14px] flex flex-wrap gap-[7px]">
-        {CHOICES.map((n) => (
+        {thresholdChoices(CHOICES, floor).map((n) => (
           <label key={n} className="inline-flex flex-none">
             <input
               type="radio"

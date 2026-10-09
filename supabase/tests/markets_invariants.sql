@@ -16,6 +16,11 @@
 --     p_market is last and defaults to 'no' (15)
 --   * a market in use cannot be deleted (16)
 --   * nothing written here survives (17)
+--   * Sweden (0218): a market at floor 5, in Swedish, on Stockholm time, under its own number rule (18);
+--     the rule takes a legal person's organisationsnummer and refuses a wrong check digit, a
+--     personnummer, nine digits, and a Swedish number in Norway (19); a sign-up in Sweden gets
+--     Sweden's floor, language and time zone, and a Norwegian number there is refused (20); no
+--     organisation may hold a number its market's rule refuses, and the error never echoes it (21)
 --
 -- Built inside a block that is rolled back. Every row must read pass = true.
 --
@@ -33,6 +38,7 @@ declare
   v_dl   uuid := '00000000-0000-4000-8000-0000000a4b05';
   v_u1   uuid := '00000000-0000-4000-8000-0000000a4b06';
   v_u2   uuid := '00000000-0000-4000-8000-0000000a4b07';
+  v_u3   uuid := '00000000-0000-4000-8000-0000000a4b0a';
   v_meas uuid := '00000000-0000-4000-8000-0000000a4b08';
   v_rb   uuid; v_rp uuid; v_ro uuid;
   v_rows jsonb := '[]';
@@ -226,6 +232,60 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 16, 'name', 'a market an organisation is in cannot be deleted',
       'expected', 'foreign_key_violation', 'actual', v_txt, 'pass', v_txt = 'foreign_key_violation');
 
+    -- 18 --------------------------------------------------------------- Sweden
+    v_rows := v_rows || jsonb_build_object('seq', 18, 'name', 'Sweden is a market at floor 5, in Swedish, on Stockholm time, under the se_legal_ten rule; Norway keeps nine digits',
+      'expected', '5,sv,Europe/Stockholm,se_legal_ten; no nine_digits', 'actual',
+        coalesce((select m.k_floor || ',' || m.default_lang || ',' || m.timezone || ',' || m.org_number_rule from app.markets m where m.code = 'se'), 'MISSING')
+        || '; no ' || (select org_number_rule from app.markets where code = 'no'),
+      'pass', (select m.k_floor = 5 and m.default_lang = 'sv' and m.timezone = 'Europe/Stockholm' and m.org_number_rule = 'se_legal_ten' from app.markets m where m.code = 'se')
+              and (select org_number_rule from app.markets where code = 'no') = 'nine_digits');
+
+    -- 19 --------------------------------------------------------------- the number rules
+    v_txt := concat_ws(',',
+      app.org_number_valid('se_legal_ten', '5560125790'),   -- Volvo AB, a real organisationsnummer
+      app.org_number_valid('se_legal_ten', '2120000142'),   -- Skatteverket
+      app.org_number_valid('se_legal_ten', '5560125791'),   -- wrong check digit
+      app.org_number_valid('se_legal_ten', '8507091232'),   -- a personnummer: valid check digit, month 07
+      app.org_number_valid('se_legal_ten', '556012579'),    -- nine digits
+      app.org_number_valid('nine_digits', '999000214'),
+      app.org_number_valid('nine_digits', '5560125790'),
+      app.org_number_valid('nine_digits', '99900021a'),
+      app.org_number_valid('unknown', '999000214'));
+    v_rows := v_rows || jsonb_build_object('seq', 19, 'name', 'a legal person''s organisationsnummer passes; a wrong check digit, a personnummer and nine digits do not; Norway takes nine digits only',
+      'expected', 't,t,f,f,f,t,f,f,f', 'actual', v_txt, 'pass', v_txt = 't,t,f,f,f,t,f,f,f');
+
+    -- 20 --------------------------------------------------------------- a sign-up in Sweden
+    insert into auth.users (id, email) values (v_u3, 'u3@markets-test.example');
+    perform set_config('request.jwt.claims', json_build_object('sub', v_u3, 'role', 'authenticated')::text, true);
+    v_json := public.create_organisation('Norskt Nummer AB', '999000220', 12, 'Tre', 'se');
+    v_txt := coalesce(v_json->>'error', 'CREATED');
+    v_json := public.create_organisation('Svenska Prov AB', '5566778899', 12, 'Tre', 'se');
+    perform set_config('request.jwt.claims', '', true);
+    v_rows := v_rows || jsonb_build_object('seq', 20, 'name', 'a sign-up in Sweden gets Sweden''s floor, language and time zone; a Norwegian number there is refused',
+      'expected', 'invalid_org_number; true, se, 5, sv, Europe/Stockholm', 'actual', v_txt || '; ' || coalesce(v_json->>'ok', v_json->>'error', 'none') || ', '
+        || coalesce((select market || ', ' || threshold || ', ' || default_lang || ', ' || timezone from app.organizations where org_number = '5566778899'), 'NOTHING'),
+      'pass', v_txt = 'invalid_org_number' and (v_json->>'ok')::bool
+              and (select market = 'se' and threshold = 5 and default_lang = 'sv' and timezone = 'Europe/Stockholm' from app.organizations where org_number = '5566778899'));
+
+    -- 21 --------------------------------------------------------------- held on every write
+    begin
+      update app.organizations set org_number = '8024000005' where id = v_no;
+      v_txt := 'ACCEPTED';
+    exception when check_violation then
+      get stacked diagnostics v_txt = message_text;
+      v_txt := 'check_violation: ' || v_txt;
+    end;
+    begin
+      insert into app.organizations (name, org_number, employee_count, market) values ('Personnummer AB', '8507091232', 3, 'se');
+      v_txt := v_txt || '; ACCEPTED';
+    exception when check_violation then
+      v_txt := v_txt || '; check_violation';
+    end;
+    v_rows := v_rows || jsonb_build_object('seq', 21, 'name', 'no organisation holds a number its market refuses, on insert or update, and the error does not echo the number',
+      'expected', 'check_violation: organisation number not valid in market no; check_violation', 'actual', v_txt,
+      'pass', v_txt = 'check_violation: organisation number not valid in market no; check_violation'
+              and (select org_number from app.organizations where id = v_no) = '999000217');
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -234,8 +294,8 @@ begin
   -- 17 ------------------------------------------------------------------ nothing left
   select count(*) into v_n from (
     select code from app.markets where code in ('zz', 'zy')
-    union all select id::text from app.organizations where org_number between '999000214' and '999000219'
-    union all select id::text from auth.users where id in (v_dl, v_u1, v_u2)
+    union all select id::text from app.organizations where org_number between '999000214' and '999000220' or org_number in ('5566778899', '8507091232')
+    union all select id::text from auth.users where id in (v_dl, v_u1, v_u2, v_u3)
   ) left_over;
   v_rows := v_rows || jsonb_build_object('seq', 17, 'name', 'every probe row was rolled back',
     'expected', '0', 'actual', v_n::text, 'pass', v_n = 0);
@@ -255,8 +315,8 @@ begin
   if v_failed is not null then
     raise exception 'markets invariants failed: %', v_failed;
   end if;
-  if v_count <> 17 then
-    raise exception 'markets invariants: expected 17 rows, got %', v_count;
+  if v_count <> 21 then
+    raise exception 'markets invariants: expected 21 rows, got %', v_count;
   end if;
 end $$;
 

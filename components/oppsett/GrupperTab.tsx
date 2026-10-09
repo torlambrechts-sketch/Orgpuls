@@ -2,6 +2,8 @@ import { getTranslations } from 'next-intl/server'
 import { ThresholdPicker } from '@/components/oppsett/ThresholdPicker'
 import { GroupForm } from '@/components/oppsett/GroupForm'
 import type { OppsettView } from '@/components/oppsett/OppsettScreen'
+import { DEFAULT_MARKET, isMarket, MARKET_K_FLOOR } from '@/lib/markets'
+import { K_DEFAULT, K_FLOOR } from '@/lib/org/threshold'
 
 /**
  * Grupper. Bundle lines 2246-2264.
@@ -24,6 +26,8 @@ import type { OppsettView } from '@/components/oppsett/OppsettScreen'
  */
 export async function GrupperTab({ view }: { view: OppsettView }) {
   const t = await getTranslations()
+  // the market's anonymity floor decides the lowest threshold on offer (D-254)
+  const floor = MARKET_K_FLOOR[isMarket(view.company.market) ? view.company.market : DEFAULT_MARKET]
 
   return (
     <>
@@ -87,10 +91,15 @@ export async function GrupperTab({ view }: { view: OppsettView }) {
         <ThresholdPicker
           value={view.company.threshold}
           canWrite={view.canWrite}
+          floor={floor}
           labels={{
-            floorNote: t('oppsett.terskel.floorNote'),
+            // Norway's note names its floor of three; a market with a higher one names its own (D-254)
+            floorNote:
+              floor > K_FLOOR
+                ? t('oppsett.terskel.floorNoteAt', { standard: Math.max(K_DEFAULT, floor), floor })
+                : t('oppsett.terskel.floorNote'),
             lowNote: t('oppsett.terskel.lowNote'),
-            low: [3, 4].map((n) => ({
+            low: [3, 4].filter((n) => n >= floor).map((n) => ({
               n,
               warn: t('oppsett.terskel.lowWarn', { threshold: n }),
               confirm: t('oppsett.terskel.lowConfirm', { threshold: n }),

@@ -9,6 +9,8 @@ import { lookupAllowed, networkOf } from '@/lib/brreg/throttle'
 import { HEARD } from '@/lib/signup/heard'
 import { completePendingSignup, PENDING_KEY, type PendingOrg } from '@/lib/signup/pending'
 import { marketOfHost } from '@/lib/hosts'
+import { orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
+import { normalizeOrgNumber, validOrgNumber } from '@/lib/org-number'
 
 /**
  * Signing up.
@@ -30,20 +32,26 @@ export type LookupState =
   | { status: 'problem'; problem: string }
 
 export async function lookupCompany(_prev: LookupState, formData: FormData): Promise<LookupState> {
-  const parsed = z
-    .string()
-    .transform((v) => v.replace(/\s/g, ''))
-    .pipe(z.string().regex(/^\d{9}$/))
-    .safeParse(String(formData.get('orgNumber') ?? ''))
-  if (!parsed.success) return { status: 'problem', problem: 'invalid_org_number' }
+  // the host decides the market (D-251), and the market the number's rule (0218)
+  const h = await headers()
+  const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
+  const typed = String(formData.get('orgNumber') ?? '')
+  if (!validOrgNumber(market, typed)) return { status: 'problem', problem: orgNumberProblem(market) }
+  const orgNumber = normalizeOrgNumber(typed)
+
+  // a market without a register to ask (Sweden, until Bolagsverket): the company names itself
+  if (!REGISTRY_LOOKUP[market]) {
+    const name = z.string().trim().min(1).max(200).safeParse(String(formData.get('companyName') ?? ''))
+    if (!name.success) return { status: 'problem', problem: 'invalid_name' }
+    return { status: 'found', orgNumber, name: name.data, rows: [], employees: null }
+  }
 
   // S5: an outbound request on a public page is an amplifier; see lib/brreg/throttle.ts
-  const h = await headers()
   if (!lookupAllowed(networkOf(h.get('x-forwarded-for') ?? h.get('x-real-ip')))) {
     return { status: 'problem', problem: 'rate_limited' }
   }
 
-  const result = await lookupOrgNumber(parsed.data)
+  const result = await lookupOrgNumber(orgNumber)
   if (!result.ok) return { status: 'problem', problem: result.problem }
 
   const f = result.facts
@@ -61,7 +69,8 @@ export async function lookupCompany(_prev: LookupState, formData: FormData): Pro
 }
 
 const SignUp = z.object({
-  orgNumber: z.string().regex(/^\d{9}$/),
+  // the shape here; the market's rule below, once the host has named the market
+  orgNumber: z.string().regex(/^\d{9,10}$/),
   companyName: z.string().trim().min(1).max(200),
   employeeCount: z.number().int().min(0).max(100_000),
   fullName: z.string().trim().min(2).max(120),
@@ -96,6 +105,9 @@ export async function createAccount(
 
   const supabase = await createClient()
   const h = await headers()
+  // the host decides the market, never a form field (D-251)
+  const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
+  if (!validOrgNumber(market, parsed.data.orgNumber)) return { status: 'problem', problem: orgNumberProblem(market) }
 
   // the company goes with the account, so the organisation can be made by the first confirmed
   // session when the project asks for e-mail confirmation (lib/signup/pending.ts, D-200)
@@ -109,8 +121,7 @@ export async function createAccount(
           orgNumber: parsed.data.orgNumber,
           companyName: parsed.data.companyName,
           employeeCount: parsed.data.employeeCount,
-          // the host decides the market, never a form field (D-251)
-          market: marketOfHost(h.get('x-forwarded-host') ?? h.get('host')),
+          market,
         } satisfies PendingOrg,
       },
     },
@@ -128,7 +139,7 @@ export async function createAccount(
   if (!signUp.session) return { status: 'problem', problem: 'confirm_email' }
 
   const made = await completePendingSignup(supabase)
-  if (made.kind === 'failed') return { status: 'problem', problem: made.reason }
+  if (made.kind === 'failed') return { status: 'problem', problem: made.reason === 'invalid_org_number' ? orgNumberProblem(market) : made.reason }
   if (made.kind === 'none') return { status: 'problem', problem: 'org_failed' }
   return { status: 'idle' }
 }

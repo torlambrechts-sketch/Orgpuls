@@ -27,12 +27,15 @@ import type { Locale } from '@/lib/i18n/locales'
 export function CompanyForm({
   canWrite,
   lang,
+  langs,
   baselineMonth,
   months,
   labels,
 }: {
   canWrite: boolean
   lang: Locale
+  /** the market's languages (lib/markets.ts MARKET_LANGS) */
+  langs: readonly Locale[]
   baselineMonth: number | null
   months: { value: number; label: string }[]
   labels: {
@@ -51,9 +54,9 @@ export function CompanyForm({
   }
 }) {
   const [l, setL] = useState<Locale>(lang)
-  // the languages an organisation in Norway may default to; a Swedish organisation's comes with its
-  // market (D-252), and an organisation already on another language keeps it on offer
-  const choices: Locale[] = lang === 'no' || lang === 'en' ? ['no', 'en'] : ['no', 'en', lang]
+  // the market's languages (lib/markets.ts MARKET_LANGS, D-254); an organisation already on another
+  // language keeps it on offer
+  const choices: Locale[] = langs.includes(lang) ? [...langs] : [...langs, lang]
   const [m, setM] = useState(baselineMonth)
   const [problem, setProblem] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)

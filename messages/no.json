@@ -1886,7 +1886,8 @@
       "none": "Ingen bransjemodul",
       "changed": "Næringskoden deres er endret i Brønnøysundregistrene. Vi foreslår nå {industry}. Vil dere bytte?",
       "switchTo": "Bytt",
-      "keep": "Behold"
+      "keep": "Behold",
+      "chooseManual": "Velg bransjen dere tilhører nedenfor."
     },
     "lovmodus": {
       "title": "Lovmodus",
@@ -2040,7 +2041,8 @@
       "lowNote": "Under fem svar kan tallene knyttes til enkeltpersoner. Da regnes resultatet som personopplysninger, med de kravene til innsyn og sletting det innebærer.",
       "lowWarn": "Terskel {threshold} er bare for små team. Fem er sterkt anbefalt: med færre svar blir det lettere å kjenne igjen hvem som har sagt hva, særlig i kommentarer. Under fem kan tallene knyttes til enkeltpersoner og regnes som personopplysninger, med innsyns- og sletteplikt. Den nye terskelen gjelder målinger som ikke er åpnet ennå.",
       "lowConfirm": "Bruk terskel {threshold}",
-      "lowCancel": "Behold terskelen"
+      "lowCancel": "Behold terskelen",
+      "floorNoteAt": "{standard} er standard og sterkt anbefalt. Grensen kan ikke settes lavere enn {floor} her: databasen regner alltid med minst {floor}. En endring gjelder målingene som ikke er åpnet ennå. En måling som er åpnet, beholder terskelen de ansatte svarte under."
     },
     "roller": {
       "title": "Hvem ser hva",
@@ -3007,7 +3009,8 @@
       "threshold": {
         "title": "Se over grupper og terskel",
         "note": "5 svar er standard. Små team kan gå ned til 3, aldri lavere",
-        "time": "5 min"
+        "time": "5 min",
+        "noteAt": "{standard} svar er standard. Grensen kan ikke settes lavere enn {floor}"
       },
       "send": {
         "title": "Sett opp målingen",
@@ -3043,7 +3046,8 @@
       "not_signed_in": "Økten er utløpt. Prøv igjen.",
       "rate_limited": "For mange oppslag på kort tid. Vent noen minutter og prøv igjen.",
       "google_failed": "Registreringen med Google gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord.",
-      "microsoft_failed": "Registreringen med Microsoft gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord."
+      "microsoft_failed": "Registreringen med Microsoft gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord.",
+      "invalid_org_number_se": "Et svensk organisasjonsnummer er ti siffer, og et personnummer kan ikke brukes. Sjekk tallet og prøv igjen."
     },
     "googleOr": "eller",
     "google": "Fortsett med Google",
@@ -3064,7 +3068,14 @@
         "newsletter": "Nyhetsbrev eller e-post",
         "other": "Annet"
       }
-    }
+    },
+    "step1LeadManual": "Skriv inn organisasjonsnummeret og navnet på virksomheten.",
+    "orgNumberPlaceholderManual": "10 siffer",
+    "orgNumberHintManual": "Du finner det på fakturaene deres. Et enkeltpersonforetak som bruker personnummeret sitt, kan ikke registreres.",
+    "companyName": "Navn på virksomheten",
+    "companyNamePlaceholder": "Slik det er registrert",
+    "lookUpManual": "Fortsett",
+    "foundHeadManual": "Virksomheten"
   },
   "headerPanel": {
     "close": "Lukk",
@@ -4253,7 +4264,8 @@
         "unreachable": "Brønnøysund svarer ikke nå. Prøv igjen om litt.",
         "denied": "Bare daglig leder kan endre virksomheten.",
         "invalid": "Navnet kan ikke være tomt."
-      }
+      },
+      "leadManual": "Sjekk navnet virksomheten skal vises med. Organisasjonsnummeret ble registrert da kontoen ble opprettet."
     },
     "people": {
       "lead": "Vi trenger navn, e-post eller mobil, og hvilken gruppe hver person tilhører. {count, plural, =0 {Ingen ansatte ligger inne ennå.} one {# ansatt ligger inne fra før. Nye legges til uten å overskrive.} other {# ansatte ligger inne fra før. Nye legges til uten å overskrive.}}",

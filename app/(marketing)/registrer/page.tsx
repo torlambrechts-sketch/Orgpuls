@@ -2,6 +2,9 @@ import { SignUpFlow } from '@/components/start/SignUpFlow'
 import { googleEnabled } from '@/lib/auth/google'
 import { microsoftEnabled } from '@/lib/auth/microsoft'
 import { createClient } from '@/lib/supabase/server'
+import { headers } from 'next/headers'
+import { marketOfHost } from '@/lib/hosts'
+import { MARKET_K_FLOOR, REGISTRY_LOOKUP } from '@/lib/markets'
 
 /**
  * Registrering. Orgpuls_Start.dc.html lines 276-434.
@@ -39,5 +42,19 @@ export default async function RegistrerPage({ searchParams }: { searchParams: Pr
     }
   }
 
-  return <SignUpFlow google={google} microsoft={microsoft} problem={feil && /^[a-z_]{1,40}$/.test(feil) ? feil : null} done={done} />
+  // the host's market decides whether step 1 asks a register or the person (D-254)
+  const h = await headers()
+  const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
+  const registry = REGISTRY_LOOKUP[market]
+
+  return (
+    <SignUpFlow
+      google={google}
+      microsoft={microsoft}
+      problem={feil && /^[a-z_]{1,40}$/.test(feil) ? feil : null}
+      done={done}
+      registry={registry}
+      floor={MARKET_K_FLOOR[market]}
+    />
+  )
 }

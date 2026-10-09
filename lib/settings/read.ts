@@ -30,6 +30,8 @@ const OrgRow = z.object({
   employee_count: z.coerce.number(),
   threshold: z.coerce.number(),
   default_lang: z.string().nullable(),
+  // 0214: the market (lib/markets.ts); a market the code does not know yet reads as Norway's
+  market: z.string(),
   law_mode: z.boolean(),
   bht_name: z.string().nullable(),
   registry_fetched_at: z.string().nullable(),
@@ -52,7 +54,7 @@ const OrgRow = z.object({
 export type CompanyRow = z.infer<typeof OrgRow>
 
 const COMPANY_COLUMNS =
-  'id, name, org_number, employee_count, threshold, default_lang, law_mode, bht_name, ' +
+  'id, name, org_number, employee_count, threshold, default_lang, market, law_mode, bht_name, ' +
   'registry_fetched_at, registry_form_code, registry_form_label, registry_nace_code, ' +
   'registry_nace_label, registry_registered_on, registry_address, registry_municipality, ' +
   'registry_municipality_no, registry_employees, registry_vat, industry_key, industry_source, industry_suggested'

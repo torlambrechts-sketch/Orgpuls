@@ -12149,3 +12149,92 @@ runs a module before SE-C.
 against hosted, so the table stayed there with three passing rows and the default grants, which let anon read and
 write it. The suite now drops its table. 0217 closes the leftover with RLS on and no grant, because the connector
 cancels DROP. Where the table does not exist, 0217 does nothing.
+
+## D-254 — Sweden is a market: its organisation numbers, its sign-up, its site address from SE_HOST (2026-10-09)
+
+SE-B in docs/markets/PLAN.md, first part (B1 and B2). An organisation in Sweden can be made the way one in Norway
+is, on the Swedish site, once that site has an address. Nothing changes for Norway: its rule, its sign-up, its
+pages and its figures are as they were.
+
+1. **The organisation number rule is the market's, as data** (0218). `app.markets.org_number_rule` names it, and
+   `app.org_number_valid(rule, number)` is the rule:
+   - `nine_digits` is Norway's, as it has been since 0001;
+   - `se_legal_ten` is Sweden's organisationsnummer: ten digits, the Luhn check digit, and a third digit of 2 or
+     more.
+
+   A trigger holds every organisation's number to its market's rule on insert and update. It replaces 0001's column
+   check, which knew nine digits only. The error never echoes the number. The unique index stays global, because
+   nine and ten digits cannot be the same number. `lib/org-number.ts` is the same rule at the form, and
+   `tests/unit/org-number.test.ts` holds it to the numbers the SQL suite checks.
+2. **Legal persons only.** The third-digit rule refuses a personnummer. In Sweden a sole trader's (enskild firma's)
+   organisation number *is* the owner's personnummer, and the product does not take a person's identity number.
+   So a Swedish sole trader cannot sign up, and the sign-up says so. This is a product rule, and Tor may want it
+   otherwise: it is listed among the open decisions.
+3. **The Swedish market** is floor 5, Swedish and Stockholm time. Whether Sweden's floor is 5 or 6 is the owner's
+   open decision. Both are at least 5, and a market's floor can be raised later but never lowered (0214), so 5
+   settles nothing. `create_organisation` checks the number against the market's rule.
+4. **The Swedish site** is a `SITES` entry made from `SE_HOST` (`lib/hosts.ts`). It opens in Swedish and offers
+   Swedish and English. While `SE_HOST` is unset, no host is Swedish and nobody can join the market. The address
+   (orgpuls.se or se.orgpuls.com) is the owner's decision.
+5. **Sign-up per market:**
+   - In Norway, step 1 asks Brønnøysund, as before.
+   - Sweden has no register to ask yet (`REGISTRY_LOOKUP`; Bolagsverket needs an API agreement, SE-B4). Step 1
+     there asks for the company's name beside its number and confirms what was typed.
+
+   The number is checked against the market's rule:
+   - in step 1;
+   - in the account step;
+   - in the Google and Microsoft starts and in their callback;
+   - in the kept sign-up;
+   - and finally by `create_organisation`.
+
+   A Swedish number that is refused gets its own message (`registrer.problem.invalid_org_number_se`): Norway's says
+   «nine digits».
+6. **Oppsett › Selskap:** an organisation's language choices are its market's (`MARKET_LANGS`: Svenska and English
+   in Sweden), and the Brønnøysund fetch is shown only where the market has that register. The org number is
+   printed as each country prints it (`924 118 742`, `556012-5790`).
+
+Tests:
+- `supabase/tests/markets_invariants.sql` rows 18–21:
+  - the Swedish row;
+  - the rules on real and wrong numbers;
+  - a Swedish sign-up and a Norwegian number refused there;
+  - the trigger on insert and update.
+- `tests/unit/org-number.test.ts`.
+- `tests/unit/markets.test.ts`:
+  - each market's flags;
+  - the Swedish site appearing only with `SE_HOST`, and Norway's hosts untouched.
+
+7. **The market's floor is what a screen offers.** `MARKET_K_FLOOR` (Norway 3, Sweden 5) mirrors the migrations, and
+   `tests/unit/markets.test.ts` holds it to every insert and raise. Two places use it:
+   - Oppsett › Grupper's threshold chips and the wizard's offer nothing under the floor;
+   - the texts that name Norway's floor of three (`oppsett.terskel.floorNote`, the sign-up's last step) have a
+     variant with the floor as a parameter, used where the market's floor is higher.
+
+   Norway's chips and texts are as they were.
+
+**Seen in the browser** (local stack, `SE_HOST=localhost` so the local host is the Swedish site):
+- Sign-up in Swedish:
+  - a personnummer is refused with the Swedish message, and the typed company name stays;
+  - a valid number shows the company to confirm;
+  - the account step creates «Nordisk Prov AB» in market `se`, with threshold 5, Swedish and Stockholm time (read
+    back from the database);
+  - the last step says «5 svar är standard. Gränsen kan inte sättas lägre än 5».
+- Oppsett:
+  - Selskap shows the number as 802400-0005, offers Svenska and English, and has no Brønnøysund fetch;
+  - Grupper offers 5, 6, 8 and 10, with the note naming 5.
+- The wizard:
+  - the organisation step confirms the name beside the number, without a fetch;
+  - the threshold step offers 5 and 8.
+
+**Not yet:**
+- **The app footer's company line** says «… för norska organisationer». It is Norway's copy, translated. Sweden's
+  belongs to SE-C/SE-F.
+- **Mail to a Swedish organisation (B3).** The dispatcher's `langOf` turns every language but English into bokmål.
+  Leaders' notices to a Swedish organisation would come in bokmål, and invitations to its employees with no
+  language of their own would too. B3 gives Sweden English for leaders (until Swedish leader texts exist) and the
+  registry's Swedish for employees.
+- **Bolagsverket lookup (B4):** needs an API agreement and client credentials from Bolagsverket.
+- **The events sent to Sentral** carry the org number but not the market. That is a phase-1 item in the plan.
+- **The rest of Oppsett › Selskap is Norwegian law** (BHT, verneombud, AMU thresholds). Sweden's is SE-C.
+- **At launch (SE-F),** the Swedish address also goes into Supabase Auth's redirect URLs and into Vercel's domains.

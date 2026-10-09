@@ -16,6 +16,11 @@ export const K_DEFAULT = 5
 /** The highest threshold an organisation may choose. */
 export const K_MAX = 10
 
+/** The thresholds a screen offers in a market whose floor is `floor` (lib/markets.ts MARKET_K_FLOOR, D-254) */
+export function thresholdChoices(all: readonly number[], floor: number): number[] {
+  return all.filter((n) => n >= Math.max(floor, K_FLOOR) && n <= K_MAX)
+}
+
 /** A threshold under the default needs the warning before it is saved: only for small teams. */
 export function belowDefault(k: number): boolean {
   return k < K_DEFAULT

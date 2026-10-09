@@ -57,15 +57,10 @@ export const getOrganization = cache(async (): Promise<Organization | null> => {
 })
 
 /**
- * "924118742" -> "924 118 742", the grouping the design prints. Presentation, so it is
- * done here rather than stored that way; anything that is not nine digits is printed
- * as it was entered rather than mangled into a shape it does not have.
+ * "924118742" -> "924 118 742", the grouping the design prints, and a Swedish number with its
+ * hyphen (lib/org-number.ts, D-254). Presentation, so it is done there rather than stored that way.
  */
-export function formatOrgNumber(orgNumber: string | null): string | null {
-  if (!orgNumber) return null
-  const digits = orgNumber.replace(/\s/g, '')
-  return /^\d{9}$/.test(digits) ? digits.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3') : orgNumber
-}
+export { formatOrgNumber } from '@/lib/org-number'
 
 /**
  * The departments, and the people who could own a measure.

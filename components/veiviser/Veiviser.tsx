@@ -24,7 +24,7 @@ import {
 import type { WizardModel } from '@/lib/wizard/read'
 import { wheelMonths } from '@/lib/wheel/months'
 import { parseCsv } from '@/lib/csv/parse'
-import { belowDefault } from '@/lib/org/threshold'
+import { belowDefault, thresholdChoices } from '@/lib/org/threshold'
 
 /**
  * The Veiviser (design 3, v3 191-406; D-76): nine steps in a dialog over the page.
@@ -259,7 +259,7 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
     setProblem(null)
     try {
       let ok = true
-      if (step === 1 && model.org.fetched && orgName.trim() !== model.org.name) {
+      if (step === 1 && (model.org.fetched || !model.registry) && orgName.trim() !== model.org.name) {
         ok = await run(() => saveOrgName(form({ name: orgName })), 'org')
       }
       if (step === 2) {
@@ -399,7 +399,9 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
   const voName = model.employees.find((e) => e.dutyRole === 'verneombud')?.name ?? null
   const tvName = model.employees.find((e) => e.dutyRole === 'tillitsvalgt')?.name ?? null
   const small = model.groups.filter((g) => g.headcount < threshold)
-  const thresholds = THRESHOLDS.includes(model.threshold) ? THRESHOLDS : [...THRESHOLDS, model.threshold].sort((a, b) => a - b)
+  // the market's floor decides the lowest on offer (D-254): Sweden's is five
+  const offered = thresholdChoices(THRESHOLDS, model.floor)
+  const thresholds = offered.includes(model.threshold) ? offered : [...offered, model.threshold].sort((a, b) => a - b)
   const minutes = Math.max(1, Math.round((model.questions * 8) / 60))
   const nextLabel = step === 0 ? t('start') : step === LAST - 1 && !model.send.measured ? t('plan') : t('next')
 
@@ -501,7 +503,8 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
 
             {step === 1 ? (
               <>
-                <Lead>{t('org.lead')}</Lead>
+                <Lead>{t(model.registry ? 'org.lead' : 'org.leadManual')}</Lead>
+                {model.registry ? (
                 <div className="mt-[18px] grid max-w-[520px] grid-cols-[minmax(0,1fr)_auto] items-end gap-[10px] max-sm:grid-cols-1">
                   <label className="block">
                     <span className="mb-[6px] block text-[12.5px] font-semibold">{t('org.number')}</span>
@@ -522,7 +525,14 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
                     {fetching ? t('org.fetching') : model.org.fetched ? t('org.fetched') : t('org.fetch')}
                   </button>
                 </div>
-                {model.org.fetched ? (
+                ) : (
+                  // no register to ask in this market (Sweden): the number it signed up with, as printed there
+                  <div className="mt-[18px] flex max-w-[520px] gap-[12px] text-[13px]">
+                    <span className="w-[130px] flex-none text-mut">{t('org.number')}</span>
+                    <span className="font-semibold">{model.org.orgNumber}</span>
+                  </div>
+                )}
+                {model.org.fetched || !model.registry ? (
                   <div className="mt-[14px] max-w-[520px] rounded-opt border border-line bg-sf px-[18px] py-[16px]">
                     <label className="block">
                       <span className="mb-[6px] block text-[12.5px] font-semibold">{t('org.name')}</span>

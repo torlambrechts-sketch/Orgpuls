@@ -1886,7 +1886,8 @@
       "none": "No industry module",
       "changed": "Your industry code has changed in the Brønnøysund Register Centre. We now suggest {industry}. Do you want to switch?",
       "switchTo": "Switch",
-      "keep": "Keep"
+      "keep": "Keep",
+      "chooseManual": "Choose the industry you belong to below."
     },
     "lovmodus": {
       "title": "Statutory framing",
@@ -2040,7 +2041,8 @@
       "lowNote": "With fewer than five answers the figures can be linked to individuals. The result then counts as personal data, with the requirements for access and erasure that brings.",
       "lowWarn": "A threshold of {threshold} is only for small teams. Five is strongly recommended: with fewer answers it is easier to recognise who said what, especially in comments. Below five the figures can be linked to individuals and count as personal data, with duties of access and erasure. The new threshold applies to surveys that have not opened yet.",
       "lowConfirm": "Use a threshold of {threshold}",
-      "lowCancel": "Keep the threshold"
+      "lowCancel": "Keep the threshold",
+      "floorNoteAt": "{standard} is the default and strongly recommended. The threshold cannot be set lower than {floor} here: the database always counts at least {floor}. A change applies to the measurements not yet opened. A measurement that has opened keeps the threshold its employees answered under."
     },
     "roller": {
       "title": "Who sees what",
@@ -3007,7 +3009,8 @@
       "threshold": {
         "title": "Check the groups and the threshold",
         "note": "5 answers is the default. Small teams may go down to 3, never lower",
-        "time": "5 min"
+        "time": "5 min",
+        "noteAt": "{standard} answers is the default. The limit cannot be set lower than {floor}"
       },
       "send": {
         "title": "Set the measurement up",
@@ -3043,7 +3046,8 @@
       "not_signed_in": "The session has expired. Try again.",
       "rate_limited": "Too many lookups in a short time. Wait a few minutes and try again.",
       "google_failed": "Signing up with Google did not go through. Try again, or sign up with e-mail and password.",
-      "microsoft_failed": "Registering with Microsoft did not go through. Try again, or register with e-mail and password."
+      "microsoft_failed": "Registering with Microsoft did not go through. Try again, or register with e-mail and password.",
+      "invalid_org_number_se": "A Swedish organisation number is ten digits, and a personal identity number cannot be used. Check the number and try again."
     },
     "googleOr": "or",
     "google": "Continue with Google",
@@ -3064,7 +3068,14 @@
         "newsletter": "Newsletter or e-mail",
         "other": "Other"
       }
-    }
+    },
+    "step1LeadManual": "Enter the organisation number and the name of the company.",
+    "orgNumberPlaceholderManual": "10 digits",
+    "orgNumberHintManual": "You will find it on your invoices. A sole trader who uses their personal identity number cannot sign up.",
+    "companyName": "Company name",
+    "companyNamePlaceholder": "As registered",
+    "lookUpManual": "Continue",
+    "foundHeadManual": "The company"
   },
   "headerPanel": {
     "close": "Close",
@@ -4253,7 +4264,8 @@
         "unreachable": "Brønnøysund is not answering. Try again shortly.",
         "denied": "Only the managing director can change the organisation.",
         "invalid": "The name cannot be empty."
-      }
+      },
+      "leadManual": "Check the name the organisation is shown with. The organisation number was registered when the account was made."
     },
     "people": {
       "lead": "We need a name, an email or mobile number, and which group each person belongs to. {count, plural, =0 {No employees are registered yet.} one {# employee is already registered. New people are added without overwriting.} other {# employees are already registered. New people are added without overwriting.}}",
