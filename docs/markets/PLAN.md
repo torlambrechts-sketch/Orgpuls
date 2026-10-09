@@ -33,7 +33,7 @@ A host names a brand, a market and a default language. One codebase, one databas
 
 | # | Phase | State |
 |---|---|---|
-| 1 | **Market foundation, Norway unchanged** | **started** — 1a built (D-251); hosted migration 0214 waits for the owner's go |
+| 1 | **Market foundation, Norway unchanged** | **started** — 1a built and live, hosted included (D-251) |
 | 2 | Sweden | waiting on phase 1 and the domain decision |
 | 3 | Germany | waiting on the instrument and roles decisions |
 | 4 | Empvibe, UK first | brand layer after phase 1; UK research done (artifact, «United Kingdom: what it takes») |

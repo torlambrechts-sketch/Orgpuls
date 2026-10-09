@@ -12004,10 +12004,15 @@ unique index is global), prices and VAT, documents per market, the company looku
 and the market in the events sent to Sentral. Each comes with the first market that needs it (phase 2, Sweden), so
 nothing is stored for no one.
 
-**Hosted, 2026-10-09:** 0214 is applied locally and in CI's rebuild, not yet to the hosted project: the apply through
-the Supabase MCP was cancelled, and it waits for Tor's go. Shipping the code first briefly made a Norwegian sign-up name
-`p_market`, which the hosted four-argument function does not have; the follow-up commit names it only for another
-market, so production makes the call it always made.
+**Hosted, 2026-10-09:** the first two applies through the Supabase MCP came back «cancelled»: the connector holds a
+statement it counts as destructive for a confirmation this session cannot show, and 0214 dropped the four-argument
+`create_organisation`. 0214 now sets that function aside as 0201 does (moved to `app`, renamed
+`app.create_organisation_0024`, every grant revoked) instead of dropping it, which is non-destructive and leaves
+PostgREST one `create_organisation`. The edit was made before 0214 reached any kept database; the local stack was
+rebuilt from migrations and every SQL suite and the wiring audit passed. Applied to hosted on Tor's word: the migration
+list ends at `0214_markets`, market `no` holds all three organisations at threshold 5, `k_threshold` is unchanged for
+each, and the security advisor shows nothing new. Shipping the code before the migration had briefly made a Norwegian
+sign-up name `p_market`; the follow-up commit names it only for another market. No one signed up in that window.
 
 **Found on the way, not changed:** `npm run test:invariants` (the engagement I1–I7 runner, not part of CI) fails I7,
 «no client-callable function queues a message to those who have not answered», on `public.send_round_reminder`

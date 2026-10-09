@@ -24,8 +24,9 @@
 --    The rule compares market alone (CLAUDE.md, «Immutability triggers must permit referential
 --    maintenance»).
 -- 5. public.create_organisation takes p_market, last and defaulting to 'no', so a four-argument
---    call is the call it was. A new organisation starts at app.k_min() (5), or its market's floor
---    when that is higher, in the market's language and time zone. An unknown market is refused
+--    call is the call it was; the old function is set aside in app, not dropped (as 0201 does).
+--    A new organisation starts at app.k_min() (5), or its market's floor when that is higher, in
+--    the market's language and time zone. An unknown market is refused
 --    with 'invalid_market'. The organisation number stays nine digits — the Norwegian registry's
 --    rule (organizations_org_number_check, 0001) — and the next market brings its own with it.
 
@@ -118,7 +119,15 @@ comment on function app.k_threshold(uuid) is
   'The organisation''s current threshold, floored at its market''s floor (0214) and at app.k_floor(); 5 (app.k_min()) when unknown. What a round takes at insert and follows until it opens. A result reader uses app.k_round(round).';
 
 -- ---------------------------------------------------------------- 5 · sign-up names the market
-drop function public.create_organisation(text, text, int, text);
+-- The four-argument function is set aside rather than dropped, as 0201 sets aside the functions it
+-- wraps: moved out of the API schema, renamed and closed to every client. PostgREST then sees one
+-- create_organisation, and a four-argument call resolves to the new one through p_market's default.
+-- Nothing calls the old one; it carries 0024's body unchanged, for the record.
+alter function public.create_organisation(text, text, int, text) set schema app;
+alter function app.create_organisation(text, text, int, text) rename to create_organisation_0024;
+revoke all on function app.create_organisation_0024(text, text, int, text) from public, anon, authenticated;
+comment on function app.create_organisation_0024(text, text, int, text) is
+  'Retired by 0214: sign-up as it was before markets. No client may call it; public.create_organisation replaces it.';
 
 create function public.create_organisation(
   p_name           text,
