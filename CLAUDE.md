@@ -138,26 +138,18 @@ states), i18n complete for `no` and `en`, invariants green, no console errors, k
 and focus-visible work — the design specifies focus styles, so implement them.
 
 ## Operating authority
-Run the project end to end without asking permission per action.
-
-**Run freely:** any local command; local and remote database work including applying
-migrations and running the seed; the Supabase MCP; Vercel env and preview deploys; git,
-branches, commits, pushes, PRs; web search; production deploys (shipping to main, edge
-functions); launching pages and publishing modules. Legal review in admin is a record, not a
-gate (X-078).
-
-**Stop and ask first:** dropping or truncating a table, or bulk-deleting rows, on a
-remote project; anything that weakens an invariant (disabling RLS, adding a select
-policy to an answer table, lowering the k floor, removing the anonymity constraints);
-rotating keys or altering billing; force-pushing or rewriting history on a branch that
-is not your own.
-
-**Secrets:** read them from the environment. Never print one, never write one into a
-tracked file, never put one in a commit message or PR body. If a credential is missing,
-say which one and how to provide it — do not work around it by weakening a control.
-
-**When a tool is unauthorised:** say which tool, which command, and what the human must
-do. Do not silently fall back to a manual instruction and carry on.
+Operating authority
+Build phase — in force until Tor declares the product in production (X-108). Full authority.
+Run everything end to end and report afterwards. Never stop to ask permission for an action;
+ask only for a product decision nobody has made (a price, a wording, a market's k).
+Run freely, local and hosted:
+any local command
+database work: migrations through the Supabase MCP, seeds, data fixes, dropping or truncating a
+table, bulk deletes. Look at the target first and record what was removed in the commit.
+production deploys: push to main, Vercel production and preview, edge functions, env vars
+git: branches, commits, PRs, merges. Force-push only a branch this session created, never main.
+rotating keys (through env or Vault, never printed) and plan or billing settings
+launching pages and publishing modules. Legal review in admin is a record, not a gate (X-078).
 
 ## Cloud sessions
 A cloud session is a fresh VM with a clone of this repo and nothing from a laptop.
