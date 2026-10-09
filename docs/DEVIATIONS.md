@@ -11947,3 +11947,9 @@ so the changes rest on structure, not on traffic; worth revisiting when there is
 header link, the industry pages, every footer's pulse link, and the minimum number of text links to each D-249 article.
 The page map is regenerated (59 pages). None of the five v3 pages under the pixel gate changes: the panel is closed in
 the baselines and the footer change is a target, not a word.
+
+**CI, found on the way:** the run for this change passed every check (the 13 respondent-flow tests, the page map, the
+smoke of every screen) and still went red, because the two `actions/upload-artifact` steps hit the account's artifact
+storage quota (379 artifacts kept 90 days, about 10 MB of screenshots per run). Both uploads now carry
+`continue-on-error: true` and `retention-days: 7`: evidence, not a check. No check was skipped or loosened. The
+artifacts already stored expire on GitHub's 90-day default; deleting the old ones would free the quota sooner.

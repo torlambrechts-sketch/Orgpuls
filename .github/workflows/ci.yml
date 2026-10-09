@@ -291,12 +291,16 @@ jobs:
           QA_DIST_DIR: .next
         run: node scripts/i18n/page-map.mjs --check
 
+      # Uploads keep evidence, they are not a check: a full artifact store (the quota is the account's) must not turn a
+      # run whose checks all passed red, and a week is enough to look at a failure (D-250).
       - if: always()
         uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: respondent-flow
           path: test-results/
           if-no-files-found: ignore
+          retention-days: 7
 
       - name: Server log
         if: always()
@@ -306,7 +310,9 @@ jobs:
       # the migrations, so they are kept: the pixel tooling can be pointed at them.
       - if: always()
         uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: smoke-shots
           path: artifacts/
           if-no-files-found: ignore
+          retention-days: 7
