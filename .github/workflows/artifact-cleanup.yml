@@ -1,0 +1,33 @@
+# Deletes CI artifacts older than a number of days (D-250). Run by hand, from the Actions tab or the API: the uploads in
+# ci.yml keep their files 7 days since D-250, so this only clears what was stored before that, or frees the account's
+# artifact quota early. It touches artifacts only: no run, log, cache or branch.
+name: artifact cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: Delete artifacts created more than this many days ago
+        required: true
+        default: '7'
+
+permissions:
+  actions: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DAYS: ${{ inputs.days }}
+          REPO: ${{ github.repository }}
+        run: |
+          case "$DAYS" in ''|*[!0-9]*) echo "days must be a whole number" >&2; exit 1 ;; esac
+          cutoff=$(date -u -d "-${DAYS} days" +%Y-%m-%dT%H:%M:%SZ)
+          gh api --paginate "repos/$REPO/actions/artifacts?per_page=100" \
+            --jq ".artifacts[] | select(.expired == false and .created_at < \"$cutoff\") | .id" > ids.txt
+          echo "deleting $(wc -l < ids.txt) artifacts created before $cutoff"
+          while read -r id; do gh api -X DELETE "repos/$REPO/actions/artifacts/$id"; done < ids.txt
+          echo "done"

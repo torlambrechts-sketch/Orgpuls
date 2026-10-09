@@ -11952,4 +11952,6 @@ the baselines and the footer change is a target, not a word.
 smoke of every screen) and still went red, because the two `actions/upload-artifact` steps hit the account's artifact
 storage quota (379 artifacts kept 90 days, about 10 MB of screenshots per run). Both uploads now carry
 `continue-on-error: true` and `retention-days: 7`: evidence, not a check. No check was skipped or loosened. The
-artifacts already stored expire on GitHub's 90-day default; deleting the old ones would free the quota sooner.
+artifacts already stored expire on GitHub's 90-day default. On Tor's word («ja, slett») the 241 older than a week were
+deleted by `.github/workflows/artifact-cleanup.yml`, a workflow run by hand (`days`, default 7) with the run's own token,
+since this session's GitHub access may not delete artifacts. It touches artifacts only.
