@@ -11961,3 +11961,49 @@ derundersøkelse» in the article heading. Six article headings with an «-under
 the joint (medarbeider­undersøkelse, trivsels­undersøkelse, puls­undersøkelse, arbeidsmiljø­undersøkelse), as
 /smaa-bedrifter and /bransjer already do; a word with a soft hyphen is broken only there. The Article schema's headline,
 on the article and on the index, drops the soft hyphens, so Google sees the plain words.
+
+## D-251 — Markets: the country an organisation is in, Norway the first and only one (2026-10-09)
+
+Tor, 9 October 2026, after the expansion plan (Sweden, Germany, Empvibe for English-speaking markets, one system: «I
+dont want two seperate systems»): «Please initiate». Phase 1 of `docs/markets/PLAN.md` puts the market into the data
+model with Norway as the only market and nothing a customer sees changed. It depends on none of the owner's open
+decisions (domains, k per market, German roles, the brand split).
+
+1. **`app.markets` (0214):** a market's code, the anonymity floor its law or customers require, and the language and
+   time zone a new organisation there starts with. One row: `no`, floor 3, Norwegian, Europe/Oslo, which are today's
+   values. RLS with one read policy for signed-in users; no client may write it.
+2. **A market raises anonymity, never lowers it** (CLAUDE.md, invariant 1). `k_floor` is checked between
+   `app.k_floor()` and 10; a trigger refuses lowering it; raising it lifts every organisation under the new floor through
+   the ordinary update, so the change is logged and reaches the planned rounds, and an opened round keeps its k (0150).
+   A threshold under the market's floor is refused by a trigger on `organizations`, and `app.k_threshold(org)` floors at
+   it as well. Oppsett › Grupper reports such a refusal as the invalid threshold it is.
+3. **`organizations.market`:** not null, default `no`, a foreign key. Only the platform moves an organisation between
+   markets: a client role's update of it is refused, since a move to a looser market would lower the floor its employees
+   were promised. The rule compares market alone, so referential maintenance passes.
+4. **Sign-up names the market from the host, never from a field.** `lib/hosts.ts` has a `SITES` registry (host → brand,
+   market, language, whether the host decides the language, canonical url); `PUBLIC_HOSTS` and `outboundBase` read it.
+   The password sign-up keeps the market in the pending metadata and the Google/Microsoft sign-up in its cookie; both are
+   parsed with zod, a value from before this change reads as Norway, and `create_organisation` takes it as `p_market`
+   (last, default `no`, so a four-argument call is unchanged). An unknown market is refused (`invalid_market`) and
+   writes nothing. A new organisation starts at `app.k_min()` or its market's floor if that is higher.
+5. **The language rule is the same, read from the registry:** a site whose host decides (en.orgpuls.com) pins its
+   language; elsewhere the cookie, then the site's language, then Norwegian (`lib/i18n/request.ts`).
+
+`lib/markets.ts` mirrors the table; `tests/unit/markets.test.ts` holds it to the migrations' seeds, the registry to it,
+and the pending sign-up's parse. `supabase/tests/markets_invariants.sql` proves 17 rows: who may read and write markets,
+the floor never under the platform's or lowered, the lift (logged, planned rounds carried, an opened round untouched),
+the daglig leder refused a lower threshold and a market move, the reader's floor, sign-up with four and five arguments
+and with an unknown market, and that nothing survives. `k_floor_invariants.sql` check 2 names the new signature with
+the same assertion. Through PostgREST, as signed-in users on the local stack: four named arguments create a Norwegian
+organisation at 5, `p_market: "qq"` returns `invalid_market`, and `app.markets` reads `[{"code":"no","k_floor":3}]`.
+
+Not in this step, and why: per-market organisation number rules (the column's nine-digit check is Norway's, and the
+unique index is global), prices and VAT, documents per market, the company lookup, sitemaps and hreflang per host,
+and the market in the events sent to Sentral. Each comes with the first market that needs it (phase 2, Sweden), so
+nothing is stored for no one.
+
+**Found on the way, not changed:** `npm run test:invariants` (the engagement I1–I7 runner, not part of CI) fails I7,
+«no client-callable function queues a message to those who have not answered», on `public.send_round_reminder`
+(0133), the leader's own reminder: capped at two per round, open rounds only, unanswered invitations only. It has failed
+since 0133 shipped. Whether I7 should read «only the system or the leader's capped reminder» is the owner's call; the
+check is left as it is.

@@ -7,7 +7,8 @@ import { headers } from 'next/headers'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { lookupAllowed, networkOf } from '@/lib/brreg/throttle'
 import { HEARD } from '@/lib/signup/heard'
-import { completePendingSignup, PENDING_KEY } from '@/lib/signup/pending'
+import { completePendingSignup, PENDING_KEY, type PendingOrg } from '@/lib/signup/pending'
+import { marketOfHost } from '@/lib/hosts'
 
 /**
  * Signing up.
@@ -94,6 +95,7 @@ export async function createAccount(
   if (!parsed.success) return { status: 'problem', problem: 'invalid' }
 
   const supabase = await createClient()
+  const h = await headers()
 
   // the company goes with the account, so the organisation can be made by the first confirmed
   // session when the project asks for e-mail confirmation (lib/signup/pending.ts, D-200)
@@ -107,7 +109,9 @@ export async function createAccount(
           orgNumber: parsed.data.orgNumber,
           companyName: parsed.data.companyName,
           employeeCount: parsed.data.employeeCount,
-        },
+          // the host decides the market, never a form field (D-251)
+          market: marketOfHost(h.get('x-forwarded-host') ?? h.get('host')),
+        } satisfies PendingOrg,
       },
     },
   })

@@ -68,9 +68,9 @@ begin
     -- 2 --------------------------------------------------------- a new org starts at 5
     v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'a new organisation starts at 5, and signup gives it app.k_min()',
       'expected', '5,5,true', 'actual', (select threshold from app.organizations where id = v_org) || ',' || app.k_threshold(v_org)
-        || ',' || (pg_get_functiondef('public.create_organisation(text,text,integer,text)'::regprocedure) ~ 'app\.k_min\(\)')::text,
+        || ',' || (pg_get_functiondef('public.create_organisation(text,text,integer,text,text)'::regprocedure) ~ 'app\.k_min\(\)')::text,
       'pass', (select threshold from app.organizations where id = v_org) = 5 and app.k_threshold(v_org) = 5
-              and pg_get_functiondef('public.create_organisation(text,text,integer,text)'::regprocedure) ~ 'app\.k_min\(\)');
+              and pg_get_functiondef('public.create_organisation(text,text,integer,text,text)'::regprocedure) ~ 'app\.k_min\(\)');
 
     for v_i in 1..6 loop
       v_name := (array['G1', 'G2', 'A', 'B', 'C', 'D'])[v_i];

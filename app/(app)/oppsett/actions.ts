@@ -585,6 +585,8 @@ export async function setThreshold(formData: FormData): Promise<SettingsResult> 
     .eq('id', id)
     .select('id')
 
+  // under the market's floor (0214, D-251): the database refuses it as it refuses a 2
+  if (error?.code === '23514') return { ok: false, problem: 'invalid_threshold' }
   if (writeFailed('setThreshold', error, data)) return { ok: false, problem: 'denied' }
   revalidate()
   revalidatePath('/resultater')

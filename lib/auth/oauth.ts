@@ -4,6 +4,7 @@ import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { marketOfHost } from '@/lib/hosts'
 import { SIGNUP_COOKIE } from './cookies'
 
 /**
@@ -64,6 +65,8 @@ async function startOAuth(provider: Provider, formData: FormData): Promise<void>
         orgNumber: f.orgNumber,
         companyName: f.companyName,
         employeeCount: f.employeeCount,
+        // the market of the host the sign-up started on (D-251), read back by the callback
+        market: marketOfHost(callback.host),
       }),
       { httpOnly: true, secure: callback.protocol === 'https:', sameSite: 'lax', path: '/', maxAge: 1800 },
     )

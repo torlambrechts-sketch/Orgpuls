@@ -1,5 +1,5 @@
 import { cookies, headers } from 'next/headers'
-import { EN_HOST, hostOf } from '@/lib/hosts'
+import { siteOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
 import { DEFAULT_LOCALE, fallbackOf, isLocale, LOCALE_COOKIE } from './locales'
 import { applyOverrides, messageOverrides } from './overrides'
@@ -31,7 +31,8 @@ async function loadMessages(locale: string): Promise<Tree> {
 
 /**
  * There is no locale routing: no /no or /en prefix. On en.orgpuls.com the locale is English
- * (D-98). Elsewhere it is the one chosen with the
+ * (D-98): a site whose host decides its language (lib/hosts.ts SITES, `pinned`, D-251). Elsewhere
+ * it is the one chosen with the
  * language switch, kept in a cookie (lib/i18n/actions). A signed-in user's choice is also
  * saved on their profile and restored into the cookie at sign-in, falling back to their
  * organisation's default (lib/i18n/server). Without a choice, Norwegian: the browser's
@@ -52,10 +53,11 @@ export default getRequestConfig(async ({ locale: asked }) => {
       getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
     }
   }
-  // en.orgpuls.com is the English site: the host decides there, whatever the cookie says (D-98)
-  const onEnglishHost = hostOf((await headers()).get('host')) === EN_HOST
+  // en.orgpuls.com is the English site: the host decides there, whatever the cookie says (D-98);
+  // elsewhere the visitor's choice, then the site's language, then Norwegian (D-251)
+  const site = siteOf((await headers()).get('host'))
   const chosen = (await cookies()).get(LOCALE_COOKIE)?.value
-  const locale = onEnglishHost ? 'en' : isLocale(chosen) ? chosen : DEFAULT_LOCALE
+  const locale = site?.pinned ? site.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE)
 
   return {
     locale,

@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import type { createClient } from '@/lib/supabase/server'
 import { restoreLocale } from '@/lib/i18n/server'
+import { DEFAULT_MARKET, MARKETS } from '@/lib/markets'
 
 type Client = Awaited<ReturnType<typeof createClient>>
 
@@ -21,6 +22,8 @@ export const PendingOrg = z.object({
   orgNumber: z.string().regex(/^\d{9}$/),
   companyName: z.string().trim().min(1).max(200),
   employeeCount: z.number().int().min(0).max(100_000),
+  // the market of the host the form was sent from (D-251); a sign-up kept before it was carried is Norway's
+  market: z.enum(MARKETS).default(DEFAULT_MARKET),
 })
 export type PendingOrg = z.infer<typeof PendingOrg>
 
@@ -56,6 +59,7 @@ export async function completePendingSignup(supabase: Client): Promise<PendingOu
     p_org_number: pending.data.orgNumber,
     p_employee_count: pending.data.employeeCount,
     p_full_name: fullName,
+    p_market: pending.data.market,
   })
   const outcome = z.object({ ok: z.boolean(), error: z.string().optional() }).safeParse(data)
   if (error || !outcome.success || !outcome.data.ok) {

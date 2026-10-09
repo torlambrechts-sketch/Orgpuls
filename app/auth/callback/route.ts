@@ -8,6 +8,7 @@ import { checkMicrosoftSignIn } from '@/lib/entra/read'
 import { signInProblem, type SignInCheck } from '@/lib/entra/schema'
 import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
+import { DEFAULT_MARKET, MARKETS } from '@/lib/markets'
 
 /**
  * Where Google (D-102) and Microsoft (D-201) send the browser back. The code is exchanged for a
@@ -54,6 +55,8 @@ const Pending = z.object({
   orgNumber: z.string().regex(/^\d{9}$/),
   companyName: z.string().min(1).max(200),
   employeeCount: z.number().int().min(0).max(100_000),
+  // set by startOAuth from the host the sign-up began on (D-251); a cookie from before that is Norway's
+  market: z.enum(MARKETS).default(DEFAULT_MARKET),
 })
 
 export async function GET(request: NextRequest) {
@@ -116,6 +119,7 @@ export async function GET(request: NextRequest) {
       p_org_number: pending.orgNumber,
       p_employee_count: pending.employeeCount,
       p_full_name: fullName,
+      p_market: pending.market,
     })
     const outcome = z.object({ ok: z.boolean(), error: z.string().optional() }).safeParse(made)
     if (madeError || !outcome.success || !outcome.data.ok) {
