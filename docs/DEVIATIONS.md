@@ -12143,3 +12143,9 @@ unchanged, in bokmål. The hosted rows' source hashes match this checkout's bokm
 English (`contentLang`). Their Swedish is in the registry as `module:` and `mfactor:` rows, and the module readers
 take a language from the module's own i18n, not from messages. That is the next piece of SE-A2 if a Swedish customer
 runs a module before SE-C.
+
+**Found while verifying (0217):** the security advisor on hosted reported `public._dgr` with RLS off. It is
+`definer_grants_invariants.sql`'s results table: the only suite that never dropped its table. It had once been run
+against hosted, so the table stayed there with three passing rows and the default grants, which let anon read and
+write it. The suite now drops its table. 0217 closes the leftover with RLS on and no grant, because the connector
+cancels DROP. Where the table does not exist, 0217 does nothing.

@@ -74,3 +74,5 @@ begin
   if v_failed is not null then raise exception 'definer grants invariants failed: %', v_failed; end if;
   if v_count <> 3 then raise exception 'definer grants invariants: expected 3 rows, got %', v_count; end if;
 end $$;
+
+drop table public._dgr;
