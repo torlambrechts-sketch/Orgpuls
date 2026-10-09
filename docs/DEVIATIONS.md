@@ -12086,3 +12086,60 @@ app's readers ask for bokmål or English only.
 **Not yet:** organisation and leader mails to a Swedish organisation are still in bokmål. The
 dispatcher's `MAIL` is bokmål and English, and choosing English or Swedish for an organisation in Sweden
 belongs to SE-B and SE-C.
+
+## D-253 — Swedish statements and factor names in the leader's views, from the translation registry (2026-10-09)
+
+SE-A2 in docs/markets/PLAN.md, closing the gap D-252 left: a Swedish leader saw factor names and statements in
+English, because `messages/sv.json` leaves the instrument to the translation registry, where its approved Swedish
+is, and nothing laid it over the app's catalogue.
+
+1. **One source.** The statements, the questions outside the index with their options, and the factor and question
+   labels a leader reads are the registry's approved Swedish, the same rows a Swedish respondent is asked from. No
+   second copy goes into a message file, so a correction approved in the registry shows in both places.
+2. **The reader** is `public.survey_texts(locale)` (0216): a language's approved `core:`, `extra:`, `ui:factor.` and
+   `ui:extra.` texts, each with the SHA-256 of the bokmål it was translated from. No drafts, page strings, mail
+   texts or module texts. It is callable anonymously: these are the published instrument's wordings, which the
+   survey and the public question pages already show, and it reads no organisation's data. That lets
+   `lib/i18n/survey-texts.ts` cache it for five minutes, like the message overrides. Allowlisted in
+   `.claude/skills/audit/allowlist.json`.
+3. **The overlay** (`lib/i18n/registry-overlay.ts`, laid in `lib/i18n/request.ts`) maps ids to paths:
+   - `core:<f>:<n>` → `factor.<f>.s<n>`;
+   - `extra:<q>` → `extra.<q>.text`;
+   - `extra:<q>:o<n>` → `extra.<q>.o<n>`;
+   - `ui:factor.<f>` → `factor.<f>.label`;
+   - `ui:extra.<q>` → `extra.<q>.label`.
+
+   A text is laid only while the bokmål at its path is still the bokmål it was translated from. When the bokmål
+   changes, the English shows until the Swedish is approved again, so a leader never reads a translation of a
+   statement the survey no longer asks. Only languages whose survey texts live in the registry and that are
+   platform languages (Swedish today) get the overlay. Bokmål and English are untouched.
+4. **The respondent page does not read the overlay.** A Swedish survey uses the round's own approved texts, as
+   before (`app/s/[token]`: survey-only languages build their messages from bokmål plus `respond_locales`).
+5. **The rest of each factor** (short name, description, abbreviations, map label) and the notes under the
+   questions outside the index are not in the registry. They are 60 machine drafts in `messages/sv.json`,
+   following `docs/translations/sv.md`, for Tor to review (3,244 strings in all). `mening.name` follows the
+   registry's «Uppskattning och meningsfullhet» rather than the bokmål word order. The abbreviation for *kollega*
+   is «Kollegor», because «Kamrater» reads as "comrades".
+
+Tests:
+- `tests/unit/registry-overlay.test.ts`:
+  - every core, extra and label entry in the survey catalogue lands on the bokmål it was made from;
+  - page strings, mail and module ids map to nothing;
+  - a stale or unsourced text is not laid.
+- `tests/unit/swedish-platform.test.ts`: sv.json holds none of the registry-owned fields.
+- `supabase/tests/survey_texts_invariants.sql` (5 rows):
+  - the grants, definer and search path;
+  - what the reader returns;
+  - what it never returns: drafts, page strings, mail, modules, other languages;
+  - an empty language;
+  - rollback.
+
+**Seen in the browser** (QA stack, the daglig leder): with cookie `sv` and a subset of the hosted Swedish rows loaded
+locally, Resultater shows the heatmap's factors and abbreviations in Swedish, and the ytring drill shows the three
+statements in the registry's Swedish. There is no raw key and no console error. With cookie `no` the same page is
+unchanged, in bokmål. The hosted rows' source hashes match this checkout's bokmål, so production lays all 72.
+
+**Not yet:** module statements and module factor names in a Swedish leader's views still come from the module in
+English (`contentLang`). Their Swedish is in the registry as `module:` and `mfactor:` rows, and the module readers
+take a language from the module's own i18n, not from messages. That is the next piece of SE-A2 if a Swedish customer
+runs a module before SE-C.

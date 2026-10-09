@@ -34,7 +34,7 @@ A host names a brand, a market and a default language. One codebase, one databas
 | # | Phase | State |
 |---|---|---|
 | 1 | **Market foundation, Norway unchanged** | **started** — 1a built and live, hosted included (D-251) |
-| 2 | Sweden | **started** — SE-A, Swedish as a platform language (D-252); SE-B to SE-F below |
+| 2 | Sweden | **started** — SE-A and SE-A2, the app and the instrument in Swedish (D-252, D-253); SE-B to SE-F below |
 | 3 | Germany | waiting on the instrument and roles decisions |
 | 4 | Empvibe, UK first | brand layer after phase 1; UK research done (artifact, «United Kingdom: what it takes») |
 | ∥ | Leadership 360 app, its own Supabase project | independent; shares packages, not the database |
@@ -69,7 +69,7 @@ Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first E
 | Step | What | State |
 |---|---|---|
 | SE-A | Swedish as a platform language: the app's chrome in Swedish, English behind it; registry-owned survey texts unchanged | built (D-252) |
-| SE-A2 | Factor names and statements in the leader's views in Swedish, from the registry's Swedish | next |
+| SE-A2 | Factor names and statements in the leader's views in Swedish, from the registry's Swedish | built (D-253); module texts still English |
 | SE-B | Market `se`: organisation number rule (ten digits, Luhn), sign-up per market, the Swedish address in `SITES`, Bolagsverket lookup, mail language per market | next |
 | SE-C | Legal pack per market: report, help and in-app legal texts on AML, AFS 2023:1 and AFS 2023:2; skyddsombud; written risk assessment (§ 11) and action plan (§ 13) | |
 | SE-D | Working time and recovery (AFS 2023:2 2:9) as a Swedish module | |

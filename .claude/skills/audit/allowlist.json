@@ -18,7 +18,8 @@
     "public.platform_command(p_token text, p_command text, p_args jsonb)": "the platform's one way in (0205, X-104): refused unless the HS256 token verifies against the Vault secret, is at most five minutes long, carries the command's scope and an unseen id; every call audited",
     "public.stop_reply_notice(p_key text)": "a respondent turns off being told when management answers, by their conversation's key; the same answer for any key (0204)",
     "public.submit_response(p_token text, p_answers jsonb, p_extra jsonb, p_module jsonb, p_own jsonb, p_notify boolean)": "the one write path for answers (invariant 3); p_notify is the respondent's own yes to being told when management answers (0204)",
-    "public.thread_by_key(p_key text)": "respondent's conversation read, by its key (0018)"
+    "public.thread_by_key(p_key text)": "respondent's conversation read, by its key (0018)",
+    "public.survey_texts(p_locale text)": "the published instrument's approved wordings in a language (statements, extra questions, factor labels), no organisation data, for the leader's views (0216, D-253)"
   },
   "client_writes": {
     "app.employees": "register, RLS: daglig leder of the org",

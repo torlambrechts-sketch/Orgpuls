@@ -3,6 +3,8 @@ import { siteOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
 import { DEFAULT_LOCALE, fallbackOf, isLocale, LOCALE_COOKIE } from './locales'
 import { applyOverrides, messageOverrides } from './overrides'
+import { registryOverlay } from './registry-overlay'
+import { surveyTexts } from './survey-texts'
 import { keyedMessages } from './keyed'
 import { pseudoMessages } from './pseudo'
 
@@ -14,16 +16,23 @@ const merge = (a: Tree, b: Tree): Tree =>
 
 /**
  * A locale's catalogue, over the ones it falls back to (lib/i18n/locales.ts `fallback`, the
- * multilingual guide's chain: nn → nb → en, sv → en, …). No platform locale has a fallback today,
- * so this is the file itself; a new one may ship partial for the app's chrome. Survey items never
- * fall back: they are not in these files, and a survey language is offered whole or not at all.
+ * multilingual guide's chain: nn → nb → en, sv → en, …). Swedish ships partial over English (D-252),
+ * and its statements and factor names come from the translation registry (D-253). The respondent
+ * page never reads this overlay: a survey language is offered whole or not at all, from the
+ * round's own approved texts (app/s/[token]).
  */
 async function loadMessages(locale: string): Promise<Tree> {
   const own = (await import(`../../messages/${locale}.json`)).default as Tree
   let out: Tree = {}
   for (const f of [...fallbackOf(locale)].reverse()) out = merge(out, (await import(`../../messages/${f}.json`)).default as Tree)
+  // a language whose survey texts live in the registry (Swedish) has no statements or factor names
+  // in its file: the registry's approved ones are laid where they still translate the bokmål (0216)
+  const texts = await surveyTexts(locale)
+  const catalogue = Object.keys(texts).length
+    ? applyOverrides(merge(out, own), registryOverlay((await import('../../messages/no.json')).default as Tree, texts))
+    : merge(out, own)
   // the texts replaced from admin › Translations, once approved (lib/i18n/overrides.ts, 0101)
-  const shown = applyOverrides(merge(out, own), await messageOverrides(locale))
+  const shown = applyOverrides(catalogue, await messageOverrides(locale))
   // the QA stack's pseudo-locale (lib/i18n/pseudo.ts) and keys mode (lib/i18n/keyed.ts, which the
   // page map is crawled in); without ORGPULS_PSEUDO=1 / ORGPULS_I18N_KEYS=1 this is the catalogue itself
   return keyedMessages(locale, pseudoMessages(locale, shown))

@@ -28,7 +28,17 @@ describe('Swedish is a platform language with English behind it', () => {
 
   it('leaves the respondent’s, the invitation’s and the site’s texts to the registry and to English', () => {
     const sv = JSON.parse(readFileSync('messages/sv.json', 'utf8')) as Record<string, unknown>
-    for (const ns of ['respond', 'factor', 'extra', 'mail', 'site', 'seo', 'dpa']) expect(sv[ns], ns).toBeUndefined()
+    for (const ns of ['respond', 'mail', 'site', 'seo', 'dpa']) expect(sv[ns], ns).toBeUndefined()
+  })
+
+  it('holds no statement, question, option or label the registry owns (D-253)', () => {
+    const sv = JSON.parse(readFileSync('messages/sv.json', 'utf8')) as Record<string, Record<string, Record<string, string>>>
+    const owned = /^(label|text|s\d+|o\d+)$/
+    for (const ns of ['factor', 'extra'])
+      for (const [k, fields] of Object.entries(sv[ns] ?? {}))
+        expect(Object.keys(fields).filter((f) => owned.test(f)), `${ns}.${k}`).toEqual([])
+    // and the rest of each factor is in Swedish: its short name, description and abbreviations
+    expect(Object.keys(sv.factor ?? {}).length).toBe(11)
   })
 })
 

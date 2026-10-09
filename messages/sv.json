@@ -106,6 +106,85 @@
     "maskedAria": "Färre än {threshold} svar – resultatet visas inte",
     "protectedAria": "Hålls tillbaka för att skydda en grupp med färre än {threshold} svar"
   },
+  "factor": {
+    "ytring": {
+      "short": "Yttrandeklimat",
+      "desc": "Om du vågar säga ifrån – om fel, om oenighet, om det som inte fungerar – och om något händer när du gör det. Det är inte samma sak som att alla är överens.",
+      "name": "Yttrandeklimat",
+      "abbr": "Yttr.",
+      "map": "Yttrandeklimat"
+    },
+    "mengde": {
+      "short": "Arbetsmängd",
+      "desc": "Förhållandet mellan det som ska göras och den tid, den personal och den utrustning ni faktiskt har. Långvarig obalans är den vanligaste orsaken till ohälsosam belastning.",
+      "name": "Arbetsmängd",
+      "abbr": "Mängd",
+      "map": "Arbetsmängd"
+    },
+    "motstrid": {
+      "short": "Oförenliga krav",
+      "desc": "När två chefer, två system eller två hänsyn kräver saker som inte går ihop, och ingen säger vad som ska ge vika.",
+      "name": "Oförenliga krav",
+      "abbr": "Oförenl.",
+      "map": "Oförenliga krav"
+    },
+    "kontakt": {
+      "short": "Kontakt och kommunikation",
+      "desc": "Om arbetet ger möjlighet till kontakt med andra. Ensamarbete medför både social isolering och en säkerhetsrisk – du måste kunna tillkalla hjälp.",
+      "name": "Kontakt och kommunikation",
+      "abbr": "Kontakt",
+      "map": "Kontakt"
+    },
+    "emosjon": {
+      "short": "Emotionella krav",
+      "desc": "Belastningen av att hantera krävande möten med människor – kunder, brukare, arbetskamrater – eller av att behöva dölja sina egna reaktioner.",
+      "name": "Emotionella krav",
+      "abbr": "Emotion",
+      "map": "Emotionella krav"
+    },
+    "leder": {
+      "short": "Stöd från chef",
+      "desc": "Om chefen är tillgänglig när det brinner i knutarna, och om stödet är praktiskt och inte bara välmenande.",
+      "name": "Stöd från chef",
+      "abbr": "Chef",
+      "map": "Chefsstöd"
+    },
+    "medvirk": {
+      "short": "Delaktighet och kontroll",
+      "desc": "Inflytande över din egen arbetsdag: ordningsföljd, tempo, metod – och över förändringar som berör dig.",
+      "name": "Delaktighet",
+      "abbr": "Delakt.",
+      "map": "Delaktighet"
+    },
+    "integritet": {
+      "short": "Integritet och värdighet",
+      "desc": "Om människor bemöts med respekt och som likvärdiga, om deras gränser hålls, och om de får använda sitt eget yrkesmässiga och etiska omdöme. Detta är också lagstödet för skyddet mot trakasserier.",
+      "name": "Integritet och värdighet",
+      "abbr": "Integr.",
+      "map": "Integritet"
+    },
+    "rolle": {
+      "short": "Rolltydlighet",
+      "desc": "Om du vet vad som förväntas, var ditt ansvar slutar och vad som räknas som tillräckligt bra.",
+      "name": "Rolltydlighet",
+      "abbr": "Roll",
+      "map": "Rolltydlighet"
+    },
+    "kollega": {
+      "short": "Stöd från arbetskamrater",
+      "desc": "Om människor ställer upp för varandra i praktiken, inte bara i högtidstalen.",
+      "name": "Stöd från arbetskamrater",
+      "abbr": "Kollegor",
+      "map": "Kamratstöd"
+    },
+    "mening": {
+      "short": "Uppskattning och meningsfullhet",
+      "desc": "Om arbetet upplevs som meningsfullt och om insatsen blir sedd av någon som betyder något.",
+      "name": "Uppskattning och meningsfullhet",
+      "abbr": "Mening",
+      "map": "Meningsfullhet"
+    }
+  },
   "innsikt": {
     "ansatte": "{count, plural, one {# anställd} other {# anställda}}",
     "mode": {
@@ -660,6 +739,23 @@
         "not_available": "Bara VD kan stänga en omgång.",
         "not_open": "Omgången är redan stängd."
       }
+    }
+  },
+  "extra": {
+    "anbefaling": {
+      "note": "Besvaras 1–5. Redovisas som en egen siffra, inte som en del av indexet."
+    },
+    "krenkende": {
+      "note": "Ja / nej / vill inte svara. Visas bara som antal för hela organisationen, aldrig per grupp."
+    },
+    "vold": {
+      "note": "Samma regel: bara antal, aldrig uppdelat."
+    },
+    "apent_felt": {
+      "note": "Frivilligt. Namn på arbetskamrater, avdelningar och platser tas bort automatiskt innan någon läser det. Skriv ändå inget som bara kan gälla en enda person."
+    },
+    "tiltak_effekt": {
+      "note": "Ställs från och med den andra kartläggningen. Redovisas som en egen siffra, inte som en del av indexet."
     }
   },
   "entry": {
@@ -1581,13 +1677,13 @@
       "languageNote": "Språket gäller inbjudningar och frågor. Varje anställd kan själv byta språk i enkäten.",
       "langNo": "Bokmål",
       "langEn": "English",
+      "langSv": "Svenska",
       "yearStart": "Arbetsmiljöåret börjar",
       "yearStartNote": "Baslinjemätningen läggs i den här månaden varje år. Årshjulet följer efter.",
       "noWheel": "Årshjulet har inte ställts in än. Månaden ställs in där, tillsammans med rytmen.",
       "benchmark": "Branschjämförelse",
       "benchmarkNace": "Branschkod {code} – {label}. Jämförelsesiffror för branschen är inte kopplade än, så resultaten står tills vidare för sig själva.",
-      "benchmarkUnknown": "Branschkoden har inte hämtats än. Utan den vet vi inte vilken bransch ni tillhör.",
-      "langSv": "Svenska"
+      "benchmarkUnknown": "Branschkoden har inte hämtats än. Utan den vet vi inte vilken bransch ni tillhör."
     },
     "industry": {
       "title": "Bransch",
