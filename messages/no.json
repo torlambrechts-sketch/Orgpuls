@@ -4515,7 +4515,29 @@
       "crumb": "Artikler",
       "eyebrow": "Artikler",
       "h1": "Arbeidsmiljø og lovkrav forklart",
-      "lead": "Hva loven krever, hvilke spørsmål som gir svar, og hvordan dere får til en rytme som varer. Skrevet for daglige ledere, HR og verneombud i norske virksomheter."
+      "lead": "Hva loven krever, hvilke spørsmål som gir svar, og hvordan dere får til en rytme som varer. Skrevet for daglige ledere, HR og verneombud i norske virksomheter.",
+      "groups": {
+        "start": {
+          "title": "Kom i gang",
+          "text": "Hva en medarbeiderundersøkelse er, hva en trivselsundersøkelse måler, og når korte pulsmålinger gir mening."
+        },
+        "lov": {
+          "title": "Lovkravene",
+          "text": "Hva arbeidsmiljøloven og forskriften krever, og hvilken rolle verneombudet har."
+        },
+        "gjennomforing": {
+          "title": "Gjennomføring",
+          "text": "Hvilke spørsmål som bør med, hvor ofte dere bør måle, og hva anonymt betyr."
+        },
+        "etter": {
+          "title": "Etter resultatene",
+          "text": "Hvordan dere går gjennom resultatene med de ansatte og kommer fram til tiltak."
+        },
+        "faktorer": {
+          "title": "De elleve faktorene",
+          "text": "Hva en lav score betyr på hver av faktorene, og hva arbeidsgiveren kan gjøre."
+        }
+      }
     },
     "lp": {
       "lovkrav": {
@@ -7726,7 +7748,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet skriver i kommentaren at hva som er «nødvendige» tiltak, må vurderes konkret ut fra virksomhetens risikobilde, blant annet risikoens alvorlighetsgrad, omfang og varighet. En undersøkelse som ikke følges av en vurdering, og av tiltak der vurderingen tilsier det, oppfyller altså bare en del av plikten."
+            "text": "Arbeidstilsynet skriver i kommentaren at hva som er «nødvendige» tiltak, må vurderes konkret ut fra virksomhetens risikobilde, blant annet risikoens alvorlighetsgrad, omfang og varighet. En [medarbeiderundersøkelse](/artikler/medarbeiderundersokelse) som ikke følges av en vurdering, og av tiltak der vurderingen tilsier det, oppfyller altså bare en del av plikten."
           },
           {
             "t": "timeline",
@@ -7907,7 +7929,7 @@
           },
           {
             "t": "p",
-            "text": "En ny, kort måling av faktorene der det er satt i verk tiltak, et par måneder etter, viser om tallene har flyttet seg. Har de ikke det, er det et funn i seg selv: Tiltaket traff trolig ikke årsaken, og dere må tilbake til gruppen. Les mer om [hvor ofte arbeidsmiljøet bør måles](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+            "text": "En ny, [kort måling](/artikler/pulsundersokelse) av faktorene der det er satt i verk tiltak, et par måneder etter, viser om tallene har flyttet seg. Har de ikke det, er det et funn i seg selv: Tiltaket traff trolig ikke årsaken, og dere må tilbake til gruppen. Les mer om [hvor ofte arbeidsmiljøet bør måles](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
           },
           {
             "t": "p",
@@ -8090,7 +8112,7 @@
           },
           {
             "t": "p",
-            "text": "Når neste måling kommer, start med å fortelle hva som skjedde etter den forrige. Folk svarer når de ser at det nytter. Les mer om [hvordan du går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
+            "text": "Når neste måling kommer – en ny kartlegging eller en kort [pulsundersøkelse](/artikler/pulsundersokelse) – start med å fortelle hva som skjedde etter den forrige. Folk svarer når de ser at det nytter. Les mer om [hvordan du går fra resultater til tiltak](/artikler/fra-resultater-til-tiltak)."
           }
         ],
         "sources": [
@@ -8137,7 +8159,7 @@
           },
           {
             "t": "p",
-            "text": "Kartleggingen samler inn: Hvordan opplever de ansatte arbeidsmengden, rolleklarheten, støtten og de andre faktorene? Risikovurderingen tolker: Hvilke av disse forholdene kan skade helse, sikkerhet eller velferd, hvor sannsynlig er det, og hvor alvorlig kan det bli? En spørreundersøkelse alene er derfor ikke en risikovurdering. Risikovurderingen er det virksomheten gjør med funnene etterpå."
+            "text": "Kartleggingen samler inn: Hvordan opplever de ansatte arbeidsmengden, rolleklarheten, støtten og de andre faktorene? Risikovurderingen tolker: Hvilke av disse forholdene kan skade helse, sikkerhet eller velferd, hvor sannsynlig er det, og hvor alvorlig kan det bli? En [spørreundersøkelse](/artikler/medarbeiderundersokelse) alene er derfor ikke en risikovurdering. Risikovurderingen er det virksomheten gjør med funnene etterpå."
           },
           {
             "t": "h2",
@@ -8179,7 +8201,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet påpeker også at faktorene kan virke både belastende og beskyttende. Et godt ytringsklima og god støtte er altså ikke bare fravær av risiko, men forhold som holder risikoen nede. De hører derfor med i vurderingen."
+            "text": "Arbeidstilsynet påpeker også at faktorene kan virke både belastende og beskyttende. Et godt ytringsklima og god støtte er altså ikke bare fravær av risiko, men forhold som holder risikoen nede. De hører derfor med i vurderingen. Et samlet trivselstall skiller ikke mellom det som belaster og det som beskytter; se [hvorfor en trivselsundersøkelse ikke er nok](/artikler/trivselsundersokelse)."
           },
           {
             "t": "h2",
@@ -8564,7 +8586,7 @@
           },
           {
             "t": "p",
-            "text": "På grunnlag av kartleggingen skal arbeidsgiveren vurdere risikoen for skadelig påvirkning, «både på kort og lang sikt». Risikovurderingen skal omfatte faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko. Arbeidstilsynet påpeker at faktorene kan virke både belastende og beskyttende, og at også beskyttende faktorer kan være relevante å ta med."
+            "text": "På grunnlag av kartleggingen skal arbeidsgiveren vurdere risikoen for skadelig påvirkning, «både på kort og lang sikt». Risikovurderingen skal omfatte faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko. Arbeidstilsynet påpeker at faktorene kan virke både belastende og beskyttende, og at også beskyttende faktorer kan være relevante å ta med. Kravet gjelder altså faktorene i arbeidet, ikke hvor fornøyde de ansatte er – les mer om [trivselsundersøkelser](/artikler/trivselsundersokelse)."
           },
           {
             "t": "p",
@@ -8724,7 +8746,7 @@
           },
           {
             "t": "p",
-            "text": "Listen er ikke uttømmende, og den er heller ikke et minimum alle må dekke. Hvilke faktorer virksomheten må kartlegge, avhenger ifølge Arbeidstilsynet av «virksomhetens art, aktiviteter og risikobilde», men de nevnte faktorene vil være relevante for svært mange. Kartleggingen bør også få fram det som beskytter: Arbeidstilsynet påpeker at faktorene kan virke både belastende og beskyttende."
+            "text": "Listen er ikke uttømmende, og den er heller ikke et minimum alle må dekke. Hvilke faktorer virksomheten må kartlegge, avhenger ifølge Arbeidstilsynet av «virksomhetens art, aktiviteter og risikobilde», men de nevnte faktorene vil være relevante for svært mange. Kartleggingen bør også få fram det som beskytter: Arbeidstilsynet påpeker at faktorene kan virke både belastende og beskyttende. Det er faktorene som skal kartlegges, ikke trivselen; se [hva en trivselsundersøkelse måler](/artikler/trivselsundersokelse)."
           },
           {
             "t": "h2",
@@ -8761,7 +8783,7 @@
           },
           {
             "t": "p",
-            "text": "Forskriften sier ikke hvilken metode som skal brukes. En anonym spørreundersøkelse er det vanligste, og den kan gjøres på papir, i et regneark eller med et digitalt verktøy. Vernerunder og medarbeidersamtaler kan gi kunnskap som en undersøkelse ikke fanger opp. Arbeidstilsynet påpeker at den enkelte arbeidstakers erfaringer og belastninger kan være relevante som indikatorer på forhold ved organisering, ledelse eller styring."
+            "text": "Forskriften sier ikke hvilken metode som skal brukes. En anonym [spørreundersøkelse](/artikler/medarbeiderundersokelse) er det vanligste, og den kan gjøres på papir, i et regneark eller med et digitalt verktøy. Vernerunder og medarbeidersamtaler kan gi kunnskap som en undersøkelse ikke fanger opp. Arbeidstilsynet påpeker at den enkelte arbeidstakers erfaringer og belastninger kan være relevante som indikatorer på forhold ved organisering, ledelse eller styring."
           },
           {
             "t": "h2",
@@ -8908,7 +8930,7 @@
           },
           {
             "t": "p",
-            "text": "Verken arbeidsmiljøloven eller forskriften gir en ferdig spørreliste. Men forskrift om utførelse av arbeid § 1A-1, som trådte i kraft 1. januar 2026, gir eksempler på hvilke psykososiale faktorer det dreier seg om. Eksemplene er hentet fra arbeidsmiljøloven § 4-3 og § 4-2 andre ledd bokstav c."
+            "text": "Verken arbeidsmiljøloven eller forskriften gir en ferdig spørreliste for en [medarbeiderundersøkelse](/artikler/medarbeiderundersokelse). Men forskrift om utførelse av arbeid § 1A-1, som trådte i kraft 1. januar 2026, gir eksempler på hvilke psykososiale faktorer det dreier seg om. Eksemplene er hentet fra arbeidsmiljøloven § 4-3 og § 4-2 andre ledd bokstav c."
           },
           {
             "t": "law",
@@ -9171,7 +9193,7 @@
           },
           {
             "t": "p",
-            "text": "En årlig undersøkelse gir et øyeblikksbilde. Den viser hvor virksomheten står, men ikke om tiltakene fra forrige år virket, for mellom to målinger har mye annet skjedd. Tolv måneder er også lenge å vente på å vite om noe hjalp."
+            "text": "En årlig [medarbeiderundersøkelse](/artikler/medarbeiderundersokelse) gir et øyeblikksbilde. Den viser hvor virksomheten står, men ikke om tiltakene fra forrige år virket, for mellom to målinger har mye annet skjedd. Tolv måneder er også lenge å vente på å vite om noe hjalp."
           },
           {
             "t": "p",
@@ -9309,7 +9331,7 @@
           },
           {
             "t": "p",
-            "text": "Folk svarer ærlig når de er trygge på at svaret ikke kan spores tilbake. Er de i tvil, svarer de pent – eller ikke i det hele tatt. En undersøkelse med tvilsom anonymitet gir tall som ser bra ut, men som ikke stemmer. Da blir også kartleggingen av det psykososiale arbeidsmiljøet, som arbeidsgiveren skal gjøre etter forskrift om utførelse av arbeid § 1A-2, bygd på et svakt grunnlag."
+            "text": "Folk svarer ærlig når de er trygge på at svaret ikke kan spores tilbake. Er de i tvil, svarer de pent – eller ikke i det hele tatt. En [medarbeiderundersøkelse](/artikler/medarbeiderundersokelse) med tvilsom anonymitet gir tall som ser bra ut, men som ikke stemmer. Da blir også kartleggingen av det psykososiale arbeidsmiljøet, som arbeidsgiveren skal gjøre etter forskrift om utførelse av arbeid § 1A-2, bygd på et svakt grunnlag."
           },
           {
             "t": "h2",
@@ -9537,7 +9559,7 @@
           },
           {
             "t": "p",
-            "text": "Loven bruker ordene «tas med på råd» og «påse». Det er vanskelig å gi gode råd om noe man bare har sett et sammendrag av. Verneombudet bør derfor ha tilgang til det samme resultatet som ledelsen – for hele virksomheten og for de gruppene som er store nok til å vises. Etter aml. § 6-2 femte ledd skal verneombudet dessuten gjøres kjent med blant annet yrkessykdommer, arbeidsulykker og påviste feil og mangler innenfor sitt område."
+            "text": "Loven bruker ordene «tas med på råd» og «påse». Det er vanskelig å gi gode råd om noe man bare har sett et sammendrag av. Verneombudet bør derfor ha tilgang til det samme resultatet av [medarbeiderundersøkelsen](/artikler/medarbeiderundersokelse) som ledelsen – for hele virksomheten og for de gruppene som er store nok til å vises. Etter aml. § 6-2 femte ledd skal verneombudet dessuten gjøres kjent med blant annet yrkessykdommer, arbeidsulykker og påviste feil og mangler innenfor sitt område."
           },
           {
             "t": "p",
@@ -11237,9 +11259,9 @@
         "lovkrav": "Arbeidsmiljøloven forklart",
         "verneombud": "Verneombudets rolle",
         "fraResultater": "Fra resultater til tiltak",
-        "sporsmalssettet": "Spørsmålene som gir svar",
         "maler": "Gratis maler",
-        "sikkerhet": "Personvern og anonymitet"
+        "sikkerhet": "Personvern og anonymitet",
+        "medarbeiderundersokelse": "Medarbeiderundersøkelse"
       },
       "navLabel": "Hovedmeny",
       "menu": "Meny",

@@ -49,10 +49,11 @@ export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?:
     children: [
       // the free templates (D-241), first after the articles (D-243)
       { key: 'maler', href: '/maler' },
+      // the article for the word people search most (D-250); the questions article is linked from it, the start page and the footer
+      { key: 'medarbeiderundersokelse', href: '/artikler/medarbeiderundersokelse' },
       { key: 'lovkrav', href: '/lovkrav' },
       { key: 'verneombud', href: '/verneombud' },
       { key: 'fraResultater', href: '/artikler/fra-resultater-til-tiltak' },
-      { key: 'sporsmalssettet', href: '/artikler/medarbeiderundersokelse-sporsmal' },
       { key: 'sikkerhet', href: '/sikkerhet' },
     ],
   },
@@ -126,7 +127,8 @@ const subpageFooter = (long: boolean): FooterColumn[] => [
       // the landing page for small businesses, linked until now only from the start page's footer (D-238)
       { key: 'smaaBedrifter', href: '/smaa-bedrifter' },
       { key: 'arlig', href: '/bruksomrader#kartlegging' },
-      { key: 'puls', href: '/bruksomrader#puls' },
+      // the pulse article answers it, as the start page's footer already has it (D-249, D-250)
+      { key: 'puls', href: '/artikler/pulsundersokelse' },
       { key: 'tilsyn', href: '/bruksomrader#tilsyn' },
       ...(long ? [{ key: 'amu', href: '/bruksomrader#amu' }] : []),
     ],

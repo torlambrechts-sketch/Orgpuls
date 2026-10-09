@@ -17,10 +17,19 @@ export type LandingSlug = (typeof LANDING_PAGES)[number]
 /** A landing page's message key: slugs with hyphens are camel-cased in the messages. */
 export const landingKey = (slug: LandingSlug) => slug.replace(/-(\w)/g, (_, c: string) => c.toUpperCase())
 
+/**
+ * The index's sections, in the order it shows them (D-250): where to start, the law, carrying a survey out, after the
+ * results, and the eleven factors. The headings are messages (`seo.index.groups.<group>`).
+ */
+export const ARTICLE_GROUPS = ['start', 'lov', 'gjennomforing', 'etter', 'faktorer'] as const
+export type ArticleGroup = (typeof ARTICLE_GROUPS)[number]
+
 export type Article = {
   slug: string
   /** its message key under seo.articles */
   key: string
+  /** its section on the index */
+  group: ArticleGroup
   published: string
   modified: string
   /** two other articles, by slug, shown under "Les også" */
@@ -34,12 +43,13 @@ export type Article = {
   template?: string
 }
 
-/** Newest first: the order the index lists them in. */
+/** Newest first: the order the index lists them in within each section. */
 export const ARTICLES: Article[] = [
   // the three words people search that the site had no page for (D-249)
   {
     slug: 'medarbeiderundersokelse',
     key: 'medarbeiderundersokelse',
+    group: 'start',
     published: '2026-10-08',
     modified: '2026-10-08',
     related: ['medarbeiderundersokelse-sporsmal', 'anonym-medarbeiderundersokelse'],
@@ -49,6 +59,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'trivselsundersokelse',
     key: 'trivselsundersokelse',
+    group: 'start',
     published: '2026-10-08',
     modified: '2026-10-08',
     related: ['medarbeiderundersokelse', 'slik-gar-dere-gjennom-resultatene-med-de-ansatte'],
@@ -58,6 +69,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'pulsundersokelse',
     key: 'pulsundersokelse',
+    group: 'start',
     published: '2026-10-08',
     modified: '2026-10-08',
     related: ['hvor-ofte-bor-dere-male-arbeidsmiljoet', 'fra-resultater-til-tiltak'],
@@ -67,8 +79,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'fra-resultater-til-tiltak',
     key: 'resultaterTilTiltak',
+    group: 'etter',
     published: '2026-10-06',
-    modified: '2026-10-07',
+    modified: '2026-10-09',
     related: ['slik-gar-dere-gjennom-resultatene-med-de-ansatte', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
     art: 'board',
     template: 'tiltaksbank',
@@ -76,8 +89,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'slik-gar-dere-gjennom-resultatene-med-de-ansatte',
     key: 'gjennomgang',
+    group: 'etter',
     published: '2026-10-06',
-    modified: '2026-10-07',
+    modified: '2026-10-09',
     related: ['fra-resultater-til-tiltak', 'anonym-medarbeiderundersokelse'],
     art: 'meeting',
     template: 'tiltaksbank',
@@ -85,8 +99,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'risikovurdering-av-psykososialt-arbeidsmiljo',
     key: 'risikovurdering',
+    group: 'lov',
     published: '2026-10-06',
-    modified: '2026-10-07',
+    modified: '2026-10-09',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'fra-resultater-til-tiltak'],
     art: 'risk',
     template: 'risikovurdering-psykososialt-arbeidsmiljo',
@@ -94,6 +109,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'arbeidsmengde-og-tidspress',
     key: 'arbeidsmengde',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['fra-resultater-til-tiltak', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
@@ -103,6 +119,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'ytringsklima',
     key: 'faktorYtring',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['integritet-og-verdighet', 'stotte-fra-leder'],
@@ -112,6 +129,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'rolleklarhet',
     key: 'faktorRolle',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['motstridende-krav', 'stotte-fra-leder'],
@@ -121,6 +139,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'motstridende-krav',
     key: 'faktorMotstrid',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['rolleklarhet', 'arbeidsmengde-og-tidspress'],
@@ -130,6 +149,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'kontakt-og-kommunikasjon',
     key: 'faktorKontakt',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'emosjonelle-krav'],
@@ -139,6 +159,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'emosjonelle-krav',
     key: 'faktorEmosjon',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'kontakt-og-kommunikasjon'],
@@ -148,6 +169,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'stotte-fra-leder',
     key: 'faktorLeder',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['stotte-fra-kollegaer', 'rolleklarhet'],
@@ -157,6 +179,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'medvirkning-og-kontroll',
     key: 'faktorMedvirk',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['arbeidsmengde-og-tidspress', 'anerkjennelse-og-mening'],
@@ -166,6 +189,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'integritet-og-verdighet',
     key: 'faktorIntegritet',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['ytringsklima', 'anonym-medarbeiderundersokelse'],
@@ -175,6 +199,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'stotte-fra-kollegaer',
     key: 'faktorKollega',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['stotte-fra-leder', 'kontakt-og-kommunikasjon'],
@@ -184,6 +209,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'anerkjennelse-og-mening',
     key: 'faktorMening',
+    group: 'faktorer',
     published: '2026-10-06',
     modified: '2026-10-07',
     related: ['medvirkning-og-kontroll', 'stotte-fra-leder'],
@@ -193,8 +219,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'nye-regler-psykososialt-arbeidsmiljo-2026',
     key: 'nyeRegler2026',
+    group: 'lov',
     published: '2026-09-25',
-    modified: '2026-10-07',
+    modified: '2026-10-09',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'hvor-ofte-bor-dere-male-arbeidsmiljoet'],
     art: 'law',
     template: 'kartleggingspakken',
@@ -202,8 +229,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo',
     key: 'kravKartlegging',
+    group: 'lov',
     published: '2026-09-25',
-    modified: '2026-10-07',
+    modified: '2026-10-09',
     related: ['nye-regler-psykososialt-arbeidsmiljo-2026', 'verneombudets-rolle-i-kartleggingen'],
     art: 'law',
     template: 'kartleggingspakken',
@@ -211,8 +239,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'medarbeiderundersokelse-sporsmal',
     key: 'sporsmal',
+    group: 'gjennomforing',
     published: '2026-09-25',
-    modified: '2026-10-07',
+    modified: '2026-10-09',
     related: ['anonym-medarbeiderundersokelse', 'hvor-ofte-bor-dere-male-arbeidsmiljoet'],
     art: 'survey',
     template: 'qpsnordic-sporreskjema',
@@ -220,8 +249,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'hvor-ofte-bor-dere-male-arbeidsmiljoet',
     key: 'hvorOfte',
+    group: 'gjennomforing',
     published: '2026-09-25',
-    modified: '2026-10-08',
+    modified: '2026-10-09',
     related: ['medarbeiderundersokelse-sporsmal', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     art: 'wheel',
     template: 'arshjul-arbeidsmiljo',
@@ -229,8 +259,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'anonym-medarbeiderundersokelse',
     key: 'anonym',
+    group: 'gjennomforing',
     published: '2026-09-25',
-    modified: '2026-10-07',
+    modified: '2026-10-09',
     related: ['medarbeiderundersokelse-sporsmal', 'verneombudets-rolle-i-kartleggingen'],
     art: 'anon',
     template: 'informasjonsskriv-og-sjekkliste',
@@ -238,8 +269,9 @@ export const ARTICLES: Article[] = [
   {
     slug: 'verneombudets-rolle-i-kartleggingen',
     key: 'verneombud',
+    group: 'lov',
     published: '2026-09-25',
-    modified: '2026-10-07',
+    modified: '2026-10-09',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
     art: 'rep',
     template: 'informasjonsskriv-og-sjekkliste',

@@ -4515,7 +4515,29 @@
       "crumb": "Articles",
       "eyebrow": "Articles",
       "h1": "The working environment and the law, explained",
-      "lead": "What the law requires, which questions give answers, and how to build a rhythm that lasts. Written for managing directors, HR and safety representatives in Norwegian organisations."
+      "lead": "What the law requires, which questions give answers, and how to build a rhythm that lasts. Written for managing directors, HR and safety representatives in Norwegian organisations.",
+      "groups": {
+        "start": {
+          "title": "Getting started",
+          "text": "What an employee survey is, what a job satisfaction survey measures, and when short pulse surveys make sense."
+        },
+        "lov": {
+          "title": "The legal requirements",
+          "text": "What the Working Environment Act and the regulation require, and the safety representative’s role."
+        },
+        "gjennomforing": {
+          "title": "Carrying it out",
+          "text": "Which questions to ask, how often to measure, and what anonymous means."
+        },
+        "etter": {
+          "title": "After the results",
+          "text": "How to review the results with employees and arrive at measures."
+        },
+        "faktorer": {
+          "title": "The eleven factors",
+          "text": "What a low score means on each factor, and what the employer can do."
+        }
+      }
     },
     "lp": {
       "lovkrav": {
@@ -7726,7 +7748,7 @@
           },
           {
             "t": "p",
-            "text": "In its commentary, the Norwegian Labour Inspection Authority (Arbeidstilsynet) says that what counts as a ‘necessary’ measure must be judged against the organisation’s risk profile, including how serious, widespread and long-lasting the risk is. A survey that is not followed by an assessment, and by measures where the assessment calls for them, meets only part of the duty."
+            "text": "In its commentary, the Norwegian Labour Inspection Authority (Arbeidstilsynet) says that what counts as a ‘necessary’ measure must be judged against the organisation’s risk profile, including how serious, widespread and long-lasting the risk is. An [employee survey](/artikler/medarbeiderundersokelse) that is not followed by an assessment, and by measures where the assessment calls for them, meets only part of the duty."
           },
           {
             "t": "timeline",
@@ -7907,7 +7929,7 @@
           },
           {
             "t": "p",
-            "text": "A new, short survey of the factors where measures are under way, a couple of months later, shows whether the figures have moved. If they have not, that is a finding in itself: the measure probably missed the cause, and it is time to go back to the group. Read more about [how often to measure the working environment](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+            "text": "A new, [short survey](/artikler/pulsundersokelse) of the factors where measures are under way, a couple of months later, shows whether the figures have moved. If they have not, that is a finding in itself: the measure probably missed the cause, and it is time to go back to the group. Read more about [how often to measure the working environment](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
           },
           {
             "t": "p",
@@ -8090,7 +8112,7 @@
           },
           {
             "t": "p",
-            "text": "When the next survey comes round, start by telling people what happened after the last one. People answer when they see it makes a difference. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak)."
+            "text": "When the next survey comes round – a new mapping or a short [pulse survey](/artikler/pulsundersokelse) – start by telling people what happened after the last one. People answer when they see it makes a difference. Read more about [getting from results to measures](/artikler/fra-resultater-til-tiltak)."
           }
         ],
         "sources": [
@@ -8137,7 +8159,7 @@
           },
           {
             "t": "p",
-            "text": "Mapping gathers information: how do employees experience their workload, role clarity, support and the other factors? Risk assessment interprets it: which of these conditions could harm health, safety or welfare, how likely is that, and how serious could it be? A questionnaire on its own is therefore not a risk assessment. The risk assessment is what the organisation does with the findings afterwards."
+            "text": "Mapping gathers information: how do employees experience their workload, role clarity, support and the other factors? Risk assessment interprets it: which of these conditions could harm health, safety or welfare, how likely is that, and how serious could it be? A [questionnaire](/artikler/medarbeiderundersokelse) on its own is therefore not a risk assessment. The risk assessment is what the organisation does with the findings afterwards."
           },
           {
             "t": "h2",
@@ -8179,7 +8201,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet also points out that factors can act as both strains and protections. A good climate for speaking up and good support are not merely the absence of risk, but conditions that keep risk down. They therefore belong in the assessment."
+            "text": "Arbeidstilsynet also points out that factors can act as both strains and protections. A good climate for speaking up and good support are not merely the absence of risk, but conditions that keep risk down. They therefore belong in the assessment. A single satisfaction score does not separate what strains from what protects; see [why a job satisfaction survey is not enough](/artikler/trivselsundersokelse)."
           },
           {
             "t": "h2",
@@ -8564,7 +8586,7 @@
           },
           {
             "t": "p",
-            "text": "On the basis of the mapping, the employer must assess the risk of harmful effects «both in the short and the long term». The risk assessment must cover each factor separately, how the factors affect one another, and whether together they amount to a risk. Arbeidstilsynet notes that factors can act as both strains and protections, and that protective factors may also be worth including."
+            "text": "On the basis of the mapping, the employer must assess the risk of harmful effects «both in the short and the long term». The risk assessment must cover each factor separately, how the factors affect one another, and whether together they amount to a risk. Arbeidstilsynet notes that factors can act as both strains and protections, and that protective factors may also be worth including. The requirement concerns the factors in the work, not how content employees are – read more about [job satisfaction surveys](/artikler/trivselsundersokelse)."
           },
           {
             "t": "p",
@@ -8724,7 +8746,7 @@
           },
           {
             "t": "p",
-            "text": "The list is not exhaustive, nor is it a minimum everyone must cover. According to Arbeidstilsynet, which factors an organisation must map depends on «the nature, activities and risk profile of the organisation» (our translation), though the factors named will be relevant to a great many. The mapping should also bring out what protects: Arbeidstilsynet points out that factors can act as both strains and protections."
+            "text": "The list is not exhaustive, nor is it a minimum everyone must cover. According to Arbeidstilsynet, which factors an organisation must map depends on «the nature, activities and risk profile of the organisation» (our translation), though the factors named will be relevant to a great many. The mapping should also bring out what protects: Arbeidstilsynet points out that factors can act as both strains and protections. It is the factors that are to be mapped, not satisfaction; see [what a job satisfaction survey measures](/artikler/trivselsundersokelse)."
           },
           {
             "t": "h2",
@@ -8761,7 +8783,7 @@
           },
           {
             "t": "p",
-            "text": "The regulation does not prescribe a method. An anonymous questionnaire is the most common, and it can be run on paper, in a spreadsheet or with a digital tool. Safety inspections and appraisal conversations can provide knowledge a questionnaire does not capture. Arbeidstilsynet notes that individual employees' experiences and strain may be relevant as indicators of conditions in organisation, management or governance."
+            "text": "The regulation does not prescribe a method. An anonymous [questionnaire](/artikler/medarbeiderundersokelse) is the most common, and it can be run on paper, in a spreadsheet or with a digital tool. Safety inspections and appraisal conversations can provide knowledge a questionnaire does not capture. Arbeidstilsynet notes that individual employees' experiences and strain may be relevant as indicators of conditions in organisation, management or governance."
           },
           {
             "t": "h2",
@@ -8908,7 +8930,7 @@
           },
           {
             "t": "p",
-            "text": "Neither the Working Environment Act (arbeidsmiljøloven) nor the regulation provides a ready-made list of questions. But section 1A-1 of the regulation on the performance of work, in force since 1 January 2026, gives examples of the psychosocial factors involved. The examples are taken from sections 4-3 and 4-2(2)(c) of the Act."
+            "text": "Neither the Working Environment Act (arbeidsmiljøloven) nor the regulation provides a ready-made list of questions for an [employee survey](/artikler/medarbeiderundersokelse). But section 1A-1 of the regulation on the performance of work, in force since 1 January 2026, gives examples of the psychosocial factors involved. The examples are taken from sections 4-3 and 4-2(2)(c) of the Act."
           },
           {
             "t": "law",
@@ -9171,7 +9193,7 @@
           },
           {
             "t": "p",
-            "text": "An annual survey gives a snapshot. It shows where the organisation stands, but not whether last year's measures worked, because a great deal else happens between two surveys. Twelve months is also a long time to wait to learn whether something helped."
+            "text": "An annual [employee survey](/artikler/medarbeiderundersokelse) gives a snapshot. It shows where the organisation stands, but not whether last year's measures worked, because a great deal else happens between two surveys. Twelve months is also a long time to wait to learn whether something helped."
           },
           {
             "t": "p",
@@ -9309,7 +9331,7 @@
           },
           {
             "t": "p",
-            "text": "People answer honestly when they are confident the answer cannot be traced back. If in doubt, they answer politely – or not at all. A survey with doubtful anonymity produces figures that look good but are not true. The mapping of the psychosocial working environment that employers must carry out under section 1A-2 of the regulation on the performance of work then rests on weak ground."
+            "text": "People answer honestly when they are confident the answer cannot be traced back. If in doubt, they answer politely – or not at all. An [employee survey](/artikler/medarbeiderundersokelse) with doubtful anonymity produces figures that look good but are not true. The mapping of the psychosocial working environment that employers must carry out under section 1A-2 of the regulation on the performance of work then rests on weak ground."
           },
           {
             "t": "h2",
@@ -9537,7 +9559,7 @@
           },
           {
             "t": "p",
-            "text": "The Act uses the words «consulted» and «ensure». It is hard to give good advice about something you have only seen a summary of. The safety representative should therefore have access to the same results as management – for the whole organisation and for the groups large enough to be shown. Under section 6-2(5), the safety representative must also be informed of, among other things, occupational diseases, accidents at work and identified faults and deficiencies in their area."
+            "text": "The Act uses the words «consulted» and «ensure». It is hard to give good advice about something you have only seen a summary of. The safety representative should therefore have access to the same [employee survey](/artikler/medarbeiderundersokelse) results as management – for the whole organisation and for the groups large enough to be shown. Under section 6-2(5), the safety representative must also be informed of, among other things, occupational diseases, accidents at work and identified faults and deficiencies in their area."
           },
           {
             "t": "p",
@@ -11237,9 +11259,9 @@
         "lovkrav": "The law explained",
         "verneombud": "The safety representative",
         "fraResultater": "From results to measures",
-        "sporsmalssettet": "Questions that work",
         "maler": "Free templates",
-        "sikkerhet": "Privacy and anonymity"
+        "sikkerhet": "Privacy and anonymity",
+        "medarbeiderundersokelse": "Employee survey"
       },
       "navLabel": "Main menu",
       "menu": "Menu",

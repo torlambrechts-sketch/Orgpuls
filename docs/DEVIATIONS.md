@@ -11914,3 +11914,36 @@ thing itself.
 - Share cards (`public/og/artikler/<slug>.png`), and the page map (59 pages: the three articles replace the three landing
   pages). `seo.shots.kommentarer` and `seo.shots.sporsmal.screen` are again shown on no crawled page, as before the
   landing pages; they stay, as the shot registry (`lib/marketing/shot-ids.ts`) still names them.
+
+## D-250 — The ways into the articles: the header, links in the text, the industry pages, the index's sections (2026-10-09)
+
+Tor, 9 October 2026, after an evaluation of the 23 articles and where they are reached from: «ja, gjør 1 - 5». The
+evaluation found the three D-249 articles, written for the broadest searches, the least linked pages on the site (0, 1
+and 3 links from the text of other articles), and the index a single list in which the eleven factor articles pushed the
+law and the practical articles to the bottom. Search Console had 106 impressions over 30 days, too few to judge by page,
+so the changes rest on structure, not on traffic; worth revisiting when there is data per page.
+
+1. **The header's Ressurser panel:** «Medarbeiderundersøkelse» (`site.chrome.nav.medarbeiderundersokelse`) takes the
+   place of «Spørsmålene som gir svar», right under «Gratis maler». The panel keeps six links. The questions article is
+   still linked from the start page, Plattform, the start page's footer and the employee survey article itself;
+   `site.chrome.nav.sporsmalssettet` had no other reader and is deleted.
+2. **Links in the text:** the employee survey article is now linked from seven articles (spørsmål, anonym, krav til
+   kartlegging, hvor ofte, fra resultater til tiltak, verneombudets rolle, risikovurdering), the job satisfaction article
+   from three (risikovurdering, nye regler 2026, krav til kartlegging) and the pulse article from three (hvor ofte, fra
+   resultater til tiltak, gjennomgang med de ansatte), in Norwegian and English. Most are an existing word made a link
+   («undersøkelse» became «medarbeiderundersøkelse» where it was one); the three sentences added about satisfaction say
+   what the trivsel article and regulation § 1A-2 say: the requirement is the factors, not how content employees are.
+   Those nine articles' `modified` is 2026-10-09.
+3. **The industry pages:** all five showed the same two articles; the employee survey article replaces the anonymity one
+   (`content/industries/landing.ts`), which stays linked from the employee survey article and five related cards.
+4. **The subpages' footer:** «Puls mellom målingene» opens the pulse article (was /bruksomrader#puls), as the start page's
+   footer does since D-249. Only the target changed; the design's words and layout are as they were.
+5. **The index's sections:** every article has a `group` in the registry (`ARTICLE_GROUPS`: Kom i gang, Lovkravene,
+   Gjennomføring, Etter resultatene, De elleve faktorene), and /artikler shows them in that order, each with a heading and
+   a line (`seo.index.groups.<group>`), newest first within each. The cards are the same component; no design exists for
+   the index, so its section heading uses the article pages' h2 style.
+
+`tests/unit/article-groups.test.ts` holds all five: a section for every article and a name for every section, the
+header link, the industry pages, every footer's pulse link, and the minimum number of text links to each D-249 article.
+The page map is regenerated (59 pages). None of the five v3 pages under the pixel gate changes: the panel is closed in
+the baselines and the footer change is a target, not a word.

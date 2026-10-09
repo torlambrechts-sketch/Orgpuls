@@ -196,7 +196,7 @@ export const LANDINGS: IndustryLanding[] = [
       { key: 'smaa', href: '/smaa-bedrifter' },
       { key: 'priser', href: '/priser' },
     ],
-    articles: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    articles: ['medarbeiderundersokelse', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     fetched: '2026-10-03',
     sources: [
       { key: 'fafo', url: 'https://www.fafo.no/images/pub/10411.pdf', year: '2024' },
@@ -277,7 +277,7 @@ export const LANDINGS: IndustryLanding[] = [
       { key: 'smaa', href: '/smaa-bedrifter' },
       { key: 'priser', href: '/priser' },
     ],
-    articles: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    articles: ['medarbeiderundersokelse', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     fetched: '2026-10-03',
     sources: [
       {
@@ -376,7 +376,7 @@ export const LANDINGS: IndustryLanding[] = [
       { key: 'smaa', href: '/smaa-bedrifter' },
       { key: 'priser', href: '/priser' },
     ],
-    articles: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    articles: ['medarbeiderundersokelse', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     fetched: '2026-10-03',
     sources: [
       { key: 'ssb_aku', url: 'https://www.ssb.no/statbank/table/07203/', year: '2025' },
@@ -471,7 +471,7 @@ export const LANDINGS: IndustryLanding[] = [
       { key: 'smaa', href: '/smaa-bedrifter' },
       { key: 'priser', href: '/priser' },
     ],
-    articles: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    articles: ['medarbeiderundersokelse', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     fetched: '2026-10-03',
     sources: [
       { key: 'ssb_aku', url: 'https://www.ssb.no/statbank/table/07203/', year: '2025' },
@@ -573,7 +573,7 @@ export const LANDINGS: IndustryLanding[] = [
       { key: 'smaa', href: '/smaa-bedrifter' },
       { key: 'priser', href: '/priser' },
     ],
-    articles: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    articles: ['medarbeiderundersokelse', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     fetched: '2026-10-03',
     sources: [
       { key: 'noa_bhg', url: 'https://noa.stami.no/yrker-og-naeringer/noa/barnehage/', year: '2022' },

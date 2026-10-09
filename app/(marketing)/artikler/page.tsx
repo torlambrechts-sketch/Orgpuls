@@ -6,11 +6,11 @@ import { JsonLd } from '@/components/marketing/JsonLd'
 import { TemplateTeaser } from '@/components/marketing/TemplateTeaser'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, ldLanguage, organization } from '@/lib/marketing/schema'
-import { absolute, ARTICLES } from '@/lib/marketing/site'
+import { absolute, ARTICLE_GROUPS, ARTICLES } from '@/lib/marketing/site'
 
 /**
- * The article index: every article in lib/marketing/site.ts, newest first. Informational, no offer (D-235);
- * under the articles, the free templates (D-243).
+ * The article index: every article in lib/marketing/site.ts, in its section (D-250) and newest first within it.
+ * Informational, no offer (D-235); under the articles, the free templates (D-243).
  */
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -51,7 +51,16 @@ export default async function ArticleIndex() {
           {t('seo.index.h1')}
         </h1>
         <p className="mt-[14px] max-w-[60ch] text-[16.5px] leading-[1.65] text-body [text-wrap:pretty]">{t('seo.index.lead')}</p>
-        <ArticleCards slugs={ARTICLES.map((a) => a.slug)} />
+        {/* the sections (D-250): where to start, the law, carrying it out, after the results, the eleven factors */}
+        {ARTICLE_GROUPS.map((g) => (
+          <section key={g} id={g} aria-labelledby={`gruppe-${g}`} className="mt-[44px] scroll-mt-[118px]">
+            <h2 id={`gruppe-${g}`} className="font-display text-[clamp(23px,3vw,29px)] font-semibold leading-[1.18] [text-wrap:balance]">
+              {t(`seo.index.groups.${g}.title`)}
+            </h2>
+            <p className="mt-[6px] max-w-[60ch] text-[15px] leading-[1.6] text-mut [text-wrap:pretty]">{t(`seo.index.groups.${g}.text`)}</p>
+            <ArticleCards slugs={ARTICLES.filter((a) => a.group === g).map((a) => a.slug)} />
+          </section>
+        ))}
         {/* the free templates beside the articles (D-243): a resource, named for what it is */}
         <TemplateTeaser slug="kartleggingspakken" className="mt-[40px]" />
         <p className="mt-[12px] text-[14px]">
