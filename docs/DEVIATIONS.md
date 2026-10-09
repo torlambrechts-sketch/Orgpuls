@@ -11955,3 +11955,9 @@ storage quota (379 artifacts kept 90 days, about 10 MB of screenshots per run). 
 artifacts already stored expire on GitHub's 90-day default. On Tor's word («ja, slett») the 241 older than a week were
 deleted by `.github/workflows/artifact-cleanup.yml`, a workflow run by hand (`days`, default 7) with the run's own token,
 since this session's GitHub access may not delete artifacts. It touches artifacts only.
+
+**Headings, 2026-10-09:** the browser's own Norwegian hyphenation split «medarbeiderundersøkelse» as «medarbei-
+derundersøkelse» in the article heading. Six article headings with an «-undersøkelse» compound now carry a soft hyphen at
+the joint (medarbeider­undersøkelse, trivsels­undersøkelse, puls­undersøkelse, arbeidsmiljø­undersøkelse), as
+/smaa-bedrifter and /bransjer already do; a word with a soft hyphen is broken only there. The Article schema's headline,
+on the article and on the index, drops the soft hyphens, so Google sees the plain words.

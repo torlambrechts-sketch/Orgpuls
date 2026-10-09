@@ -35,7 +35,7 @@ export default async function ArticleIndex() {
               ...ARTICLES.map((a) => ({
                 '@type': 'Article',
                 url: absolute(`/artikler/${a.slug}`),
-                headline: t(`seo.articles.${a.key}.h1`),
+                headline: t(`seo.articles.${a.key}.h1`).replace(/\u00ad/g, ''),
               })),
             ],
           },

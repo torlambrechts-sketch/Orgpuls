@@ -5465,7 +5465,7 @@
       "medarbeiderundersokelse": {
         "title": "Medarbeiderundersøkelse i arbeidsmiljøarbeidet | Orgpuls",
         "description": "Hva en medarbeiderundersøkelse er, hva arbeidsmiljøloven krever, hva den bør måle, hvordan svarene holdes anonyme og hvordan funnene blir til tiltak.",
-        "h1": "Hva er en medarbeiderundersøkelse, og hvordan bør den brukes?",
+        "h1": "Hva er en medarbeider­undersøkelse, og hvordan bør den brukes?",
         "lead": "En medarbeiderundersøkelse er en spørreundersøkelse der de ansatte vurderer sitt eget arbeidsmiljø, og der svarene bare vises for grupper der ingen kan kjennes igjen. Brukt riktig er den en del av den lovpålagte kartleggingen av det psykososiale arbeidsmiljøet: den måler faktorene regelverket peker på, resultatene gås gjennom med de ansatte og verneombudet, og funnene blir til tiltak som følges opp og evalueres.",
         "blocks": [
           {
@@ -5678,7 +5678,7 @@
       "trivselsundersokelse": {
         "title": "Trivselsundersøkelse og arbeidsmiljø: hva bør måles? | Orgpuls",
         "description": "Hva en trivselsundersøkelse måler, hvorfor trivsel er et resultat og ikke en årsak, og hva som må med for å kartlegge det psykososiale arbeidsmiljøet.",
-        "h1": "Hva er en trivselsundersøkelse, og er den nok for å kartlegge arbeidsmiljøet?",
+        "h1": "Hva er en trivsels­undersøkelse, og er den nok for å kartlegge arbeidsmiljøet?",
         "lead": "En trivselsundersøkelse måler hvor fornøyde de ansatte er med jobben. Alene er den ikke nok til å kartlegge det psykososiale arbeidsmiljøet: trivsel er et resultat av hvordan arbeidet er organisert, og regelverket krever at virksomheten kartlegger og vurderer selve arbeidsmiljøfaktorene – det som belaster og det som beskytter – slik at tiltakene kan rettes mot årsakene.",
         "blocks": [
           {
@@ -5827,7 +5827,7 @@
       "pulsundersokelse": {
         "title": "Pulsundersøkelse: når gir korte målinger mening? | Orgpuls",
         "description": "Hva en pulsundersøkelse er, hva regelverket sier om å følge opp arbeidsmiljøet, og hva forskningen sier om enkeltspørsmål, små grupper og svarvilje.",
-        "h1": "Hva er en pulsundersøkelse, og når gir korte målinger mening?",
+        "h1": "Hva er en puls­undersøkelse, og når gir korte målinger mening?",
         "lead": "En pulsundersøkelse er en kort undersøkelse som sendes oftere enn den årlige kartleggingen, gjerne med bare noen få påstander. Den gir mening når den følger opp konkrete tiltak eller endringer, med de samme påstandene og store nok grupper. Den erstatter ikke kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet, men kan vise om tiltakene merkes.",
         "blocks": [
           {
@@ -7726,7 +7726,7 @@
       "resultaterTilTiltak": {
         "title": "Fra resultater til tiltak i arbeidsmiljøet | Orgpuls",
         "description": "Etter kartleggingen skal arbeidsgiveren vurdere risikoen og sette i verk tiltak sammen med de ansatte. Slik blir resultatene til tiltak som kan følges opp.",
-        "h1": "Hvordan går man fra resultatene i en arbeidsmiljøundersøkelse til tiltak?",
+        "h1": "Hvordan går man fra resultatene i en arbeidsmiljø­undersøkelse til tiltak?",
         "lead": "Resultatene skal brukes til å vurdere risikoen, og der risikoen krever det, skal arbeidsgiveren lage planer og sette i verk tiltak – i samarbeid med de ansatte og deres representanter. I praksis betyr det å lese tallene systematisk, prioritere noen få områder, finne årsakene sammen med dem det gjelder, gi hvert tiltak en ansvarlig og en frist, og måle på nytt.",
         "blocks": [
           {
@@ -8921,7 +8921,7 @@
       "sporsmal": {
         "title": "Medarbeiderundersøkelse: hvilke spørsmål bør med? | Orgpuls",
         "description": "Hvilke spørsmål bør en medarbeiderundersøkelse ha? Faktorene regelverket peker på, eksempler på påstander, svarskalaen og hvorfor færre spørsmål er bedre.",
-        "h1": "Hvilke spørsmål bør være med i en medarbeiderundersøkelse?",
+        "h1": "Hvilke spørsmål bør være med i en medarbeider­undersøkelse?",
         "lead": "En medarbeiderundersøkelse som skal brukes til å kartlegge det psykososiale arbeidsmiljøet, bør dekke faktorene arbeidsmiljøloven og forskriften peker på: krav og forventninger, arbeidsmengde, emosjonelle belastninger, støtte, innflytelse, kontakt, respekt, trakassering og vold. Spørsmålene fungerer best som korte påstander om egen arbeidshverdag, besvart på en femdelt skala – og det bør ikke være flere av dem enn virksomheten er villig til å følge opp.",
         "blocks": [
           {
@@ -9322,7 +9322,7 @@
       "anonym": {
         "title": "Hva betyr anonym medarbeiderundersøkelse? | Orgpuls",
         "description": "Når er en medarbeiderundersøkelse virkelig anonym? Hvorfor navnet ikke er nok, hvorfor små grupper må skjules, og hvilke spørsmål du bør stille.",
-        "h1": "Anonym medarbeiderundersøkelse: hva betyr anonymt?",
+        "h1": "Anonym medarbeider­undersøkelse: hva betyr anonymt?",
         "lead": "At navnet ikke lagres, er ikke nok. En undersøkelse er først anonym når ingen kan finne ut hvem som svarte hva – verken fra dataene, fra små grupper, ved å regne seg fram til en skjult gruppe eller fra det som står i en kommentar. Det krever en nedre grense for hvor små grupper som vises, og at svarene ikke lagres sammen med noe som kan identifisere den som svarte.",
         "blocks": [
           {

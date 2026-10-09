@@ -103,7 +103,8 @@ export const article = (a: {
   sources?: { label: string; url: string }[]
 }) => ({
   '@type': 'Article',
-  headline: a.headline,
+  // a heading may carry soft hyphens for the page's line breaks; the schema carries the plain words
+  headline: a.headline.replace(/\u00ad/g, ''),
   description: a.description,
   inLanguage: ldLanguage(a.locale ?? 'no'),
   datePublished: a.published,
