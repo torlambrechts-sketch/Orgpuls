@@ -145,6 +145,24 @@ export async function withMailOverrides(tree: MailMessages, flat: Record<string,
 export const langOf = (v: string | null | undefined): Lang => (v === 'en' ? 'en' : 'no')
 
 /**
+ * An organisation's language as its notices read it (D-255): bokmål and English as they are. An
+ * organisation in Swedish (the Swedish market, D-254) reads English, the language behind Swedish
+ * in the app (D-252), until the leaders' notices are written in Swedish; never bokmål. Anything
+ * else is bokmål, as before.
+ */
+export const orgLangOf = (v: string | null | undefined): Lang => (v === 'en' || v === 'sv' ? 'en' : 'no')
+
+/**
+ * The language one person reads a notice to many in (groupsOf). In Norway, as before: theirs where
+ * it is bokmål or English, else the organisation's, else bokmål. In a Swedish organisation (D-255):
+ * bokmål for someone who chose bokmål, English for everyone else.
+ */
+export function groupLang(personal: string | null | undefined, org: string | null | undefined): Lang {
+  if (org === 'sv') return personal === 'no' ? 'no' : 'en'
+  return langOf(personal ?? org)
+}
+
+/**
  * The same rule as `app.reserved_address` (0032): a reserved test domain (RFC 2606) is
  * never mailed. Kept here for the Auth hook, whose recipients never pass through SQL.
  */
@@ -305,12 +323,15 @@ export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOf
  * so an English organisation's employee with no language set keeps English mail.
  */
 export function personalLang(job: NoticeJob, r: Recipient, offered: Lang[] | null): Lang {
-  const org = langOf(job.lang)
+  // the organisation's as the notices have it: a Swedish organisation reads English, never bokmål (D-255)
+  const org = orgLangOf(job.lang)
   if (!offered) return org
   // any survey language: `offered` holds only those whose mail texts and page strings are ready
   // (offeredFor), so a Polish employee gets Polish exactly when the survey is offered in it (D-209)
   const own = isLang(r.lang) ? r.lang : null
   if (own && offered.includes(own)) return own
+  // the organisation's own survey language where it is offered: Swedish for a Swedish organisation
+  if (isLang(job.lang) && offered.includes(job.lang)) return job.lang
   return offered.includes(org) ? org : 'no'
 }
 
@@ -532,7 +553,7 @@ export function groupsOf(
   }
   const byKey = new Map<string, { lang: Lang; member: boolean; name: null; to: Recipient[] }>()
   for (const r of job.recipients) {
-    const lang = langOf(r.lang ?? job.lang)
+    const lang = groupLang(r.lang, job.lang)
     const key = `${lang}:${r.member}`
     const g = byKey.get(key) ?? { lang, member: r.member, name: null, to: [] }
     g.to.push(r)
@@ -632,7 +653,9 @@ export function smsLead(cat: MailCatalogue, job: NoticeJob, lang: Lang): string 
     return fill(pick(m, key), { org: job.org, round, date: dateOf(job.round.closes_at, lang) })
   }
   if (job.kind === 'lenke') return fill(pick(m, 'sms.link'), { org: job.org })
-  return job.sms_text?.trim() && lang === langOf(job.lang) ? job.sms_text : fill(pick(m, 'sms.default'), { org: job.org })
+  // the organisation's own text goes to those who read the organisation's language: Swedish in a Swedish one
+  const own = isLang(job.lang) && job.lang !== 'no' && job.lang !== 'en' ? job.lang : langOf(job.lang)
+  return job.sms_text?.trim() && lang === own ? job.sms_text : fill(pick(m, 'sms.default'), { org: job.org })
 }
 
 /** The app route that turns an Auth token hash into a session (app/auth/confirm/route.ts). */

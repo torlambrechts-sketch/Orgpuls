@@ -7,9 +7,11 @@ import {
   AUTH_ACTIONS,
   authLink,
   addressKey,
+  groupLang,
   groupsOf,
   inTurns,
   isReservedAddress,
+  orgLangOf,
   pendingSends,
   perRecipient,
   renderAuth,
@@ -408,5 +410,54 @@ describe('auth mails', () => {
         expect(r.text).not.toMatch(/\{\w+\}/)
       }
     }
+  })
+})
+
+/**
+ * The language of a Swedish organisation's notices (D-255): English for its leaders until their
+ * notices are written in Swedish, Swedish for its employees where the survey is offered in it,
+ * and never bokmål for someone who did not choose it. Norway's rules are unchanged.
+ */
+describe('a Swedish organisation’s notices', () => {
+  const member = { email: 'leder@firma.se', phone: null, name: 'Lena', lang: null, member: true }
+  const employee = (lang: string | null) => ({ email: `${lang ?? 'x'}@firma.se`, phone: null, name: null, lang, member: false })
+
+  it('reads English as an organisation, and Norway’s read as before', () => {
+    expect(orgLangOf('sv')).toBe('en')
+    expect(orgLangOf('no')).toBe('no')
+    expect(orgLangOf('en')).toBe('en')
+    expect(orgLangOf(null)).toBe('no')
+    expect(orgLangOf('pl')).toBe('no')
+  })
+
+  it('writes a notice to many in English, bokmål only for someone who chose it', () => {
+    expect(groupLang(null, 'sv')).toBe('en')
+    expect(groupLang('sv', 'sv')).toBe('en')
+    expect(groupLang('no', 'sv')).toBe('no')
+    // Norway: theirs where it is bokmål or English, else the organisation's, else bokmål — as before
+    expect(groupLang('sv', 'no')).toBe('no')
+    expect(groupLang('pl', 'en')).toBe('no')
+    expect(groupLang(null, 'en')).toBe('en')
+    expect(groupLang('en', 'no')).toBe('en')
+    const groups = groupsOf(job({ kind: 'resultat', lang: 'sv', recipients: [member, employee(null), employee('no')] }))
+    expect(groups.map((g) => `${g.lang}:${g.member}`).sort()).toEqual(['en:false', 'en:true', 'no:false'])
+  })
+
+  it('invites in Swedish where the survey is offered in it, else in English, never in bokmål', () => {
+    const swedish = job({ lang: 'sv', recipients: [employee(null)] })
+    expect(groupsOf(swedish, ['no', 'en', 'sv'])[0]!.lang).toBe('sv')
+    expect(groupsOf(swedish, ['no', 'en'])[0]!.lang).toBe('en')
+    expect(groupsOf(swedish, null)[0]!.lang).toBe('en')
+    // an employee's own offered language still comes first
+    expect(groupsOf(job({ lang: 'sv', recipients: [employee('pl')] }), ['no', 'en', 'pl', 'sv'])[0]!.lang).toBe('pl')
+    // Norway as before: bokmål for an organisation in bokmål, whatever is offered
+    expect(groupsOf(job({ lang: 'no', recipients: [employee(null)] }), ['no', 'en', 'sv'])[0]!.lang).toBe('no')
+  })
+
+  it('sends the organisation’s own SMS text to those reading the organisation’s language', () => {
+    const sms = job({ channel: 'sms', lang: 'sv', sms_text: 'Svara på enkäten från Prov AB' })
+    expect(smsLead(cat, sms, 'en')).not.toBe('Svara på enkäten från Prov AB')
+    const norsk = job({ channel: 'sms', lang: 'no', sms_text: 'Svar på undersøkelsen' })
+    expect(smsLead(cat, norsk, 'no')).toBe('Svar på undersøkelsen')
   })
 })

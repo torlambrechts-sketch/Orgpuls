@@ -12238,3 +12238,43 @@ Tests:
 - **The events sent to Sentral** carry the org number but not the market. That is a phase-1 item in the plan.
 - **The rest of Oppsett › Selskap is Norwegian law** (BHT, verneombud, AMU thresholds). Sweden's is SE-C.
 - **At launch (SE-F),** the Swedish address also goes into Supabase Auth's redirect URLs and into Vercel's domains.
+
+## D-255 — A Swedish organisation's mail: English for its leaders, Swedish for its employees where offered (2026-10-09)
+
+SE-B3. The dispatcher's `langOf` turned every language but English into bokmål. An organisation in Swedish
+(`default_lang` `sv`, D-254) would have mailed its leaders in bokmål, and its employees too when no language of
+their own was set. Now (`supabase/functions/_shared/mail.ts`):
+
+- **The organisation's language as notices read it** (`orgLangOf`):
+  - bokmål and English as they are;
+  - Swedish reads English, the language behind Swedish in the app (D-252), until the leaders' notices exist in
+    Swedish;
+  - anything else is bokmål, as before.
+
+  The test of an invitation sent to the leader follows the same rule.
+- **A notice to many** (`groupLang`):
+  - in a Swedish organisation, bokmål goes only to someone who chose bokmål, and everyone else gets English;
+  - in Norway, as before.
+- **An invitation or reminder** (`personalLang`), in order:
+  1. the employee's own language where the survey is offered in it;
+  2. then the organisation's own survey language where offered, which is Swedish for a Swedish organisation;
+  3. then the organisation's notice language.
+
+  For Norway this is the same order as before.
+- **The organisation's own SMS text** goes to those reading the organisation's language: Swedish in a Swedish
+  organisation.
+
+`tests/unit/mail.test.ts` («a Swedish organisation's notices») holds the Swedish cases and Norway's unchanged ones.
+
+**Swedish in the survey is not offered yet.** `locale_sv` is not in `lib/flags.signed-off.json`, and turning a
+survey language on has been Tor's decision each time (English X-065, Polish and Lithuanian 2026-10-03). The
+Swedish survey texts, page strings and mail texts are approved in the registry. Until Swedish is turned on, or
+piloted for an organisation (0085), a Swedish organisation's employees get English invitations rather than
+bokmål.
+
+**Not deployed yet, on purpose.** The hosted dispatcher is version 65 (7 October), and the functions type-check
+(`deploy.mjs --check`). The change only matters to a Swedish organisation, and none can exist until `SE_HOST` is
+set. Every earlier deploy went through `scripts/functions/deploy.mjs`, which needs `SB_MCP_PAT`, and this session's
+classifier refused that. The connector's `deploy_edge_function` would mean pasting about 190 KB of source by hand
+into production's mail path. So deploying the functions is a launch step (SE-F, before `SE_HOST` is set), done
+with `node scripts/functions/deploy.mjs`. Any deploy from this commit on carries the change.

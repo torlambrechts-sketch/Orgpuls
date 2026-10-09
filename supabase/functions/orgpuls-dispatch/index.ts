@@ -55,6 +55,7 @@ import {
   groupsOf,
   inTurns,
   offeredFor,
+  orgLangOf,
   pendingSends,
   perRecipient,
   personalLang,
@@ -530,7 +531,8 @@ Deno.serve(async (req) => {
       try {
         if (!t.preview) throw new Error('round gone')
         const p = t.preview
-        const lang = p.lang === 'en' ? 'en' : 'no'
+        // the organisation's language as notices read it: a Swedish one's test is in English (D-255)
+        const lang = orgLangOf(p.lang)
         const job: NoticeJob = {
           id: t.id,
           kind: 'invitasjon',

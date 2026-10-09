@@ -70,11 +70,11 @@ Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first E
 |---|---|---|
 | SE-A | Swedish as a platform language: the app's chrome in Swedish, English behind it; registry-owned survey texts unchanged | built (D-252) |
 | SE-A2 | Factor names and statements in the leader's views in Swedish, from the registry's Swedish | built (D-253); module texts still English |
-| SE-B | Market `se`: organisation number rule (ten digits, Luhn), sign-up per market, the Swedish address in `SITES`, Bolagsverket lookup, mail language per market | B1–B2 built (D-254): market, number rule, sign-up, `SE_HOST`, Oppsett; B3 mail language next; B4 Bolagsverket waits on an API agreement |
+| SE-B | Market `se`: organisation number rule (ten digits, Luhn), sign-up per market, the Swedish address in `SITES`, Bolagsverket lookup, mail language per market | B1–B3 built (D-254, D-255): market, number rule, sign-up, `SE_HOST`, Oppsett, mail language; B4 Bolagsverket waits on an API agreement; Swedish in the survey waits on `locale_sv` |
 | SE-C | Legal pack per market: report, help and in-app legal texts on AML, AFS 2023:1 and AFS 2023:2; skyddsombud; written risk assessment (§ 11) and action plan (§ 13) | |
 | SE-D | Working time and recovery (AFS 2023:2 2:9) as a Swedish module | |
 | SE-E | SEK prices, reverse charge, Swedish PUB-avtal and DPIA template | waits on prices |
-| SE-F | The Swedish site: its own pages and articles, Swedish search terms; launch on the chosen address | waits on the domain |
+| SE-F | The Swedish site: its own pages and articles, Swedish search terms; launch on the chosen address. Launch checklist: deploy the edge functions (D-255), set `SE_HOST`, add the address to Vercel's domains and Supabase Auth's redirect URLs | waits on the domain |
 
 Decisions SE-B to SE-F wait on: the address (orgpuls.se or se.orgpuls.com), the Swedish anonymity floor
 (5 or 6; built at 5, which can only be raised), SEK prices, and whether a Swedish sole trader (whose organisation
