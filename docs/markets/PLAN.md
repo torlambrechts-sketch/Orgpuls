@@ -34,7 +34,7 @@ A host names a brand, a market and a default language. One codebase, one databas
 | # | Phase | State |
 |---|---|---|
 | 1 | **Market foundation, Norway unchanged** | **started** — 1a built and live, hosted included (D-251) |
-| 2 | Sweden | waiting on phase 1 and the domain decision |
+| 2 | Sweden | **started** — SE-A, Swedish as a platform language (D-252); SE-B to SE-F below |
 | 3 | Germany | waiting on the instrument and roles decisions |
 | 4 | Empvibe, UK first | brand layer after phase 1; UK research done (artifact, «United Kingdom: what it takes») |
 | ∥ | Leadership 360 app, its own Supabase project | independent; shares packages, not the database |
@@ -63,3 +63,19 @@ Addresses (country domains or subdomains) · anonymity per market (Germany 5; Sw
 (Betriebsrat, external adviser — changes the three-role invariant) · the German instrument · an EU legal representative
 · the leadership app's database (separate project recommended) · manager data from Entra · the brand split (Orgpuls
 Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first English market (UK recommended).
+
+### Phase 2 — Sweden, step by step
+
+| Step | What | State |
+|---|---|---|
+| SE-A | Swedish as a platform language: the app's chrome in Swedish, English behind it; registry-owned survey texts unchanged | built (D-252) |
+| SE-A2 | Factor names and statements in the leader's views in Swedish, from the registry's Swedish | next |
+| SE-B | Market `se`: organisation number rule (ten digits, Luhn), sign-up per market, the Swedish address in `SITES`, Bolagsverket lookup, mail language per market | next |
+| SE-C | Legal pack per market: report, help and in-app legal texts on AML, AFS 2023:1 and AFS 2023:2; skyddsombud; written risk assessment (§ 11) and action plan (§ 13) | |
+| SE-D | Working time and recovery (AFS 2023:2 2:9) as a Swedish module | |
+| SE-E | SEK prices, reverse charge, Swedish PUB-avtal and DPIA template | waits on prices |
+| SE-F | The Swedish site: its own pages and articles, Swedish search terms; launch on the chosen address | waits on the domain |
+
+Decisions SE-B to SE-F wait on: the address (orgpuls.se or se.orgpuls.com), the Swedish anonymity default
+(5 or 6) and SEK prices.
+

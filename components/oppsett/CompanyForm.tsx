@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { saveBaselineMonth, saveLanguage } from '@/app/(app)/oppsett/actions'
-import { LOCALES } from '@/lib/i18n/locales'
+import type { Locale } from '@/lib/i18n/locales'
 
 /**
  * Innstillinger for hele selskapet. Bundle lines 2044-2073.
@@ -32,7 +32,7 @@ export function CompanyForm({
   labels,
 }: {
   canWrite: boolean
-  lang: 'no' | 'en'
+  lang: Locale
   baselineMonth: number | null
   months: { value: number; label: string }[]
   labels: {
@@ -40,6 +40,7 @@ export function CompanyForm({
     languageNote: string
     langNo: string
     langEn: string
+    langSv: string
     yearStart: string
     yearStartNote: string
     noWheel: string
@@ -49,7 +50,10 @@ export function CompanyForm({
     problems: Record<string, string>
   }
 }) {
-  const [l, setL] = useState(lang)
+  const [l, setL] = useState<Locale>(lang)
+  // the languages an organisation in Norway may default to; a Swedish organisation's comes with its
+  // market (D-252), and an organisation already on another language keeps it on offer
+  const choices: Locale[] = lang === 'no' || lang === 'en' ? ['no', 'en'] : ['no', 'en', lang]
   const [m, setM] = useState(baselineMonth)
   const [problem, setProblem] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
@@ -73,7 +77,7 @@ export function CompanyForm({
       <div className="mt-[16px]">
         <div className="text-[13.5px] font-semibold">{labels.language}</div>
         <div className="mt-[10px] flex flex-wrap gap-[7px]">
-          {LOCALES.map((code) => (
+          {choices.map((code) => (
             <label key={code} className="inline-flex flex-none">
               <input
                 type="radio"
@@ -89,7 +93,7 @@ export function CompanyForm({
                 }}
                 className="peer absolute h-px w-px overflow-hidden opacity-0"
               />
-              <Chip on={l === code}>{code === 'no' ? labels.langNo : labels.langEn}</Chip>
+              <Chip on={l === code}>{code === 'no' ? labels.langNo : code === 'en' ? labels.langEn : labels.langSv}</Chip>
             </label>
           ))}
         </div>

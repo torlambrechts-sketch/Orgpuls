@@ -59,7 +59,11 @@ describe('the locale registry', () => {
 
 describe('the database’s language lists match the registry', () => {
   const cases: [string, RegExp, RegExp, string[]][] = [
-    ['organizations.default_lang', /create table app\.organizations/, /default_lang[^\n]*check \(default_lang in \(([^)]*)\)\)/, [...LOCALES].sort()],
+    ['organizations.default_lang', /create table app\.organizations|add constraint organizations_default_lang_check/, /default_lang[^\n]*check \(default_lang in \(([^)]*)\)\)/, [...LOCALES].sort()],
+    // the other lists of the platform languages (0215, D-252)
+    ['profiles.lang', /add constraint profiles_lang_check/, /check \(lang in \(([^)]*)\)\)/, [...LOCALES].sort()],
+    ['demo_requests.lang', /add constraint demo_requests_lang_check/, /check \(lang in \(([^)]*)\)\)/, [...LOCALES].sort()],
+    ['markets.default_lang', /create table app\.markets|add constraint markets_default_lang/, /markets_default_lang check \(default_lang in \(([^)]*)\)\)/, [...LOCALES].sort()],
     ['employees.language', /add column language text check|add constraint employees_language_check/, /language in \(([^)]*)\)/, survey],
     ['item_translations.locale', /create table app\.item_translations|add constraint item_translations_locale_check/, /check \(locale in \(([^)]*)\)\)/, translated],
     ['ui_translation_approvals.locale', /create table app\.ui_translation_approvals|add constraint ui_translation_approvals_locale_check/, /check \(locale in \(([^)]*)\)\)/, translated],

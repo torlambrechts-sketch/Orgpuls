@@ -11,6 +11,7 @@ import { assertIndustries } from '@/content/industries/validate'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, faqPage, graph, organization } from '@/lib/marketing/schema'
 import { absolute } from '@/lib/marketing/site'
+import { contentLang } from '@/lib/i18n/locales'
 
 /**
  * An industry page (bransjesider-og-tilleggsmoduler.md § B1): the landing template
@@ -35,7 +36,7 @@ type Props = { params: Promise<{ bransje: string }>; searchParams: Promise<{ for
 async function landingAt(props: Props) {
   const landing = landingFor((await props.params).bransje)
   if (!landing) return null
-  const lang: PageLang = (await getLocale()) === 'en' ? 'en' : 'no'
+  const lang: PageLang = contentLang(await getLocale())
   const preview = (await props.searchParams).forhandsvis === '1'
   if (!landing.live[lang] && !preview) return null
   return { landing, lang, preview: !landing.live[lang] }

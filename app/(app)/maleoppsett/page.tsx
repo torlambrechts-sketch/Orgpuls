@@ -22,6 +22,7 @@ import { getViewer } from '@/lib/shell/read'
 import { MAIN_URL } from '@/lib/hosts'
 import type { MailMessages } from '@/supabase/functions/_shared/mail'
 import { getOrgIndustry, getPublishedModules, getRoundModules, getModulesById } from '@/lib/modules/read'
+import { contentLang } from '@/lib/i18n/locales'
 
 /**
  * Måleoppsett — the data half. Bundle lines 1425-1710; the rendering is in
@@ -157,7 +158,7 @@ export default async function MaleoppsettPage({
   if (role === 'daglig_leder' && setup.status !== 'lukket') {
     const [preview, viewer, ready] = await Promise.all([getSendPreview(setup.id), getViewer(), getRoundReady(setup.id)])
     if (preview) {
-      const lang = preview.lang === 'en' ? 'en' : 'no'
+      const lang = contentLang(preview.lang)
       const messages = (await getMessages({ locale: lang })) as { mail?: MailMessages }
       send = {
         preview,
@@ -238,7 +239,7 @@ export default async function MaleoppsettPage({
                 : m.countItems.length,
               minutes: variantKey && row ? Math.max(1, Math.round((asked.size * 8) / 60)) : (simple?.estimatedMinutes ?? m.estimatedMinutes),
               // before the page is launched its question page is a preview (D-118)
-              href: slug ? `/${slug}/sporsmal${pageIn(getIndustry(slug), locale === 'en' ? 'en' : 'no')?.launched ? '' : '?forhandsvis=1'}` : null,
+              href: slug ? `/${slug}/sporsmal${pageIn(getIndustry(slug), contentLang(locale))?.launched ? '' : '?forhandsvis=1'}` : null,
               factors: own.map((f) => ({ key: f.key, name: f.name })),
               enabled: Boolean(row),
               includeCountItems: row ? row.includeCountItems : true,

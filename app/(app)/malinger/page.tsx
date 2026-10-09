@@ -39,6 +39,7 @@ import { getSlackSettings } from '@/lib/slack/read'
 import type { DefaultsValues } from '@/app/(app)/malinger/innstillinger-actions'
 import { EXTRA_KEYS, PRODUCT_DEFAULTS, SCREENING, getDefaultsLog, getEntryCode, getInviteGreeting, getReach, getSurveyDefaults } from '@/lib/settings/survey'
 import { GreetingCard } from '@/components/malinger/GreetingCard'
+import { contentLang } from '@/lib/i18n/locales'
 
 /**
  * Målinger — design 3 (bundle `isMeasure`, v3 870-1330; logic `mData()`). D-74.
@@ -443,7 +444,7 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
   // the published list is in the reader's language already (lib/modules/read.ts)
   // the organisation's industry, chosen or from its NACE code (0091)
   const industry = orgIndustry.chosen
-  const lang = locale === 'en' ? 'en' : 'no'
+  const lang = contentLang(locale)
   const cards = published
     .map((m) => {
       const slug = INDUSTRY_META.find((i) => i.moduleKey === m.key)?.slug

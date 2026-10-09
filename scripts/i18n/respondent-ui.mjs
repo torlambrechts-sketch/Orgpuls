@@ -19,8 +19,9 @@ import { localeRegistry } from '../lib/locales.mjs'
 
 const OUT = 'lib/i18n/respondent-ui.json'
 // the survey languages, from the one registry (lib/i18n/locales.ts)
+// whose respondent texts are in messages/ (bokmål, English); the others' are in the registry (D-252)
 const LOCALES = localeRegistry()
-  .filter((l) => l.survey)
+  .filter((l) => l.survey && l.surveyTexts === 'messages')
   .map((l) => l.code)
 
 const sorted = (v) =>

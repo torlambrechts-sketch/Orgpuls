@@ -5,6 +5,7 @@ import { getLocale } from 'next-intl/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { granted, TEMPLATE_COOKIE, templateBySlug } from '@/lib/marketing/templates'
+import { contentLang } from '@/lib/i18n/locales'
 
 /**
  * A free template for an address (D-241): `request_template` hands the request to the platform as a
@@ -31,7 +32,7 @@ export async function requestTemplate(input: z.input<typeof Input>): Promise<Tem
   const d = parsed.data
   const template = templateBySlug(d.slug)
   if (!template) return { ok: false, problem: 'invalid' }
-  const lang = (await getLocale()) === 'en' ? 'en' : 'no'
+  const lang = contentLang(await getLocale())
   const supabase = await createClient()
 
   const { data, error } = await supabase.rpc('request_template', {

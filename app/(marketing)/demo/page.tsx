@@ -10,6 +10,7 @@ import { JsonLd } from '@/components/marketing/JsonLd'
 import { breadcrumbs, graph, ldLanguage, organization } from '@/lib/marketing/schema'
 import { absolute } from '@/lib/marketing/site'
 import { DemoShot } from './DemoShot'
+import { contentLang } from '@/lib/i18n/locales'
 
 /**
  * The demo (0094, D-143; 0146, D-191): a signup — name, work address, company, role and the
@@ -42,7 +43,7 @@ export default async function DemoPage({ searchParams }: { searchParams: Promise
   const { feil } = await searchParams
   const t = await getTranslations('demo')
   const locale = await getLocale()
-  const lang = locale === 'en' ? 'en' : 'no'
+  const lang = contentLang(locale)
   const points = t.raw('points') as string[]
   const rules = t.raw('rules') as string[]
   const helpCount = (t.raw('sent.help') as string[]).length

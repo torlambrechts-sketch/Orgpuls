@@ -39,6 +39,15 @@ const { cldrTag, flattenMessages, literalText, parseIcu, pluralGaps, signature, 
   import.meta.url,
 )
 const { nonGsm7 } = await tsImport('../../lib/sms/gsm7.ts', import.meta.url)
+const { LOCALE_REGISTRY } = await tsImport('../../lib/i18n/locales.ts', import.meta.url)
+
+/**
+ * A language with a fallback (lib/i18n/locales.ts) may ship partial: a key it lacks is shown in its
+ * fallback language, which is itself complete. Swedish is the first (D-252). Every key it does have
+ * is held to the same checks as a complete language, and it may not have a key the source lacks.
+ * Bokmål and English keep full parity.
+ */
+const FALLBACK = Object.fromEntries(LOCALE_REGISTRY.filter((l) => l.fallback.length).map((l) => [l.code, l.fallback]))
 
 const DIR = 'messages'
 const SOURCE = 'no'
@@ -103,8 +112,13 @@ for (const locale of locales.filter((l) => l !== SOURCE)) {
   const target = messages[locale]
   console.log(`${SOURCE} -> ${locale}: ${Object.keys(source).length} keys`)
 
+  let fallsBack = 0
   for (const key of Object.keys(source)) {
     if (!(key in target)) {
+      if (FALLBACK[locale]) {
+        fallsBack += 1
+        continue
+      }
       fail(locale, key, 'parity', 'is missing')
       continue
     }
@@ -118,6 +132,7 @@ for (const locale of locales.filter((l) => l !== SOURCE)) {
   for (const key of Object.keys(target)) {
     if (!(key in source)) fail(locale, key, 'parity', `has no ${SOURCE} source`)
   }
+  if (FALLBACK[locale]) console.log(`  ${locale}: ${Object.keys(target).length} translated, ${fallsBack} shown in ${FALLBACK[locale].join(' → ')}`)
 }
 
 let plurals = 0

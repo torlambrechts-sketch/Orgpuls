@@ -11,19 +11,24 @@
  *
  *   platform  the signed-in app and the public site render in it (a full catalogue)
  *   survey    a respondent may be offered it (lib/i18n/offered.ts: flag + approvals decide)
+ *   surveyTexts  where its respondent texts (the survey pages, the invitation) live: messages/ for
+ *             bokmål and English, the translation registry for every other language — Swedish too,
+ *             though its app chrome is in messages/sv.json (D-252)
  *   fallback  where a platform string missing from this catalogue is taken from, in order.
  *             Survey items never fall back: a language is offered whole or not at all.
  */
 export const LOCALE_REGISTRY = [
-  { code: 'no', bcp47: 'nb', nativeName: 'Norsk', dir: 'ltr', platform: true, survey: true, fallback: [] },
-  { code: 'en', bcp47: 'en', nativeName: 'English', dir: 'ltr', platform: true, survey: true, fallback: [] },
+  { code: 'no', bcp47: 'nb', nativeName: 'Norsk', dir: 'ltr', platform: true, survey: true, surveyTexts: 'messages', fallback: [] },
+  { code: 'en', bcp47: 'en', nativeName: 'English', dir: 'ltr', platform: true, survey: true, surveyTexts: 'messages', fallback: [] },
   // survey only (D-133): their page and invitation texts live in the translation registry, not in
   // messages/, and are imported and approved in admin › Translations. Order: Tor, 2026-09-27.
-  { code: 'pl', bcp47: 'pl', nativeName: 'Polski', dir: 'ltr', platform: false, survey: true, fallback: [] },
-  { code: 'uk', bcp47: 'uk', nativeName: 'Українська', dir: 'ltr', platform: false, survey: true, fallback: [] },
-  { code: 'lt', bcp47: 'lt', nativeName: 'Lietuvių', dir: 'ltr', platform: false, survey: true, fallback: [] },
-  { code: 'sv', bcp47: 'sv', nativeName: 'Svenska', dir: 'ltr', platform: false, survey: true, fallback: [] },
-  { code: 'da', bcp47: 'da', nativeName: 'Dansk', dir: 'ltr', platform: false, survey: true, fallback: [] },
+  { code: 'pl', bcp47: 'pl', nativeName: 'Polski', dir: 'ltr', platform: false, survey: true, surveyTexts: 'registry', fallback: [] },
+  { code: 'uk', bcp47: 'uk', nativeName: 'Українська', dir: 'ltr', platform: false, survey: true, surveyTexts: 'registry', fallback: [] },
+  { code: 'lt', bcp47: 'lt', nativeName: 'Lietuvių', dir: 'ltr', platform: false, survey: true, surveyTexts: 'registry', fallback: [] },
+  // a platform language since phase 2 (D-252): the app's chrome in Swedish, anything not yet
+  // translated in English; its survey texts stay in the registry like the other survey languages
+  { code: 'sv', bcp47: 'sv', nativeName: 'Svenska', dir: 'ltr', platform: true, survey: true, surveyTexts: 'registry', fallback: ['en'] },
+  { code: 'da', bcp47: 'da', nativeName: 'Dansk', dir: 'ltr', platform: false, survey: true, surveyTexts: 'registry', fallback: [] },
 ] as const satisfies readonly {
   code: string
   bcp47: string
@@ -31,6 +36,8 @@ export const LOCALE_REGISTRY = [
   dir: 'ltr' | 'rtl'
   platform: boolean
   survey: boolean
+  /** where a survey language's respondent texts live: messages/ (approved by hash) or the registry (D-133) */
+  surveyTexts: 'messages' | 'registry'
   fallback: readonly string[]
 }[]
 
@@ -55,6 +62,13 @@ export const TRANSLATION_LOCALES = LOCALE_REGISTRY.filter((l) => l.survey && l.c
 export const SOURCE_LOCALE: Locale = 'no'
 export const DEFAULT_LOCALE: Locale = 'no'
 
+/**
+ * The language to show content in that exists in bokmål and English only — pages, modules, templates,
+ * the site's notices: bokmål for bokmål, English for every other language, since English is every
+ * other platform language's fallback (D-252). For bokmål and English this is the locale itself.
+ */
+export const contentLang = (locale: string | null | undefined): 'no' | 'en' => (locale === 'no' || !locale ? 'no' : 'en')
+
 export function isLocale(value: string | undefined | null): value is Locale {
   return !!value && (LOCALES as readonly string[]).includes(value)
 }
@@ -68,6 +82,9 @@ export const bcp47 = (code: string): string => spec(code)?.bcp47 ?? code
 export const dirOf = (code: string): 'ltr' | 'rtl' => spec(code)?.dir ?? 'ltr'
 
 /** The platform catalogues a language borrows missing strings from, in order. */
+/** a language whose respondent texts are in the translation registry, not in messages/ (D-133, D-252) */
+export const registryTexts = (code: string): boolean => spec(code)?.surveyTexts === 'registry'
+
 export const fallbackOf = (code: string): readonly string[] => spec(code)?.fallback ?? []
 
 /** The chosen language, set by the switch (lib/i18n/actions) and restored at sign-in. */

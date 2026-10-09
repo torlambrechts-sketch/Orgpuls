@@ -35,7 +35,7 @@ writeFileSync(
     // the flags a person signed off (lib/flags.ts SIGNED_OFF): on here as in the app
     `export const SIGNED_OFF_FLAGS: string[] = ${JSON.stringify(JSON.parse(readFileSync('lib/flags.signed-off.json', 'utf8')))}\n` +
     // the survey-only languages and the bokmål their texts are translated from (D-133)
-    `export const SURVEY_ONLY: string[] = ${JSON.stringify(localeRegistry().filter((l) => l.survey && !l.platform).map((l) => l.code))}\n` +
+    `export const SURVEY_ONLY: string[] = ${JSON.stringify(localeRegistry().filter((l) => l.survey && l.surveyTexts === 'registry').map((l) => l.code))}\n` +
     `export const SURVEY_SOURCE: { ui: Record<string, string>; mail: Record<string, string> } = ${readFileSync('lib/i18n/survey-source.json', 'utf8').trim()}\n`,
 )
 

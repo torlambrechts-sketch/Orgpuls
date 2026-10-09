@@ -14,5 +14,6 @@ export function localeRegistry() {
     bcp47: e.match(/bcp47: '([^']+)'/)?.[1],
     platform: /platform: true/.test(e),
     survey: /survey: true/.test(e),
+    surveyTexts: e.match(/surveyTexts: '([^']+)'/)?.[1],
   }))
 }

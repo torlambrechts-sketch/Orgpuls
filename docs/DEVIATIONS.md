@@ -12019,3 +12019,70 @@ sign-up name `p_market`; the follow-up commit names it only for another market. 
 (0133), the leader's own reminder: capped at two per round, open rounds only, unanswered invitations only. It has failed
 since 0133 shipped. Whether I7 should read «only the system or the leader's capped reminder» is the owner's call; the
 check is left as it is.
+
+## D-252 — Swedish is a platform language: the app in Swedish, English behind it (2026-10-09)
+
+Tor, 9 October 2026: «fortsett med fase 2, Sverige». Phase 2 starts with SE-A in docs/markets/PLAN.md: the
+signed-in app in Swedish, which the Swedish site, the Swedish market and the Swedish legal pack all stand
+on. Nothing changes for Norway.
+
+1. **The registry** (`lib/i18n/locales.ts`) makes `sv` a platform language with English as its fallback,
+   so a text not yet in Swedish is shown in English, never as a key. A new field, `surveyTexts`, says where
+   a survey language's respondent texts live:
+   - `messages` for bokmål and English;
+   - `registry` for every other language, Swedish included.
+
+   Until now this was inferred from `platform`. With Swedish a platform language, the inference would have
+   moved Swedish out of the registry: out of the dispatcher's `SURVEY_ONLY`, and into
+   `lib/i18n/respondent-ui.json` with a hash nobody approved. That would have stopped Swedish being offered
+   to respondents. The respondent page, the dispatcher's bundle (`scripts/functions/deploy.mjs`) and the
+   respondent hash script now read the field. Swedish surveys and invitations use their approved registry
+   texts, as before.
+2. **`messages/sv.json`** holds the app's chrome: 3,184 strings in 39 namespaces, machine drafts following
+   `docs/translations/sv.md`, for Tor to review.
+   - **Left out on purpose:**
+     - `respond`, `factor`, `extra` and `mail`: they are in the registry, approved;
+     - `site` and `seo`: the Swedish site needs its own content and Swedish law, not a translation of the
+       Norwegian site's (SE-F);
+     - `dpa`: the Swedish PUB-avtal is SE-E.
+   - **Norwegian law and authority names stay in Norwegian** (arbeidsmiljøloven, Arbeidstilsynet,
+     Brønnøysundregistrene), because those texts describe Norwegian law. A Swedish organisation's legal
+     texts are SE-C.
+3. **The i18n gate** (`scripts/verify/i18n.mjs`): a language with a fallback may ship partial.
+   - A key it lacks is shown in its fallback, which is complete.
+   - Every key it has gets the same checks as a complete language, and it may not have a key the source
+     lacks.
+   - Bokmål and English keep full parity. Nothing about them is loosened.
+4. **Norway unchanged:**
+   - The public site's language switch offers the site's own languages (`lib/hosts.ts` `langs`,
+     `siteLangs`): bokmål and English on every Norwegian host and on any host that is not a site. Svenska
+     is offered in the app's account menu.
+   - Oppsett › Selskap still offers an organisation in Norway bokmål and English. A Swedish organisation's
+     choice comes with its market (SE-B).
+   - Content that exists in bokmål and English only (industry pages, modules, templates, site notices) is
+     chosen by `contentLang()`: bokmål for bokmål, English for every other language. For bokmål and English
+     this is exactly the old choice.
+5. **The database** (0215) adds `sv` to the four lists of platform languages: `organizations.default_lang`,
+   `profiles.lang`, `demo_requests.lang` and `markets.default_lang`. `tests/unit/locales.test.ts` holds each
+   to the registry. Message overrides stay bokmål and English.
+6. **Legal review** keeps to bokmål and English (`lib/legal/registry.ts`). A Swedish page shows the English
+   legal text, which is the one reviewed.
+7. **Hosted:** 0215 applied through `apply_migration` and verified, with all four lists now `no, en, sv`. The
+   connector accepts `ALTER TABLE … DROP CONSTRAINT`; it is `DROP FUNCTION` that it cancels (0214).
+
+`tests/unit/swedish-platform.test.ts` covers four things:
+- the registry and the fallback;
+- that sv.json has no key the source lacks;
+- that the registry-owned namespaces stay out;
+- that Norway's site and every non-site host offer bokmål and English only, and that `contentLang` keeps
+  their choice.
+
+**Seen in the browser** (QA stack, the daglig leder, cookie `sv`): Innsikt, Resultater, Målinger, Tiltak, Rapport,
+Oppsett, Kommentarer and Hjelp render with `lang="sv"`, in Swedish, with no raw key and no console error, and the
+layout holds with the longer Swedish words. **Gap, next step (SE-A2):** factor names and statements in the results
+show in English for a Swedish leader. They are items in the translation registry, where their Swedish is, and the
+app's readers ask for bokmål or English only.
+
+**Not yet:** organisation and leader mails to a Swedish organisation are still in bokmål. The
+dispatcher's `MAIL` is bokmål and English, and choosing English or Swedish for an organisation in Sweden
+belongs to SE-B and SE-C.

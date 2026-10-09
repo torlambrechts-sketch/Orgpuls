@@ -11,6 +11,7 @@ import { isWording } from '@/lib/modules/wording'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
 import { absolute } from '@/lib/marketing/site'
+import { contentLang } from '@/lib/i18n/locales'
 
 /**
  * /<slug>/sporsmal (§ B1, D-118): the module's whole question set, generated from its file.
@@ -30,7 +31,7 @@ type Props = { params: Promise<{ bransje: string }>; searchParams: Promise<{ for
 async function resolve(props: Props) {
   const { bransje } = await props.params
   const entry = getIndustry(bransje)
-  const lang: PageLang = (await getLocale()) === 'en' ? 'en' : 'no'
+  const lang: PageLang = contentLang(await getLocale())
   const page = pageIn(entry, lang)
   if (!page?.module || !page.questionPage) notFound()
   const preview = (await props.searchParams).forhandsvis === '1'

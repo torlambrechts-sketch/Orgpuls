@@ -4,12 +4,12 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { useTransition } from 'react'
 import { setLanguage } from '@/lib/i18n/actions'
-import { bcp47, LOCALES } from '@/lib/i18n/locales'
+import { bcp47, LOCALES, type Locale } from '@/lib/i18n/locales'
 import { EN_HOST, MAIN_URL } from '@/lib/hosts'
 import { switchUrl } from '@/lib/i18n/switch'
 
-const SHORT = { no: 'NO', en: 'EN' } as const
-const NAME = { no: 'Norsk', en: 'English' } as const
+const SHORT: Record<Locale, string> = { no: 'NO', en: 'EN', sv: 'SV' }
+const NAME: Record<Locale, string> = { no: 'Norsk', en: 'English', sv: 'Svenska' }
 
 /**
  * Norsk / English (D-96). Each language is named in itself, so someone who reads only one
@@ -29,11 +29,14 @@ export function LanguageSwitch({
   label,
   size = 'sm',
   hosts,
+  langs = LOCALES,
 }: {
   label: string
   /** `text`: the two names as words in the surrounding small type (the site footer's bottom line, D-190) */
   size?: 'sm' | 'lg' | 'text'
   hosts?: { no: string; en: string }
+  /** the languages offered: the public site offers its own (lib/hosts.ts `siteLangs`, D-252); the app, every one */
+  langs?: readonly Locale[]
 }) {
   const current = useLocale()
   const router = useRouter()
@@ -61,14 +64,14 @@ export function LanguageSwitch({
           : `inline-flex flex-none items-center gap-[2px] rounded-ctl border border-line bg-sf p-[2px] ${size === 'lg' ? 'w-full' : ''}`
       }
     >
-      {LOCALES.map((l) => {
+      {langs.map((l) => {
         const on = l === current
         const cls = item(on)
         if (hosts) {
           return (
             <a
               key={l}
-              href={`${hosts[l]}${pathname}`}
+              href={`${l === 'en' ? hosts.en : hosts.no}${pathname}`}
               hrefLang={bcp47(l)}
               lang={bcp47(l)}
               aria-current={on ? 'true' : undefined}

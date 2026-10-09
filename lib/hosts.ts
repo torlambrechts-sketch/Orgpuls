@@ -1,3 +1,4 @@
+import type { Locale } from '@/lib/i18n/locales'
 import { DEFAULT_MARKET, type Market } from '@/lib/markets'
 
 /**
@@ -23,12 +24,24 @@ export const EN_URL = `https://${EN_HOST}`
  * address a link made there carries (outboundBase). A new country or brand is a row here, a market
  * in app.markets and its texts, never a branch in a component.
  */
-export type Site = { host: string; url: string; brand: 'orgpuls'; market: Market; lang: 'no' | 'en'; pinned: boolean }
+export type Site = {
+  host: string
+  url: string
+  brand: 'orgpuls'
+  market: Market
+  lang: Locale
+  pinned: boolean
+  /** the languages its language switch offers (D-252) */
+  langs: readonly Locale[]
+}
+
+/** what the Norwegian site offers, and every host that is not a site (local, a preview) */
+const NORWAY_LANGS: readonly Locale[] = ['no', 'en']
 
 export const SITES: readonly Site[] = [
-  { host: MAIN_HOST, url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false },
-  { host: 'orgpuls.com', url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false },
-  { host: EN_HOST, url: EN_URL, brand: 'orgpuls', market: 'no', lang: 'en', pinned: true },
+  { host: MAIN_HOST, url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
+  { host: 'orgpuls.com', url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
+  { host: EN_HOST, url: EN_URL, brand: 'orgpuls', market: 'no', lang: 'en', pinned: true, langs: NORWAY_LANGS },
 ]
 
 /** The production hosts of the product and the public site. */
@@ -48,6 +61,9 @@ export function siteOf(host: string | null | undefined): Site | null {
  * organisation that market's floor, which is never lower than the platform's (0214).
  */
 export const marketOfHost = (host: string | null | undefined): Market => siteOf(host)?.market ?? DEFAULT_MARKET
+
+/** The languages the public site's switch offers on this host: the site's, Norway's elsewhere (D-252). */
+export const siteLangs = (host: string | null | undefined): readonly Locale[] => siteOf(host)?.langs ?? NORWAY_LANGS
 
 const LOOPBACK = new Set(['localhost', '127.0.0.1'])
 

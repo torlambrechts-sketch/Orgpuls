@@ -1866,6 +1866,7 @@
       "languageNote": "The language applies to invitations and questions. Each employee can switch it in the form.",
       "langNo": "Bokmål",
       "langEn": "English",
+      "langSv": "Svenska",
       "yearStart": "The work-environment year starts",
       "yearStartNote": "The baseline is placed in this month every year. The year wheel follows it.",
       "noWheel": "The year wheel is not set up yet. The month is set there, together with the rhythm.",

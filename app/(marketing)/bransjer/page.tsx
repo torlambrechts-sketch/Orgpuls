@@ -12,6 +12,7 @@ import { INDUSTRY_META } from '@/content/industries/meta'
 import { moduleFacts, moduleFile } from '@/content/industries/modules'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, faqPage, graph, organization } from '@/lib/marketing/schema'
+import { contentLang } from '@/lib/i18n/locales'
 
 /**
  * /bransjer (D-125, D-190): design-reference/orgpuls/nettside-v3/Bransjer.dc.html, with the v3
@@ -71,7 +72,7 @@ export default async function BransjerPage() {
     getTranslations('factor'),
     getTranslations('site.home.industries').then((x) => x('new')),
   ])
-  const lang = (await getLocale()) === 'en' ? 'en' : 'no'
+  const lang = contentLang(await getLocale())
   const cards = (await industryCards()).map((c) => {
     const page = pageIn(getIndustry(c.slug), lang) ?? pageIn(getIndustry(c.slug), 'no')
     const facts = page?.module ? moduleFacts(moduleFile(page.module.key, lang)) : null

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS } from '@/lib/hosts'
+import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS, siteLangs } from '@/lib/hosts'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
@@ -13,6 +13,7 @@ import { INDUSTRY_META } from '@/content/industries/meta'
 import { CONTACT_MAIL } from '@/lib/marketing/site'
 import { siteIndexing } from '@/lib/site/indexing'
 import { siteNotice } from '@/lib/site/notice'
+import { contentLang } from '@/lib/i18n/locales'
 
 /**
  * The public chrome (D-190): design-reference/orgpuls/nettside-v3, the mint top band with the
@@ -34,7 +35,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('site.chrome')
   // on the production hosts each language has its own; the switch links across (D-98)
-  const hosts = PUBLIC_HOSTS.includes(hostOf((await headers()).get('host'))) ? { no: MAIN_URL, en: EN_URL } : undefined
+  const host = (await headers()).get('host')
+  const hosts = PUBLIC_HOSTS.includes(hostOf(host)) ? { no: MAIN_URL, en: EN_URL } : undefined
   const industries = await industryLinks()
   // Bransjer's column links to the cards /bransjer shows in this language: on English only the
   // industries with an English page have one, so a link to any other card would land nowhere
@@ -52,7 +54,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
   ) as FooterData
 
   // the site notice (0123): only while it is switched on (the platform's settings.set_notice)
-  const notice = await siteNotice((await getLocale()) === 'en' ? 'en' : 'no')
+  const notice = await siteNotice(contentLang(await getLocale()))
 
   return (
     <div className="min-h-screen bg-bg font-site text-[14px] text-ink">
@@ -92,7 +94,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
         columns={columns}
         label={t('footerNav')}
         about={t('footer.about')}
-        language={<LanguageSwitch label={t('language')} size="text" hosts={hosts} />}
+        language={<LanguageSwitch label={t('language')} size="text" hosts={hosts} langs={siteLangs(host)} />}
         bottom={t.rich('footer.bottom', {
           year: new Date().getFullYear(),
           // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)

@@ -8,7 +8,7 @@ import { RespondFlow, type RespondEngagement } from '@/components/respond/Respon
 import { flag } from '@/lib/flags'
 import { unmask } from '@/lib/text/mask'
 import { respondCopy, respondQuestions } from '@/lib/respond/questions'
-import { bcp47 } from '@/lib/i18n/locales'
+import { bcp47, registryTexts } from '@/lib/i18n/locales'
 
 /**
  * The respondent surface.
@@ -68,9 +68,9 @@ export default async function RespondPage({
   const locales = await getRespondLocales(token)
   const offered = offeredLocales(locales?.locales ?? null, locales?.ui)
   const lang = offered ? chooseLocale(offered, Array.isArray(asked) ? asked[0] : asked, locales?.employee_lang, locales?.org_lang) : await getLocale()
-  // bokmål and English have their page strings in messages/; a survey-only language (D-133) has
-  // them in the registry, laid over bokmål's, and offeredLocales has found every one approved
-  const surveyOnly = !!offered && lang !== 'no' && lang !== 'en'
+  // bokmål and English have their page strings in messages/; every other survey language (D-133,
+  // Swedish too, D-252) has them in the registry, laid over bokmål's, and offeredLocales has found every one approved
+  const surveyOnly = !!offered && registryTexts(lang)
   const uiLocale = lang === 'en' ? 'en' : 'no'
   const messages = surveyOnly
     ? surveyMessages(await getMessages({ locale: 'no' }), locales?.ui[lang] ?? {})

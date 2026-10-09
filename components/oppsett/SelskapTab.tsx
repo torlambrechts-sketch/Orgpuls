@@ -9,6 +9,7 @@ import { BhtField } from '@/components/oppsett/BhtField'
 import { IndustryForm } from '@/components/oppsett/IndustryForm'
 import { LogoCard } from '@/components/oppsett/LogoCard'
 import { INDUSTRIES_IN_ORDER, resolveIndustry } from '@/content/industries/meta'
+import { isLocale } from '@/lib/i18n/locales'
 
 /**
  * Selskap. Bundle lines 1987-2108.
@@ -251,7 +252,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
           </h2>
           <CompanyForm
             canWrite={view.canWrite}
-            lang={c.default_lang === 'en' ? 'en' : 'no'}
+            lang={isLocale(c.default_lang) ? c.default_lang : 'no'}
             baselineMonth={view.baselineMonth}
             // Intl gives "januar"; the design's chips are capitalised, and a month name
             // at the head of a chip is a label rather than prose
@@ -266,6 +267,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
               languageNote: t('oppsett.companySettings.languageNote'),
               langNo: t('oppsett.companySettings.langNo'),
               langEn: t('oppsett.companySettings.langEn'),
+              langSv: t('oppsett.companySettings.langSv'),
               yearStart: t('oppsett.companySettings.yearStart'),
               yearStartNote: t('oppsett.companySettings.yearStartNote'),
               noWheel: t('oppsett.companySettings.noWheel'),

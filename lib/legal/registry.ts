@@ -5,7 +5,7 @@ import no from '@/messages/no.json'
 import { INDUSTRIES, pageIn } from '@/content/industries'
 import { LANDINGS } from '@/content/industries/landing'
 import { MODULE_KEYS, moduleFile, moduleSource } from '@/content/industries/modules'
-import { LOCALES, type Locale } from '@/lib/i18n/locales'
+import type { Locale } from '@/lib/i18n/locales'
 import { ARTICLES } from '@/lib/marketing/site'
 import { DPA_SHA256, DPA_VERSION } from './dpa'
 
@@ -33,7 +33,7 @@ import { DPA_SHA256, DPA_VERSION } from './dpa'
  * law_ref. The instrument's law references are read from the database.
  */
 
-export type LegalLang = Locale
+export type LegalLang = Extract<Locale, 'no' | 'en'>
 export const LEGAL_SECTIONS = ['industries', 'modules', 'documents', 'site', 'product', 'messages'] as const
 export type LegalSection = (typeof LEGAL_SECTIONS)[number]
 
@@ -63,7 +63,9 @@ export type LegalUnit = {
 }
 
 const MESSAGES: Record<LegalLang, unknown> = { no, en }
-const LANGS: LegalLang[] = [...LOCALES]
+// the languages whose legal texts are under review: Swedish legal texts come with the Swedish legal
+// pack (D-252), and until then a Swedish page shows the English text, which is reviewed here
+const LANGS: LegalLang[] = ['no', 'en']
 
 // ---------------------------------------------------------------- text and hash
 
