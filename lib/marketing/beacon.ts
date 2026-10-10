@@ -1,4 +1,4 @@
-import { PUBLIC_HOSTS } from '@/lib/hosts'
+import { PUBLIC_HOSTS, routeOf, siteOf } from '@/lib/hosts'
 import { COLLECT_OVERRIDE, COLLECT_URL } from './collect'
 import { currentUtm } from './utm'
 import type { SiteEvent } from './events'
@@ -37,7 +37,8 @@ export function referrerHost(referrer: string, self: string): string | undefined
 }
 
 export function mayCount(host: string, path: string, optedOut: boolean, override = COLLECT_OVERRIDE): boolean {
-  if (optedOut || NEVER.test(path)) return false
+  // a site with addresses of its own reads each as its route: Empvibe's /sign-in is /logg-inn (D-270, D-274)
+  if (optedOut || NEVER.test(path) || NEVER.test(routeOf(siteOf(host)?.own?.paths, path))) return false
   return !!override || PUBLIC_HOSTS.includes(host.toLowerCase())
 }
 

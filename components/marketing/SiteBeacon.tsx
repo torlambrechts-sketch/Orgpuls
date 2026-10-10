@@ -2,9 +2,15 @@
 
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
+import { routeOf, siteOf } from '@/lib/hosts'
 import { sendBeacon } from '@/lib/marketing/beacon'
 
-const toSignup = (href: string | null) => href === '/registrer' || !!href?.startsWith('/registrer?')
+/** a link or form that leads to sign-up, at its route or at the site's own address for it (Empvibe's /sign-up, D-274) */
+const toSignup = (href: string | null) => {
+  const path = href?.split(/[?#]/)[0]
+  if (!path) return false
+  return routeOf(siteOf(window.location.hostname)?.own?.paths, path) === '/registrer'
+}
 
 /**
  * Mounted on the public site only (D-248, as D-91 had it until D-230): counts each page view, and a

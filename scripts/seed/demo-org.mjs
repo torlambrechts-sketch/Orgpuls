@@ -620,9 +620,8 @@ insert into app.invitations (org_id, round_id, employee_id, token_hash, sent_at,
 select ${org}, pg_temp.did('round:' || d.key), e.id,
        sha256(convert_to('demo.' || pg_temp.did('round:' || d.key) || '.' || e.id, 'utf8')),
        d.opens, d.closes,
-       case when e.rank <= c.answered then
-         case when d.open then date_trunc('hour', now()) - (1 + (e.rank - 1) % 30) * interval '1 hour'
-              else d.closes - (1 + (e.rank - 1) % 6) * interval '1 day' end end
+       -- answered, stamped as submit_response stamps it: the round's opening, never when (0229)
+       case when e.rank <= c.answered then d.opens end
 from demo_cohort c
 join demo_round d on d.key = c.rk
 join demo_group g on g.gi = c.gi

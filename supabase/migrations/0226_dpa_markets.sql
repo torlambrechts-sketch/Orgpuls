@@ -96,4 +96,4 @@ grant execute on function public.sign_dpa(uuid, text, text, text) to authenticat
 
 -- ---------------------------------------------------------------- the United Kingdom's first version
 insert into app.dpa_versions (version, text_sha256, published_on, market)
-values ('gb-2026-10-10', '46f551600233f48d5d92d1166e0c60f781ba1af864b3ef0dd10fd39f8bfef411', date '2026-10-10', 'gb');
+values ('gb-2026-10-10', '62bf840c8403acddd968b8146dc94ad95cbac86d8ca1ff8f02754d370aa12e58', date '2026-10-10', 'gb');

@@ -51,7 +51,8 @@ export async function saveBilling(_prev: BillingResult | null, formData: FormDat
   })
   if (!parsed.success) {
     const plan = PLANS.includes(formData.get('plan') as (typeof PLANS)[number])
-    return { ok: false, problem: plan ? 'invalid_email' : 'invalid_plan' }
+    const vat = parsed.error.issues.some((i) => i.path[0] === 'vatNumber')
+    return { ok: false, problem: !plan ? 'invalid_plan' : vat ? 'invalid_vat_number' : 'invalid_email' }
   }
 
   const org = await getCurrentOrgId()

@@ -13483,8 +13483,75 @@ United Kingdom its own of each, with the owner's four decisions (X-113).
 **Left as it was, on purpose.**
 - A UK subscription's paid period ends on Oslo's calendar (`cancel_subscription`, `paid_last_day`, D-273). That is
   23:00 in London on the same date, so no date shown changes.
-- Sentral receives `billing.changed` with plan and interval but no market or currency. Before it counts UK revenue it
-  must learn the organisation's market: the phase-1 leftover «market … on the events sent to Sentral».
+- Sentral is told the market (0228, below) but not a currency or an amount: before it counts UK revenue, Sentral must map the market to the UK list (`PLAN_PRICES.gb`) on its side.
 
-**Open, the owner's and the lawyer's (X-113).** The Article 27 representative; whether a Norwegian-law DPA meets
-art. 28(3)'s «under domestic law»; the ICO fee; what a reverse-charged invoice must state.
+**The platform learns the market (0228).** The invoice is made on the platform. Until now nothing it received named
+the organisation's market, so a UK Small/month would have read as Norway's NOK 265.
+- `org.created` and `billing.changed` now carry `market`, registered in `platform_event_kinds`.
+- The triggers and `orgs.resync` send it, and `op_org_get` and `op_orgs_list` return it.
+- Each function is patched in place, so a definition that has drifted on hosted stops the migration rather than being
+  overwritten. `billing_gb_invariants` 11–12 prove it.
+
+**An invitation says whether, not when (0229).** The review of the UK agreement found the invitation stamped with the
+exact moment of the answer (`responded_at = now()`). No client reads invitations (0042). But anyone with access to the
+database itself could match a response's group and hour to the one employee in the group whose invitation was answered
+in that hour.
+- Nothing read the time: every reader tests the column for null. So `submit_response` now stamps the round's opening,
+  the same for everyone the round invited. The rows already stamped are set the same way.
+- The seed scripts write the same.
+- `responded_at_invariants.sql` proves it.
+- This holds in Norway too: its agreement's «tidspunkt avrundet til timen» and «om den ansatte har svart» are now true
+  of the invitation as well as of the answer.
+- What is left is coarser: a reminder skipped because the person had answered says the answer came before that
+  reminder was due.
+
+**The reviews.** Three independent passes ran: UK law, the texts against the code, and the code. What was found and
+changed:
+- **The DPA**
+  - It binds from registration, as part of the terms; the signature records it.
+  - It has the subject matter and nature, the controller's obligations and rights, return or deletion at the
+    controller's choice (a CSV of the register on request), the full art. 33(3) breach notice in phases, and complaints
+    that reach Empvibe passed on.
+  - A change to a switched-on integration's sub-processor is notified.
+  - Special category data may appear in comments.
+  - The screening questions are distinguished from HSE's bullying items, which are reported per department.
+  - Bounce and unsubscribe records are listed.
+  - The split between processor and controller for users is stated.
+  - Brevo's own delivery and open logging is disclosed.
+- **The privacy notice**
+  - Users added by their organisation have their own section.
+  - It names the reply-notice exception.
+  - It says which data is optional, that marketing can be stopped at any time, and that the accounting retention is
+    five years.
+  - It covers complaints by post or e-mail, a copy of the transfer safeguards on request, Microsoft as well as Google in
+    the sign-up cookie, Vercel's measurement being unaffected by GPC/DNT, the sign-in service's identity details and
+    sign-in logs, and what the forms store.
+- **The terms**
+  - They name the reply-notice exception and confirm business use for the reverse charge.
+  - They state the late-payment rate, and the Northern Ireland regulation.
+  - The trial is extended by the managing director in Settings.
+  - The free plan names the optional modules.
+  - They say what PDF printing is available, and that data is deleted 30 days after the end.
+  - The liability clause no longer limits what the law does not allow to be limited, and leaves UK GDPR art. 82
+    untouched.
+- **Sign-up.** The UK sign-up's consent accepts the terms and the DPA.
+- **Billing**
+  - A bad VAT number reports as such.
+  - The field shows the stored form after saving.
+  - The business-evidence message no longer points to a field the UK does not have. Every UK sign-up has a company
+    number (`create_organisation`), so it is a backstop.
+- **The site's visit counting** reads Empvibe's addresses as routes, so `/sign-in` is never counted and a press on
+  `/sign-up` is.
+
+**Open, the owner's and the lawyer's (X-113).**
+- The Article 27 representative.
+- Whether a Norwegian-law DPA meets art. 28(3)'s «under domestic law».
+- The ICO fee.
+- What a reverse-charged invoice must state.
+- The transfer mechanism actually used by each US sub-processor.
+- Whether an unverified Companies House number counts as evidence of a business (Notice 741A 6.3).
+- A refund when Empvibe terminates or changes the price.
+- A minimum in the liability cap for a customer who has paid nothing.
+- **UK-G's, not UK-F's:**
+  - UK SMS still go out with the sender «Orgpuls» (the phase-1 leftover «SMS sender per market»).
+  - The beacon counts on Empvibe only once its site row is unconditional, since `EMPVIBE_SITE` is a server variable.

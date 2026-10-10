@@ -223,7 +223,8 @@ insert into app.invitations (org_id, round_id, employee_id, token_hash, sent_at,
 select ${org}, r.id, e.id,
        coalesce(tk.hash, sha256(convert_to('qa.' || r.id || '.' || e.id, 'utf8'))),
        r.opens_at, r.closes_at + interval '1 day',
-       case when e.rank <= c.answered then least(r.closes_at, r.opens_at + e.rank * interval '5 hours') end
+       -- answered, stamped as submit_response stamps it: the round's opening, never when (0229)
+       case when e.rank <= c.answered then r.opens_at end
 from (values ${ROUNDS.flatMap((r) => QA_GROUPS.map((g) => `('${id(`round:${r.key}`)}'::uuid, '${id(`group:${g[0]}`)}'::uuid, ${g[r.col]})`)).join(', ')}) as c(round_id, group_id, answered)
 join app.rounds r on r.id = c.round_id
 join lateral (select em.id, row_number() over (order by em.created_at) rank from app.employees em where em.group_id = c.group_id) e on true

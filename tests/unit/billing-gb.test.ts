@@ -4,6 +4,7 @@ import gb from '@/messages/market/gb/en.json'
 import { PLAN_MAX } from '@/lib/billing/read'
 import { MARKETS } from '@/lib/markets'
 import { ANNUAL_MONTHS, PLAN_PRICES, PLAN_SIZES, PRICE_MARKET, planPrices } from '@/lib/site/pricing'
+import { vatNumberAsStored } from '@/lib/billing/vat'
 
 /**
  * Invoicing an organisation in the United Kingdom (UK-F3, X-113, D-274): pounds, the reverse charge,
@@ -58,6 +59,13 @@ describe('the VAT number (0227)', () => {
   it('is stored as HMRC writes it: GB and nine digits, twelve for a branch, GD or HA and three', () => {
     for (const ok of ['GB123456789', 'GB123456789012', 'GBGD001', 'GBHA500']) expect(rule.test(ok), ok).toBe(true)
     for (const no of ['123456789', 'GB12345', 'XI123456789', 'NO922698422MVA', 'gb123456789']) expect(rule.test(no), no).toBe(false)
+  })
+
+  it('reads back in the form as the database stores it', () => {
+    for (const [typed, stored] of [[' 123 4567 89 ', 'GB123456789'], ['gb123.456.789', 'GB123456789'], ['123456789012', 'GB123456789012'], ['GBGD001', 'GBGD001']]) {
+      expect(vatNumberAsStored(typed!), typed).toBe(stored)
+      expect(rule.test(vatNumberAsStored(typed!)), typed).toBe(true)
+    }
   })
 
   it('is drawn only for a UK organisation, where EHF is drawn for Norway', () => {

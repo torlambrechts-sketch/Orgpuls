@@ -2396,7 +2396,7 @@
         "failed": "Det gikk ikke å lagre. Prøv igjen.",
         "ehf_not_offered": "EHF tilbys ikke for denne virksomheten. Fakturaen sendes på e-post.",
         "invalid_vat_number": "Mva-nummeret kan ikke brukes. Skriv det slik HMRC skriver det, for eksempel GB123456789.",
-        "business_evidence_needed": "Legg inn virksomhetens britiske mva-nummer her, eller organisasjonsnummeret under Selskap, før abonnementet bekreftes."
+        "business_evidence_needed": "Legg inn virksomhetens britiske mva-nummer her før abonnementet bekreftes, eller kontakt oss hvis den ikke har et."
       },
       "pillGrace": "{count, plural, one {# dag} other {# dager}} til gratisplanen",
       "pillFree": "Gratisplan",

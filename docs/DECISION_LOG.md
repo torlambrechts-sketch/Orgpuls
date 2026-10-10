@@ -3500,3 +3500,10 @@ recommended option for the first three; on the fourth he chose «Ikke nødvendig
     in DPA section 13 (the DPA alone governed by the law of England and Wales) and a new version gb-YYYY-MM-DD.
   - **ICO fee** for a controller with no UK establishment (UNVERIFIED 3), and the invoice content of a reverse-charged
     supply (UNVERIFIED 12), are still open.
+  - **Found by the reviews (D-274), for Tor and the lawyer:**
+    - the transfer mechanism each US sub-processor actually uses (IDTA, Addendum, or the UK Extension registered for HR
+      data);
+    - whether an unverified company number is evidence of a business for the reverse charge;
+    - a pro-rata refund when Empvibe terminates on notice or a customer leaves over a price change;
+    - a minimum in the liability cap, which is £0 for a customer on the free plan;
+    - whether an Oslo judgment can be enforced in the UK now that Lugano no longer reaches it.

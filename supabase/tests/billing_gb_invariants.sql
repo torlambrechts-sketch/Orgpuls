@@ -10,6 +10,8 @@
 --   * a UK plan is confirmed only with a VAT number or a company number, the evidence that the
 --     customer is a business and the reverse charge holds (8, 9)
 --   * nothing written here survives (10)
+--   * the platform, where the invoice is made, hears the market: the events and the organisation view
+--     carry it (0228) (11, 12)
 --
 -- Makes its own organisations. Every row must read pass = true.
 --
@@ -110,6 +112,22 @@ begin
       'pass', (v_json->>'ok')::boolean and (v_json2->>'ok')::boolean
               and not exists (select 1 from app.billing where org_id in (v_gb, v_bare) and confirmed_at is null));
 
+    -- 11, 12 ------------------------------------------------------ the platform hears the market
+    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'org.created and billing.changed may carry the market, and the organisation view names it',
+      'expected', 'true, true, gb',
+      'actual', (select string_agg(('market' = any (fields))::text, ', ' order by kind) from app.platform_event_kinds where kind in ('billing.changed', 'org.created'))
+                || ', ' || coalesce(app.op_org_get(v_gb)->>'market', 'none'),
+      'pass', (select bool_and('market' = any (fields)) and count(*) = 2 from app.platform_event_kinds where kind in ('billing.changed', 'org.created'))
+              and app.op_org_get(v_gb)->>'market' = 'gb'
+              and exists (select 1 from jsonb_array_elements(app.op_orgs_list('Probe Ltd', 5)) x where x->>'market' = 'gb'));
+
+    v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'the events a UK organisation sends say it is in the United Kingdom',
+      'expected', 'gb, gb',
+      'actual', coalesce((select payload->>'market' from app.platform_events where org_id = v_gb and kind = 'org.created' order by id desc limit 1), 'none')
+                || ', ' || coalesce((select payload->>'market' from app.platform_events where org_id = v_gb and kind = 'billing.changed' order by id desc limit 1), 'none'),
+      'pass', (select payload->>'market' from app.platform_events where org_id = v_gb and kind = 'org.created' order by id desc limit 1) = 'gb'
+              and (select payload->>'market' from app.platform_events where org_id = v_gb and kind = 'billing.changed' order by id desc limit 1) = 'gb');
+
     perform set_config('request.jwt.claims', '', true);
     raise exception 'rollback-probe';
   exception when others then
@@ -136,8 +154,8 @@ begin
   if v_failed is not null then
     raise exception 'billing gb invariants failed: %', v_failed;
   end if;
-  if v_count <> 10 then
-    raise exception 'billing gb invariants: expected 10 rows, got %', v_count;
+  if v_count <> 12 then
+    raise exception 'billing gb invariants: expected 12 rows, got %', v_count;
   end if;
 end $$;
 

@@ -32,7 +32,7 @@ import type { Market } from '@/lib/markets'
  */
 export const DPA_IN_FORCE = {
   no: { version: '2026-10-05', sha256: 'bb0c548efca436bbac573f8ed59ca1aaabf748b4b4de09d942f8a8b100186904' },
-  gb: { version: 'gb-2026-10-10', sha256: '46f551600233f48d5d92d1166e0c60f781ba1af864b3ef0dd10fd39f8bfef411' },
+  gb: { version: 'gb-2026-10-10', sha256: '62bf840c8403acddd968b8146dc94ad95cbac86d8ca1ff8f02754d370aa12e58' },
 } as const
 export type DpaMarket = keyof typeof DPA_IN_FORCE
 

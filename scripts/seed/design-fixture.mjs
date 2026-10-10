@@ -883,7 +883,8 @@ insert into app.invitations (org_id, round_id, employee_id, token_hash, sent_at,
 select '${ORG}', r.id, e.id,
        sha256(convert_to('fixture.' || r.id::text || '.' || e.id::text, 'utf8')),
        r.opens_at, r.closes_at,
-       case when e.rn <= c.answered then r.closes_at - interval '1 day' end
+       -- answered, stamped as submit_response stamps it: the round's opening, never when (0229)
+       case when e.rn <= c.answered then r.opens_at end
 from app.rounds r
 cross join (values ${COHORTS[year].map(([n, h, a]) => `('${n}',${h},${a})`).join(',')})
   as c(name, invited, answered)

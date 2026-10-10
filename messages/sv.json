@@ -2204,7 +2204,7 @@
         "failed": "Det gick inte att spara. Försök igen.",
         "ehf_not_offered": "EHF erbjuds inte för den här organisationen. Fakturan skickas med e-post.",
         "invalid_vat_number": "Momsnumret kan inte användas. Skriv det som HMRC gör, till exempel GB123456789.",
-        "business_evidence_needed": "Ange organisationens brittiska momsregistreringsnummer här, eller organisationsnumret under Företag, innan abonnemanget bekräftas."
+        "business_evidence_needed": "Ange organisationens brittiska momsregistreringsnummer här innan abonnemanget bekräftas, eller kontakta oss om den inte har något."
       },
       "pillGrace": "{count, plural, one {# dag} other {# dagar}} till gratisplanen",
       "pillFree": "Gratisplan",

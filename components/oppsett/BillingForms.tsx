@@ -1,6 +1,7 @@
 'use client'
 
-import { useActionState, useId, useState } from 'react'
+import { useActionState, useEffect, useId, useState } from 'react'
+import { vatNumberAsStored } from '@/lib/billing/vat'
 import Link from 'next/link'
 import {
   cancelSubscription,
@@ -100,6 +101,10 @@ export function BillingForm({
   const [state, action, pending] = useActionState<BillingResult | null, FormData>(saveBilling, null)
   const problem = state && !state.ok ? (labels.problems[state.problem] ?? labels.problems.failed) : null
   const done = state?.ok ? (state.confirmed ? labels.confirmedNow : labels.saved) : null
+  // once saved, the VAT number reads as the database stored it (0227): «123 4567 89» is GB123456789
+  useEffect(() => {
+    if (state?.ok) setVatNumber((v) => vatNumberAsStored(v))
+  }, [state])
 
   return (
     <form action={action} className="flex flex-col gap-[16px]" aria-describedby={problem ? `${id}-problem` : undefined}>

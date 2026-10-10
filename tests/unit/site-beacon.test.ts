@@ -31,6 +31,17 @@ describe('where the beacon may count', () => {
   it('sends nothing from a browser that asks not to be tracked', () => {
     expect(mayCount('www.orgpuls.com', '/', true, '')).toBe(false)
   })
+
+  it('reads a site’s own addresses as their routes: Empvibe’s sign-in is never counted, its pages are (D-274)', async () => {
+    vi.stubEnv('EMPVIBE_SITE', 'open')
+    vi.resetModules()
+    const { mayCount: count } = await import('@/lib/marketing/beacon')
+    expect(count('www.empvibe.com', '/sign-in', false, '')).toBe(false)
+    expect(count('www.empvibe.com', '/privacy', false, '')).toBe(true)
+    expect(count('www.empvibe.com', '/sign-up', false, '')).toBe(true)
+    vi.unstubAllEnvs()
+    vi.resetModules()
+  })
 })
 
 describe('what a beacon says', () => {
