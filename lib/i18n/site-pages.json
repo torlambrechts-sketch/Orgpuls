@@ -5534,6 +5534,7 @@
     "registrer.todo.threshold.title",
     "registrer.todo.threshold.note",
     "registrer.todo.threshold.time",
+    "registrer.todo.threshold.noteAt",
     "registrer.todo.send.title",
     "registrer.todo.send.note",
     "registrer.todo.send.time",
@@ -5555,6 +5556,7 @@
     "registrer.problem.rate_limited",
     "registrer.problem.google_failed",
     "registrer.problem.microsoft_failed",
+    "registrer.problem.invalid_org_number_se",
     "registrer.googleOr",
     "registrer.google",
     "registrer.microsoft",
@@ -5570,7 +5572,15 @@
     "registrer.heard.option.bht",
     "registrer.heard.option.event",
     "registrer.heard.option.newsletter",
-    "registrer.heard.option.other"
+    "registrer.heard.option.other",
+    "registrer.step1LeadManual",
+    "registrer.orgNumberPlaceholderManual",
+    "registrer.orgNumberHintManual",
+    "registrer.companyName",
+    "registrer.companyNamePlaceholder",
+    "registrer.lookUpManual",
+    "registrer.foundHeadManual",
+    "registrer.reassure1Manual"
    ]
   },
   {
@@ -5980,6 +5990,7 @@
  ],
  "shared": [
   "site.chrome.skip",
+  "brand.name",
   "site.chrome.navLabel",
   "site.chrome.nav.plattform",
   "site.chrome.nav.bransjer",
