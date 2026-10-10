@@ -12420,3 +12420,27 @@ a manual text where there is no register (`oppsett.selskap.leadManual`), as sign
 - The phone field's «norsk mobilnummer» belongs to phase 1's phone country per market.
 - The pack's texts are machine-written from the sources and not reviewed by a Swedish lawyer. Legal review is a
   record, not a gate (X-078).
+
+## D-258 — A registered address without its market or brand redirects to the English site (2026-10-10)
+
+X-110: Tor routed de.orgpuls.com and empvibe.com (and www.empvibe.com) to the Vercel project. The hosts were in no
+site row (`lib/hosts.ts` SITES), so the app served them as it serves any unknown host:
+- the whole Norwegian public site, indexable (robots.txt said `Allow: /`);
+- a sign-up that would make a German or British firm a Norwegian organisation (`marketOfHost` reads an unknown host
+  as Norway).
+
+Checked by curl in production before the change: both answered 200 with the Norwegian site.
+
+**The rule.** `RESERVED_HOSTS` names an address that is registered but has no market or brand open yet, and where it
+goes. `hostGate` sends every request on such a host to the same path on that address: 307, temporary, so the day
+the market or brand opens its own site takes over. Every such response carries `X-Robots-Tag: noindex, nofollow`.
+Both go to en.orgpuls.com. Of the sites that exist, that is the one a German or an English-speaking visitor can
+read. It keeps the query string. A preview or local host is not affected, since only the named hosts are reserved.
+
+**Not decided here:** a holding page of Empvibe's own (its brand layer is phase 4), and whether Germany moves to
+orgpuls.de. Each is one row: a site row in SITES when the market or brand opens, and the reserved row removed.
+
+`tests/unit/markets.test.ts` covers three things:
+- every address on the three hosts goes to the English site's same address;
+- the hosts have no site and so no market;
+- Norway's and Sweden's hosts are unchanged.

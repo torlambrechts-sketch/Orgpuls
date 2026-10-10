@@ -3422,3 +3422,18 @@ docs/markets/PLAN.md (orgpuls.se or se.orgpuls.com).
   - nothing on it is indexed (D-256).
 - **Open, still Tor's:** the Swedish anonymity floor (built at 5, raise-only); Swedish in the survey
   (`locale_sv`); Swedish sole traders; SEK prices; a Bolagsverket API agreement.
+
+### X-110 — de.orgpuls.com and empvibe.com are registered and routed to the app
+
+Tor, 2026-10-10: «Jeg har registrert og lagt til se. Og de.» and «Empvibe er også registrert». se.orgpuls.com,
+de.orgpuls.com and empvibe.com (with www.empvibe.com) answer from the Vercel project.
+
+- **se.orgpuls.com** opens the Swedish market as X-109 and D-256 describe.
+- **de.orgpuls.com** is Germany's address, for now, as se is Sweden's. The German market itself still waits on the
+  instrument and the roles decisions (docs/markets/PLAN.md phase 3).
+- **empvibe.com** is the English-speaking brand's address (phase 4). It waits on the brand layer.
+- **Until each opens,** nothing is served on de.orgpuls.com or empvibe.com. Every address there goes to the same one
+  on en.orgpuls.com, temporarily, and nothing is indexed (D-258). That keeps a German or British firm from being
+  signed up as a Norwegian one, and keeps the Norwegian site from being indexed twice under other names.
+- **Open, still Tor's:** whether Germany later moves to orgpuls.de; what Empvibe's address shows before its own site
+  (built: a redirect to the English Orgpuls site).

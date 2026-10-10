@@ -145,6 +145,22 @@ describe('a host without its own public site yet (D-256)', () => {
   })
 })
 
+describe('a host reserved for a market or brand not open yet (X-110, D-258)', () => {
+  it('sends every address on de.orgpuls.com and empvibe.com to the same one on the English site, and indexes nothing', async () => {
+    const { hostGate, RESERVED_HOSTS, siteOf, marketOfHost } = await import('@/lib/hosts')
+    expect(Object.keys(RESERVED_HOSTS).sort()).toEqual(['de.orgpuls.com', 'empvibe.com', 'www.empvibe.com'])
+    for (const host of ['de.orgpuls.com', 'www.empvibe.com', 'empvibe.com'])
+      for (const [path, pub] of [['/', true], ['/priser', true], ['/registrer', true], ['/logg-inn', true], ['/robots.txt', true], ['/innsikt', false]] as const)
+        expect(hostGate(host, path, pub), `${host}${path}`).toEqual({ noindex: true, redirect: `https://en.orgpuls.com${path}` })
+    expect(hostGate('DE.orgpuls.com:443', '/', true).redirect).toBe('https://en.orgpuls.com/')
+    // no site, so no market to sign up into: a spoofed header still reads as Norway, and the gate stops it first
+    for (const host of Object.keys(RESERVED_HOSTS)) {
+      expect(siteOf(host)).toBeNull()
+      expect(marketOfHost(host)).toBe('no')
+    }
+  })
+})
+
 describe('each market’s floor, as a screen offers it', () => {
   // the floors the migrations set, in order: a market's insert, then any raise
   const floors = new Map<string, number>()

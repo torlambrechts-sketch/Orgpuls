@@ -137,12 +137,16 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname
 
   // a market's host before its own public site (D-256): the Norwegian site's pages go to the
-  // sign-up, and nothing there is indexed. Pure string work on the host: it cannot throw.
+  // sign-up, and nothing there is indexed; a reserved host (D-258) goes to the main site whole.
+  // Pure string work on the host: it cannot throw.
   const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path))
   if (gate.redirect) {
-    const url = request.nextUrl.clone()
-    url.pathname = gate.redirect
-    url.search = ''
+    // a reserved host's redirect is absolute and keeps the query; a market's host goes to its sign-up
+    const url = gate.redirect.startsWith('https://') ? new URL(`${gate.redirect}${request.nextUrl.search}`) : request.nextUrl.clone()
+    if (!gate.redirect.startsWith('https://')) {
+      url.pathname = gate.redirect
+      url.search = ''
+    }
     return noindex(NextResponse.redirect(url), true)
   }
   return noindex(await route(request, path), gate.noindex)

@@ -35,8 +35,8 @@ A host names a brand, a market and a default language. One codebase, one databas
 |---|---|---|
 | 1 | **Market foundation, Norway unchanged** | **started** — 1a built and live, hosted included (D-251) |
 | 2 | Sweden | **started** — SE-A, SE-A2, SE-B1–B3 and SE-C: the app and the instrument in Swedish, Sweden as a market, the Swedish address and Sweden's law (D-252–D-257); the rest below |
-| 3 | Germany | waiting on the instrument and roles decisions |
-| 4 | Empvibe, UK first | brand layer after phase 1; UK research done (artifact, «United Kingdom: what it takes») |
+| 3 | Germany | waiting on the instrument and roles decisions; address de.orgpuls.com registered, redirected to the English site until the market opens (X-110, D-258) |
+| 4 | Empvibe, UK first | brand layer after phase 1; UK research done (artifact, «United Kingdom: what it takes»); empvibe.com registered, redirected to the English site until the brand opens (X-110, D-258) |
 | ∥ | Leadership 360 app, its own Supabase project | independent; shares packages, not the database |
 
 ### Phase 1 — what is done and what is left
