@@ -1,6 +1,6 @@
 import { headers } from 'next/headers'
 import { notFound } from 'next/navigation'
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { ButtonLink } from '@/components/ui/Button'
 import { SlackSetup, type SlackSetupLabels } from '@/components/integrasjoner/SlackSetup'
 import { outboundBase } from '@/lib/hosts'
@@ -10,6 +10,8 @@ import { getSlackSettings, getSlackStatus, slackConfigured } from '@/lib/slack/r
 import { problemFrom, slackGate } from '@/lib/slack/schema'
 import { SLACK_SCOPES } from '@/supabase/functions/_shared/slack'
 import { disconnectSlack, startSlackConnect } from './actions'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Integrasjoner › Slack (0185, D-205). **The design has no Slack anywhere**: this screen is the
@@ -36,7 +38,8 @@ export default async function SlackPage({
 }) {
   const t = await getTranslations('slackSetup')
   const tn = await getTranslations()
-  const format = await getFormatter()
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
   const params = await searchParams
   const [org, role, settings, sms, h] = await Promise.all([getOrganization(), getViewerRole(), getSlackSettings(), getSmsSettings(), headers()])
   if (!org || !settings) notFound()
@@ -45,7 +48,7 @@ export default async function SlackPage({
   const gate = slackGate(status, configured)
   const problem = problemFrom(params.feil)
   const leader = role === 'daglig_leder'
-  const date = (iso: string | null | undefined) => (iso ? format.dateTime(new Date(iso), { dateStyle: 'long' }) : '')
+  const date = (iso: string | null | undefined) => (iso ? dateFormat(dates, { dateStyle: 'long' }).format(new Date(iso)) : '')
   const working = gate === 'connected'
 
   const card = 'rounded-panel border border-line bg-sf px-[24px] py-[22px]'

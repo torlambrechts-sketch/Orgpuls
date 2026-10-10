@@ -50,6 +50,13 @@ export const MARKET_LANGS: Record<Market, readonly Locale[]> = { no: ['no', 'en'
  */
 export const MARKET_K_FLOOR: Record<Market, number> = { no: 3, se: 5, gb: 5 }
 
+/**
+ * Each market's time zone as the migrations set it (app.markets.timezone: 0214, 0218, 0222), which a
+ * new organisation in it takes. The clock of a page that knows the market but not the organisation
+ * (lib/i18n/dates-server.ts); tests/unit/markets.test.ts holds this to the migrations.
+ */
+export const MARKET_TIME_ZONE: Record<Market, string> = { no: 'Europe/Oslo', se: 'Europe/Stockholm', gb: 'Europe/London' }
+
 /** The problem a sign-up shows for a number the market's rule refuses: Norway's says nine digits */
 export const orgNumberProblem = (market: Market): string => (market === 'no' ? 'invalid_org_number' : `invalid_org_number_${market}`)
 

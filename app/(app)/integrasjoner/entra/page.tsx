@@ -7,6 +7,8 @@ import { entraClientId, getEntraStatus } from '@/lib/entra/read'
 import { SKIP_REASONS, getEntraSync } from '@/lib/entra/import'
 import { bindProblemFrom, entraGate } from '@/lib/entra/schema'
 import { startEntraBinding, unbindEntra } from './actions'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Integrasjoner › Microsoft Entra ID — the design's connection screen, `isEntra` branch
@@ -49,6 +51,8 @@ export default async function EntraPage({
   const ti = await getTranslations('entraImport')
   const tn = await getTranslations()
   const format = await getFormatter()
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
   const params = await searchParams
   const orgId = await getCurrentOrgId()
   if (!orgId) notFound()
@@ -56,9 +60,9 @@ export default async function EntraPage({
   const clientId = entraClientId()
   const gate = entraGate(status, clientId)
   const problem = bindProblemFrom(params.feil)
-  const date = (iso: string | null | undefined) => (iso ? format.dateTime(new Date(iso), { dateStyle: 'long' }) : '')
+  const date = (iso: string | null | undefined) => (iso ? dateFormat(dates, { dateStyle: 'long' }).format(new Date(iso)) : '')
   const when = (iso: string | null | undefined) =>
-    iso ? format.dateTime(new Date(iso), { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/Oslo' }) : ''
+    iso ? dateFormat(dates, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso)) : ''
   // the import: only once a tenant is bound, and only for the daglig leder (entra_sync_status)
   const importing = Boolean(status?.bound && sync)
   const run = sync?.run ?? null

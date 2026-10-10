@@ -8,6 +8,8 @@ import type { IndustryMeta } from '@/content/industries/meta'
 import { SendCard } from '@/components/maleoppsett/SendCard'
 import type { RoundReady, SendPreview } from '@/lib/rounds/send'
 import type { MailMessages } from '@/supabase/functions/_shared/mail'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Måleoppsett, the rendering. Bundle lines 1425-1710.
@@ -153,11 +155,13 @@ const CLOSES = [5, 7, 14]
 export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
   const t = await getTranslations()
   const locale = await getLocale()
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
   const isBaseline = view.kind === 'grunnlinje'
 
   // "september 2027" and "1. desember kl. 09.00", in the organisation's own zone
   const fmt = (iso: string, opts: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...opts }).format(new Date(iso))
+    dateFormat(dates, opts).format(new Date(iso))
   const nextArgs = view.nextOpensAt
     ? {
         month: fmt(view.nextOpensAt, { month: 'long' }),

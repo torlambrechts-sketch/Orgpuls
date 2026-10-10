@@ -1,9 +1,11 @@
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { PrintButton } from '@/components/rapport/PrintButton'
 import { DPA_VERSION, DpaText, dpaVersionDay } from '@/lib/legal/dpa'
 import type { DpaSignature } from '@/lib/legal/read'
 import { CONTACT_MAIL } from '@/lib/marketing/site'
 import { DpaSignForm } from './DpaSignForm'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Oppsett › Databehandleravtale (D-87): the agreement between the organisation, as controller,
@@ -30,12 +32,13 @@ export async function DpaTab({
   viewerName: string
 }) {
   const t = await getTranslations()
-  const format = await getFormatter()
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
   const text = DpaText.parse(t.raw('dpa'))
   const current = signatures.find((s) => s.version === DPA_VERSION) ?? null
   const earlier = signatures.filter((s) => s.version !== DPA_VERSION)
-  const when = (iso: string) => format.dateTime(new Date(iso), { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Oslo' })
-  const version = format.dateTime(new Date(`${dpaVersionDay(DPA_VERSION)}T12:00:00Z`), { dateStyle: 'long' })
+  const when = (iso: string) => dateFormat(dates, { dateStyle: 'long', timeStyle: 'short' }).format(new Date(iso))
+  const version = dateFormat(dates, { dateStyle: 'long' }).format(new Date(`${dpaVersionDay(DPA_VERSION)}T12:00:00Z`))
 
   return (
     <div className="mt-[20px] flex flex-col gap-[16px]">

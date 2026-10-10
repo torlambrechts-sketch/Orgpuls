@@ -1,10 +1,12 @@
 import { notFound } from 'next/navigation'
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { TeamsSetup, type TeamsSetupLabels } from '@/components/integrasjoner/TeamsSetup'
 import { ButtonLink } from '@/components/ui/Button'
 import { getEntraStatus } from '@/lib/entra/read'
 import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { getTeamsSettings, getTeamsStatus, teamsBotConfigured } from '@/lib/teams/read'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Integrasjoner › Teams (0176, D-203). The design has a Teams row (bundle 3649-3651) and a
@@ -22,7 +24,8 @@ export const dynamic = 'force-dynamic'
 
 export default async function TeamsPage() {
   const t = await getTranslations()
-  const format = await getFormatter()
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
   const [org, role, settings] = await Promise.all([getOrganization(), getViewerRole(), getTeamsSettings()])
   if (!org || !settings) notFound()
   const [entra, status] = await Promise.all([getEntraStatus(org.id), getTeamsStatus(org.id)])
@@ -43,7 +46,7 @@ export default async function TeamsPage() {
             ...(status.blocked ? [k('blocked', { count: status.blocked })] : []),
             ...(status.unreachable ? [k('unreachable', { count: status.unreachable })] : []),
             ...(status.last_problem_day
-              ? [k('problemsLast', { date: format.dateTime(new Date(status.last_problem_day), { dateStyle: 'long', timeZone: 'Europe/Oslo' }) })]
+              ? [k('problemsLast', { date: dateFormat(dates, { dateStyle: 'long' }).format(new Date(status.last_problem_day)) })]
               : []),
           ]
       : null,

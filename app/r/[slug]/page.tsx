@@ -4,6 +4,8 @@ import { RiskBadge } from '@/components/ui/Risk'
 import { getRoundPage, type RoundPage } from '@/lib/results/page'
 import { logoPath } from '@/lib/org/logo'
 import { EN_URL, MAIN_URL } from '@/lib/hosts'
+import { dateFormat, type Dates } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * «Dette sa dere, dette gjør vi» (gap analysis P1-3, 0100, D-151): one closed round, for everyone
@@ -36,17 +38,16 @@ export default async function RoundPageRoute({ params }: { params: Promise<{ slu
     )
   }
 
-  return <Page page={page} t={t} locale={await getLocale()} />
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
+  const locale = await getLocale()
+  return <Page page={page} t={t} locale={locale} dates={await getDates(locale)} />
 }
 
 type T = Awaited<ReturnType<typeof getTranslations>>
 
-function Page({ page, t, locale }: { page: RoundPage; t: T; locale: string }) {
-  const date = (iso: string | null) =>
-    iso ? new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso)) : ''
-  const month = page.round.closes_at
-    ? new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', month: 'long' }).format(new Date(page.round.closes_at))
-    : ''
+function Page({ page, t, locale, dates }: { page: RoundPage; t: T; locale: string; dates: Dates }) {
+  const date = (iso: string | null) => (iso ? dateFormat(dates, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso)) : '')
+  const month = page.round.closes_at ? dateFormat(dates, { month: 'long' }).format(new Date(page.round.closes_at)) : ''
   const round =
     page.round.kind === 'grunnlinje'
       ? t('malinger.roundTitle', { kind: t('malinger.kind.grunnlinje'), year: page.round.year })

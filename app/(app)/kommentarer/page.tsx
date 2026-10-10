@@ -12,6 +12,8 @@ import { getViewerRole } from '@/lib/org/read'
 import { roundNamer } from '@/lib/rounds/design-name'
 import { getRoundRows } from '@/lib/rounds/read'
 import { getUnansweredCount } from '@/lib/shell/read'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Kommentarer — design 3 (bundle `v2IsKom`, v3 2640-2720; logic in `v2()`). D-73.
@@ -57,7 +59,9 @@ export default async function KommentarerPage({
     getMeasures(),
   ])
 
-  const name = roundNamer(t, locale)
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
+  const name = roundNamer(t, dates)
   /*
    * The open answers (0095, D-145) of one closed round: the one the address names, else the
    * latest. Only a daglig leder is answered (open_answers refuses anyone else), so for other
@@ -74,7 +78,7 @@ export default async function KommentarerPage({
   const open = role === 'daglig_leder' && openFor ? await getOpenAnswers(openFor.id) : null
 
   const dateOf = (iso: string) =>
-    new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', day: 'numeric', month: 'short', year: 'numeric' })
+    dateFormat(dates, { day: 'numeric', month: 'short', year: 'numeric' })
       .format(new Date(iso))
       .replace(/(\p{L})\./u, '$1')
 

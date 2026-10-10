@@ -19,6 +19,8 @@ import type { Band } from '@/components/ui/Risk'
 import { place, spread, type QuadPoint } from './map'
 export type { QuadPoint } from './map'
 import { recordInnsiktVisit } from './visit'
+import { dateFormat, isoDay } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Innsikt's two views, from rows (D-244). The design (`IX()`, Orgpuls.dc.html 2928-3109) draws
@@ -40,12 +42,15 @@ export type Dot = 'red' | 'yellow' | 'green'
 const DAY = 86_400_000
 const toneOf = (d: number | null): Tone => (d === null ? 'muted' : d <= -3 ? 'danger' : d >= 3 ? 'good' : 'muted')
 export const signed = (d: number) => `${d > 0 ? '+' : d < 0 ? '−' : '±'}${Math.abs(d)}`
-const iso = (d: Date) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(d)
 const noon = (day: string) => new Date(`${day.slice(0, 10)}T12:00:00Z`)
 
 async function base() {
   const t = await getTranslations()
   const locale = await getLocale()
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273): «today»,
+  // the deadlines and the greeting's hour follow it too
+  const dates = await getDates(locale)
+  const iso = (d: Date) => isoDay(dates.timeZone, d)
   const orgId = await getCurrentOrgId()
   const [org, role, rounds, viewer, shell, free] = await Promise.all([
     getOrganization(),
@@ -90,7 +95,7 @@ async function base() {
   const groupsBefore = previous ? (workspace?.history.find((h) => h.round_id === previous.id)?.groups ?? null) : null
 
   const fmt = (day: string | null, opts: Intl.DateTimeFormatOptions) =>
-    day ? new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...opts }).format(noon(day)) : ''
+    day ? dateFormat(dates, opts).format(noon(day)) : ''
   // «14. september»; the year only when it is not this one
   const thisYear = iso(new Date()).slice(0, 4)
   const dayMonth = (day: string | null) =>
@@ -109,6 +114,8 @@ async function base() {
   return {
     t,
     locale,
+    dates,
+    iso,
     orgId,
     org,
     role,
@@ -250,8 +257,8 @@ export interface EnkelView {
   laws: LawChip[]
 }
 
-function greeting(t: T, name: string | null): string {
-  const hour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Oslo', hour: 'numeric', hourCycle: 'h23' }).format(new Date()))
+function greeting(t: T, name: string | null, timeZone: string): string {
+  const hour = Number(new Intl.DateTimeFormat('en-GB', { timeZone, hour: 'numeric', hourCycle: 'h23' }).format(new Date()))
   const part = hour >= 5 && hour < 10 ? 'morning' : hour >= 10 && hour < 18 ? 'day' : 'evening'
   const first = name?.trim().split(/\s+/)[0] ?? ''
   return first ? t(`innsikt.greeting.${part}`, { name: first }) : t(`innsikt.greeting.${part}Plain`)
@@ -317,7 +324,7 @@ function lawsOf(b: Base): LawChip[] {
 }
 
 function leadOf(b: Base): string {
-  const { t, current, risk, measures, open, planned, title, role } = b
+  const { t, current, risk, measures, open, planned, title, role, iso } = b
   const first = !current ? t('innsikt.lead.none') : t(risk ? 'innsikt.lead.assessed' : 'innsikt.lead.notAssessed', { kind: current.kind })
   const n = measures.filter(isOpen).length
   const next = open ?? planned[0] ?? null
@@ -344,7 +351,7 @@ function leadOf(b: Base): string {
 }
 
 function feedOf(b: Base): FeedItem[] {
-  const { t, measures, conversations, risk, current, closed, rate, open, planned, groups, ok, setup, factor, lower, title } = b
+  const { t, measures, conversations, risk, current, closed, rate, open, planned, groups, ok, setup, factor, lower, title, iso } = b
   const today = iso(new Date())
   const groupName = new Map(groups.map((g) => [g.id, g.name]))
   const next = open ?? planned[0] ?? null
@@ -417,7 +424,7 @@ function feedOf(b: Base): FeedItem[] {
 }
 
 function todosOf(b: Base): Todo[] {
-  const { t, measures, conversations, open, planned, dayMonth, title } = b
+  const { t, measures, conversations, open, planned, dayMonth, title, iso } = b
   const yesterday = iso(new Date(Date.now() - DAY))
   const out: Todo[] = []
   for (const m of measures.filter((m) => m.late).slice(0, 2)) {
@@ -592,7 +599,7 @@ function changeText(t: T, d: number): string {
 
 export async function enkelView(): Promise<EnkelView> {
   const b = await base()
-  const { t, org, viewer, fmt, dayMonth, ok, shell } = b
+  const { t, org, viewer, fmt, dayMonth, ok, shell, iso, dates } = b
   const lastSeen = await recordInnsiktVisit(b.orgId)
   const today = iso(new Date())
   return {
@@ -604,7 +611,7 @@ export async function enkelView(): Promise<EnkelView> {
     ]
       .filter(Boolean)
       .join(' · '),
-    greeting: greeting(t, viewer.name),
+    greeting: greeting(t, viewer.name, dates.timeZone),
     lead: leadOf(b),
     reportCta: t('innsikt.reportCta'),
     resultCta: t('innsikt.resultCta'),
@@ -706,7 +713,7 @@ export async function avansertView(): Promise<AvansertView> {
     ? [
         title(current),
         rate ? t('innsikt.adv.answered', { answered: rate.answered, headcount: rate.headcount }) : null,
-        current.closesAt ? t('innsikt.adv.closed', { date: dayMonth(iso(new Date(current.closesAt))) }) : null,
+        current.closesAt ? t('innsikt.adv.closed', { date: dayMonth(b.iso(new Date(current.closesAt))) }) : null,
       ]
         .filter(Boolean)
         .join(' · ')

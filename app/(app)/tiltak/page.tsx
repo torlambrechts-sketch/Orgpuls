@@ -12,6 +12,8 @@ import { getModuleMeasures } from '@/lib/modules/measures'
 import { STEP_KEYS } from '@/lib/measures/read'
 import { ModuleMeasures } from '@/components/tiltak/ModuleMeasures'
 import { getLatestClosedRoundId, getRoundRows } from '@/lib/rounds/read'
+import { dateFormat, isoDay } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Tiltak — the data half. Bundle lines 1712-1795; the rendering is in
@@ -209,10 +211,11 @@ async function buildBoard(
     )
 
   const nameOf = new Map(groups.map((g) => [g.id, g.name]))
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date())
-  const yesterday = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date(Date.now() - 86_400_000))
-  const fmt = (iso: string, o: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...o }).format(new Date(iso)).replace(/(\p{L})\.$/u, '$1')
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
+  const today = isoDay(dates.timeZone)
+  const yesterday = isoDay(dates.timeZone, new Date(Date.now() - 86_400_000))
+  const fmt = (iso: string, o: Intl.DateTimeFormatOptions) => dateFormat(dates, o).format(new Date(iso)).replace(/(\p{L})\.$/u, '$1')
 
   const scoreOf = (k: string, groupIds: string[]) => {
     const name = groupIds.length === 1 ? nameOf.get(groupIds[0]!) : undefined

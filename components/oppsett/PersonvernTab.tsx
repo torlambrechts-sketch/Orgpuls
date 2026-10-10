@@ -1,9 +1,11 @@
 import type { Route } from 'next'
 import Link from 'next/link'
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { DPA_VERSION } from '@/lib/legal/dpa'
 import { belowDefault } from '@/lib/org/threshold'
 import type { DpaSignature } from '@/lib/legal/read'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Personvern. Bundle lines 2303-2322.
@@ -25,7 +27,8 @@ const CARDS = ['basis', 'stored', 'accounts', 'slack', 'special', 'retention', '
 
 export async function PersonvernTab({ threshold, signed }: { threshold: number; signed: DpaSignature[] }) {
   const t = await getTranslations()
-  const format = await getFormatter()
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
   const current = signed.find((s) => s.version === DPA_VERSION) ?? null
 
   return (
@@ -39,7 +42,7 @@ export async function PersonvernTab({ threshold, signed }: { threshold: number; 
           {current
             ? t('oppsett.dpa.status.signed', {
                 name: current.signer_name,
-                when: format.dateTime(new Date(current.signed_at), { dateStyle: 'long', timeZone: 'Europe/Oslo' }),
+                when: dateFormat(dates, { dateStyle: 'long' }).format(new Date(current.signed_at)),
               })
             : t('oppsett.dpa.status.unsigned')}
         </span>

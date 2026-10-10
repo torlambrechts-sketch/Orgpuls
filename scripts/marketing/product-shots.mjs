@@ -100,10 +100,9 @@ const ORGPULS = [
 ]
 
 /**
- * Empvibe's set: the same nine pictures from the app as it is now, in English. The overview is the
- * Advanced view's first screen — the index beside the eleven factors placed by score and importance
- * — from its heading down, so no date in the American order the English screens still print
- * (DEVIATIONS D-272) heads the picture that opens the site.
+ * Empvibe's set: the same nine pictures from the app as it is now, in English, with British dates on
+ * London's clock (D-273). The overview is the Advanced view's first screen: the index beside the
+ * eleven factors placed by score and importance.
  */
 const EMPVIBE = [
   {

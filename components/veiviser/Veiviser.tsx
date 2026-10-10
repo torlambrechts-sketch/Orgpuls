@@ -25,6 +25,7 @@ import type { WizardModel } from '@/lib/wizard/read'
 import { wheelMonths } from '@/lib/wheel/months'
 import { parseCsv } from '@/lib/csv/parse'
 import { belowDefault, thresholdChoices } from '@/lib/org/threshold'
+import { intlLocale } from '@/lib/i18n/dates'
 
 /**
  * The Veiviser (design 3, v3 191-406; D-76): nine steps in a dialog over the page.
@@ -358,19 +359,19 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
 
   // ---------------------------------------------------------------- presentation
   const monthLong = (m: number) =>
-    new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, m - 1, 15)))
+    new Intl.DateTimeFormat(intlLocale(locale), { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, m - 1, 15)))
   const monthShort = (m: number) => {
     const n = monthLong(m)
     return n.charAt(0).toLocaleUpperCase(locale) + n.slice(1, 3)
   }
   const dayLabel = (iso: string) => {
-    const s = new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(
+    const s = new Intl.DateTimeFormat(intlLocale(locale), { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(
       new Date(`${iso}T12:00:00Z`),
     )
     return s.charAt(0).toLocaleUpperCase(locale) + s.slice(1)
   }
   const plannedLabel = (at: string, tz: string) => {
-    const s = new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', timeZone: tz }).format(
+    const s = new Intl.DateTimeFormat(intlLocale(locale), { weekday: 'long', day: 'numeric', month: 'long', timeZone: tz }).format(
       new Date(at),
     )
     return s.charAt(0).toLocaleUpperCase(locale) + s.slice(1)

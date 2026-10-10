@@ -1,5 +1,6 @@
 import type { RoundRef } from '@/lib/results/resultater'
 import type { RoundRow } from './read'
+import { dateFormat, type Dates } from '@/lib/i18n/dates'
 
 type Translate = (key: string, values?: Record<string, string | number>) => string
 
@@ -8,10 +9,11 @@ type Translate = (key: string, values?: Record<string, string | number>) => stri
  * puls by the month it closed ("Puls mai 2025", chip "Mai 25"). Resultater and Kommentarer
  * both name rounds this way, so they share it. A round not closed yet is named by the
  * month it opens. Intl's short Norwegian month carries a full stop ("aug."), which the
- * design does not print.
+ * design does not print. The month is the organisation's, in the reader's form (D-273).
  */
-export function roundNamer(t: Translate, locale: string) {
-  const fmt = (opts: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...opts })
+export function roundNamer(t: Translate, dates: Dates) {
+  const { locale } = dates
+  const fmt = (opts: Intl.DateTimeFormatOptions) => dateFormat(dates, opts)
   const shortFmt = fmt({ month: 'short' })
   const longFmt = fmt({ month: 'long' })
   const yearFmt = fmt({ year: 'numeric' })

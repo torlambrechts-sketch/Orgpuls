@@ -6,6 +6,8 @@ import { getCurrentOrgId } from '@/lib/org/current'
 import { INFORMATION_AUDIENCES, INFORMATION_CHANNELS } from '@/lib/report/enums'
 import { createClient } from '@/lib/supabase/server'
 import { writeFailed } from '@/lib/supabase/write'
+import { isoDay } from '@/lib/i18n/dates'
+import { requestTimeZone } from '@/lib/i18n/dates-server'
 
 /**
  * Recording what section 8 prints: that the findings were shared, and that people were
@@ -122,11 +124,8 @@ export async function addTraining(_: RegisterResult | null, form: FormData): Pro
  * when, and with whom. `evaluation_insert` / `evaluation_delete` decide who may: the daglig leder
  * or the verneombud. One per day: the same meeting recorded twice is refused.
  */
-/** today where the organisation is (Oslo): an evaluation is recorded once held, never ahead (0107) */
-const osloToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date())
-
 const EvaluationFields = z.object({
-  heldOn: Day.refine((d) => d <= osloToday(), { message: 'future' }),
+  heldOn: Day,
   counterpart: Optional(z.string().trim().max(200)),
   note: Optional(z.string().trim().max(1000)),
 })
@@ -137,7 +136,8 @@ export async function addEvaluation(_: RegisterResult | null, form: FormData): P
     counterpart: form.get('counterpart'),
     note: form.get('note'),
   })
-  if (!parsed.success) return problem('invalid')
+  // an evaluation is recorded once held, never ahead: today on the organisation's clock, as 0107 holds it
+  if (!parsed.success || parsed.data.heldOn > isoDay(await requestTimeZone())) return problem('invalid')
 
   const orgId = await getCurrentOrgId()
   if (!orgId) return problem('denied')

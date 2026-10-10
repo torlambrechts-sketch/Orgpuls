@@ -11,6 +11,8 @@ import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 import { bcp47, registryTexts } from '@/lib/i18n/locales'
 import { brandOf, rebrand } from '@/lib/brand'
 import { requestMarket } from '@/lib/i18n/market'
+import { intlLocale } from '@/lib/i18n/dates'
+import { requestTimeZone } from '@/lib/i18n/dates-server'
 
 /**
  * The respondent surface.
@@ -89,9 +91,11 @@ export default async function RespondPage({
    * Engagement phase 2 (0105, D-156), each part behind its flag. Everything here is the whole
    * organisation's, computed in the database; the survey still knows no group and no person.
    */
-  const dateLocale = offered ? bcp47(lang) : (await getLocale()) === 'en' ? 'en-GB' : 'nb-NO'
+  // the respondent's language in its own form (English is British), on the organisation's clock (D-273)
+  const dateLocale = offered ? intlLocale(bcp47(lang)) : (await getLocale()) === 'en' ? 'en-GB' : 'nb-NO'
+  const timeZone = await requestTimeZone()
   const day = (iso: string) =>
-    new Intl.DateTimeFormat(dateLocale, { day: 'numeric', month: 'long', timeZone: 'Europe/Oslo' }).format(new Date(`${iso}T12:00:00Z`))
+    new Intl.DateTimeFormat(dateLocale, { day: 'numeric', month: 'long', timeZone }).format(new Date(`${iso}T12:00:00Z`))
   const labels = { n: tl('masked.n'), a: tl('masked.a'), s: tl('masked.s') }
   const since = form.since
   const engagement: RespondEngagement = {
@@ -104,7 +108,7 @@ export default async function RespondPage({
               first: false,
               items: since.items.map((i) => ({ title: unmask(i.title, labels), done: i.status === 'gjennomfort' })),
               footer: tl('respond.since.footer', {
-                month: new Intl.DateTimeFormat(dateLocale, { month: 'long', year: 'numeric', timeZone: 'Europe/Oslo' }).format(new Date(since.since)),
+                month: new Intl.DateTimeFormat(dateLocale, { month: 'long', year: 'numeric', timeZone }).format(new Date(since.since)),
               }),
             }
           : null,

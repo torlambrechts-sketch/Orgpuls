@@ -40,6 +40,8 @@ import type { DefaultsValues } from '@/app/(app)/malinger/innstillinger-actions'
 import { EXTRA_KEYS, PRODUCT_DEFAULTS, SCREENING, getDefaultsLog, getEntryCode, getInviteGreeting, getReach, getSurveyDefaults } from '@/lib/settings/survey'
 import { GreetingCard } from '@/components/malinger/GreetingCard'
 import { contentLang } from '@/lib/i18n/locales'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Målinger — design 3 (bundle `isMeasure`, v3 870-1330; logic `mData()`). D-74.
@@ -78,16 +80,17 @@ export default async function MalingerPage({
 
   const [rows, wheel, factors, role, marks] = await Promise.all([getRoundRows(), getWheel(), getFactors(), getViewerRole(), getWheelMarks()])
 
-  const oslo = (iso: string, opts: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...opts }).format(new Date(iso))
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
+  const onClock = (iso: string, opts: Intl.DateTimeFormatOptions) => dateFormat(dates, opts).format(new Date(iso))
   const ym = (iso: string) => {
-    const [y, m] = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo', year: 'numeric', month: '2-digit' })
+    const [y, m] = new Intl.DateTimeFormat('en-CA', { timeZone: dates.timeZone, year: 'numeric', month: '2-digit' })
       .format(new Date(iso))
       .split('-')
     return { y: Number(y), m: Number(m) }
   }
   const now = ym(new Date().toISOString())
-  const name = roundNamer(t, locale)
+  const name = roundNamer(t, dates)
 
   const byClose = (a: RoundRow, b: RoundRow) => (a.closesAt ?? '').localeCompare(b.closesAt ?? '')
   const closedRows = rows.filter((r) => r.status === 'lukket').sort(byClose)
@@ -152,7 +155,7 @@ export default async function MalingerPage({
       title: n.title,
       closesAt: r.closesAt ?? '',
       meta: [
-        t('malinger.closedOn', { date: r.closesAt ? oslo(r.closesAt, { day: 'numeric', month: 'long', year: 'numeric' }) : '' }),
+        t('malinger.closedOn', { date: r.closesAt ? onClock(r.closesAt, { day: 'numeric', month: 'long', year: 'numeric' }) : '' }),
         ...(r.kind === 'grunnlinje'
           ? [t('malinger.questionCount', { count: r.questionCount }), t('malinger.factorCount', { count: keys.length })]
           : keys.length
@@ -182,7 +185,7 @@ export default async function MalingerPage({
   const upcomingRows: UpcomingRow[] = upcoming.map((r, i) => {
     const at = r.opensAt ? ym(r.opensAt) : null
     const keys = upcomingKeys[i] ?? []
-    const month = r.opensAt ? oslo(r.opensAt, { month: 'long' }) : ''
+    const month = r.opensAt ? onClock(r.opensAt, { month: 'long' }) : ''
     return {
       id: r.id,
       kind: r.kind === 'puls' ? 'puls' : 'grunnlinje',
@@ -194,9 +197,9 @@ export default async function MalingerPage({
         t(`malinger.audience.${r.audience}`),
         t('malinger.questionCount', { count: r.questionCount }),
         r.status === 'apen' && r.closesAt
-          ? t('malinger.closesAt', { date: oslo(r.closesAt, { day: 'numeric', month: 'long' }) })
+          ? t('malinger.closesAt', { date: onClock(r.closesAt, { day: 'numeric', month: 'long' }) })
           : r.opensAt
-            ? t('malinger.closesOn', { date: oslo(r.opensAt, { day: 'numeric', month: 'long' }) })
+            ? t('malinger.closesOn', { date: onClock(r.opensAt, { day: 'numeric', month: 'long' }) })
             : null,
         r.kind === 'puls' && keys.length ? list(keys) : null,
         // 0133: a puls the leader added on the rail says so (v3 6103)
@@ -224,7 +227,7 @@ export default async function MalingerPage({
   // the day the wheel sends in a month: its first Tuesday (app.first_tuesday, 0020)
   const firstTuesday = (y: number, m: number) => {
     const day = 1 + ((9 - new Date(Date.UTC(y, m - 1, 1)).getUTCDay()) % 7)
-    return oslo(`${y}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}T12:00:00Z`, { day: 'numeric', month: 'long' })
+    return onClock(`${y}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}T12:00:00Z`, { day: 'numeric', month: 'long' })
   }
 
   const cellsOf = (y: number): RailCell[] =>
@@ -240,8 +243,8 @@ export default async function MalingerPage({
       // 0133: the rail's month changes are a daglig leder's, for a month still ahead
       const ahead = canChange && (y > now.y || (y === now.y && m > now.m))
       const mark = marks.get(`${y}-${m}`) ?? null
-      const monthName = oslo(`${y}-${String(m).padStart(2, '0')}-15T12:00:00Z`, { month: 'long' })
-      const short = oslo(`${y}-${String(m).padStart(2, '0')}-15T12:00:00Z`, { month: 'short' }).replace(/\.$/, '')
+      const monthName = onClock(`${y}-${String(m).padStart(2, '0')}-15T12:00:00Z`, { month: 'long' })
+      const short = onClock(`${y}-${String(m).padStart(2, '0')}-15T12:00:00Z`, { month: 'short' }).replace(/\.$/, '')
       const base = {
         month: m,
         short: short.charAt(0).toLocaleUpperCase(locale) + short.slice(1),
@@ -289,8 +292,8 @@ export default async function MalingerPage({
                     source: added ? 'added' : 'wheel',
                     count: pl.questionCount,
                     factors: keys.length ? list(keys) : t('malinger.rail.openMeasures'),
-                    date: pl.opensAt ? oslo(pl.opensAt, { day: 'numeric', month: 'long' }) : '',
-                    time: pl.opensAt ? oslo(pl.opensAt, { hour: '2-digit', minute: '2-digit' }) : '',
+                    date: pl.opensAt ? onClock(pl.opensAt, { day: 'numeric', month: 'long' }) : '',
+                    time: pl.opensAt ? onClock(pl.opensAt, { hour: '2-digit', minute: '2-digit' }) : '',
                   }),
                   lead !== null ? t('malinger.rail.leadText', { days: lead }) : null,
                 ]
@@ -340,7 +343,7 @@ export default async function MalingerPage({
     next: next?.opensAt
       ? t(ym(next.opensAt).y === now.y ? 'malinger.rail.nextIn' : 'malinger.rail.nextInYear', {
           kind: t(`malinger.kind.${next.kind === 'puls' ? 'puls' : 'grunnlinje'}`),
-          month: oslo(next.opensAt, { month: 'long' }),
+          month: onClock(next.opensAt, { month: 'long' }),
           year: ym(next.opensAt).y,
         })
       : null,
@@ -371,8 +374,8 @@ export default async function MalingerPage({
             sub: t('malinger.cardLiveSub', {
               day,
               days,
-              date: oslo(openRound.closesAt!, { day: 'numeric', month: 'long' }),
-              time: oslo(openRound.closesAt!, { hour: '2-digit', minute: '2-digit' }),
+              date: onClock(openRound.closesAt!, { day: 'numeric', month: 'long' }),
+              time: onClock(openRound.closesAt!, { hour: '2-digit', minute: '2-digit' }),
             }),
             participation: openRound.participation ?? null,
             reminders: await getReminderStatus(openRound.id),
@@ -611,7 +614,8 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
     getTeamsSettings(),
   ])
   const k = (key: string, values?: Record<string, string | number>) => t(`malinger.innstillinger.${key}`, values)
-  const date = (iso: string) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', dateStyle: 'long' }).format(new Date(iso))
+  const dates = await getDates(locale)
+  const date = (iso: string) => dateFormat(dates, { dateStyle: 'long' }).format(new Date(iso))
   const values = saved ?? PRODUCT_DEFAULTS
   const smsOn = sms?.enabled ?? false
   const slack = await getSlackSettings()

@@ -17,6 +17,8 @@ import type {
   Training,
 } from '@/lib/report/tail'
 import type { Evaluation, EvaluationStatus } from '@/lib/report/evaluation'
+import { dateFormat, isoDay } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Rapport, the rendering. Bundle lines 271-500.
@@ -181,13 +183,14 @@ const RISK_FILL: Record<Band, string> = {
 export async function RapportScreen({ view }: { view: RapportView }) {
   const t = await getTranslations()
   const locale = await getLocale()
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
 
   const long = (iso: string | null, withYear = true) =>
     iso
-      ? new Intl.DateTimeFormat(locale, {
+      ? dateFormat(dates, {
           day: 'numeric',
           month: 'long',
-          timeZone: 'Europe/Oslo',
           ...(withYear ? { year: 'numeric' } : {}),
         }).format(new Date(iso))
       : null
@@ -214,7 +217,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
   const evaluationDue = (ev: EvaluationStatus) =>
     ev.due_on
       ? // today where the organisation is, as dispatch_claim reads it; not UTC (audit P3)
-        ev.due_on <= new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Oslo' }).format(new Date())
+        ev.due_on <= isoDay(dates.timeZone, new Date())
         ? t('rapport.evaluation.overdue', { date: long(ev.due_on) ?? ev.due_on })
         : t('rapport.evaluation.next', { date: long(ev.due_on) ?? ev.due_on })
       : ev.cadence === 'etter_hver_runde'
@@ -231,17 +234,16 @@ export async function RapportScreen({ view }: { view: RapportView }) {
 
   const short = (iso: string | null, withYear = false) =>
     iso
-      ? new Intl.DateTimeFormat(locale, {
+      ? dateFormat(dates, {
           day: 'numeric',
           month: 'short',
-          timeZone: 'Europe/Oslo',
           ...(withYear ? { year: 'numeric' } : {}),
         }).format(new Date(iso))
       : null
 
   const dayOnly = (iso: string | null) =>
     iso
-      ? new Intl.DateTimeFormat(locale, { day: 'numeric', timeZone: 'Europe/Oslo' }).format(
+      ? dateFormat(dates, { day: 'numeric' }).format(
           new Date(iso),
         )
       : null
@@ -304,7 +306,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
   const yesterday = (() => {
     const d = new Date()
     d.setUTCDate(d.getUTCDate() - 1)
-    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(d)
+    return isoDay(dates.timeZone, d)
   })()
   const measureDate = (m: ReportMeasure) => {
     const i = stepIndex(m.step)

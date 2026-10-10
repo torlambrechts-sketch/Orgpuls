@@ -6,6 +6,8 @@ import { StartPulse } from './StartPulse'
 import { rateColour, type Participation } from '@/lib/participation/read'
 import type { RoundListItem } from '@/lib/rounds/read'
 import type { ReminderStatus } from '@/lib/rounds/reminders'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Målinger › Kommende (v3 1133-1216): every round not closed yet, in the order it goes
@@ -62,13 +64,15 @@ export async function Kommende({
 }) {
   const t = await getTranslations('malinger')
   const locale = await getLocale()
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
   const date = (iso: string | null) =>
-    iso ? new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', day: 'numeric', month: 'long' }).format(new Date(iso)) : ''
+    iso ? dateFormat(dates, { day: 'numeric', month: 'long' }).format(new Date(iso)) : ''
   const part = live ? live.participation : (latest?.participation ?? null)
   const reminders = live?.reminders ?? null
   // «sist i dag kl. 10.12» (v3 4490), or the day it went when that was not today
   const lastSent = (iso: string) => {
-    const fmt = (at: Date, o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...o }).format(at)
+    const fmt = (at: Date, o: Intl.DateTimeFormatOptions) => dateFormat(dates, o).format(at)
     const at = new Date(iso)
     const time = fmt(at, { hour: '2-digit', minute: '2-digit' })
     const day = { year: 'numeric', month: '2-digit', day: '2-digit' } as const
@@ -240,7 +244,7 @@ export async function Kommende({
             {live ? (
               canStart ? <RoundControls roundId={live.id} reminders={reminders} /> : null
             ) : canStart ? (
-              <StartPulse roundOpen={roundOpen} />
+              <StartPulse roundOpen={roundOpen} timeZone={dates.timeZone} />
             ) : null}
           </div>
         </section>

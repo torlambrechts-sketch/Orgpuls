@@ -1,6 +1,8 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { WheelForm, type WheelFormProps } from '@/components/arshjulet/WheelForm'
 import type { JobRun, NotifyAudience, Wheel } from '@/lib/wheel/read'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Årshjulet, the rendering. Bundle lines 1253-1424.
@@ -87,14 +89,16 @@ const AUDIENCE_TONE: Record<NotifyAudience, { background: string; mark: string }
 export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
   const t = await getTranslations()
   const locale = await getLocale()
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
 
   const monthShort = (m: number) =>
-    new Intl.DateTimeFormat(locale, { month: 'short' })
+    new Intl.DateTimeFormat(dates.locale, { month: 'short' })
       .format(new Date(Date.UTC(2026, m - 1, 1)))
       .replace(/\.$/, '')
       .toUpperCase()
 
-  const monthLong = (m: number) => new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(Date.UTC(2026, m - 1, 1)))
+  const monthLong = (m: number) => new Intl.DateTimeFormat(dates.locale, { month: 'long' }).format(new Date(Date.UTC(2026, m - 1, 1)))
 
   const form: WheelFormProps = {
     canWrite: view.canWrite,
@@ -296,12 +300,11 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
                 : t('arshjulet.noNextBaseline')}{' '}
               {view.lastRun
                 ? t('arshjulet.lastRun', {
-                    when: new Intl.DateTimeFormat(locale, {
+                    when: dateFormat(dates, {
                       day: 'numeric',
                       month: 'short',
                       hour: '2-digit',
                       minute: '2-digit',
-                      timeZone: 'Europe/Oslo',
                     }).format(new Date(view.lastRun.ran_at)),
                   })
                 : t('arshjulet.neverRun')}{' '}

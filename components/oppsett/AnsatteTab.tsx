@@ -1,9 +1,11 @@
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { ImportForm } from '@/components/oppsett/ImportForm'
 import { RosterTable } from '@/components/oppsett/RosterTable'
 import { DUTY_ROLES } from '@/lib/settings/read'
 import { getAddressProblems } from '@/lib/delivery/read'
 import type { OppsettView } from '@/components/oppsett/OppsettScreen'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Ansatte. Bundle lines 2110-2244.
@@ -35,7 +37,8 @@ export async function AnsatteTab({
   const short = view.company.employee_count - registered
   // addresses the mail provider refused after sending (D-97); empty for anyone but the daglig leder
   const problems = await getAddressProblems(view.company.id)
-  const format = await getFormatter()
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
 
   return (
     <>
@@ -57,7 +60,7 @@ export async function AnsatteTab({
                 <span className="text-mut">{(p.channel === 'email' ? p.email : p.phone) ?? '—'}</span>
                 <span className="text-dangerdeep">{t(`oppsett.ansatte.delivery.${p.channel === 'sms' ? 'problemSms' : 'problem'}.${p.problem}`)}</span>
                 <span className="text-[12px] text-mut">
-                  {format.dateTime(new Date(p.day), { dateStyle: 'medium', timeZone: 'Europe/Oslo' })}
+                  {dateFormat(dates, { dateStyle: 'medium' }).format(new Date(p.day))}
                 </span>
               </li>
             ))}

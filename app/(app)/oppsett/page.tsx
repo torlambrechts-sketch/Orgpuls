@@ -19,6 +19,7 @@ import { getDpaSignatures } from '@/lib/legal/read'
 import { getBilling } from '@/lib/billing/read'
 import { getViewer } from '@/lib/shell/read'
 import { getOrgLogo, logoPath } from '@/lib/org/logo'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Oppsett — the data half. Bundle lines 1958-2472; the rendering is in
@@ -110,7 +111,7 @@ export default async function OppsettPage({
         groups={groups}
         canWrite={role === 'daglig_leder'}
         locked={membersLocked}
-        locale={await getLocale()}
+        dates={await getDates()}
       />
     ) : undefined,
   }

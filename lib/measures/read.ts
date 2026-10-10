@@ -6,6 +6,8 @@ import { getPulseNumbers } from '@/lib/rounds/read'
 import { factorLawRef } from '@/lib/legal/pack'
 import { DEFAULT_MARKET } from '@/lib/markets'
 import { getOrgMarket } from '@/lib/org/market'
+import { isoDay } from '@/lib/i18n/dates'
+import { requestTimeZone } from '@/lib/i18n/dates-server'
 
 /**
  * Reading tiltak.
@@ -148,7 +150,7 @@ export async function getMeasures(): Promise<Measure[]> {
 
   // "today" in the organisation's own zone: a deadline is a date, not an instant, and
   // whether it has passed must not depend on where the server happens to run.
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date())
+  const today = isoDay(await requestTimeZone())
 
   const pulses = await getPulseNumbers()
   // a measure's own basis, else its factor's in the organisation's market (lib/legal/pack.ts, D-257)

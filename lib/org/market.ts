@@ -10,7 +10,7 @@ import { parseFailed, readFailed } from '@/lib/supabase/read'
 /** A Supabase session cookie (`sb-<ref>-auth-token`, chunked as `.0`, `.1` when long) */
 const SESSION_COOKIE = /^sb-.+-auth-token(\.\d+)?$/
 
-const MarketRow = z.object({ market: z.string() })
+const OrgRow = z.object({ market: z.string(), timezone: z.string() })
 
 /**
  * The market of the caller's organisation (0214), or null for a visitor and for an account that is
@@ -24,14 +24,24 @@ const MarketRow = z.object({ market: z.string() })
  *
  * Memoised per request, like every org read.
  */
-export const getOrgMarket = cache(async (): Promise<Market | null> => {
+const orgRow = cache(async (): Promise<z.infer<typeof OrgRow> | null> => {
   if (!(await cookies()).getAll().some((c) => SESSION_COOKIE.test(c.name))) return null
   const supabase = await createClient()
-  const { data, error } = await supabase.schema('app').from('organizations').select('market').limit(2)
+  const { data, error } = await supabase.schema('app').from('organizations').select('market, timezone').limit(2)
   if (readFailed('getOrgMarket', error, data)) return null
-  const parsed = z.array(MarketRow).safeParse(data)
+  const parsed = z.array(OrgRow).safeParse(data)
   if (parseFailed('getOrgMarket', parsed)) return null
-  const row = onlyOrganisation('getOrgMarket', parsed.data)
+  return onlyOrganisation('getOrgMarket', parsed.data)
+})
+
+export const getOrgMarket = cache(async (): Promise<Market | null> => {
+  const row = await orgRow()
   if (!row) return null
   return isMarket(row.market) ? row.market : DEFAULT_MARKET
 })
+
+/**
+ * The caller's organisation's own time zone (app.organizations.timezone, from its market at sign-up),
+ * the clock its screens write times on (lib/i18n/dates.ts, D-273); null as for the market.
+ */
+export const getOrgTimeZone = cache(async (): Promise<string | null> => (await orgRow())?.timezone ?? null)

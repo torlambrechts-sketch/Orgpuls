@@ -32,6 +32,8 @@ import {
   type Scores,
   type Statement,
 } from '@/lib/results/resultater'
+import { dateFormat, isoDay } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Resultater — design 3 (bundle `isResults`, v3 2234-2660; logic `v2()`/`v2p()`). D-72.
@@ -58,7 +60,6 @@ import {
 export const dynamic = 'force-dynamic'
 
 /** today in Oslo, as YYYY-MM-DD: the day the database compares a publish date against (0105) */
-const osloToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date())
 
 const Params = z.object({
   maling: z.string().uuid().optional().catch(undefined),
@@ -81,6 +82,8 @@ export default async function ResultaterPage({
   const params = Params.parse(Object.fromEntries(Object.entries(raw).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v])))
   const t = await getTranslations()
   const locale = await getLocale()
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
 
   const rows = await getRoundRows()
   const byClose = (a: RoundRow, b: RoundRow) => (a.closesAt ?? '').localeCompare(b.closesAt ?? '')
@@ -93,7 +96,7 @@ export default async function ResultaterPage({
   const selected = closed.find((r) => r.id === params.maling) ?? latestGrunnlinje ?? closed.at(-1) ?? null
   if (!selected) return <ResultaterEmpty />
 
-  const ref = roundNamer(t, locale)
+  const ref = roundNamer(t, dates)
 
   const isPulse = selected.kind === 'puls'
   // the free plan reads one round at a time: no comparison, no history (0201, D-217)
@@ -330,9 +333,9 @@ export default async function ResultaterPage({
               url={shareUrl}
               initialOn={share.results_page}
               opensOn={
-                share.results_publish_on && share.results_publish_on > osloToday()
+                share.results_publish_on && share.results_publish_on > isoDay(dates.timeZone)
                   ? t('resultater.share.opensOn', {
-                      date: new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(
+                      date: new Intl.DateTimeFormat(dates.locale, { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(
                         new Date(`${share.results_publish_on}T12:00:00Z`),
                       ),
                     })
@@ -351,7 +354,7 @@ export default async function ResultaterPage({
                         queued: t('resultater.share.tell.queued'),
                         sent: notice.sent_at
                           ? t('resultater.share.tell.sent', {
-                              date: new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', timeZone: 'Europe/Oslo' }).format(new Date(notice.sent_at)),
+                              date: dateFormat(dates, { day: 'numeric', month: 'long' }).format(new Date(notice.sent_at)),
                             })
                           : '',
                         failed: t('resultater.share.tell.failed'),

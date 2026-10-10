@@ -1,8 +1,10 @@
 import Link from 'next/link'
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { getAccessState } from '@/lib/billing/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { getViewerRole } from '@/lib/org/read'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * The line over every screen once a trial has ended unconfirmed (0052, D-94). In the 14 days'
@@ -22,8 +24,9 @@ export async function AccessNotice() {
   if (!state) return null
 
   const t = await getTranslations('access')
-  const format = await getFormatter()
-  const date = (iso: string) => format.dateTime(new Date(iso), { dateStyle: 'long', timeZone: 'Europe/Oslo' })
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
+  const date = (iso: string) => dateFormat(dates, { dateStyle: 'long' }).format(new Date(iso))
 
   if (state.cancel_effective_at && state.deletion_due_at) {
     const ended = Date.now() >= new Date(state.cancel_effective_at).getTime()

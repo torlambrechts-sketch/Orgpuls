@@ -1,7 +1,9 @@
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { leaveDemo, resetDemo } from '@/lib/demo/actions'
 import type { DemoState } from '@/lib/demo/read'
 import { DemoTour } from './DemoTour'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * The line over every screen in a demo copy (0094, D-143): that the data is fictional, that
@@ -13,8 +15,9 @@ import { DemoTour } from './DemoTour'
 export async function DemoNotice({ state }: { state: DemoState }) {
   if (!state.demo) return null
   const t = await getTranslations('demo.notice')
-  const format = await getFormatter()
-  const fresh = format.dateTime(new Date(state.freshAfter), { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Oslo' })
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
+  const fresh = dateFormat(dates, { dateStyle: 'long', timeStyle: 'short' }).format(new Date(state.freshAfter))
   const button =
     'inline-flex h-[32px] flex-none cursor-pointer items-center rounded-bar border border-ink px-[13px] text-[12.5px] font-bold text-ink focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-ink'
 

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, useTransition } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { followUp, readThread, stopNotice, type RespondentThread as Thread } from '@/app/s/samtale/actions'
+import { dateFormat, intlLocale } from '@/lib/i18n/dates'
 
 /**
  * A respondent's own conversation (D-78): their comment, what management answered, and
@@ -12,7 +13,7 @@ import { followUp, readThread, stopNotice, type RespondentThread as Thread } fro
  * server never sees it in a URL. A key that is malformed, unknown or wrong gets the same
  * answer. Leaders are "Ledelsen" and the person is "Deg": neither side learns a name.
  */
-export function RespondentThread() {
+export function RespondentThread({ timeZone }: { timeZone: string }) {
   const t = useTranslations('respond.thread')
   const tf = useTranslations()
   const locale = useLocale()
@@ -32,7 +33,7 @@ export function RespondentThread() {
 
   // the day only: a message is stored to the hour on purpose, and a clock would suggest more
   const when = (iso: string) =>
-    new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', day: 'numeric', month: 'short' }).format(new Date(iso))
+    dateFormat({ locale: intlLocale(locale), timeZone }, { day: 'numeric', month: 'short' }).format(new Date(iso))
 
   const send = () =>
     start(async () => {

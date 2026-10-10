@@ -13325,10 +13325,8 @@ On a site of its own, `pageMeta` points each page at its brand's card.
   carries each separator inside its tag for that.
 - UK-G does not open without them.
 
-**Known and not in this step.** The English screens still print dates in American order («September 14», «02:00 AM»)
-and in Oslo's time zone; that is visible in the overview's top line and the year wheel. A UK organisation should see
-British dates and London time. That is product work to do before UK-G. The pictures are retaken after it with the same
-command.
+**Known and not in this step.** The English screens still printed dates in American order and on Oslo's clock; fixed
+in D-273, and the pictures were retaken.
 
 **Tests.** `tests/unit/uk-site.test.ts`:
 - every product picture has an Empvibe version;
@@ -13350,3 +13348,55 @@ command.
   Both come from components the pixel gate holds to the design, so they are not changed here.
 - **Production after the deploy:** www.empvibe.com still answers with the holding page, and www.orgpuls.com and
   en.orgpuls.com are unchanged.
+
+## D-273 — Dates in British English, on the organisation's own clock (2026-10-10)
+
+**What.** The app's English wrote dates the American way: «September 14, 2026», «02:00 AM», «9/14/26». That is what
+`Intl` gives a bare `en`. It also wrote them on Oslo's clock wherever it showed a time, `'Europe/Oslo'` being hard-coded
+in about fifty places.
+
+A UK organisation (D-272) saw «sent October 8 at 02:00 AM» for a pulse that opened at 01:00 in London. Since this
+change the app writes:
+- **Dates:** «14 September 2026», «8 October at 01:00», «14/09/2026».
+- **Times:** on the organisation's own clock (`app.organizations.timezone`, which a new organisation takes from its
+  market: Oslo, Stockholm, London).
+
+**How.**
+- **One rule.** `lib/i18n/dates.ts` holds it:
+  - `intlLocale`: English is formatted as `en-GB`, since the catalogue's English is British; every other language as its
+    own code, so Norway's screens are unchanged.
+  - `isoDay`: today as a date column holds it, on a clock.
+  - `dateFormat`: a formatter in the reader's form, on the organisation's clock.
+- **Which clock.** `lib/i18n/dates-server.ts` decides it for each request: the signed-in caller's organisation's own
+  time zone. Failing that, the time zone of the market the page is in (`lib/markets.ts MARKET_TIME_ZONE`, held to the
+  migrations by a test). `getOrgTimeZone` reads it in the same query as the organisation's market.
+- **Every screen that writes a date or a time takes it from there:** Innsikt, Resultater, Kommentarer, Målinger and the
+  year wheel, Tiltak, the report, Måleoppsett, Oppsett and the integrations, the survey and its conversation page, and
+  the employees' results page.
+- **«Today»** follows the same clock, as the database already does (`coalesce(o.timezone, 'Europe/Oslo')` in
+  0020–0105). That covers the day a deadline passes, the day results open and the greeting's hour.
+- **next-intl's `format.dateTime`** formats in the bare `en`, so it is no longer used for dates.
+
+**Norwegian is unchanged.** `no` is formatted as before, and a Norwegian organisation's clock is Oslo's. The pixel gate
+holds the screens.
+
+**Left on Oslo's clock on purpose:**
+- **The subscription's cancellation dates** (Oppsett › Betaling). They mirror `cancel_subscription` (0201), which
+  counts in Oslo's calendar; billing outside Norway is UK-F's.
+- **The Norwegian articles.**
+- **The mail's dates** (`supabase/functions/_shared/mail.ts`). They are already British in English. They are day and
+  month only, and between Oslo's and London's clocks a day and month cannot change except in the hour after midnight.
+
+**«Sept».** British English abbreviates September as «Sept» (CLDR `en-GB`), so the year wheel's month tiles read Jan …
+Aug, Sept, Oct.
+
+**Empvibe's pictures** (D-272) were taken again with the same command, and now show British dates on London's clock.
+
+**Tests.** `tests/unit/dates.test.ts` checks:
+- the British form for English and the unchanged form for every other language;
+- that today counts on the organisation's clock (22:30 UTC on 14 September is still the 14th in London, already the
+  15th in Oslo);
+- that no file in app/, components/ or lib/ hard-codes `'Europe/Oslo'` outside the four kept on purpose, or formats a
+  date with the bare locale.
+
+`tests/unit/markets.test.ts` holds `MARKET_TIME_ZONE` to the migrations.

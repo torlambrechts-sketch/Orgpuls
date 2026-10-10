@@ -8,6 +8,8 @@ import { SuggestionBank, type BankChip } from '@/components/tiltak/SuggestionBan
 import { adoptLabels, playbookBlock } from '@/lib/playbook/cards'
 import type { Band } from '@/lib/results/read'
 import { STEP_KEYS, stepIndex, type Measure, type MeasureBucket } from '@/lib/measures/read'
+import { dateFormat, isoDay } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Tiltak, the rendering. Bundle lines 1712-1795.
@@ -75,14 +77,15 @@ const TILE = [
 export async function TiltakScreen({ view }: { view: TiltakView }) {
   const t = await getTranslations()
   const locale = await getLocale()
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
 
   const dateOf = (iso: string | null) => {
     if (!iso) return null
     const d = new Date(`${iso}T12:00:00Z`)
-    return new Intl.DateTimeFormat(locale, {
+    return dateFormat(dates, {
       day: 'numeric',
       month: 'long',
-      timeZone: 'Europe/Oslo',
       ...(d.getUTCFullYear() !== new Date().getUTCFullYear() ? { year: 'numeric' } : {}),
     }).format(d)
   }
@@ -90,7 +93,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
   const yesterday = (() => {
     const d = new Date()
     d.setUTCDate(d.getUTCDate() - 1)
-    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(d)
+    return isoDay(dates.timeZone, d)
   })()
 
   /**

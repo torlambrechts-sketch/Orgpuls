@@ -8,6 +8,8 @@ import type { Participation } from '@/lib/participation/read'
 import type { ResultsRecommendation, ResultsSummary } from '@/lib/results/read'
 import { ORG, meanOf, rateAgainst, trustLevel, type ResultaterModel, type RoundRef } from '@/lib/results/resultater'
 import { deltaColour, fmtDelta } from '@/lib/results/tone'
+import { dateFormat, type Dates } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Resultater's frame (v3 2234-2330): the header with its round pickers and tabs, then the
@@ -41,13 +43,14 @@ export async function ResultaterFrame(props: FrameProps) {
   const { model, grunnlinjer, pulses, summary, recommendation, participation } = props
   const t = await getTranslations('resultater')
   const locale = await getLocale()
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
   const round = model.round
   const isPulse = round.kind === 'puls'
 
   const date = (iso: string | null, opts: Intl.DateTimeFormatOptions) =>
     iso
-      ? new Intl.DateTimeFormat(locale, {
-          timeZone: 'Europe/Oslo',
+      ? dateFormat(dates, {
           ...opts,
         }).format(new Date(iso))
       : ''
@@ -94,7 +97,7 @@ export async function ResultaterFrame(props: FrameProps) {
         }
   const score = recommendation?.status === 'ok' ? fmtDelta(recommendation.score).replace('±', '') : null
   const isLatest = round.id === props.latestGrunnlinjeId
-  const next = isLatest && props.nextPulseAt ? dayMonth(t, locale, props.nextPulseAt) : null
+  const next = isLatest && props.nextPulseAt ? dayMonth(t, dates, props.nextPulseAt) : null
 
   const chip = (on: boolean) => (on ? 'border-ink bg-ink text-bg' : 'border-line bg-sf text-ink')
   const pulseChip = (on: boolean) => (on ? 'border-ink bg-ink text-bg' : 'border-sage bg-pulse text-ink')
@@ -400,9 +403,9 @@ function span(a: RoundRef, b: RoundRef): string {
   return (a.closesAt ?? '') < (b.closesAt ?? '') ? `${a.label}→${b.label}` : `${b.label}→${a.label}`
 }
 
-function dayMonth(t: (k: string, v?: Record<string, string | number>) => string, locale: string, iso: string): string {
+function dayMonth(t: (k: string, v?: Record<string, string | number>) => string, dates: Dates, iso: string): string {
   const d = new Date(iso)
-  const f = (o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...o }).format(d)
+  const f = (o: Intl.DateTimeFormatOptions) => dateFormat(dates, o).format(d)
   return t('dayMonth', {
     day: f({ day: 'numeric' }).replace(/\.$/, ''),
     month: f({ month: 'short' }).replace(/\.$/, ''),

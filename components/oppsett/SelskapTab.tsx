@@ -13,6 +13,8 @@ import { isLocale } from '@/lib/i18n/locales'
 import { DEFAULT_MARKET, isMarket, MARKET_LANGS, REGISTRY_LOOKUP } from '@/lib/markets'
 import { committeeDuty, healthServiceDuty, LEGAL_PACKS } from '@/lib/legal/pack'
 import { getUsableModuleKeys } from '@/lib/modules/read'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 /**
  * Selskap. Bundle lines 1987-2108.
@@ -50,6 +52,8 @@ const OFF = { background: 'rgba(25,21,16,.06)', color: '#5F5849' }
 export async function SelskapTab({ view }: { view: OppsettView }) {
   const t = await getTranslations()
   const locale = await getLocale()
+  // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
+  const dates = await getDates(locale)
   const c = view.company
 
   // the organisation's industry: chosen here, or from its NACE code (0091)
@@ -65,16 +69,15 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
   const longDate = (iso: string | null) =>
     iso === null
       ? null
-      : new Intl.DateTimeFormat(locale, {
+      : dateFormat(dates, {
           day: 'numeric',
           month: 'long',
-          timeZone: 'Europe/Oslo',
         }).format(new Date(iso))
 
   const shortDate = (iso: string | null) =>
     iso === null
       ? null
-      : new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeZone: 'Europe/Oslo' }).format(
+      : dateFormat(dates, { dateStyle: 'short' }).format(
           new Date(iso),
         )
 
@@ -268,7 +271,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             // Intl gives "januar"; the design's chips are capitalised, and a month name
             // at the head of a chip is a label rather than prose
             months={Array.from({ length: 12 }, (_, i) => {
-              const name = new Intl.DateTimeFormat(locale, { month: 'long' }).format(
+              const name = new Intl.DateTimeFormat(dates.locale, { month: 'long' }).format(
                 new Date(Date.UTC(2026, i, 1)),
               )
               return { value: i + 1, label: name.charAt(0).toLocaleUpperCase(locale) + name.slice(1) }

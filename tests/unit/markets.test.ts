@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { marketOfHost, outboundBase, PUBLIC_HOSTS, SITES, siteOf } from '@/lib/hosts'
 import { LOCALES } from '@/lib/i18n/locales'
 import { PACK_LANGS } from '@/lib/i18n/market-overlay'
-import { DEFAULT_MARKET, isMarket, LEGAL_PACK, MARKET_K_FLOOR, MARKET_LANGS, MARKETS, orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
+import { DEFAULT_MARKET, isMarket, LEGAL_PACK, MARKET_K_FLOOR, MARKET_LANGS, MARKET_TIME_ZONE, MARKETS, orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
 import { K_FLOOR, thresholdChoices } from '@/lib/org/threshold'
 import { PendingOrg } from '@/lib/signup/pending'
 
@@ -205,6 +205,19 @@ describe('each market’s floor, as a screen offers it', () => {
     for (const m of sql.matchAll(/update app\.markets set k_floor\s*=\s*(\d+) where code\s*=\s*'([a-z]{2})'/gi))
       floors.set(m[2]!, Number(m[1]))
   }
+
+  it('keeps the time zone the migrations give it (D-273)', () => {
+    const zones = new Map<string, string>()
+    for (const f of readdirSync(DIR).filter((x) => x.endsWith('.sql')).sort()) {
+      const sql = readFileSync(`${DIR}/${f}`, 'utf8')
+      for (const m of sql.matchAll(/insert into app\.markets\s*\(([^)]*)\)\s*values\s*\(([^)]*)\)/gi)) {
+        const cols = (m[1] ?? '').split(',').map((c) => c.trim())
+        const vals = (m[2] ?? '').split(',').map((v) => v.trim().replace(/^'|'$/g, ''))
+        zones.set(vals[cols.indexOf('code')]!, vals[cols.indexOf('timezone')]!)
+      }
+    }
+    for (const m of MARKETS) expect(MARKET_TIME_ZONE[m], m).toBe(zones.get(m))
+  })
 
   it('is the floor the migrations give it, and never under the platform’s', () => {
     for (const m of MARKETS) {

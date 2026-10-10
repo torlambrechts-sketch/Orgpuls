@@ -10,6 +10,7 @@ import {
 } from '@/app/(app)/oppsett/member-actions'
 import { MEMBER_ROLES, type MemberRole } from '@/lib/members/roles'
 import type { Member, OpenInvite } from '@/lib/members/read'
+import { dateFormat, type Dates } from '@/lib/i18n/dates'
 
 /**
  * Who has access, and letting somebody new in. Not in the design: the bundle's Roller tab
@@ -36,7 +37,7 @@ export function MembersPanel({
   groups,
   canWrite,
   locked,
-  locale,
+  dates,
 }: {
   members: Member[]
   invites: OpenInvite[]
@@ -44,7 +45,8 @@ export function MembersPanel({
   canWrite: boolean
   /** the shared demo organisation issues no invitations (0029) */
   locked: boolean
-  locale: string
+  /** the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273) */
+  dates: Dates
 }) {
   const t = useTranslations('oppsett.roller')
 
@@ -64,7 +66,7 @@ export function MembersPanel({
       {canWrite && !locked ? (
         <>
           <InviteForm groups={groups} />
-          {invites.length > 0 ? <OpenInvites invites={invites} groups={groups} locale={locale} /> : null}
+          {invites.length > 0 ? <OpenInvites invites={invites} groups={groups} dates={dates} /> : null}
         </>
       ) : null}
     </section>
@@ -299,12 +301,12 @@ function InviteFields({
   )
 }
 
-function OpenInvites({ invites, groups, locale }: { invites: OpenInvite[]; groups: Group[]; locale: string }) {
+function OpenInvites({ invites, groups, dates }: { invites: OpenInvite[]; groups: Group[]; dates: Dates }) {
   const t = useTranslations('oppsett.roller')
   const [pending, start] = useTransition()
   const [problem, setProblem] = useState<string | null>(null)
   const date = (iso: string) =>
-    new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', timeZone: 'Europe/Oslo' }).format(new Date(iso))
+    dateFormat(dates, { day: 'numeric', month: 'long' }).format(new Date(iso))
   const groupName = (id: string | null) => groups.find((g) => g.id === id)?.name
 
   return (

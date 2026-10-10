@@ -2,6 +2,8 @@ import { getFormatter, getTranslations } from 'next-intl/server'
 import { ANNUAL_MONTHS, CANCEL_REASONS, fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
 import { PLAN_SIZES } from '@/lib/site/pricing'
 import { BillingForm, CancelSubscription, DowngradeToFree, ExtendTrialButton, WithdrawCancellation, WithdrawDowngrade } from './BillingForms'
+import { dateFormat } from '@/lib/i18n/dates'
+import { getDates } from '@/lib/i18n/dates-server'
 
 const DAY = 86_400_000
 
@@ -40,7 +42,9 @@ export async function BillingTab({
   const t = await getTranslations('oppsett.billing')
   const plansT = await getTranslations('start.plan')
   const format = await getFormatter()
-  const date = (iso: string) => format.dateTime(new Date(iso), { dateStyle: 'long', timeZone: 'Europe/Oslo' })
+  // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
+  const dates = await getDates()
+  const date = (iso: string) => dateFormat(dates, { dateStyle: 'long' }).format(new Date(iso))
 
   if (!billing || !canWrite) {
     return (
@@ -92,7 +96,7 @@ export async function BillingTab({
   const freeFirst = new Date(Date.parse(`${paidLast}T12:00:00Z`) + DAY).toISOString().slice(0, 10)
   // deletion begins at midnight 31 days after the last day (0065), so that is the day named
   const deleteDay = new Date(Date.parse(`${lastDay}T12:00:00Z`) + 31 * DAY).toISOString().slice(0, 10)
-  const day = (d: string) => format.dateTime(new Date(`${d}T12:00:00Z`), { dateStyle: 'long', timeZone: 'Europe/Oslo' })
+  const day = (d: string) => dateFormat(dates, { dateStyle: 'long' }).format(new Date(`${d}T12:00:00Z`))
   const cancelled = billing.cancelled_at !== null && billing.cancel_effective_at !== null && billing.deletion_due_at !== null
   const cancelledLast = cancelled ? date(new Date(Date.parse(billing.cancel_effective_at!) - 1000).toISOString()) : ''
 

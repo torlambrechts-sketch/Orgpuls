@@ -11,6 +11,7 @@ import { Blocks } from './Blocks'
 import { JsonLd } from './JsonLd'
 import { WithAside } from './WithAside'
 import { ArticleArt, FactorArt, type ArtKind } from './art/ArticleArt'
+import { intlLocale } from '@/lib/i18n/dates'
 
 export const Sources = z.array(z.object({ label: z.string(), url: z.string().url() }))
 
@@ -96,7 +97,7 @@ export async function ArticleBody({
   const sources = c.sources
   const words = wordCount(blocks)
   const minutes = Math.max(1, Math.ceil(words / WPM))
-  const date = new Intl.DateTimeFormat(locale, {
+  const date = new Intl.DateTimeFormat(intlLocale(locale), {
     day: 'numeric',
     month: 'long',
     year: 'numeric',

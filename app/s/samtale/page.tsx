@@ -1,4 +1,5 @@
 import { RespondentThread } from '@/components/respond/RespondentThread'
+import { requestTimeZone } from '@/lib/i18n/dates-server'
 
 /**
  * A respondent's conversation, opened from the link the done screen gave them (D-78).
@@ -9,10 +10,11 @@ import { RespondentThread } from '@/components/respond/RespondentThread'
  */
 export const metadata = { robots: { index: false, follow: false } }
 
-export default function RespondentThreadPage() {
+export default async function RespondentThreadPage() {
   return (
     <main className="animate-entry mx-auto min-h-screen max-w-[420px] bg-bg">
-      <RespondentThread />
+      {/* the organisation's clock, as far as the host tells it: the page knows no organisation (D-273) */}
+      <RespondentThread timeZone={await requestTimeZone()} />
     </main>
   )
 }

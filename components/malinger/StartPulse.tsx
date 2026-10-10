@@ -3,13 +3,14 @@
 import { useState, useTransition } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { startNextPulse, type StartResult } from '@/app/(app)/malinger/actions'
+import { dateFormat, intlLocale } from '@/lib/i18n/dates'
 
 /**
  * "Start neste puls nå" (v3 1210). It sends to every employee today, so it asks once
  * before it does: the first press says what will happen, the second sends. The answer is
  * the database's (0038), and a refusal says why in the words of its guard.
  */
-export function StartPulse({ roundOpen }: { roundOpen: boolean }) {
+export function StartPulse({ roundOpen, timeZone }: { roundOpen: boolean; timeZone: string }) {
   const t = useTranslations('malinger.start')
   const locale = useLocale()
   const [confirming, setConfirming] = useState(false)
@@ -28,7 +29,7 @@ export function StartPulse({ roundOpen }: { roundOpen: boolean }) {
 
   const from =
     result && !result.ok && result.from
-      ? new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', day: 'numeric', month: 'long' }).format(new Date(result.from))
+      ? dateFormat({ locale: intlLocale(locale), timeZone }, { day: 'numeric', month: 'long' }).format(new Date(result.from))
       : ''
 
   return (
