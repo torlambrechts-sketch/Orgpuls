@@ -13342,3 +13342,11 @@ command.
 - **Empvibe's site** (`EMPVIBE_SITE=open`): ten pages answer 200, with no link to the UK-F documents, no horizontal
   scroll at 390 and no console errors. Each page's `og:image` is Empvibe's card.
 - **Norway's pages:** fifteen pages at 1280 and 390, compared with pixelmatch against main's build, differ by 0 pixels.
+- **axe (UK-E4)**, on the ten pages at 1280 and 390: no serious finding of Empvibe's own. Two are shared with
+  Norway's pages on main:
+  - the breadcrumb's link is told from its text by colour alone (`link-in-text-block`);
+  - two small grey labels on the sign-up page lack contrast (`color-contrast`).
+
+  Both come from components the pixel gate holds to the design, so they are not changed here.
+- **Production after the deploy:** www.empvibe.com still answers with the holding page, and www.orgpuls.com and
+  en.orgpuls.com are unchanged.
