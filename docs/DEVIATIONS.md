@@ -12514,3 +12514,45 @@ on a round (checked 2026-10-10).
   - a module given Sweden's market working there and not in Norway;
   - the key list for members only.
 - `tests/unit/module-markets.test.ts`: the reader parses the answer, and an error or another shape offers nothing.
+
+## D-261 — The brand layer: the product's name per brand (UK-A, 2026-10-10)
+
+X-111 makes Empvibe the English site for the United Kingdom: the same product and design under another name. A brand
+is now a value of its own (`lib/brand.ts`), beside market and language.
+
+**What a brand holds:** today, the name. `BRANDS` has Orgpuls and Empvibe. Each market has a brand (`MARKET_BRAND`):
+Norway and Sweden have Orgpuls; the UK market brings Empvibe when it is added (UK-B). A site's brand is its market's
+(`lib/hosts.ts`, held by `tests/unit/brand.test.ts`). The design, the pulse icon and the colours are shared, as X-111
+decided.
+
+**The name in the texts.**
+- `rebrand(tree, brand, locale)` turns «Orgpuls» into the brand's name wherever a text says it.
+- The source texts name Orgpuls, so under Orgpuls the catalogue is returned untouched: the same object, nothing
+  copied. Norway's and Sweden's screens cannot change.
+- Only the capitalised name is replaced. An address such as orgpuls.com or hjelp@orgpuls.no stays, because the
+  mailboxes and the sender move only when the brand's domain is verified (X-111).
+- A possessive follows the language: «Empvibe's» in English, «Empvibes» in the Scandinavian languages.
+- It is applied:
+  - last in `loadMessages`, after the market's legal pack, so the same name reaches every screen;
+  - to a survey language's page strings from the registry (`app/s/[token]`);
+  - to the dispatcher's mail catalogue (`brandedCatalogue` in `supabase/functions/_shared/mail.ts`), with the
+    sender's name following the market's brand for notices and lifecycle mail.
+
+**The wordmark** in the shell (`Logo`, `AppFooter`, `SideRail`) and in the public header and footer comes from a new
+key, `brand.name` («Orgpuls» in `no.json` and `en.json`). Before this it was text written into each component. The
+page title (`app/layout.tsx`) reads the same key. `brand` is passed to the client in the public and respondent
+namespaces.
+
+**Not yet branded:**
+- the auth mail hook (`orgpuls-auth-mail`), which sends before an organisation exists: it takes its brand from the
+  sign-up's site at UK-G;
+- the send-test and reply-notice mail, whose claims do not carry a market;
+- the share images and the public site's own pages, which UK-E writes for empvibe.com.
+
+Nothing on these paths reaches a UK organisation before the market exists.
+
+**Tests:**
+- `tests/unit/brand.test.ts` (8): every market and site has a brand; Orgpuls's catalogue is untouched; no text names
+  Orgpuls under Empvibe, in bokmål, English or Swedish; every address survives; possessives; shape kept.
+- `tests/unit/mail.test.ts` (3 more): the functions' brand names equal the app's; Orgpuls's mail catalogue is
+  untouched; Empvibe's names no Orgpuls and keeps every address.

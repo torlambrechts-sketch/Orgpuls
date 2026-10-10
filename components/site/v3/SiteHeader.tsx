@@ -2,6 +2,7 @@
 
 import type { Route } from 'next'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { Fragment, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
 import { isV3Route } from '@/lib/site/nav'
@@ -335,6 +336,7 @@ function useStick(on: boolean) {
  * wordmark. The path data is the design's.
  */
 function SiteLogo() {
+  const t = useTranslations('brand')
   return (
     <span className="flex flex-none items-center gap-[9px] text-ink">
       <span className="flex h-[31px] w-[31px] flex-none items-center justify-center rounded-ctl border-[1.5px] border-ink bg-sf">
@@ -343,7 +345,7 @@ function SiteLogo() {
           <circle cx="17" cy="6.2" r="1.9" fill="#191510" />
         </svg>
       </span>
-      <span className="whitespace-nowrap font-display text-[20px] font-semibold tracking-[-0.01em]">Orgpuls</span>
+      <span className="whitespace-nowrap font-display text-[20px] font-semibold tracking-[-0.01em]">{t('name')}</span>
     </span>
   )
 }

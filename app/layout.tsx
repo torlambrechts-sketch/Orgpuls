@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
-import { getLocale, getMessages } from 'next-intl/server'
+import { getLocale, getMessages, getTranslations } from 'next-intl/server'
 import { SiteAnalytics } from '@/components/shell/SiteAnalytics'
 import { PUBLIC_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
 import { bcp47, dirOf } from '@/lib/i18n/locales'
@@ -19,13 +19,17 @@ import './globals.css'
  * absolute on the production host. The start page and the public pages set their own title
  * and description (lib/marketing/meta.ts); the application's screens keep this one.
  */
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: 'Orgpuls',
-  description: 'Psykososialt arbeidsmiljø for norske virksomheter.',
-  // Bing Webmaster Tools' meta-tag check, when the site is verified that way rather than imported
-  // from Google Search Console (D-234); the value is the code Bing shows, set in Vercel's environment
-  ...(process.env.BING_SITE_VERIFICATION ? { verification: { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } } : {}),
+export async function generateMetadata(): Promise<Metadata> {
+  // the product's name is the brand's (lib/brand.ts, X-111): Orgpuls, or Empvibe in its market
+  const brand = await getTranslations('brand')
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: brand('name'),
+    description: 'Psykososialt arbeidsmiljø for norske virksomheter.',
+    // Bing Webmaster Tools' meta-tag check, when the site is verified that way rather than imported
+    // from Google Search Console (D-234); the value is the code Bing shows, set in Vercel's environment
+    ...(process.env.BING_SITE_VERIFICATION ? { verification: { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } } : {}),
+  }
 }
 
 export default async function RootLayout({

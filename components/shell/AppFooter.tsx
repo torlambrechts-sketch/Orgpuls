@@ -71,7 +71,7 @@ export async function AppFooter() {
             <span className="flex items-center gap-[9px]">
               <LogoMark size={28} />
               <span className="font-display text-[18px] font-semibold tracking-[-0.01em]">
-                Orgpuls
+                {t('brand.name')}
               </span>
             </span>
             <p className="mt-[11px] max-w-[280px] text-[12.5px] leading-[1.6] text-mut [text-wrap:pretty]">

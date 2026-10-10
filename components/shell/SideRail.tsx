@@ -42,12 +42,12 @@ export function SideRail({
     >
       <Link
         href="/innsikt"
-        aria-label="Orgpuls"
+        aria-label={t('brand.name')}
         className="flex min-w-0 items-center gap-[10px] rounded-ctl px-[8px] py-[6px] text-left text-ink no-underline hover:text-ink hover:no-underline"
       >
         <LogoMark size={30} src={brand} />
         {open ? (
-          <span className="whitespace-nowrap font-display text-[19px] font-semibold tracking-[-0.01em]">Orgpuls</span>
+          <span className="whitespace-nowrap font-display text-[19px] font-semibold tracking-[-0.01em]">{t('brand.name')}</span>
         ) : null}
       </Link>
 

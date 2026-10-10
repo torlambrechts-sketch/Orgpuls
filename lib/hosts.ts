@@ -1,4 +1,5 @@
 import type { Locale } from '@/lib/i18n/locales'
+import type { Brand } from '@/lib/brand'
 import { DEFAULT_MARKET, MARKET_LANGS, type Market } from '@/lib/markets'
 
 /**
@@ -32,7 +33,8 @@ export const EN_URL = `https://${EN_HOST}`
 export type Site = {
   host: string
   url: string
-  brand: 'orgpuls'
+  /** the name the site shows (lib/brand.ts): its market's brand, held by tests/unit/brand.test.ts */
+  brand: Brand
   market: Market
   lang: Locale
   pinned: boolean

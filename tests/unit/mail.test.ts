@@ -4,10 +4,15 @@ import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import seEn from '@/messages/market/se/en.json'
 import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
+import { BRANDS, MARKET_BRAND } from '@/lib/brand'
+import { MARKETS } from '@/lib/markets'
 import {
   AUTH_ACTIONS,
   authLink,
   addressKey,
+  brandedCatalogue,
+  brandNameOf,
+  MARKET_BRAND_NAME,
   groupLang,
   groupsOf,
   inTurns,
@@ -487,5 +492,30 @@ describe('a notice states its organisation’s market’s law (0219, D-257)', ()
     expect((se.no as { forvarsel: { verneombud: string } }).forvarsel.verneombud).toContain('AFS 2023:1')
     // the rest of the bokmål mail is untouched
     expect((se.no as { forvarsel: { subject: string } }).forvarsel.subject).toBe((no.mail as { forvarsel: { subject: string } }).forvarsel.subject)
+  })
+})
+
+describe('the brand a notice names (X-111)', () => {
+  const cat = { no, en } as unknown as MailCatalogue
+
+  it('is each market’s brand, as the app names it', () => {
+    for (const m of MARKETS) expect(MARKET_BRAND_NAME[m], m).toBe(BRANDS[MARKET_BRAND[m]].name)
+    expect(brandNameOf(null)).toBe('Orgpuls')
+    expect(brandNameOf('xx')).toBe('Orgpuls')
+  })
+
+  it('leaves Orgpuls’s catalogue as written', () => {
+    expect(brandedCatalogue(cat, 'Orgpuls')).toBe(cat)
+  })
+
+  it('names another brand wherever a mail named Orgpuls, and keeps the addresses', () => {
+    // the texts, not the keys: a key such as `openOrgpuls` is a name in code
+    const texts = (v: unknown): string[] =>
+      typeof v === 'string' ? [v] : v && typeof v === 'object' ? Object.values(v as Record<string, unknown>).flatMap(texts) : []
+    const out = texts(brandedCatalogue(cat, 'Empvibe'))
+    expect(out.filter((t) => t.includes('Orgpuls'))).toEqual([])
+    expect(out.some((t) => t.includes('Empvibe'))).toBe(true)
+    const addresses = (v: string[]) => v.join('\n').match(/[\w.-]*orgpuls\.(com|no)/g) ?? []
+    expect(addresses(out)).toEqual(addresses(texts(cat)))
   })
 })

@@ -9,8 +9,8 @@ import type { AbstractIntlMessages } from 'next-intl'
  * respondent's even less. So the root layout provides the public namespaces, the
  * application's layout the whole catalogue, and the respondent's routes their own.
  */
-export const PUBLIC_CLIENT_NAMESPACES = ['registrer', 'auth', 'bliMed'] as const
-export const RESPONDENT_CLIENT_NAMESPACES = ['respond', 'factor'] as const
+export const PUBLIC_CLIENT_NAMESPACES = ['registrer', 'auth', 'bliMed', 'brand'] as const
+export const RESPONDENT_CLIENT_NAMESPACES = ['respond', 'factor', 'brand'] as const
 
 export function pickMessages(messages: AbstractIntlMessages, namespaces: readonly string[]): AbstractIntlMessages {
   const picked: AbstractIntlMessages = {}

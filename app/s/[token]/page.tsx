@@ -9,6 +9,8 @@ import { flag } from '@/lib/flags'
 import { unmask } from '@/lib/text/mask'
 import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 import { bcp47, registryTexts } from '@/lib/i18n/locales'
+import { brandOf, rebrand } from '@/lib/brand'
+import { requestMarket } from '@/lib/i18n/market'
 
 /**
  * The respondent surface.
@@ -73,7 +75,8 @@ export default async function RespondPage({
   const surveyOnly = !!offered && registryTexts(lang)
   const uiLocale = lang === 'en' ? 'en' : 'no'
   const messages = surveyOnly
-    ? surveyMessages(await getMessages({ locale: 'no' }), locales?.ui[lang] ?? {})
+    ? // the registry's page strings name the product too: under the market's brand, as the catalogue (X-111)
+      rebrand(surveyMessages(await getMessages({ locale: 'no' }), locales?.ui[lang] ?? {}), brandOf(await requestMarket()), lang)
     : offered
       ? await getMessages({ locale: uiLocale })
       : null

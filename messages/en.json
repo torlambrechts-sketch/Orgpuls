@@ -37,6 +37,9 @@
       "microsoft_refused": "We could not sign you in with this Microsoft account. If your organisation has connected Orgpuls to Microsoft 365, use the work account from that organisation, the same one you signed in with before. If you are not a customer yet, register your organisation first, and if you were invited, use the link in the invitation. You can also sign in with e-mail and password."
     }
   },
+  "brand": {
+    "name": "Orgpuls"
+  },
   "app": {
     "name": "Orgpuls",
     "tagline": "Psychosocial work environment for Norwegian organisations. Answers are stored in the EU, and no single answer can be traced back to a person."

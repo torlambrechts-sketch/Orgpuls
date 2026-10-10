@@ -61,6 +61,7 @@ import {
   personalLang,
   personalLink,
   type LanguageOffer,
+  brandNameOf,
   marketCatalogue,
   renderLifecycle,
   renderNotice,
@@ -146,6 +147,9 @@ Deno.serve(async (req) => {
 
   const key = env('BREVO_API_KEY')
   const sender = { email: env('ORGPULS_MAIL_FROM'), name: Deno.env.get('ORGPULS_MAIL_FROM_NAME') ?? 'Orgpuls' }
+  // the sender's name is the brand of the organisation's market (X-111); its address stays the product's
+  // own until the brand's domain is verified in Brevo
+  const senderOf = (market: string | null | undefined) => (brandNameOf(market) === 'Orgpuls' ? sender : { ...sender, name: brandNameOf(market) })
   const smsSender = Deno.env.get('ORGPULS_SMS_SENDER') ?? 'Orgpuls'
   const appUrl = env('ORGPULS_APP_URL')
   // a copy: the survey languages' texts are added per run, from the registry (below)
@@ -393,7 +397,7 @@ Deno.serve(async (req) => {
           const to = g.to.filter((r) => r.email)
           if (to.length === 0) return { ok: false, retryable: false, auth: false, code: 'no_address' } as SendResult
           const r = renderNotice(marketCatalogue(cat, MAIL_PACKS, job.market), job, g, appUrl)
-          const res = await brevoSend(key, { sender, to: to.map((p) => ({ email: p.email as string, name: p.name })), subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
+          const res = await brevoSend(key, { sender: senderOf(job.market), to: to.map((p) => ({ email: p.email as string, name: p.name })), subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
           if (!res.ok) return res
           outcome = res
         }
@@ -412,7 +416,7 @@ Deno.serve(async (req) => {
           const at = `${s.group.lang}:${s.group.member}`
           const r = rendered.get(at) ?? renderNotice(marketCatalogue(cat, MAIL_PACKS, job.market), job, s.group, appUrl)
           rendered.set(at, r)
-          const res = await brevoSend(key, { sender, to: [{ email: s.to.email, name: s.to.name }], subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
+          const res = await brevoSend(key, { sender: senderOf(job.market), to: [{ email: s.to.email, name: s.to.name }], subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
           if (res.ok) {
             const rec = await svc.rpc('dispatch_recipient_sent', { p_id: job.id, p_email: s.to.email, p_provider_id: res.id || null })
             const said = rec.data as { ok?: boolean; error?: string } | null
@@ -700,7 +704,7 @@ Deno.serve(async (req) => {
         // the law a notice states is the organisation's market's (0219, D-257)
         const r = renderLifecycle(marketCatalogue(cat, MAIL_PACKS, job.market), job, appUrl)
         outcome = await brevoSend(key, {
-          sender,
+          sender: senderOf(job.market),
           to: [{ email: job.to_email, name: job.name ?? undefined }],
           subject: r.subject,
           html: r.html,

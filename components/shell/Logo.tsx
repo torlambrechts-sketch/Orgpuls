@@ -42,6 +42,7 @@ export function LogoMark({ size = 30, src = null }: { size?: number; src?: strin
 }
 
 export function Logo({ size = 30, wordmark = 19, src = null }: { size?: number; wordmark?: number; src?: string | null }) {
+  const t = useTranslations()
   return (
     <span className="flex flex-none items-center gap-[9px]">
       <LogoMark size={size} src={src} />
@@ -49,7 +50,7 @@ export function Logo({ size = 30, wordmark = 19, src = null }: { size?: number; 
         className="font-display font-semibold tracking-[-0.01em]"
         style={{ fontSize: wordmark }}
       >
-        Orgpuls
+        {t('brand.name')}
       </span>
     </span>
   )

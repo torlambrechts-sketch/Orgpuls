@@ -167,7 +167,7 @@ const mergeTree = (a: Record<string, unknown>, b: Record<string, unknown>): Reco
  */
 export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: string | null | undefined): MailCatalogue {
   const pack = market ? packs[market] : undefined
-  if (!pack) return cat
+  if (!pack) return brandedCatalogue(cat, brandNameOf(market))
   const fallback = pack.en ?? Object.values(pack)[0]
   const out = { ...cat } as MailCatalogue
   for (const lang of Object.keys(cat) as Lang[]) {
@@ -175,7 +175,31 @@ export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: st
     const own = out[lang]
     if (law && own) out[lang] = mergeTree(own, law)
   }
-  return out
+  return brandedCatalogue(out, brandNameOf(market))
+}
+
+/**
+ * Each market's brand name (lib/brand.ts MARKET_BRAND and BRANDS; tests/unit/mail.test.ts holds the
+ * two equal): what a notice to an organisation there calls the product, and the sender's name.
+ */
+export const MARKET_BRAND_NAME: Readonly<Record<string, string>> = { no: 'Orgpuls', se: 'Orgpuls' }
+export const brandNameOf = (market: string | null | undefined): string => MARKET_BRAND_NAME[market ?? ''] ?? 'Orgpuls'
+
+/**
+ * The texts under a brand's name, as lib/brand.ts `rebrand` does for the app: «Orgpuls» becomes the
+ * brand's name, an address (orgpuls.com, hjelp@orgpuls.no) stays, and the possessive follows the
+ * language. Orgpuls reads the catalogue as written.
+ */
+export function brandedCatalogue(cat: MailCatalogue, name: string): MailCatalogue {
+  if (name === 'Orgpuls') return cat
+  const walk = (v: unknown, lang: string): unknown => {
+    if (typeof v === 'string')
+      return v.replace(/Orgpuls(?:'s|’s|'|’)(?![\p{L}\p{N}])/gu, lang === 'en' ? `${name}'s` : `${name}s`).replace(/Orgpuls/g, name)
+    if (Array.isArray(v)) return v.map((x) => walk(x, lang))
+    if (v && typeof v === 'object') return Object.fromEntries(Object.entries(v as Record<string, unknown>).map(([k, x]) => [k, walk(x, lang)]))
+    return v
+  }
+  return Object.fromEntries(Object.entries(cat).map(([lang, m]) => [lang, walk(m, lang)])) as MailCatalogue
 }
 
 /**

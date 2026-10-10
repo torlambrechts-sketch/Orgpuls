@@ -1,6 +1,7 @@
 import { cookies, headers } from 'next/headers'
 import { siteOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
+import { brandOf, rebrand } from '@/lib/brand'
 import type { Market } from '@/lib/markets'
 import { DEFAULT_LOCALE, fallbackOf, isLocale, LOCALE_COOKIE } from './locales'
 import { requestMarket } from './market'
@@ -25,7 +26,8 @@ const merge = (a: Tree, b: Tree): Tree =>
  * round's own approved texts (app/s/[token]).
  *
  * Last, the law the texts state is the market's (D-257): an organisation outside Norway reads its
- * market's legal pack over the language's own legal texts (lib/i18n/market-overlay.ts).
+ * market's legal pack over the language's own legal texts (lib/i18n/market-overlay.ts), and the
+ * product's name is its market's brand (lib/brand.ts, X-111): Orgpuls reads the catalogue as written.
  */
 async function loadMessages(locale: string, market: Market): Promise<Tree> {
   const own = (await import(`../../messages/${locale}.json`)).default as Tree
@@ -42,7 +44,7 @@ async function loadMessages(locale: string, market: Market): Promise<Tree> {
   // the law the texts state is the organisation's market's, laid last: an approved replacement of a
   // Norwegian legal text is still Norway's law (lib/i18n/market-overlay.ts, D-257)
   const law = await marketOverlay(market, locale)
-  const shown = law ? merge(replaced, law) : replaced
+  const shown = rebrand(law ? merge(replaced, law) : replaced, brandOf(market), locale)
   // the QA stack's pseudo-locale (lib/i18n/pseudo.ts) and keys mode (lib/i18n/keyed.ts, which the
   // page map is crawled in); without ORGPULS_PSEUDO=1 / ORGPULS_I18N_KEYS=1 this is the catalogue itself
   return keyedMessages(locale, pseudoMessages(locale, shown))

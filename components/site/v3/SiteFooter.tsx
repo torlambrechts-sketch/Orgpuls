@@ -2,6 +2,7 @@
 
 import type { Route } from 'next'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useId } from 'react'
 import { footerFor, isV3Route, type FooterId } from '@/lib/site/nav'
@@ -35,6 +36,7 @@ export function SiteFooter({
   bottom: React.ReactNode
   language: React.ReactNode
 }) {
+  const t = useTranslations('brand')
   const pathname = usePathname()
   const id = footerFor(pathname)
   const uid = useId()
@@ -49,7 +51,7 @@ export function SiteFooter({
         }`}
       >
         <div>
-          <span className="font-display text-[19px] font-semibold">Orgpuls</span>
+          <span className="font-display text-[19px] font-semibold">{t('name')}</span>
           <p className="m-0 mt-[8px] max-w-[28ch] text-[12.5px] leading-[1.6] text-mut">{about}</p>
         </div>
         {columns[id].map((c, n) => (
