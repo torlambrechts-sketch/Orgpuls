@@ -74,10 +74,31 @@ it.
 | UK-A | Brand layer: a brand per site (name, wordmark, page titles, share images, mail brand), Empvibe's texts laid over the English catalogue as a market's are; brand follows the organisation's market in mail | built (D-261): the name in every text, wordmark, title and notice mail; auth mail and share images at UK-G/UK-E |
 | UK-B | Market `gb`: floor 5, English, Europe/London, Companies House number rule (limited companies and LLPs; other firms later), sign-up on empvibe.com | |
 | UK-C | UK legal pack: HSWA 1974 s.2, MHSWR 1999 regs 3 and 5, the Management Standards mapped onto the 11 factors, safety representatives (SRSC 1977, HSCER 1996) and a «no representative» case, UK GDPR and ICO; sources in `docs/markets/uk-legal.md` | |
-| UK-D | HSE's Indicator Tool as a UK module (`module_markets` row `gb`), verbatim, attributed under the Open Government Licence | |
+| UK-D | HSE's Indicator Tool as a UK module (`module_markets` row `gb`), verbatim, attributed under the Open Government Licence | researched 2026-10-10 (below); needs the module format widened first |
 | UK-E | The UK public site on empvibe.com: its own pages, Empvibe's name, UK search terms, hreflang and sitemap per host | |
 | UK-F | Documents: a UK Article 28 agreement, privacy notice, B2B terms; GBP prices and reverse-charge invoicing | waits on prices and legal review |
 | UK-G | The move: empvibe.com and www.empvibe.com as a site row, en.orgpuls.com redirected there, Supabase Auth redirect URLs, Brevo sender domain | |
+
+**UK-D, what the Indicator Tool needs from the module format** (research 2026-10-10, from HSE's OGL PDF and Analysis Tool):
+- **Wording.** 35 items in seven scales: demands 8, control 6, managers' support 5, peer support 4, relationships 4,
+  role 5, change 3. The wording is taken from hse.gov.uk's PDF only, never from HSE's paid online tool, whose terms
+  forbid derived services.
+- **Two response scales.** Items 1–23 use a frequency scale (Never…Always) and items 24–35 an agreement scale. A
+  module has one scale today, and the flow shows the core's agreement labels for every module statement.
+- **Up to 8 statements per factor,** and codes past 5. Today a factor has 3, or 5 in a variant.
+- **HSE's order, fixed.** Today statements are shuffled per respondent and grouped one page per factor.
+- **No «Not relevant to me» answer:** HSE has five answers and a skip.
+- **A module-level instruction text** before item 1.
+- **Reverse scoring, applied.** 12 items are reverse-scored. The `reverse` flag is stored but no reader applies it:
+  `module_results` scores the raw value. No module sets it today, so nothing is scored wrongly yet.
+- **English as the source text.** The format requires bokmål.
+- **Attribution and non-endorsement on the module:** «Contains public sector information published by the Health and
+  Safety Executive and licensed under the Open Government Licence v3.0», and not produced, approved or endorsed by
+  HSE. No HSE logo.
+- **Tor's to decide:**
+  - whether this module releases at 10 answers, as HSE's online tool does, instead of the round's k;
+  - the bands on HSE's 1–5 scale (HSE: 4 and above good, 2 and below needs improvement);
+  - pl, uk, lt and da machine drafts, which would be ours, not HSE's. HSE publishes an official Polish version.
 
 ### Phase 2 — Sweden, step by step
 

@@ -11,6 +11,7 @@
 --   * a module given Sweden's market is usable in Sweden and not in Norway (8)
 --   * org_module_keys answers members only (9)
 --   * nothing written here survives (10)
+--   * Sweden's own module, arbetstid-och-aterhamtning, is offered in Sweden alone (11, 0221)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/module_market_invariants.sql
 
@@ -60,6 +61,11 @@ begin
     'expected', 'barnehage-og-skole=true/false,bygg-og-anlegg=true/false,handel=true/false,helse-og-omsorg=true/false,kunnskap-og-kontor=true/false',
     'actual', v_txt,
     'pass', v_txt = 'barnehage-og-skole=true/false,bygg-og-anlegg=true/false,handel=true/false,helse-og-omsorg=true/false,kunnskap-og-kontor=true/false');
+
+  -- 11 ------------------------------------------------------------- Sweden's own module (0221)
+  v_txt := app.module_market_ok('arbetstid-och-aterhamtning', 'se')::text || ',' || app.module_market_ok('arbetstid-och-aterhamtning', 'no')::text;
+  v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'arbetstid-och-aterhamtning, the working-time module on AFS 2023:2, is offered in Sweden and not in Norway',
+    'expected', 'true,false', 'actual', v_txt, 'pass', v_txt = 'true,false');
 
   begin
     -- a published module with no market (Norway's), and an organisation in Sweden
@@ -171,7 +177,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._mmi;
   if v_failed is not null then raise exception 'module market invariants failed: %', v_failed; end if;
-  if v_count <> 10 then raise exception 'module market invariants: expected 10 rows, got %', v_count; end if;
+  if v_count <> 11 then raise exception 'module market invariants: expected 11 rows, got %', v_count; end if;
 end $$;
 
 drop table public._mmi;

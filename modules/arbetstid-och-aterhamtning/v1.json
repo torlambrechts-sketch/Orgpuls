@@ -1,0 +1,524 @@
+{
+  "module_id": "arbetstid-och-aterhamtning",
+  "locale": "nb-NO",
+  "name": "Arbeidstid og restitusjon",
+  "validation_status": "provisional",
+  "description": "Tilleggsmodul til hovedundersøkelsen for svenske virksomheter, bygget på AFS 2023:2 2 kap. 9 §. Fem faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall for hele virksomheten.",
+  "estimated_minutes": 3,
+  "scale": {
+    "type": "likert5",
+    "labels": [
+      "Helt uenig",
+      "Litt uenig",
+      "Verken eller",
+      "Litt enig",
+      "Helt enig"
+    ],
+    "to_index": {
+      "1": 0,
+      "2": 25,
+      "3": 50,
+      "4": 75,
+      "5": 100
+    }
+  },
+  "scoring": {
+    "factor_index": "mean of item indices",
+    "risk_bands": [
+      {
+        "band": "lav",
+        "min": 65
+      },
+      {
+        "band": "middels",
+        "min": 50,
+        "max": 64
+      },
+      {
+        "band": "høy",
+        "max": 49
+      }
+    ]
+  },
+  "anonymity": {
+    "min_responses": 5,
+    "can_lower": false,
+    "count_items_reported_at": "organisation_only",
+    "segments_require_min": 5,
+    "block_differencing": true
+  },
+  "relation_to_core": {
+    "covered_by_core_factors": [
+      "Arbeidsmengde og tidspress",
+      "Medvirkning og kontroll",
+      "Støtte fra leder"
+    ],
+    "core_statements_not_repeated": [
+      "Jeg kan koble av fra jobben når arbeidsdagen er over",
+      "Arbeidsmengden min er til å håndtere over tid",
+      "Jeg har nok tid til å gjøre jobben godt nok",
+      "Jeg kan påvirke tempoet i eget arbeid"
+    ]
+  },
+  "factors": [
+    {
+      "id": "schema_och_forutsagbarhet",
+      "name": "Arbeidsplan og forutsigbarhet",
+      "summary": "Om arbeidstiden er kjent i god tid, om endringer på kort varsel er unntaket, og om ønsker blir tatt hensyn til.",
+      "rationale": "Kort varsel i arbeidsplanen gjør det vanskeligere å planlegge hvile og privatliv, og uregelmessig arbeidstid har i studier hengt sammen med mer korttidssykefravær. Underbemanning gir flere uplanlagte endringer på kort varsel. Forskningen anbefaler regelmessig og forutsigbar arbeidstid og, der det er mulig, innflytelse over arbeidsplanen.",
+      "rationale_sources": [
+        "ki_vilotider",
+        "av_granslost"
+      ],
+      "legal_basis": [
+        "AFS 2023:2 2 kap. 9 § (motvirke at arbeidstidens plassering fører til uhelse)",
+        "AML 2 kap. 1 § (plasseringen av arbeidstiden skal tas hensyn til; medvirkning i utformingen av egen arbeidssituasjon)",
+        "arbetstidslagen 12 § (beskjed om endret plassering av ordinær arbeidstid og vakt på arbeidsstedet, som hovedregel minst to uker i forveien; tariffavtale kan fravike)"
+      ],
+      "items": [
+        {
+          "id": "AA-SF-1",
+          "text": "Arbeidsplanen er klar i god tid før den gjelder",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-SF-2",
+          "text": "Endringer i arbeidstiden på kort varsel er unntaket, ikke regelen",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-SF-3",
+          "text": "Ønsker om arbeidstid blir tatt hensyn til når arbeidsplanen legges",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "En arbeidsplan å planlegge etter",
+          "description": "Arbeidsgruppen, lederen og verneombudet går gjennom de siste tre månedenes endringer i arbeidsplanen: hvilke som kom på kort varsel, hvorfor, og hvilke som kunne vært unngått. Dere blir enige om hvor lang tid i forveien planen skal være klar, og hvordan ønsker meldes inn. Spørsmål som berører tariffavtalen, tas videre til forhandling.",
+          "remeasure_item": "AA-SF-2"
+        }
+      ]
+    },
+    {
+      "id": "aterhamtning_och_vila",
+      "name": "Restitusjon og hvile",
+      "summary": "Om pauser blir tatt, om fritiden mellom arbeidsøktene er nok, og om travle perioder følges av tid til å hente seg inn.",
+      "rationale": "Etter definisjonene i AFS 2023:2 blir en ubalanse mellom krav og ressurser usunn når den varer lenge og mulighetene for restitusjon er utilstrekkelige, og de allmenne rådene sier at arbeidsgiveren særlig bør være oppmerksom på mulighetene for restitusjon. Færre enn elleve timers hvile mellom vaktene henger sammen med kort søvn og økt tretthet. Flere pauser og roligere perioder etter travle perioder er blant tiltakene Arbetsmiljöverket og forskningen peker på.",
+      "rationale_sources": [
+        "afs_2023_2",
+        "ki_vilotider",
+        "av_arbetstid",
+        "av_granslost",
+        "prevent_osa"
+      ],
+      "legal_basis": [
+        "AFS 2023:2 2 kap. 9 § med allmenne råd (arbeidsgiveren bør særlig være oppmerksom på mulighetene for restitusjon)",
+        "AFS 2023:2 2 kap. 3 § (usunn arbeidsbelastning: langvarig ubalanse når mulighetene for restitusjon er utilstrekkelige)",
+        "arbetstidslagen 13–14 §§ (døgnhvile og ukehvile, om ikke tariffavtale fraviker)",
+        "arbetstidslagen 15 og 17 §§ (fri pause og pause i arbeidstiden; tariffavtale kan fravike)"
+      ],
+      "items": [
+        {
+          "id": "AA-AH-1",
+          "text": "Pauser blir tatt, også når det er mye å gjøre",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-AH-2",
+          "text": "Fritiden mellom arbeidsdagene eller vaktene er nok til å hvile ut",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-AH-3",
+          "text": "Etter perioder med mye arbeid er det tid til å hente seg inn igjen",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "lederpraksis",
+          "title": "Pausen blir tatt",
+          "description": "Lederen planlegger inn pauser i arbeidsdagen, tar dem selv og spør på personalmøtet om de er blitt tatt. Der de ikke blir tatt, endres bemanningen eller måten arbeidet er lagt opp på.",
+          "remeasure_item": "AA-AH-1"
+        }
+      ]
+    },
+    {
+      "id": "nabarhet_och_granser",
+      "name": "Tilgjengelighet og grenser",
+      "summary": "Om det er tydelig når man må være tilgjengelig, og om fritid får være fri.",
+      "rationale": "De allmenne rådene til AFS 2023:2 2 kap. 9 § nevner vide muligheter til å jobbe til ulike tider og steder, med forventninger om å være tilgjengelig hele tiden, som en plassering av arbeidstiden som kan gi risiko for uhelse. Ifølge Arbetsmiljöverket kan det i praksis bety lange arbeidsdager og arbeidsuker. Normer om å være tilgjengelig i fritiden har vært knyttet til vansker med å slippe jobben når man har fri, og tydelige avtaler om grenser anbefales.",
+      "rationale_sources": [
+        "afs_2023_2",
+        "av_arbetstid",
+        "av_granslost"
+      ],
+      "legal_basis": [
+        "AFS 2023:2 2 kap. 9 § med allmenne råd (forventninger om å være tilgjengelig hele tiden)",
+        "AML 2 kap. 1 § (plasseringen av arbeidstiden skal tas hensyn til)"
+      ],
+      "items": [
+        {
+          "id": "AA-NG-1",
+          "text": "Det er akseptert at man ikke svarer på jobbhenvendelser i fritiden",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-NG-2",
+          "text": "Det er tydelig når man må være tilgjengelig, og når man ikke trenger å være det",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-NG-3",
+          "text": "Ledere unngår å ta kontakt om jobb med den som har fri",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "rutine",
+          "title": "Avtale om tilgjengelighet",
+          "description": "Arbeidsgruppen skriver ned når man må være tilgjengelig, hvordan hastesaker når fram, og hvem som har avtalt vakt eller beredskap. E-post og meldinger til den som har fri, tidsinnstilles til neste arbeidsdag. Avtalen følges opp hvert halvår.",
+          "remeasure_item": "AA-NG-2"
+        }
+      ]
+    },
+    {
+      "id": "overtid_och_langa_arbetsdagar",
+      "name": "Overtid og lange arbeidsdager",
+      "summary": "Om overtid er unntaket, om arbeid skyves over på fritiden, og om lederen ser hvor mye som faktisk jobbes.",
+      "rationale": "Arbetsmiljöverket oppgir at arbeidsøkter på ti timer eller mer og arbeidsuker på femti timer eller mer gir risiko for uhelse, og at uplanlagte lange økter eller uker kan være et tegn på ubalanse mellom krav og ressurser. WHO og ILO har beregnet at arbeidsuker på 55 timer eller mer er forbundet med 35 prosent høyere risiko for hjerneslag enn arbeidsuker på 35–40 timer. Arbeidsgiveren må derfor vite hvordan arbeidstiden faktisk er lagt, ikke bare hvordan den er planlagt.",
+      "rationale_sources": [
+        "av_arbetstid",
+        "who_ilo"
+      ],
+      "legal_basis": [
+        "AFS 2023:2 2 kap. 9 § med allmenne råd (stort omfang av overtidsarbeid, lange arbeidsøkter)",
+        "AFS 2023:2 2 kap. 6 § (ressursene skal tilpasses kravene i arbeidet)",
+        "arbetstidslagen 8 og 10 §§ (alminnelig overtid og merarbeid, om ikke tariffavtale fraviker)",
+        "arbetstidslagen 11 § og AFS 2023:2 9 kap. 3 § (registrering av vakttid, overtid og merarbeid)"
+      ],
+      "items": [
+        {
+          "id": "AA-OT-1",
+          "text": "Overtid er unntaket, ikke regelen",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-OT-2",
+          "text": "Arbeid som ikke rekkes i arbeidstiden, skyves ikke over på fritiden",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-OT-3",
+          "text": "Lederen har oversikt over hvor mye som faktisk jobbes, også utover det planlagte",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "rutine",
+          "title": "Overtiden på bordet",
+          "description": "Lederen og verneombudet går hver måned gjennom registreringene av overtid og merarbeid, sammenstilt per arbeidsgruppe og ikke per person. Der overtiden går igjen, ses bemanning og arbeidsfordeling på, og tiltakene føres inn i handlingsplanen.",
+          "remeasure_item": "AA-OT-1"
+        }
+      ]
+    },
+    {
+      "id": "natt_skift_och_langa_pass",
+      "name": "Natt, skift og lange vakter",
+      "summary": "For den som jobber natt, skift eller lange vakter: om det er fri etter nattevakter, om risikofylte oppgaver legges til dagtid, og om det finnes et sted å hvile.",
+      "rationale": "Skiftarbeid og arbeid om natten er de første eksemplene i de allmenne rådene til AFS 2023:2 2 kap. 9 §, og rådene påpeker at arbeidstidens plassering også påvirker risikoen for ulykker. Stressforskningsinstitutet ved Stockholms universitet beskriver risikoøkningen for enkelte sykdommer som liten, men slår fast at turnusen kan ha stor betydning. Forskningens råd er blant annet få nattevakter på rad, fri etter nattevakter og rotasjon framover: morgen, kveld, natt.",
+      "rationale_sources": [
+        "afs_2023_2",
+        "su_skiftarbete",
+        "ki_vilotider",
+        "sal_arbetstid"
+      ],
+      "legal_basis": [
+        "AFS 2023:2 2 kap. 9 § med allmenne råd (skiftarbeid, nattarbeid, lange arbeidsøkter; risikoen for ulykker)",
+        "arbetstidslagen 13 a § (arbeidstid for nattarbeidere; natt er klokken 22–6; tariffavtale kan fravike)"
+      ],
+      "items": [
+        {
+          "id": "AA-NS-1",
+          "text": "Etter nattevakter er det nok fri før neste vakt",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-NS-2",
+          "text": "Risikofylte og krevende arbeidsoppgaver legges helst til dagtid",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "AA-NS-3",
+          "text": "På lange vakter og nattevakter finnes det et uforstyrret sted å hvile",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "En mer bærekraftig turnus",
+          "description": "Arbeidsgruppen, den som lager turnusen, og verneombudet går gjennom turnusen opp mot forskningens råd: få nattevakter på rad, fri etter nattevakter, rotasjon framover (morgen, kveld, natt) og risikofylte oppgaver på dagtid. Dere velger to endringer å prøve og følger dem opp etter tre måneder. Spørsmål som berører tariffavtalen, tas videre til forhandling.",
+          "remeasure_item": "AA-NS-1"
+        }
+      ]
+    }
+  ],
+  "count_items": [
+    {
+      "id": "AA-T-1",
+      "text": "Har du de siste tre månedene hatt mindre enn elleve timer fri mellom to vakter eller arbeidsdager, for eksempel en kveldsvakt etterfulgt av en morgenvakt?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "asked_with": "aterhamtning_och_vila",
+      "why": "Viser hvor vanlig kort hviletid er, ikke om lov eller avtale er brutt. Arbetstidslagens elleve timer døgnhvile kan erstattes av tariffavtale, har unntak og gjelder ikke alle (arbetstidslagen 2, 3 og 13 §§), men arbeidsgiveren skal uansett motvirke at arbeidstidens plassering fører til uhelse (AFS 2023:2 2 kap. 9 §)."
+    },
+    {
+      "id": "AA-T-2",
+      "text": "Har du de siste tre månedene blitt kontaktet om arbeid i fritiden der det var forventet at du svarte, uten at du hadde avtalt vakt eller beredskap?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "asked_with": "nabarhet_och_granser",
+      "why": "Viser hvor ofte forventninger om å være tilgjengelig når inn i fritiden, noe de allmenne rådene til AFS 2023:2 2 kap. 9 § peker ut som en risiko. Svaret viser et arbeidsmiljøforhold som skal vurderes, ikke et lovbrudd."
+    }
+  ],
+  "segments": [],
+  "sources": [
+    {
+      "key": "afs_2023_2",
+      "title": "Arbetsmiljöverket: AFS 2023:2 om planering och organisering av arbetsmiljöarbete, 2 kap. Organisatorisk och social arbetsmiljö",
+      "url": "https://www.av.se/arbetsmiljoarbete-och-inspektioner/publikationer/foreskrifter/afs-20232/"
+    },
+    {
+      "key": "aml",
+      "title": "Arbetsmiljölag (1977:1160)",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/arbetsmiljolag-19771160_sfs-1977-1160/"
+    },
+    {
+      "key": "atl",
+      "title": "Arbetstidslag (1982:673)",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/arbetstidslag-1982673_sfs-1982-673/"
+    },
+    {
+      "key": "av_arbetstid",
+      "title": "Arbetsmiljöverket: Motverka att arbetstiden leder till ohälsa",
+      "url": "https://www.av.se/halsa-och-sakerhet/organisatorisk-och-social-arbetsmiljo/motverka-att-arbetstidens-forlaggning-leder-till-ohalsa/"
+    },
+    {
+      "key": "av_atl",
+      "title": "Arbetsmiljöverket: Om arbetstidslagen",
+      "url": "https://www.av.se/arbetsmiljoarbete-och-inspektioner/lagar-och-regler-om-arbetsmiljo/om-arbetstidslagen/"
+    },
+    {
+      "key": "av_anteckningar",
+      "title": "Arbetsmiljöverket: Anteckna uppgifter om jourtid, övertid och mertid",
+      "url": "https://www.av.se/arbetsmiljoarbete-och-inspektioner/arbetsgivarens-ansvar-for-arbetsmiljon/anteckna-uppgifter-om-jourtid-overtid-och-mertid/"
+    },
+    {
+      "key": "av_granslost",
+      "title": "Arbetsmiljöverket rapport 2018:1: Gränslöst arbete – en forskarantologi (kap. 3 Mellner, kap. 4 Kecklund)",
+      "url": "https://www.av.se/globalassets/filer/publikationer/rapporter/granslost-arbete-en-forskarantologi-om-arbetsmiljoutmaningar-i-anknytning-till-ett-granslost-arbetsliv_rap2018_1.pdf"
+    },
+    {
+      "key": "ki_vilotider",
+      "title": "Karolinska institutet rapport 2023:11: Forskningsöversikt över korta vilotider samt rekommendationer för säker och hälsosam arbetstidsförläggning",
+      "url": "https://ki.se/media/268949/download"
+    },
+    {
+      "key": "su_skiftarbete",
+      "title": "Stressforskningsinstitutet, Stockholms universitet: Skiftarbetaren – Hälsa och säkerhet",
+      "url": "https://www.su.se/enheter/skiftarbetaren---forskningsprojekt/om-projektet/halsa-och-sakerhet"
+    },
+    {
+      "key": "sal_arbetstid",
+      "title": "Suntarbetsliv: Checklista Arbetstidens förläggning",
+      "url": "https://minasidor.suntarbetsliv.se/checklistor/arbetstidens-forlaggning"
+    },
+    {
+      "key": "sal_aterhamtning",
+      "title": "Suntarbetsliv: Strategier för återhämtning på jobbet",
+      "url": "https://www.suntarbetsliv.se/forskning-pa-5/aterhamtning-strategier/"
+    },
+    {
+      "key": "prevent_osa",
+      "title": "Prevent: OSA-enkätens frågeområden (5. Återhämtning)",
+      "url": "https://prevent.se/globalassets/.prevent.se/jobba-med-arbetsmiljon/enkater/osa-enkaten/fordjupning-osaenkatens-omraden.pdf"
+    },
+    {
+      "key": "who_ilo",
+      "title": "WHO/ILO (2021): Long working hours increasing deaths from heart disease and stroke",
+      "url": "https://www.who.int/news/item/17-05-2021-long-working-hours-increasing-deaths-from-heart-disease-and-stroke-who-ilo"
+    }
+  ],
+  "translations": {
+    "en": {
+      "name": "Working time and recovery",
+      "description": "Add-on module to the main survey for Swedish organisations, built on AFS 2023:2 2 kap. 9 §. Five factors with three statements each, plus two questions reported only as counts for the whole organisation.",
+      "scale_labels": [
+        "Strongly disagree",
+        "Slightly disagree",
+        "Neither",
+        "Slightly agree",
+        "Strongly agree"
+      ],
+      "covered_by_core_factors": [
+        "Workload and time pressure",
+        "Participation and control",
+        "Support from manager"
+      ],
+      "factors": {
+        "schema_och_forutsagbarhet": {
+          "name": "Schedules and predictability",
+          "summary": "Whether working hours are known well in advance, whether short-notice changes are the exception, and whether wishes are taken into account.",
+          "rationale": "Short notice in the schedule makes it harder to plan rest and private life, and irregular working hours have been linked in studies to more short-term sickness absence. Understaffing leads to more unplanned changes at short notice. The research recommends regular, predictable working hours and, where possible, influence over the schedule.",
+          "legal_basis": [
+            "AFS 2023:2 2 kap. 9 § (countering working-time arrangements that lead to ill health)",
+            "AML 2 kap. 1 § (Work Environment Act: the arrangement of working time must be considered; employees take part in shaping their own work situation)",
+            "arbetstidslagen 12 § (Working Hours Act: notice of changes to the arrangement of ordinary working time and on-call time at the workplace, as a main rule at least two weeks ahead; collective agreements may deviate)"
+          ],
+          "items": {
+            "AA-SF-1": "The schedule is ready well before it takes effect",
+            "AA-SF-2": "Short-notice changes to working hours are the exception, not the rule",
+            "AA-SF-3": "Wishes about working hours are taken into account when the schedule is drawn up"
+          },
+          "action_suggestions": [
+            {
+              "title": "A schedule you can plan around",
+              "description": "The team, the manager and the safety representative go through the last three months' schedule changes: which came at short notice, why, and which could have been avoided. You agree how far ahead the schedule should be ready and how wishes are put forward. Questions that touch the collective agreement go on to negotiation."
+            }
+          ]
+        },
+        "aterhamtning_och_vila": {
+          "name": "Recovery and rest",
+          "summary": "Whether breaks are taken, whether the time off between shifts is enough, and whether busy periods are followed by time to recover.",
+          "rationale": "Under the definitions in AFS 2023:2, an imbalance between demands and resources becomes unhealthy when it lasts and the opportunities for recovery are insufficient, and the general recommendations say the employer should pay particular attention to the opportunities for recovery. Fewer than eleven hours of rest between shifts is linked to short sleep and increased fatigue. More breaks, and calmer periods after busy ones, are among the measures the Swedish Work Environment Authority and the research point to.",
+          "legal_basis": [
+            "AFS 2023:2 2 kap. 9 § with general recommendations (the employer should pay particular attention to the opportunities for recovery)",
+            "AFS 2023:2 2 kap. 3 § (unhealthy workload: a lasting imbalance when the opportunities for recovery are insufficient)",
+            "arbetstidslagen 13–14 §§ (Working Hours Act: daily and weekly rest, unless a collective agreement deviates)",
+            "arbetstidslagen 15 och 17 §§ (Working Hours Act: meal breaks and short breaks; collective agreements may deviate)"
+          ],
+          "items": {
+            "AA-AH-1": "Breaks get taken, even when there is a lot to do",
+            "AA-AH-2": "The time off between working days or shifts is enough to get properly rested",
+            "AA-AH-3": "After periods of heavy work, there is time to recover"
+          },
+          "action_suggestions": [
+            {
+              "title": "The break happens",
+              "description": "The manager plans breaks into the working day, takes them too, and asks at the team meeting whether they have happened. Where they have not, staffing or the way the work is organised is changed."
+            }
+          ]
+        },
+        "nabarhet_och_granser": {
+          "name": "Availability and boundaries",
+          "summary": "Whether it is clear when you need to be reachable, and whether time off is left free.",
+          "rationale": "The general recommendations to AFS 2023:2 2 kap. 9 § name wide scope to work at different times and places, with expectations of being constantly reachable, as a working-time arrangement that can carry risks of ill health. According to the Swedish Work Environment Authority, in practice this can mean long working days and weeks. Norms of being available in one's free time have been linked to difficulty letting go of work when off, and clear agreements on boundaries are recommended.",
+          "legal_basis": [
+            "AFS 2023:2 2 kap. 9 § with general recommendations (expectations of being constantly reachable)",
+            "AML 2 kap. 1 § (Work Environment Act: the arrangement of working time must be considered)"
+          ],
+          "items": {
+            "AA-NG-1": "It is accepted not to answer work e-mails, calls or messages during time off",
+            "AA-NG-2": "It is clear when you need to be reachable and when you do not",
+            "AA-NG-3": "Managers avoid contacting people about work when they are off"
+          },
+          "action_suggestions": [
+            {
+              "title": "Agreement on availability",
+              "description": "The team writes down when people need to be reachable, how urgent matters get through, and who has agreed on-call duty or standby. E-mails and messages to people who are off are scheduled for the next working day. The agreement is reviewed every six months."
+            }
+          ]
+        },
+        "overtid_och_langa_arbetsdagar": {
+          "name": "Overtime and long working days",
+          "summary": "Whether overtime is the exception, whether work spills into time off, and whether the manager sees how much is actually worked.",
+          "rationale": "The Swedish Work Environment Authority states that shifts of ten hours or more and working weeks of fifty hours or more carry risks of ill health, and that unplanned long shifts or weeks can signal an imbalance between demands and resources. WHO and the ILO have estimated that working 55 hours or more a week is associated with a 35 per cent higher risk of stroke than working 35–40 hours. The employer therefore needs to know how working time is actually arranged, not only how it is planned.",
+          "legal_basis": [
+            "AFS 2023:2 2 kap. 9 § with general recommendations (extensive overtime, long shifts)",
+            "AFS 2023:2 2 kap. 6 § (resources must be matched to the demands of the work)",
+            "arbetstidslagen 8 och 10 §§ (Working Hours Act: general overtime and additional hours, unless a collective agreement deviates)",
+            "arbetstidslagen 11 § och AFS 2023:2 9 kap. 3 § (records of on-call time, overtime and additional hours)"
+          ],
+          "items": {
+            "AA-OT-1": "Overtime is the exception, not the rule",
+            "AA-OT-2": "Work not finished in working hours is not pushed into time off",
+            "AA-OT-3": "The manager knows how much is actually worked, including beyond what was planned"
+          },
+          "action_suggestions": [
+            {
+              "title": "Overtime on the table",
+              "description": "Each month the manager and the safety representative go through the overtime and extra-hours records, compiled per team and not per person. Where overtime recurs, staffing and the division of work are reviewed, and the measures go into the action plan."
+            }
+          ]
+        },
+        "natt_skift_och_langa_pass": {
+          "name": "Nights, shifts and long shifts",
+          "summary": "For those who work nights, shifts or long shifts: whether there is time off after night shifts, whether risky tasks are put in the daytime, and whether there is a place to rest.",
+          "rationale": "Shift work and night work are the first examples in the general recommendations to AFS 2023:2 2 kap. 9 §, which also note that working-time arrangements affect the risk of accidents. The Stress Research Institute at Stockholm University describes the increased risk of certain diseases as small, but finds that the shift pattern can matter a great deal. The research advice includes few night shifts in a row, time off after night shifts and forward rotation: morning, evening, night.",
+          "legal_basis": [
+            "AFS 2023:2 2 kap. 9 § with general recommendations (shift work, night work, long shifts; the risk of accidents)",
+            "arbetstidslagen 13 a § (Working Hours Act: working time for night workers; night is 22:00–06:00; collective agreements may deviate)"
+          ],
+          "items": {
+            "AA-NS-1": "After night shifts there is enough time off before the next shift",
+            "AA-NS-2": "Risky and demanding tasks are scheduled for daytime where possible",
+            "AA-NS-3": "On long shifts and night shifts there is an undisturbed place to rest"
+          },
+          "action_suggestions": [
+            {
+              "title": "A more sustainable shift pattern",
+              "description": "The team, the person who draws up the schedule and the safety representative check the shift pattern against the research advice: few night shifts in a row, time off after night shifts, forward rotation (morning, evening, night) and risky tasks in the daytime. You choose two changes to try and follow them up after three months. Questions that touch the collective agreement go on to negotiation."
+            }
+          ]
+        }
+      },
+      "count_items": {
+        "AA-T-1": {
+          "text": "In the last three months, have you had less than eleven hours off between two shifts or working days, for example an evening shift followed by a morning shift?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows how common short rest periods are, not whether law or agreement has been breached. The Working Hours Act's eleven hours of daily rest can be replaced by a collective agreement, has exceptions and does not apply to everyone (arbetstidslagen 2, 3 och 13 §§), but the employer must still counter working-time arrangements that lead to ill health (AFS 2023:2 2 kap. 9 §)."
+        },
+        "AA-T-2": {
+          "text": "In the last three months, have you been contacted about work in your time off when you were expected to reply, without having agreed on-call duty or standby?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows how often expectations of being reachable reach into time off, which the general recommendations to AFS 2023:2 2 kap. 9 § name as a risk. The answer shows a working condition to be assessed, not a breach of law."
+        }
+      },
+      "segments": {}
+    }
+  }
+}

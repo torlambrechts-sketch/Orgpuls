@@ -18,6 +18,7 @@
     "modules:validate": "tsx scripts/modules/validate.ts",
     "modules:seed": "tsx scripts/modules/seed.ts",
     "modules:publish": "tsx scripts/modules/publish.ts",
+    "modules:registry": "tsx scripts/modules/registry.ts",
     "qa:up": "bash scripts/qa/up.sh",
     "qa:seed": "bash scripts/qa/up.sh",
     "qa:serve": "node scripts/qa/serve.mjs",

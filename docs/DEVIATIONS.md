@@ -12592,3 +12592,63 @@ for the extended factors only. The fix is in the seed and a new version of the m
 - a translation shown for the bokmål the module still says;
 - none for changed or untranslated bokmål, or for a row with no source or no text;
 - the registry asked only for a registry language, with English behind it.
+
+## D-263 — «Arbetstid och återhämtning»: Sweden's own module (SE-D, 2026-10-10)
+
+Working time and recovery are the one part of Sweden's rules the 11 factors do not cover: AFS 2023:2 2 kap. 9 §, «Arbetsgivaren ska vidta de åtgärder som behövs för att motverka att arbetstidens förläggning leder till ohälsa hos arbetstagarna» (docs/markets/se-legal.md). `modules/arbetstid-och-aterhamtning/v1.json` is the first module written for a market other than Norway.
+
+**What it asks.** Five factors of three statements, all marked provisional:
+- schedules and predictability;
+- recovery and rest;
+- availability and boundaries;
+- overtime and long working days;
+- nights, shifts and long shifts.
+
+Two count questions ask whether, in the last three months, a respondent had less than eleven hours off between two
+shifts, or was contacted about work in time off without agreed on-call duty. Their «why» says what an answer shows:
+how common the situation is, not a breach. The Working Hours Act's rest rules can be replaced by a collective
+agreement, so no statement may imply a breach.
+
+Each factor's legal basis cites AFS 2023:2 2 kap. 9 § first, then the provision behind the statement:
+- AML 2 kap. 1 §;
+- arbetstidslagen 12, 13, 13 a, 14, 15 and 17 §§ «om inte kollektivavtal avviker»;
+- AFS 2023:2 2 kap. 3 and 6 §§, and 9 kap. 3 §.
+
+The sources were fetched on 2026-10-10: Arbetsmiljöverket, riksdagen.se, Karolinska institutet's report on short rest
+periods, Stressforskningsinstitutet, Suntarbetsliv, Prevent and WHO/ILO. The module covers what the core instrument
+does not. It names the core's «Arbeidsmengde og tidspress», «Medvirkning og kontroll» and «Støtte fra leder» as
+covered, and does not repeat four core statements.
+
+**Its market is Sweden (0221).** A key with no market is Norway's (0220), so the row comes before the module exists
+anywhere. It is offered to organisations in Sweden and to no one else (`module_market_invariants.sql` row 11). It has
+no industry entry and is not among `content/industries/modules.ts`'s files, so it reaches neither Norway's industry
+pages nor their legal review.
+
+**Its languages.**
+- The file holds bokmål as its body and English as `translations.en`, as every module does. `nb` is the format's
+  source language.
+- Its respondent texts in the five survey languages ship with it in `modules/arbetstid-och-aterhamtning/registry/`:
+  Swedish written with the module, Polish, Ukrainian, Lithuanian and Danish drafted under X-089. They are keyed by
+  the file's codes. `npm run modules:registry` resolves them to a database's ids and writes them to the registry as
+  origin «machine», with the SHA-256 of the bokmål each translates. `scripts/qa/up.sh` loads them on the QA stack.
+- A Swedish leader reads the statements and factor names in Swedish (D-262). Summaries, rationale, legal basis and
+  suggestions are not in the registry and are shown in English.
+
+**Left out on purpose:**
+- **Help lines.** A help line has no registry id, so a Swedish or English respondent would read it in bokmål. The
+  module's statements stand without them; «Ikke relevant for meg» covers a day worker asked about night shifts.
+- **Reversed statements.** `reverse` is stored and never applied: `module_results` scores the raw value. No statement
+  here is reversed. Applying the flag is UK-D's work, since HSE's tool needs it.
+- **The optional segment** (working pattern), to keep the first version small.
+
+**Tests:**
+- `tests/unit/module-arbetstid.test.ts`:
+  - shape and provisional status;
+  - the legal basis, and no Norwegian law;
+  - no reversed statement and no help line;
+  - the core's wording, word for word;
+  - complete English;
+  - registry files for exactly the five survey languages, each complete and none a copy of the source;
+  - the market row in 0221;
+  - absent from the industry pages.
+- `supabase/tests/module_market_invariants.sql` row 11.
