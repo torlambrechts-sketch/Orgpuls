@@ -34,6 +34,8 @@ const Form = z.object({
   invoiceEmail: z.string().trim().min(3).max(254),
   invoiceRef: z.string().trim().max(60),
   ehf: z.boolean(),
+  // the UK VAT number (0227): drawn, and so sent, only for an organisation in the United Kingdom
+  vatNumber: z.string().trim().max(64).nullable(),
   intent: z.enum(['save', 'confirm']),
 })
 
@@ -44,6 +46,7 @@ export async function saveBilling(_prev: BillingResult | null, formData: FormDat
     invoiceEmail: formData.get('invoiceEmail') ?? '',
     invoiceRef: formData.get('invoiceRef') ?? '',
     ehf: formData.get('ehf') === 'on',
+    vatNumber: formData.has('vatNumber') ? String(formData.get('vatNumber') ?? '') : null,
     intent: formData.get('intent'),
   })
   if (!parsed.success) {
@@ -62,6 +65,8 @@ export async function saveBilling(_prev: BillingResult | null, formData: FormDat
     p_ehf: parsed.data.ehf,
     p_confirm: parsed.data.intent === 'confirm',
     p_interval: parsed.data.interval,
+    // optional with its default (D-251): sent only by the form that draws the field
+    ...(parsed.data.vatNumber === null ? {} : { p_vat_number: parsed.data.vatNumber }),
   })
   if (error) return { ok: false, problem: 'failed' }
   const reply = Reply.safeParse(data)

@@ -2393,7 +2393,10 @@
         "invalid_ref": "The reference can be at most 60 characters.",
         "ehf_needs_orgnr": "EHF needs an organisation number.",
         "not_allowed": "Only the managing director can change payment.",
-        "failed": "It could not be saved. Try again."
+        "failed": "It could not be saved. Try again.",
+        "ehf_not_offered": "EHF is not offered for this organisation. The invoice is sent by e-mail.",
+        "invalid_vat_number": "The VAT number cannot be used. Write it as HMRC does, for example GB123456789.",
+        "business_evidence_needed": "Add the organisation’s UK VAT registration number here, or its company number under Company, before confirming the subscription."
       },
       "pillGrace": "{count, plural, one {# day} other {# days}} until the free plan",
       "pillFree": "Free plan",
@@ -2445,7 +2448,9 @@
           "cancelled": "The subscription has been cancelled.",
           "not_chosen": "No move to the free plan has been chosen."
         }
-      }
+      },
+      "vatNumber": "UK VAT registration number",
+      "vatNumberHint": "If the organisation is registered for VAT in the United Kingdom, for example GB123456789. It goes on the invoice, which carries no UK VAT (reverse charge)."
     },
     "logo": {
       "title": "Logo",

@@ -3474,3 +3474,29 @@ each time.
   where HSE publishes one. Elsewhere there are machine drafts in Ukrainian, Lithuanian, Swedish and Danish,
   labelled as the product's translations, not HSE's. No language is taken out of a survey because the HSE module
   is in it.
+
+### X-113 — The United Kingdom's prices, plan, law and representative
+
+Tor, 2026-10-10, answering the four UK-F choices docs/markets/PLAN.md left to him (X-111 «Open»). He took the
+recommended option for the first three; on the fourth he chose «Ikke nødvendig».
+
+- **Prices.** Small (up to 25 employees) £25 a month, Usual (26–100) £55 a month, Several companies by agreement; all
+  excluding VAT, which the customer accounts for under the reverse charge (VATA 1994 s.8; HMRC VAT Notice 741A). A
+  year costs ten months' price (£250, £550), as in Norway. lib/site/pricing.ts `PLAN_PRICES.gb` is the list.
+- **Free plan and trial.** The same as Norway's (D-217): 15 days' trial, one extension of 15, 14 days' grace, then the
+  free plan.
+- **Law.** The UK terms and the UK data processing agreement are governed by Norwegian law, with Oslo District Court
+  (Oslo tingrett) as the agreed venue. The DPA adds that the choice of law does not reduce either party's duties under
+  the UK GDPR and the Data Protection Act 2018.
+- **Article 27 representative.** None is named. The privacy notice and the DPA say nothing about one.
+- **Risks for the lawyer, recorded here so they are not lost:**
+  - **Art. 27.** If UK GDPR art. 3(2) reaches Pundit Invest AS — as processor for UK employers, or as controller of its
+    own UK customer and website data — art. 27(1) requires a written UK representative, and art. 27(2)(a)'s exemption
+    for «occasional» processing is unlikely to fit a recurring survey service (docs/markets/uk-legal.md § 6.7,
+    UNVERIFIED 4). Naming none is a known exposure.
+  - **Art. 28(3) «under domestic law».** UK GDPR art. 28(3) asks for «a contract or other legal act under domestic law»,
+    and «domestic law» is UK law. A DPA governed by Norwegian law may not meet that, which would leave a UK customer
+    without a compliant processor contract. Found after the decision; the remedy, if the lawyer agrees, is one sentence
+    in DPA section 13 (the DPA alone governed by the law of England and Wales) and a new version gb-YYYY-MM-DD.
+  - **ICO fee** for a controller with no UK establishment (UNVERIFIED 3), and the invoice content of a reverse-charged
+    supply (UNVERIFIED 12), are still open.

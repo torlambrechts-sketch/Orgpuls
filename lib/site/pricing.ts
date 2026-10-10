@@ -1,12 +1,33 @@
+import type { Market } from '@/lib/markets'
+
+/**
+ * Each market's price list: a month of each plan, excluding VAT, in the market's currency. Norway's
+ * in kroner (D-190); the United Kingdom's in pounds, decided by the owner (X-113): Small £25, Usual
+ * £55, Several companies by agreement. The database stores a plan and an interval, never an amount
+ * (0227); these are the numbers Oppsett › Betaling shows and the UK terms state, which
+ * tests/unit/uk-site.test.ts holds to this list. Sweden is invoiced as Norway until its own (SE-E).
+ */
+export const PLAN_PRICES = {
+  no: { currency: 'NOK', small: 265, usual: 565 },
+  gb: { currency: 'GBP', small: 25, usual: 55 },
+} as const
+export type PriceList = (typeof PLAN_PRICES)[keyof typeof PLAN_PRICES]
+
+/** Which list an organisation in each market pays by */
+export const PRICE_MARKET: Record<Market, keyof typeof PLAN_PRICES> = { no: 'no', se: 'no', gb: 'gb' }
+
+export const planPrices = (market: Market): PriceList => PLAN_PRICES[PRICE_MARKET[market]]
+
 /**
  * The three plans as /priser sizes them (D-190), the numbers billing keeps: Liten up to 25
  * employees at 265 kr a month, Vanlig up to 100 at 565 kr, Flere selskaper by agreement at any size
  * (supabase/migrations/0048_billing.sql, `save_billing` refuses a plan below the headcount). The
- * page's words are `site.pris`; these are the numbers its size read-out computes with.
+ * page's words are `site.pris`; these are the numbers its size read-out computes with: Norway's list,
+ * since /priser is Norway's page.
  */
 export const PLAN_SIZES = [
-  { key: 'small', max: 25, monthly: 265 },
-  { key: 'usual', max: 100, monthly: 565 },
+  { key: 'small', max: 25, monthly: PLAN_PRICES.no.small },
+  { key: 'usual', max: 100, monthly: PLAN_PRICES.no.usual },
   { key: 'group', max: Infinity, monthly: null },
 ] as const
 

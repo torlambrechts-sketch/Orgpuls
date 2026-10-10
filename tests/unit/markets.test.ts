@@ -291,6 +291,8 @@ describe('Empvibe’s site, built behind the holding page (X-111, UK-E, D-270)',
       ['/small-businesses', '/smaa-bedrifter'],
       ['/security', '/sikkerhet'],
       ['/contact', '/kontakt'],
+      ['/privacy', '/personvernerklaering'],
+      ['/terms', '/vilkar'],
       ['/sign-in', '/logg-inn'],
       ['/sign-up', '/registrer'],
     ]
@@ -305,9 +307,9 @@ describe('Empvibe’s site, built behind the holding page (X-111, UK-E, D-270)',
     const { hostGate, NOT_SERVED_PATH } = await open()
     const host = 'www.empvibe.com'
     const notServed = { noindex: true, redirect: null, rewrite: NOT_SERVED_PATH }
-    // the industries, the articles, the templates, the demo; the prices, the privacy notice and the
-    // terms until UK-F (D-272), at either address
-    for (const path of ['/bransjer', '/handel', '/bygg-og-anlegg/sporsmal', '/artikler', '/artikler/medarbeiderundersokelse', '/maler', '/demo', '/priser', '/pricing', '/venteside', '/personvernerklaering', '/privacy', '/vilkar', '/terms'])
+    // the industries, the articles, the templates, the demo, the price page (the terms state the UK's
+    // prices, D-274), at either address
+    for (const path of ['/bransjer', '/handel', '/bygg-og-anlegg/sporsmal', '/artikler', '/artikler/medarbeiderundersokelse', '/maler', '/demo', '/priser', '/pricing', '/venteside'])
       expect(hostGate(host, path, true), path).toEqual(notServed)
     for (const path of ['/auth/callback', '/s/abc', '/r/abc', '/inn/abc', '/bli-med/x', '/nytt-passord', '/logo/x', '/api/sprak', '/robots.txt', '/sitemap.xml', '/llms.txt'])
       expect(hostGate(host, path, true), path).toEqual({ noindex: false, redirect: null })

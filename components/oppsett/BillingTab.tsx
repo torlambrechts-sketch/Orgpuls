@@ -1,6 +1,7 @@
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { ANNUAL_MONTHS, CANCEL_REASONS, fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
-import { PLAN_SIZES } from '@/lib/site/pricing'
+import { planPrices } from '@/lib/site/pricing'
+import { requestMarket } from '@/lib/i18n/market'
 import { BillingForm, CancelSubscription, DowngradeToFree, ExtendTrialButton, WithdrawCancellation, WithdrawDowngrade } from './BillingForms'
 import { dateFormat } from '@/lib/i18n/dates'
 import { getDates } from '@/lib/i18n/dates-server'
@@ -27,6 +28,11 @@ const DAY = 86_400_000
  *
  * Last, cancelling (0066, D-110): the dates it would have, and the step itself; once
  * cancelled, the dates and a way to take it back until everything is deleted.
+ *
+ * The prices are the organisation's market's list (lib/site/pricing.ts, X-113): kroner in Norway,
+ * pounds in the United Kingdom, whose pack words the amounts and the reverse charge. A UK
+ * organisation is invoiced by e-mail, so it has no EHF; it gives its VAT registration number in that
+ * place instead (0227, D-274).
  */
 export async function BillingTab({
   billing,
@@ -42,6 +48,10 @@ export async function BillingTab({
   const t = await getTranslations('oppsett.billing')
   const plansT = await getTranslations('start.plan')
   const format = await getFormatter()
+  const market = await requestMarket()
+  const prices = planPrices(market)
+  // the reverse-charged invoice of a UK organisation carries its VAT number; EHF is Norway's (0227)
+  const uk = market === 'gb'
   // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
   const dates = await getDates()
   const date = (iso: string) => dateFormat(dates, { dateStyle: 'long' }).format(new Date(iso))
@@ -102,8 +112,8 @@ export async function BillingTab({
 
   const suggested = fittingPlan(company.employees)
   const kroner = (n: number) => t('kroner', { n: format.number(n) })
-  const plans = PLANS.map((p, i) => {
-    const monthly = PLAN_SIZES[i]?.monthly ?? null
+  const plans = PLANS.map((p) => {
+    const monthly = p === 'group' ? null : prices[p]
     return {
       key: p,
       name: plansT(`${planKey[p]}.name`),
@@ -223,6 +233,11 @@ export async function BillingTab({
             invoiceRef: billing.invoice_ref ?? '',
             ehf: billing.ehf,
           }}
+          vat={
+            uk
+              ? { initial: billing.vat_number ?? '', label: t('vatNumber'), hint: t('vatNumberHint') }
+              : null
+          }
           orgNumber={company.orgNumber}
           confirmed={confirmed}
           labels={{
@@ -255,6 +270,9 @@ export async function BillingTab({
               invalid_email: t('problem.invalid_email'),
               invalid_ref: t('problem.invalid_ref'),
               ehf_needs_orgnr: t('problem.ehf_needs_orgnr'),
+              ehf_not_offered: t('problem.ehf_not_offered'),
+              invalid_vat_number: t('problem.invalid_vat_number'),
+              business_evidence_needed: t('problem.business_evidence_needed'),
               not_allowed: t('problem.not_allowed'),
               failed: t('problem.failed'),
             },

@@ -56,12 +56,15 @@ type PlanOption = {
 export function BillingForm({
   plans,
   initial,
+  vat,
   orgNumber,
   confirmed,
   labels,
 }: {
   plans: PlanOption[]
   initial: { plan: string | null; interval: Interval; invoiceEmail: string; invoiceRef: string; ehf: boolean }
+  /** a UK organisation's VAT registration number, drawn where EHF is for Norway (0227, D-274); null elsewhere */
+  vat: { initial: string; label: string; hint: string } | null
   orgNumber: string | null
   confirmed: boolean
   labels: {
@@ -93,6 +96,7 @@ export function BillingForm({
   const [invoiceEmail, setInvoiceEmail] = useState(initial.invoiceEmail)
   const [invoiceRef, setInvoiceRef] = useState(initial.invoiceRef)
   const [ehf, setEhf] = useState(initial.ehf)
+  const [vatNumber, setVatNumber] = useState(vat?.initial ?? '')
   const [state, action, pending] = useActionState<BillingResult | null, FormData>(saveBilling, null)
   const problem = state && !state.ok ? (labels.problems[state.problem] ?? labels.problems.failed) : null
   const done = state?.ok ? (state.confirmed ? labels.confirmedNow : labels.saved) : null
@@ -197,17 +201,36 @@ export function BillingForm({
         </label>
       </div>
 
-      <label className={`flex items-start gap-[10px] text-[13px] leading-[1.55] ${orgNumber ? '' : 'opacity-60'}`}>
-        <input
-          name="ehf"
-          type="checkbox"
-          checked={ehf}
-          onChange={(e) => setEhf(e.target.checked)}
-          disabled={!orgNumber}
-          className="mt-[3px] h-[16px] w-[16px] flex-none accent-ink"
-        />
-        <span>{orgNumber ? labels.ehf : labels.ehfNoOrgnr}</span>
-      </label>
+      {vat ? (
+        <label className="block sm:max-w-[50%] sm:pr-[6px]">
+          <span className="mb-[6px] block text-[12.5px] font-semibold">{vat.label}</span>
+          <input
+            name="vatNumber"
+            maxLength={20}
+            autoComplete="off"
+            spellCheck={false}
+            value={vatNumber}
+            onChange={(e) => setVatNumber(e.target.value)}
+            aria-describedby={`${id}-vat`}
+            className="box-border h-[40px] w-full rounded-ctl border border-line bg-bg px-[13px] text-[13.5px] text-ink outline-none"
+          />
+          <span id={`${id}-vat`} className="mt-[5px] block text-[11.5px] text-mut">
+            {vat.hint}
+          </span>
+        </label>
+      ) : (
+        <label className={`flex items-start gap-[10px] text-[13px] leading-[1.55] ${orgNumber ? '' : 'opacity-60'}`}>
+          <input
+            name="ehf"
+            type="checkbox"
+            checked={ehf}
+            onChange={(e) => setEhf(e.target.checked)}
+            disabled={!orgNumber}
+            className="mt-[3px] h-[16px] w-[16px] flex-none accent-ink"
+          />
+          <span>{orgNumber ? labels.ehf : labels.ehfNoOrgnr}</span>
+        </label>
+      )}
 
       <p className="m-0 text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{labels.terms[interval]}</p>
 

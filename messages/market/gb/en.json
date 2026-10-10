@@ -131,6 +131,9 @@
       },
       "special": {
         "body": "The questions are written not to collect health data, which is special category data (UK GDPR art. 9). The screening for offensive behaviour and violence is reported as counts only."
+      },
+      "access": {
+        "body": "Register details can be corrected and deleted on request. Anonymous answers cannot be retrieved or deleted individually — they are not identifiable (UK GDPR art. 11)."
       }
     },
     "regelverk": {
@@ -203,7 +206,17 @@
     },
     "billing": {
       "freeBody": "The trial ended on {end}, and you are on the free plan: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the written record of the risk assessment.",
-      "freeBodyChosen": "You moved to the free plan on {date}: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the written record of the risk assessment."
+      "freeBodyChosen": "You moved to the free plan on {date}: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the written record of the risk assessment.",
+      "kroner": "£{n}",
+      "yearPerMonth": "Equals £{price} a month",
+      "planLead": "The invoice goes to {name}, company number {orgnr}. The plan follows the number of employees you have stated: {count}.",
+      "terms": "Prices are in pounds sterling and exclude VAT: you account for UK VAT yourself under the reverse charge. The first invoice runs from {end}, when the trial ends. {interval, select, year {Yearly agreement: invoiced a year at a time, two months free, no set-up fee.} other {Monthly agreement, no lock-in and no set-up fee.}}",
+      "termsAfterTrial": "Prices are in pounds sterling and exclude VAT: you account for UK VAT yourself under the reverse charge. The first invoice runs from the day you confirm. {interval, select, year {Yearly agreement: invoiced a year at a time, two months free, no set-up fee.} other {Monthly agreement, no lock-in and no set-up fee.}}",
+      "trialBody": "The trial started on {start} and runs until {end} — {total} days, free and without a card. Choose a plan and invoice details below before it ends. After the trial everything keeps working for {grace} more days; then you move to the free plan: the standard main survey, results and measures, without pulses, industry modules, your own questions, comparisons or the written record.",
+      "downgrade": {
+        "lead": "If you no longer want to pay, you can carry on for free. The subscription runs until and including {last}, and from {first} you are on the free plan: the standard main survey, the results and the measures, without pulses, industry modules, your own questions, comparisons or the written record. Nothing is deleted, and you can choose a plan again at any time.",
+        "confirm": "I understand that {org} moves to the free plan on {first}, and that pulses, industry modules, your own questions, comparisons and the written record are then no longer included."
+      }
     },
     "selskap": {
       "leadManual": "You enter the name and company number yourselves. The industry you are compared against is chosen below.",
@@ -211,6 +224,11 @@
       "fact": {
         "orgNumber": "Company number"
       }
+    },
+    "dpa": {
+      "unsignedBody": "Read the agreement below. It forms part of Empvibe’s terms and binds from the day the organisation registered; the managing director’s signature records it, in the version of {version}. Empvibe processes personal data on your behalf, and the agreement documents that this is done under Article 28 of the UK GDPR.",
+      "orgWithNumber": "{name}, company number {number}",
+      "processorLine": "Pundit Invest AS, a company registered in Norway (organisation number 922 698 422), Øvre Prinsdals vei 36L, 1266 Oslo, Norway, which provides Empvibe. The agreement is Empvibe’s standard terms and binds Pundit Invest AS once the organisation signs."
     }
   },
   "hjelp": {
@@ -300,7 +318,8 @@
     "orgNumber": "Company number",
     "step1LeadManual": "Enter your Companies House company number and the name of the company.",
     "orgNumberPlaceholderManual": "8 characters",
-    "orgNumberHintManual": "As Companies House prints it, such as 01234567 or SC123456. Limited companies and LLPs can sign up."
+    "orgNumberHintManual": "As Companies House prints it, such as 01234567 or SC123456. Limited companies and LLPs can sign up.",
+    "consent": "I confirm that I can enter into agreements on behalf of the organisation, and accept Empvibe’s terms of use and data processing agreement for it. I have read the privacy notice."
   },
   "headerPanel": {
     "tabs": {
@@ -918,9 +937,10 @@
           "tilsyn": "Inspections and the written record",
           "amu": "Representatives and safety committees",
           "lovenForklart": "Work-related stress and the law",
-          "verneombud": "Safety representatives"
+          "verneombud": "Safety representatives",
+          "personvernerklaering": "Privacy notice"
         },
-        "bottom": "© {year} Empvibe · provided by Pundit Invest AS, a Norwegian company, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norway · <mail>hjelp@orgpuls.no</mail><privacy> · Privacy</privacy><terms> · Terms</terms>"
+        "bottom": "© {year} Empvibe · provided by Pundit Invest AS, a Norwegian company, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norway · <mail>hjelp@orgpuls.no</mail> · <privacy>Privacy</privacy> · <terms>Terms</terms>"
       },
       "band": {
         "title": "Start with your own organisation",
@@ -1686,6 +1706,404 @@
           {
             "t": "p",
             "text": "Would you rather get started yourself? Sign up with your Companies House company number and type in your company’s name – then you can plan the first survey."
+          }
+        ]
+      },
+      "personvernerklaering": {
+        "title": "Privacy notice | Empvibe",
+        "description": "What personal data Empvibe collects when you visit the website, sign up an organisation or contact us, why, how long we keep it, who helps us and the rights you have.",
+        "crumb": "Privacy notice",
+        "kicker": "Privacy",
+        "h1": "Privacy notice",
+        "lead": "What Empvibe collects about you, why, how long we keep it and who helps us. Last updated 10 October 2026.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Who is responsible"
+          },
+          {
+            "t": "p",
+            "text": "Pundit Invest AS, a company registered in Norway with organisation number 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norway, provides Empvibe and is the controller for the personal data described here: visits to the website, organisation sign-ups, the contact form and customer support. Send questions about privacy to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
+          },
+          {
+            "t": "box",
+            "title": "Answers to employee surveys",
+            "text": "When an organisation uses Empvibe to survey its working environment, the organisation is the controller and Empvibe its processor, under a data processing agreement made under Article 28 of the UK GDPR. Answers are stored with no link to the person who gave them, and results are shown only for groups of at least five. The one exception is a comment whose writer asks to be told when management answers it: then who wrote it is stored, encrypted and only to send that notice, and it is deleted when the conversation closes, when the notice is turned off, and after a year at the latest. If the organisation brings in its employees from Microsoft Entra ID, we do so on its behalf and only for the groups it chooses: name, e-mail address, language, group membership and object ID in the directory, and a mobile number only if the organisation turns it on. If your employer uses Slack to send you the link, Empvibe finds you in the workspace by your work e-mail and stores your member ID there, on your employer’s behalf. The message is a short text and the personal link, with no read receipt and no record of clicks. Slack is your employer’s own tool: its Slack administrator can read the messages, as an e-mail administrator can read e-mail, and a reminder shows that you had not answered when it was sent. Your answer is stored with no connection to the message. How that is built is described under [Security and privacy](/sikkerhet). Questions about a survey you take part in, and complaints about how your employer uses it, go to your employer."
+          },
+          {
+            "t": "h2",
+            "text": "When you visit the website"
+          },
+          {
+            "t": "p",
+            "text": "We keep our own statistics on the use of empvibe.com, without cookies and without storing anything on your device. For each page view your browser sends which page it is, the site you came from (the domain only) and any campaign tags in the address (utm) to our own platform. If you press a button that leads to signing up, or start or complete a sign-up, that is sent too, with nothing of what you typed. The IP address and the browser’s identification are not stored. They are used only to make a visit code with a key that changes every day, so we can count visits within a day without being able to follow you from one day to the next. In addition, Vercel, which hosts the website, measures page views and load times without cookies."
+          },
+          {
+            "t": "p",
+            "text": "If your browser asks not to be tracked (Global Privacy Control or Do Not Track), nothing is sent to our platform. The statistics are deleted after 13 months. The lawful basis is our legitimate interest in understanding how the website is used, UK GDPR Article 6(1)(f)."
+          },
+          {
+            "t": "h2",
+            "text": "When you sign up an organisation"
+          },
+          {
+            "t": "p",
+            "text": "We store your name, e-mail address and password (only as a cryptographic hash), and the organisation’s name, company number and number of employees. Name and e-mail address are needed to create the account; telling us how you heard of us is optional, and we store the answer if you give it. The lawful basis is our legitimate interest in providing the service your organisation has signed up for and in knowing which channels work, Article 6(1)(f), or the contract, Article 6(1)(b), where you are yourself the customer. What forms part of our accounts, such as invoices, we keep because the law requires it, Article 6(1)(c)."
+          },
+          {
+            "t": "p",
+            "text": "If you sign in with Google, we receive your name and e-mail address from Google. We never receive your password there."
+          },
+          {
+            "t": "p",
+            "text": "If you sign in with Microsoft, we receive your name and e-mail address from Microsoft, and we store two technical identifiers for the account: the ID of the Microsoft 365 organisation it belongs to (tenant ID), and the account’s object ID there. We use them only to make sure it is the same Microsoft account, from the organisation your organisation may have connected, that signs in again. We never receive your password there. The identifiers are deleted with the account. The basis is our legitimate interest in providing the service and securing the sign-in, Article 6(1)(f)."
+          },
+          {
+            "t": "h2",
+            "text": "If your organisation gives you access"
+          },
+          {
+            "t": "p",
+            "text": "If your organisation’s managing director invites you as a user, we receive your name, e-mail address and role from your organisation. What you do in Empvibe for your organisation, we process on its behalf, under its data processing agreement. For your account itself, its security, support and e-mail about the service, we are the controller, on the basis of our legitimate interest in running the service your organisation uses, Article 6(1)(f)."
+          },
+          {
+            "t": "h2",
+            "text": "E-mail from us"
+          },
+          {
+            "t": "p",
+            "text": "The people who use Empvibe receive e-mail about their account and the service: sign-in links, the trial, invoices and changes to the terms. We may also send customers e-mail about Empvibe itself, on the basis of our legitimate interest, Article 6(1)(f). You can stop that at any time, without giving a reason, with the link in every such e-mail or by writing to us."
+          },
+          {
+            "t": "h2",
+            "text": "When you contact us"
+          },
+          {
+            "t": "p",
+            "text": "If you write to us, through the form or by e-mail, we store your name, e-mail address and what you write, to answer and follow up. The lawful basis is our legitimate interest in answering enquiries, Article 6(1)(f)."
+          },
+          {
+            "t": "h2",
+            "text": "Cookies"
+          },
+          {
+            "t": "p",
+            "text": "We use only the cookies the service needs to work: signing in, your language choice, display choices in the app, and a short-lived cookie that remembers the organisation while you sign up with Google. None is used for statistics or advertising."
+          },
+          {
+            "t": "h2",
+            "text": "Who helps us"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Supabase Inc. (USA): database, sign-in, background jobs and our own visit statistics. Data is stored and processed in Frankfurt, Germany.",
+              "Vercel Inc. (USA): hosting of the website and the application, and the cookieless measurement of page views. Server functions run in Frankfurt, Germany.",
+              "Brevo SAS (France): sending e-mail. Brevo logs delivery and may record when an e-mail is opened.",
+              "Google (Ireland): sign-in with Google, only if you choose it.",
+              "Microsoft (Ireland): sign-in with Microsoft, only if you choose it.",
+              "Microsoft Ireland Operations Ltd (Ireland): Azure Bot Service relays the Teams message with the survey link, for organisations that have switched Teams on. The service is set up in the EU (West Europe)."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "We are established in Norway, and the data is stored in the European Economic Area (EEA). Under the UK GDPR, a transfer from the United Kingdom to the EEA, Norway included, is treated as approved by regulations (Data Protection Act 2018, Schedule 21). A supplier headquartered outside the United Kingdom and the EEA receives personal data only under the safeguards of Chapter V of the UK GDPR, such as the International Data Transfer Addendum to the European Commission’s standard contractual clauses; you can ask us for a copy at [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). We do not sell personal data or share it with others for their marketing."
+          },
+          {
+            "t": "h2",
+            "text": "How long we keep data"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Visit statistics: 13 months. The visit code changes every day.",
+              "The account and the organisation’s data: for as long as the customer relationship lasts. What forms part of the accounts, such as invoices, is then kept for five years after the end of the financial year, as Norwegian accounting law requires.",
+              "Support enquiries: as long as needed to follow up the case and the customer relationship."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Your rights"
+          },
+          {
+            "t": "p",
+            "text": "You can ask for access to, correction and erasure of data about you, ask us to restrict processing, object to processing based on legitimate interest, and receive data you have given us in a machine-readable format. Write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no); we answer within one month. We make no decision about you by automated means alone."
+          },
+          {
+            "t": "p",
+            "text": "If you think we process your data unlawfully, you can complain to us, by e-mail or by post to the address above: we acknowledge a complaint within 30 days and tell you its outcome (Data Protection Act 2018, section 164A). You can also complain to the Information Commission (ICO), [ico.org.uk](https://ico.org.uk)."
+          }
+        ]
+      },
+      "vilkar": {
+        "title": "Terms of use | Empvibe",
+        "description": "The terms between Empvibe and the organisation using Empvibe: the trial and the free plan, prices in pounds and VAT, anonymity, liability, cancellation and deletion.",
+        "crumb": "Terms",
+        "kicker": "Terms",
+        "h1": "Terms of use for Empvibe",
+        "lead": "What applies between Pundit Invest AS, which provides Empvibe, and the organisation in the United Kingdom that uses Empvibe. Version 1 · in force from 10 October 2026.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "1. About the agreement"
+          },
+          {
+            "t": "p",
+            "text": "These terms apply between Pundit Invest AS, a company registered in Norway with organisation number 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norway, which provides Empvibe (“Empvibe”, “we”), and the organisation that registers for and uses Empvibe (“the customer”, “you”)."
+          },
+          {
+            "t": "p",
+            "text": "Empvibe is a service for businesses and other organisations, not for consumers. The agreement is entered into when the organisation is registered, and the person who registers confirms that they are authorised to enter into it on the organisation’s behalf."
+          },
+          {
+            "t": "p",
+            "text": "The agreement consists of these terms, with the prices in section 2, and the data processing agreement, which forms part of them and binds both parties from registration. The managing director signs it in Empvibe under Settings › Data processing agreement, which records it. In case of conflict, the data processing agreement takes precedence where the processing of personal data is concerned. Otherwise these terms take precedence."
+          },
+          {
+            "t": "h2",
+            "text": "2. The service and its prices"
+          },
+          {
+            "t": "p",
+            "text": "Empvibe is a tool for surveying the psychosocial working environment, which an employer can use in assessing the risks of work-related stress (Management of Health and Safety at Work Regulations 1999, regulation 3; in Northern Ireland, the Management of Health and Safety at Work Regulations (Northern Ireland) 2000, regulation 3). It covers:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "sending surveys and reminders;",
+              "anonymous results;",
+              "measures and follow-up;",
+              "the written record of the findings."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The plans and their prices, in pounds sterling and excluding VAT:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Plan",
+              "For",
+              "Price"
+            ],
+            "rows": [
+              [
+                "Small",
+                "up to and including 25 employees",
+                "£25 a month"
+              ],
+              [
+                "Usual",
+                "26–100 employees",
+                "£55 a month"
+              ],
+              [
+                "Several companies",
+                "more than 100 employees, or several companies",
+                "by agreement"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The service is provided as it is at any given time. We develop it further and may change, add or remove features. If we remove something essential to the plan you pay for, we notify you at least 30 days in advance. You may then cancel with effect from the change."
+          },
+          {
+            "t": "h2",
+            "text": "3. Trial period and the free plan"
+          },
+          {
+            "t": "p",
+            "text": "The first 15 days are free and require no card details. By agreement, the trial period can be extended once by up to 15 days."
+          },
+          {
+            "t": "p",
+            "text": "If no plan has been chosen when the trial period is over:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "everything works as before for 14 more days;",
+              "after that you move to the free plan: you can send the standard main survey, read the results and work on measures for as long as you like, but pulses, follow-up surveys, industry modules, your own questions, comparisons with earlier rounds and the written record of the risk assessment require a plan;",
+              "a survey that is already open finishes as planned."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "We may change what the free plan includes. A change is announced by e-mail to the managing director and in Empvibe at least 60 days before it applies, and it does not apply to a survey that is already open. What you have measured and recorded before the change, you can still read and download."
+          },
+          {
+            "t": "h2",
+            "text": "4. VAT, invoicing and payment"
+          },
+          {
+            "t": "p",
+            "text": "There is no setup fee."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**VAT.** Empvibe is supplied from Norway to organisations in the United Kingdom that receive it for their business. By choosing a plan, the customer confirms that it receives Empvibe for the purposes of a business. The place of supply is then the United Kingdom, and the customer accounts for any UK VAT itself under the reverse charge (Value Added Tax Act 1994, section 8; HMRC VAT Notice 741A). Our invoices therefore carry no UK VAT, and say that the reverse charge applies. The managing director gives the organisation’s UK VAT registration number under Settings › Payment, if it has one; otherwise its company number shows that it is a business.",
+              "**Invoicing.** The managing director chooses a plan and gives the invoice address under Settings › Payment. Invoices are sent by e-mail, in pounds sterling. The first invoice runs from the day the trial period ends, or from the day the plan is confirmed if that is later.",
+              "**Invoicing interval.** The managing director chooses a monthly or a yearly agreement. A monthly agreement is invoiced monthly in advance. A yearly agreement is invoiced a year in advance, at ten months’ price: £250 for Small and £550 for Usual.",
+              "**Payment terms.** 14 days from the invoice date. Interest on late payment accrues under the Norwegian Late Payment Interest Act (forsinkelsesrenteloven), at the rate it sets: Norges Bank’s policy rate plus eight percentage points.",
+              "**Non-payment.** If an invoice has not been paid 30 days after its due date, and after at least one written reminder, we may restrict the service to what the free plan in section 3 includes until the invoice is paid.",
+              "**Price changes** are notified at least 60 days before they apply. You may cancel before the change takes effect.",
+              "**Changing plan.** If the number of employees passes the plan’s limit (for example from 25 to 26 employees), the managing director chooses the larger plan under Settings › Payment. The new plan’s price applies from the next invoicing period."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "5. Your responsibilities"
+          },
+          {
+            "t": "p",
+            "text": "You are the employer and the controller, and Empvibe is the tool. This means you are responsible for:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "entering correct information about the employees, and keeping it up to date;",
+              "informing the employees about the survey and what it is used for;",
+              "consulting your employees, directly or through their health and safety representatives, as health and safety law requires;",
+              "giving access only to people who should have it (managing director, department managers, safety representatives), and keeping sign-in details to yourselves;",
+              "not trying to find out who answered what. This includes combining Empvibe’s results with other information to single out individuals, or pressuring anyone to identify themselves;",
+              "handling the data protection complaints your employees make to you as controller (Data Protection Act 2018, section 164A);",
+              "not using the service in breach of the law, or in a way that harms the service or other customers."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Empvibe provides a basis for your risk assessment, but does not carry it out for you. It is you who assess the risks, decide on measures and follow them up. The written record is an aid, not legal advice."
+          },
+          {
+            "t": "h2",
+            "text": "6. Anonymity and privacy"
+          },
+          {
+            "t": "p",
+            "text": "Answers are stored with no link to the person who gave them. The one exception is a comment whose writer asks to be told when management answers it: then who wrote it is stored, encrypted and only to send that notice, and it is never shown to you. Results are not shown for a group with fewer answers than the threshold. The threshold is five answers, can be raised to ten and never goes below five, and a round keeps the threshold that applied when it was opened. How this is built is described under [Security and privacy](/sikkerhet)."
+          },
+          {
+            "t": "p",
+            "text": "Empvibe processes personal data about the employees as your processor, under the data processing agreement (UK GDPR Article 28)."
+          },
+          {
+            "t": "p",
+            "text": "Empvibe is the controller of the data about the users of the account and about the organisation as a customer only for its own purposes: securing the sign-in, customer support, invoicing and e-mail about the account and the service, as described in the [privacy notice](/personvernerklaering). Everything else it processes for you, as your processor."
+          },
+          {
+            "t": "h2",
+            "text": "7. Availability and support"
+          },
+          {
+            "t": "p",
+            "text": "We work to keep the service available around the clock. Planned maintenance that will be noticeable is announced in advance."
+          },
+          {
+            "t": "p",
+            "text": "Support is given at [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no) and through the form in Empvibe, Monday to Friday, except public holidays in Norway."
+          },
+          {
+            "t": "h2",
+            "text": "8. Rights"
+          },
+          {
+            "t": "p",
+            "text": "The information you enter, and the results of the surveys, belong to you. Reports can be downloaded as PDF at any time."
+          },
+          {
+            "t": "p",
+            "text": "Pundit Invest AS owns the software, the design and the texts in the service, including suggested measures. You receive a non-exclusive right to use the service for your own organisation during the agreement period."
+          },
+          {
+            "t": "p",
+            "text": "The core question set is based on QPS Nordic. The optional module with HSE’s Management Standards Indicator Tool contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence."
+          },
+          {
+            "t": "h2",
+            "text": "9. Liability"
+          },
+          {
+            "t": "p",
+            "text": "Empvibe is not liable for indirect or consequential loss, for loss of profit or revenue, whether direct or indirect, for loss of data resulting from the customer’s own actions, or for claims from third parties."
+          },
+          {
+            "t": "p",
+            "text": "Empvibe’s total liability under the agreement is limited to what the customer has paid in the 12 months before the damage. These limitations do not apply in the case of intent or gross negligence, and nothing in the agreement limits liability that the law does not allow to be limited, such as for death or personal injury caused by negligence, or for fraud. They do not affect the rights of data subjects under UK GDPR Article 82."
+          },
+          {
+            "t": "p",
+            "text": "Empvibe is not responsible for the customer complying with health and safety law or with what an inspector requires. See section 5."
+          },
+          {
+            "t": "h2",
+            "text": "10. Cancellation and deletion"
+          },
+          {
+            "t": "p",
+            "text": "A monthly agreement has no binding period. A yearly agreement runs one year at a time."
+          },
+          {
+            "t": "p",
+            "text": "**Moving to the free plan.** The managing director may instead move to the free plan under Settings › Payment. The subscription runs to the end of the paid period, and nothing is deleted. If nothing has been invoiced yet, the free plan begins when the trial ends."
+          },
+          {
+            "t": "p",
+            "text": "**Cancellation by the customer.** The managing director cancels in Empvibe under Settings › Payment, or in writing to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "A monthly subscription runs to the end of the current month, a yearly one to the end of the paid year. A trial period or the free plan ends the same day.",
+              "The cancellation can be withdrawn until the deletion has been carried out.",
+              "A paid period is not refunded."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Cancellation by Empvibe.** Empvibe may terminate the agreement with three months’ notice. In the event of material breach, such as attempts to identify respondents or non-payment under section 4, Empvibe may terminate the agreement with immediate effect."
+          },
+          {
+            "t": "p",
+            "text": "**Deletion.** When the agreement has ended, Empvibe deletes the organisation’s data within 30 days, unless the law requires it to be kept. Reports you have downloaded are yours to keep. Download them before the agreement ends."
+          },
+          {
+            "t": "h2",
+            "text": "11. Changes to the terms"
+          },
+          {
+            "t": "p",
+            "text": "We may change the terms. Material changes are notified by e-mail to the managing director and in Empvibe at least 30 days before they apply. You may cancel before the change takes effect."
+          },
+          {
+            "t": "p",
+            "text": "The current version and its date are always shown on this page."
+          },
+          {
+            "t": "h2",
+            "text": "12. Force majeure"
+          },
+          {
+            "t": "p",
+            "text": "Neither party is liable for circumstances beyond its control that prevent performance, such as extensive power cuts, cyber attacks on subcontractors, strikes or orders from the authorities, for as long as the circumstance lasts."
+          },
+          {
+            "t": "h2",
+            "text": "13. Governing law and disputes"
+          },
+          {
+            "t": "p",
+            "text": "The agreement is governed by Norwegian law. The parties shall first try to resolve disagreements through negotiation. Disputes are settled by the Norwegian courts, with Oslo District Court (Oslo tingrett), where Pundit Invest AS has its registered office, as the agreed venue."
+          },
+          {
+            "t": "h2",
+            "text": "Contact"
+          },
+          {
+            "t": "p",
+            "text": "Pundit Invest AS, organisation number 922 698 422 (Norway), Øvre Prinsdals vei 36L, 1266 Oslo, Norway · [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)"
           }
         ]
       }
@@ -2570,5 +2988,161 @@
     "ctaFree": "Get started",
     "finalTitle": "Start with your own organisation",
     "finalBody": "Enter your Companies House company number and your company’s name, and you are ready to plan the first survey. Answers are stored in the EU, and no group is shown until at least 5 have answered."
+  },
+  "dpa": {
+    "title": "Data processing agreement",
+    "lead": "This agreement governs how Empvibe processes personal data on behalf of the organisation, under Article 28 of the UK General Data Protection Regulation (UK GDPR), read with the Data Protection Act 2018. It contains the terms Article 28(3) requires in a contract between a controller and a processor. It is written in English, and there is no other version.",
+    "sections": [
+      {
+        "h": "1. Parties and roles",
+        "p": [
+          "The organisation using Empvibe is the controller. Pundit Invest AS, a company registered in Norway with organisation number 922 698 422, provides Empvibe and is the processor. In this agreement, “Empvibe” means Pundit Invest AS as the provider of the service.",
+          "The organisation decides the purposes of the processing and which data is entered. Empvibe processes the data only to provide the service.",
+          "This agreement forms part of Empvibe’s terms of use. It binds both parties from the day the organisation registers for Empvibe; the managing director’s signature in Empvibe records it."
+        ]
+      },
+      {
+        "h": "2. Purpose and instructions",
+        "p": [
+          "Empvibe processes personal data only to carry out the survey of the psychosocial working environment that the organisation uses in its risk assessment, as the organisation sets it up in the service: sending invitations and reminders, collecting anonymous answers, and showing results, measures and the record of findings. Annex 1 describes the processing: its subject matter, duration, nature and purpose, the types of personal data and the categories of data subjects.",
+          "This agreement and the organisation’s settings in Empvibe are the organisation’s documented instructions, transfers to other countries included. Empvibe processes personal data only on those instructions, unless the law to which it is subject requires otherwise; it then tells the organisation of that legal requirement before processing, unless that law prohibits this on important grounds of public interest. Empvibe informs the organisation at once if, in its opinion, an instruction infringes the UK GDPR or other data protection law.",
+          "The data is not used for any other purpose, is not sold and is not shared with anyone other than the sub-processors in Annex 3."
+        ]
+      },
+      {
+        "h": "3. The organisation’s obligations and rights",
+        "p": [
+          "The organisation is responsible for having a lawful basis for the processing, for informing its employees about the survey and the processing (UK GDPR Articles 13 and 14), for the lawfulness of its instructions and of the data it enters, and for carrying out any data protection impact assessment the processing calls for (Article 35).",
+          "The organisation has the rights this agreement gives it: to instruct Empvibe, to object to a new sub-processor, to receive the information and audits in section 11, to be notified of personal data breaches, and to have its personal data returned or deleted when the agreement ends."
+        ]
+      },
+      {
+        "h": "4. The personal data",
+        "p": [
+          "Empvibe is built to process as little personal data as possible. About employees, only name, e-mail address and, if the organisation enters them, mobile number and preferred language are stored, together with their department. If the organisation connects Empvibe to Microsoft Entra ID, the same data is read from there, together with the person’s object ID in the directory. Answers are stored without any link to the person who gave them. Annex 1 describes the processing in full."
+        ]
+      },
+      {
+        "h": "5. Confidentiality",
+        "p": [
+          "Everyone at Empvibe with access to the personal data has committed to confidentiality or is under a statutory duty of confidentiality. Access is given only to those who need it to operate and troubleshoot the service."
+        ]
+      },
+      {
+        "h": "6. Security",
+        "p": [
+          "Empvibe implements technical and organisational measures that ensure a level of security appropriate to the risk, as Article 32 of the UK GDPR requires. The measures are set out in Annex 2."
+        ]
+      },
+      {
+        "h": "7. Sub-processors",
+        "p": [
+          "The organisation gives its general written authorisation to the sub-processors in Annex 3. Empvibe notifies the organisation by e-mail at least 30 days before a sub-processor is added or replaced, and the organisation may object. If the parties cannot agree, the organisation may terminate the agreement before the change takes effect.",
+          "The duty to notify does not apply when a sub-processor is first used because the organisation itself switches on an integration, such as Microsoft for Teams. It is listed in Annex 3 before the integration can be switched on, and the organisation authorises it by switching the integration on. When the integration is switched off, it is no longer used for the organisation. Once an integration is on, a change to its sub-processor is notified like any other.",
+          "Empvibe imposes on each sub-processor, by contract, the same data protection obligations as this agreement sets out, and remains fully liable to the organisation for the sub-processor’s performance of them."
+        ]
+      },
+      {
+        "h": "8. International transfers",
+        "p": [
+          "The personal data is stored in the European Economic Area (EEA), in Frankfurt, Germany, and Empvibe is established in Norway. Under the UK GDPR, a transfer from the United Kingdom to an EEA state, Norway included, is treated as approved by regulations (Data Protection Act 2018, Schedule 21, paragraphs 4 and 5), so it needs no further safeguard.",
+          "Some sub-processors are headquartered in the United States (Annex 3). Any transfer of personal data to a country outside the United Kingdom and the EEA, including access from such a country, takes place only in accordance with Chapter V of the UK GDPR: for example under the International Data Transfer Addendum to the European Commission’s standard contractual clauses in the sub-processor’s agreement, or to a recipient that participates in the UK Extension to the EU-US Data Privacy Framework for human resources data."
+        ]
+      },
+      {
+        "h": "9. Assistance",
+        "p": [
+          "Empvibe assists the organisation, as far as possible, in meeting the data subjects’ rights under Chapter III of the UK GDPR, such as access, rectification and erasure, and with the obligations in Articles 32 to 36: security, personal data breaches, data protection impact assessment and prior consultation with the Information Commission (ICO). Empvibe provides the information about the processing that the organisation needs for them.",
+          "Empvibe also assists the organisation in handling a complaint a data subject makes to the organisation under section 164A of the Data Protection Act 2018, by providing the information about the processing that the organisation needs to respond. A complaint or request that reaches Empvibe directly is passed on to the organisation without undue delay.",
+          "The organisation can correct and delete employee data in Empvibe itself. Anonymous answers cannot be linked to a person, and therefore cannot be retrieved or deleted for one particular person (UK GDPR Article 11)."
+        ]
+      },
+      {
+        "h": "10. Personal data breaches",
+        "p": [
+          "Empvibe notifies the organisation without undue delay, and no later than 36 hours after becoming aware of a personal data breach. The notice describes what happened; the categories and approximate number of data subjects and of records concerned; the likely consequences; the measures taken or proposed; and a contact point at Empvibe. What is not yet known is given in phases, as soon as it is. This is so that the organisation can notify the Information Commission (ICO) without undue delay and, where feasible, within 72 hours, where Article 33 of the UK GDPR requires it, and tell the people affected where Article 34 requires it."
+        ]
+      },
+      {
+        "h": "11. Documentation and audits",
+        "p": [
+          "Empvibe makes available to the organisation the information it needs to demonstrate compliance with Article 28 of the UK GDPR, and allows for and contributes to audits, including inspections, by the organisation or an auditor it has mandated. Audits are announced at least 30 days in advance. The organisation bears the cost, unless the audit reveals material breaches of this agreement."
+        ]
+      },
+      {
+        "h": "12. Duration, termination and deletion",
+        "p": [
+          "The agreement applies for as long as the organisation uses Empvibe. When it ends, the organisation chooses whether Empvibe returns its personal data or deletes it. If the organisation asks before the end, Empvibe sends it the employee register and the list of users as a CSV file; anonymous answers cannot be returned for any one person. Empvibe then deletes the organisation’s personal data, copies included, within 30 days of the end, unless the law requires it to be kept. Before then, the organisation can print or save its reports as PDF. Backups are deleted in the sub-processor’s regular cycle."
+        ]
+      },
+      {
+        "h": "13. Changes",
+        "p": [
+          "Empvibe may present a new version of the agreement in Empvibe and notify the organisation by e-mail. The new version applies once it is signed, or 30 days after the notice if the organisation has not objected by then; an organisation that objects may terminate the agreement before the new version applies. Until then, the version that applied before continues to apply."
+        ]
+      },
+      {
+        "h": "14. Governing law, disputes and precedence",
+        "p": [
+          "This agreement is governed by Norwegian law, and disputes are settled by the Norwegian courts, with Oslo District Court (Oslo tingrett) as the agreed venue. The choice of law does not reduce either party’s obligations under the UK GDPR and the Data Protection Act 2018, the rights of data subjects or the powers of the Information Commission (ICO).",
+          "In case of conflict, this agreement takes precedence over other agreements between the parties as regards the processing of personal data."
+        ]
+      },
+      {
+        "h": "Annex 1 – The processing",
+        "p": [
+          "Subject matter: the personal data the organisation enters in Empvibe, or brings in from Microsoft Entra ID, Teams or Slack, about its employees and its users, and the answers its employees give.",
+          "Nature: collection, storage, sending of invitations and reminders by e-mail, SMS, Teams or Slack, aggregation into results for groups at the organisation’s threshold, display, and deletion.",
+          "Purpose: the survey of the psychosocial working environment and its follow-up, as part of the organisation’s assessment of the risks to the health and safety of its employees at work, work-related stress included, under regulation 3 of the Management of Health and Safety at Work Regulations 1999 and its general duty under section 2 of the Health and Safety at Work etc. Act 1974 (in Northern Ireland, regulation 3 of the Management of Health and Safety at Work Regulations (Northern Ireland) 2000 and article 4 of the Health and Safety at Work (Northern Ireland) Order 1978). The organisation determines its lawful basis; for a private employer this will normally be legal obligation, UK GDPR Article 6(1)(c), and for a public authority a task carried out in the public interest, Article 6(1)(e).",
+          "The data subjects are the employees the organisation invites to the survey, and the organisation’s users of Empvibe: the managing director, department managers and safety representatives.",
+          "Duration: for as long as this agreement applies (section 12).",
+          "About employees, the following is stored:"
+        ],
+        "ul": [
+          "name and e-mail address",
+          "mobile number, only if the organisation enters it or chooses to read it from Microsoft Entra ID, for sending by SMS",
+          "preferred language, if the organisation enters it or it is read from Microsoft Entra ID, so that the survey can be offered in that language",
+          "for organisations that send the survey in Teams: which conversation the Empvibe app has with the employee in Teams, and whether Teams has turned away a message to the employee",
+          "for organisations that send the survey in Slack: the employee’s member ID in the organisation’s Slack workspace, found from the work e-mail address, and the Slack access the Empvibe app was given when the organisation connected – only to send the link as a direct message",
+          "which department the employee belongs to, and any role as health and safety representative, union representative or manager",
+          "if the organisation brings in its employees from Microsoft Entra ID: the person’s object ID in the directory, which of the chosen groups the person is in, and whether the account is active – only to keep the register up to date. Nothing is written back to the directory",
+          "for each survey: whether an invitation and a reminder were sent and whether the employee has answered, so that reminders go only to those who have not – never what the employee answered",
+          "the name of the person responsible for a measure, if the organisation chooses an employee as responsible"
+        ]
+      },
+      {
+        "h": "Annex 1 – Answers, users and technical data",
+        "p": [
+          "Answers are stored without name, e-mail address, invitation or any other link to the person who gave them: only which department the answer concerns and the hour it arrived. Results for a department are not shown until at least five have answered, or more where the organisation has chosen a higher limit, up to ten. Comments and replies in anonymous conversations are stored the same way. They may contain personal data, special category data included, if the writer includes it, and are never shown with a name. The exception is an employee who asks to be told when management answers a comment they wrote: then who wrote it is stored, encrypted and only to send the notice. The link covers the whole response. It is never visible to the organisation, Empvibe does not hand it over to the organisation, and it is deleted when the conversation is closed, when the employee turns the notice off, and after a year at the latest.",
+          "About users, name, e-mail address, role and department are stored, to run the service for the organisation. Passwords are stored only as a cryptographic hash. A user who signs in with Microsoft also has the ID of their Microsoft 365 organisation and their account’s object ID there stored, so that only the same account can sign in again. Empvibe is the controller of the same user data only for its own purposes, securing the sign-in, customer support, invoicing and e-mail about the account and the service, as its privacy notice describes.",
+          "The questions are designed not to collect health data or other special category data (UK GDPR Article 9). The core questions on offensive behaviour and violence are reported only as counts for the whole organisation.",
+          "The sub-processors record IP address and time in operational logs, used for operation and security. The statistics on use of the website use no cookies and do not identify visitors.",
+          "Retention: for as long as the agreement applies, unless the organisation deletes the data earlier or asks Empvibe to do so."
+        ]
+      },
+      {
+        "h": "Annex 2 – Security measures",
+        "ul": [
+          "The data is stored in a database in Frankfurt, Germany, and is encrypted in transit and at rest.",
+          "Access control on every database table: a user sees only their own organisation, and only what their role allows.",
+          "The tables holding answers are closed to all users. Results are read only through functions that withhold any department with fewer answers than the organisation’s limit, which is never under five.",
+          "The link an employee answers with is stored only as a SHA-256 hash. The time of an answer is stored rounded to the hour.",
+          "Sign-in with e-mail address and password, or with a Google or Microsoft account. Passwords are stored as hashes.",
+          "Free text from employees is not written to logs or analytics tools.",
+          "Empvibe’s personnel access production data only when operation or troubleshooting requires it.",
+          "The database is changed only through versioned migration scripts, and the security rules are tested automatically on every change."
+        ]
+      },
+      {
+        "h": "Annex 3 – Sub-processors",
+        "ul": [
+          "Supabase Inc. (USA): database, sign-in and background jobs. Data is stored in Frankfurt, Germany.",
+          "Vercel Inc. (USA): hosting of the website and the application. The server functions run in Frankfurt, Germany.",
+          "Brevo SAS (France): sending of e-mail and SMS. Brevo logs delivery and may record when an e-mail is opened; the survey link is written as text, so Brevo does not rewrite or log it.",
+          "Microsoft Ireland Operations Ltd (Ireland): Azure Bot Service, which relays the Teams message with the survey link. Used only when the organisation has switched Teams on. The service runs in the EU (West Europe).",
+          "Slack, for organisations that send the survey in Slack, is the organisation’s own tool and not a sub-processor of Empvibe."
+        ]
+      }
+    ]
   }
 }

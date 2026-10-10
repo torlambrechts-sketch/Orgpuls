@@ -7,7 +7,6 @@ import { LANDINGS } from '@/content/industries/landing'
 import { MODULE_KEYS, moduleFile, moduleSource } from '@/content/industries/modules'
 import type { Locale } from '@/lib/i18n/locales'
 import { ARTICLES } from '@/lib/marketing/site'
-import { DPA_SHA256, DPA_VERSION } from './dpa'
 
 /**
  * Every legal text in the product and on the site, for the legal review (D-130, X-065).
@@ -534,6 +533,3 @@ export function legalUnits(input: LegalInputs | NonNullable<LegalInputs['factors
   ]
   return LEGAL_SECTIONS.flatMap((s) => all.filter((u) => u.section === s))
 }
-
-/** The DPA's version in force and its own hash (lib/legal/dpa.ts), shown beside the DPA unit */
-export const DPA_IN_FORCE = { version: DPA_VERSION, sha256: DPA_SHA256 }

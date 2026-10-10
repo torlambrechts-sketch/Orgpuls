@@ -12,6 +12,9 @@
 --     works: the signer's profile gone, signed_by goes null (13..15)
 --   * a published version's hash cannot be changed (16)
 --   * nothing written here survives (17)
+--   * an agreement per market (0226): a UK organisation signs the UK version, with its hash, and
+--     not Norway's; a Swedish one signs Norway's, having none of its own (18, 19)
+--   * a version names its market in front of its date, and its market cannot change (20, 21)
 --
 -- Reads the design fixture's organisation. Every row must read pass = true.
 --
@@ -26,6 +29,13 @@ declare
   v_other  uuid := '00000000-0000-4000-8000-0000000d9001';
   v_vo     uuid := '00000000-0000-4000-8000-0000000d9002';
   v_out    uuid := '00000000-0000-4000-8000-0000000d9003';
+  v_gb     uuid := '00000000-0000-4000-8000-0000000d9004';
+  v_se     uuid := '00000000-0000-4000-8000-0000000d9005';
+  v_gbl    uuid := '00000000-0000-4000-8000-0000000d9006';
+  v_sel    uuid := '00000000-0000-4000-8000-0000000d9007';
+  v_gbv    text;
+  v_gbsha  text;
+  v_json2  jsonb;
   v_dl     uuid;
   v_cur    text;
   v_sha    text;
@@ -65,7 +75,11 @@ begin
 
   select m.user_id into v_dl from app.memberships m
   where m.org_id = v_org and m.active and m.role = 'daglig_leder' order by m.id limit 1;
-  select v.version, v.text_sha256 into v_cur, v_sha from app.dpa_versions v order by v.published_on desc, v.version desc limit 1;
+  -- the fixture organisation is Norwegian: the version in force is the newest of Norway's agreement (0226)
+  select v.version, v.text_sha256 into v_cur, v_sha from app.dpa_versions v
+  where v.market = 'no' order by v.published_on desc, v.version desc limit 1;
+  select v.version, v.text_sha256 into v_gbv, v_gbsha from app.dpa_versions v
+  where v.market = 'gb' order by v.published_on desc, v.version desc limit 1;
 
   begin
     -- a verneombud in the organisation, and a daglig leder of another one
@@ -160,16 +174,73 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 16, 'name', 'a published version''s hash cannot be changed', 'expected', 'refused',
       'actual', case when v_ok then 'refused' else 'allowed' end, 'pass', v_ok);
 
+    -- 18, 19 ------------------------------------------------------ an agreement per market
+    insert into auth.users (id, email) values (v_gbl, 'gb@dpa-test.example'), (v_sel, 'se@dpa-test.example');
+    insert into app.profiles (id, full_name) values (v_gbl, 'GB'), (v_sel, 'SE');
+    insert into app.organizations (id, name, employee_count, market) values
+      (v_gb, 'Test Ltd', 10, 'gb'), (v_se, 'Test AB', 10, 'se');
+    insert into app.memberships (org_id, user_id, role, group_id) values
+      (v_gb, v_gbl, 'daglig_leder', null), (v_se, v_sel, 'daglig_leder', null);
+
+    perform set_config('request.jwt.claims', json_build_object('sub', v_gbl, 'role', 'authenticated')::text, true);
+    v_json := public.sign_dpa(v_gb, v_cur, 'UK Leader', 'Managing director');
+    v_json2 := public.sign_dpa(v_gb, v_gbv, 'UK Leader', 'Managing director');
+    v_rows := v_rows || jsonb_build_object('seq', 18, 'name', 'a UK organisation signs the UK agreement, with its hash, and not Norway''s',
+      'expected', 'not_current, ok, hash of ' || coalesce(v_gbv, 'no gb version'),
+      'actual', coalesce(v_json->>'error', 'ok') || ', ' || coalesce(v_json2->>'error', 'ok') || ', '
+                || coalesce((select version || ' ' || text_sha256 from app.dpa_signatures where org_id = v_gb), 'none'),
+      'pass', v_gbv like 'gb-%' and v_json->>'error' = 'not_current' and (v_json2->>'ok')::boolean
+              and (select text_sha256 from app.dpa_signatures where org_id = v_gb and version = v_gbv) = v_gbsha
+              and (select count(*) from app.dpa_signatures where org_id = v_gb) = 1);
+
+    perform set_config('request.jwt.claims', json_build_object('sub', v_sel, 'role', 'authenticated')::text, true);
+    v_json := public.sign_dpa(v_se, v_gbv, 'SE Ledare', 'VD');
+    v_json2 := public.sign_dpa(v_se, v_cur, 'SE Ledare', 'VD');
+    v_rows := v_rows || jsonb_build_object('seq', 19, 'name', 'a Swedish organisation, with no agreement of its own yet, signs Norway''s',
+      'expected', 'not_current, ok', 'actual', coalesce(v_json->>'error', 'ok') || ', ' || coalesce(v_json2->>'error', 'ok'),
+      'pass', v_json->>'error' = 'not_current' and (v_json2->>'ok')::boolean
+              and (select text_sha256 from app.dpa_signatures where org_id = v_se and version = v_cur) = v_sha);
+
+    -- 20, 21 ------------------------------------------------------ versions name their market
+    perform set_config('request.jwt.claims', '', true);
+    v_txt := '';
+    begin
+      insert into app.dpa_versions (version, text_sha256, published_on, market) values ('2099-01-01', repeat('a', 64), date '2099-01-01', 'gb');
+      v_txt := v_txt || 'bare-allowed';
+    exception when check_violation then v_txt := v_txt || 'bare-refused';
+    end;
+    begin
+      insert into app.dpa_versions (version, text_sha256, published_on, market) values ('se-2099-01-01', repeat('a', 64), date '2099-01-01', 'gb');
+      v_txt := v_txt || ',other-allowed';
+    exception when check_violation then v_txt := v_txt || ',other-refused';
+    end;
+    begin
+      insert into app.dpa_versions (version, text_sha256, published_on) values ('gb-2099-01-01', repeat('a', 64), date '2099-01-01');
+      v_txt := v_txt || ',prefixed-norway-allowed';
+    exception when check_violation then v_txt := v_txt || ',prefixed-norway-refused';
+    end;
+    v_rows := v_rows || jsonb_build_object('seq', 20, 'name', 'a version names its own market in front of its date, and Norway''s none',
+      'expected', 'bare-refused,other-refused,prefixed-norway-refused', 'actual', v_txt,
+      'pass', v_txt = 'bare-refused,other-refused,prefixed-norway-refused');
+
+    begin
+      update app.dpa_versions set market = 'se' where version = v_cur;
+      v_ok := false;
+    exception when others then v_ok := sqlerrm like '%cannot be changed%';
+    end;
+    v_rows := v_rows || jsonb_build_object('seq', 21, 'name', 'a published version''s market cannot be changed', 'expected', 'refused',
+      'actual', case when v_ok then 'refused' else 'allowed' end, 'pass', v_ok);
+
     perform set_config('request.jwt.claims', '', true);
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
   end;
 
-  select count(*) into v_cnt from auth.users where id in (v_vo, v_out);
+  select count(*) into v_cnt from auth.users where id in (v_vo, v_out, v_gbl, v_sel);
   v_rows := v_rows || jsonb_build_object('seq', 17, 'name', 'every probe row was rolled back', 'expected', '0 users, 0 organisations',
-    'actual', v_cnt || ' users, ' || (select count(*) from app.organizations where id = v_other) || ' organisations',
-    'pass', v_cnt = 0 and not exists (select 1 from app.organizations where id = v_other));
+    'actual', v_cnt || ' users, ' || (select count(*) from app.organizations where id in (v_other, v_gb, v_se)) || ' organisations',
+    'pass', v_cnt = 0 and not exists (select 1 from app.organizations where id in (v_other, v_gb, v_se)));
 
   insert into public._dpi
   select (r->>'seq')::int, r->>'name', r->>'expected', r->>'actual', (r->>'pass')::boolean
@@ -186,8 +257,8 @@ begin
   if v_failed is not null then
     raise exception 'dpa invariants failed: %', v_failed;
   end if;
-  if v_count <> 17 then
-    raise exception 'dpa invariants: expected 17 rows, got %', v_count;
+  if v_count <> 21 then
+    raise exception 'dpa invariants: expected 21 rows, got %', v_count;
   end if;
 end $$;
 

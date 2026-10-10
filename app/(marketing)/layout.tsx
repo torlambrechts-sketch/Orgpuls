@@ -113,8 +113,8 @@ export default async function MarketingLayout({ children }: { children: React.Re
               </a>
             ),
             // the design's words, now links to the pages they name (D-104, D-194), underlined as links in prose (G5);
-            // nothing on a site that does not serve the page yet (Empvibe's until UK-F, D-272), whose text
-            // carries its separator inside the tag for that
+            // nothing on a site that does not serve the page (D-272), whose text then carries its separator
+            // inside the tag
             privacy: (chunks) =>
               serves(own, '/personvernerklaering') ? (
                 <Link href="/personvernerklaering" className="text-inherit underline underline-offset-2 hover:text-ink">

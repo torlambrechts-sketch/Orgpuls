@@ -2,7 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { DPA_VERSION } from '@/lib/legal/dpa'
+import { requestMarket } from '@/lib/i18n/market'
+import { dpaInForce } from '@/lib/legal/dpa'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { createClient } from '@/lib/supabase/server'
 
@@ -10,7 +11,9 @@ import { createClient } from '@/lib/supabase/server'
  * Signing the data processing agreement (D-87). The one write is `public.sign_dpa`, which
  * checks that the caller is the organisation's daglig leder, that the version is the one
  * in force, and copies that version's hash onto the signature itself. Nothing here decides
- * who may sign; it only shapes what is sent.
+ * who may sign; it only shapes what is sent: the version of the organisation's market's agreement,
+ * the one the tab showed (lib/legal/dpa.ts, D-274). A version that is not the database's newest for
+ * that market is refused as not_current.
  */
 export type DpaResult = { ok: true } | { ok: false; problem: string }
 
@@ -37,7 +40,7 @@ export async function signDpa(_prev: DpaResult | null, formData: FormData): Prom
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('sign_dpa', {
     p_org: org,
-    p_version: DPA_VERSION,
+    p_version: dpaInForce(await requestMarket()).version,
     p_name: parsed.data.name,
     p_title: parsed.data.title,
   })

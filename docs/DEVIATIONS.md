@@ -13400,3 +13400,91 @@ Aug, Sept, Oct.
   date with the bare locale.
 
 `tests/unit/markets.test.ts` holds `MARKET_TIME_ZONE` to the migrations.
+
+## D-274 — The United Kingdom's documents and invoicing: its own DPA, privacy notice and terms; pounds and the reverse charge (UK-F, X-113, 2026-10-10)
+
+**What.** An organisation in the United Kingdom read Norway's agreement, which names Datatilsynet and «the Norwegian
+version governs». Empvibe's site served no privacy notice or terms, because Norway's name Norwegian law, its
+regulator, its prices and its register (D-272). Oppsett › Betaling showed kroner and offered EHF. UK-F gives the
+United Kingdom its own of each, with the owner's four decisions (X-113).
+
+**A data processing agreement per market (0226).**
+- The gb pack carries its own `dpa`: an agreement under UK GDPR art. 28, in British English, which governs itself.
+  - **Parties.** Pundit Invest AS, which provides Empvibe, is the processor.
+  - **Purpose.** The survey in the employer's risk assessment: MHSWR 1999 reg 3 and HSWA 1974 s.2, with their Northern
+    Ireland twins.
+  - **Content.** Every element of art. 28(3)(a)–(h), its closing paragraph, and art. 28(2) and (4).
+  - **Transfers.** The EEA, Norway included, is treated as adequate (DPA 2018 Sch 21 paras 4–5). US sub-processors
+    follow UK Chapter V.
+  - **Breaches.** Notice to the organisation within 36 hours, so it can tell the Information Commission (ICO) within
+    72 (art. 33).
+  - **Assistance** with s.164A complaints and the DPIA.
+  - **The threshold.** At least five, raisable to ten.
+  - **Law.** Norwegian law and Oslo District Court (X-113), without reducing either party's UK GDPR duties.
+- `app.dpa_versions.market` says whose agreement a version is. A version other than Norway's carries its market's
+  code in front of its date (`gb-2026-10-10`), so two markets publishing on one day never share a primary key. A check
+  holds the prefix to the market.
+- `app.dpa_market(market)` names the agreement an organisation signs: its market's own where one is published, else
+  Norway's. Sweden signs Norway's until SE-E, as before.
+- `sign_dpa` signs the newest version of that agreement. It used to take the newest overall, which would have made the
+  UK's «current» for every Norwegian organisation.
+- `lib/legal/dpa.ts` holds `DPA_IN_FORCE` per agreement and `DPA_MARKET`, which mirrors `app.dpa_market`.
+  - Oppsett › Databehandleravtale, the Personvern tab and the signing action read the version of the market whose words
+    the request shows, so the words shown and the version signed are one agreement's.
+  - The processor block names the brand instead of a hard-coded «Orgpuls».
+  - The gb pack also replaces the tab's `unsignedBody`, `orgWithNumber` (company number) and `processorLine`.
+  - The unused `DPA_IN_FORCE` in lib/legal/registry.ts (its admin reader left in PS3) is removed.
+- The gb text names Empvibe itself, so the brand layer changes nothing in it: the words hashed are the words shown,
+  in any language a UK user reads, since the pack is laid last.
+
+**Empvibe's privacy notice and terms (UK-F2).**
+- `/personvernerklaering` (`/privacy`) and `/vilkar` (`/terms`) are back in `EMPVIBE_PAGES`, in its footer column and
+  on its bottom line. Each has the gb pack's own `seo.pages.*`, whole.
+- **The privacy notice** has:
+  - Pundit Invest AS as controller for the site, sign-ups, the contact form and support;
+  - UK GDPR lawful bases (legitimate interest for sign-up data, legal obligation for the accounts);
+  - the same cookieless statistics and GPC/DNT rule as Norway;
+  - the sub-processors, and UK Chapter V for transfers;
+  - rights answered within one month;
+  - a complaint to Pundit acknowledged within 30 days (DPA 2018 s.164A), and a complaint to the Information Commission
+    (ICO).
+- **Left out of the privacy notice,** because Empvibe does none of them: the demo, the newsletter, the templates and
+  Brønnøysund. No Article 27 representative is named (X-113).
+- **The terms** have:
+  - Norway's terms' structure;
+  - the UK prices in their own table, since Empvibe has no price page;
+  - the free plan and trial as in Norway;
+  - the reverse charge (VATA 1994 s.8; Notice 741A);
+  - the employer's s.164A complaints and consultation of employees in place of Norway's;
+  - HSE's Indicator Tool attributed under the OGL;
+  - Norwegian law and Oslo District Court.
+- `tests/unit/uk-site.test.ts` no longer forbids prices on the site. It allows only the United Kingdom's, held to
+  `PLAN_PRICES.gb`. It lets the documents name Norway only where it is true: the provider, the law chosen, the
+  accounting law, the EEA.
+
+**Pounds and the reverse charge (0227, UK-F3).**
+- `lib/site/pricing.ts` `PLAN_PRICES` is a list per market: Norway in kroner, the United Kingdom £25 and £55 (X-113).
+  Sweden pays by Norway's until SE-E. Norway's /priser still reads `PLAN_SIZES`, now drawn from Norway's list. The
+  database stores a plan and an interval, never an amount.
+- Oppsett › Betaling shows the organisation's market's prices. The gb pack words them in pounds, names a company number,
+  and says the customer accounts for UK VAT under the reverse charge.
+- **Not the design's.** For a UK organisation the EHF checkbox is not drawn. An input for the UK VAT registration number
+  stands in its place, styled as the invoice reference input beside it. Norway's screen is unchanged.
+- `app.billing.vat_number` is HMRC's form (GB and nine or twelve digits, GBGD/GBHA and three). It is read back on the
+  tab, and by the platform's organisation view (`app.op_org_get`), where the invoice is made.
+- `save_billing` takes `p_vat_number`, optional (D-251): null keeps the number, '' clears it. The old signature is moved
+  to `app` and renamed `save_billing_retired_0227`, not overloaded.
+  - It refuses EHF for a UK organisation.
+  - It refuses a VAT number for any other.
+  - It refuses to confirm a UK plan without a VAT number or a company number. That number is HMRC's evidence of a
+    business, without which the supply would be B2C and the supplier would have to register for UK VAT (Notice 741A 6.3).
+- `supabase/tests/billing_gb_invariants.sql` proves it. `tests/unit/billing-gb.test.ts` holds the lists and the words.
+
+**Left as it was, on purpose.**
+- A UK subscription's paid period ends on Oslo's calendar (`cancel_subscription`, `paid_last_day`, D-273). That is
+  23:00 in London on the same date, so no date shown changes.
+- Sentral receives `billing.changed` with plan and interval but no market or currency. Before it counts UK revenue it
+  must learn the organisation's market: the phase-1 leftover «market … on the events sent to Sentral».
+
+**Open, the owner's and the lawyer's (X-113).** The Article 27 representative; whether a Norwegian-law DPA meets
+art. 28(3)'s «under domestic law»; the ICO fee; what a reverse-charged invoice must state.

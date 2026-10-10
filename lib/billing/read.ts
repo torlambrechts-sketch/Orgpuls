@@ -29,6 +29,8 @@ const BillingRow = z.object({
   invoice_email: z.string().nullable(),
   invoice_ref: z.string().nullable(),
   ehf: z.boolean(),
+  // a UK organisation's VAT registration number, for a reverse-charged invoice (0227, D-274)
+  vat_number: z.string().nullable(),
   confirmed_at: z.string().nullable(),
   // a cancellation (0064, 0066; D-108, D-110)
   cancelled_at: z.string().nullable(),
@@ -46,7 +48,7 @@ export async function getBilling(orgId: string): Promise<Billing | null> {
   const { data, error } = await supabase
     .schema('app')
     .from('billing')
-    .select('trial_started_at, trial_ends_at, trial_extended_at, plan, billing_interval, invoice_email, invoice_ref, ehf, confirmed_at, cancelled_at, cancel_effective_at, deletion_due_at, free_from, cancel_source')
+    .select('trial_started_at, trial_ends_at, trial_extended_at, plan, billing_interval, invoice_email, invoice_ref, ehf, vat_number, confirmed_at, cancelled_at, cancel_effective_at, deletion_due_at, free_from, cancel_source')
     .eq('org_id', orgId)
     .maybeSingle()
 

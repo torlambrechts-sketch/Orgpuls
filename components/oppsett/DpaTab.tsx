@@ -1,11 +1,13 @@
 import { getTranslations } from 'next-intl/server'
 import { PrintButton } from '@/components/rapport/PrintButton'
-import { DPA_VERSION, DpaText, dpaVersionDay } from '@/lib/legal/dpa'
+import { BRANDS, brandOf } from '@/lib/brand'
+import { DpaText, dpaInForce, dpaVersionDay } from '@/lib/legal/dpa'
 import type { DpaSignature } from '@/lib/legal/read'
 import { CONTACT_MAIL } from '@/lib/marketing/site'
 import { DpaSignForm } from './DpaSignForm'
 import { dateFormat } from '@/lib/i18n/dates'
 import { getDates } from '@/lib/i18n/dates-server'
+import { requestMarket } from '@/lib/i18n/market'
 
 /**
  * Oppsett › Databehandleravtale (D-87): the agreement between the organisation, as controller,
@@ -18,7 +20,9 @@ import { getDates } from '@/lib/i18n/dates-server'
  * and the tab row).
  *
  * The text is messages (`dpa.*`) and is the version pinned in lib/legal/dpa.ts; a signature
- * of an earlier version is listed, not shown as current.
+ * of an earlier version is listed, not shown as current. Which agreement is the market's (0226,
+ * D-274): the market whose texts this request reads is the market whose version it pins, so the words
+ * shown and the version signed are always the same agreement's.
  */
 export async function DpaTab({
   org,
@@ -34,11 +38,13 @@ export async function DpaTab({
   const t = await getTranslations()
   // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
   const dates = await getDates()
+  const market = await requestMarket()
+  const inForce = dpaInForce(market)
   const text = DpaText.parse(t.raw('dpa'))
-  const current = signatures.find((s) => s.version === DPA_VERSION) ?? null
-  const earlier = signatures.filter((s) => s.version !== DPA_VERSION)
+  const current = signatures.find((s) => s.version === inForce.version) ?? null
+  const earlier = signatures.filter((s) => s.version !== inForce.version)
   const when = (iso: string) => dateFormat(dates, { dateStyle: 'long', timeStyle: 'short' }).format(new Date(iso))
-  const version = dateFormat(dates, { dateStyle: 'long' }).format(new Date(`${dpaVersionDay(DPA_VERSION)}T12:00:00Z`))
+  const version = dateFormat(dates, { dateStyle: 'long' }).format(new Date(`${dpaVersionDay(inForce.version)}T12:00:00Z`))
 
   return (
     <div className="mt-[20px] flex flex-col gap-[16px]">
@@ -133,7 +139,7 @@ export async function DpaTab({
           <div className="rounded-cta border border-line bg-bg px-[16px] py-[12px]">
             <dt className="text-[11.5px] font-bold text-mut">{t('oppsett.dpa.processor')}</dt>
             <dd className="m-0 mt-[4px] text-[13.5px] font-semibold">
-              Orgpuls · <a href={`mailto:${CONTACT_MAIL}`}>{CONTACT_MAIL}</a>
+              {BRANDS[brandOf(market)].name} · <a href={`mailto:${CONTACT_MAIL}`}>{CONTACT_MAIL}</a>
             </dd>
           </div>
         </dl>

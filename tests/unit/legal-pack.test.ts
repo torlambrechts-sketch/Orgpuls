@@ -44,7 +44,7 @@ const NOT_IN_PACK: { prefix: string; why: string }[] = [
   { prefix: 'start.finalBody', why: 'the public site’s closing band, as site.' },
   { prefix: 'start.plan.small.item.', why: 'the public price page’s plan list (components/marketing/Plans.tsx); Oppsett › Betaling reads only names and prices' },
   { prefix: 'demo.', why: 'the demo is Demobedriften AS, a Norwegian company, on the Norwegian site' },
-  { prefix: 'dpa.', why: 'the data processing agreement is a signed document with its own version and hash (0047); the Swedish PUB-avtal is SE-E' },
+  { prefix: 'dpa.', why: 'the data processing agreement is a signed document with its own version and hash per market (0047, 0226): the United Kingdom’s is its own, whole, in the gb pack (UK-F1, D-274), held by tests/unit/dpa.test.ts; Sweden signs Norway’s until its PUB-avtal (SE-E)' },
 ]
 
 /**
@@ -147,9 +147,10 @@ describe.each(PACKED)('the %s pack', (market) => {
 
   it.each(langs)('in %s, carries nothing a screen does not read', (lang) => {
     const named = new Set(structureKeys(market))
-    // the public site's words are read by the market's own site, and checked page by page there (tests/unit/uk-site.test.ts)
-    const site = (k: string) => /^(site|seo|start)\./.test(k)
-    expect(Object.keys(pack(market, lang)).filter((k) => !(k in no) && !named.has(k) && !site(k))).toEqual([])
+    // the public site's words are read by the market's own site, and checked page by page there (tests/unit/uk-site.test.ts);
+    // a market's own agreement is a document of its own length, read whole by Oppsett › Databehandleravtale (tests/unit/dpa.test.ts)
+    const own = (k: string) => /^(site|seo|start|dpa)\./.test(k)
+    expect(Object.keys(pack(market, lang)).filter((k) => !(k in no) && !named.has(k) && !own(k))).toEqual([])
   })
 
   it('gives every factor its legal reference in the market', () => {

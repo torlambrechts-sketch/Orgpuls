@@ -2393,7 +2393,10 @@
         "invalid_ref": "Referansen kan være på høyst 60 tegn.",
         "ehf_needs_orgnr": "EHF krever et organisasjonsnummer.",
         "not_allowed": "Bare daglig leder kan endre betalingen.",
-        "failed": "Det gikk ikke å lagre. Prøv igjen."
+        "failed": "Det gikk ikke å lagre. Prøv igjen.",
+        "ehf_not_offered": "EHF tilbys ikke for denne virksomheten. Fakturaen sendes på e-post.",
+        "invalid_vat_number": "Mva-nummeret kan ikke brukes. Skriv det slik HMRC skriver det, for eksempel GB123456789.",
+        "business_evidence_needed": "Legg inn virksomhetens britiske mva-nummer her, eller organisasjonsnummeret under Selskap, før abonnementet bekreftes."
       },
       "pillGrace": "{count, plural, one {# dag} other {# dager}} til gratisplanen",
       "pillFree": "Gratisplan",
@@ -2445,7 +2448,9 @@
           "cancelled": "Abonnementet er sagt opp.",
           "not_chosen": "Det er ikke valgt noen overgang til gratisplanen."
         }
-      }
+      },
+      "vatNumber": "Britisk mva-nummer (VAT registration number)",
+      "vatNumberHint": "Hvis virksomheten er mva-registrert i Storbritannia, for eksempel GB123456789. Står på fakturaen, som er uten britisk mva (omvendt avgiftsplikt)."
     },
     "logo": {
       "title": "Logo",

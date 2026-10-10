@@ -240,7 +240,7 @@ begin
       and not has_function_privilege('authenticated', 'app.set_org_module_unchecked(uuid,text,boolean)', 'execute')
       and not has_function_privilege('authenticated', 'app.org_free(uuid)', 'execute')
       and not has_function_privilege('authenticated', 'app.plan_mrr_nok(text,text)', 'execute')
-      and not has_function_privilege('anon', 'public.save_billing(uuid,text,text,text,boolean,boolean,text)', 'execute')
+      and not has_function_privilege('anon', 'public.save_billing(uuid,text,text,text,boolean,boolean,text,text)', 'execute')
       and has_function_privilege('authenticated', 'public.wheel_month_change(uuid,int,int,text)', 'execute')
       and has_function_privilege('authenticated', 'public.set_org_module(uuid,text,boolean)', 'execute');
   v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'the originals and helpers are closed; the guarded names are open',

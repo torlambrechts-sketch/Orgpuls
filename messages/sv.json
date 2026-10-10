@@ -2201,7 +2201,10 @@
         "invalid_ref": "Referensen får vara högst 60 tecken.",
         "ehf_needs_orgnr": "EHF kräver ett organisationsnummer.",
         "not_allowed": "Bara VD kan ändra betalningen.",
-        "failed": "Det gick inte att spara. Försök igen."
+        "failed": "Det gick inte att spara. Försök igen.",
+        "ehf_not_offered": "EHF erbjuds inte för den här organisationen. Fakturan skickas med e-post.",
+        "invalid_vat_number": "Momsnumret kan inte användas. Skriv det som HMRC gör, till exempel GB123456789.",
+        "business_evidence_needed": "Ange organisationens brittiska momsregistreringsnummer här, eller organisationsnumret under Företag, innan abonnemanget bekräftas."
       },
       "pillGrace": "{count, plural, one {# dag} other {# dagar}} till gratisplanen",
       "pillFree": "Gratisplan",
@@ -2253,7 +2256,9 @@
           "cancelled": "Abonnemanget är uppsagt.",
           "not_chosen": "Ingen övergång till gratisplanen har valts."
         }
-      }
+      },
+      "vatNumber": "Brittiskt momsregistreringsnummer (VAT registration number)",
+      "vatNumberHint": "Om organisationen är momsregistrerad i Storbritannien, till exempel GB123456789. Det står på fakturan, som är utan brittisk moms (omvänd skattskyldighet)."
     },
     "logo": {
       "title": "Logotyp",

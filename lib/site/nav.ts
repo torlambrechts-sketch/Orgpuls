@@ -226,7 +226,9 @@ const OWN_FOOTER: FooterColumn[] = [
     head: 'omOss',
     links: [
       { key: 'kontakt', href: '/kontakt#skriv' },
-      // the privacy notice and the terms, once their UK versions exist (UK-F, D-272)
+      // the UK privacy notice and terms (UK-F, D-274)
+      { key: 'personvernerklaering', href: '/personvernerklaering' },
+      { key: 'vilkar', href: '/vilkar' },
     ],
   },
 ]

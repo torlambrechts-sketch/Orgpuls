@@ -105,8 +105,10 @@ export const EMPVIBE_PAGES = [
   '/smaa-bedrifter',
   '/sikkerhet',
   '/kontakt',
-  // the privacy notice and the terms come back with their UK versions (UK-F): Norway's name its law,
-  // its regulator, its prices and its register, and UK-G does not open without them (D-272)
+  // the UK privacy notice and terms (UK-F, D-274): the gb pack's own, not Norway's, which name its law,
+  // its regulator, its prices and its register
+  '/personvernerklaering',
+  '/vilkar',
 ] as const
 
 /** Their addresses in English, and the sign-in's and sign-up's, which every page links to (D-270) */

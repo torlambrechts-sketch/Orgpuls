@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { EMPVIBE_PAGES } from '@/lib/hosts'
 import { OWN_FOOTERS, OWN_NAV } from '@/lib/site/nav'
+import { ANNUAL_MONTHS, PLAN_PRICES } from '@/lib/site/pricing'
 
 /**
  * Empvibe's site in words (UK-E2, D-271): every page it serves reads the English catalogue with the
@@ -11,7 +12,8 @@ import { OWN_FOOTERS, OWN_NAV } from '@/lib/site/nav'
  *  - a text on one of its pages that still says something only true in Norway (the law, its bodies,
  *    its register, its prices, its SMS), read by a British employer as though it were theirs;
  *  - a claim the United Kingdom's law or HSE's licence does not allow (docs/markets/uk-legal.md § 9);
- *  - a price, «free» or a trial, before the United Kingdom has prices (UK-F);
+ *  - a price that is not the United Kingdom's own (X-113), or one its terms state differently from
+ *    the list Oppsett › Betaling charges by (lib/site/pricing.ts);
  *  - a menu or footer entry with no words;
  *  - an array a page counts (zod `.length`) changed in length, which would fail that page's render.
  */
@@ -34,11 +36,8 @@ const gb = read('messages/market/gb/en.json')
 const shown = merge(en, gb)
 const map = read('lib/i18n/site-pages.json') as { pages: { path: string; keys: string[]; states?: string[] }[]; shared: string[] }
 
-/** The pages whose words are another step's, and why: not served until that step writes them (D-272) */
-const NOT_YET: Record<string, string> = {
-  '/personvernerklaering': 'the UK privacy notice is UK-F, with the Article 27 representative and the ICO fee',
-  '/vilkar': 'the UK terms are UK-F, with GBP prices and reverse-charge invoicing',
-}
+/** The UK's own documents (UK-F, D-274): the privacy notice and the terms, written for the United Kingdom */
+const DOCUMENTS = ['/personvernerklaering', '/vilkar'] as const
 /** The instrument's own words and the brand's name: the same English in every market, or replaced at render (lib/brand.ts) */
 const SHARED = /^(respond|factor|brand)\./
 
@@ -47,17 +46,28 @@ const NORWAY =
   /Arbeidstilsynet|Labour Inspection|Working Environment Act|arbeidsmiljø|§|\bNOK\b|\bkr\b|Brønnøysund|verneombud|\bAMU\b|working environment committee|occupational health service|Norw(ay|egian)|Datatilsynet|organisation number|\bSMS\b|Lovdata|chapter 1A|ch\. 1A|performance of work|Demobedriften|Nordvik/i
 /** Where Norway is named because it is true: the company that provides Empvibe, and its address */
 const NORWAY_TRUE = new Set(['site.chrome.footer.bottom'])
+/**
+ * What the UK's documents say of Norway because it is true (X-113): the company that provides Empvibe,
+ * where it is established and supplies from, the law and the court the contracts chose, the accounting
+ * law it keeps its books by, and the EEA, Norway included, that UK law treats as adequate. Anything
+ * else about Norway in them is a Norwegian text left behind.
+ */
+const NORWAY_IN_DOCUMENTS =
+  /a company registered in Norway with organisation number 922 698 422|organisation number 922 698 422 \(Norway\)|Oslo, Norway|established in Norway|supplied from Norway|Norway included|Norwegian law|Norwegian courts|Norwegian accounting law|Norwegian Late Payment Interest Act|public holidays in Norway/g
+const isDocument = (key: string) => /^seo\.pages\.(personvernerklaering|vilkar)\./.test(key)
 /** What the United Kingdom's law and HSE's licence do not allow (docs/markets/uk-legal.md § 9) */
 const MISLEADING =
   /HSE[- ](approved|endorsed|compliant|accredited)|(meets|complies with) (the )?(HSE('s)? )?Management Standards|statutory (report|factors|survey)|report(s|ed)? to HSE|Information Commissioner\b|required by law to (run|carry out) (a|this|the) survey/i
-/** No prices before the United Kingdom has its own (UK-F) */
-const PRICE = /£|€|\bNOK\b|\bfree\b(?![- ]text)|\btrial\b|\bper month\b|\/month/i
+/** Another currency than the United Kingdom's */
+const FOREIGN_PRICE = /€|\$|\bNOK\b|\bSEK\b|\bkr\b/
+/** The United Kingdom's list (X-113): each plan a month, and a year at ANNUAL_MONTHS months */
+const GB_AMOUNTS = new Set([PLAN_PRICES.gb.small, PLAN_PRICES.gb.usual].flatMap((m) => [m, m * ANNUAL_MONTHS]))
 
 const pageKeys = (path: string) => {
   const page = map.pages.find((p) => p.path === path)
   return page ? [...page.keys, ...(page.states ?? [])] : []
 }
-const served = (EMPVIBE_PAGES as readonly string[]).filter((p) => !(p in NOT_YET))
+const served = [...EMPVIBE_PAGES] as string[]
 /**
  * A text the Norwegian site's page map lists that Empvibe's site never draws: the articles, the
  * templates and the demo it does not serve, and the menu and footer entries that are Norway's only
@@ -87,19 +97,25 @@ const texts = (): [string, string][] => {
 }
 
 describe('Empvibe’s site in words (UK-E2, D-271)', () => {
-  it('serves pages the page map knows, and not the documents of UK-F, which are Norway’s until then', () => {
+  it('serves pages the page map knows, its own privacy notice and terms among them (UK-F)', () => {
     for (const path of EMPVIBE_PAGES) expect(map.pages.some((p) => p.path === path), path).toBe(true)
-    for (const [path, why] of Object.entries(NOT_YET)) expect(EMPVIBE_PAGES as readonly string[], why).not.toContain(path)
-    expect(served).toEqual([...EMPVIBE_PAGES])
-    // nothing on the site links to them meanwhile: not the footer's columns, and its bottom line draws
-    // the two tags as nothing on a site that does not serve them (app/(marketing)/layout.tsx), so each
-    // carries its own separator
-    for (const column of OWN_FOOTERS.home) for (const link of column.links) expect(Object.keys(NOT_YET)).not.toContain(link.href)
-    expect(String(at(shown, 'site.chrome.footer.bottom'))).toMatch(/<\/mail><privacy> · Privacy<\/privacy><terms> · Terms<\/terms>$/)
+    for (const path of DOCUMENTS) expect(EMPVIBE_PAGES as readonly string[], path).toContain(path)
+    // the footer links to both, in its column and on its bottom line
+    const links = OWN_FOOTERS.home.flatMap((c) => c.links.map((l) => l.href))
+    for (const path of DOCUMENTS) expect(links, path).toContain(path)
+    expect(String(at(shown, 'site.chrome.footer.bottom'))).toMatch(/<\/mail> · <privacy>Privacy<\/privacy> · <terms>Terms<\/terms>$/)
+    // the documents are the pack's own, whole: none of Norway's words is read in their place
+    for (const path of DOCUMENTS) {
+      const key = path === '/vilkar' ? 'vilkar' : 'personvernerklaering'
+      expect(at(gb, `seo.pages.${key}.blocks`), path).toEqual(expect.any(Array))
+      for (const field of ['title', 'description', 'crumb', 'kicker', 'h1', 'lead']) expect(at(gb, `seo.pages.${key}.${field}`), `${path} ${field}`).toEqual(expect.any(String))
+    }
   })
 
   it('says nothing that is only true in Norway', () => {
-    const found = texts().filter(([k, v]) => !NORWAY_TRUE.has(k) && NORWAY.test(v))
+    const found = texts()
+      .map(([k, v]) => [k, isDocument(k) ? v.replace(NORWAY_IN_DOCUMENTS, '') : v] as const)
+      .filter(([k, v]) => !NORWAY_TRUE.has(k) && NORWAY.test(v))
     expect(found.map(([k, v]) => `${k}: ${v.match(NORWAY)?.[0]}`)).toEqual([])
   })
 
@@ -111,8 +127,23 @@ describe('Empvibe’s site in words (UK-E2, D-271)', () => {
     expect(texts().filter(([, v]) => MISLEADING.test(v)).map(([k, v]) => `${k}: ${v.match(MISLEADING)?.[0]}`)).toEqual([])
   })
 
-  it('states no price, «free» or trial before the United Kingdom has prices (UK-F)', () => {
-    expect(texts().filter(([, v]) => PRICE.test(v)).map(([k, v]) => `${k}: ${v.match(PRICE)?.[0]}`)).toEqual([])
+  it('states only the United Kingdom’s prices, in pounds, as Oppsett › Betaling charges them (X-113)', () => {
+    expect(texts().filter(([, v]) => FOREIGN_PRICE.test(v)).map(([k, v]) => `${k}: ${v.match(FOREIGN_PRICE)?.[0]}`)).toEqual([])
+    const amounts = texts().flatMap(([k, v]) => [...v.matchAll(/£(\d+)/g)].map((m) => [k, Number(m[1])] as const))
+    expect(amounts.length).toBeGreaterThan(0)
+    expect(amounts.filter(([, n]) => !GB_AMOUNTS.has(n)).map(([k, n]) => `${k}: £${n}`)).toEqual([])
+    // the terms' table names each plan at the list's monthly price
+    const rows = at(shown, 'seo.pages.vilkar.blocks') as { t: string; rows?: string[][] }[]
+    const table = rows.find((b) => b.t === 'table')?.rows ?? []
+    expect(table.map((r) => r[2])).toEqual([`£${PLAN_PRICES.gb.small} a month`, `£${PLAN_PRICES.gb.usual} a month`, 'by agreement'])
+  })
+
+  it('says, in its privacy notice, what the site counts and that a do-not-track browser sends nothing', () => {
+    const text = JSON.stringify(at(gb, 'seo.pages.personvernerklaering'))
+    expect(text).toContain('Global Privacy Control')
+    expect(text).toContain('Visit statistics: 13 months')
+    expect(text).toContain('Information Commission (ICO)')
+    expect(text).not.toMatch(/Datatilsynet|Brønnøysund|Enhetsregisteret|\bdemo\b|newsletter/i)
   })
 
   it('has words for every entry of its menu and footer', () => {
@@ -168,7 +199,8 @@ describe('Empvibe’s pictures (UK-E3, D-272)', () => {
     for (const pill of pills) {
       expect(pill).not.toMatch(NORWAY)
       expect(pill).not.toMatch(MISLEADING)
-      expect(pill).not.toMatch(PRICE)
+      expect(pill).not.toMatch(FOREIGN_PRICE)
+      expect(pill).not.toMatch(/£/)
     }
   })
 })

@@ -1,11 +1,12 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { DPA_VERSION } from '@/lib/legal/dpa'
+import { dpaInForce } from '@/lib/legal/dpa'
 import { belowDefault } from '@/lib/org/threshold'
 import type { DpaSignature } from '@/lib/legal/read'
 import { dateFormat } from '@/lib/i18n/dates'
 import { getDates } from '@/lib/i18n/dates-server'
+import { requestMarket } from '@/lib/i18n/market'
 
 /**
  * Personvern. Bundle lines 2303-2322.
@@ -29,7 +30,9 @@ export async function PersonvernTab({ threshold, signed }: { threshold: number; 
   const t = await getTranslations()
   // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
   const dates = await getDates()
-  const current = signed.find((s) => s.version === DPA_VERSION) ?? null
+  // the version of the market's own agreement (lib/legal/dpa.ts, D-274), as Oppsett › Databehandleravtale shows it
+  const { version } = dpaInForce(await requestMarket())
+  const current = signed.find((s) => s.version === version) ?? null
 
   return (
     <>
