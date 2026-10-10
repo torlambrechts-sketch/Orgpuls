@@ -61,6 +61,7 @@ import {
   personalLang,
   personalLink,
   type LanguageOffer,
+  marketCatalogue,
   renderLifecycle,
   renderNotice,
   renderReplyNotice,
@@ -91,7 +92,7 @@ import {
   type TeamsOutcome,
 } from '../_shared/teams.ts'
 import { afterSlack, slackApp, slackRun, type FetchLike as SlackFetch } from '../_shared/slack.ts'
-import { MAIL, RESPONDENT_UI, SIGNED_OFF_FLAGS, SURVEY_ONLY, SURVEY_SOURCE } from '../_shared/messages.gen.ts'
+import { MAIL, MAIL_PACKS, RESPONDENT_UI, SIGNED_OFF_FLAGS, SURVEY_ONLY, SURVEY_SOURCE } from '../_shared/messages.gen.ts'
 import { complete, nest, type Approved } from '../_shared/survey-texts.ts'
 
 const BATCH = 25
@@ -391,7 +392,7 @@ Deno.serve(async (req) => {
         for (const g of groupsOf(job, offered)) {
           const to = g.to.filter((r) => r.email)
           if (to.length === 0) return { ok: false, retryable: false, auth: false, code: 'no_address' } as SendResult
-          const r = renderNotice(cat, job, g, appUrl)
+          const r = renderNotice(marketCatalogue(cat, MAIL_PACKS, job.market), job, g, appUrl)
           const res = await brevoSend(key, { sender, to: to.map((p) => ({ email: p.email as string, name: p.name })), subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
           if (!res.ok) return res
           outcome = res
@@ -409,7 +410,7 @@ Deno.serve(async (req) => {
         const rendered = new Map<string, ReturnType<typeof renderNotice>>()
         const failed = await inTurns(sends, 4, async (s) => {
           const at = `${s.group.lang}:${s.group.member}`
-          const r = rendered.get(at) ?? renderNotice(cat, job, s.group, appUrl)
+          const r = rendered.get(at) ?? renderNotice(marketCatalogue(cat, MAIL_PACKS, job.market), job, s.group, appUrl)
           rendered.set(at, r)
           const res = await brevoSend(key, { sender, to: [{ email: s.to.email, name: s.to.name }], subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
           if (res.ok) {
@@ -696,7 +697,8 @@ Deno.serve(async (req) => {
     for (const job of jobs) {
       let outcome: SendResult
       try {
-        const r = renderLifecycle(cat, job, appUrl)
+        // the law a notice states is the organisation's market's (0219, D-257)
+        const r = renderLifecycle(marketCatalogue(cat, MAIL_PACKS, job.market), job, appUrl)
         outcome = await brevoSend(key, {
           sender,
           to: [{ email: job.to_email, name: job.name ?? undefined }],

@@ -12325,3 +12325,98 @@ says `reassure1Manual` instead. Checked by curl against a local build:
    confirmation, Google and Microsoft come back to the Swedish host.
 4. **Edge functions:** deploy them (`node scripts/functions/deploy.mjs`), so a Swedish organisation's mail is not
    in bokmål (D-255).
+
+## D-257 — Sweden's law in the product: a legal pack per market, laid over the language (SE-C, 2026-10-09)
+
+The message files state Norway's law, because Norway is the market they were written for. A text that states law is
+the market's, not the language's. A Swedish-speaking employee in a Norwegian firm reads Norwegian law in Swedish
+(`messages/sv.json`). An English-speaking manager in a Swedish firm reads Swedish law in English. So law and language
+are kept apart, as the market plan's rule 4 says.
+
+**The pack.** Each market other than Norway has `messages/market/<market>/<lang>.json`: the keys whose text is law,
+in each language the pack is written in (Sweden: `sv` and `en`, 150 keys each). `lib/i18n/request.ts` lays the pack
+of the request's market over the language's catalogue, after the approved replacements from admin (an approved
+replacement of a Norwegian legal text is still Norway's law). Which market a request is in
+(`lib/i18n/market.ts`):
+1. the market a page names (`setRequestMarket`);
+2. the signed-in caller's organisation's (`lib/org/market.ts`, read only when a session cookie exists, so the
+   public pages make no extra round trip);
+3. the host's;
+4. Norway.
+
+A language the pack is not written in reads its English, never Norway's law.
+
+**What is a rule rather than a text** is data in `lib/legal/pack.ts`, one row per market:
+- the headcounts for a safety representative and a joint committee: Sweden's skyddsombud from five, skyddskommitté
+  from fifty, or below that when the employees ask (AML 6 kap. 2 §, 8 §);
+- whether an occupational health service follows from an industry list. Sweden has none, so the card always says it
+  depends (AML 3 kap. 2 c §, AFS 2023:1 15 §);
+- the provisions in Oppsett › Regelverk;
+- the coverage of the law's named areas by the eleven factors (AFS 2023:2 2 kap.; working time, 9 §, has no factor
+  and shows as a gap);
+- the gaps;
+- each factor's legal reference, which the readers apply over `app.factors.law_ref` (instrument, results, measures,
+  Innsikt).
+
+Oppsett › Selskap, Regelverk and the wizard read their market's row. No component asks which country it is in.
+
+**Mail.** Four notices cite law: the safety representative's notice before a survey, the evaluation reminder (two
+leads) and the results notice. Migration 0219 adds the organisation's `market` to each job of `dispatch_claim` and
+`lifecycle_mail_claim`. The functions' generator embeds each pack's mail texts (`MAIL_PACKS`), and
+`marketCatalogue` lays them over the mail language. The functions are not deployed (D-255, a launch step).
+
+**The sources.** Every Swedish citation was read in a primary source on 9 October 2026 and recorded with its quote in
+`docs/markets/se-legal.md`: av.se for AFS 2023:1 and 2023:2, riksdagen.se for AML, MBL, the whistleblowing act,
+dataskyddslagen and diskrimineringslagen, and imy.se. Where Sweden has no counterpart, the pack says so rather than
+inventing one:
+- **No act on control measures** (aml kap. 9). Måleoppsett's three steps are kept, and the pack names what they
+  rest on in Sweden: the skyddsombud's involvement (AML 6 kap. 4 §, AFS 2023:1 6 §); negotiation or information with
+  the union where MBL requires it (11–13, 19 §§); and information to employees (GDPR art. 13). The evaluation belongs
+  to the annual follow-up (AFS 2023:1 14 §).
+- **The marker that read «§ 9-2 drøftet»** reads «Samverkan med facket», with no paragraph. Whether introducing a
+  survey is a «viktigare förändring» under MBL 11 § is not settled by any source read. Writing the duty as though it
+  were would state law nobody verified.
+- **No employee duty to report harassment** (aml § 2-3). A comment about one's own treatment is normally not
+  whistleblowing in Sweden. The notes point to the employer's routine for kränkande särbehandling (AFS 2023:2 2 kap.
+  11 §) and to the duty to investigate harassment (diskrimineringslagen 2 kap. 3 §).
+- **Sweden's floor is 5** (D-254). The help texts that say a small team may go down to three are replaced.
+
+**The gate.** `tests/unit/legal-pack.test.ts`:
+- every in-app text that states Norwegian law has a counterpart in each of the market's pack languages, and every
+  text that offers a threshold under the market's floor;
+- the pack states no Norwegian law of its own;
+- every key the structure names exists, and nothing in a pack goes unread;
+- every factor has its Swedish reference;
+- Norway's duties are the design's.
+
+The exceptions are named in the test, with reasons:
+- the public site, which the Swedish host does not serve (D-256);
+- the Norwegian demo;
+- the DPA, a signed document with its own hash (the PUB-avtal is SE-E);
+- the register lookup's texts, never shown where there is no register;
+- the industry-list verdicts.
+
+`npm run verify:i18n` holds the packs to the arguments and plurals of the keys they replace.
+`tests/unit/mail.test.ts` checks that a Swedish evaluation reminder cites AFS 2023:1 14 § and Norway's still
+cites § 9-2.
+
+**Checked in a browser** against a local build, with Lumio AS moved to Sweden on the local stack only and moved
+back afterwards:
+- In Swedish and in English, ten screens show Swedish citations, no Norwegian reference and no raw key: Oppsett ›
+  Selskap, Regelverk and Dataskydd; Måleoppsett; Rapport; Tiltak; Innsikt; and three help articles.
+- Back in Norway, the same screens show Norway's law and no Swedish reference.
+
+`LEGAL_PACK.se` is now true, so sign-up on the Swedish host lists the report again.
+
+**Also fixed:** Oppsett › Selskap's lead said the company was fetched from Enhetsregisteret in every market. It now has
+a manual text where there is no register (`oppsett.selskap.leadManual`), as sign-up did in D-254.
+
+**Not in this step, each named in docs/markets/PLAN.md:**
+- **Industry modules state their own legal basis**, printed in the report's module section, and it is Norway's. A
+  module carries no market yet. Until modules do (SE-D, which also brings Sweden's working-time module), a Swedish
+  organisation that adds a Norwegian industry module would see Norwegian law there. This must be closed before
+  se.orgpuls.com is opened.
+- **Prices in kroner, EHF and the DPA** are SE-E.
+- The phone field's «norsk mobilnummer» belongs to phase 1's phone country per market.
+- The pack's texts are machine-written from the sources and not reviewed by a Swedish lawyer. Legal review is a
+  record, not a gate (X-078).

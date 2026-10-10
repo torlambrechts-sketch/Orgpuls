@@ -11,6 +11,7 @@ import { LogoCard } from '@/components/oppsett/LogoCard'
 import { INDUSTRIES_IN_ORDER, resolveIndustry } from '@/content/industries/meta'
 import { isLocale } from '@/lib/i18n/locales'
 import { DEFAULT_MARKET, isMarket, MARKET_LANGS, REGISTRY_LOOKUP } from '@/lib/markets'
+import { committeeDuty, healthServiceDuty, LEGAL_PACKS } from '@/lib/legal/pack'
 
 /**
  * Selskap. Bundle lines 1987-2108.
@@ -22,7 +23,8 @@ import { DEFAULT_MARKET, isMarket, MARKET_LANGS, REGISTRY_LOOKUP } from '@/lib/m
  *
  * The duties card is computed from the headcount exactly as the design computes it, because
  * those are the act's own numbers: verneombud from five (§ 6-1), AMU from thirty with a
- * "kan kreves" band from ten (§ 7-1). The verneombud line names a person only when the
+ * "kan kreves" band from ten (§ 7-1). Each market's numbers are its legal pack's
+ * (lib/legal/pack.ts, D-257): Sweden's skyddskommitté from fifty. The verneombud line names a person only when the
  * register holds one — the `duty_role` of 0021 — and otherwise says nobody is recorded,
  * which is a finding rather than an empty space.
  *
@@ -35,17 +37,14 @@ import { DEFAULT_MARKET, isMarket, MARKET_LANGS, REGISTRY_LOOKUP } from '@/lib/m
 /** The design's "no duty" chip: ink at 6% on the panel, faint text. */
 const OFF = { background: 'rgba(25,21,16,.06)', color: '#5F5849' }
 
-/**
- * Industries the BHT duty follows from the industry alone.
- *
- * Forskrift om organisering, ledelse og medvirkning § 13-1 lists the trades where an
- * undertaking must be affiliated to an occupational health service whatever its size.
- * Only the NACE sections this transcribes are asserted; anything else prints "avhenger av
- * bransjen" rather than a verdict, because getting this wrong in either direction is a
- * statement about somebody's legal obligations. The design hard-codes "Påbudt" for a
- * construction company and never has to decide. D-33.
+/*
+ * Industries the BHT duty follows from the industry alone: forskrift om organisering, ledelse og
+ * medvirkning § 13-1, transcribed in the legal pack (lib/legal/pack.ts). Anything else prints
+ * "avhenger av bransjen" rather than a verdict, because getting this wrong in either direction is
+ * a statement about somebody's legal obligations. The design hard-codes "Påbudt" for a
+ * construction company and never has to decide. D-33. A market whose law has no such list
+ * (Sweden) always says it depends.
  */
-const BHT_NACE = ['41', '42', '43', '05', '06', '07', '08', '09', '35', '37', '38', '39', '86', '87', '88']
 
 export async function SelskapTab({ view }: { view: OppsettView }) {
   const t = await getTranslations()
@@ -110,12 +109,12 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
   const locationSum = view.locations.reduce((a, l) => a + l.headcount, 0)
   const matches = locationSum === c.employee_count
 
-  const vo = c.employee_count >= 5
-  const amu = c.employee_count >= 30
-  const amuMay = c.employee_count >= 10 && c.employee_count < 30
+  const vo = c.employee_count >= LEGAL_PACKS[market].duties.rep
+  const committee = committeeDuty(market, c.employee_count)
+  const amu = committee === 'required'
+  const amuMay = committee === 'may'
 
-  const nace = (c.registry_nace_code ?? '').slice(0, 2)
-  const bht = c.registry_nace_code === null ? 'unknown' : BHT_NACE.includes(nace) ? 'required' : 'depends'
+  const bht = healthServiceDuty(market, c.registry_nace_code)
 
   const duties = [
     {
@@ -168,7 +167,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             {t('oppsett.selskap.title')}
           </h2>
           <p className="mt-[6px] max-w-[600px] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">
-            {t('oppsett.selskap.lead')}
+            {t(REGISTRY_LOOKUP[market] ? 'oppsett.selskap.lead' : 'oppsett.selskap.leadManual')}
           </p>
 
           {REGISTRY_LOOKUP[market] ? (

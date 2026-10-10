@@ -682,7 +682,7 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
 
             {step === 4 ? (
               <>
-                <Lead>{emp >= 5 ? t('safety.duty', { count: emp }) : t('safety.dutySmall')}</Lead>
+                <Lead>{emp >= model.duties.rep ? t('safety.duty', { count: emp }) : t('safety.dutySmall')}</Lead>
                 {model.employees.length ? (
                   <div className="mt-[18px] grid max-w-[560px] gap-[12px] [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
                     {(
@@ -711,9 +711,9 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
                     {t('safety.empty')}
                   </div>
                 )}
-                {emp >= 10 ? (
+                {emp >= model.duties.committeeMay ? (
                   <div className="mt-[14px] max-w-[560px] rounded-cta bg-sbg px-[15px] py-[13px] text-[13px] leading-[1.55] [text-wrap:pretty]">
-                    {emp >= 30 ? t('safety.amuMust') : t('safety.amuMay')}
+                    {emp >= model.duties.committee ? t('safety.amuMust') : t('safety.amuMay')}
                   </div>
                 ) : null}
               </>

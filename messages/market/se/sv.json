@@ -1,0 +1,346 @@
+{
+  "app": {
+    "tagline": "Organisatorisk och social arbetsmiljö för svenska organisationer. Svaren lagras i EU, och inga enskilda svar kan spåras tillbaka till en person."
+  },
+  "innsikt": {
+    "law": {
+      "title": "Arbetsmiljölagen",
+      "assessed": "AFS 2023:1 11 § undersökt och bedömt ✓",
+      "assessPending": "AFS 2023:1 11 § undersökt · bedömning återstår",
+      "verneombud": "AFS 2023:1 6 § skyddsombud med ✓",
+      "verneombudPending": "AFS 2023:1 6 § skyddsombud inte registrerat",
+      "droftet": "Samverkan med facket ✓",
+      "droftetOn": "Samverkan med facket {date} ✓",
+      "droftetPending": "Samverkan med facket inte registrerad"
+    }
+  },
+  "malinger": {
+    "qsLead": "Elva faktorer, formulerade med QPS Nordics språk, som täcker arbetsbelastning, krav, resurser och socialt stöd i AFS 2023:2 2 kap. Tre påståenden per faktor, besvarade 1–5. Ni kan stänga av en faktor men inte ändra formuleringen – det är den som gör siffrorna jämförbara över tid.",
+    "innstillinger": {
+      "reasonNote": "Motiveringen sparas och visas tillsammans med mätningen, så att skyddsombudet och Arbetsmiljöverket kan se den. Minst tio tecken."
+    }
+  },
+  "rapport": {
+    "audience": {
+      "tilsyn": "Arbetsmiljöverket",
+      "amu": "Skyddskommitté och skyddsombud"
+    },
+    "docTitle": {
+      "amu": "Ärende till skyddskommittén – organisatorisk och social arbetsmiljö {year}"
+    },
+    "docLead": {
+      "tilsyn": "Upprättad enligt arbetsmiljölagen 3 kap. 2 a § och Arbetsmiljöverkets föreskrifter AFS 2023:1 om systematiskt arbetsmiljöarbete och AFS 2023:2 2 kap. om organisatorisk och social arbetsmiljö. Dokumentet omfattar undersökning och riskbedömning av den organisatoriska och sociala arbetsmiljön – inte verksamhetens övriga arbetsmiljöskyldigheter. Det visar undersökning, riskbedömning, åtgärder och kontroll av åtgärderna för perioden."
+    },
+    "instrumentBody": "Elva faktorer i den organisatoriska och sociala arbetsmiljön, tre påståenden per faktor, besvarade på en femgradig skala. Formuleringarna bygger på QPS Nordic och täcker arbetsbelastning, krav, resurser och socialt stöd enligt AFS 2023:2 2 kap.; arbetstidens förläggning (2 kap. 9 §) mäts inte. Dessutom en rekommendationsfråga, screening för kränkande särbehandling och för våld och hot samt ett öppet fält.",
+    "section4Empty": "Kartläggningen är inte riskbedömd. AFS 2023:1 11 § kräver att riskerna bedöms och att riskbedömningen alltid dokumenteras skriftligt, med vilka riskerna är och om de är allvarliga; den här rapporten dokumenterar undersökningen, inte bedömningen.",
+    "section8EmptyInfo": "Det är inte registrerat att resultaten har delats. Arbetsgivaren ska se till att arbetstagarna får god kännedom om förhållandena i arbetet och om riskerna (arbetsmiljölagen 3 kap. 3 §).",
+    "audienceName": {
+      "amu": "Skyddskommittén"
+    },
+    "register": {
+      "lead": "Avsnitt 8 skriver ut det som registreras här, med samma ord. Arbetstagarna ska få god kännedom om förhållandena och riskerna i arbetet (arbetsmiljölagen 3 kap. 3 §), och utbildning upprepas när den ska förnyas."
+    },
+    "evaluation": {
+      "cadence": {
+        "hver_6_mnd": "Behovet av mätningen utvärderas var sjätte månad. Arbetsmiljöarbetet ska följas upp minst en gång om året (AFS 2023:1 14 §).",
+        "arlig": "Behovet av mätningen utvärderas varje år, i den årliga uppföljningen av arbetsmiljöarbetet (AFS 2023:1 14 §).",
+        "etter_hver_runde": "Behovet av mätningen utvärderas efter varje omgång. Arbetsmiljöarbetet ska följas upp minst en gång om året (AFS 2023:1 14 §)."
+      }
+    },
+    "styret": {
+      "assessed": "Riskbedömningen gjordes den {date} och är dokumenterad skriftligt, som AFS 2023:1 11 § kräver.",
+      "notAssessed": "Riskbedömningen enligt AFS 2023:1 11 § återstår."
+    }
+  },
+  "tiltak": {
+    "lead": "Varje åtgärd hör till en faktor och kan inte stängas förrän effekten har mätts. Det är den kontroll av genomförda åtgärder som AFS 2023:1 13 § kräver.",
+    "kindNote": {
+      "individuelt": "Åtgärder i organisationen och arbetets förutsättningar bör övervägas först: resurserna ska anpassas till kraven i arbetet (AFS 2023:2 2 kap. 6 §). Individinriktade åtgärder bör motiveras."
+    }
+  },
+  "maleoppsett": {
+    "lead": {
+      "grunnlinje": "Hela frågebatteriet, en gång om året. Det är den regelbundna undersökningen av arbetsmiljön som AFS 2023:1 11 § kräver, och den som sätter nollpunkten allt annat mäts mot."
+    },
+    "consentLead": "Sverige har ingen särskild lag om kontrollåtgärder. Tre saker bör ni ändå kunna visa: att skyddsombudet har fått medverka, att facket har fått förhandla eller information där medbestämmandelagen kräver det, och att de anställda har informerats om ändamålet. Behovet följs sedan upp regelbundet.",
+    "voLaw": "AML 6 kap. 4 § · AFS 2023:1 6 §",
+    "voNote": "Skyddsombudet får medverka i upplägget, inte bara information om det, och ser resultatet samtidigt som ledningen. AML 6 kap. 4 §, AFS 2023:1 6 §.",
+    "tvLaw": "MBL 11–13 §§ och 19 § – där medbestämmandelagen kräver det",
+    "infoLaw": "GDPR art. 13 – ändamål, rättslig grund och hur länge svaren sparas",
+    "infoPurposeValue": "Undersöka den organisatoriska och sociala arbetsmiljön och dokumentera riskbedömningen enligt AFS 2023:1 11 §.",
+    "evalLaw": "AFS 2023:1 14 § – arbetsmiljöarbetet följs upp varje år",
+    "summaryLegal": "Underlag för undersökningen av den organisatoriska och sociala arbetsmiljön, AFS 2023:1 11 § och AFS 2023:2 2 kap.",
+    "perRound": {
+      "reasonNote": "Motiveringen sparas med mätningen, så att skyddsombudet och Arbetsmiljöverket kan se den. Minst tio tecken."
+    }
+  },
+  "arshjulet": {
+    "audience": {
+      "verneombud": {
+        "note": "Ska få medverka innan kartläggningen sätts i gång. AFS 2023:1 6 §, AML 6 kap. 4 §."
+      }
+    }
+  },
+  "oppsett": {
+    "lovmodus": {
+      "lead": "Styr hur tydligt arbetsmiljölagen och Arbetsmiljöverkets föreskrifter syns i gränssnittet."
+    },
+    "duty": {
+      "verneombudLaw": "AML 6 kap. 2 § – från 5 arbetstagare på arbetsstället",
+      "verneombudSmall": "Under fem arbetstagare på arbetsstället krävs skyddsombud bara om arbetsförhållandena kräver det. Skyddsombudet utses av facket eller av de anställda, inte av arbetsgivaren.",
+      "amuTitle": "Skyddskommitté",
+      "amuLaw": "AML 6 kap. 8 § – från 50 arbetstagare på arbetsstället",
+      "amuRequired": "Deltar i planeringen av arbetsmiljöarbetet och behandlar handlingsplaner (AML 6 kap. 9 §). Resultat och åtgärder läggs fram som ärende.",
+      "amuMay": "Under femtio arbetstagare ska en skyddskommitté tillsättas om arbetstagarna begär det. Ni har ingen i dag.",
+      "amuSmall": "En skyddskommitté krävs bara om arbetstagarna begär det.",
+      "dependsOnIndustry": "Beror på arbetsförhållandena",
+      "bhtTitle": "Företagshälsovård",
+      "bhtLaw": "AML 3 kap. 2 c § · AFS 2023:1 15 §",
+      "bhtDepends": "Sverige har ingen branschlista. Ni ska ha den företagshälsovård som arbetsförhållandena kräver, och anlita den när ni saknar egen kompetens för arbetsmiljöarbetet (AML 3 kap. 2 c §, AFS 2023:1 15 §).",
+      "bhtLabel": "Företagshälsovård",
+      "bhtPlaceholder": "Namn på företagshälsovården"
+    },
+    "ansatte": {
+      "dutyNote": "Rollen här är ett uppdrag enligt lag, inte en behörighet. Den säger vem som är skyddsombud eller facklig företrädare – till exempel i dokumentationen av medverkan (AFS 2023:1 6 §). Vem som får läsa vad styrs av inloggning och roll under «Roller och åtkomst», och ändras inte av det här fältet."
+    },
+    "personvern": {
+      "basis": {
+        "body": "Rättslig förpliktelse, GDPR art. 6.1 c och dataskyddslagen 2 kap. 1 §, med arbetsmiljölagen 3 kap. 2 a § och AFS 2023:1 11 § som skyldigheten; för en offentlig arbetsgivare allmänt intresse (art. 6.1 e). Inte samtycke – enligt IMY kan en arbetsgivare normalt inte använda samtycke, eftersom anställda är i beroendeställning."
+      },
+      "special": {
+        "body": "Frågorna är utformade för att inte samla in hälsouppgifter, som är känsliga personuppgifter (GDPR art. 9). Screeningen för kränkande särbehandling och våld rapporteras bara som antal."
+      }
+    },
+    "regelverk": {
+      "coverLead": "Områdena i AFS 2023:2 2 kap., och var de träffas i mätningen. Föreskrifterna räknar inte upp faktorer som en minimilista, men för de flesta verksamheter är områdena relevanta.",
+      "cover": {
+        "workload": {
+          "ref": "Arbetsbelastning: resurserna anpassade till kraven (2 kap. 6 §)"
+        },
+        "support": {
+          "ref": "Socialt stöd från chefer och kollegor, och återkoppling (2 kap. 3 §, 7 §)"
+        },
+        "control": {
+          "ref": "Handlingsutrymme och delaktighet (2 kap. 3 §, AML 2 kap. 1 §)"
+        },
+        "harassment": {
+          "ref": "Kränkande särbehandling (2 kap. 10–11 §§)",
+          "where": "Screening i slutet av enkäten, bara som antal – inget mått på området"
+        },
+        "violence": {
+          "ref": "Våld och hot om våld (AFS 2023:2 5 kap.)",
+          "where": "Screening i slutet av enkäten, bara som antal – inget mått på området"
+        },
+        "social": {
+          "ref": "Kommunikation, socialt samspel och samarbete (2 kap. 3 §)"
+        },
+        "straining": {
+          "ref": "Starkt psykiskt påfrestande arbete (2 kap. 8 §)"
+        },
+        "tasks": {
+          "ref": "Vilka uppgifter, vilket resultat och vad som ska prioriteras (2 kap. 7 §)"
+        },
+        "worktime": {
+          "ref": "Arbetstidens förläggning (2 kap. 9 §)",
+          "where": "Mäts inte av instrumentet – följ upp skift, övertid och ständig nåbarhet i ert eget arbetsmiljöarbete"
+        }
+      },
+      "gapLead": "Mätningen är en källa. Föreskrifterna kräver mer än en enkät, och undersökningen ska följas av åtgärder, information och kunskap. Det här ligger utanför Orgpuls i dag:",
+      "gap": {
+        "bht": "Företagshälsovård eller annan sakkunnig hjälp utifrån (AFS 2023:1 15 §)",
+        "chefer": "Chefernas kunskaper om arbetsbelastning och kränkande särbehandling (AFS 2023:2 2 kap. 4 §)",
+        "mal": "Mål för den organisatoriska och sociala arbetsmiljön (AFS 2023:2 2 kap. 5 §)",
+        "policy": "Arbetsmiljöpolicy, rutiner och uppgiftsfördelning – skriftliga från tio arbetstagare (AFS 2023:1 7–9 §§)",
+        "rutin": "Rutin för kränkande särbehandling som alla känner till (AFS 2023:2 2 kap. 11 §)",
+        "skyddsrond": "Skyddsronder och tillbudsrapporter som källa i undersökningen",
+        "uppfoljning": "Den årliga uppföljningen av hela arbetsmiljöarbetet (AFS 2023:1 14 §)"
+      },
+      "legal": {
+        "afs20231": {
+          "ref": "AFS 2023:1 11–14 §§",
+          "what": "Undersöka och riskbedöma, alltid skriftligt med vilka riskerna är och om de är allvarliga; handlingsplan med när och vem; kontroll av åtgärderna; årlig uppföljning. Orgpuls dokumenterar stegen."
+        },
+        "afs20232": {
+          "ref": "AFS 2023:2 2 kap.",
+          "what": "Organisatorisk och social arbetsmiljö: arbetsbelastning, tydliga uppgifter och prioriteringar, starkt psykiskt påfrestande arbete, arbetstid och kränkande särbehandling."
+        },
+        "aml32a": {
+          "ref": "AML 3 kap. 2 a §",
+          "what": "Systematiskt planera, leda och kontrollera verksamheten, fortlöpande undersöka riskerna och vidta de åtgärder som behövs. Orgpuls täcker detta för den organisatoriska och sociala arbetsmiljön."
+        },
+        "aml64": {
+          "ref": "AML 6 kap. 4 §",
+          "what": "Skyddsombudet deltar vid planering av arbetsorganisationen och när handlingsplaner upprättas, och ser samma resultat som ledningen (AFS 2023:1 6 §)."
+        },
+        "gdpr": {
+          "ref": "GDPR art. 6, 9, 13",
+          "what": "Rättslig förpliktelse, inte samtycke; inga hälsouppgifter; de anställda informeras om ändamål och lagring. Resultat visas bara för grupper över tröskeln."
+        },
+        "mbl": {
+          "ref": "MBL 11–13, 19 §§",
+          "what": "Förhandling och information med facket där medbestämmandelagen kräver det, till exempel inför en viktigare förändring."
+        }
+      }
+    },
+    "billing": {
+      "freeBody": "Provperioden gick ut {end}, och ni har gratisplanen: ni kan skicka huvudkartläggningen i standardutförande, läsa resultaten och följa upp med åtgärder, så länge ni vill. Välj en plan nedan för puls, branschmoduler, egna frågor, jämförelser med tidigare omgångar och rapporten för Arbetsmiljöverket.",
+      "freeBodyChosen": "Ni gick över till gratisplanen {date}: ni kan skicka huvudkartläggningen i standardutförande, läsa resultaten och följa upp med åtgärder, så länge ni vill. Välj en plan nedan för puls, branschmoduler, egna frågor, jämförelser med tidigare omgångar och rapporten för Arbetsmiljöverket."
+    }
+  },
+  "hjelp": {
+    "article": {
+      "forsteTimen": {
+        "body": {
+          "p2": "Kontrollera sedan grupper och tröskel. Grupperna avgör vad ni kan dela upp resultatet på och bör följa var folk faktiskt arbetar tillsammans. Tröskeln bestämmer hur många svar som krävs innan en grupp visas för sig. Fem är standard och det lägsta som går att välja i Sverige.",
+          "p3": "Till sist: ställ in mätningen under Mätinställningar. Där bekräftar ni att skyddsombudet har fått medverka och att ni har samverkat med facket där det behövs – det är inte en kryssruta, det är dokumentationen av medverkan (AFS 2023:1 6 §). Därefter kan omgången planeras."
+        }
+      },
+      "velgTerskel": {
+        "lead": "Varför fem är det lägsta i Sverige, vad som händer med grupper under tröskeln, och när en högre tröskel kan vara rätt.",
+        "body": {
+          "p2": "Fem är standard och det lägsta som går att välja för en organisation i Sverige: golvet upprätthålls av databasen, som alltid räknar med minst fem, oavsett vad som står i inställningarna. Ni kan höja den till högst tio om ni vill vara striktare. En ändring gäller de mätningar som inte har öppnats ännu; en mätning som har öppnats behåller den tröskel som de anställda svarade under.",
+          "p3": "Skälet är inte arbetsmiljölagen utan dataskyddsreglerna. I en liten grupp kan ett resultat i praktiken härledas till enskilda personer, och då är det inte längre anonyma siffror – det är personuppgifter. IMY anser att arbetsgivaren ska pröva om det räcker att uppgifterna tas fram så att enskilda inte kan identifieras.",
+          "p4": "Konsekvensen är värd att planera för: har ni många små avdelningar får ni få siffror att styra efter. Då är det oftast bättre att slå ihop grupper som faktiskt arbetar tillsammans."
+        }
+      },
+      "settOppArshjulet": {
+        "body": {
+          "p3": "Aviseringsordningen är inte valfri. Skyddsombud och fackliga företrädare aviseras först, sedan VD, sedan avdelningscheferna och sist alla anställda. Skälet är att skyddsombudet ska få medverka innan kartläggningen sätts i gång (AFS 2023:1 6 §, AML 6 kap. 4 §), och ett årshjul som aviserade alla samtidigt skulle hoppa över det. Hur lång tid i förväg aviseringarna går kan ni ändra."
+        }
+      },
+      "egneSporsmal": {
+        "body": {
+          "p3": "Använd dem till det instrumentet inte täcker och som är specifikt för er – en omorganisation, ett nytt schema, en flytt. Undvik frågor om hälsa: hälsouppgifter är känsliga personuppgifter (GDPR art. 9), som en arbetsgivare normalt inte behöver, och ett välmenande «hur mår du egentligen?» är närmare den gränsen än det ser ut."
+        }
+      },
+      "funnTilTiltak": {
+        "body": {
+          "p1": "Dela resultaten inom två veckor. Det är den enskilda sak som avgör svarsfrekvensen nästa gång, och det är också vad arbetsmiljölagen förutsätter: arbetstagarna ska få god kännedom om förhållandena och riskerna i arbetet (3 kap. 3 §). En kartläggning som inte delas är inget system, det är en enkät.",
+          "p4": "Effekten mäts av nästa puls, som frågar om just de faktorer som har öppna åtgärder. Det är kedjan i AFS 2023:1 11–13 §§: undersöka, bedöma riskerna, genomföra åtgärder, kontrollera att de fungerade."
+        }
+      },
+      "gdpr": {
+        "body": {
+          "p1": "Den rättsliga grunden är rättslig förpliktelse, GDPR artikel 6.1 c och dataskyddslagen 2 kap. 1 §, jfr arbetsmiljölagen 3 kap. 2 a § och AFS 2023:1 11 §. Inte samtycke.",
+          "p3": "Frågorna är utformade för att inte samla in hälsouppgifter, som är känsliga personuppgifter enligt GDPR artikel 9. Screeningen för kränkande särbehandling och våld rapporteras bara som antal."
+        }
+      },
+      "hvaLovenKrever": {
+        "title": "Vad arbetsmiljöreglerna faktiskt kräver",
+        "lead": "Arbetsmiljölagen 3 kap. 2 a §, AFS 2023:1 och AFS 2023:2 2 kap. Vad Orgpuls täcker, och vad ni behöver på andra håll.",
+        "body": {
+          "p1": "AFS 2023:1 kräver att arbetsgivaren regelbundet undersöker arbetsmiljön och bedömer riskerna (11 §), genomför de åtgärder som behövs och skriver en handlingsplan för det som inte görs direkt, med när och vem (13 §), kontrollerar genomförda åtgärder (13 §) och följer upp arbetsmiljöarbetet varje år (14 §). Orgpuls täcker stegen för den organisatoriska och sociala arbetsmiljön och dokumenterar dem.",
+          "p2": "AFS 2023:2 2 kap. ställer kraven på den organisatoriska och sociala arbetsmiljön: att resurserna anpassas till kraven (6 §), att arbetstagarna vet vad som ska göras, vad som ska prioriteras och vem de kan få stöd av (7 §), starkt psykiskt påfrestande arbete (8 §), arbetstidens förläggning (9 §) och kränkande särbehandling (10–11 §§). Instrumentet mäter belastning, krav, resurser och stöd; arbetstiden mäts inte.",
+          "p3": "Indexet är inget lagkrav. Ingen paragraf nämner en siffra. Det som krävs är att riskbedömningen alltid dokumenteras skriftligt, med vilka riskerna är och om de är allvarliga (AFS 2023:1 11 §) – och det är den dokumentationen rapporten tar fram.",
+          "p4": "Det här täcker Orgpuls inte: arbetsmiljöpolicy, rutiner och uppgiftsfördelning (skriftliga från tio arbetstagare), mål för den organisatoriska och sociala arbetsmiljön, rutinen för kränkande särbehandling, utredning av ohälsa och tillbud och den årliga uppföljningen. Inte heller skyddsronder, medarbetarsamtal, utbildning eller företagshälsovård. Kartläggningen är en källa bland flera."
+        }
+      },
+      "kontrolltiltak": {
+        "title": "Mätningen, skyddsombudet och facket",
+        "lead": "Sverige har ingen särskild lag om kontrollåtgärder. Det som gäller är medverkan, medbestämmande och dataskydd.",
+        "body": {
+          "p1": "Enligt IMY regleras en arbetsgivares kontroll av anställda i första hand av arbetsrätten och kollektivavtal, och av dataskyddsförordningen när personuppgifter behandlas. Behovet ska vara sakligt motiverat, behandlingen får inte vara för omfattande i förhållande till ändamålet, och arbetsgivaren ska först pröva om gruppnivå räcker. En mätning med resultat bara per grupp över tröskeln gör det.",
+          "p2": "Tre saker bör ni kunna visa: att skyddsombudet har fått medverka (AML 6 kap. 4 §, AFS 2023:1 6 §); att facket har fått förhandla eller information där medbestämmandelagen kräver det (MBL 11–13 §§ och 19 §); och att de anställda har informerats om ändamålet, den rättsliga grunden och hur länge svaren sparas (GDPR art. 13).",
+          "p3": "Mätinställningar sparar detta som en del av omgången, inte som en kryssruta. Samverkan med facket registreras med datum och vem den hölls med, och skyddsombudets medverkan registreras för sig.",
+          "p4": "Utvärderingen har en egen kadens på mätningen, och den hör hemma i den årliga uppföljningen av arbetsmiljöarbetet (AFS 2023:1 14 §). Det är den del som oftast glöms, eftersom den förfaller långt efter att alla har gått vidare."
+        }
+      },
+      "rapportTilTilsynet": {
+        "title": "Rapporten för Arbetsmiljöverket",
+        "lead": "Vad den innehåller, vilken period den täcker, och vad ni bör bifoga.",
+        "body": {
+          "p1": "Rapporten är byggd för att vara den dokumentation Arbetsmiljöverket kan begära (arbetsmiljölagen 7 kap. 3 §), inte en presentation. Den följer stegen i AFS 2023:1 i ordning: vad som undersöktes, vad riskbedömningen kom fram till, vilka åtgärder som genomfördes eller står i handlingsplanen, och vad kontrollen visade.",
+          "p4": "Bifoga det Orgpuls inte har: anteckningar från samverkan med facket, skyddsronder under perioden och dokumentation av information och utbildning."
+        }
+      },
+      "rollerOgTilgang": {
+        "body": {
+          "p3": "Skyddsombudet ser samma siffror och samma riskbedömning som ledningen, och aviseras först när en omgång startar. Skyddsombudet ser inte enskilda kommentarer – medverkan enligt AML 6 kap. 4 § gäller planering och handlingsplaner, inte korrespondens.",
+          "p4": "Facklig företrädare är ett uppdrag i personalregistret, inte en inloggning. Det registreras så att samverkan med facket kan dokumenteras, och ger ingen åtkomst i sig. Detsamma gäller rollfältet i registret generellt: det säger vem någon är enligt lag, inte vad de får läsa."
+        }
+      }
+    }
+  },
+  "registrer": {
+    "incl": {
+      "report": "Rapport redo för Arbetsmiljöverket, skyddskommittén och styrelsen"
+    },
+    "heard": {
+      "option": {
+        "bht": "Företagshälsovård eller arbetsmiljökonsult"
+      }
+    }
+  },
+  "headerPanel": {
+    "tabs": {
+      "lov": "Arbetsmiljölagen"
+    },
+    "screen": {
+      "home": {
+        "sci": "Indexet är ett viktat medelvärde av de elva faktorerna, omräknat från 1–5 till 0–100. En förändring under tre poäng ligger inom normal variation och bör inte tolkas som en trend. Källa: QPS Nordics användarhandledning (STAMI)."
+      },
+      "tasks": {
+        "sci": "Forskningen bakom QPS Nordic pekar på att åtgärder riktade mot hur arbetet organiseras fungerar bättre än individinriktade åtgärder som kurser i stresshantering. AFS 2023:2 2 kap. 6 § kräver att resurserna anpassas till kraven i arbetet."
+      }
+    },
+    "law": {
+      "home": "Kedjan på den här sidan är AFS 2023:1 satt i system: undersöka och bedöma riskerna (11 §), genomföra åtgärder och skriva handlingsplan (13 §), kontrollera effekten (13 §) och följa upp varje år (14 §). Indexet är inget lagkrav – dokumentationen av stegen är det. Årshjulet täcker samverkan mellan arbetsgivare och arbetstagare (arbetsmiljölagen 3 kap. 1 a §) och skyddsombudets medverkan (AFS 2023:1 6 §).",
+      "measure": "Föreskrifterna kräver ingen bestämd metod och ingen bestämd frekvens. De kräver att arbetsmiljön undersöks regelbundet och att planerade ändringar riskbedöms innan de genomförs (AFS 2023:1 11 §). Faktorerna här täcker belastning, krav, resurser och stöd i AFS 2023:2 2 kap., och formuleringen är låst så att resultaten går att jämföra över tid.",
+      "result": "Riskbedömningen är själva kravet: AFS 2023:1 11 § kräver att riskerna bedöms, och att det av dokumentationen framgår vilka riskerna är och om de är allvarliga. En siffra ensam är ingen riskbedömning. Därför både faktorrader och ett helhetsindex, och en bedömning per faktor.",
+      "conv": "Anonyma kommentarer är normalt inte visselblåsning: lagen (2021:890) om skydd för personer som rapporterar om missförhållanden gäller normalt inte det som bara rör den egna arbetssituationen. En kommentar kan däremot handla om kränkande särbehandling. Den hanteras då enligt er rutin (AFS 2023:2 2 kap. 11 §), och trakasserier ska utredas (diskrimineringslagen 2 kap. 3 §).",
+      "tasks": "AFS 2023:1 13 § kräver att undersökningen leder till åtgärder och en handlingsplan med när och vem – inte bara till insikt – och att genomförda åtgärder kontrolleras. Därför kan en åtgärd inte stängas förrän effekten är mätt. Skyddsombudet ska delta när handlingsplaner upprättas (arbetsmiljölagen 6 kap. 4 §).",
+      "plan": "Sverige har ingen särskild lag om kontrollåtgärder. Behandlingen ska vara sakligt motiverad och inte mer omfattande än ändamålet kräver, och arbetsgivaren ska först pröva om gruppnivå räcker (IMY) – här gör den det. Facket kan ha rätt till förhandling eller information enligt medbestämmandelagen (MBL 11–13 §§, 19 §), och skyddsombudet ska få medverka (AFS 2023:1 6 §).",
+      "wheel": "AFS 2023:1 11 § kräver att arbetsmiljön undersöks regelbundet och att planerade ändringar i verksamheten riskbedöms – inte en mätning om året. 14 § kräver att ni varje år följer upp om arbetsmiljöarbetet fungerar. Aviseringsordningen i årshjulet täcker skyddsombudets medverkan (AFS 2023:1 6 §).",
+      "settings": "Tröskeln är inget krav i arbetsmiljölagen utan följer av dataskyddsreglerna: med få svar kan resultat i små grupper spåras till enskilda, och IMY anser att arbetsgivaren ska pröva om uppgifter kan tas fram utan att enskilda kan identifieras. Den rättsliga grunden är rättslig förpliktelse enligt GDPR art. 6.1 c, inte samtycke – anställda kan normalt inte lämna ett frivilligt samtycke till sin arbetsgivare. Frågorna är utformade för att inte samla in hälsouppgifter (GDPR art. 9).",
+      "report": "Dokumentationskravet finns i arbetsmiljölagen 3 kap. 2 a § fjärde stycket och i AFS 2023:1: riskbedömningen och handlingsplanen ska alltid vara skriftliga (11 och 13 §§), och från tio arbetstagare även policy, rutiner, uppgiftsfördelning och den årliga uppföljningen. Arbetsmiljöverket kan begära handlingarna (7 kap. 3 §). En skyddskommitté behandlar handlingsplaner (6 kap. 9 §)."
+    }
+  },
+  "mail": {
+    "forvarsel": {
+      "verneombud": "Skyddsombudet ska få medverka innan kartläggningen sätts i gång (AFS 2023:1 6 §). Du kan se upplägget i Orgpuls."
+    },
+    "lifecycle": {
+      "results_ready": {
+        "more": "Rapporten är den dokumentation Arbetsmiljöverket kan begära: undersökning, riskbedömning och åtgärder, samlade på ett ställe."
+      }
+    },
+    "evaluering": {
+      "lead": "Mätningen följs upp i den årliga uppföljningen av arbetsmiljöarbetet (AFS 2023:1 14 §), och behovet av den bedöms enligt den kadens ni har valt. Utvärderingen förföll {date}.",
+      "leadNoDate": "Mätningen följs upp i den årliga uppföljningen av arbetsmiljöarbetet (AFS 2023:1 14 §), och behovet av den bedöms enligt den kadens ni har valt. Utvärderingen har förfallit."
+    }
+  },
+  "smsSetup": {
+    "legal": "Mätningen är en del av arbetsgivarens skyldighet att undersöka arbetsmiljön (AFS 2023:1 11 §), inte marknadsföring. Därför krävs inget samtycke för att skicka den – men numret måste komma från anställningen, inte från privata källor."
+  },
+  "resultater": {
+    "effect": {
+      "lead": "”Åtgärderna efter förra kartläggningen har haft positiv effekt på min arbetsplats.” Frågan ställs från och med den andra kartläggningen och räknas inte in i indexet. Det är kontrollen av genomförda åtgärder som AFS 2023:1 13 § kräver."
+    }
+  },
+  "kommentarer": {
+    "varselNote": "Kan gälla kränkande särbehandling eller trakasserier. Svara gärna här, men ärendet ska hanteras enligt er rutin för kränkande särbehandling (AFS 2023:2 2 kap. 11 §) – inte som en vanlig arbetsmiljöåtgärd."
+  },
+  "veiviser": {
+    "safety": {
+      "duty": "{count, plural, one {Med # anställd} other {Med # anställda}} ska ett skyddsombud utses på arbetsstället. Det utses av facket eller av de anställda, inte av arbetsgivaren; här anger ni vem som har utsetts. Skyddsombudet ser resultatet samtidigt som ledningen och får besked före varje utskick.",
+      "dutySmall": "Under fem arbetstagare krävs skyddsombud bara om arbetsförhållandena kräver det. Har ni ett, anger ni det här.",
+      "amuMust": "Arbetar minst femtio regelbundet på samma arbetsställe ska ni också ha en skyddskommitté (AML 6 kap. 8 §). Rapporten tar fram ett ärende till kommittén automatiskt.",
+      "amuMay": "En skyddskommitté krävs från femtio arbetstagare på arbetsstället, och under det om arbetstagarna begär det (AML 6 kap. 8 §).",
+      "empty": "Lägg in de anställda först, så kan du ange vem som är skyddsombud."
+    },
+    "law": {
+      "lead": "Båda använder samma forskningsbaserade frågor. Skillnaden är om resultatet kopplas till kraven i arbetsmiljölagen och Arbetsmiljöverkets föreskrifter.",
+      "on": {
+        "label": "Arbetsmiljölagen"
+      }
+    }
+  },
+  "plan": {
+    "report": {
+      "body": "Rapporten för Arbetsmiljöverket – undersökning, riskbedömning och åtgärder samlade i ett dokument – ingår i en plan. Med gratisplanen kan ni skicka huvudkartläggningen i standardutförande, läsa resultaten och följa upp med åtgärder."
+    }
+  },
+  "roundPage": {
+    "madeWithWhat": "arbetsmiljökartläggning enligt arbetsmiljölagen"
+  }
+}

@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { marketOfHost, outboundBase, PUBLIC_HOSTS, SITES, siteOf } from '@/lib/hosts'
 import { LOCALES } from '@/lib/i18n/locales'
+import { PACK_LANGS } from '@/lib/i18n/market-overlay'
 import { DEFAULT_MARKET, isMarket, LEGAL_PACK, MARKET_K_FLOOR, MARKET_LANGS, MARKETS, orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
 import { K_FLOOR, thresholdChoices } from '@/lib/org/threshold'
 import { PendingOrg } from '@/lib/signup/pending'
@@ -82,10 +83,11 @@ describe('each market', () => {
     expect(REGISTRY_LOOKUP.no).toBe(true)
     expect(MARKET_LANGS.no).toEqual(['no', 'en'])
     expect(orgNumberProblem('no')).toBe('invalid_org_number')
-    // Sweden (D-254): no register to ask yet, Swedish and English, its own message, and its law not built (D-256)
+    // Sweden (D-254): no register to ask yet, Swedish and English, its own message, and its law in its pack (D-257)
     expect(REGISTRY_LOOKUP.se).toBe(false)
     expect(LEGAL_PACK.no).toBe(true)
-    expect(LEGAL_PACK.se).toBe(false)
+    // a market's law is in the product exactly when it is Norway's files or it has a pack (lib/i18n/market-overlay.ts)
+    for (const m of MARKETS) expect(LEGAL_PACK[m], m).toBe(m === 'no' || PACK_LANGS[m].length > 0)
     expect(MARKET_LANGS.se).toEqual(['sv', 'en'])
     expect(orgNumberProblem('se')).toBe('invalid_org_number_se')
     const no = JSON.parse(readFileSync('messages/no.json', 'utf8')) as { registrer: { problem: Record<string, string> } }

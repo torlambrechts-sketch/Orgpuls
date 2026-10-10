@@ -1814,6 +1814,7 @@
     "selskap": {
       "title": "Selskapet",
       "lead": "Hentes fra Enhetsregisteret, så dere slipper å skrive inn noe som allerede er registrert. Næringskoden bestemmer hvilken bransje dere sammenlignes mot.",
+      "leadManual": "Navn og organisasjonsnummer skriver dere inn selv. Bransjen dere sammenlignes mot, velger dere nedenfor.",
       "orgNumberLabel": "Organisasjonsnummer",
       "orgNumberPlaceholder": "923 456 789",
       "fetch": "Hent fra Brønnøysund",

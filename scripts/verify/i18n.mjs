@@ -30,7 +30,7 @@
  *
  *   node scripts/verify/i18n.mjs
  */
-import { readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { tsImport } from 'tsx/esm/api'
 
@@ -158,6 +158,57 @@ for (const locale of SMS_LOCALES.filter((l) => messages[l])) {
   }
 }
 console.log(`sms: ${sms} templates checked for GSM-7 (${SMS_LOCALES.join(', ')})`)
+
+/**
+ * 6. A market's legal pack (lib/i18n/market-overlay.ts, D-257): messages/market/<market>/<lang>.json,
+ *    laid over the language's catalogue for an organisation in that market. Each of its languages
+ *    carries the same keys; a key that replaces a catalogue key takes the arguments the screen
+ *    passes it, which are the source's; a key of the pack's own takes the same arguments in every
+ *    language of the pack. Every message parses and has its plural categories, and an SMS text in
+ *    a pack is GSM-7 as any other.
+ */
+const MARKET_DIR = join(DIR, 'market')
+let packKeys = 0
+for (const market of existsSync(MARKET_DIR) ? readdirSync(MARKET_DIR) : []) {
+  const packs = Object.fromEntries(
+    readdirSync(join(MARKET_DIR, market))
+      .filter((f) => f.endsWith('.json'))
+      .map((f) => [f.replace(/\.json$/, ''), flattenMessages(JSON.parse(readFileSync(join(MARKET_DIR, market, f), 'utf8')))]),
+  )
+  const langs = Object.keys(packs)
+  const keys = [...new Set(langs.flatMap((l) => Object.keys(packs[l])))]
+  const own = {}
+  for (const lang of langs) {
+    const id = `market/${market}/${lang}`
+    const tag = cldrTag(lang)
+    for (const key of keys) {
+      if (!(key in packs[lang])) {
+        fail(id, key, 'parity', `is missing; the pack's other languages have it`)
+        continue
+      }
+      let tree
+      try {
+        tree = parseIcu(packs[lang][key])
+      } catch (e) {
+        fail(id, key, 'syntax', `is not valid ICU — ${e?.message ?? e}`)
+        continue
+      }
+      packKeys += 1
+      for (const gap of pluralGaps(tree, tag)) fail(id, key, 'plural', gap)
+      if (key.startsWith(SMS_PREFIX)) {
+        const bad = nonGsm7(literalText(tree))
+        if (bad.length) fail(id, key, 'gsm7', `is not GSM-7 — ${bad.map((c) => JSON.stringify(c)).join(', ')}`)
+      }
+      const base = trees[SOURCE][key] ?? own[key]
+      if (base) {
+        const diff = signatureDiff(signature(base), signature(tree))
+        if (diff.length) fail(id, key, 'arguments', `arguments differ from ${key in source ? SOURCE : 'the pack'} — ${diff.join('; ')}`)
+      } else if (!(key in source)) own[key] = tree
+    }
+  }
+  console.log(`market ${market}: ${keys.length} keys in ${langs.join(', ')}`)
+}
+if (packKeys) console.log(`market packs: ${packKeys} messages checked`)
 
 for (const id of Object.keys(ALLOWED)) {
   if (!used.has(id)) {

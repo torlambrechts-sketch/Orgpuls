@@ -3,6 +3,9 @@ import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
+import { factorLawRef } from '@/lib/legal/pack'
+import { DEFAULT_MARKET } from '@/lib/markets'
+import { getOrgMarket } from '@/lib/org/market'
 
 /**
  * The instrument, as data.
@@ -71,9 +74,11 @@ export const getFactors = cache(async (): Promise<Factor[]> => {
   const parsed = z.array(FactorRow).safeParse(data)
   if (parseFailed('getFactors', parsed)) return []
 
+  // the reference is the law of the organisation's market (lib/legal/pack.ts, D-257)
+  const market = (await getOrgMarket()) ?? DEFAULT_MARKET
   return parsed.data.map((f) => ({
     key: f.key,
-    lawRef: f.law_ref,
+    lawRef: factorLawRef(market, f.key, f.law_ref),
     ordinals: f.statements.map((s) => s.ordinal).sort((a, b) => a - b),
   }))
 })

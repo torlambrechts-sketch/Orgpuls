@@ -14,6 +14,7 @@ import { BillingTab } from '@/components/oppsett/BillingTab'
 import type { Billing } from '@/lib/billing/read'
 import type { DpaSignature } from '@/lib/legal/read'
 import { RegelverkTab } from '@/components/oppsett/RegelverkTab'
+import { DEFAULT_MARKET, isMarket } from '@/lib/markets'
 import { WizardButton } from '@/components/veiviser/WizardProvider'
 
 /**
@@ -184,7 +185,7 @@ export async function OppsettScreen({ view }: { view: OppsettView }) {
           now={view.billing?.now ?? 0}
         />
       ) : (
-        <RegelverkTab factorKeys={view.factorKeys} />
+        <RegelverkTab factorKeys={view.factorKeys} market={isMarket(view.company.market) ? view.company.market : DEFAULT_MARKET} />
       )}
     </main>
   )

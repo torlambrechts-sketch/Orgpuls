@@ -1,7 +1,10 @@
 import { cookies, headers } from 'next/headers'
 import { siteOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
+import type { Market } from '@/lib/markets'
 import { DEFAULT_LOCALE, fallbackOf, isLocale, LOCALE_COOKIE } from './locales'
+import { requestMarket } from './market'
+import { marketOverlay } from './market-overlay'
 import { applyOverrides, messageOverrides } from './overrides'
 import { registryOverlay } from './registry-overlay'
 import { surveyTexts } from './survey-texts'
@@ -20,8 +23,11 @@ const merge = (a: Tree, b: Tree): Tree =>
  * and its statements and factor names come from the translation registry (D-253). The respondent
  * page never reads this overlay: a survey language is offered whole or not at all, from the
  * round's own approved texts (app/s/[token]).
+ *
+ * Last, the law the texts state is the market's (D-257): an organisation outside Norway reads its
+ * market's legal pack over the language's own legal texts (lib/i18n/market-overlay.ts).
  */
-async function loadMessages(locale: string): Promise<Tree> {
+async function loadMessages(locale: string, market: Market): Promise<Tree> {
   const own = (await import(`../../messages/${locale}.json`)).default as Tree
   let out: Tree = {}
   for (const f of [...fallbackOf(locale)].reverse()) out = merge(out, (await import(`../../messages/${f}.json`)).default as Tree)
@@ -32,7 +38,11 @@ async function loadMessages(locale: string): Promise<Tree> {
     ? applyOverrides(merge(out, own), registryOverlay((await import('../../messages/no.json')).default as Tree, texts))
     : merge(out, own)
   // the texts replaced from admin › Translations, once approved (lib/i18n/overrides.ts, 0101)
-  const shown = applyOverrides(catalogue, await messageOverrides(locale))
+  const replaced = applyOverrides(catalogue, await messageOverrides(locale))
+  // the law the texts state is the organisation's market's, laid last: an approved replacement of a
+  // Norwegian legal text is still Norway's law (lib/i18n/market-overlay.ts, D-257)
+  const law = await marketOverlay(market, locale)
+  const shown = law ? merge(replaced, law) : replaced
   // the QA stack's pseudo-locale (lib/i18n/pseudo.ts) and keys mode (lib/i18n/keyed.ts, which the
   // page map is crawled in); without ORGPULS_PSEUDO=1 / ORGPULS_I18N_KEYS=1 this is the catalogue itself
   return keyedMessages(locale, pseudoMessages(locale, shown))
@@ -58,7 +68,7 @@ export default getRequestConfig(async ({ locale: asked }) => {
   if (isLocale(asked)) {
     return {
       locale: asked,
-      messages: await loadMessages(asked),
+      messages: await loadMessages(asked, await requestMarket()),
       getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
     }
   }
@@ -70,7 +80,7 @@ export default getRequestConfig(async ({ locale: asked }) => {
 
   return {
     locale,
-    messages: await loadMessages(locale),
+    messages: await loadMessages(locale, await requestMarket()),
     getMessageFallback: ({ namespace, key }) =>
       namespace ? `${namespace}.${key}` : key,
   }

@@ -1814,6 +1814,7 @@
     "selskap": {
       "title": "The company",
       "lead": "Fetched from the Norwegian company register, so you do not have to type in what is already registered. The industry code decides which sector you are compared against.",
+      "leadManual": "You enter the name and organisation number yourselves. The industry you are compared against is chosen below.",
       "orgNumberLabel": "Organisation number",
       "orgNumberPlaceholder": "923 456 789",
       "fetch": "Fetch from Brønnøysund",

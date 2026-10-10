@@ -1,0 +1,346 @@
+{
+  "app": {
+    "tagline": "Organisational and social work environment for Swedish organisations. Answers are stored in the EU, and no single answer can be traced back to a person."
+  },
+  "innsikt": {
+    "law": {
+      "title": "Work Environment Act",
+      "assessed": "AFS 2023:1 s. 11 surveyed and assessed ✓",
+      "assessPending": "AFS 2023:1 s. 11 surveyed · assessment outstanding",
+      "verneombud": "AFS 2023:1 s. 6 safety representative involved ✓",
+      "verneombudPending": "AFS 2023:1 s. 6 safety representative not recorded",
+      "droftet": "Union consulted ✓",
+      "droftetOn": "Union consulted {date} ✓",
+      "droftetPending": "Union consultation not recorded"
+    }
+  },
+  "malinger": {
+    "qsLead": "Eleven factors, phrased in QPS Nordic language, covering the workload, demands, resources and social support of AFS 2023:2 chapter 2. Three statements per factor, answered 1–5. You may switch a factor off, but not change the wording — it is the wording that makes the figures comparable over time.",
+    "innstillinger": {
+      "reasonNote": "The reason is stored and shown with the survey, so the safety representative and the Swedish Work Environment Authority can see it. At least ten characters."
+    }
+  },
+  "rapport": {
+    "audience": {
+      "tilsyn": "The Swedish Work Environment Authority",
+      "amu": "The safety committee"
+    },
+    "docTitle": {
+      "amu": "Paper for the safety committee — organisational and social work environment {year}"
+    },
+    "docLead": {
+      "tilsyn": "Prepared under the Work Environment Act chapter 3 section 2 a and the Swedish Work Environment Authority’s provisions AFS 2023:1 on systematic work environment management and AFS 2023:2 chapter 2 on the organisational and social work environment. The document covers the survey and risk assessment of the organisational and social work environment — not the organisation’s other work environment duties. It shows the survey, the risk assessment, the measures and the follow-up of the measures for the period."
+    },
+    "instrumentBody": "Eleven factors of the organisational and social work environment, three statements per factor, answered on a five-point scale. The wording builds on QPS Nordic and covers the workload, demands, resources and social support of AFS 2023:2 chapter 2; the scheduling of working hours (chapter 2 section 9) is not measured. In addition one recommendation question, screening for victimisation and for violence and threats, and one open field.",
+    "section4Empty": "The survey has not been risk-assessed. AFS 2023:1 section 11 requires the risks to be assessed and the risk assessment always to be documented in writing, showing what the risks are and whether they are serious; this report documents the survey, not the assessment.",
+    "section8EmptyInfo": "There is no record that the findings were shared. The employer must make sure employees are well informed of the conditions of their work and its risks (Work Environment Act chapter 3 section 3).",
+    "audienceName": {
+      "amu": "Safety committee"
+    },
+    "register": {
+      "lead": "Section 8 prints what is recorded here, in the same words. Employees must be well informed of the conditions and risks of their work (Work Environment Act chapter 3 section 3), and training is repeated when it falls due."
+    },
+    "evaluation": {
+      "cadence": {
+        "hver_6_mnd": "The need for the survey is evaluated every six months. The work environment management must be followed up at least once a year (AFS 2023:1 section 14).",
+        "arlig": "The need for the survey is evaluated every year, in the annual follow-up of the work environment management (AFS 2023:1 section 14).",
+        "etter_hver_runde": "The need for the survey is evaluated after every round. The work environment management must be followed up at least once a year (AFS 2023:1 section 14)."
+      }
+    },
+    "styret": {
+      "assessed": "The risk assessment was made on {date} and is documented in writing, as AFS 2023:1 section 11 requires.",
+      "notAssessed": "The risk assessment under AFS 2023:1 section 11 is outstanding."
+    }
+  },
+  "tiltak": {
+    "lead": "Every measure hangs on a factor and cannot be closed before its effect has been measured. That is the follow-up of completed measures AFS 2023:1 section 13 requires.",
+    "kindNote": {
+      "individuelt": "Measures in the organisation and the conditions of the work should be considered first: resources must be matched to the demands of the work (AFS 2023:2 chapter 2 section 6). An individual measure should be justified."
+    }
+  },
+  "maleoppsett": {
+    "lead": {
+      "grunnlinje": "The whole question set, once a year. This is the regular examination of the work environment AFS 2023:1 section 11 requires, and the one that sets the zero point everything else is measured against."
+    },
+    "consentLead": "Sweden has no separate act on control measures. You should still be able to show three things: that the safety representative took part, that the union was consulted or informed where the Co-Determination Act requires it, and that employees were told the purpose. The need is then followed up regularly.",
+    "voLaw": "AML ch. 6 s. 4 · AFS 2023:1 s. 6",
+    "voNote": "The safety representative takes part in the setup, not merely told about it, and sees the result at the same time as management. AML chapter 6 section 4, AFS 2023:1 section 6.",
+    "tvLaw": "MBL ss. 11–13 and 19 — where the Co-Determination Act requires it",
+    "infoLaw": "GDPR art. 13 — purpose, legal basis and how long answers are kept",
+    "infoPurposeValue": "To examine the organisational and social work environment and document the risk assessment under AFS 2023:1 section 11.",
+    "evalLaw": "AFS 2023:1 s. 14 — the work environment management is followed up every year",
+    "summaryLegal": "Basis for the examination of the organisational and social work environment, AFS 2023:1 s. 11 and AFS 2023:2 ch. 2",
+    "perRound": {
+      "reasonNote": "The reason is stored with the survey, so the safety representative and the Swedish Work Environment Authority can see it. At least ten characters."
+    }
+  },
+  "arshjulet": {
+    "audience": {
+      "verneombud": {
+        "note": "Must be able to take part before a survey starts. AFS 2023:1 s. 6, AML ch. 6 s. 4."
+      }
+    }
+  },
+  "oppsett": {
+    "lovmodus": {
+      "lead": "Controls how visible the Work Environment Act and the Authority’s provisions are in the interface."
+    },
+    "duty": {
+      "verneombudLaw": "AML ch. 6 s. 2 — from 5 employees at the workplace",
+      "verneombudSmall": "Below five employees at the workplace a safety representative is required only if the working conditions call for one. The representative is appointed by the union or the employees, not by the employer.",
+      "amuTitle": "Safety committee",
+      "amuLaw": "AML ch. 6 s. 8 — from 50 employees at the workplace",
+      "amuRequired": "Takes part in planning the work environment management and deals with action plans (AML chapter 6 section 9). Findings and measures are put to it as an item.",
+      "amuMay": "Below fifty employees a safety committee must be set up if the employees ask for one. You do not have one today.",
+      "amuSmall": "A safety committee is required only if the employees ask for one.",
+      "dependsOnIndustry": "Depends on the working conditions",
+      "bhtTitle": "Occupational health service",
+      "bhtLaw": "AML ch. 3 s. 2 c · AFS 2023:1 s. 15",
+      "bhtDepends": "Sweden has no list of trades. You must have the occupational health service your working conditions call for, and use it where you lack the competence in-house (AML chapter 3 section 2 c, AFS 2023:1 section 15).",
+      "bhtLabel": "Occupational health service",
+      "bhtPlaceholder": "Name of the provider"
+    },
+    "ansatte": {
+      "dutyNote": "The role here is a statutory position, not an access grant. It records who is the safety or union representative — for the documentation of their involvement (AFS 2023:1 section 6), for instance. Who may read what is governed by the login and the role under “Roles and access”, and is not changed by this field."
+    },
+    "personvern": {
+      "basis": {
+        "body": "Legal obligation, GDPR art. 6(1)(c) and the Swedish Data Protection Act chapter 2 section 1, the obligation being the Work Environment Act chapter 3 section 2 a and AFS 2023:1 section 11; for a public employer, public interest (art. 6(1)(e)). Not consent — the Swedish data protection authority IMY holds that an employer cannot normally rely on consent, since employees are dependent on their employer."
+      },
+      "special": {
+        "body": "The questions are written not to collect health data, which is special-category data (GDPR art. 9). The screening for victimisation and violence is reported as counts only."
+      }
+    },
+    "regelverk": {
+      "coverLead": "The areas of AFS 2023:2 chapter 2, and where each is asked in the measurement. The provisions do not list factors as a minimum, but for most organisations the areas are relevant.",
+      "cover": {
+        "workload": {
+          "ref": "Workload: resources matched to demands (ch. 2 s. 6)"
+        },
+        "support": {
+          "ref": "Social support from managers and colleagues, and feedback (ch. 2 ss. 3, 7)"
+        },
+        "control": {
+          "ref": "Scope for action and participation (ch. 2 s. 3, AML ch. 2 s. 1)"
+        },
+        "harassment": {
+          "ref": "Victimisation (ch. 2 ss. 10–11)",
+          "where": "Screening at the end of the survey, as counts only — not a measure of the area"
+        },
+        "violence": {
+          "ref": "Violence and threats of violence (AFS 2023:2 ch. 5)",
+          "where": "Screening at the end of the survey, as counts only — not a measure of the area"
+        },
+        "social": {
+          "ref": "Communication, social interaction and cooperation (ch. 2 s. 3)"
+        },
+        "straining": {
+          "ref": "Strongly mentally straining work (ch. 2 s. 8)"
+        },
+        "tasks": {
+          "ref": "Which tasks, which result and what to prioritise (ch. 2 s. 7)"
+        },
+        "worktime": {
+          "ref": "Scheduling of working hours (ch. 2 s. 9)",
+          "where": "Not measured by the instrument — follow up shifts, overtime and constant availability in your own work environment management"
+        }
+      },
+      "gapLead": "The measurement is one source. The provisions ask for more than a survey, and the examination must be followed by measures, information and knowledge. This lies outside Orgpuls today:",
+      "gap": {
+        "bht": "Occupational health services or other expert assistance (AFS 2023:1 s. 15)",
+        "chefer": "Managers’ knowledge of workload and victimisation (AFS 2023:2 ch. 2 s. 4)",
+        "mal": "Goals for the organisational and social work environment (AFS 2023:2 ch. 2 s. 5)",
+        "policy": "A work environment policy, routines and the allocation of tasks — in writing from ten employees (AFS 2023:1 ss. 7–9)",
+        "rutin": "A routine for victimisation that everybody knows (AFS 2023:2 ch. 2 s. 11)",
+        "skyddsrond": "Safety rounds and incident reports as a source for the examination",
+        "uppfoljning": "The annual follow-up of the whole work environment management (AFS 2023:1 s. 14)"
+      },
+      "legal": {
+        "afs20231": {
+          "ref": "AFS 2023:1 ss. 11–14",
+          "what": "Examine and assess the risks, always in writing with what the risks are and whether they are serious; an action plan with when and who; follow-up of the measures; an annual review. Orgpuls documents the steps."
+        },
+        "afs20232": {
+          "ref": "AFS 2023:2 ch. 2",
+          "what": "The organisational and social work environment: workload, clear tasks and priorities, strongly mentally straining work, working hours and victimisation."
+        },
+        "aml32a": {
+          "ref": "AML ch. 3 s. 2 a",
+          "what": "Plan, direct and check the work systematically, examine the risks continuously and take the measures needed. Orgpuls covers this for the organisational and social work environment."
+        },
+        "aml64": {
+          "ref": "AML ch. 6 s. 4",
+          "what": "The safety representative takes part in planning the work organisation and in drawing up action plans, and sees the same results as management (AFS 2023:1 s. 6)."
+        },
+        "gdpr": {
+          "ref": "GDPR art. 6, 9, 13",
+          "what": "Legal obligation, not consent; no health data; employees are told the purpose and how long answers are kept. Results are shown only for groups above the threshold."
+        },
+        "mbl": {
+          "ref": "MBL ss. 11–13, 19",
+          "what": "Negotiation with and information to the union where the Co-Determination Act requires it, for instance before a major change."
+        }
+      }
+    },
+    "billing": {
+      "freeBody": "The trial ended on {end}, and you are on the free plan: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the report for the Swedish Work Environment Authority.",
+      "freeBodyChosen": "You moved to the free plan on {date}: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the report for the Swedish Work Environment Authority."
+    }
+  },
+  "hjelp": {
+    "article": {
+      "forsteTimen": {
+        "body": {
+          "p2": "Then check groups and the threshold. The groups decide what you can break the results down by, and should follow where people actually work together. The threshold decides how many answers a group needs before it is shown on its own. Five is the default, and the lowest you can choose in Sweden.",
+          "p3": "Finally, set the measurement up under Measurement setup. That is where you confirm that the safety representative took part and that the union was consulted where needed — not a checkbox, but the documentation of their involvement (AFS 2023:1 section 6). Only then can the round be planned."
+        }
+      },
+      "velgTerskel": {
+        "lead": "Why five is the lowest in Sweden, what happens to groups below the threshold, and when a higher one may be right.",
+        "body": {
+          "p2": "Five is the default and the lowest an organisation in Sweden can choose: the floor is enforced by the database, which always counts with at least five, whatever the settings say. You can raise it to at most ten if you want to be stricter. A change applies to surveys not yet opened; a survey already open keeps the threshold employees answered under.",
+          "p3": "The reason is not the Work Environment Act but data protection law. In a small group a result can in practice be traced back to individuals, and then it is no longer anonymous figures — it is personal data. IMY holds that an employer should consider whether the data can be produced so that no individual can be identified.",
+          "p4": "The consequence is worth planning for: if you have many small departments, you get few figures to steer by. It is then usually better to merge groups that actually work together."
+        }
+      },
+      "settOppArshjulet": {
+        "body": {
+          "p3": "The notification order is not optional. Safety and union representatives are notified first, then the managing director, then the department managers, and last everybody. The reason is that the safety representative must be able to take part before the survey starts (AFS 2023:1 section 6, AML chapter 6 section 4), and a wheel that notified everybody at once would skip that. How far in advance the notices go is yours to change."
+        }
+      },
+      "egneSporsmal": {
+        "body": {
+          "p3": "Use them for what the instrument does not cover and that is specific to you — a reorganisation, a new rota, a move. Avoid questions about health: health data is special-category data (GDPR art. 9) that an employer normally does not need, and a well-meant “how are you really doing?” is closer to that line than it looks."
+        }
+      },
+      "funnTilTiltak": {
+        "body": {
+          "p1": "Share the findings within two weeks. It is the single thing that decides the response rate next time, and it is also what the Work Environment Act assumes: employees must be well informed of the conditions and risks of their work (chapter 3 section 3). A survey that is not shared is not a system, it is a questionnaire.",
+          "p4": "The effect is measured by the next pulse, which asks about exactly the factors that have open measures. That is the chain of AFS 2023:1 sections 11–13: examine, assess the risks, act, check that it worked."
+        }
+      },
+      "gdpr": {
+        "body": {
+          "p1": "The legal basis is legal obligation, GDPR article 6(1)(c) and the Swedish Data Protection Act chapter 2 section 1, cf. the Work Environment Act chapter 3 section 2 a and AFS 2023:1 section 11. Not consent.",
+          "p3": "The questions are written not to collect health data, which is special-category data under GDPR article 9. The screening for victimisation and violence is reported as counts only."
+        }
+      },
+      "hvaLovenKrever": {
+        "title": "What the work environment rules actually require",
+        "lead": "The Work Environment Act chapter 3 section 2 a, AFS 2023:1 and AFS 2023:2 chapter 2. What Orgpuls covers, and what you need elsewhere.",
+        "body": {
+          "p1": "AFS 2023:1 requires the employer to examine the work environment regularly and assess the risks (section 11), take the measures needed and write an action plan for what is not done at once, with when and who (section 13), check completed measures (section 13) and follow up the work environment management every year (section 14). Orgpuls covers these steps for the organisational and social work environment and documents them.",
+          "p2": "AFS 2023:2 chapter 2 sets the requirements for the organisational and social work environment: that resources match the demands (section 6), that employees know what to do, what to prioritise and whom to turn to for support (section 7), strongly mentally straining work (section 8), the scheduling of working hours (section 9) and victimisation (sections 10–11). The instrument measures workload, demands, resources and support; working hours are not measured.",
+          "p3": "The index is not a legal requirement. No section mentions a number. What is required is that the risk assessment is always documented in writing, with what the risks are and whether they are serious (AFS 2023:1 section 11) — and that is the documentation the report produces.",
+          "p4": "This is what Orgpuls does not cover: a work environment policy, routines and the allocation of tasks (in writing from ten employees), goals for the organisational and social work environment, the routine for victimisation, investigating ill health and incidents, and the annual follow-up. Nor safety rounds, appraisals, training or occupational health services. The survey is one source among several."
+        }
+      },
+      "kontrolltiltak": {
+        "title": "The measurement, the safety representative and the union",
+        "lead": "Sweden has no separate act on control measures. What applies is involvement, co-determination and data protection.",
+        "body": {
+          "p1": "According to IMY, an employer’s monitoring of employees is governed first by employment law and collective agreements, and by the GDPR when personal data is processed. The need must be objectively justified, the processing must not be more extensive than the purpose requires, and the employer should first consider whether group level is enough. A survey with results only per group above the threshold is.",
+          "p2": "You should be able to show three things: that the safety representative took part (AML chapter 6 section 4, AFS 2023:1 section 6); that the union was given negotiation or information where the Co-Determination Act requires it (MBL sections 11–13 and 19); and that employees were told the purpose, the legal basis and how long answers are kept (GDPR art. 13).",
+          "p3": "Measurement setup stores this as part of the round rather than as a tick. The union consultation is recorded with a date and who it was held with, and the safety representative’s involvement is recorded separately.",
+          "p4": "The evaluation has its own cadence on the measurement, and it belongs in the annual follow-up of the work environment management (AFS 2023:1 section 14). It is the part most often forgotten, because it falls due long after everybody has moved on."
+        }
+      },
+      "rapportTilTilsynet": {
+        "title": "The report for the Swedish Work Environment Authority",
+        "lead": "What it contains, which period it covers, and what to attach.",
+        "body": {
+          "p1": "The report is built to be the documentation the Swedish Work Environment Authority can ask for (Work Environment Act chapter 7 section 3), not a presentation. It follows the steps of AFS 2023:1 in order: what was examined, what the risk assessment concluded, which measures were taken or stand in the action plan, and what the follow-up showed.",
+          "p4": "Attach what Orgpuls does not have: notes from the union consultation, safety rounds in the period, and documentation of information and training."
+        }
+      },
+      "rollerOgTilgang": {
+        "body": {
+          "p3": "The safety representative sees the same figures and the same risk assessment as management, and is notified first when a round starts. They do not see individual comments — involvement under AML chapter 6 section 4 is about planning and action plans, not correspondence.",
+          "p4": "Union representative is a position in the register, not a login. It is recorded so that the union consultation can be documented, and it grants no access in itself. The same holds for the role field in the register generally: it says who somebody is under the law, not what they may read."
+        }
+      }
+    }
+  },
+  "registrer": {
+    "incl": {
+      "report": "A report ready for the Work Environment Authority, the safety committee and the board"
+    },
+    "heard": {
+      "option": {
+        "bht": "Occupational health service or work environment consultant"
+      }
+    }
+  },
+  "headerPanel": {
+    "tabs": {
+      "lov": "Work Environment Act"
+    },
+    "screen": {
+      "home": {
+        "sci": "The index is a weighted average of the eleven factors, converted from 1–5 to 0–100. A change of less than three points is within normal variation and should not be read as a trend. Source: QPS Nordic user guide (STAMI)."
+      },
+      "tasks": {
+        "sci": "The research behind QPS Nordic points out that actions aimed at how work is organised work better than individual measures such as stress-management courses. AFS 2023:2 chapter 2 section 6 requires resources to be matched to the demands of the work."
+      }
+    },
+    "law": {
+      "home": "The loop on this page is AFS 2023:1 put into a system: examine and assess the risks (section 11), act and write an action plan (section 13), check the effect (section 13) and follow up every year (section 14). The index is not a legal requirement — the documentation of the steps is. The annual cycle covers the cooperation between employer and employees (Work Environment Act chapter 3 section 1 a) and the safety representative’s involvement (AFS 2023:1 section 6).",
+      "measure": "The provisions require no particular method and no particular frequency. They require the work environment to be examined regularly and planned changes to be risk-assessed before they are made (AFS 2023:1 section 11). The factors here cover the workload, demands, resources and support of AFS 2023:2 chapter 2, and the wording is locked so that results stay comparable over time.",
+      "result": "The risk assessment is the requirement itself: AFS 2023:1 section 11 requires the risks to be assessed, and the documentation to show what the risks are and whether they are serious. A number alone is not a risk assessment. Hence both factor rows and an overall index, and an assessment per factor.",
+      "conv": "Anonymous comments are normally not whistleblowing: the Swedish Whistleblowing Act (2021:890) does not normally cover what concerns only one’s own working conditions. A comment can, however, be about victimisation. It is then handled under your routine (AFS 2023:2 chapter 2 section 11), and harassment must be investigated (Discrimination Act chapter 2 section 3).",
+      "tasks": "AFS 2023:1 section 13 requires the examination to result in measures and an action plan with when and who — not just in insight — and completed measures to be checked. That is why an action cannot be closed until its effect has been measured. The safety representative takes part in drawing up action plans (Work Environment Act chapter 6 section 4).",
+      "plan": "Sweden has no separate act on control measures. The processing must be objectively justified and no more extensive than the purpose requires, and the employer should first consider whether group level is enough (IMY) — here it is. The union may be entitled to negotiation or information under the Co-Determination Act (MBL sections 11–13, 19), and the safety representative must be able to take part (AFS 2023:1 section 6).",
+      "wheel": "AFS 2023:1 section 11 requires the work environment to be examined regularly and planned changes to be risk-assessed — not one measurement a year. Section 14 requires you to follow up every year whether the work environment management works. The notification order in the annual cycle covers the safety representative’s involvement (AFS 2023:1 section 6).",
+      "settings": "The threshold is not a requirement of the Work Environment Act but follows from data protection law: with few answers, results in small groups can be traced back to individuals, and IMY holds that an employer should consider whether data can be produced without identifying anyone. The legal basis is legal obligation under GDPR Article 6(1)(c), not consent — employees cannot normally consent freely to their employer. The questions are designed not to collect health data (GDPR Article 9).",
+      "report": "The documentation requirement lies in the Work Environment Act chapter 3 section 2 a fourth paragraph and in AFS 2023:1: the risk assessment and the action plan must always be in writing (sections 11 and 13), and from ten employees also the policy, routines, allocation of tasks and the annual follow-up. The Swedish Work Environment Authority can ask for the documents (chapter 7 section 3). A safety committee deals with action plans (chapter 6 section 9)."
+    }
+  },
+  "mail": {
+    "forvarsel": {
+      "verneombud": "The safety representative is to be able to take part before the survey starts (AFS 2023:1 section 6). You can see the setup in Orgpuls."
+    },
+    "lifecycle": {
+      "results_ready": {
+        "more": "The report is the documentation the Swedish Work Environment Authority can ask for: examination, risk assessment and measures, in one place."
+      }
+    },
+    "evaluering": {
+      "lead": "The survey is followed up in the annual follow-up of the work environment management (AFS 2023:1 section 14), and the need for it is assessed at the cadence you chose. The evaluation was due {date}.",
+      "leadNoDate": "The survey is followed up in the annual follow-up of the work environment management (AFS 2023:1 section 14), and the need for it is assessed at the cadence you chose. The evaluation is due."
+    }
+  },
+  "smsSetup": {
+    "legal": "The survey is part of the employer’s duty to examine the work environment (AFS 2023:1 section 11), not marketing. That is why consent is not required to send it — but the number must come from the employment, not from private sources."
+  },
+  "resultater": {
+    "effect": {
+      "lead": "«The measures taken after the last survey have had a positive effect on my workplace.» Asked from the second survey and not counted in the index. It is the follow-up of completed measures AFS 2023:1 section 13 requires."
+    }
+  },
+  "kommentarer": {
+    "varselNote": "This may concern victimisation or harassment. Do reply here, but the case must be handled under your routine for victimisation (AFS 2023:2 chapter 2 section 11) — not as an ordinary work-environment measure."
+  },
+  "veiviser": {
+    "safety": {
+      "duty": "{count, plural, one {With # employee} other {With # employees}} a safety representative must be appointed at the workplace. The union or the employees appoint them, not the employer; here you record who was appointed. The safety representative sees the result at the same time as management and is told before every send.",
+      "dutySmall": "Below five employees a safety representative is required only if the working conditions call for one. If you have one, record them here.",
+      "amuMust": "Where at least fifty people work regularly at the same workplace you must also have a safety committee (AML chapter 6 section 8). The report prepares its item automatically.",
+      "amuMay": "A safety committee is required from fifty employees at a workplace, and below that if the employees ask for one (AML chapter 6 section 8).",
+      "empty": "Add the employees first, then you can record who the safety representative is."
+    },
+    "law": {
+      "lead": "Both use the same research-based questions. The difference is whether the results are linked to the requirements of the Work Environment Act and the Authority’s provisions.",
+      "on": {
+        "label": "Work Environment Act"
+      }
+    }
+  },
+  "plan": {
+    "report": {
+      "body": "The report for the Swedish Work Environment Authority – examination, risk assessment and measures in one document – comes with a plan. On the free plan you can send the standard main survey, read the results and follow up with measures."
+    }
+  },
+  "roundPage": {
+    "madeWithWhat": "work environment surveys under the Swedish Work Environment Act"
+  }
+}

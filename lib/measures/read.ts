@@ -3,6 +3,9 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 import { getPulseNumbers } from '@/lib/rounds/read'
+import { factorLawRef } from '@/lib/legal/pack'
+import { DEFAULT_MARKET } from '@/lib/markets'
+import { getOrgMarket } from '@/lib/org/market'
 
 /**
  * Reading tiltak.
@@ -148,12 +151,14 @@ export async function getMeasures(): Promise<Measure[]> {
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date())
 
   const pulses = await getPulseNumbers()
+  // a measure's own basis, else its factor's in the organisation's market (lib/legal/pack.ts, D-257)
+  const market = (await getOrgMarket()) ?? DEFAULT_MARKET
   return parsed.data.map((m) => {
     const late = m.due_date !== null && m.due_date < today && stepIndex(m.step) < stepIndex('gjennomfort')
     return {
       id: m.id,
       factorKey: m.factor_key,
-      lawRef: m.law_ref ?? m.factors.law_ref,
+      lawRef: m.law_ref ?? factorLawRef(market, m.factor_key, m.factors.law_ref),
       title: m.title,
       goal: m.goal,
       dueDate: m.due_date,

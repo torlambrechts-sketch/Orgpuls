@@ -1,12 +1,14 @@
 import { getTranslations } from 'next-intl/server'
 import { ButtonLink } from '@/components/ui/Button'
+import { LEGAL_PACKS } from '@/lib/legal/pack'
+import type { Market } from '@/lib/markets'
 
 /**
  * Regelverk. Bundle lines 2435-2472.
  *
  * The tab exists only in law mode, which is the design's own rule. Two blocks: the
- * provisions this product answers to, and the factors the regulation's chapter 1A names
- * against where each one is actually asked.
+ * provisions this product answers to, and the factors the law names (in Norway, the
+ * regulation's chapter 1A) against where each one is actually asked.
  *
  * **The coverage list is checked against the seeded instrument, not written by hand.** A
  * factor key that stopped being seeded would otherwise keep a ✓ here for as long as nobody
@@ -16,30 +18,16 @@ import { ButtonLink } from '@/components/ui/Button'
  * the factor, and the design says so in the same words.
  */
 
-const LEGAL = ['aml31c', 'aml91', 'aml23', 'aml43', 'forskrift1a', 'aml62'] as const
-
-/**
- * Each row: the regulation's own wording, and the factor keys that answer it. An empty
- * array means the regulation names something this instrument screens for rather than
- * measures — the "!" rows.
+/*
+ * The provisions, the coverage rows and the gaps are the market's legal pack (lib/legal/pack.ts,
+ * D-257). Norway's: the regulation's nine named factors map onto eleven QPS factors, two of them
+ * two-to-one, and the last two onto the screening questions outside the index.
  */
-const COVERAGE: { key: string; factors: string[] }[] = [
-  { key: 'unclear', factors: ['rolle', 'motstrid'] },
-  { key: 'emotional', factors: ['emosjon'] },
-  { key: 'workload', factors: ['mengde'] },
-  { key: 'support', factors: ['leder', 'kollega'] },
-  { key: 'control', factors: ['medvirk'] },
-  { key: 'integrity', factors: ['integritet', 'ytring'] },
-  { key: 'contact', factors: ['kontakt'] },
-  { key: 'harassment', factors: [] },
-  { key: 'violence', factors: [] },
-]
 
-const GAPS = ['vernerunde', 'samtaler', 'informasjon', 'opplaering', 'bht'] as const
-
-export async function RegelverkTab({ factorKeys }: { factorKeys: string[] }) {
+export async function RegelverkTab({ factorKeys, market }: { factorKeys: string[]; market: Market }) {
   const t = await getTranslations()
   const seeded = new Set(factorKeys)
+  const { provisions, coverage, gaps } = LEGAL_PACKS[market]
 
   return (
     <>
@@ -53,7 +41,7 @@ export async function RegelverkTab({ factorKeys }: { factorKeys: string[] }) {
           </ButtonLink>
         </div>
         <div className="mt-[14px] flex flex-col gap-[9px]">
-          {LEGAL.map((k) => (
+          {provisions.map((k) => (
             <div key={k} className="flex items-baseline gap-[12px]">
               <span className="w-[104px] flex-none text-[12px] font-bold">
                 {t(`oppsett.regelverk.legal.${k}.ref`)}
@@ -75,7 +63,7 @@ export async function RegelverkTab({ factorKeys }: { factorKeys: string[] }) {
         </p>
 
         <div className="mt-[16px] flex flex-col gap-[7px]">
-          {COVERAGE.map((row) => {
+          {coverage.map((row) => {
             // a row is covered only while every factor it names is actually in the
             // instrument; drop one from the seed and the tick here goes with it
             const covered = row.factors.length > 0 && row.factors.every((f) => seeded.has(f))
@@ -112,7 +100,7 @@ export async function RegelverkTab({ factorKeys }: { factorKeys: string[] }) {
             {t('oppsett.regelverk.gapLead')}
           </div>
           <div className="mt-[12px] flex flex-col gap-[7px]">
-            {GAPS.map((g) => (
+            {gaps.map((g) => (
               <div key={g} className="flex items-start gap-[10px]">
                 <span className="mt-[1px] block h-[18px] w-[18px] flex-none rounded-focus border border-dashed border-rule" />
                 <span className="text-[13px] leading-[1.5] text-body [text-wrap:pretty]">

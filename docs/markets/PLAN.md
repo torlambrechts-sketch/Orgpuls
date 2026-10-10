@@ -34,7 +34,7 @@ A host names a brand, a market and a default language. One codebase, one databas
 | # | Phase | State |
 |---|---|---|
 | 1 | **Market foundation, Norway unchanged** | **started** — 1a built and live, hosted included (D-251) |
-| 2 | Sweden | **started** — SE-A, SE-A2 and SE-B1–B2: the app and the instrument in Swedish, Sweden as a market (D-252–D-254); the rest below |
+| 2 | Sweden | **started** — SE-A, SE-A2, SE-B1–B3 and SE-C: the app and the instrument in Swedish, Sweden as a market, the Swedish address and Sweden's law (D-252–D-257); the rest below |
 | 3 | Germany | waiting on the instrument and roles decisions |
 | 4 | Empvibe, UK first | brand layer after phase 1; UK research done (artifact, «United Kingdom: what it takes») |
 | ∥ | Leadership 360 app, its own Supabase project | independent; shares packages, not the database |
@@ -71,10 +71,10 @@ Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first E
 | SE-A | Swedish as a platform language: the app's chrome in Swedish, English behind it; registry-owned survey texts unchanged | built (D-252) |
 | SE-A2 | Factor names and statements in the leader's views in Swedish, from the registry's Swedish | built (D-253); module texts still English |
 | SE-B | Market `se`: organisation number rule (ten digits, Luhn), sign-up per market, the Swedish address in `SITES`, Bolagsverket lookup, mail language per market | B1–B3 built (D-254, D-255): market, number rule, sign-up, `SE_HOST`, Oppsett, mail language; B4 Bolagsverket waits on an API agreement; Swedish in the survey waits on `locale_sv` |
-| SE-C | Legal pack per market: report, help and in-app legal texts on AML, AFS 2023:1 and AFS 2023:2; skyddsombud; written risk assessment (§ 11) and action plan (§ 13) | |
-| SE-D | Working time and recovery (AFS 2023:2 2:9) as a Swedish module | |
+| SE-C | Legal pack per market: report, help and in-app legal texts on AML, AFS 2023:1 and AFS 2023:2; skyddsombud; written risk assessment (§ 11) and action plan (§ 13) | built (D-257): `messages/market/se/{sv,en}.json`, `lib/legal/pack.ts`, mail by market (0219); sources in `docs/markets/se-legal.md`. Open: a Swedish lawyer's review of the pack |
+| SE-D | Working time and recovery (AFS 2023:2 2:9) as a Swedish module; **modules carry their market**, so Norway's industry modules (whose legal basis is Norwegian) are offered only in Norway — required before launch (D-257) | |
 | SE-E | SEK prices, reverse charge, Swedish PUB-avtal and DPIA template | waits on prices |
-| SE-F | The Swedish site: its own pages and articles, Swedish search terms. Until then se.orgpuls.com serves the sign-up and the product only, unindexed (D-256). Launch checklist: DNS `se` → Vercel, the Vercel domain, Supabase Auth's redirect URLs, deploy the edge functions (D-255) | address decided: se.orgpuls.com (X-109) |
+| SE-F | The Swedish site: its own pages and articles, Swedish search terms. Until then se.orgpuls.com serves the sign-up and the product only, unindexed (D-256). Launch checklist: DNS `se` → Vercel, the Vercel domain, Supabase Auth's redirect URLs, deploy the edge functions (D-255, D-257), and SE-D's modules by market | address decided: se.orgpuls.com (X-109) |
 
 Decided: the address is se.orgpuls.com for now (X-109). Still open: the Swedish anonymity floor
 (5 or 6; built at 5, which can only be raised), SEK prices, and whether a Swedish sole trader (whose organisation

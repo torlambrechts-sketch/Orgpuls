@@ -54,6 +54,8 @@ export interface NoticeJob {
   /** the organisation's own SMS text, or null for the default */
   sms_text: string | null
   lang: string
+  /** the organisation's market (0219, D-257): whose law a notice states */
+  market?: string | null
   org: string
   k: number
   /** null for a measure's notice (0099), which belongs to no round */
@@ -143,6 +145,38 @@ export async function withMailOverrides(tree: MailMessages, flat: Record<string,
 }
 
 export const langOf = (v: string | null | undefined): Lang => (v === 'en' ? 'en' : 'no')
+
+/** Each market's legal pack's mail texts, per mail language (messages/market/<market>/<lang>.json) */
+export type MailPacks = Record<string, Partial<Record<Lang, MailMessages>>>
+
+const mergeTree = (a: Record<string, unknown>, b: Record<string, unknown>): Record<string, unknown> => {
+  const out: Record<string, unknown> = { ...a }
+  for (const [k, v] of Object.entries(b)) {
+    const was = out[k]
+    out[k] = v && typeof v === 'object' && was && typeof was === 'object' ? mergeTree(was as Record<string, unknown>, v as Record<string, unknown>) : v
+  }
+  return out
+}
+
+/**
+ * The texts an organisation in `market` reads (D-257). The message files state Norway's law; a
+ * notice that cites a paragraph (the safety representative's before a survey, the evaluation
+ * reminder, the results notice) states its own market's instead, as the product does
+ * (lib/i18n/market-overlay.ts): the market's pack laid over each language. A language the pack is
+ * not written in reads its English, never Norway's law. Norway has no pack.
+ */
+export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: string | null | undefined): MailCatalogue {
+  const pack = market ? packs[market] : undefined
+  if (!pack) return cat
+  const fallback = pack.en ?? Object.values(pack)[0]
+  const out = { ...cat } as MailCatalogue
+  for (const lang of Object.keys(cat) as Lang[]) {
+    const law = pack[lang] ?? fallback
+    const own = out[lang]
+    if (law && own) out[lang] = mergeTree(own, law)
+  }
+  return out
+}
 
 /**
  * An organisation's language as its notices read it (D-255): bokmål and English as they are. An
@@ -747,6 +781,8 @@ export interface LifecycleJob {
   lang: string | null
   org: string
   k: number
+  /** the organisation's market (0219, D-257) */
+  market?: string | null
   trial_ends_at: string
   read_only_from: string
   cancel_effective_at?: string | null

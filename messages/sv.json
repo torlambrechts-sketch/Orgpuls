@@ -1625,6 +1625,7 @@
     "selskap": {
       "title": "Företaget",
       "lead": "Hämtas från Enhetsregisteret, så att ni slipper skriva in sådant som redan är registrerat. Branschkoden avgör vilken bransch ni jämförs med.",
+      "leadManual": "Namn och organisationsnummer fyller ni i själva. Branschen ni jämförs med väljer ni nedan.",
       "orgNumberLabel": "Organisationsnummer",
       "orgNumberPlaceholder": "923 456 789",
       "fetch": "Hämta från Brønnøysund",

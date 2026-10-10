@@ -4,6 +4,9 @@ import { isFreePlan } from '@/lib/billing/read'
 import { getConversations, type Conversation } from '@/lib/conversations/read'
 import { getMeasures, type Measure } from '@/lib/measures/read'
 import { getCurrentOrgId } from '@/lib/org/current'
+import { getOrgMarket } from '@/lib/org/market'
+import { factorLawRef } from '@/lib/legal/pack'
+import { DEFAULT_MARKET } from '@/lib/markets'
 import { getGroups, getOrganization, getViewerRole } from '@/lib/org/read'
 import { getResultsDigest } from '@/lib/results/digest'
 import type { FactorResult } from '@/lib/results/read'
@@ -696,6 +699,8 @@ export async function avansertView(): Promise<AvansertView> {
     delta,
   } = b
   await recordInnsiktVisit(b.orgId)
+  // each factor's reference is its market's law (lib/legal/pack.ts, D-257)
+  const market = (await getOrgMarket()) ?? DEFAULT_MARKET
 
   const kicker = current
     ? [
@@ -724,7 +729,7 @@ export async function avansertView(): Promise<AvansertView> {
     return {
       key: f.key,
       label: factor(f.key),
-      law: f.law_ref,
+      law: factorLawRef(market, f.key, f.law_ref),
       index: f.index,
       prev: p,
       delta: d === null ? null : signed(d),

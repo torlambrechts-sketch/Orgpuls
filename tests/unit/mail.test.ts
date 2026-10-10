@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
+import seEn from '@/messages/market/se/en.json'
 import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
 import {
   AUTH_ACTIONS,
@@ -11,6 +12,7 @@ import {
   groupsOf,
   inTurns,
   isReservedAddress,
+  marketCatalogue,
   orgLangOf,
   pendingSends,
   perRecipient,
@@ -459,5 +461,31 @@ describe('a Swedish organisation’s notices', () => {
     expect(smsLead(cat, sms, 'en')).not.toBe('Svara på enkäten från Prov AB')
     const norsk = job({ channel: 'sms', lang: 'no', sms_text: 'Svar på undersøkelsen' })
     expect(smsLead(cat, norsk, 'no')).toBe('Svar på undersøkelsen')
+  })
+})
+
+describe('a notice states its organisation’s market’s law (0219, D-257)', () => {
+  // as scripts/functions/deploy.mjs generates MAIL_PACKS: each market's pack, its mail texts, per mail language
+  const packs = { se: { en: (seEn as { mail: Record<string, unknown> }).mail } }
+  const evaluation = (market: string | null) =>
+    renderNotice(marketCatalogue(cat, packs, market), job({ kind: 'evaluering', lang: 'sv', market, token: null, evaluation: { cadence: 'arlig', last_on: null, due_on: '2026-11-01' } }), { lang: 'en', member: true, name: 'Lena' }, APP)
+
+  it('cites Swedish law to an organisation in Sweden', () => {
+    const r = evaluation('se')
+    expect(r.text).toContain('AFS 2023:1 section 14')
+    expect(r.text).not.toMatch(/9-2|Working Environment Act § |Labour Inspection/)
+  })
+
+  it('leaves Norway’s, and an organisation without a market, as they were', () => {
+    expect(marketCatalogue(cat, packs, 'no')).toBe(cat)
+    expect(marketCatalogue(cat, packs, null)).toBe(cat)
+    expect(evaluation(null).text).toContain('§ 9-2')
+  })
+
+  it('lays the pack’s English over bokmål, never Norway’s law, for a reader of bokmål in Sweden', () => {
+    const se = marketCatalogue(cat, packs, 'se')
+    expect((se.no as { forvarsel: { verneombud: string } }).forvarsel.verneombud).toContain('AFS 2023:1')
+    // the rest of the bokmål mail is untouched
+    expect((se.no as { forvarsel: { subject: string } }).forvarsel.subject).toBe((no.mail as { forvarsel: { subject: string } }).forvarsel.subject)
   })
 })
