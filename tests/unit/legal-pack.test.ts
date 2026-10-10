@@ -38,7 +38,7 @@ const NORWEGIAN_LAW =
  * organisation in another market does not reach, or a document of its own phase.
  */
 const NOT_IN_PACK: { prefix: string; why: string }[] = [
-  { prefix: 'site.', why: 'the public site: a host without its own site redirects its pages to sign-up (D-256); SE-F writes Sweden’s' },
+  { prefix: 'site.', why: 'the public site: a host without its own site redirects its pages to sign-up (D-256); a market with a site of its own carries its words in its pack, held by tests/unit/uk-site.test.ts (Empvibe, D-271); SE-F writes Sweden’s' },
   { prefix: 'seo.', why: 'the public site’s articles and landing pages, as site.' },
   { prefix: 'start.faq.', why: 'the public site’s questions (components/marketing/PageView.tsx), as site.' },
   { prefix: 'start.finalBody', why: 'the public site’s closing band, as site.' },
@@ -147,7 +147,9 @@ describe.each(PACKED)('the %s pack', (market) => {
 
   it.each(langs)('in %s, carries nothing a screen does not read', (lang) => {
     const named = new Set(structureKeys(market))
-    expect(Object.keys(pack(market, lang)).filter((k) => !(k in no) && !named.has(k))).toEqual([])
+    // the public site's words are read by the market's own site, and checked page by page there (tests/unit/uk-site.test.ts)
+    const site = (k: string) => /^(site|seo|start)\./.test(k)
+    expect(Object.keys(pack(market, lang)).filter((k) => !(k in no) && !named.has(k) && !site(k))).toEqual([])
   })
 
   it('gives every factor its legal reference in the market', () => {

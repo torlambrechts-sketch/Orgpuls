@@ -95,7 +95,7 @@ export const EMPVIBE_OPEN = process.env.EMPVIBE_SITE?.trim() === 'open'
  * industries, the articles, the templates or the demo, which are written for Norway, and not the
  * prices until the United Kingdom has its own (UK-F).
  */
-const EMPVIBE_PAGES = [
+export const EMPVIBE_PAGES = [
   '/',
   '/plattform',
   '/bruksomrader',
