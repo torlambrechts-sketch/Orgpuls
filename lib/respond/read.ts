@@ -37,6 +37,8 @@ const Form = z.object({
       z.object({
         name: z.string(),
         minutes: z.coerce.number(),
+        // an instrument asked in its own order (0224): the statements arrive in it, not shuffled
+        fixed_order: z.boolean().nullish().transform((v) => v ?? false),
         // English beside the Norwegian where the module has it (0072); the page picks by locale
         statements: z.array(
           z.object({
@@ -48,6 +50,13 @@ const Form = z.object({
             // a line under the statement (0089)
             help: z.string().nullish(),
             help_en: z.string().nullish(),
+            // an instrument's statement (0224): its own five answers where it is not on the core's
+            // agreement scale, the text before it, and whether «Ikke relevant for meg» is offered
+            options: z.array(z.string()).length(5).nullish(),
+            options_en: z.array(z.string().nullable()).nullish(),
+            preface: z.string().nullish(),
+            preface_en: z.string().nullish(),
+            na: z.boolean().nullish().transform((v) => v ?? true),
           }),
         ),
         count: z.array(

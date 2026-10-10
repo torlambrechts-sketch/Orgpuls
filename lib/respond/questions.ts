@@ -15,6 +15,32 @@ type T = Awaited<ReturnType<typeof getTranslations>>
  */
 export const CORE_MINUTES = 4
 
+/** the most statements of an instrument on one page (0224): a module factor's most, as D-150 pages them */
+export const INSTRUMENT_PAGE_MAX = 5
+
+/**
+ * An instrument's pages (0224): its statements in its own order, a new page where the answers change
+ * (HSE's Never…Always to its Strongly disagree…Strongly agree), and each run of the same answers cut
+ * into pages of at most five, as even as that allows: HSE's 23 then 12 are 5 5 5 4 4 and 4 4 4.
+ * Takes each statement's answer scale, in order; returns each statement's page number.
+ */
+export function instrumentPages(scales: readonly string[]): number[] {
+  const pages: number[] = []
+  let page = 0
+  for (let start = 0; start < scales.length; ) {
+    let end = start
+    while (end < scales.length && scales[end] === scales[start]) end++
+    const length = end - start
+    const count = Math.ceil(length / INSTRUMENT_PAGE_MAX)
+    for (let p = 0, at = start; p < count; p++, page++) {
+      const size = Math.floor(length / count) + (p < length % count ? 1 : 0)
+      for (let j = 0; j < size; j++) pages[at++] = page
+    }
+    start = end
+  }
+  return pages
+}
+
 export function respondQuestions(
   t: T,
   form: Pick<RespondForm, 'questions' | 'extra' | 'threshold'> & {
@@ -48,23 +74,32 @@ export function respondQuestions(
 
   /*
    * The order a respondent meets them in (D-113): the core statements, shuffled; the
-   * module's statements, shuffled within the module; the questions outside the index; the
-   * module's count questions; its background questions, last and optional.
+   * module's statements, shuffled within the module (an instrument's in its own order, 0224); the
+   * questions outside the index; the module's count questions; its background questions, last
+   * and optional.
    */
-  const moduleStatements = modules.flatMap((m) =>
-    m.statements.map(
-      (q): Question => ({
+  const moduleStatements = modules.flatMap((m, mi) => {
+    // an instrument (0224) is asked as it is printed: in its order, a page at a time, no factor above
+    const pages = m.fixed_order ? instrumentPages(m.statements.map((q) => q.options?.join('\u0000') ?? '')) : null
+    return m.statements.map(
+      (q, n): Question => ({
         kind: 'module',
         id: q.item,
         item: q.item,
         // a survey language's factor name comes with its texts (0086), under the statement's key
-        factorLabel: reg(`module:${q.item}:factor`, pick(q.factor, q.factor_en)),
+        factorLabel: pages ? '' : reg(`module:${q.item}:factor`, pick(q.factor, q.factor_en)),
         text: reg(`module:${q.item}`, pick(q.text, q.text_en)),
         ...(q.help ? { help: reg(`module:${q.item}:help`, pick(q.help, q.help_en)) } : {}),
-        choices: scale,
+        // its own five answers where it has them (0224), translated as a count question's are
+        choices: q.options
+          ? picks(q.options, q.options_en).map((label, i) => ({ ordinal: i + 1, label: reg(`module:${q.item}:o${i + 1}`, label) }))
+          : scale,
+        ...(q.preface ? { preface: reg(`module:${q.item}:p`, pick(q.preface, q.preface_en)) } : {}),
+        ...(q.na ? {} : { noNotRelevant: true as const }),
+        ...(pages ? { page: `instrument:${mi}:${pages[n]}` } : {}),
       }),
-    ),
-  )
+    )
+  })
   const countQuestions = modules.flatMap((m) =>
     m.count.map(
       (q): Question => ({

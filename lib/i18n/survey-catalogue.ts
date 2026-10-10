@@ -10,7 +10,8 @@ import keys from './survey-text-keys.json'
  *   core     the survey's statements (messages factor.<key>.s<n>)
  *   extra    the questions outside the index and their options
  *   module   a published module's statements, count and background questions, options and factor
- *            names, and the kindergarten and school wordings of a worded module (0083)
+ *            names, the kindergarten and school wordings of a worded module (0083), and the text
+ *            an instrument shows before a statement (0224)
  *   ui       the survey pages' strings (lib/i18n/respondent-strings.ts)
  *   mail     the invitation, the reminders, the link asked for, and the SMS (survey-text-keys.json)
  *
@@ -47,6 +48,8 @@ export type ModuleSource = {
     factor: string | null
     text: Locale
     options: Locale[] | null
+    /** a text shown before the statement (0224), e.g. HSE's instruction before its item 1 */
+    preface?: Locale | null
   }[]
 }
 
@@ -110,6 +113,7 @@ export function surveyCatalogue(no: Tree, en: Tree, modules: readonly ModuleSour
       ;(i.options ?? []).forEach((o, n) => {
         if (o.nb) push({ key: `module:${i.id}:o${n + 1}`, section: 'module', source: o.nb, en: o.en ?? null, context: `${where}, answer option ${n + 1} of ${kind} ${i.code}.` })
       })
+      if (i.preface?.nb) push({ key: `module:${i.id}:p`, section: 'module', source: i.preface.nb, en: i.preface.en ?? null, context: `${where}, the text shown before ${kind} ${i.code}.` })
     }
   }
   // the survey pages

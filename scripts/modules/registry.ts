@@ -8,7 +8,8 @@
  * newest version in the database it runs against, with the SHA-256 of the bokmål they translate, so a
  * row is laid only while that bokmål is still the module's (D-253, D-262).
  *
- * Rows are written as origin «machine» drafts. Where the platform's auto-approve switch is on (hosted),
+ * Rows are written as origin «machine» drafts, or «official» for the sections a file takes from the
+ * instrument's own published translation (0224). Where the platform's auto-approve switch is on (hosted),
  * the registry approves them as written (0101); elsewhere they wait for a person. Running it twice
  * writes nothing new. Without arguments it covers every module that has a registry folder.
  */
@@ -23,32 +24,52 @@ const lit = (s: string) => `'${s.replace(/'/g, "''")}'`
 function rows(key: string): string[] {
   const dir = join('modules', key, 'registry')
   if (!existsSync(dir)) return []
+  // the statements that name an instrument scale (0224), whose five answers each language translates
+  const file = moduleFiles().find((p) => (parseModule(readJson(p), p) as { module_id: string }).module_id === key)
+  const scaled = file ? parseModule(readJson(file), file).factors.flatMap((f) => f.items.filter((i) => i.scale).map((i) => [i.id, i.scale!] as const)) : []
   const out: string[] = []
   const module = `(select m.id from app.question_modules m where m.key = ${lit(key)} order by string_to_array(m.version, '.')::int[] desc limit 1)`
   for (const f of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
     const r = RegistryFile.parse(JSON.parse(readFileSync(join(dir, f), 'utf8')))
+    const src = (section: NonNullable<RegistryFile['official']>[number]) => lit(r.official?.includes(section) ? 'official' : 'machine')
     const values: string[] = []
-    for (const [code, text] of Object.entries(r.items)) values.push(`('item', ${lit(code)}, 0, ${lit(text)})`)
+    for (const [code, text] of Object.entries(r.items)) values.push(`('item', ${lit(code)}, 0, ${lit(text)}, ${src('items')})`)
     for (const [code, c] of Object.entries(r.counts)) {
-      values.push(`('item', ${lit(code)}, 0, ${lit(c.text)})`)
-      c.options.forEach((o, i) => values.push(`('item', ${lit(code)}, ${i + 1}, ${lit(o)})`))
+      values.push(`('item', ${lit(code)}, 0, ${lit(c.text)}, ${src('counts')})`)
+      c.options.forEach((o, i) => values.push(`('item', ${lit(code)}, ${i + 1}, ${lit(o)}, ${src('counts')})`))
     }
-    for (const [id, name] of Object.entries(r.factors)) values.push(`('factor', ${lit(id)}, 0, ${lit(name)})`)
+    for (const [code, scale] of scaled) {
+      const labels = r.scales?.[scale]
+      if (!labels) throw new Error(`${key}/${r.locale}: no labels for scale ${scale}`)
+      labels.forEach((l, i) => values.push(`('item', ${lit(code)}, ${i + 1}, ${lit(l)}, ${src('scales')})`))
+    }
+    for (const [code, text] of Object.entries(r.prefaces ?? {})) values.push(`('preface', ${lit(code)}, 0, ${lit(text)}, ${src('prefaces')})`)
+    for (const [id, name] of Object.entries(r.factors)) values.push(`('factor', ${lit(id)}, 0, ${lit(name)}, ${src('factors')})`)
+    const of = (kind: string) => values.filter((v) => v.startsWith(`('${kind}'`)).join(', ')
     out.push(`-- ${key} · ${r.locale}
 insert into app.item_translations (item_id, locale, text, source, source_hash)
-select x.item_id, ${lit(r.locale)}, x.text, 'machine', x.source_hash
+select x.item_id, ${lit(r.locale)}, x.text, x.source, x.source_hash
 from (
-  select case when v.n = 0 then 'module:' || i.id else 'module:' || i.id || ':o' || v.n end as item_id, v.text,
+  select case when v.n = 0 then 'module:' || i.id else 'module:' || i.id || ':o' || v.n end as item_id, v.text, v.source,
          encode(sha256(convert_to(case when v.n = 0 then i.text ->> 'nb' else i.options -> (v.n - 1) ->> 'nb' end, 'UTF8')), 'hex') as source_hash
-  from (values ${values.filter((v) => v.startsWith("('item'")).join(', ')}) v(kind, code, n, text)
-  join app.module_items i on i.module_id = ${module} and i.code = v.code
+  from (values ${of('item')}) v(kind, code, n, text, source)
+  join app.module_items i on i.module_id = ${module} and i.code = v.code${
+    of('preface')
+      ? `
   union all
-  select 'mfactor:' || f.id, v.text, encode(sha256(convert_to(f.name, 'UTF8')), 'hex')
-  from (values ${values.filter((v) => v.startsWith("('factor'")).join(', ')}) v(kind, code, n, text)
+  select 'module:' || i.id || ':p', v.text, v.source, encode(sha256(convert_to(i.preface ->> 'nb', 'UTF8')), 'hex')
+  from (values ${of('preface')}) v(kind, code, n, text, source)
+  join app.module_items i on i.module_id = ${module} and i.code = v.code`
+      : ''
+  }
+  union all
+  select 'mfactor:' || f.id, v.text, v.source, encode(sha256(convert_to(f.name, 'UTF8')), 'hex')
+  from (values ${of('factor')}) v(kind, code, n, text, source)
   join app.module_factors f on f.module_id = ${module} and f.key = v.code
 ) x
 on conflict (item_id, locale) do update set text = excluded.text, source = excluded.source, source_hash = excluded.source_hash
-where app.item_translations.text is distinct from excluded.text or app.item_translations.source_hash is distinct from excluded.source_hash;`)
+where app.item_translations.text is distinct from excluded.text or app.item_translations.source_hash is distinct from excluded.source_hash
+   or app.item_translations.source is distinct from excluded.source;`)
   }
   return out
 }

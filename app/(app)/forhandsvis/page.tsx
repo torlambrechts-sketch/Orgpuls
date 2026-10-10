@@ -96,11 +96,16 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
         name: m.name,
         // a module in variants: about eight seconds a statement, as respond_form counts (0089)
         minutes: rm.variantKey ? Math.max(1, Math.round((rm.itemIds.length * 8) / 60)) : m.estimatedMinutes,
+        // an instrument (0224): in its order, its own answers, the text before a statement, no «not relevant»
+        fixed_order: m.fixedOrder,
         statements: askedStatements(m, rm.variantKey, rm.itemIds).map(({ item, factor }) => ({
           item: item.id,
           factor: factor.name,
           text: item.text,
           ...(item.help ? { help: item.help } : {}),
+          ...(item.options.length ? { options: item.options } : {}),
+          ...(item.preface ? { preface: item.preface } : {}),
+          na: !item.noNotRelevant,
         })),
         count: rm.includeCountItems
           ? m.countItems

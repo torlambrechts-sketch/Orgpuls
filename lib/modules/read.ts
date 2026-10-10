@@ -35,6 +35,9 @@ const ModuleRow = z.object({
   wording: z.object({ default: z.enum(WORDINGS) }).passthrough().nullable().default(null),
   /** provisional: the risk bands are shown as «Foreløpig» (0089); null where the file does not say */
   validation_status: z.enum(['provisional', 'validated']).nullable().default(null),
+  /** an instrument asked in its own order (0224), and the source it credits */
+  fixed_order: z.boolean().default(false),
+  attribution: z.object({ nb: z.string(), en: z.string().optional() }).nullable().default(null),
   i18n: z
     .object({ en: z.object({ name: z.string(), description: z.string(), covered_by_core_factors: z.array(z.string()).optional() }).partial() })
     .partial()
@@ -80,6 +83,9 @@ const ItemRow = z.object({
   help: Locale.nullable().default(null),
   answer_keys: z.array(z.enum(COUNT_ANSWERS)).nullable().default(null),
   asked_with: z.string().uuid().nullable().default(null),
+  // an instrument's statement (0224): the text before it, and whether «Ikke relevant» is offered
+  preface: Locale.nullable().default(null),
+  offers_not_relevant: z.boolean().default(true),
 })
 const MemberRow = z.object({ factor_id: z.string().uuid(), item_id: z.string().uuid(), sort: z.coerce.number() })
 const VariantRow = z.object({
@@ -122,6 +128,12 @@ export type ModuleItem = {
   answers?: CountAnswer[]
   /** a count question asked only where this factor (its id) is asked, e.g. HA-T-2 (0090) */
   askedWith?: string
+  /** an instrument's statement (0224): its place in the instrument's order */
+  sort?: number
+  /** an instrument's statement (0224): a text shown before it */
+  preface?: string
+  /** an instrument's statement (0224) offers no «Ikke relevant for meg» beside its answers */
+  noNotRelevant?: true
 }
 export type ModuleAction = {
   id: string
@@ -164,6 +176,10 @@ export type Module = {
   worded: boolean
   /** provisional: its risk bands are shown as «Foreløpig» (0089) */
   provisional: boolean
+  /** an instrument asked in its own order (0224) */
+  fixedOrder: boolean
+  /** the source the module credits (0224), in the reader's language; null where it has none */
+  attribution: string | null
   /** a module asked in two variants (0089): the simplified set first; empty for a module asked one way */
   variants: ModuleVariant[]
   coveredByCore: string[]
@@ -202,7 +218,7 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   let q = supabase
     .schema('app')
     .from('question_modules')
-    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, wording, validation_status, i18n')
+    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, wording, validation_status, i18n, fixed_order, attribution')
   if (filter.ids) q = q.in('id', filter.ids)
   if (filter.status) q = q.eq('status', filter.status)
   const { data: mods, error } = await q
@@ -216,7 +232,8 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       .select('id, module_id, key, name, summary, rationale, rationale_sources, legal_basis, sort, i18n, variant_key, code, optional, extended_only, built_from')
       .in('module_id', ids),
     supabase.schema('app').from('module_items')
-      .select('id, module_id, factor_id, code, kind, text, options, sort, core_indicator, help, answer_keys, asked_with').in('module_id', ids),
+      .select('id, module_id, factor_id, code, kind, text, options, sort, core_indicator, help, answer_keys, asked_with, preface, offers_not_relevant')
+      .in('module_id', ids),
     supabase.schema('app').from('module_action_suggestions')
       .select('id, module_id, factor_id, type, title, description, remeasure_item_id, sort, i18n').in('module_id', ids),
     supabase.schema('app').from('module_sources').select('module_id, key, title, url, sort').in('module_id', ids),
@@ -261,6 +278,9 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       ...(r.help ? { help: pick(r.help) } : {}),
       ...(r.kind === 'count' ? { answers: r.answer_keys ?? COUNT_ANSWERS.slice(0, (r.options ?? []).length) } : {}),
       ...(r.asked_with ? { askedWith: r.asked_with } : {}),
+      sort: r.sort,
+      ...(r.preface ? { preface: pick(r.preface) } : {}),
+      ...(r.offers_not_relevant ? {} : { noNotRelevant: true as const }),
       // the wordings are Norwegian: a reader shown the English or a translated text has no use for them
       ...(!translated && !(en && r.text.en) && typeof b === 'string' && typeof s === 'string' ? { variants: { barnehage: b, skole: s } } : {}),
     }
@@ -280,6 +300,8 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       estimatedMinutes: m.estimated_minutes,
       worded: m.wording !== null,
       provisional: m.validation_status === 'provisional',
+      fixedOrder: m.fixed_order,
+      attribution: m.attribution ? (en && m.attribution.en) || m.attribution.nb : null,
       variants: va.data
         .filter((v) => v.module_id === m.id)
         .sort(bySort)
@@ -456,7 +478,8 @@ export function askedStatements(m: Module, variantKey: RoundModule['variantKey']
       out.push({ item: i, factor: f })
     }
   }
-  return out
+  // an instrument (0224): in its own order, as respond_form asks it
+  return m.fixedOrder ? out.sort((a, b) => (a.item.sort ?? 0) - (b.item.sort ?? 0)) : out
 }
 
 /**

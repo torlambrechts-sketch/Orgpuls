@@ -2,7 +2,7 @@
 
 import type { Route } from 'next'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useId, useMemo, useRef, useState, useTransition } from 'react'
+import { Fragment, useEffect, useId, useMemo, useRef, useState, useTransition } from 'react'
 import { submitResponse, type SubmitResult } from '@/app/s/[token]/actions'
 import { ChoiceGroup } from './ChoiceGroup'
 import { ThreadLinks } from './ThreadLinks'
@@ -66,6 +66,12 @@ export type Question =
       /** a line under the statement, e.g. what it does not cover (0089) */
       help?: string
       choices: Choice[]
+      /** an instrument's statement (0224): a text shown before it, e.g. HSE's instruction */
+      preface?: string
+      /** an instrument's statement (0224) offers its five answers and nothing beside them */
+      noNotRelevant?: true
+      /** an instrument's page (0224); its factor label is then empty and no factor is shown above */
+      page?: string
     }
   | ({
       /** counted only for the whole organisation; the lead says so before it is answered */
@@ -162,14 +168,15 @@ const SECONDS_PER_QUESTION = 7
  * The flow's pages (P1-4, D-150): a factor's statements together — the core survey's three, a
  * module factor's — and every other question on a page of its own. A factor's page stands where
  * its first statement came in the server's order, which is shuffled per token, so the factors
- * still come in an order of the respondent's own.
+ * still come in an order of the respondent's own. An instrument's statements (0224) come on the
+ * pages it was cut into, in its own order.
  */
 function paginate(questions: Question[]): Question[][] {
   const pages: Question[][] = []
   const byFactor = new Map<string, number>()
   for (const q of questions) {
     if (q.kind === 'factor' || q.kind === 'module') {
-      const key = `${q.kind}:${q.kind === 'factor' ? q.factor : q.factorLabel}`
+      const key = q.kind === 'factor' ? `factor:${q.factor}` : q.page ? `page:${q.page}` : `module:${q.factorLabel}`
       const at = byFactor.get(key)
       if (at === undefined) {
         byFactor.set(key, pages.length)
@@ -331,7 +338,11 @@ export function RespondFlow({
       } else if (q.kind === 'module' || q.kind === 'count' || q.kind === 'segment') {
         const value = picked[q.id]
         if (value === undefined) continue
-        if (q.kind === 'module') mod.answers.push(value === NOT_RELEVANT ? { item: q.item, na: true } : { item: q.item, value })
+        if (q.kind === 'module') {
+          // «not relevant» only where it is offered: submit_response refuses it elsewhere (0224)
+          if (value === NOT_RELEVANT && q.noNotRelevant) continue
+          mod.answers.push(value === NOT_RELEVANT ? { item: q.item, na: true } : { item: q.item, value })
+        }
         else if (q.kind === 'segment') mod.segments.push({ item: q.item, option: value })
         else {
           const answer = q.answers[value - 1]
@@ -635,7 +646,7 @@ export function RespondFlow({
       ) : null}
 
       <div className="px-[22px] pb-[18px] pt-[18px]">
-        {first ? (
+        {first?.factorLabel ? (
           <div className="inline-block rounded-pill bg-sbg px-[11px] py-[4px] text-[11px] font-bold uppercase tracking-[0.05em]">
             {first.factorLabel}
           </div>
@@ -651,8 +662,18 @@ export function RespondFlow({
           <div className="mt-[12px] text-[13px] font-semibold leading-[1.5] text-mut [text-wrap:pretty]">{first.lead}</div>
         ) : null}
 
-        {current.map((q, i) => (
-          <fieldset key={q.id} className={`m-0 min-w-0 border-0 p-0 ${i > 0 ? 'mt-[26px] border-t border-line pt-[20px]' : ''}`}>
+        {current.map((q, i) => {
+          // an instrument's text before a statement (0224) stands above it, inside the line between
+          const preface = q.kind === 'module' && q.preface ? q.preface : null
+          const apart = i > 0 ? 'mt-[26px] border-t border-line pt-[20px]' : ''
+          return (
+          <Fragment key={q.id}>
+          {preface ? (
+            <div className={`text-[13px] font-semibold leading-[1.5] text-mut [text-wrap:pretty] ${apart || (first?.factorLabel ? 'mt-[12px]' : '')}`}>
+              {preface}
+            </div>
+          ) : null}
+          <fieldset className={`m-0 min-w-0 border-0 p-0 ${preface ? '' : apart}`}>
             <legend id={`${uid}q${i}`} className={`p-0 font-display font-medium leading-[1.27] [text-wrap:pretty] ${current.length > 1 ? 'mt-[12px] text-[20px]' : 'mt-[14px] text-[24px]'}`}>
               {q.text}
             </legend>
@@ -666,7 +687,7 @@ export function RespondFlow({
                 <ChoiceGroup
                   labelledBy={`${uid}q${i}`}
                   options={q.choices.map((c) => ({ value: c.ordinal, label: c.label }))}
-                  apart={q.kind === 'factor' || q.kind === 'module' ? { value: NOT_RELEVANT, label: copy.notRelevant } : null}
+                  apart={q.kind === 'factor' || (q.kind === 'module' && !q.noNotRelevant) ? { value: NOT_RELEVANT, label: copy.notRelevant } : null}
                   value={picked[q.id]}
                   onChange={(value) => setPicked((p) => ({ ...p, [q.id]: value }))}
                 />
@@ -711,7 +732,9 @@ export function RespondFlow({
               </>
             )}
           </fieldset>
-        ))}
+          </Fragment>
+          )
+        })}
 
         {failed ? (
           <div role="alert" className="mt-[14px] text-[13px] font-semibold text-danger">

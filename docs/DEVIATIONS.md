@@ -12859,3 +12859,78 @@ the round's frozen k. It still uses the same k, releases the same cells and retu
 **Still to come for UK-D:** the format (two answer scales, up to eight statements a factor, HSE's fixed order, no «Not
 relevant to me», an instruction text, attribution) and the respondent flow that renders it. When the HSE module is
 added, the report's line on risk bands (`rapport.riskBands`, which names 65 and 50) must name the module's own bands.
+
+## D-267 — A module can carry a published instrument as it is published (UK-D1, 2026-10-10)
+
+HSE's Management Standards Indicator Tool (X-111, X-112) is a questionnaire HSE asks to be kept as it is: «the question
+wording and scoring system the same and the items in the same order». The module format assumed an instrument of its
+own making. Each of its assumptions is now something a module file may state. A module that states none of them is
+stored, asked and scored exactly as before: every published module validates to the same body hash
+(`npm run -s modules:validate`), and no stored row changes.
+
+**The module file (`lib/modules/schema.ts`).**
+- `scales`: the module's own answer scales, five labels each (HSE: `frekvens` Never…Always, `enighet` Strongly
+  disagree…Strongly agree). Each statement names its scale with `scale`.
+- `instrument: { order, not_relevant }`: every statement code once, in the instrument's order, and whether «Ikke
+  relevant for meg» is offered beside the five answers (false for HSE).
+- `preface` on a statement: a text shown before it. HSE's instruction stands before its item 1.
+- `attribution`: the source the module must credit (OGL v3 for HSE).
+- Up to nine statements a factor, numbered 1..n in the order listed. HSE's demands scale has eight.
+- Only an instrument may use any of this. Scales, a statement's scale or a preface outside an instrument are refused,
+  as are an instrument with variants or wordings. A module in variants keeps its limit of five statements, coded 1–5;
+  a plain module keeps its exactly three.
+- A translation translates the scales, the prefaces and the attribution, or the file is refused.
+
+**The database (0224).**
+- New columns:
+  - `module_items.options` now holds a likert statement's five answers ({nb, en} each), from its scale;
+  - `module_items.preface` ({nb, en});
+  - `module_items.offers_not_relevant` (default true);
+  - `question_modules.fixed_order` (default false);
+  - `question_modules.attribution` ({nb, en}).
+- `module_seed` writes them from the file. An instrument's statements are sorted by their place in `instrument.order`.
+  Every other module's are sorted as before.
+- `module_frozen` freezes the two new module columns with the rest of a published module.
+- `respond_form` sends each statement's answers, preface and `na`, and the module's `fixed_order`. An instrument's
+  statements come in its own order; every other module's are still shuffled per token.
+- `submit_response` refuses «not relevant» on a statement that does not offer it.
+- The registry takes a statement's answers under the keys count questions already use (`module:<id>:o<n>`), and its
+  preface under a new suffix, `module:<id>:p`. `round_item_keys` and `all_item_keys` list both. A survey language is
+  therefore offered for a round only when they are approved too (D-133).
+- `supabase/tests/module_instrument_invariants.sql` (8 rows) seeds a probe instrument and holds each of these:
+  - modules seeded before are stored as they were;
+  - the instrument's order, answers, preface and attribution;
+  - the registry keys a round and the translation package ask for;
+  - the form, in the instrument's order for every respondent;
+  - the refusal of «not relevant»;
+  - the `:p` suffix;
+  - the frozen columns;
+  - and that every probe row was rolled back.
+
+**The registry files (`lib/modules/registry-file.ts`, `scripts/modules/registry.ts`).**
+- `scales` (five labels per scale key) are written to every statement that names the scale.
+- `prefaces` are written by the code of the statement they stand before.
+- `official` lists the sections taken verbatim from the instrument's own published translation. Those rows are
+  written with origin *official*, every other row as *machine* (X-089, X-112). HSE's Polish is the first.
+
+**The respondent flow.**
+- A statement with its own answers is answered on them. In a survey language they are read from the registry, as a
+  count question's are.
+- The preface stands above its statement. It uses the style of a count question's lead: 13 px, semibold, muted.
+- Where the instrument offers no «not relevant», the button is not drawn and nothing of the kind is sent.
+- An instrument is asked in its order and paged by its answers. A new page starts where the answers change. Each run
+  of the same answers is cut into pages of at most five, as evenly as that allows. HSE's 23 frequency statements are
+  5 5 5 4 4 and its 12 agreement statements 4 4 4: eight pages (`instrumentPages`, unit-tested).
+- The leaders' preview (`/forhandsvis`) passes the same fields from the module reader, so it shows what is sent.
+
+**Deviation: no factor label above an instrument's statements.**
+- The design draws every page with its factor in a pill above the statements. An instrument's page has no factor:
+  HSE mixes its seven scales on purpose and prints no scale name beside an item.
+- A scale name above a page of mixed items would mislead the respondent, and no neutral label exists in every survey
+  language. The pill is therefore left out on an instrument's pages, and only there.
+- The module's name was not used either. «HSE» above the questions could read as HSE running the survey, which OGL
+  forbids implying.
+
+**Not yet shown.** `question_modules.attribution` is read by the module reader (`Module.attribution`). It is shown on the
+module's card, results and report with the HSE module itself (UK-D4), the first module that has one. Until then no
+module carries one.

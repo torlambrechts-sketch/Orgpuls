@@ -18,7 +18,11 @@ import { pickWording, WORDINGS, type Wording as WordingKey } from './wording'
  *     and recommendation (app.k_min()), as the industry pages print it. It gates nothing by
  *     itself: a module's cells are released at the round's own k (app.k_round, 0150) like the
  *     core's, one threshold per round, the one its respondents were shown, never under three;
- *   - codes of a fixed shape, so a statement is addressed the same way everywhere.
+ *   - codes of a fixed shape, so a statement is addressed the same way everywhere;
+ *   - a published instrument carried as published (0224, D-267): a module with an `instrument` keeps
+ *     the instrument's order, its own answer scales (each statement names one of `scales`), the text
+ *     before a statement (`preface`), no «Ikke relevant for meg» where the instrument has none, and
+ *     up to nine statements a factor. Every rule above that it relaxes, it relaxes for it alone.
  */
 
 const SCALE_INDEX = { '1': 0, '2': 25, '3': 50, '4': 75, '5': 100 } as const
@@ -38,9 +42,17 @@ const TextVariants = z.object({ barnehage: Text, skole: Text })
 /** a NACE code or prefix as the registry prints it: 85, 85.1, 88.911 */
 const Nace = z.string().regex(/^\d{2}(\.\d{1,3})?$/, 'NACE prefix, e.g. 85.1')
 
+/** a module's own answer scale, by key (0224): `frekvens`, `enighet` */
+const ScaleKey = z.string().regex(/^[a-z][a-z0-9_]*$/, 'snake_case scale key')
+const ScaleLabels = z.object({ labels: z.array(Text).length(5) })
+
 const Item = z.object({
-  id: z.string().regex(/^[A-Z]{2}-[A-Z]{2}-[1-5]$/, 'factor item code, e.g. BA-SF-1'),
+  id: z.string().regex(/^[A-Z]{2}-[A-Z]{2}-[1-9]$/, 'factor item code, e.g. BA-SF-1'),
   text: Text,
+  /** an instrument's statement (0224): the module scale its five answers come from */
+  scale: ScaleKey.optional(),
+  /** an instrument's statement (0224): a text shown before it, e.g. the instrument's instruction */
+  preface: Text.optional(),
   text_variants: TextVariants.optional(),
   /** a line under the statement for the respondent, e.g. what it does not cover */
   help: Text.optional(),
@@ -78,7 +90,8 @@ const Factor = z.object({
   /** a module in variants: a factor the organisation may leave out, and one only the extended set has */
   optional: z.boolean().optional(),
   extended_only: z.boolean().optional(),
-  items: z.array(Item).min(3).max(5, 'a factor has three statements, an extended one up to five'),
+  // three, five in a module in variants, nine in an instrument (0224): held below, per kind
+  items: z.array(Item).min(3).max(9, 'a factor has at most nine statements'),
   action_suggestions: z.array(ActionSuggestion).min(1),
 })
 
@@ -194,6 +207,8 @@ const Translation = z.object({
       items: z.record(z.string(), Text),
       item_variants: z.record(z.string(), TextVariants).optional(),
       item_help: z.record(z.string(), Text).optional(),
+      /** an instrument's prefaces (0224), by the code of the statement they stand before */
+      prefaces: z.record(z.string(), Text).optional(),
       action_suggestions: z.array(SuggestionTr),
     }),
   ),
@@ -211,6 +226,9 @@ const Translation = z.object({
       utvidet: z.object({ name: Text }),
     })
     .optional(),
+  /** an instrument's answer scales (0224) */
+  scales: z.record(z.string(), ScaleLabels).optional(),
+  attribution: Text.optional(),
 })
 
 const Source = z.object({ key: z.string().regex(/^[a-z][a-z0-9_]*$/), title: Text, url: z.url() })
@@ -267,6 +285,15 @@ export const ModuleFile = z
       })
       .optional(),
     factors: z.array(Factor).min(1),
+    /** an instrument's own answer scales (0224), each statement naming the one it is answered on */
+    scales: z.record(ScaleKey, ScaleLabels).optional(),
+    /**
+     * A published instrument carried as published (0224): the statements in its own order, every
+     * likert code once, and whether «Ikke relevant for meg» is offered beside its answers.
+     */
+    instrument: z.object({ order: z.array(z.string()).min(1), not_relevant: z.boolean() }).optional(),
+    /** the source the module must credit (0224), e.g. the Open Government Licence line for HSE */
+    attribution: Text.optional(),
     /** the simplified and the extended set (0089); absent for a module asked one way */
     variants: Variants.optional(),
     count_items: z.array(CountItem),
@@ -343,7 +370,10 @@ export const ModuleFile = z
         if (!!t.name_variants !== !!f.name_variants) issue(at('factors', f.id, 'name_variants'), `${lang}: the factor name's wordings differ`)
         sameKeys(t.item_variants, f.items.filter((i) => i.text_variants).map((i) => i.id), at('factors', f.id, 'item_variants'), 'wording of')
         sameKeys(t.item_help, f.items.filter((i) => i.help).map((i) => i.id), at('factors', f.id, 'item_help'), 'help line of')
+        sameKeys(t.prefaces, f.items.filter((i) => i.preface).map((i) => i.id), at('factors', f.id, 'prefaces'), 'preface of')
       })
+      sameKeys(tr.scales, Object.keys(m.scales ?? {}), at('scales'), 'scale')
+      if (!!tr.attribution !== !!m.attribution) issue(at('attribution'), `${lang}: the attribution differs`)
       for (const k of Object.keys(tr.factors)) if (!m.factors.some((f) => f.id === k)) issue(at('factors', k), `${lang}: no factor ${k}`)
       m.count_items.forEach((c) => {
         const t = tr.count_items[c.id]
@@ -370,7 +400,41 @@ export const ModuleFile = z
       }
     }
 
-    if (!m.variants) {
+    // an instrument (0224): its own order, scales and prefaces; nothing else may use them
+    const likert = m.factors.flatMap((f) => f.items)
+    if (m.instrument) {
+      const order = m.instrument.order
+      const ids = new Set(likert.map((i) => i.id))
+      if (new Set(order).size !== order.length) issue(['instrument', 'order'], 'a statement is listed twice')
+      for (const code of order) if (!ids.has(code)) issue(['instrument', 'order'], `${code} is not a statement of the module`)
+      for (const i of likert) if (!order.includes(i.id)) issue(['instrument', 'order'], `${i.id} is not in the order`)
+      m.factors.forEach((f, fi) =>
+        f.items.forEach((it, ii) => {
+          if (!it.scale) issue(['factors', fi, 'items', ii, 'scale'], 'an instrument names the scale of every statement')
+          else if (!m.scales?.[it.scale]) issue(['factors', fi, 'items', ii, 'scale'], `unknown scale ${it.scale}`)
+        }),
+      )
+      if (m.variants) issue(['instrument'], 'an instrument has no variants')
+      if (m.wording) issue(['instrument'], 'an instrument has no wordings')
+    } else {
+      if (m.scales) issue(['scales'], 'scales without an instrument')
+      m.factors.forEach((f, fi) =>
+        f.items.forEach((it, ii) => {
+          if (it.scale) issue(['factors', fi, 'items', ii, 'scale'], 'a scale without an instrument')
+          if (it.preface) issue(['factors', fi, 'items', ii, 'preface'], 'a preface without an instrument')
+        }),
+      )
+    }
+
+    if (m.instrument) {
+      // a factor of three to nine statements, numbered 1..n as listed
+      m.factors.forEach((f, fi) =>
+        f.items.forEach((it, ii) => {
+          if (!it.id.endsWith(`-${ii + 1}`)) issue(['factors', fi, 'items', ii, 'id'], `${it.id} is numbered out of turn`)
+          if (it.core_indicator !== undefined) issue(['factors', fi, 'items', ii, 'core_indicator'], 'core_indicator without variants')
+        }),
+      )
+    } else if (!m.variants) {
       m.factors.forEach((f, fi) => {
         if (f.items.length !== 3) issue(['factors', fi, 'items'], 'a factor has exactly three statements')
         f.items.forEach((it, ii) => {
@@ -386,6 +450,12 @@ export const ModuleFile = z
       })
     } else {
       const [simple, ext] = m.variants
+      m.factors.forEach((f, fi) => {
+        if (f.items.length > 5) issue(['factors', fi, 'items'], 'a factor has three statements, an extended one up to five')
+        f.items.forEach((it, ii) => {
+          if (!/-[1-5]$/.test(it.id)) issue(['factors', fi, 'items', ii, 'id'], 'factor item code, e.g. BA-SF-1')
+        })
+      })
       const all = new Map(m.factors.flatMap((f) => f.items.map((i) => [i.id, i] as const)))
       const core = [...all.values()].filter((i) => i.core_indicator).map((i) => i.id).sort()
       const inSimple = simple.factors.flatMap((f) => f.items)
