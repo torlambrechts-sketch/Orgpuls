@@ -3,7 +3,7 @@ import type { Market } from '@/lib/markets'
 /**
  * The brands the product is sold under (docs/markets/PLAN.md, the brand axis; X-111): one app, one
  * database, the same surveys and anonymity, and a name per brand. Orgpuls in Norway and Sweden;
- * Empvibe, the English site, for the United Kingdom once its market exists (phase 4).
+ * Empvibe, the English site, for the United Kingdom (phase 4, 0222).
  *
  * A brand holds what a person reads as the product's name. Design tokens, the pulse icon and the
  * layout are shared: X-111 keeps Empvibe on Orgpuls's design, and the pixel gate holds Orgpuls's
@@ -21,7 +21,7 @@ export const DEFAULT_BRAND: Brand = 'orgpuls'
  * Each market's brand: the name its organisations, their employees and their mail read. A market
  * belongs to one brand; a site's brand is its market's (lib/hosts.ts, held by tests/unit/brand.test.ts).
  */
-export const MARKET_BRAND: Record<Market, Brand> = { no: 'orgpuls', se: 'orgpuls' }
+export const MARKET_BRAND: Record<Market, Brand> = { no: 'orgpuls', se: 'orgpuls', gb: 'empvibe' }
 
 export const brandOf = (market: Market): Brand => MARKET_BRAND[market] ?? DEFAULT_BRAND
 

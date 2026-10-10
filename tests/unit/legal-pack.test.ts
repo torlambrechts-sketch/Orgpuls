@@ -181,3 +181,24 @@ describe('Sweden’s duties', () => {
     expect(healthServiceDuty('se', null)).toBe('depends')
   })
 })
+
+describe('the United Kingdom’s duties (docs/markets/uk-legal.md § 5)', () => {
+  it('starts no representative and no committee by headcount: a committee only when two union representatives ask (SRSC reg 9)', () => {
+    expect(LEGAL_PACKS.gb.duties.rep).toBe(Number.POSITIVE_INFINITY)
+    expect([1, 49, 50, 5000].map((n) => committeeDuty('gb', n))).toEqual(['may', 'may', 'may', 'may'])
+  })
+
+  it('never says a health service is required by the industry: UK law has no list, only competent assistance (MHSWR reg 7)', () => {
+    expect(healthServiceDuty('gb', '43.210')).toBe('depends')
+    expect(healthServiceDuty('gb', null)).toBe('depends')
+  })
+
+  it('cites the risk assessment for every factor, and HSE’s Management Standards as guidance beside it', () => {
+    for (const ref of Object.values(LEGAL_PACKS.gb.factorLawRefs ?? {})) expect(ref).toMatch(/^MHSWR reg 3( · HSE: [A-Z][a-z]+)?$/)
+  })
+
+  it('promises no module that is not built', () => {
+    const own = pack('gb', 'en')
+    expect(Object.entries(own).filter(([, v]) => /\bwill cover\b|Indicator Tool/i.test(v)).map(([k]) => k)).toEqual([])
+  })
+})

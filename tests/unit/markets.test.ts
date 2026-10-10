@@ -90,6 +90,11 @@ describe('each market', () => {
     for (const m of MARKETS) expect(LEGAL_PACK[m], m).toBe(m === 'no' || PACK_LANGS[m].length > 0)
     expect(MARKET_LANGS.se).toEqual(['sv', 'en'])
     expect(orgNumberProblem('se')).toBe('invalid_org_number_se')
+    // the United Kingdom (D-264): no register asked yet, English, its own message, its law in its pack (D-265)
+    expect(REGISTRY_LOOKUP.gb).toBe(false)
+    expect(MARKET_LANGS.gb).toEqual(['en'])
+    expect(LEGAL_PACK.gb).toBe(true)
+    expect(orgNumberProblem('gb')).toBe('invalid_org_number_gb')
     const no = JSON.parse(readFileSync('messages/no.json', 'utf8')) as { registrer: { problem: Record<string, string> } }
     for (const m of MARKETS) expect(no.registrer.problem[orgNumberProblem(m)], m).toBeTruthy()
   })
@@ -185,6 +190,17 @@ describe('each market’s floor, as a screen offers it', () => {
   it('takes the chips under it away, and leaves Norway’s as they were', () => {
     expect(thresholdChoices([3, 4, 5, 6, 8, 10], MARKET_K_FLOOR.no)).toEqual([3, 4, 5, 6, 8, 10])
     expect(thresholdChoices([3, 4, 5, 6, 8, 10], MARKET_K_FLOOR.se)).toEqual([5, 6, 8, 10])
+    expect(thresholdChoices([3, 4, 5, 6, 8, 10], MARKET_K_FLOOR.gb)).toEqual([5, 6, 8, 10])
     expect(thresholdChoices([3, 4, 5, 8], 2)).toEqual([3, 4, 5, 8])
+  })
+})
+
+describe('the United Kingdom (X-111, D-264)', () => {
+  it('is a market at floor 5 that no host signs up into until its site is built', async () => {
+    const { SITES, marketOfHost } = await import('@/lib/hosts')
+    expect(MARKETS).toContain('gb')
+    expect(MARKET_K_FLOOR.gb).toBe(5)
+    expect(SITES.filter((s) => s.market === 'gb')).toEqual([])
+    for (const host of ['empvibe.com', 'www.empvibe.com', 'en.orgpuls.com']) expect(marketOfHost(host)).not.toBe('gb')
   })
 })

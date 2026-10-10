@@ -5557,6 +5557,7 @@
     "registrer.problem.google_failed",
     "registrer.problem.microsoft_failed",
     "registrer.problem.invalid_org_number_se",
+    "registrer.problem.invalid_org_number_gb",
     "registrer.googleOr",
     "registrer.google",
     "registrer.microsoft",

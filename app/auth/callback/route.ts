@@ -9,7 +9,7 @@ import { signInProblem, type SignInCheck } from '@/lib/entra/schema'
 import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
 import { DEFAULT_MARKET, MARKETS } from '@/lib/markets'
-import { validOrgNumber } from '@/lib/org-number'
+import { ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
 
 /**
  * Where Google (D-102) and Microsoft (D-201) send the browser back. The code is exchanged for a
@@ -54,7 +54,7 @@ const Query = z.object({
 
 const Pending = z
   .object({
-    orgNumber: z.string().regex(/^\d{9,10}$/),
+    orgNumber: z.string().regex(ORG_NUMBER_SHAPE),
     companyName: z.string().min(1).max(200),
     employeeCount: z.number().int().min(0).max(100_000),
     // set by startOAuth from the host the sign-up began on (D-251); a cookie from before that is Norway's

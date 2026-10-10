@@ -3051,7 +3051,8 @@
       "rate_limited": "For mange oppslag på kort tid. Vent noen minutter og prøv igjen.",
       "google_failed": "Registreringen med Google gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord.",
       "microsoft_failed": "Registreringen med Microsoft gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord.",
-      "invalid_org_number_se": "Et svensk organisasjonsnummer er ti siffer, og et personnummer kan ikke brukes. Sjekk tallet og prøv igjen."
+      "invalid_org_number_se": "Et svensk organisasjonsnummer er ti siffer, og et personnummer kan ikke brukes. Sjekk tallet og prøv igjen.",
+      "invalid_org_number_gb": "Et selskapsnummer fra Companies House har åtte tegn: åtte siffer, eller to bokstaver som SC eller OC fulgt av seks siffer. Sjekk nummeret og prøv igjen."
     },
     "googleOr": "eller",
     "google": "Fortsett med Google",

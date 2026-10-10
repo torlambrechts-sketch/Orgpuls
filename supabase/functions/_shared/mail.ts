@@ -182,7 +182,7 @@ export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: st
  * Each market's brand name (lib/brand.ts MARKET_BRAND and BRANDS; tests/unit/mail.test.ts holds the
  * two equal): what a notice to an organisation there calls the product, and the sender's name.
  */
-export const MARKET_BRAND_NAME: Readonly<Record<string, string>> = { no: 'Orgpuls', se: 'Orgpuls' }
+export const MARKET_BRAND_NAME: Readonly<Record<string, string>> = { no: 'Orgpuls', se: 'Orgpuls', gb: 'Empvibe' }
 export const brandNameOf = (market: string | null | undefined): string => MARKET_BRAND_NAME[market ?? ''] ?? 'Orgpuls'
 
 /**

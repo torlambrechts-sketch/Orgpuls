@@ -10,7 +10,7 @@ import { HEARD } from '@/lib/signup/heard'
 import { completePendingSignup, PENDING_KEY, type PendingOrg } from '@/lib/signup/pending'
 import { marketOfHost } from '@/lib/hosts'
 import { orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
-import { normalizeOrgNumber, validOrgNumber } from '@/lib/org-number'
+import { normalizeOrgNumber, ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
 
 /**
  * Signing up.
@@ -37,7 +37,7 @@ export async function lookupCompany(_prev: LookupState, formData: FormData): Pro
   const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
   const typed = String(formData.get('orgNumber') ?? '')
   if (!validOrgNumber(market, typed)) return { status: 'problem', problem: orgNumberProblem(market) }
-  const orgNumber = normalizeOrgNumber(typed)
+  const orgNumber = normalizeOrgNumber(typed, market)
 
   // a market without a register to ask (Sweden, until Bolagsverket): the company names itself
   if (!REGISTRY_LOOKUP[market]) {
@@ -69,8 +69,8 @@ export async function lookupCompany(_prev: LookupState, formData: FormData): Pro
 }
 
 const SignUp = z.object({
-  // the shape here; the market's rule below, once the host has named the market
-  orgNumber: z.string().regex(/^\d{9,10}$/),
+  // the shape here, as the market stores it; the market's rule below
+  orgNumber: z.string().regex(ORG_NUMBER_SHAPE),
   companyName: z.string().trim().min(1).max(200),
   employeeCount: z.number().int().min(0).max(100_000),
   fullName: z.string().trim().min(2).max(120),
@@ -92,8 +92,11 @@ export async function createAccount(
   _prev: SignUpState,
   formData: FormData,
 ): Promise<SignUpState> {
+  const h = await headers()
+  // the host decides the market, never a form field (D-251)
+  const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
   const parsed = SignUp.safeParse({
-    orgNumber: String(formData.get('orgNumber') ?? '').replace(/\s/g, ''),
+    orgNumber: normalizeOrgNumber(String(formData.get('orgNumber') ?? ''), market),
     companyName: String(formData.get('companyName') ?? ''),
     employeeCount: Number(formData.get('employeeCount') ?? 0),
     fullName: String(formData.get('fullName') ?? ''),
@@ -104,9 +107,6 @@ export async function createAccount(
   if (!parsed.success) return { status: 'problem', problem: 'invalid' }
 
   const supabase = await createClient()
-  const h = await headers()
-  // the host decides the market, never a form field (D-251)
-  const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
   if (!validOrgNumber(market, parsed.data.orgNumber)) return { status: 'problem', problem: orgNumberProblem(market) }
 
   // the company goes with the account, so the organisation can be made by the first confirmed

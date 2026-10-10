@@ -3,7 +3,7 @@ import { z } from 'zod'
 import type { createClient } from '@/lib/supabase/server'
 import { restoreLocale } from '@/lib/i18n/server'
 import { DEFAULT_MARKET, MARKETS } from '@/lib/markets'
-import { validOrgNumber } from '@/lib/org-number'
+import { ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
 
 type Client = Awaited<ReturnType<typeof createClient>>
 
@@ -21,13 +21,13 @@ export const PENDING_KEY = 'pending_org'
 
 export const PendingOrg = z
   .object({
-    orgNumber: z.string().regex(/^\d{9,10}$/),
+    orgNumber: z.string().regex(ORG_NUMBER_SHAPE),
     companyName: z.string().trim().min(1).max(200),
     employeeCount: z.number().int().min(0).max(100_000),
     // the market of the host the form was sent from (D-251); a sign-up kept before it was carried is Norway's
     market: z.enum(MARKETS).default(DEFAULT_MARKET),
   })
-  // the market's organisation number rule (lib/org-number.ts, 0218): nine digits in Norway
+  // the market's organisation number rule (lib/org-number.ts, 0218, 0222): nine digits in Norway
   .refine((p) => validOrgNumber(p.market, p.orgNumber), { path: ['orgNumber'] })
 export type PendingOrg = z.infer<typeof PendingOrg>
 

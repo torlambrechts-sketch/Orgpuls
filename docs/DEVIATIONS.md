@@ -12679,3 +12679,147 @@ and XLIFF round trips: 28 rows per language, none untranslated. Where a glossary
   - the other five modules are unchanged;
   - the security advisor shows the same four kinds of notice as before.
 - No organisation is in Sweden yet, so nobody can choose it until the Swedish site opens.
+
+## D-264 — The United Kingdom is a market (UK-B, 2026-10-10)
+
+X-111: Empvibe is the English site, sold in the United Kingdom, at floor 5. Phase 4 of docs/markets/PLAN.md starts
+with the market itself.
+
+**0222.** Market `gb`: floor 5, English, Europe/London, and the number rule `gb_company`.
+- `app.org_number_valid` gains the case: a Companies House number of a limited company or LLP. That is eight
+  digits, or SC, NI, R0, OC, SO or NC and six digits (docs/markets/uk-legal.md § 7).
+- The rule is derived from Companies House's two lists of prefixes. It is not a pattern Companies House
+  publishes (UNVERIFIED 11).
+- Limited partnerships, overseas companies, charters and societies are refused for now. Each is one more prefix
+  when a customer needs it.
+- `markets_org_number_rule` takes the new value. The unique index on `org_number` stays global: eight characters
+  cannot equal Norway's nine digits or Sweden's ten.
+
+**Stored as Companies House prints it.** `normalizeOrgNumber(value, market)` strips spaces and hyphens and capitalises
+letters, as for every market. In the United Kingdom it also pads a number of digits only to eight: Companies House
+drops the leading zeros in places, and «1234567» is 01234567. The database's rule takes only the stored form. Every
+boundary normalises with the market before it validates:
+- the sign-up action;
+- the OAuth cookie;
+- the pending sign-up kept for a confirmation.
+
+A boundary that has no market yet checks `ORG_NUMBER_SHAPE` (eight to ten digits or capitals), then the market's rule.
+
+**Sign-up.** The number field asks for a text keyboard with capitals where the market's number has letters
+(`orgNumberInput`), and numbers otherwise. Companies House has a free API with a key, but no lookup is wired yet
+(`REGISTRY_LOOKUP.gb` false), so a UK sign-up names its company itself, as a Swedish one does. Its texts are the UK
+pack's (D-265): «Company number», «8 characters», the Companies House examples. A refused number reads
+`invalid_org_number_gb` in bokmål, English and Swedish.
+
+**Nobody can join it yet.** No host names `gb` (lib/hosts.ts SITES). empvibe.com still redirects to en.orgpuls.com,
+and a spoofed header reads as Norway. The market exists so that UK-C to UK-F can be built against it; UK-G opens it
+(X-111: build first, move when ready).
+
+**The brand.** `MARKET_BRAND.gb` is `empvibe`, and the mail's `MARKET_BRAND_NAME.gb` is «Empvibe». A UK organisation
+reads the product's name as Empvibe in the app and in its notices (D-261). The sender address stays orgpuls.com
+until Empvibe's domain is verified (X-111).
+
+**Tests:**
+- `markets_invariants.sql` rows 22–24:
+  - the market row;
+  - fourteen number cases;
+  - a sign-up into `gb` that gets floor 5, English and London time, while a Swedish number there is refused.
+- `tests/unit/org-number.test.ts`: the same cases, the normalisation, the keyboard and the shape.
+- `tests/unit/markets.test.ts`: the market's flags, its floor's chips, and that no host signs up into it.
+- `tests/unit/brand.test.ts`: the market's brand.
+
+**Hosted, 2026-10-10:** 0222 applied through `apply_migration`, verbatim. The constraint swap went through. Checks:
+- `app.markets` reads gb (5, en, Europe/London, gb_company), no (3) and se (5);
+- the three Norwegian organisations are still in Norway;
+- no organisation holds a number its market's rule refuses;
+- `org_number_valid` takes SC327000 and refuses LP000001.
+
+## D-265 — The UK legal pack (UK-C, 2026-10-10)
+
+An organisation in the United Kingdom reads the United Kingdom's law, never Norway's, as a Swedish one reads Sweden's
+(D-257). The sources, with their quotations, are in `docs/markets/uk-legal.md`.
+
+**The texts.** `messages/market/gb/en.json` holds 172 keys, in English only (`PACK_LANGS.gb`). A reader in any
+other language reads the English pack, never Norway's law (`packLang`). It covers:
+- the report;
+- the help articles;
+- Oppsett's duties and data protection texts;
+- Måleoppsett;
+- the wizard;
+- the header panel;
+- the mail that cites law.
+
+The law it states:
+- HSWA 1974 s.2;
+- MHSWR 1999 regs 3, 5, 7 and 10;
+- the Safety Representatives and Safety Committees Regulations 1977, the Health and Safety (Consultation with
+  Employees) Regulations 1996, and the lawful case of having no representative;
+- UK GDPR and the Information Commission;
+- the Northern Ireland counterparts in the longer texts.
+
+**What it does not claim.** UK law asks for a risk assessment, not for a survey (uk-legal.md § 9). So:
+- no text calls the survey a statutory duty. Where the English catalogue says «statutory duty» or «statutory
+  minimum», the pack says what the survey documents: the risk assessment;
+- consultation before a survey is written as good practice that the duty to consult supports, not as a legal step
+  (UNVERIFIED 10);
+- HSE's Management Standards are named as guidance, never as law;
+- nothing claims HSE's endorsement.
+
+**Its structure** (`LEGAL_PACKS.gb`):
+- **Duties.** Neither duty starts at a headcount.
+  - A union appoints safety representatives where it is recognised. Otherwise the employer consults directly or
+    through elected representatives.
+  - A safety committee is required when two union representatives ask in writing (SRSC reg 9).
+  - So `rep` and `committee` are infinite and `committeeMay` is 1: the representative card says there is no
+    headcount rule, and the committee card says one may be required.
+  - There is no list of industries that must have a health service, only competent assistance (reg 7).
+- **Provisions.** HSWA s.2, MHSWR regs 3 and 5, HSE's Management Standards, consultation, UK GDPR.
+- **Coverage.** The Management Standards' areas onto the eleven factors:
+  - Demands: workload, emotional demands;
+  - Control: participation;
+  - Support: manager and colleagues;
+  - Relationships: integrity, contact, speaking up;
+  - Role: role clarity, conflicting demands.
+
+  Change has one statement (being heard before a change), and harassment and violence are screened, not measured.
+  All three are shown with «!».
+- **Gaps.** A written policy from five employees, the arrangements, the procedures for serious danger, the working
+  environment's other risks, a competent person, and consultation.
+- **Factor references.** «MHSWR reg 3 · HSE: Demands» and the like. The duty is the risk assessment, and the area of
+  guidance follows the dot.
+
+**Beyond the law texts:**
+- **The United Kingdom's names.** «Company number» in sign-up, Oppsett, the wizard and the report. «Health and safety
+  representative» where the English catalogue says «verneombud».
+- **The phone hint.** It asks for a country code. `normalizePhone` reads an eight-digit number as Norwegian, so a UK
+  mobile needs +44.
+- **The brand.** The pack names Orgpuls where it states the product's own mapping. `rebrand` makes that «Empvibe's
+  own» (`brand.test.ts`).
+
+**Changed from the draft.** The Change area's note promised that «the UK module based on HSE's Indicator Tool will
+cover it». That module is UK-D and does not exist yet, so the sentence is gone, and `legal-pack.test.ts` holds the
+pack to naming no module.
+
+**Statements resting on UNVERIFIED items in uk-legal.md:**
+- No. 10: whether a survey is a measure that must be consulted on, so every consultation text says good practice.
+- No. 9: the 1975 exception rules, behind «a written policy from five employees».
+- No. 2: no ICO guidance specific to surveys. The lawful basis, legal obligation under reg 3, is the record's own
+  assessment.
+- No. 15: which authority enforces where, so the texts say «HSE or the local authority».
+
+**Not in this step:**
+- The UK site (UK-E).
+- GBP prices, reverse-charge invoicing and the UK documents (UK-F). Oppsett › Betaling still offers Norway's EHF
+  invoice to an organisation in any market.
+- A Companies House lookup.
+- Sweden's pack has the same «statutory» and «verneombud» wording in its English. That is left for Sweden's own
+  review.
+
+**Tests:** `tests/unit/legal-pack.test.ts` runs every pack rule over `gb`:
+- it replaces every Norwegian legal text;
+- it offers no threshold under 5;
+- it states no Norwegian law;
+- it has every structure key, and nothing a screen does not read;
+- it gives every factor a reference.
+
+New cases cover the UK's duties, the shape of its references, and no promise of an unbuilt module.

@@ -11,7 +11,8 @@ import type { Market } from '@/lib/markets'
  * gives, in the language files for Norway and in the market's pack for every other market;
  * tests/unit/legal-pack.test.ts holds every one to existing. Edge-safe and pure.
  *
- * The Swedish citations are recorded with their sources in docs/markets/se-legal.md.
+ * The Swedish citations are recorded with their sources in docs/markets/se-legal.md, the United
+ * Kingdom's in docs/markets/uk-legal.md.
  */
 export type LegalPack = {
   duties: {
@@ -104,7 +105,48 @@ const SWEDEN: LegalPack = {
   },
 }
 
-export const LEGAL_PACKS: Record<Market, LegalPack> = { no: NORWAY, se: SWEDEN }
+const UNITED_KINGDOM: LegalPack = {
+  // No headcount starts either duty (docs/markets/uk-legal.md § 5). Where a union is recognised its
+  // safety representatives are appointed by the union (SRSC 1977 reg 3); elsewhere the employer
+  // consults the employees directly or through elected representatives (HSCER 1996 reg 4), and may
+  // lawfully have none. A safety committee is required only when two union representatives ask in
+  // writing (SRSC reg 9), which no headcount decides: so neither is ever «required» by a number, and
+  // the committee card says it may be (oppsett.duty.amuMay in the pack, reg 9).
+  duties: { rep: Number.POSITIVE_INFINITY, committee: Number.POSITIVE_INFINITY, committeeMay: 1, healthServiceIndustries: null },
+  provisions: ['hswa2', 'mhswr3', 'mhswr5', 'hseStandards', 'consultation', 'ukgdpr'],
+  // HSE's Management Standards are guidance on meeting MHSWR reg 3 for work-related stress, not law;
+  // their areas onto the eleven factors, as the report's instrument text says (the mapping is the
+  // product's own). Change has one statement (medvirk s2, being heard before a change) and is shown
+  // as a gap rather than as covered.
+  coverage: [
+    { key: 'demands', factors: ['mengde', 'emosjon'] },
+    { key: 'control', factors: ['medvirk'] },
+    { key: 'support', factors: ['leder', 'kollega'] },
+    { key: 'relationships', factors: ['integritet', 'kontakt', 'ytring'] },
+    { key: 'role', factors: ['rolle', 'motstrid'] },
+    { key: 'change', factors: [] },
+    { key: 'harassment', factors: [] },
+    { key: 'violence', factors: [] },
+  ],
+  gaps: ['policy', 'arrangements', 'procedures', 'environment', 'competent', 'consultation'],
+  // the duty each factor serves is the risk assessment (MHSWR 1999 reg 3); the area of HSE's
+  // Management Standards that guides it follows the dot
+  factorLawRefs: {
+    ytring: 'MHSWR reg 3 · HSE: Relationships',
+    mengde: 'MHSWR reg 3 · HSE: Demands',
+    motstrid: 'MHSWR reg 3 · HSE: Role',
+    kontakt: 'MHSWR reg 3 · HSE: Relationships',
+    emosjon: 'MHSWR reg 3 · HSE: Demands',
+    leder: 'MHSWR reg 3 · HSE: Support',
+    medvirk: 'MHSWR reg 3 · HSE: Control',
+    integritet: 'MHSWR reg 3 · HSE: Relationships',
+    rolle: 'MHSWR reg 3 · HSE: Role',
+    kollega: 'MHSWR reg 3 · HSE: Support',
+    mening: 'MHSWR reg 3',
+  },
+}
+
+export const LEGAL_PACKS: Record<Market, LegalPack> = { no: NORWAY, se: SWEDEN, gb: UNITED_KINGDOM }
 
 /** A factor's legal reference in a market: its own, or the database's where the market uses that */
 export function factorLawRef(market: Market, factorKey: string, fromDatabase: string): string {

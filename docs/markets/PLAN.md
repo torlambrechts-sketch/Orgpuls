@@ -72,8 +72,8 @@ it.
 | Step | What | State |
 |---|---|---|
 | UK-A | Brand layer: a brand per site (name, wordmark, page titles, share images, mail brand), Empvibe's texts laid over the English catalogue as a market's are; brand follows the organisation's market in mail | built (D-261): the name in every text, wordmark, title and notice mail; auth mail and share images at UK-G/UK-E |
-| UK-B | Market `gb`: floor 5, English, Europe/London, Companies House number rule (limited companies and LLPs; other firms later), sign-up on empvibe.com | |
-| UK-C | UK legal pack: HSWA 1974 s.2, MHSWR 1999 regs 3 and 5, the Management Standards mapped onto the 11 factors, safety representatives (SRSC 1977, HSCER 1996) and a «no representative» case, UK GDPR and ICO; sources in `docs/markets/uk-legal.md` | |
+| UK-B | Market `gb`: floor 5, English, Europe/London, Companies House number rule (limited companies and LLPs; other firms later), sign-up on empvibe.com | built (0222, D-264); no host signs up into it until UK-G |
+| UK-C | UK legal pack: HSWA 1974 s.2, MHSWR 1999 regs 3 and 5, the Management Standards mapped onto the 11 factors, safety representatives (SRSC 1977, HSCER 1996) and a «no representative» case, UK GDPR and ICO; sources in `docs/markets/uk-legal.md` | built (D-265): 172 texts in English, the duties, provisions, coverage, gaps and factor references; legal review open |
 | UK-D | HSE's Indicator Tool as a UK module (`module_markets` row `gb`), verbatim, attributed under the Open Government Licence | researched 2026-10-10 (below); needs the module format widened first |
 | UK-E | The UK public site on empvibe.com: its own pages, Empvibe's name, UK search terms, hreflang and sitemap per host | |
 | UK-F | Documents: a UK Article 28 agreement, privacy notice, B2B terms; GBP prices and reverse-charge invoicing | waits on prices and legal review |

@@ -21,6 +21,10 @@
 --     personnummer, nine digits, and a Swedish number in Norway (19); a sign-up in Sweden gets
 --     Sweden's floor, language and time zone, and a Norwegian number there is refused (20); no
 --     organisation may hold a number its market's rule refuses, and the error never echoes it (21)
+--   * the United Kingdom (0222): a market at floor 5, in English, on London time, under gb_company (22);
+--     the rule takes a Companies House number of a company or LLP, prefix in capitals, eight
+--     characters, and refuses other registrations and other markets' numbers (23); a sign-up there gets
+--     the UK's floor, language and time zone, and a Swedish number there is refused (24)
 --
 -- Built inside a block that is rolled back. Every row must read pass = true.
 --
@@ -39,6 +43,7 @@ declare
   v_u1   uuid := '00000000-0000-4000-8000-0000000a4b06';
   v_u2   uuid := '00000000-0000-4000-8000-0000000a4b07';
   v_u3   uuid := '00000000-0000-4000-8000-0000000a4b0a';
+  v_u4   uuid := '00000000-0000-4000-8000-0000000a4b0b';
   v_meas uuid := '00000000-0000-4000-8000-0000000a4b08';
   v_rb   uuid; v_rp uuid; v_ro uuid;
   v_rows jsonb := '[]';
@@ -286,6 +291,44 @@ begin
       'pass', v_txt = 'check_violation: organisation number not valid in market no; check_violation'
               and (select org_number from app.organizations where id = v_no) = '999000217');
 
+    -- 22 --------------------------------------------------------------- the United Kingdom
+    v_rows := v_rows || jsonb_build_object('seq', 22, 'name', 'the United Kingdom is a market at floor 5, in English, on London time, under the gb_company rule',
+      'expected', '5,en,Europe/London,gb_company', 'actual',
+        coalesce((select m.k_floor || ',' || m.default_lang || ',' || m.timezone || ',' || m.org_number_rule from app.markets m where m.code = 'gb'), 'MISSING'),
+      'pass', (select m.k_floor = 5 and m.default_lang = 'en' and m.timezone = 'Europe/London' and m.org_number_rule = 'gb_company' from app.markets m where m.code = 'gb'));
+
+    -- 23 --------------------------------------------------------------- the Companies House rule
+    v_txt := concat_ws(',',
+      app.org_number_valid('gb_company', '01234567'),   -- England and Wales
+      app.org_number_valid('gb_company', 'SC327000'),   -- Scotland
+      app.org_number_valid('gb_company', 'NI000001'),   -- Northern Ireland
+      app.org_number_valid('gb_company', 'R0000001'),   -- Northern Ireland, before partition
+      app.org_number_valid('gb_company', 'OC300001'),   -- LLP, England and Wales
+      app.org_number_valid('gb_company', 'SO300001'),   -- LLP, Scotland
+      app.org_number_valid('gb_company', 'NC000001'),   -- LLP, Northern Ireland
+      app.org_number_valid('gb_company', 'LP000001'),   -- a limited partnership
+      app.org_number_valid('gb_company', 'FC000001'),   -- an overseas company
+      app.org_number_valid('gb_company', 'sc327000'),   -- the prefix is stored in capitals
+      app.org_number_valid('gb_company', '1234567'),    -- stored padded to eight
+      app.org_number_valid('gb_company', '999000214'),  -- Norway's nine digits
+      app.org_number_valid('nine_digits', '01234567'),
+      app.org_number_valid('se_legal_ten', 'SC327000'));
+    v_rows := v_rows || jsonb_build_object('seq', 23, 'name', 'a company''s or LLP''s Companies House number passes; another registration, lower case, seven digits and another market''s number do not',
+      'expected', 't,t,t,t,t,t,t,f,f,f,f,f,f,f', 'actual', v_txt, 'pass', v_txt = 't,t,t,t,t,t,t,f,f,f,f,f,f,f');
+
+    -- 24 --------------------------------------------------------------- a sign-up in the United Kingdom
+    insert into auth.users (id, email) values (v_u4, 'u4@markets-test.example');
+    perform set_config('request.jwt.claims', json_build_object('sub', v_u4, 'role', 'authenticated')::text, true);
+    v_json := public.create_organisation('Swedish Number Ltd', '5560125790', 12, 'Fire', 'gb');
+    v_txt := coalesce(v_json->>'error', 'CREATED');
+    v_json := public.create_organisation('Probe Ltd', 'SC999001', 12, 'Fire', 'gb');
+    perform set_config('request.jwt.claims', '', true);
+    v_rows := v_rows || jsonb_build_object('seq', 24, 'name', 'a sign-up in the United Kingdom gets its floor, language and time zone; a Swedish number there is refused',
+      'expected', 'invalid_org_number; true, gb, 5, en, Europe/London', 'actual', v_txt || '; ' || coalesce(v_json->>'ok', v_json->>'error', 'none') || ', '
+        || coalesce((select market || ', ' || threshold || ', ' || default_lang || ', ' || timezone from app.organizations where org_number = 'SC999001'), 'NOTHING'),
+      'pass', v_txt = 'invalid_org_number' and (v_json->>'ok')::bool
+              and (select market = 'gb' and threshold = 5 and default_lang = 'en' and timezone = 'Europe/London' from app.organizations where org_number = 'SC999001'));
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -294,8 +337,8 @@ begin
   -- 17 ------------------------------------------------------------------ nothing left
   select count(*) into v_n from (
     select code from app.markets where code in ('zz', 'zy')
-    union all select id::text from app.organizations where org_number between '999000214' and '999000220' or org_number in ('5566778899', '8507091232')
-    union all select id::text from auth.users where id in (v_dl, v_u1, v_u2, v_u3)
+    union all select id::text from app.organizations where org_number between '999000214' and '999000220' or org_number in ('5566778899', '8507091232', 'SC999001')
+    union all select id::text from auth.users where id in (v_dl, v_u1, v_u2, v_u3, v_u4)
   ) left_over;
   v_rows := v_rows || jsonb_build_object('seq', 17, 'name', 'every probe row was rolled back',
     'expected', '0', 'actual', v_n::text, 'pass', v_n = 0);
@@ -315,8 +358,8 @@ begin
   if v_failed is not null then
     raise exception 'markets invariants failed: %', v_failed;
   end if;
-  if v_count <> 21 then
-    raise exception 'markets invariants: expected 21 rows, got %', v_count;
+  if v_count <> 24 then
+    raise exception 'markets invariants: expected 24 rows, got %', v_count;
   end if;
 end $$;
 

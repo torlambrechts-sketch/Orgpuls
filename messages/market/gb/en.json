@@ -1,0 +1,384 @@
+{
+  "app": {
+    "tagline": "Psychosocial work environment and work-related stress for UK organisations. Answers are stored in the EU, and no single answer can be traced back to a person."
+  },
+  "innsikt": {
+    "law": {
+      "title": "Health and safety law",
+      "assessed": "MHSWR 1999 reg 3 surveyed and assessed ✓",
+      "assessPending": "MHSWR 1999 reg 3 surveyed · assessment outstanding",
+      "verneombud": "Health and safety representative consulted ✓",
+      "verneombudPending": "Health and safety representative not recorded",
+      "droftet": "Workforce consulted ✓",
+      "droftetOn": "Workforce consulted {date} ✓",
+      "droftetPending": "Workforce consultation not recorded"
+    }
+  },
+  "malinger": {
+    "qsLead": "Eleven factors, phrased in QPS Nordic language and mapped onto the areas of HSE’s Management Standards for work-related stress, which are guidance, not law; Change is touched by one statement only. Three statements per factor, answered 1–5. You may switch a factor off, but not change the wording — it is the wording that makes the figures comparable over time.",
+    "innstillinger": {
+      "reasonNote": "The reason is stored and shown with the survey, so the health and safety representative and an inspector from HSE or the local authority can see it. At least ten characters.",
+      "screening": "Documents the risk assessment of violence, threats and offensive behaviour. Can be left out, but then you must give a reason."
+    }
+  },
+  "rapport": {
+    "audience": {
+      "tilsyn": "HSE or the local authority",
+      "amu": "The safety committee"
+    },
+    "docTitle": {
+      "amu": "Paper for the safety committee — psychosocial work environment {year}"
+    },
+    "docLead": {
+      "tilsyn": "Prepared under the Management of Health and Safety at Work Regulations 1999 (in Northern Ireland, MHSWR (NI) 2000): the record of the significant findings of the risk assessment and of any group of employees identified as especially at risk (reg 3(6)), with the measures and how they are monitored and reviewed (reg 5). It covers work-related stress and the psychosocial work environment, not the organisation’s other health and safety duties. The employer keeps it; it is not filed anywhere, and an inspector from HSE or the local authority (HSENI in Northern Ireland) may ask to see it."
+    },
+    "instrumentBody": "Eleven factors of the psychosocial work environment, three statements per factor, answered on a five-point scale. The wording builds on QPS Nordic. The factors are mapped onto the areas of HSE’s Management Standards — Demands, Control, Support, Relationships and Role — and the mapping is Orgpuls’ own; the Change area is touched by one statement only. In addition one recommendation question, screening for offensive behaviour and for violence and threats, and one open field.",
+    "section4Empty": "The survey has not been risk-assessed. MHSWR 1999 reg 3 requires a suitable and sufficient risk assessment and, from five employees, a record of its significant findings (reg 3(6)); this document records the survey, not the assessment.",
+    "section8EmptyInfo": "There is no record that the findings were shared. Employees must be given comprehensible and relevant information on the risks the assessment identified and on the measures (MHSWR 1999 reg 10).",
+    "audienceName": {
+      "amu": "Safety committee"
+    },
+    "register": {
+      "lead": "Section 8 prints what is recorded here, in the same words. Employees must be given comprehensible and relevant information on the risks found and on the measures (MHSWR 1999 reg 10), and training is repeated when it falls due."
+    },
+    "evaluation": {
+      "cadence": {
+        "hver_6_mnd": "The need for the survey is evaluated every six months. The risk assessment must be reviewed if there is reason to suspect it is no longer valid or there has been a significant change (MHSWR 1999 reg 3(3)).",
+        "arlig": "The need for the survey is evaluated every year. The risk assessment must be reviewed if there is reason to suspect it is no longer valid or there has been a significant change (MHSWR 1999 reg 3(3)).",
+        "etter_hver_runde": "The need for the survey is evaluated after every round. The risk assessment must be reviewed if there is reason to suspect it is no longer valid or there has been a significant change (MHSWR 1999 reg 3(3))."
+      }
+    },
+    "styret": {
+      "assessed": "The risk assessment was made on {date} and its significant findings are recorded, as MHSWR 1999 reg 3(6) requires from five employees.",
+      "notAssessed": "The risk assessment under MHSWR 1999 reg 3 is outstanding."
+    },
+    "metaOrgnr": "Company number"
+  },
+  "tiltak": {
+    "lead": "Every measure hangs on a factor and cannot be closed before its effect has been measured. That is the monitoring and review of measures MHSWR 1999 reg 5 asks the employer to arrange.",
+    "kindNote": {
+      "individuelt": "HSE’s guidance on stress says to focus first on organisational issues that affect a group, and measures follow principles that include the organisation of work (MHSWR 1999 reg 4 and Sch 1). An individual measure should be justified."
+    }
+  },
+  "maleoppsett": {
+    "lead": {
+      "grunnlinje": "The whole question set, once a year. It can form part of the suitable and sufficient risk assessment MHSWR 1999 reg 3 requires, and it sets the zero point everything else is measured against."
+    },
+    "consentLead": "Three things are worth being able to show before the survey goes out: that employees or their representatives were consulted in good time, which the duty to consult supports; that employees know what the survey is for, and will hear what it found and what is being done (MHSWR 1999 reg 10); and that the arrangement is reviewed.",
+    "voLaw": "SRSC 1977 reg 4A · HSCER 1996 reg 3 — where you have one",
+    "voNote": "The health and safety representative is consulted on the setup, not merely told about it, and sees the result at the same time as management. Where there is no representative, you consult employees directly (HSCER 1996 reg 4(1)(a)).",
+    "tvLaw": "HSCER 1996 regs 3–4 — consulting employees or their elected representatives in good time",
+    "infoLaw": "MHSWR 1999 reg 10 — comprehensible and relevant information on the risks found and the measures",
+    "infoPurposeValue": "To assess the risk of work-related stress and record the significant findings of the risk assessment under MHSWR 1999 reg 3.",
+    "evalLaw": "MHSWR 1999 regs 3(3) and 5 — the assessment and the measures are reviewed",
+    "summaryLegal": "Basis for the stress risk assessment under MHSWR 1999 reg 3; results mapped onto HSE’s Management Standards areas (guidance, not law)",
+    "perRound": {
+      "reasonNote": "The reason is stored with the survey, so the health and safety representative and an inspector from HSE or the local authority can see it. At least ten characters.",
+      "screening": "Documents the risk assessment of violence, threats and offensive behaviour. Can be left out with a reason."
+    },
+    "kind": {
+      "grunnlinje": {
+        "note": "{count, plural, one {# question} other {# questions}} · annual · documents the risk assessment"
+      }
+    },
+    "vo": "The health and safety representative is consulted on the setup"
+  },
+  "arshjulet": {
+    "audience": {
+      "verneombud": {
+        "note": "Told first, so they can be consulted in good time before a survey starts. SRSC 1977 reg 4A, HSCER 1996 reg 3.",
+        "label": "Health and safety representative"
+      }
+    },
+    "cadence": {
+      "minimum": {
+        "label": "Baseline only",
+        "note": "One baseline a year. Enough for the risk assessment’s record, but you find things out late."
+      }
+    },
+    "lead": "Set it up once. After that the sending, reminding, results and follow-up run by themselves — and the health and safety representative is always told before the employees.",
+    "notifyVo": "Tell the health and safety representative when a deadline passes"
+  },
+  "oppsett": {
+    "lovmodus": {
+      "lead": "Controls how visible health and safety law and HSE’s guidance are in the interface.",
+      "onNote": "Provisions are shown under each factor, the result is framed as risk, and the Regulation tab with the report for HSE or the local authority is available. The health and safety representative is a role of its own."
+    },
+    "duty": {
+      "verneombudLaw": "SRSC 1977 reg 3 · HSCER 1996 reg 4 — no headcount rule",
+      "verneombudSmall": "There is no headcount rule. A recognised trade union may appoint safety representatives, or employees may elect representatives of employee safety; where there is neither, you consult employees directly (HSCER 1996 reg 4(1)(a)). The employer does not choose the representative.",
+      "amuTitle": "Safety committee",
+      "amuLaw": "SRSC 1977 reg 9 — when two union safety representatives ask in writing",
+      "amuRequired": "Keeps under review the measures taken to ensure health and safety at work (HSWA 1974 s.2(7)). Findings and measures are put to it as an item.",
+      "amuMay": "Required only if at least two union-appointed safety representatives ask for one in writing; it must then be set up within three months (SRSC 1977 reg 9).",
+      "amuSmall": "A safety committee is required only if two union-appointed safety representatives ask for one in writing (SRSC 1977 reg 9).",
+      "dependsOnIndustry": "Depends on your risks",
+      "bhtTitle": "Occupational health",
+      "bhtLaw": "MHSWR 1999 reg 7 — competent assistance",
+      "bhtDepends": "The UK has no list of industries that must have an occupational health service. What the law asks of every employer is competent assistance: one or more competent persons to help meet its health and safety duties, appointed in-house where someone suitable is employed, with enough time and means for the size of the organisation and its risks (MHSWR 1999 reg 7).",
+      "bhtLabel": "Occupational health or competent person",
+      "bhtPlaceholder": "Name of the provider or person"
+    },
+    "ansatte": {
+      "dutyNote": "The role here is a position under health and safety law, not an access grant. It records who is the health and safety or union representative — for the record of their consultation, for instance. Who may read what is governed by the login and the role under “Roles and access”, and is not changed by this field.",
+      "problem": {
+        "phone": "The mobile number cannot be used. Enter it with its country code, such as +44 7700 900123."
+      }
+    },
+    "personvern": {
+      "basis": {
+        "body": "Legal obligation, UK GDPR art. 6(1)(c), the obligation being the risk assessment under MHSWR 1999 reg 3 and HSWA 1974 s.2; for a public authority, a task carried out in the public interest (art. 6(1)(e)). Not consent — in the words of the Information Commission (ICO), “consent is not usually appropriate in the employment context”."
+      },
+      "special": {
+        "body": "The questions are written not to collect health data, which is special category data (UK GDPR art. 9). The screening for offensive behaviour and violence is reported as counts only."
+      }
+    },
+    "regelverk": {
+      "coverLead": "The six areas of HSE’s Management Standards for work-related stress, and where each is asked in the measurement, with the screening for harassment and violence. The Standards are guidance, not law, and the mapping is Orgpuls’ own. HSE does not expect an employer to meet every standard.",
+      "cover": {
+        "demands": {
+          "ref": "Management Standards: Demands — workload and work patterns"
+        },
+        "control": {
+          "ref": "Management Standards: Control — a say in how the work is done"
+        },
+        "support": {
+          "ref": "Management Standards: Support — from line managers and colleagues"
+        },
+        "relationships": {
+          "ref": "Management Standards: Relationships — respect and fairness at work"
+        },
+        "role": {
+          "ref": "Management Standards: Role — clear and compatible requirements"
+        },
+        "harassment": {
+          "ref": "Harassment and unacceptable behaviour (EqA 2010 ss.26, 40A, Great Britain)",
+          "where": "Screened by the questions on offensive behaviour at the end of the survey, as counts only — not a measure of the area"
+        },
+        "violence": {
+          "ref": "Violence and threats, as a risk to assess (MHSWR 1999 reg 3)",
+          "where": "Screened by the question on violence and threats at the end of the survey, as counts only — not a risk assessment of violence"
+        },
+        "change": {
+          "ref": "Management Standards: Change — how change is managed and communicated",
+          "where": "The eleven factors touch this only through one statement, on being heard when something is to change."
+        }
+      },
+      "gapLead": "The measurement is one source. HSE describes surveys as one technique among several for assessing the current situation, and the risk assessment must be acted on. This lies outside Orgpuls today:",
+      "gap": {
+        "policy": "A written health and safety policy, with the organisation and arrangements for carrying it out, brought to every employee’s notice — from five employees (HSWA 1974 s.2(3), SI 1975/1584)",
+        "arrangements": "The record of your arrangements for planning, organisation, control, monitoring and review, from five employees (MHSWR 1999 reg 5(2)) — Orgpuls gives the measurement and the action plan; the arrangements are yours to record",
+        "procedures": "Agreed policies and procedures to prevent or resolve unacceptable behaviour, and a way to report it (Management Standards: Relationships)",
+        "environment": "The physical work environment, and whether skills and jobs match the demands (Management Standards: Demands) — not measured",
+        "competent": "Competent assistance with your health and safety duties, in-house where you employ someone suitable (MHSWR 1999 reg 7)",
+        "consultation": "Consulting employees or their representatives before the survey, which the duty to consult in good time supports (SRSC 1977 reg 4A, HSCER 1996 reg 3) — Orgpuls records it, but the consultation is yours"
+      },
+      "legal": {
+        "hswa2": {
+          "ref": "HSWA 1974 s.2",
+          "what": "The general duty to ensure, so far as is reasonably practicable, the health, safety and welfare at work of all employees (in Northern Ireland, art. 4 of the 1978 Order). Orgpuls serves it for work-related stress."
+        },
+        "mhswr3": {
+          "ref": "MHSWR 1999 reg 3",
+          "what": "A suitable and sufficient assessment of the risks to employees, stress included, reviewed when it may no longer be valid; from five employees, a record of its significant findings and of any group especially at risk. Orgpuls documents the steps."
+        },
+        "mhswr5": {
+          "ref": "MHSWR 1999 reg 5",
+          "what": "Arrangements for the effective planning, organisation, control, monitoring and review of the measures, recorded from five employees. Orgpuls holds the action plan and its follow-up; the arrangements are the employer’s to record."
+        },
+        "hseStandards": {
+          "ref": "HSE Management Standards",
+          "what": "HSE’s guidance on work-related stress, not law: six areas — Demands, Control, Support, Relationships, Role and Change. Following the approach correctly is one way to make the risk assessment suitable and sufficient."
+        },
+        "consultation": {
+          "ref": "SRSC 1977 · HSCER 1996",
+          "what": "Consult union-appointed safety representatives, elected representatives of employee safety, or employees directly, in good time on health and safety matters. There is no headcount rule, and the employer does not choose the representative."
+        },
+        "ukgdpr": {
+          "ref": "UK GDPR · DPA 2018",
+          "what": "The survey processes personal data: legal obligation, not consent; employees may complain to the employer as controller (DPA 2018 s.164A); the regulator is the Information Commission (ICO). Results are shown only for groups that reach the threshold."
+        }
+      },
+      "coverTitle": "Coverage against HSE’s Management Standards"
+    },
+    "billing": {
+      "freeBody": "The trial ended on {end}, and you are on the free plan: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the written record of the risk assessment.",
+      "freeBodyChosen": "You moved to the free plan on {date}: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the written record of the risk assessment."
+    },
+    "selskap": {
+      "leadManual": "You enter the name and company number yourselves. The industry you are compared against is chosen below.",
+      "orgNumberLabel": "Company number",
+      "fact": {
+        "orgNumber": "Company number"
+      }
+    }
+  },
+  "hjelp": {
+    "article": {
+      "forsteTimen": {
+        "body": {
+          "p2": "Then check groups and the threshold. The groups decide what you can break the results down by, and should follow where people actually work together. The threshold decides how many answers a group needs before it is shown on its own. Five is the default, and the lowest you can choose in the UK.",
+          "p3": "Finally, set the measurement up under Measurement setup. That is where you record that the health and safety representative was consulted, or the employees directly where you have none (HSCER 1996 reg 4) — not a checkbox, but the record of their involvement. Only then can the round be planned."
+        }
+      },
+      "velgTerskel": {
+        "lead": "Why five is the lowest in the UK, what happens to groups below the threshold, and when a higher one may be right.",
+        "body": {
+          "p2": "Five is the default and the lowest an organisation in the UK can choose: the floor is enforced by the database, which always counts with at least five, whatever the settings say. You can raise it to at most ten if you want to be stricter. A change applies to surveys not yet opened; a survey already open keeps the threshold employees answered under.",
+          "p3": "The reason is not health and safety law but data protection law. In a small group a result can in practice be traced back to individuals, and then it is no longer anonymous figures — it is personal data. The Information Commission (ICO) points out that a person can be identifiable even if you do not know their name.",
+          "p4": "The consequence is worth planning for: if you have many small departments, you get few figures to steer by. It is then usually better to merge groups that actually work together."
+        }
+      },
+      "settOppArshjulet": {
+        "body": {
+          "p3": "The notification order is not optional. Safety and union representatives are notified first, then the managing director, then the line managers, and last everybody. The reason is that representatives should be consulted in good time, before the survey starts (SRSC 1977 reg 4A, HSCER 1996 reg 3), and a wheel that notified everybody at once would skip that. How far in advance the notices go is yours to change."
+        }
+      },
+      "egneSporsmal": {
+        "body": {
+          "p3": "Use them for what the instrument does not cover and that is specific to you — a reorganisation, a new rota, a move. Avoid questions about health: the ICO counts a questionnaire that detects health problems as health information, which is special category data, and a well-meant “how are you really doing?” is closer to that line than it looks."
+        }
+      },
+      "funnTilTiltak": {
+        "body": {
+          "p1": "Share the findings within two weeks. It is the single thing that decides the response rate next time, and it is also what the law assumes: employees must be given comprehensible and relevant information on the risks found and on the measures (MHSWR 1999 reg 10). A survey that is not shared is not a system, it is a questionnaire.",
+          "p4": "The effect is measured by the next pulse, which asks about exactly the factors that have open measures. That is the chain of MHSWR 1999 regs 3 and 5: assess the risk, act on it, then monitor and review the measures."
+        }
+      },
+      "gdpr": {
+        "body": {
+          "p1": "The legal basis is legal obligation, UK GDPR article 6(1)(c), the obligation being the risk assessment under MHSWR 1999 reg 3 and HSWA 1974 s.2. Not consent.",
+          "p3": "The questions are written not to collect health data, which is special category data under UK GDPR article 9. The screening for offensive behaviour and violence is reported as counts only.",
+          "p2": "That is not a technicality. Consent must be freely given, and an employee cannot consent freely to their employer — the power relationship is uneven. The survey also serves the risk assessment the employer must make in any case (MHSWR 1999 reg 3), and a consent that cannot be withdrawn without that duty falling away is not a consent."
+        }
+      },
+      "hvaLovenKrever": {
+        "title": "What health and safety law actually requires",
+        "lead": "HSWA 1974 s.2, MHSWR 1999 regs 3 and 5, and HSE’s Management Standards. What Orgpuls covers, and what you need elsewhere.",
+        "body": {
+          "p1": "Every employer must make a suitable and sufficient assessment of the risks to employees’ health and safety, stress included (MHSWR 1999 reg 3), and act on it under the general duty to ensure their health, safety and welfare so far as is reasonably practicable (HSWA 1974 s.2). From five employees the significant findings and any group especially at risk must be recorded (reg 3(6)), and so must the arrangements for planning, organisation, control, monitoring and review of the measures (reg 5). Orgpuls covers these steps for work-related stress and documents them.",
+          "p2": "No statute or regulation names psychosocial factors. HSE’s Management Standards, which are guidance and not law, describe six areas: Demands, Control, Support, Relationships, Role and Change. HSE considers the approach suitable and sufficient if it is followed correctly, and does not expect every standard to be met. The instrument is mapped onto five of the areas; Change is touched by one statement only.",
+          "p3": "The index is not a legal requirement. No provision mentions a number. What is required is a suitable and sufficient assessment and, from five employees, a written record of its significant findings (MHSWR 1999 reg 3(6)) — and that is the record Orgpuls produces.",
+          "p4": "This is what Orgpuls does not cover: the written health and safety policy (from five employees), the record of your arrangements, procedures to prevent and resolve unacceptable behaviour, the physical work environment, and competent assistance (MHSWR 1999 reg 7). Nor the consultation itself, which Orgpuls records but does not do. The Act and the Regulations apply in Great Britain; in Northern Ireland the same duties to assess and record are in art. 4 of the 1978 Order and MHSWR (NI) 2000, enforced by HSENI."
+        }
+      },
+      "kontrolltiltak": {
+        "title": "The measurement, consultation and data protection",
+        "lead": "Consulting representatives or employees, telling employees, reviewing the arrangement, and what data protection law adds.",
+        "body": {
+          "p1": "The answers and invitations are personal data under the UK GDPR, even though no single answer can be traced to a person: the Information Commission (ICO) says applying anonymisation itself counts as processing personal data. The ICO also says employees may count as vulnerable data subjects, and recommends a data protection impact assessment if in any doubt.",
+          "p2": "You should be able to show three things: that employees or their representatives were consulted in good time, which the duty to consult supports (SRSC 1977 reg 4A, HSCER 1996 reg 3); that employees know what the survey is for and are told what it found and what is being done (MHSWR 1999 reg 10); and that the arrangement is reviewed.",
+          "p3": "Measurement setup stores this as part of the round rather than as a tick. The consultation is recorded with a date and who it was held with, and the health and safety representative’s involvement is recorded separately.",
+          "p4": "The evaluation has its own cadence on the measurement, and the risk assessment must be reviewed if it may no longer be valid or there has been a significant change (MHSWR 1999 reg 3(3)). It is the part most often forgotten, because it falls due long after everybody has moved on."
+        }
+      },
+      "rapportTilTilsynet": {
+        "title": "The written record of your risk assessment",
+        "lead": "What it contains, which period it covers, and what to keep with it.",
+        "body": {
+          "p1": "The document is built to be your record of the significant findings of the risk assessment and of any group especially at risk (MHSWR 1999 reg 3(6)), not a presentation. It is not filed anywhere: you keep it, and an inspector from HSE or the local authority (HSENI in Northern Ireland) may ask to see it (HSWA 1974 s.20(2)(k)). It follows the steps in order: what was surveyed, what the risk assessment concluded, which measures were taken, and what the follow-up showed.",
+          "p4": "Keep with it what Orgpuls does not have: notes of the consultation with representatives or employees, your health and safety policy and the record of your arrangements, and documentation of information and training."
+        }
+      },
+      "rollerOgTilgang": {
+        "body": {
+          "p3": "The health and safety representative sees the same figures and the same risk assessment as management, and is notified first when a round starts. They do not see individual comments — the law gives representatives no right to information relating specifically to an individual unless that person consents (SRSC 1977 reg 7(2)(c), HSCER 1996 reg 5(3)(c)).",
+          "p4": "Union representative is a position in the register, not a login. It is recorded so that the consultation can be documented, and it grants no access in itself. The same holds for the role field in the register generally: it says who somebody is under the law, not what they may read."
+        }
+      }
+    }
+  },
+  "registrer": {
+    "incl": {
+      "report": "A record of the risk assessment you can show an inspector, the safety committee and the board"
+    },
+    "heard": {
+      "option": {
+        "bht": "Occupational health provider or health and safety consultant"
+      }
+    },
+    "orgNumber": "Company number",
+    "step1LeadManual": "Enter your Companies House company number and the name of the company.",
+    "orgNumberPlaceholderManual": "8 characters",
+    "orgNumberHintManual": "As Companies House prints it, such as 01234567 or SC123456. Limited companies and LLPs can sign up."
+  },
+  "headerPanel": {
+    "tabs": {
+      "lov": "Health and safety law"
+    },
+    "screen": {
+      "home": {
+        "sci": "The index is a weighted average of the eleven factors, converted from 1–5 to 0–100. A change of less than three points is within normal variation and should not be read as a trend. Source: QPS Nordic user guide (STAMI)."
+      },
+      "tasks": {
+        "sci": "The research behind QPS Nordic points out that actions aimed at how work is organised work better than individual measures such as stress-management courses. HSE’s guidance on stress likewise says to focus first on organisational issues that affect a group."
+      },
+      "measure": {
+        "s1": "The baseline is the full survey. It is taken once a year and sets the zero point."
+      }
+    },
+    "law": {
+      "home": "The loop on this page is the risk assessment put into a system: assess the risks (MHSWR 1999 reg 3), act on them, and plan, monitor and review the measures (reg 5). The index is not a legal requirement — a suitable and sufficient assessment is, and from five employees a record of its significant findings. The annual cycle covers consultation with employees or their representatives (HSWA 1974 s.2(6), HSCER 1996 reg 3).",
+      "measure": "The law requires no particular method and no particular frequency. It requires a suitable and sufficient risk assessment, reviewed when it may no longer be valid or there has been a significant change (MHSWR 1999 reg 3). HSE lists surveys as one technique for assessing the current situation. The factors here are mapped onto HSE’s Management Standards areas, and the wording is locked so that results stay comparable over time.",
+      "result": "The risk assessment is the requirement itself: MHSWR 1999 reg 3 requires a suitable and sufficient assessment and, from five employees, a record of its significant findings and of any group especially at risk (reg 3(6)). A number alone is not a risk assessment. Hence both factor rows and an overall index, and an assessment per factor.",
+      "conv": "A comment can be about bullying or harassment. It should then be handled under your procedures for unacceptable behaviour, not as an ordinary measure; HSE’s Management Standards look for agreed procedures to prevent or resolve it. The employer must take reasonable steps to prevent sexual harassment of employees (Equality Act 2010 s.40A, Great Britain). A disclosure that someone’s health or safety is endangered can be a qualifying disclosure (ERA 1996 s.43B).",
+      "tasks": "The risk assessment has to be acted on, not just recorded: HSE expects action on the problems it identifies, and MHSWR 1999 reg 5 asks for arrangements to plan, control, monitor and review the measures. That is why an action cannot be closed until its effect has been measured. Representatives are consulted in good time on measures that may substantially affect health and safety (SRSC 1977 reg 4A, HSCER 1996 reg 3).",
+      "plan": "The answers are personal data under the UK GDPR, even though no single answer can be traced to a person, and the legal basis is legal obligation, not consent. Results are shown only for groups that reach the threshold. Employees or their representatives should be consulted in good time, which the duty to consult supports (SRSC 1977 reg 4A, HSCER 1996 reg 3), and employees are told what the assessment found (MHSWR 1999 reg 10).",
+      "wheel": "MHSWR 1999 reg 3(3) requires the risk assessment to be reviewed when there is reason to suspect it is no longer valid or there has been a significant change, whenever in the year that happens. Reg 5 asks for arrangements to monitor and review the measures. The notification order in the annual cycle lets representatives be consulted first.",
+      "settings": "The threshold is not a requirement of health and safety law but follows from data protection law: with few answers, results in small groups can be traced back to individuals, and the Information Commission (ICO) says a person can be identifiable even if you do not know their name. The legal basis is legal obligation under UK GDPR Article 6(1)(c), not consent — the ICO says consent is not usually appropriate in the employment context. The questions are designed not to collect health data (UK GDPR Article 9).",
+      "report": "The written record lies in MHSWR 1999: from five employees, the significant findings of the risk assessment and any group especially at risk (reg 3(6)), and the arrangements for the measures (reg 5(2)); the written health and safety policy is HSWA 1974 s.2(3). Nothing is filed: an inspector from HSE or the local authority may require the documents to be produced (HSWA 1974 s.20(2)(k)). A safety committee, where there is one, keeps the measures under review (s.2(7))."
+    }
+  },
+  "mail": {
+    "forvarsel": {
+      "verneombud": "The health and safety representative is told first, so they can be consulted in good time before the survey starts (SRSC 1977 reg 4A, HSCER 1996 reg 3). You can see the setup in Orgpuls."
+    },
+    "lifecycle": {
+      "results_ready": {
+        "more": "The report in Orgpuls is your written record of the risk assessment: survey, significant findings and measures, in one place. You keep it, and an inspector from HSE or the local authority may ask to see it."
+      }
+    },
+    "evaluering": {
+      "lead": "The risk assessment must be reviewed if it may no longer be valid or there has been a significant change (MHSWR 1999 reg 3(3)), and the need for the survey is assessed at the cadence you chose. The evaluation was due {date}.",
+      "leadNoDate": "The risk assessment must be reviewed if it may no longer be valid or there has been a significant change (MHSWR 1999 reg 3(3)), and the need for the survey is assessed at the cadence you chose. The evaluation is due."
+    }
+  },
+  "smsSetup": {
+    "legal": "The survey is part of the employer’s risk assessment under health and safety law (MHSWR 1999 reg 3), not marketing, and its legal basis is legal obligation rather than consent (UK GDPR art. 6(1)(c)). The number must still come from the employment, not from private sources."
+  },
+  "resultater": {
+    "effect": {
+      "lead": "«The measures taken after the last survey have had a positive effect on my workplace.» Asked from the second survey and not counted in the index. It is part of monitoring and reviewing the measures, as MHSWR 1999 reg 5 asks."
+    }
+  },
+  "kommentarer": {
+    "varselNote": "This may concern bullying or harassment. Do reply here, but the case should be handled under your procedures for unacceptable behaviour — not as an ordinary work-environment measure. The employer must take reasonable steps to prevent sexual harassment (Equality Act 2010 s.40A, Great Britain)."
+  },
+  "veiviser": {
+    "safety": {
+      "duty": "{count, plural, one {With # employee} other {With # employees}} you must consult your workforce on health and safety: through union-appointed safety representatives, elected representatives of employee safety, or with the employees directly. There is no headcount rule for a representative. If you have one, record them here; they see the result at the same time as management and are told before every send.",
+      "dutySmall": "There is no headcount rule for a health and safety representative. If a union has appointed one or the employees have elected one, record them here; if not, you consult employees directly (HSCER 1996 reg 4(1)(a)).",
+      "amuMust": "Where two union-appointed safety representatives have asked for one in writing, you must also have a safety committee (SRSC 1977 reg 9). The report prepares its item automatically.",
+      "amuMay": "A safety committee is required only if two union-appointed safety representatives ask for one in writing, and must then be set up within three months (SRSC 1977 reg 9).",
+      "empty": "Add the employees first, then you can record who your health and safety representative is, if you have one."
+    },
+    "law": {
+      "lead": "Both use the same research-based questions. The difference is whether the results are linked to health and safety law and HSE’s Management Standards.",
+      "on": {
+        "label": "Health and safety law"
+      }
+    },
+    "org": {
+      "number": "Company number",
+      "leadManual": "Check the name the organisation is shown with. The company number was registered when the account was made."
+    }
+  },
+  "plan": {
+    "report": {
+      "body": "The written record of your risk assessment – survey, significant findings and measures in one document – comes with a plan. On the free plan you can send the standard main survey, read the results and follow up with measures."
+    }
+  },
+  "roundPage": {
+    "madeWithWhat": "work environment surveys for the risk assessment under UK health and safety law"
+  }
+}

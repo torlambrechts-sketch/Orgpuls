@@ -3051,7 +3051,8 @@
       "rate_limited": "Too many lookups in a short time. Wait a few minutes and try again.",
       "google_failed": "Signing up with Google did not go through. Try again, or sign up with e-mail and password.",
       "microsoft_failed": "Registering with Microsoft did not go through. Try again, or register with e-mail and password.",
-      "invalid_org_number_se": "A Swedish organisation number is ten digits, and a personal identity number cannot be used. Check the number and try again."
+      "invalid_org_number_se": "A Swedish organisation number is ten digits, and a personal identity number cannot be used. Check the number and try again.",
+      "invalid_org_number_gb": "A Companies House company number is eight characters: eight digits, or two letters such as SC or OC followed by six digits. Check the number and try again."
     },
     "googleOr": "or",
     "google": "Continue with Google",

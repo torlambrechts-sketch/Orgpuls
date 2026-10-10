@@ -32,7 +32,8 @@ const Flow = z.discriminatedUnion('flow', [
   z.object({ flow: z.literal('invite'), token: z.string().regex(/^[0-9a-f]{64}$/) }),
   z.object({
     flow: z.literal('signup'),
-    orgNumber: z.string().transform((v) => normalizeOrgNumber(v)).pipe(z.string().regex(/^\d{9,10}$/)),
+    // the shape of any market's number; the market's own rule once the host has named it (below)
+    orgNumber: z.string().transform((v) => normalizeOrgNumber(v)).pipe(z.string().regex(/^[0-9A-Z]{1,10}$/)),
     companyName: z.string().trim().min(1).max(200),
     employeeCount: z.coerce.number().int().min(0).max(100_000),
     consent: z.literal('on'),
@@ -59,17 +60,19 @@ async function startOAuth(provider: Provider, formData: FormData): Promise<void>
   callback.searchParams.set('flow', f.flow)
   if (provider === 'azure') callback.searchParams.set('p', 'azure')
   if (f.flow === 'invite') callback.searchParams.set('token', f.token)
-  // the number has to be one in the market of the host the sign-up started on (0218)
-  if (f.flow === 'signup' && !validOrgNumber(marketOfHost(callback.host), f.orgNumber)) redirect(failed as never)
+  // the number has to be one in the market of the host the sign-up started on (0218), as that
+  // market stores it (a UK number of digits only padded to eight, 0222)
+  const market = marketOfHost(callback.host)
+  if (f.flow === 'signup' && !validOrgNumber(market, f.orgNumber)) redirect(failed as never)
   if (f.flow === 'signup') {
     ;(await cookies()).set(
       SIGNUP_COOKIE,
       JSON.stringify({
-        orgNumber: f.orgNumber,
+        orgNumber: normalizeOrgNumber(f.orgNumber, market),
         companyName: f.companyName,
         employeeCount: f.employeeCount,
         // the market of the host the sign-up started on (D-251), read back by the callback
-        market: marketOfHost(callback.host),
+        market,
       }),
       { httpOnly: true, secure: callback.protocol === 'https:', sameSite: 'lax', path: '/', maxAge: 1800 },
     )

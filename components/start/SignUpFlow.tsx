@@ -55,6 +55,7 @@ export function SignUpFlow({
   registry = true,
   floor = K_FLOOR,
   legal = true,
+  numberInput = 'numeric',
 }: {
   google?: boolean
   microsoft?: boolean
@@ -66,6 +67,8 @@ export function SignUpFlow({
   floor?: number
   /** whether the market's law and report are built (lib/markets.ts LEGAL_PACK): no report promised otherwise */
   legal?: boolean
+  /** the keyboard the market's number needs (lib/org-number.ts orgNumberInput): a UK prefix is letters */
+  numberInput?: 'numeric' | 'text'
 }) {
   const t = useTranslations('registrer')
   const router = useRouter()
@@ -188,7 +191,8 @@ export function SignUpFlow({
                 <span className="mb-[7px] block text-[13px] font-bold">{t('orgNumber')}</span>
                 <input
                   name="orgNumber"
-                  inputMode="numeric"
+                  inputMode={numberInput}
+                  autoCapitalize={numberInput === 'text' ? 'characters' : undefined}
                   required
                   defaultValue={found?.orgNumber ?? prefilled}
                   placeholder={t(registry ? 'orgNumberPlaceholder' : 'orgNumberPlaceholderManual')}

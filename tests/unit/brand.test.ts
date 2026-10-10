@@ -23,10 +23,11 @@ const strings = (tree: unknown, out: string[] = []): string[] => {
 }
 
 describe('the brands', () => {
-  it('give every market a brand, and Norway and Sweden Orgpuls', () => {
+  it('give every market a brand: Norway and Sweden Orgpuls, the United Kingdom Empvibe (X-111)', () => {
     for (const m of MARKETS) expect(BRANDS[brandOf(m)], m).toBeDefined()
     expect(MARKET_BRAND.no).toBe('orgpuls')
     expect(MARKET_BRAND.se).toBe('orgpuls')
+    expect(MARKET_BRAND.gb).toBe('empvibe')
     expect(DEFAULT_BRAND).toBe('orgpuls')
   })
 
@@ -74,5 +75,15 @@ describe('the texts under a brand', () => {
 
   it('keep the shape: arrays, numbers and nesting', () => {
     expect(rebrand({ a: ['Orgpuls', 2, { b: 'Orgpuls' }] }, 'empvibe', 'en')).toEqual({ a: ['Empvibe', 2, { b: 'Empvibe' }] })
+  })
+})
+
+describe('the UK pack under its brand', () => {
+  it('reads Empvibe wherever it names the product, with the English possessive', () => {
+    const gb = strings(read('market/gb/en'))
+    const shown = strings(rebrand(read('market/gb/en'), brandOf('gb'), 'en'))
+    expect(shown.filter((v) => /Orgpuls/.test(v))).toEqual([])
+    // the report's instrument text says the mapping is «Orgpuls’ own»: Empvibe's own
+    if (gb.some((v) => /Orgpuls’ own/.test(v))) expect(shown.some((v) => /Empvibe's own/.test(v))).toBe(true)
   })
 })
