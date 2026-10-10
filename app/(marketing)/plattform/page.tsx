@@ -1,5 +1,5 @@
 import type { Metadata, Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
@@ -7,7 +7,8 @@ import { Tick } from '@/components/site/parts'
 import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
-import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
+import { breadcrumbs, graph, organization, siteLd } from '@/lib/marketing/schema'
+import { ownSite, serves } from '@/lib/site/own'
 import { zip } from '@/lib/site/zip'
 import sporsmal from '@/assets/produkt/sporsmal.webp'
 
@@ -247,15 +248,24 @@ export default async function PlattformPage() {
     tiltak: text.tiltak.card.title.replace('{factor}', factor('ytring').toLocaleLowerCase()),
   }
 
+  // the site the page is on (D-270): its name, its addresses; a site of its own has no articles, so the
+  // survey's «Les mer» goes to the use case it serves there
+  const ld = await siteLd()
+  const own = await ownSite()
+  const readMoreOf = (id: CaseId) => (id === 'respondent' && !serves(own, '/artikler') ? '/bruksomrader#kartlegging' : USE[id])
+
   return (
     <>
       <JsonLd
         data={graph(
-          organization(),
-          breadcrumbs([
-            { name: 'Orgpuls', path: '/' },
-            { name: t('crumb'), path: '/plattform' },
-          ]),
+          organization(ld),
+          breadcrumbs(
+            [
+              { name: ld.name, path: '/' },
+              { name: t('crumb'), path: '/plattform' },
+            ],
+            ld,
+          ),
           { '@type': 'WebPage', name: seo('title'), description: seo('description') },
         )}
       />
@@ -268,7 +278,7 @@ export default async function PlattformPage() {
             <ol className="m-0 flex list-none flex-wrap gap-[8px] p-0 text-[13px] text-body">
               <li>
                 <Link href="/" className="text-body hover:text-body">
-                  Orgpuls
+                  {ld.name}
                 </Link>
               </li>
               <li aria-current="page" className="flex gap-[8px]">
@@ -378,7 +388,7 @@ export default async function PlattformPage() {
                   </span>
                   <ul aria-labelledby={`${id}-lesmer`} className="m-0 flex list-none flex-wrap gap-x-[18px] gap-y-[8px] p-0">
                     <li>
-                      <Link href={USE[id] as Route} className="text-[14px] font-bold hover:no-underline">
+                      <Link href={readMoreOf(id) as Route} className="text-[14px] font-bold hover:no-underline">
                         {c.use} <span aria-hidden="true">→</span>
                       </Link>
                     </li>

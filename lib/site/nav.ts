@@ -160,3 +160,76 @@ export type FooterId = keyof typeof FOOTERS
 /** Which footer a page carries: the one its design draws; every other public page the long one. */
 export const footerFor = (pathname: string): FooterId =>
   pathname === '/' ? 'home' : pathname === '/bransjer' || pathname === '/priser' ? 'short' : 'long'
+
+/**
+ * A site of its own (Empvibe's, D-270): the pages it serves (lib/hosts.ts `Site.own`) and no others.
+ * Its menu is Plattform with Bruksområder and Hvorfor under it, as Norway's; Ressurser opens on the
+ * law, with safety representatives, small businesses and security under it, since the site has no
+ * articles; Kontakt where Norway has Pris, until the United Kingdom has prices (UK-F). No Bransjer:
+ * the industry modules are Norway's. The words are the market's (messages/market/gb).
+ */
+export const OWN_NAV: typeof SITE_NAV = [
+  {
+    key: 'plattform',
+    href: '/plattform',
+    all: 'omPlattformen',
+    children: [
+      { key: 'bruksomrader', href: '/bruksomrader' },
+      { key: 'hvorfor', href: '/hvorfor' },
+    ],
+  },
+  {
+    key: 'ressurser',
+    href: '/lovkrav',
+    all: 'lovkrav',
+    children: [
+      { key: 'verneombud', href: '/verneombud' },
+      { key: 'smaaBedrifter', href: '/smaa-bedrifter' },
+      { key: 'sikkerhet', href: '/sikkerhet' },
+    ],
+  },
+  { key: 'kontakt', href: '/kontakt' },
+]
+
+/** Its footer, the same on every page: the product, what it is used for, guidance, and the company */
+const OWN_FOOTER: FooterColumn[] = [
+  {
+    head: 'produkt',
+    links: [
+      { key: 'plattform', href: '/plattform' },
+      { key: 'malinger', href: '/plattform#malinger' },
+      { key: 'resultater', href: '/plattform#resultater' },
+      { key: 'kommentarer', href: '/plattform#kommentarer' },
+      { key: 'tiltak', href: '/plattform#tiltak' },
+      { key: 'hvorfor', href: '/hvorfor' },
+    ],
+  },
+  {
+    head: 'bruksomrader',
+    links: [
+      { key: 'utenHr', href: '/bruksomrader#uten-hr' },
+      { key: 'smaaBedrifter', href: '/smaa-bedrifter' },
+      { key: 'arlig', href: '/bruksomrader#kartlegging' },
+      { key: 'tilsyn', href: '/bruksomrader#tilsyn' },
+      { key: 'amu', href: '/bruksomrader#amu' },
+    ],
+  },
+  {
+    head: 'ressurser',
+    links: [
+      { key: 'lovenForklart', href: '/lovkrav' },
+      { key: 'verneombud', href: '/verneombud' },
+      { key: 'personvernAnonymitet', href: '/sikkerhet' },
+    ],
+  },
+  {
+    head: 'omOss',
+    links: [
+      { key: 'kontakt', href: '/kontakt#skriv' },
+      { key: 'personvernerklaering', href: '/personvernerklaering' },
+      { key: 'vilkar', href: '/vilkar' },
+    ],
+  },
+]
+
+export const OWN_FOOTERS: Record<FooterId, FooterColumn[]> = { home: OWN_FOOTER, long: OWN_FOOTER, short: OWN_FOOTER }

@@ -12,8 +12,10 @@ import { DEFAULT_MARKET, MARKET_LANGS, type Market } from '@/lib/markets'
  *                      SE_HOST overrides it, like EN_HOST
  *   de.orgpuls.com     reserved for Germany (X-110): every address goes to the English site until
  *                      the market opens (RESERVED_HOSTS, D-258)
- *   empvibe.com        Empvibe, the English-speaking brand (X-111): its own holding page until its
- *                      site opens (HOLDING_HOSTS, D-269), never the Orgpuls name
+ *   www.empvibe.com    Empvibe, the English-speaking brand, the United Kingdom's site (X-111, UK-E,
+ *                      D-270): built and served where EMPVIBE_SITE=open, and until the move (UK-G)
+ *                      its holding page in production (HOLDING_HOSTS, D-269), never the Orgpuls name.
+ *                      EMPVIBE_HOST overrides it, like EN_HOST
  *
  * `EN_HOST` overrides the default, e.g. for a staging domain. Local and preview builds match
  * none of these, so the language switch works there on one host. The platform admin is no
@@ -48,6 +50,17 @@ export type Site = {
    * to the sign-up and nothing is indexed (hostGate).
    */
   publicSite: boolean
+  /**
+   * A site of its own (D-270): its pages are not the Norwegian site's twins, so they name no
+   * alternate on Orgpuls's hosts, and only the pages listed in `pages` are served there, under the
+   * addresses in `paths`. Norway's hosts have neither: every page, at its route.
+   */
+  own?: {
+    /** the public site's routes this site serves; any other page of the site is a 404 there */
+    pages: readonly string[]
+    /** a route's address on this site where it differs, e.g. /plattform at /platform */
+    paths: Readonly<Record<string, string>>
+  }
 }
 
 /** what the Norwegian site offers, and every host that is not a site (local, a preview) */
@@ -61,12 +74,77 @@ const NORWAY_LANGS: readonly Locale[] = MARKET_LANGS.no
 export const SE_HOST = process.env.SE_HOST?.trim().toLowerCase() || 'se.orgpuls.com'
 export const SE_URL = `https://${SE_HOST}`
 
+/**
+ * Empvibe's site, the United Kingdom's (X-111, UK-E, D-270): www.empvibe.com, with the bare domain
+ * as its alias. EMPVIBE_HOST overrides the address, as EN_HOST does the English one.
+ */
+export const EMPVIBE_HOST = process.env.EMPVIBE_HOST?.trim().toLowerCase() || 'www.empvibe.com'
+export const EMPVIBE_URL = `https://${EMPVIBE_HOST}`
+
+/**
+ * Whether Empvibe's site is open (X-111: build first, move when ready). Until the move (UK-G) it is
+ * not, in production: the hosts show the holding page (D-269), no site row names them, and so no
+ * host signs anyone up into the United Kingdom. A local or QA server sets EMPVIBE_SITE=open to see
+ * the site as it will be. UK-G makes it the default and removes the holding rows.
+ */
+export const EMPVIBE_OPEN = process.env.EMPVIBE_SITE?.trim() === 'open'
+
+/**
+ * The pages Empvibe's site serves, by route (D-270): the product, the use cases, the argument, the
+ * law, safety representatives, small businesses, security, contact and the documents. Not the
+ * industries, the articles, the templates or the demo, which are written for Norway, and not the
+ * prices until the United Kingdom has its own (UK-F).
+ */
+const EMPVIBE_PAGES = [
+  '/',
+  '/plattform',
+  '/bruksomrader',
+  '/hvorfor',
+  '/lovkrav',
+  '/verneombud',
+  '/smaa-bedrifter',
+  '/sikkerhet',
+  '/kontakt',
+  '/personvernerklaering',
+  '/vilkar',
+] as const
+
+/** Their addresses in English, and the sign-in's and sign-up's, which every page links to (D-270) */
+const EMPVIBE_PATHS: Readonly<Record<string, string>> = {
+  '/plattform': '/platform',
+  '/bruksomrader': '/use-cases',
+  '/hvorfor': '/why-empvibe',
+  '/lovkrav': '/work-related-stress-law',
+  '/verneombud': '/safety-representatives',
+  '/smaa-bedrifter': '/small-businesses',
+  '/sikkerhet': '/security',
+  '/kontakt': '/contact',
+  '/personvernerklaering': '/privacy',
+  '/vilkar': '/terms',
+  '/priser': '/pricing',
+  '/logg-inn': '/sign-in',
+  '/registrer': '/sign-up',
+}
+
+const EMPVIBE_SITES: readonly Site[] = [EMPVIBE_HOST, 'empvibe.com'].map((host) => ({
+  host,
+  url: EMPVIBE_URL,
+  brand: 'empvibe',
+  market: 'gb',
+  lang: 'en',
+  pinned: true,
+  langs: MARKET_LANGS.gb,
+  publicSite: true,
+  own: { pages: EMPVIBE_PAGES, paths: EMPVIBE_PATHS },
+}))
+
 export const SITES: readonly Site[] = [
   { host: MAIN_HOST, url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS, publicSite: true },
   { host: 'orgpuls.com', url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS, publicSite: true },
   { host: EN_HOST, url: EN_URL, brand: 'orgpuls', market: 'no', lang: 'en', pinned: true, langs: NORWAY_LANGS, publicSite: true },
   // the Swedish public site is SE-F; until it is built, the host serves the sign-up and the product
   { host: SE_HOST, url: SE_URL, brand: 'orgpuls', market: 'se', lang: 'sv', pinned: false, langs: MARKET_LANGS.se, publicSite: false },
+  ...(EMPVIBE_OPEN ? EMPVIBE_SITES : []),
 ]
 
 /**
@@ -94,10 +172,9 @@ export const RESERVED_HOSTS: Readonly<Record<string, string>> = {
  * not in place yet (docs/markets/PLAN.md UK-F). Every address on the host is that page (hostGate),
  * nothing there is indexed, and the day the brand's site opens it becomes a row in SITES.
  */
-export const HOLDING_HOSTS: Readonly<Record<string, { brand: Brand; lang: Locale }>> = {
-  'empvibe.com': { brand: 'empvibe', lang: 'en' },
-  'www.empvibe.com': { brand: 'empvibe', lang: 'en' },
-}
+export const HOLDING_HOSTS: Readonly<Record<string, { brand: Brand; lang: Locale }>> = EMPVIBE_OPEN
+  ? {}
+  : Object.fromEntries(EMPVIBE_SITES.map((s) => [s.host, { brand: s.brand, lang: s.lang }]))
 
 /** where hostGate takes every address on a holding host; the page answers 404 on any other host */
 export const HOLDING_PATH = '/venteside'
@@ -125,6 +202,29 @@ export const marketOfHost = (host: string | null | undefined): Market => siteOf(
 
 /** The languages the public site's switch offers on this host: the site's, Norway's elsewhere (D-252). */
 export const siteLangs = (host: string | null | undefined): readonly Locale[] => siteOf(host)?.langs ?? NORWAY_LANGS
+
+/**
+ * A link's address on this site (D-270): a route the site serves under another address gets that
+ * one, with its query and fragment kept; anything else is the link as written. On Norway's hosts,
+ * and any host that is not a site, every link is its route.
+ */
+export function addressOf(paths: Readonly<Record<string, string>> | undefined, href: string): string {
+  if (!paths || !href.startsWith('/')) return href
+  const at = href.search(/[?#]/)
+  const path = at < 0 ? href : href.slice(0, at)
+  const alias = paths[path]
+  return alias ? `${alias}${at < 0 ? '' : href.slice(at)}` : href
+}
+
+/** The route an address on this site shows: the alias's route, or the address itself */
+export function routeOf(paths: Readonly<Record<string, string>> | undefined, path: string): string {
+  if (!paths) return path
+  for (const [route, alias] of Object.entries(paths)) if (alias === path) return route
+  return path
+}
+
+/** a page of the public site that no route answers: a request for a page this site does not serve is shown it (D-270) */
+export const NOT_SERVED_PATH = '/_ikke/her'
 
 const LOOPBACK = new Set(['localhost', '127.0.0.1'])
 
@@ -169,12 +269,34 @@ export function hostGate(
   host: string | null | undefined,
   path: string,
   publicPath: boolean,
-): { noindex: boolean; redirect: string | null; rewrite?: string } {
+): { noindex: boolean; redirect: string | null; rewrite?: string; canonical?: true } {
   const reserved = RESERVED_HOSTS[hostOf(host)]
   if (reserved) return { noindex: true, redirect: `${reserved}${path}` }
   if (holdingOf(host)) return path === '/robots.txt' ? { noindex: true, redirect: null } : { noindex: true, redirect: null, rewrite: HOLDING_PATH }
   const site = siteOf(host)
+  if (site?.own) return ownSite(site.own, path, publicPath)
   if (!site || site.publicSite) return { noindex: false, redirect: null }
   const served = WITHOUT_SITE.some((p) => path === p || path.startsWith(`${p}/`))
   return { noindex: true, redirect: publicPath && !served ? '/registrer' : null }
 }
+
+/**
+ * A site of its own (Empvibe's, D-270): an address in its language shows its route in place; the
+ * route itself, asked for by its Norwegian address, goes to the site's own address (`canonical`: a
+ * permanent redirect that keeps the query, for a page load only), so each page has one address; a
+ * page of the public site it does not serve is a 404. What is not the public site (the product,
+ * the survey, sign-in links, the API, robots.txt and the sitemap) passes as it does everywhere.
+ */
+function ownSite(own: NonNullable<Site['own']>, path: string, publicPath: boolean) {
+  const serves = (route: string) =>
+    (own.pages as readonly string[]).includes(route) || WITHOUT_SITE.some((p) => route === p || route.startsWith(`${p}/`)) || SITE_FILES.includes(route)
+  const notServed = { noindex: true, redirect: null, rewrite: NOT_SERVED_PATH }
+  const route = routeOf(own.paths, path)
+  if (route !== path) return serves(route) ? { noindex: false, redirect: null, rewrite: route } : notServed
+  const alias = own.paths[path]
+  if (alias && serves(path)) return { noindex: false, redirect: alias, canonical: true as const }
+  return publicPath && !serves(path) ? notServed : { noindex: false, redirect: null }
+}
+
+/** the files a site of its own answers for itself (app/sitemap.ts, app/llms.txt) */
+const SITE_FILES = ['/sitemap.xml', '/llms.txt']

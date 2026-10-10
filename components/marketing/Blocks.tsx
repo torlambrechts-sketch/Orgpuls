@@ -1,5 +1,5 @@
 import type { Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import type { Block } from '@/lib/marketing/blocks'
 import { Cycle, Hub, Ladder, Timeline } from './Diagrams'
 import { LawRef } from './LawRef'

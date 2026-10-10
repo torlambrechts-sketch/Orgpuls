@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useId, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/marketing/events'
 import { currentUtm } from '@/lib/marketing/utm'
+import { normalizeOrgNumber, orgNumberInput, validOrgNumber } from '@/lib/org-number'
+import { useSiteMarket, useSitePaths } from './SitePaths'
 
 /**
  * "Organisasjonsnummer" and "Prøv gratis" in the band at the foot of each page (D-88, D-190;
@@ -42,6 +44,9 @@ export function OrgStart({
 }) {
   const id = useId()
   const router = useRouter()
+  // the number of the market this host signs up into, and the sign-up's address on this site (D-270)
+  const market = useSiteMarket()
+  const signUp = useSitePaths().address('/registrer')
   const input = useRef<HTMLInputElement>(null)
   const [value, setValue] = useState('')
   const [note, setNote] = useState<{ ok: boolean; text: string } | null>(null)
@@ -68,22 +73,22 @@ export function OrgStart({
   const error = note && !note.ok
   return (
     <form
-      action="/registrer"
+      action={signUp}
       method="get"
       noValidate
       onSubmit={(e) => {
         e.preventDefault()
-        const digits = value.replace(/\D/g, '')
-        if (digits.length !== 9) {
+        const digits = market === 'no' ? value.replace(/\D/g, '') : normalizeOrgNumber(value, market)
+        if (market === 'no' ? digits.length !== 9 : !validOrgNumber(market, value)) {
           setNote({ ok: false, text: invalid })
           input.current?.focus()
           return
         }
-        // the org.nr. grouped in threes with narrow no-break spaces (copy T2)
-        setNote({ ok: true, text: fetching.replace('{orgnr}', digits.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3')) })
+        // the org.nr. grouped in threes with narrow no-break spaces (copy T2); another market's as typed, normalised
+        setNote({ ok: true, text: fetching.replace('{orgnr}', digits.replace(/^(\d{3})(\d{3})(\d{3})$/, '$1 $2 $3')) })
         trackEvent('signup_started')
         // a moment for the live region to be read before the page changes
-        setTimeout(() => router.push(`/registrer?${new URLSearchParams({ orgnr: digits, ...currentUtm() })}` as Route), 300)
+        setTimeout(() => router.push(`${signUp}?${new URLSearchParams({ orgnr: digits, ...currentUtm() })}` as Route), 300)
       }}
     >
       <div className="flex flex-wrap gap-[9px]">
@@ -100,7 +105,7 @@ export function OrgStart({
             setValue(e.target.value)
             setNote(null)
           }}
-          inputMode="numeric"
+          inputMode={orgNumberInput(market)}
           autoComplete="off"
           spellCheck={false}
           enterKeyHint="go"

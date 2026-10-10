@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
 import { EN_URL, MAIN_URL } from '@/lib/hosts'
+import { ownSite } from '@/lib/site/own'
 import { absolute } from './site'
 
 /**
@@ -23,6 +24,29 @@ export async function pageMeta(m: {
   /** a page that exists in this language but whose twin is not live yet: canonical here, no hreflang (D-120) */
   noTwin?: boolean
 }): Promise<Metadata> {
+  // a site of its own (D-270): canonical at its own address, in British English, under its own
+  // name, and no twin on Orgpuls's hosts, whose pages are another brand's and another market's
+  const own = await ownSite()
+  if (own) {
+    const url = own.absolute(m.path || '/')
+    const image = { url: `${own.site.url}${m.image ?? '/og.png'}`, width: 1200, height: 630, alt: m.title }
+    return {
+      title: { absolute: m.title },
+      description: m.description,
+      alternates: { canonical: url, languages: { 'en-GB': url, 'x-default': url } },
+      openGraph: {
+        type: m.type ?? 'website',
+        url,
+        title: m.title,
+        description: m.description,
+        siteName: own.name,
+        locale: 'en_GB',
+        images: [image],
+        ...(m.type === 'article' ? { publishedTime: m.published, modifiedTime: m.modified } : {}),
+      },
+      twitter: { card: 'summary_large_image', title: m.title, description: m.description, images: [image.url] },
+    }
+  }
   const en = (await getLocale()) === 'en' && !m.norwegianOnly
   const path = m.path || '/'
   const url = `${en ? EN_URL : MAIN_URL}${path}`

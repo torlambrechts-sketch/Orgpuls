@@ -1,5 +1,5 @@
 import type { Metadata, Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { industryCards } from '@/components/industry/IndustryCards'
 import { z } from 'zod'

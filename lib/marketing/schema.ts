@@ -1,6 +1,39 @@
 import { absolute, SITE_URL } from './site'
 import { plain, type FaqItem } from './blocks'
 import { PLAN_SIZES, yearly } from '@/lib/site/pricing'
+import { ownSite } from '@/lib/site/own'
+
+/**
+ * The site a page's schema.org objects describe: Orgpuls on Norway's hosts, or a site of its own
+ * (Empvibe's, D-270) with its own address, name, country and language, and no offers until its
+ * market has prices (UK-F). Every URL is the site's own address for the route.
+ */
+export type SiteLd = {
+  url: string
+  name: string
+  /** an absolute URL for a route on this site */
+  absolute: (path: string) => string
+  areaServed: string
+  languages: readonly string[]
+  /** whether the site publishes prices (Norway's do; the United Kingdom's are UK-F) */
+  offers: boolean
+}
+
+export const ORGPULS_LD: SiteLd = { url: SITE_URL, name: 'Orgpuls', absolute, areaServed: 'NO', languages: ['nb', 'en'], offers: true }
+
+/** This request's site, for its pages' schema.org objects */
+export async function siteLd(): Promise<SiteLd> {
+  const own = await ownSite()
+  if (!own) return ORGPULS_LD
+  return {
+    url: own.site.url,
+    name: own.name,
+    absolute: (path) => (path === '/' ? own.site.url : own.absolute(path)),
+    areaServed: own.site.market.toUpperCase(),
+    languages: own.site.langs,
+    offers: false,
+  }
+}
 
 /** the page's language as schema.org wants it: nb-NO on the Norwegian site, en on the English one */
 export const ldLanguage = (locale: string) => (locale === 'en' ? 'en' : 'nb-NO')
@@ -10,70 +43,73 @@ export const ldLanguage = (locale: string) => (locale === 'en' ? 'en' : 'nb-NO')
  * the prices are the plans on the start page, the questions are the FAQ a reader can open —
  * so what a search engine is told and what a visitor reads cannot drift apart.
  */
-export const organization = () => ({
+export const organization = (site: SiteLd = ORGPULS_LD) => ({
   '@type': 'Organization',
-  '@id': `${SITE_URL}/#organization`,
-  name: 'Orgpuls',
+  '@id': `${site.url}/#organization`,
+  name: site.name,
   // the company that provides Orgpuls, as the site footer and /vilkar name it (D-197)
   legalName: 'Pundit Invest AS',
-  url: SITE_URL,
-  logo: absolute('/apple-icon.png'),
+  url: site.url,
+  logo: site.absolute('/apple-icon.png'),
   email: 'hjelp@orgpuls.no',
-  areaServed: 'NO',
+  areaServed: site.areaServed,
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer support',
     email: 'hjelp@orgpuls.no',
-    url: absolute('/kontakt'),
-    availableLanguage: ['nb', 'en'],
+    url: site.absolute('/kontakt'),
+    availableLanguage: site.languages,
   },
 })
 
-export const website = (locale = 'no') => ({
+export const website = (locale = 'no', site: SiteLd = ORGPULS_LD) => ({
   '@type': 'WebSite',
-  '@id': `${SITE_URL}/#website`,
-  url: SITE_URL,
-  name: 'Orgpuls',
-  inLanguage: ldLanguage(locale),
-  publisher: { '@id': `${SITE_URL}/#organization` },
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  inLanguage: site === ORGPULS_LD ? ldLanguage(locale) : 'en-GB',
+  publisher: { '@id': `${site.url}/#organization` },
 })
 
 /**
  * The published prices: the free plan, and Liten and Vanlig by the month and by the year (ten months'
  * price, D-217); "Flere selskaper" is by agreement and has no price to state.
  */
-export const software = (description: string) => ({
+export const software = (description: string, site: SiteLd = ORGPULS_LD) => ({
   '@type': 'SoftwareApplication',
-  name: 'Orgpuls',
+  name: site.name,
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  // the product itself is in both
-  inLanguage: ['nb-NO', 'en'],
+  // the product itself is in both; a site of its own, in its own
+  inLanguage: site === ORGPULS_LD ? ['nb-NO', 'en'] : ['en-GB'],
   // the description is in the page's language
   description,
-  url: SITE_URL,
-  publisher: { '@id': `${SITE_URL}/#organization` },
-  offers: [
-    { '@type': 'Offer', name: 'Gratis', url: `${SITE_URL}/priser`, price: '0', priceCurrency: 'NOK' },
-    ...[
-      { name: 'Liten', price: PLAN_SIZES[0].monthly, unitText: 'MON' },
-      { name: 'Vanlig', price: PLAN_SIZES[1].monthly, unitText: 'MON' },
-      { name: 'Liten', price: yearly(PLAN_SIZES[0].monthly).year, unitText: 'ANN' },
-      { name: 'Vanlig', price: yearly(PLAN_SIZES[1].monthly).year, unitText: 'ANN' },
-    ].map((o) => ({
-      '@type': 'Offer',
-      name: o.name,
-      url: `${SITE_URL}/priser`,
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: String(o.price),
-        priceCurrency: 'NOK',
-        unitText: o.unitText,
-        valueAddedTaxIncluded: false,
-      },
-    })),
-  ],
+  url: site.url,
+  publisher: { '@id': `${site.url}/#organization` },
+  ...(site.offers ? { offers: norwegianOffers() } : {}),
 })
+
+/** Norway's published prices, as /priser shows them */
+const norwegianOffers = () => [
+  { '@type': 'Offer', name: 'Gratis', url: `${SITE_URL}/priser`, price: '0', priceCurrency: 'NOK' },
+  ...[
+    { name: 'Liten', price: PLAN_SIZES[0].monthly, unitText: 'MON' },
+    { name: 'Vanlig', price: PLAN_SIZES[1].monthly, unitText: 'MON' },
+    { name: 'Liten', price: yearly(PLAN_SIZES[0].monthly).year, unitText: 'ANN' },
+    { name: 'Vanlig', price: yearly(PLAN_SIZES[1].monthly).year, unitText: 'ANN' },
+  ].map((o) => ({
+    '@type': 'Offer',
+    name: o.name,
+    url: `${SITE_URL}/priser`,
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: String(o.price),
+      priceCurrency: 'NOK',
+      unitText: o.unitText,
+      valueAddedTaxIncluded: false,
+    },
+  })),
+]
 
 export const faqPage = (items: FaqItem[]) => ({
   '@type': 'FAQPage',
@@ -84,9 +120,9 @@ export const faqPage = (items: FaqItem[]) => ({
   })),
 })
 
-export const breadcrumbs = (trail: { name: string; path: string }[]) => ({
+export const breadcrumbs = (trail: { name: string; path: string }[], site: SiteLd = ORGPULS_LD) => ({
   '@type': 'BreadcrumbList',
-  itemListElement: trail.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: absolute(c.path) })),
+  itemListElement: trail.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: site.absolute(c.path) })),
 })
 
 export const article = (a: {

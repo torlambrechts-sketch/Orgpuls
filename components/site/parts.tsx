@@ -1,5 +1,5 @@
 import type { Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getTranslations } from 'next-intl/server'
 import { OrgStart } from './OrgStart'
 
@@ -30,14 +30,15 @@ export function Tick({ size = 18 }: { size?: 16 | 18 }) {
   )
 }
 
-/** "Orgpuls › Plattform", the pill, and nothing else: the pages differ from there down. */
+/** "Orgpuls › Plattform", the pill, and nothing else: the pages differ from there down. The name is the site's brand (D-270). */
 export async function Crumbs({ page }: { page: string }) {
   const t = await getTranslations('site.chrome')
+  const brand = await getTranslations('brand')
   return (
     <>
       <nav aria-label={t('crumbs')} className="flex items-center gap-[8px] text-[12.5px] text-mut">
         <Link href="/" className="text-mut hover:text-mut">
-          Orgpuls
+          {brand('name')}
         </Link>
         <span aria-hidden="true">›</span>
         <span aria-current="page" className="font-semibold text-ink">

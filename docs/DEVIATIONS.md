@@ -13104,3 +13104,80 @@ point en.orgpuls.com redirects there.
 - the holding host has no site and no market;
 - de.orgpuls.com still redirects;
 - the English messages the page is rendered with contain no «Orgpuls» outside addresses.
+
+## D-270 — Empvibe's site: built behind the holding page, its own addresses, pages and links (UK-E1, 2026-10-10)
+
+UK-E builds the United Kingdom's public site on www.empvibe.com before it opens (X-111: build first, move when
+ready). This entry covers the site's shape. Its texts are UK-E2 and its pictures UK-E3.
+
+**Open or holding.**
+- `lib/hosts.ts` has the site's rows: www.empvibe.com and the bare domain, brand Empvibe, market `gb`, English only,
+  pinned.
+- They are in `SITES` only where `EMPVIBE_SITE=open`. In production that variable is unset, so:
+  - the hosts keep the holding page (D-269);
+  - no site row names them;
+  - no host signs anyone up into the United Kingdom, as `tests/unit/markets.test.ts` has held since D-264.
+- A local or QA server sets the variable to see the site as it will be. `EMPVIBE_HOST` moves the address, as
+  `EN_HOST` does.
+- UK-G makes it the default.
+
+**A site of its own** (`Site.own`). This is the one difference from Norway's hosts, whose pages are each other's
+twins:
+- **Pages.** It serves a list of the public site's routes: the home page, Plattform, Bruksområder, Hvorfor, the law,
+  safety representatives, small businesses, security, contact and the two documents. These pages are not served:
+  - the industries, the articles, the templates and the demo, which are written for Norway;
+  - the prices, until the United Kingdom has its own (UK-F).
+
+  A request for any other page of the public site is a 404 (`NOT_SERVED_PATH`). The product, the survey, the
+  sign-in links, the API, robots.txt, the sitemap and llms.txt pass as everywhere.
+- **English addresses.** For example /platform, /use-cases, /why-empvibe, /work-related-stress-law,
+  /safety-representatives, /small-businesses, /security, /contact, /privacy, /terms, /sign-in and /sign-up:
+  - the middleware shows each address's route in place;
+  - the Norwegian address of a served page goes to the English one with a 308 that keeps the query, on a page load
+    only, so a form posted to it still lands;
+  - so each page has one address.
+- **Links.** The public site's components and messages link to routes, as before. `components/site/SitePaths.tsx`
+  draws each link at the site's address: a provider in the marketing layout, `SiteLink` in place of next/link, and
+  `useRoute` for the header's and footer's «you are here».
+- **Search and sharing.**
+  - Every page's canonical URL is its address on www.empvibe.com, with `en-GB` and `x-default` pointing at itself
+    and no twin on Orgpuls's hosts.
+  - Open Graph carries `en_GB` and the site name Empvibe, and the root metadata base is the site's address.
+  - The schema.org objects name Empvibe, its address, the United Kingdom and English, and publish no prices
+    (`siteLd`).
+  - The sitemap, robots.txt and llms.txt list the site's own pages at their own addresses. robots.txt also refuses
+    the English sign-in and sign-up addresses.
+- **Chrome.**
+  - Its own menu (`OWN_NAV`): Plattform with Bruksområder and Hvorfor; Ressurser opening on the law, with safety
+    representatives, small businesses and security; and Kontakt.
+  - One footer.
+  - No «Se demo», no industries, and no language switch, since the site has one language.
+  - The breadcrumbs name the site's brand.
+- **Links to pages it does not serve** are left out where a page would draw them: the home page's articles and its
+  link to the questions article, Plattform's «Les mer» to that article (it goes to the survey use case instead), and
+  a landing page's articles, template, «Artikler» parent and neighbours.
+- **The sign-up's number.** The start band's and the landing pages' company number fields follow the host's market:
+  - the United Kingdom's rule (eight characters, Companies House) and keyboard;
+  - the sign-up's English address;
+  - the number filled in on the sign-up, where a market without a register previously dropped it.
+
+**Norway unchanged.** Pixel-identical, measured: fifteen Norwegian pages (home, the five site pages, the three
+landing pages, prices, industries, articles, an article, sign-up and sign-in) at 1280 and 390, the build of this
+change against a build of `main`, 0 differing pixels each.
+
+**Known, for later:**
+- A signed-in user's organisation still decides the market of the texts (`requestMarket`). So a Norwegian user on
+  www.empvibe.com reads Norway's English texts, and the reverse on www.orgpuls.com. Both are rare, and both are
+  left as they are.
+- Sentral counts the site's visits once it is open (`PUBLIC_HOSTS`). At UK-G it needs empvibe.com as a site of its
+  own.
+- A UK mobile number typed as 07… is not taken by the SMS rule, which reads a number without a country as Norwegian.
+  Only +44 works. SMS in the United Kingdom is phase-1 work, and the UK texts do not offer it.
+
+**Tests.** `tests/unit/markets.test.ts` checks:
+- that the site is closed without the variable;
+- its rows when open, and that `EMPVIBE_HOST` moves it;
+- every English address, both ways;
+- the 404 for every page written for Norway;
+- what passes;
+- the link mapping, one address per route.

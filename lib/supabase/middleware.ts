@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { readSupabaseEnv } from '@/lib/supabase/env'
-import { hostGate } from '@/lib/hosts'
+import { HOLDING_PATH, hostGate } from '@/lib/hosts'
 
 /**
  * Refreshes the auth session on every request and redirects anonymous visitors to
@@ -141,6 +141,14 @@ export async function updateSession(request: NextRequest) {
   // and a brand's host before its site (D-269) shows its holding page.
   // Pure string work on the host: it cannot throw.
   const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path))
+  // a site of its own (D-270): a page asked for by its Norwegian address goes to the site's own
+  // address, permanently and with its query; only a page load, so a form posted there still lands
+  if (gate.canonical) {
+    if (request.method !== 'GET' && request.method !== 'HEAD') return noindex(await route(request, path), gate.noindex)
+    const url = request.nextUrl.clone()
+    url.pathname = gate.redirect!
+    return NextResponse.redirect(url, 308)
+  }
   if (gate.redirect) {
     // a reserved host's redirect is absolute and keeps the query; a market's host goes to its sign-up
     const url = gate.redirect.startsWith('https://') ? new URL(`${gate.redirect}${request.nextUrl.search}`) : request.nextUrl.clone()
@@ -150,12 +158,13 @@ export async function updateSession(request: NextRequest) {
     }
     return noindex(NextResponse.redirect(url), true)
   }
-  // a brand's host before its site (D-269): its holding page, in place, whatever the address
+  // a brand's host before its site (D-269): its holding page, in place, whatever the address; on a
+  // site of its own (D-270), a page at its English address, or the 404 for a page it does not serve
   if (gate.rewrite) {
     const url = request.nextUrl.clone()
     url.pathname = gate.rewrite
-    url.search = ''
-    return noindex(NextResponse.rewrite(url), true)
+    if (gate.rewrite === HOLDING_PATH) url.search = ''
+    return noindex(NextResponse.rewrite(url), gate.noindex)
   }
   return noindex(await route(request, path), gate.noindex)
 }

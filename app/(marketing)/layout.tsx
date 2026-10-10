@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS, siteLangs, siteOf } from '@/lib/hosts'
+import { EN_URL, hostOf, MAIN_URL, marketOfHost, PUBLIC_HOSTS, siteLangs, siteOf } from '@/lib/hosts'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
 import { SiteHeader } from '@/components/site/v3/SiteHeader'
-import { FOOTERS, SITE_NAV, type FooterId } from '@/lib/site/nav'
+import { FOOTERS, OWN_FOOTERS, OWN_NAV, SITE_NAV, type FooterId } from '@/lib/site/nav'
+import { SitePathsProvider } from '@/components/site/SitePaths'
+import { ownSite } from '@/lib/site/own'
 import { industryLinks } from '@/lib/site/industries'
 import { INDUSTRY_META } from '@/content/industries/meta'
 import { CONTACT_MAIL } from '@/lib/marketing/site'
@@ -38,14 +40,19 @@ export default async function MarketingLayout({ children }: { children: React.Re
   const host = (await headers()).get('host')
   // Norway's hosts only: on the Swedish one, English is a choice on the same host (D-256)
   const hosts = PUBLIC_HOSTS.includes(hostOf(host)) && siteOf(host)?.market === 'no' ? { no: MAIN_URL, en: EN_URL } : undefined
-  const industries = await industryLinks()
+  // a site of its own (D-270): its menu, its footer, its addresses; no industries, no demo, one language
+  const own = await ownSite()
+  const nav = own ? OWN_NAV : SITE_NAV
+  const footers = own ? OWN_FOOTERS : FOOTERS
+  const industries = own ? [] : await industryLinks()
   // Bransjer's column links to the cards /bransjer shows in this language: on English only the
   // industries with an English page have one, so a link to any other card would land nowhere
   const shown = new Set(industries.map((i) => INDUSTRY_META.find((m) => `/${m.slug}` === i.href)?.anchor))
+  const langs = siteLangs(host)
   const columns = Object.fromEntries(
-    (Object.keys(FOOTERS) as FooterId[]).map((id) => [
+    (Object.keys(footers) as FooterId[]).map((id) => [
       id,
-      FOOTERS[id].map((c) => ({
+      footers[id].map((c) => ({
         head: t(`footer.head.${c.head}`),
         links: c.links
           .filter((l) => !l.href?.startsWith('/bransjer#') || shown.has(l.href.slice('/bransjer#'.length)))
@@ -58,65 +65,67 @@ export default async function MarketingLayout({ children }: { children: React.Re
   const notice = await siteNotice(contentLang(await getLocale()))
 
   return (
-    <div className="min-h-screen bg-bg font-site text-[14px] text-ink">
-      {/* the site's own visit counting, in Sentral (D-248): renders nothing */}
-      <SiteBeacon />
-      {/* G-01: the first thing a keyboard reaches; drawn as the header's button while focused */}
-      <a
-        href="#innhold"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-[18px] focus:top-[18px] focus:z-50 focus:flex focus:min-h-[38px] focus:items-center focus:rounded-ctl focus:border focus:border-ink focus:bg-ac focus:px-[16px] focus:text-[14px] focus:font-bold focus:text-ink focus:no-underline"
-      >
-        {t('skip')}
-      </a>
-      {notice ? (
-        <p role="status" className="m-0 border-b border-line bg-band px-[26px] py-[9px] text-center text-[13px] font-semibold text-ink">
-          {notice}
-        </p>
-      ) : null}
-      <SiteHeader
-        items={SITE_NAV.map((i) => ({
-          href: i.href,
-          label: t(`nav.${i.key}`),
-          ...(i.industries ? { children: industries, all: t('nav.alleBransjer') } : {}),
-          ...(i.children ? { children: i.children.map((c) => ({ href: c.href, label: t(`nav.${c.key}`) })), all: t(`nav.${i.all}`) } : {}),
-        }))}
-        label={t('navLabel')}
-        menu={t('menu')}
-        demo={t('demo')}
-        signIn={t('signIn')}
-        cta={t('getStarted')}
-      />
+    <SitePathsProvider paths={own?.site.own.paths} market={marketOfHost(host)}>
+      <div className="min-h-screen bg-bg font-site text-[14px] text-ink">
+        {/* the site's own visit counting, in Sentral (D-248): renders nothing */}
+        <SiteBeacon />
+        {/* G-01: the first thing a keyboard reaches; drawn as the header's button while focused */}
+        <a
+          href="#innhold"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-[18px] focus:top-[18px] focus:z-50 focus:flex focus:min-h-[38px] focus:items-center focus:rounded-ctl focus:border focus:border-ink focus:bg-ac focus:px-[16px] focus:text-[14px] focus:font-bold focus:text-ink focus:no-underline"
+        >
+          {t('skip')}
+        </a>
+        {notice ? (
+          <p role="status" className="m-0 border-b border-line bg-band px-[26px] py-[9px] text-center text-[13px] font-semibold text-ink">
+            {notice}
+          </p>
+        ) : null}
+        <SiteHeader
+          items={nav.map((i) => ({
+            href: i.href,
+            label: t(`nav.${i.key}`),
+            ...(i.industries ? { children: industries, all: t('nav.alleBransjer') } : {}),
+            ...(i.children ? { children: i.children.map((c) => ({ href: c.href, label: t(`nav.${c.key}`) })), all: t(`nav.${i.all}`) } : {}),
+          }))}
+          label={t('navLabel')}
+          menu={t('menu')}
+          demo={own ? undefined : t('demo')}
+          signIn={t('signIn')}
+          cta={t('getStarted')}
+        />
 
-      <main id="innhold" tabIndex={-1} className="focus:outline-none">
-        {children}
-      </main>
+        <main id="innhold" tabIndex={-1} className="focus:outline-none">
+          {children}
+        </main>
 
-      <SiteFooter
-        columns={columns}
-        label={t('footerNav')}
-        about={t('footer.about')}
-        language={<LanguageSwitch label={t('language')} size="text" hosts={hosts} langs={siteLangs(host)} />}
-        bottom={t.rich('footer.bottom', {
-          year: new Date().getFullYear(),
-          // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)
-          mail: (chunks) => (
-            <a href={`mailto:${CONTACT_MAIL}`} className="text-inherit underline underline-offset-2 hover:text-ink">
-              {chunks}
-            </a>
-          ),
-          // the design's words, now links to the pages they name (D-104, D-194), underlined as links in prose (G5)
-          privacy: (chunks) => (
-            <Link href="/personvernerklaering" className="text-inherit underline underline-offset-2 hover:text-ink">
-              {chunks}
-            </Link>
-          ),
-          terms: (chunks) => (
-            <Link href="/vilkar" className="text-inherit underline underline-offset-2 hover:text-ink">
-              {chunks}
-            </Link>
-          ),
-        })}
-      />
-    </div>
+        <SiteFooter
+          columns={columns}
+          label={t('footerNav')}
+          about={t('footer.about')}
+          language={langs.length > 1 ? <LanguageSwitch label={t('language')} size="text" hosts={hosts} langs={langs} /> : null}
+          bottom={t.rich('footer.bottom', {
+            year: new Date().getFullYear(),
+            // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)
+            mail: (chunks) => (
+              <a href={`mailto:${CONTACT_MAIL}`} className="text-inherit underline underline-offset-2 hover:text-ink">
+                {chunks}
+              </a>
+            ),
+            // the design's words, now links to the pages they name (D-104, D-194), underlined as links in prose (G5)
+            privacy: (chunks) => (
+              <Link href="/personvernerklaering" className="text-inherit underline underline-offset-2 hover:text-ink">
+                {chunks}
+              </Link>
+            ),
+            terms: (chunks) => (
+              <Link href="/vilkar" className="text-inherit underline underline-offset-2 hover:text-ink">
+                {chunks}
+              </Link>
+            ),
+          })}
+        />
+      </div>
+    </SitePathsProvider>
   )
 }

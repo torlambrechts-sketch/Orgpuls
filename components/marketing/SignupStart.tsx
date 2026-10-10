@@ -6,6 +6,8 @@ import { useId, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/marketing/events'
 import { currentUtm } from '@/lib/marketing/utm'
 import { hasValidCheckDigit } from '@/lib/brreg/orgnr'
+import { normalizeOrgNumber, orgNumberInput, validOrgNumber } from '@/lib/org-number'
+import { useSiteMarket, useSitePaths } from '@/components/site/SitePaths'
 
 /**
  * The first step of registering, on the page a visitor is already reading: their
@@ -34,20 +36,30 @@ export function SignupStart({
   const id = useId()
   const input = useRef<HTMLInputElement>(null)
   const [error, setError] = useState<string | null>(null)
+  // the number of the market this host signs up into, and the sign-up's address on this site (D-270)
+  const market = useSiteMarket()
+  const signUp = useSitePaths().address('/registrer')
 
   return (
     <form
-      action="/registrer"
+      action={signUp}
       method="get"
       noValidate
       onSubmit={(e) => {
         e.preventDefault()
-        const orgnr = (input.current?.value ?? '').replace(/\s/g, '')
-        const problem = !/^\d{9}$/.test(orgnr)
-          ? invalid
-          : invalidChecksum && !hasValidCheckDigit(orgnr)
-            ? invalidChecksum
-            : null
+        const typed = input.current?.value ?? ''
+        const orgnr = market === 'no' ? typed.replace(/\s/g, '') : normalizeOrgNumber(typed, market)
+        // Norway's nine digits and the register's check digit; another market's own rule (lib/org-number.ts)
+        const problem =
+          market !== 'no'
+            ? validOrgNumber(market, typed)
+              ? null
+              : invalid
+            : !/^\d{9}$/.test(orgnr)
+              ? invalid
+              : invalidChecksum && !hasValidCheckDigit(orgnr)
+                ? invalidChecksum
+                : null
         if (problem) {
           setError(problem)
           input.current?.focus()
@@ -55,7 +67,7 @@ export function SignupStart({
         }
         trackEvent('signup_started')
         const query = new URLSearchParams({ orgnr, ...currentUtm() })
-        router.push(`/registrer?${query}` as Route)
+        router.push(`${signUp}?${query}` as Route)
       }}
       className="w-full max-w-[460px]"
     >
@@ -67,7 +79,7 @@ export function SignupStart({
           ref={input}
           id={`${id}-orgnr`}
           name="orgnr"
-          inputMode="numeric"
+          inputMode={orgNumberInput(market)}
           autoComplete="off"
           maxLength={11}
           aria-invalid={error !== null}

@@ -1,9 +1,8 @@
 'use client'
 
 import type { Route } from 'next'
-import Link from 'next/link'
+import Link, { useRoute } from '@/components/site/SitePaths'
 import { useTranslations } from 'next-intl'
-import { usePathname } from 'next/navigation'
 import { useId } from 'react'
 import { footerFor, isV3Route, type FooterId } from '@/lib/site/nav'
 
@@ -34,10 +33,12 @@ export function SiteFooter({
   label: string
   about: string
   bottom: React.ReactNode
+  /** the language switch, where the site offers more than one (D-270) */
   language: React.ReactNode
 }) {
   const t = useTranslations('brand')
-  const pathname = usePathname()
+  // the route of the page, whatever its address on this site (D-270)
+  const pathname = useRoute()
   const id = footerFor(pathname)
   const uid = useId()
   const gap = isV3Route(pathname) || ENDS_IN_SPACE.includes(pathname) ? '' : 'mt-[54px]'

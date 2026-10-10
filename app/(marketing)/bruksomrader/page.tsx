@@ -1,12 +1,12 @@
 import type { Metadata, Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
-import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
+import { breadcrumbs, graph, organization, siteLd } from '@/lib/marketing/schema'
 import { zip } from '@/lib/site/zip'
 
 /**
@@ -178,15 +178,21 @@ export default async function BruksomraderPage() {
   const name = (f: FactorId) => factor(`${f}.name`)
   const fill = (s: string, f: FactorId | null | undefined) => (f ? s.replace('{factor}', name(f)) : s)
 
+  // the site the page is on (D-270): its name, its addresses
+  const ld = await siteLd()
+
   return (
     <>
       <JsonLd
         data={graph(
-          organization(),
-          breadcrumbs([
-            { name: 'Orgpuls', path: '/' },
-            { name: t('crumb'), path: '/bruksomrader' },
-          ]),
+          organization(ld),
+          breadcrumbs(
+            [
+              { name: ld.name, path: '/' },
+              { name: t('crumb'), path: '/bruksomrader' },
+            ],
+            ld,
+          ),
         )}
       />
       <SiteTop>
@@ -198,7 +204,7 @@ export default async function BruksomraderPage() {
             <ol className="m-0 flex list-none gap-[8px] p-0">
               <li className="flex gap-[8px]">
                 <Link href="/" className="text-body hover:text-body">
-                  Orgpuls
+                  {ld.name}
                 </Link>
                 <span aria-hidden="true">›</span>
               </li>

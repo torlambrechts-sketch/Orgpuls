@@ -221,6 +221,106 @@ describe('each market’s floor, as a screen offers it', () => {
   })
 })
 
+describe('Empvibe’s site, built behind the holding page (X-111, UK-E, D-270)', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+    vi.resetModules()
+  })
+  const open = async (host = '') => {
+    vi.stubEnv('EMPVIBE_SITE', 'open')
+    vi.stubEnv('EMPVIBE_HOST', host)
+    vi.resetModules()
+    return import('@/lib/hosts')
+  }
+
+  it('is not open unless EMPVIBE_SITE=open: no site row, the holding page, nobody signs up into the United Kingdom', async () => {
+    vi.stubEnv('EMPVIBE_SITE', '')
+    vi.resetModules()
+    const hosts = await import('@/lib/hosts')
+    expect(hosts.EMPVIBE_OPEN).toBe(false)
+    expect(hosts.SITES.filter((s) => s.market === 'gb')).toEqual([])
+    expect(Object.keys(hosts.HOLDING_HOSTS).sort()).toEqual(['empvibe.com', 'www.empvibe.com'])
+    expect(hosts.marketOfHost('www.empvibe.com')).toBe('no')
+    expect(hosts.hostGate('www.empvibe.com', '/platform', true).rewrite).toBe(hosts.HOLDING_PATH)
+  })
+
+  it('once open, is www.empvibe.com and its bare domain: Empvibe, the United Kingdom, English only', async () => {
+    const hosts = await open()
+    expect(hosts.HOLDING_HOSTS).toEqual({})
+    for (const host of ['www.empvibe.com', 'empvibe.com', 'WWW.EMPVIBE.COM:443']) {
+      expect(hosts.siteOf(host)).toMatchObject({ brand: 'empvibe', market: 'gb', lang: 'en', pinned: true, url: 'https://www.empvibe.com', publicSite: true })
+      expect(hosts.marketOfHost(host)).toBe('gb')
+      expect(hosts.siteLangs(host)).toEqual(['en'])
+      expect(hosts.outboundBase(host, 'http')).toBe('https://www.empvibe.com')
+    }
+    // Norway's and Sweden's hosts are unchanged, and have no addresses of their own
+    expect(hosts.siteOf('www.orgpuls.com')?.own).toBeUndefined()
+    expect(hosts.siteOf('en.orgpuls.com')).toMatchObject({ brand: 'orgpuls', market: 'no', lang: 'en' })
+    expect(hosts.marketOfHost('se.orgpuls.com')).toBe('se')
+  })
+
+  it('moves with EMPVIBE_HOST, as the English site moves with EN_HOST', async () => {
+    const hosts = await open('Staging.Empvibe.com')
+    expect(hosts.marketOfHost('staging.empvibe.com')).toBe('gb')
+    expect(hosts.siteOf('staging.empvibe.com')?.url).toBe('https://staging.empvibe.com')
+    expect(hosts.marketOfHost('www.empvibe.com')).toBe('no')
+  })
+
+  it('serves each of its pages at its English address, and the Norwegian address goes there', async () => {
+    const { hostGate } = await open()
+    const host = 'www.empvibe.com'
+    const pages: [string, string][] = [
+      ['/platform', '/plattform'],
+      ['/use-cases', '/bruksomrader'],
+      ['/why-empvibe', '/hvorfor'],
+      ['/work-related-stress-law', '/lovkrav'],
+      ['/safety-representatives', '/verneombud'],
+      ['/small-businesses', '/smaa-bedrifter'],
+      ['/security', '/sikkerhet'],
+      ['/contact', '/kontakt'],
+      ['/privacy', '/personvernerklaering'],
+      ['/terms', '/vilkar'],
+      ['/sign-in', '/logg-inn'],
+      ['/sign-up', '/registrer'],
+    ]
+    for (const [address, route] of pages) {
+      expect(hostGate(host, address, true), address).toEqual({ noindex: false, redirect: null, rewrite: route })
+      expect(hostGate(host, route, true), route).toEqual({ noindex: false, redirect: address, canonical: true })
+    }
+    expect(hostGate(host, '/', true)).toEqual({ noindex: false, redirect: null })
+  })
+
+  it('answers 404 for the pages written for Norway, and lets the product, the survey and the API through', async () => {
+    const { hostGate, NOT_SERVED_PATH } = await open()
+    const host = 'www.empvibe.com'
+    const notServed = { noindex: true, redirect: null, rewrite: NOT_SERVED_PATH }
+    // the industries, the articles, the templates, the demo; the prices until UK-F, at either address
+    for (const path of ['/bransjer', '/handel', '/bygg-og-anlegg/sporsmal', '/artikler', '/artikler/medarbeiderundersokelse', '/maler', '/demo', '/priser', '/pricing', '/venteside'])
+      expect(hostGate(host, path, true), path).toEqual(notServed)
+    for (const path of ['/auth/callback', '/s/abc', '/r/abc', '/inn/abc', '/bli-med/x', '/nytt-passord', '/logo/x', '/api/sprak', '/robots.txt', '/sitemap.xml', '/llms.txt'])
+      expect(hostGate(host, path, true), path).toEqual({ noindex: false, redirect: null })
+    expect(hostGate(host, '/innsikt', false)).toEqual({ noindex: false, redirect: null })
+  })
+
+  it('draws each link at its address on the site, and reads each address back as its route', async () => {
+    const { addressOf, routeOf, siteOf } = await open()
+    const paths = siteOf('www.empvibe.com')!.own!.paths
+    expect(addressOf(paths, '/plattform#tiltak')).toBe('/platform#tiltak')
+    expect(addressOf(paths, '/registrer?orgnr=SC123456')).toBe('/sign-up?orgnr=SC123456')
+    expect(addressOf(paths, '/')).toBe('/')
+    expect(addressOf(paths, 'https://www.hse.gov.uk/')).toBe('https://www.hse.gov.uk/')
+    expect(addressOf(paths, '#kom-i-gang')).toBe('#kom-i-gang')
+    expect(routeOf(paths, '/use-cases')).toBe('/bruksomrader')
+    expect(routeOf(paths, '/')).toBe('/')
+    // Norway's hosts have no addresses of their own: every link is its route
+    expect(addressOf(undefined, '/plattform')).toBe('/plattform')
+    expect(routeOf(undefined, '/plattform')).toBe('/plattform')
+    // each address belongs to one route, and none is another route's address
+    expect(new Set(Object.values(paths)).size).toBe(Object.keys(paths).length)
+    for (const address of Object.values(paths)) expect(Object.keys(paths), address).not.toContain(address)
+  })
+})
+
 describe('the United Kingdom (X-111, D-264)', () => {
   it('is a market at floor 5 that no host signs up into until its site is built', async () => {
     const { SITES, marketOfHost } = await import('@/lib/hosts')

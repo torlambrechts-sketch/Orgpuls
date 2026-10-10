@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getTranslations } from 'next-intl/server'
 import type { Block } from '@/lib/marketing/blocks'
 import { plain } from '@/lib/marketing/blocks'

@@ -1,5 +1,5 @@
 import type { Metadata, Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { ArticleCards } from '@/components/marketing/ArticleCards'
@@ -10,10 +10,11 @@ import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
 import { ARTICLES } from '@/lib/marketing/site'
-import { graph, organization, software, website } from '@/lib/marketing/schema'
+import { graph, organization, siteLd, software, website } from '@/lib/marketing/schema'
 import { SHOTS } from '@/lib/marketing/shots'
 import type { ShotId } from '@/lib/marketing/shot-ids'
 import { zip } from '@/lib/site/zip'
+import { ownSite, serves } from '@/lib/site/own'
 
 /**
  * The front page for small and medium-sized businesses (D-190): design-reference/orgpuls/
@@ -105,6 +106,9 @@ export default async function StartPage() {
   const factor = await getTranslations('factor')
   const respond = await getTranslations('respond')
   const seo = await getTranslations('seo')
+  // the site the page is on (D-270): its name, its addresses, its offers, the pages it serves
+  const ld = await siteLd()
+  const own = await ownSite()
 
   const slides = z.array(Slide).length(3).parse(t.raw('slides'))
   const law = z.array(Row).length(4).parse(t.raw('law.rows'))
@@ -237,7 +241,7 @@ export default async function StartPage() {
 
   return (
     <>
-      <JsonLd data={graph(organization(), website(await getLocale()), software(seo('home.description')))} />
+      <JsonLd data={graph(organization(ld), website(await getLocale(), ld), software(seo('home.description'), ld))} />
       <SiteTop bottom={8}>
         <h1 className="sr-only">{t('h1')}</h1>
         <HeroCarousel
@@ -376,9 +380,12 @@ export default async function StartPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/artikler/medarbeiderundersokelse-sporsmal" className="mt-[24px] inline-block text-[14.5px] font-bold">
-                {t('survey.link')} <span aria-hidden="true">→</span>
-              </Link>
+              {/* the questions article is Norway's: a site of its own has no articles (D-270) */}
+              {serves(own, '/artikler') ? (
+                <Link href="/artikler/medarbeiderundersokelse-sporsmal" className="mt-[24px] inline-block text-[14.5px] font-bold">
+                  {t('survey.link')} <span aria-hidden="true">→</span>
+                </Link>
+              ) : null}
             </div>
           </div>
         </section>
@@ -533,21 +540,24 @@ export default async function StartPage() {
           </ul>
         </section>
 
-        {/* the three newest articles (D-232): the start page is where most visitors arrive, and the articles had no way in from it */}
-        <section id="artikler" data-screen-label="Artikler" className={`${COLUMN} px-[56px] pt-[56px] max-sm:px-[16px] max-sm:pt-[40px]`}>
-          <div className={HEAD}>
-            <span className={PILL}>{seo('home.articlesEyebrow')}</span>
-            <h2 className={H2}>{seo('home.articlesTitle')}</h2>
-          </div>
-          <div className="mt-[26px]">
-            <ArticleCards slugs={ARTICLES.slice(0, 3).map((a) => a.slug)} />
-          </div>
-          <p className="m-0 mt-[20px] text-center">
-            <Link href={'/artikler' as Route} className="text-[14.5px] font-bold text-link">
-              {seo('home.articlesAll')}
-            </Link>
-          </p>
-        </section>
+        {/* the three newest articles (D-232): the start page is where most visitors arrive, and the articles had no way in from it;
+            a site of its own has none (D-270) */}
+        {serves(own, '/artikler') ? (
+          <section id="artikler" data-screen-label="Artikler" className={`${COLUMN} px-[56px] pt-[56px] max-sm:px-[16px] max-sm:pt-[40px]`}>
+            <div className={HEAD}>
+              <span className={PILL}>{seo('home.articlesEyebrow')}</span>
+              <h2 className={H2}>{seo('home.articlesTitle')}</h2>
+            </div>
+            <div className="mt-[26px]">
+              <ArticleCards slugs={ARTICLES.slice(0, 3).map((a) => a.slug)} />
+            </div>
+            <p className="m-0 mt-[20px] text-center">
+              <Link href={'/artikler' as Route} className="text-[14.5px] font-bold text-link">
+                {seo('home.articlesAll')}
+              </Link>
+            </p>
+          </section>
+        ) : null}
 
         <StartBand variant="front" />
       </div>

@@ -5,6 +5,7 @@ import { SiteAnalytics } from '@/components/shell/SiteAnalytics'
 import { PUBLIC_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
 import { bcp47, dirOf } from '@/lib/i18n/locales'
 import { SITE_URL } from '@/lib/marketing/site'
+import { ownSite } from '@/lib/site/own'
 import './fonts.css'
 import './globals.css'
 
@@ -22,10 +23,12 @@ import './globals.css'
 export async function generateMetadata(): Promise<Metadata> {
   // the product's name is the brand's (lib/brand.ts, X-111): Orgpuls, or Empvibe in its market
   const brand = await getTranslations('brand')
+  // a site of its own (D-270) makes its pages' relative URLs absolute on its own address
+  const own = await ownSite()
   return {
-    metadataBase: new URL(SITE_URL),
+    metadataBase: new URL(own?.site.url ?? SITE_URL),
     title: brand('name'),
-    description: 'Psykososialt arbeidsmiljø for norske virksomheter.',
+    description: own ? (await getTranslations('app'))('tagline') : 'Psykososialt arbeidsmiljø for norske virksomheter.',
     // Bing Webmaster Tools' meta-tag check, when the site is verified that way rather than imported
     // from Google Search Console (D-234); the value is the code Bing shows, set in Vercel's environment
     ...(process.env.BING_SITE_VERIFICATION ? { verification: { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } } : {}),

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { SectionNav } from '@/components/site/SectionNav'
@@ -8,7 +8,7 @@ import { SiteFaq } from '@/components/site/SiteFaq'
 import { Overview, StorySection, type MockShape } from '@/components/site/Story'
 import { Crumbs, HeroButtons, SectionHead, StartBand } from '@/components/site/parts'
 import { pageMeta } from '@/lib/marketing/meta'
-import { breadcrumbs, faqPage, graph, organization } from '@/lib/marketing/schema'
+import { breadcrumbs, faqPage, graph, organization, siteLd } from '@/lib/marketing/schema'
 import { StoryWords, USES, type UseKey } from '@/lib/site/story'
 import { zip } from '@/lib/site/zip'
 
@@ -60,15 +60,21 @@ export default async function HvorforPage() {
     { id: 'sporsmal', label: t('faq.nav') },
   ]
 
+  // the site the page is on (D-270): its name, its addresses
+  const ld = await siteLd()
+
   return (
     <div>
       <JsonLd
         data={graph(
-          organization(),
-          breadcrumbs([
-            { name: 'Orgpuls', path: '/' },
-            { name: t('crumb'), path: '/hvorfor' },
-          ]),
+          organization(ld),
+          breadcrumbs(
+            [
+              { name: ld.name, path: '/' },
+              { name: t('crumb'), path: '/hvorfor' },
+            ],
+            ld,
+          ),
           faqPage(faq.map((x) => ({ q: x.q, a: x.a }))),
         )}
       />

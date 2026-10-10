@@ -1,11 +1,10 @@
 import type { Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Faq } from '@/components/start/Faq'
 import type { Block, FaqItem } from '@/lib/marketing/blocks'
-import { breadcrumbs, faqPage, graph, ldLanguage, organization } from '@/lib/marketing/schema'
+import { breadcrumbs, faqPage, graph, ldLanguage, ORGPULS_LD, organization, siteLd } from '@/lib/marketing/schema'
 import type { ShotId } from '@/lib/marketing/shot-ids'
-import { absolute } from '@/lib/marketing/site'
 import { ArticleCards } from './ArticleCards'
 import { Blocks } from './Blocks'
 import { TrustStrip } from '@/components/site/parts'
@@ -15,6 +14,7 @@ import { ProductShot } from './ProductShot'
 import { SignupStart } from './SignupStart'
 import { TemplateTeaser } from './TemplateTeaser'
 import { WithAside } from './WithAside'
+import { ownSite, serves } from '@/lib/site/own'
 
 /** A page's words, wherever they come from: messages (PageTemplate) or the CMS (0114, X-094) */
 export type PageContent = {
@@ -93,14 +93,17 @@ export async function PageView({
   const { blocks, faq } = c
   const tip = informational ? undefined : c.tip
   const trail = [{ name: t('seo.common.home'), path: '/' }, ...(parent ? [parent] : []), { name: c.crumb, path }]
+  // the site the page is on (D-270): its addresses, and the pages it serves (no articles or templates on a site of its own)
+  const ld = await siteLd()
+  const own = await ownSite()
 
   return (
     <div>
       <JsonLd
         data={graph(
-          organization(),
-          { '@type': schemaType, url: absolute(path), name: c.title, description: c.description, inLanguage: ldLanguage(await getLocale()) },
-          breadcrumbs(trail),
+          organization(ld),
+          { '@type': schemaType, url: ld.absolute(path), name: c.title, description: c.description, inLanguage: ld === ORGPULS_LD ? ldLanguage(await getLocale()) : 'en-GB' },
+          breadcrumbs(trail, ld),
           ...(faq.length ? [faqPage(faq)] : []),
           ...extraSchema,
         )}
@@ -160,12 +163,12 @@ export async function PageView({
               </>
             )}
             {tip ? (
-              <a
-                href={tip.href}
+              <Link
+                href={tip.href as Route}
                 className="mt-[16px] inline-flex min-h-[48px] items-center rounded-tile border border-ink bg-transparent px-[20px] py-[10px] text-[15px] font-semibold text-ink no-underline hover:text-ink hover:no-underline"
               >
                 {tip.label}
-              </a>
+              </Link>
             ) : null}
           </div>
           {heroAside ? (
@@ -209,7 +212,7 @@ export async function PageView({
           }
         >
           {extra}
-          {template ? <TemplateTeaser slug={template} className="mt-[34px]" /> : null}
+          {template && serves(own, '/maler') ? <TemplateTeaser slug={template} className="mt-[34px]" /> : null}
         </WithAside>
       </div>
 
@@ -231,7 +234,7 @@ export async function PageView({
         </div>
       ) : null}
 
-      {articles?.length ? (
+      {articles?.length && serves(own, '/artikler') ? (
         <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
           <span className="block text-[11px] uppercase tracking-[0.12em] text-mut">{t('seo.common.readMore')}</span>
           <ArticleCards slugs={articles} />

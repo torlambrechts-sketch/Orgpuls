@@ -5,6 +5,7 @@ import { ARTICLES, LANDING_PAGES, SITE_PAGES } from '@/lib/marketing/site'
 import { TEMPLATES } from '@/lib/marketing/templates'
 import { getIndustry, INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 import { siteIndexing } from '@/lib/site/indexing'
+import { ownSite } from '@/lib/site/own'
 
 /**
  * Every public page a search engine should know about, and nothing behind the sign-in: the
@@ -56,6 +57,14 @@ function industryPages(s: ReturnType<typeof sitemapFor>): MetadataRoute.Sitemap 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // «Allow search engines» off (0126): nothing to offer
   if (!(await siteIndexing())) return []
+  // a site of its own (D-270): the pages it serves, at its own addresses, and no twins on Orgpuls's hosts
+  const own = await ownSite()
+  if (own)
+    return own.site.own.pages.map((route) => ({
+      url: own.absolute(route),
+      changeFrequency: 'monthly' as const,
+      priority: route === '/' ? 1 : 0.8,
+    }))
   const s = sitemapFor(hostOf((await headers()).get('host')) === EN_HOST)
   const { entry } = s
   const newest = ARTICLES.map((a) => a.modified)

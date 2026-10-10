@@ -9,6 +9,7 @@ import {
   type LandingSlug,
 } from '@/lib/marketing/site'
 import { PageTemplate } from './PageTemplate'
+import { ownSite, serves } from '@/lib/site/own'
 import { VoTip, type VoTipWords } from './VoTip'
 import { MAIN_URL } from '@/lib/hosts'
 import { LawArt } from './art/LawArt'
@@ -22,19 +23,21 @@ import { SmallBizArt } from './art/SmallBizArt'
  */
 export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; parent?: { name: string; path: string } }) {
   const t = await getTranslations()
+  // a site of its own (D-270) has no articles to file a page under, and serves only some neighbours
+  const own = await ownSite()
   // an informational page (D-236): under Artikler, no product picture, no sales pages beside it
   if (INFORMATIONAL_PAGES.includes(slug))
     return (
       <PageTemplate
         k={`seo.lp.${landingKey(slug)}`}
         path={`/${slug}`}
-        parent={{ name: t('seo.index.crumb'), path: '/artikler' }}
+        parent={serves(own, '/artikler') ? { name: t('seo.index.crumb'), path: '/artikler' } : undefined}
         articles={LANDING_ARTICLES[slug]}
         template={LANDING_TEMPLATE[slug]}
         // «Tips ledelsen»: a finished e-mail to the daglig leder, written in the browser (D-246)
         extra={
           slug === 'verneombud' ? (
-            <VoTip words={t.raw('seo.voTip') as VoTipWords} link={`${MAIN_URL}/?utm_source=verneombud&utm_medium=tips`} />
+            <VoTip words={t.raw('seo.voTip') as VoTipWords} link={`${own?.site.url ?? MAIN_URL}/?utm_source=verneombud&utm_medium=tips`} />
           ) : undefined
         }
         informational
@@ -50,7 +53,7 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
       template={LANDING_TEMPLATE[slug]}
       heroShot={LANDING_HERO[slug]}
       heroArt={slug === 'smaa-bedrifter' ? <SmallBizArt className="h-auto w-full max-w-[440px]" /> : undefined}
-      related={LANDING_RELATED[slug].map((r) => ({
+      related={LANDING_RELATED[slug].filter((r) => serves(own, `/${r}`)).map((r) => ({
         href: `/${r}`,
         title: t(`seo.lp.${landingKey(r)}.card.title`),
         text: t(`seo.lp.${landingKey(r)}.card.text`),

@@ -1,9 +1,8 @@
 'use client'
 
 import type { Route } from 'next'
-import Link from 'next/link'
+import Link, { useRoute, useSitePaths } from '@/components/site/SitePaths'
 import { useTranslations } from 'next-intl'
-import { usePathname } from 'next/navigation'
 import { Fragment, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
 import { isV3Route } from '@/lib/site/nav'
 
@@ -45,13 +44,16 @@ export function SiteHeader({
   items: Item[]
   label: string
   menu: string
-  demo: string
+  /** «Se demo», on a site with the demo; a site of its own has none (D-270) */
+  demo?: string
   signIn: string
   cta: string
 }) {
-  const pathname = usePathname()
+  // the route of the page, whatever its address on this site (D-270)
+  const pathname = useRoute()
+  const { address } = useSitePaths()
   const front = pathname === '/'
-  const ctaHref = isV3Route(pathname) ? '#kom-i-gang' : '/registrer'
+  const ctaHref = isV3Route(pathname) ? '#kom-i-gang' : address('/registrer')
   const [open, setOpen] = useState(false)
   const menuId = useId()
   const menuButton = useRef<HTMLButtonElement>(null)
@@ -124,9 +126,11 @@ export function SiteHeader({
                 {menu}
               </button>
               <span className="flex flex-none items-center gap-[8px] max-sm:hidden">
-                <Link href="/demo" className={`${QUIET} hidden lg:flex`}>
-                  {demo}
-                </Link>
+                {demo ? (
+                  <Link href="/demo" className={`${QUIET} hidden lg:flex`}>
+                    {demo}
+                  </Link>
+                ) : null}
                 <Link href="/logg-inn" className={`${QUIET} hidden lg:flex`}>
                   {signIn}
                 </Link>
@@ -168,7 +172,7 @@ export function SiteHeader({
                 })}
                 <span className="mt-[6px] flex flex-col gap-[2px] border-t border-line pt-[8px]">
                   {[
-                    { href: '/demo', label: demo },
+                    ...(demo ? [{ href: '/demo', label: demo }] : []),
                     { href: '/logg-inn', label: signIn },
                   ].map((a) => (
                     <Link

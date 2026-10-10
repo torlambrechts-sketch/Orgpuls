@@ -111,16 +111,18 @@ export function SignUpFlow({
 
   // Arriving from a landing page's form (SignupStart) with ?orgnr=: fill it in and look it
   // up at once, so the visitor lands on their company rather than on an empty field.
+  // Where the market has no register (the United Kingdom, Sweden), the number is filled in and the
+  // visitor names the company themselves (D-270).
   const prefill = (useSearchParams().get('orgnr') ?? '').replace(/\s/g, '')
-  const prefilled = registry && /^\d{9}$/.test(prefill) ? prefill : ''
+  const prefilled = registry ? (/^\d{9}$/.test(prefill) ? prefill : '') : /^[0-9A-Za-z-]{1,12}$/.test(prefill) ? prefill.toUpperCase() : ''
   const looked = useRef(false)
   useEffect(() => {
-    if (!prefilled || looked.current) return
+    if (!registry || !prefilled || looked.current) return
     looked.current = true
     const data = new FormData()
     data.set('orgNumber', prefilled)
     startTransition(() => lookupAction(data))
-  }, [prefilled, lookupAction])
+  }, [registry, prefilled, lookupAction])
 
   /** Length counts twice and a non-letter once — the design's own meter (line 551). */
   const strength =

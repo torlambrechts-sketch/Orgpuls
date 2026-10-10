@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { DemoRequest, type DemoWords } from '@/components/site/DemoForm'
 import { Tick } from '@/components/site/parts'
