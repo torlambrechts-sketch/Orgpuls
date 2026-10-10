@@ -1,7 +1,7 @@
 import { cookies, headers } from 'next/headers'
-import { siteOf } from '@/lib/hosts'
+import { holdingOf, siteOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
-import { brandOf, rebrand } from '@/lib/brand'
+import { brandOf, rebrand, type Brand } from '@/lib/brand'
 import type { Market } from '@/lib/markets'
 import { DEFAULT_LOCALE, fallbackOf, isLocale, LOCALE_COOKIE } from './locales'
 import { requestMarket } from './market'
@@ -29,7 +29,7 @@ const merge = (a: Tree, b: Tree): Tree =>
  * market's legal pack over the language's own legal texts (lib/i18n/market-overlay.ts), and the
  * product's name is its market's brand (lib/brand.ts, X-111): Orgpuls reads the catalogue as written.
  */
-async function loadMessages(locale: string, market: Market): Promise<Tree> {
+async function loadMessages(locale: string, market: Market, brand: Brand = brandOf(market)): Promise<Tree> {
   const own = (await import(`../../messages/${locale}.json`)).default as Tree
   let out: Tree = {}
   for (const f of [...fallbackOf(locale)].reverse()) out = merge(out, (await import(`../../messages/${f}.json`)).default as Tree)
@@ -44,7 +44,7 @@ async function loadMessages(locale: string, market: Market): Promise<Tree> {
   // the law the texts state is the organisation's market's, laid last: an approved replacement of a
   // Norwegian legal text is still Norway's law (lib/i18n/market-overlay.ts, D-257)
   const law = await marketOverlay(market, locale)
-  const shown = rebrand(law ? merge(replaced, law) : replaced, brandOf(market), locale)
+  const shown = rebrand(law ? merge(replaced, law) : replaced, brand, locale)
   // the QA stack's pseudo-locale (lib/i18n/pseudo.ts) and keys mode (lib/i18n/keyed.ts, which the
   // page map is crawled in); without ORGPULS_PSEUDO=1 / ORGPULS_I18N_KEYS=1 this is the catalogue itself
   return keyedMessages(locale, pseudoMessages(locale, shown))
@@ -76,13 +76,18 @@ export default getRequestConfig(async ({ locale: asked }) => {
   }
   // en.orgpuls.com is the English site: the host decides there, whatever the cookie says (D-98);
   // elsewhere the visitor's choice, then the site's language, then Norwegian (D-251)
-  const site = siteOf((await headers()).get('host'))
+  const host = (await headers()).get('host')
+  const site = siteOf(host)
   const chosen = (await cookies()).get(LOCALE_COOKIE)?.value
-  const locale = site?.pinned ? site.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE)
+  // a brand's holding page (D-269) is in its brand's language and under its name, whatever market
+  // the host would otherwise read as: no text on it says Orgpuls, shown or not
+  const holding = holdingOf(host)
+  const locale = holding?.lang ?? (site?.pinned ? site.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE))
+  const market = await requestMarket()
 
   return {
     locale,
-    messages: await loadMessages(locale, await requestMarket()),
+    messages: await loadMessages(locale, market, holding?.brand ?? brandOf(market)),
     getMessageFallback: ({ namespace, key }) =>
       namespace ? `${namespace}.${key}` : key,
   }

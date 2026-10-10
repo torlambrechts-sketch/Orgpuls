@@ -66,8 +66,9 @@ Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first E
 
 ### Phase 4 — Empvibe and the United Kingdom, step by step (X-111)
 
-empvibe.com keeps redirecting to en.orgpuls.com until UK-G. Then empvibe.com opens, and en.orgpuls.com redirects to
-it.
+Until UK-G, empvibe.com shows a holding page of its own, in English and under the Empvibe name, with no sign-up and no
+indexing (D-269, replacing D-258's redirect to en.orgpuls.com, since the Orgpuls name means nothing in English). Then
+empvibe.com opens, and en.orgpuls.com redirects to it.
 
 | Step | What | State |
 |---|---|---|
@@ -77,7 +78,7 @@ it.
 | UK-D | HSE's Indicator Tool as a UK module (`module_markets` row `gb`), verbatim, attributed under the Open Government Licence | researched 2026-10-10 (below); decided X-112. D2 built (0223, D-266): reverse scoring and the module's own bands. D1/D3 built (0224, D-267): two scales, up to nine statements, the instrument's order and pages, no «not relevant», the text before item 1, the attribution stored. D4 built (0225, D-268): `modules/hse-indicator-tool`, HSE's English and Polish verbatim, machine drafts for uk/lt/sv/da, market `gb`, attribution and the module's own bands on the leader screens |
 | UK-E | The UK public site on empvibe.com: its own pages, Empvibe's name, UK search terms, hreflang and sitemap per host | |
 | UK-F | Documents: a UK Article 28 agreement, privacy notice, B2B terms; GBP prices and reverse-charge invoicing | waits on prices and legal review |
-| UK-G | The move: empvibe.com and www.empvibe.com as a site row, en.orgpuls.com redirected there, Supabase Auth redirect URLs, Brevo sender domain | |
+| UK-G | The move: empvibe.com and www.empvibe.com as a site row, en.orgpuls.com redirected there, Supabase Auth redirect URLs, Brevo sender domain | until then a holding page (D-269): the `HOLDING_HOSTS` row is removed when the site row is added |
 
 **UK-D, what the Indicator Tool needs from the module format** (research 2026-10-10, from HSE's OGL PDF and Analysis Tool):
 - **Wording.** 35 items in seven scales: demands 8, control 6, managers' support 5, peer support 4, relationships 4,

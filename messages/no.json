@@ -40,6 +40,11 @@
   "brand": {
     "name": "Orgpuls"
   },
+  "holding": {
+    "title": "{brand} er på vei",
+    "lead": "En kartlegging av det psykososiale arbeidsmiljøet, laget for arbeidsgivere i Storbritannia.",
+    "note": "Det er her den åpner."
+  },
   "app": {
     "name": "Orgpuls",
     "tagline": "Psykososialt arbeidsmiljø for norske virksomheter. Svar lagres i EU, og ingen enkeltsvar kan spores tilbake til en person."

@@ -137,7 +137,8 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname
 
   // a market's host before its own public site (D-256): the Norwegian site's pages go to the
-  // sign-up, and nothing there is indexed; a reserved host (D-258) goes to the main site whole.
+  // sign-up, and nothing there is indexed; a reserved host (D-258) goes to the English site whole,
+  // and a brand's host before its site (D-269) shows its holding page.
   // Pure string work on the host: it cannot throw.
   const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path))
   if (gate.redirect) {
@@ -148,6 +149,13 @@ export async function updateSession(request: NextRequest) {
       url.search = ''
     }
     return noindex(NextResponse.redirect(url), true)
+  }
+  // a brand's host before its site (D-269): its holding page, in place, whatever the address
+  if (gate.rewrite) {
+    const url = request.nextUrl.clone()
+    url.pathname = gate.rewrite
+    url.search = ''
+    return noindex(NextResponse.rewrite(url), true)
   }
   return noindex(await route(request, path), gate.noindex)
 }

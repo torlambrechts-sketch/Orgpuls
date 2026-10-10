@@ -12445,6 +12445,9 @@ orgpuls.de. Each is one row: a site row in SITES when the market or brand opens,
 - the hosts have no site and so no market;
 - Norway's and Sweden's hosts are unchanged.
 
+**Superseded for empvibe.com by D-269:** the Empvibe hosts show a holding page of their own. de.orgpuls.com keeps
+the redirect.
+
 ## D-259 — The edge functions deploy from main through a workflow (2026-10-10)
 
 The functions were deployed by hand with `node scripts/functions/deploy.mjs` and a personal access token. In this
@@ -13048,3 +13051,56 @@ English flow asked HSE's 35 questions on eight pages after the core and the exis
   - `module_usable` is false for all three Norwegian organisations;
   - no organisation is in the United Kingdom yet, and no round asks the module;
   - the security advisor's findings are identical to the run before 0225.
+
+## D-269 — empvibe.com shows a holding page of its own, not the Orgpuls site (2026-10-10)
+
+D-258 sent empvibe.com and www.empvibe.com to en.orgpuls.com. Tor's objection (2026-10-10): a visitor who typed the
+English brand's address landed on a site called Orgpuls, a name that means nothing in English. Empvibe exists because
+of that (X-111). So the redirect gave away what the brand is for.
+
+**The rule.** `HOLDING_HOSTS` in `lib/hosts.ts` names a brand's addresses before its site opens, and the brand and
+language each one shows. Today it holds empvibe.com and www.empvibe.com, Empvibe in English. On such a host,
+`hostGate` shows every address in place as the holding page, `/venteside`, with a rewrite and not a redirect, so the
+address bar keeps what the visitor typed. Everything there:
+- carries `X-Robots-Tag: noindex, nofollow`;
+- is kept out of search: robots.txt disallows `/`, and the page's metadata says noindex too.
+
+The page itself (`app/venteside/page.tsx`) shows:
+- the mark and the brand's wordmark;
+- «Empvibe is on its way», with one sentence on what it is (a survey of the psychosocial work environment for
+  employers in the United Kingdom) and that it opens here.
+
+It offers no sign-up, no login and no link to Orgpuls. The United Kingdom's terms, Article 28 agreement, privacy notice
+and prices are not in place (UK-F), so a British firm has nothing it could agree to yet. On any other host
+`/venteside` answers 404.
+
+**The name, shown or hidden.** The request config reads the holding host first: the language is the brand's, and
+the catalogue is rebranded with the brand's name, not the name of the market the host would otherwise read as
+(Norway, since the host has no site row). So neither the page nor the messages sent to the browser say «Orgpuls».
+Two things in the payload still do, and both stay:
+- the key name `openOrgpuls`;
+- the support addresses `hjelp@orgpuls.no`, which `rebrand` leaves as written by design (D-261) until Empvibe has a
+  mailbox of its own (UK-G).
+
+**The design has no such page.** It is built from the site's own parts:
+- the shared mark (X-111 keeps Empvibe on Orgpuls's design);
+- the wordmark as the header draws it;
+- the display face and the body and muted text tokens.
+
+No baseline exists for it, so the pixel gate does not cover it. Instead it was checked in a browser at 390 and 1280:
+no horizontal scroll and no console errors.
+
+**Unchanged:**
+- de.orgpuls.com still goes to the English site (D-258);
+- Norway's, Sweden's and the English site's hosts behave as before;
+- no market or sign-up opens on empvibe.com.
+
+The holding row is removed the day UK-G makes empvibe.com a row in SITES with its own public site (UK-E). At that
+point en.orgpuls.com redirects there.
+
+**Tests.** `tests/unit/markets.test.ts` checks that:
+- every address on both Empvibe hosts is the holding page, never a redirect, and never indexed;
+- robots.txt is served and not rewritten;
+- the holding host has no site and no market;
+- de.orgpuls.com still redirects;
+- the English messages the page is rendered with contain no «Orgpuls» outside addresses.

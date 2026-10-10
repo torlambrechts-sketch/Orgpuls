@@ -150,18 +150,44 @@ describe('a host without its own public site yet (D-256)', () => {
   })
 })
 
-describe('a host reserved for a market or brand not open yet (X-110, D-258)', () => {
-  it('sends every address on de.orgpuls.com and empvibe.com to the same one on the English site, and indexes nothing', async () => {
+describe('a host reserved for a market not open yet (X-110, D-258)', () => {
+  it('sends every address on de.orgpuls.com to the same one on the English site, and indexes nothing', async () => {
     const { hostGate, RESERVED_HOSTS, siteOf, marketOfHost } = await import('@/lib/hosts')
-    expect(Object.keys(RESERVED_HOSTS).sort()).toEqual(['de.orgpuls.com', 'empvibe.com', 'www.empvibe.com'])
-    for (const host of ['de.orgpuls.com', 'www.empvibe.com', 'empvibe.com'])
-      for (const [path, pub] of [['/', true], ['/priser', true], ['/registrer', true], ['/logg-inn', true], ['/robots.txt', true], ['/innsikt', false]] as const)
-        expect(hostGate(host, path, pub), `${host}${path}`).toEqual({ noindex: true, redirect: `https://en.orgpuls.com${path}` })
+    expect(Object.keys(RESERVED_HOSTS).sort()).toEqual(['de.orgpuls.com'])
+    for (const [path, pub] of [['/', true], ['/priser', true], ['/registrer', true], ['/logg-inn', true], ['/robots.txt', true], ['/innsikt', false]] as const)
+      expect(hostGate('de.orgpuls.com', path, pub), path).toEqual({ noindex: true, redirect: `https://en.orgpuls.com${path}` })
     expect(hostGate('DE.orgpuls.com:443', '/', true).redirect).toBe('https://en.orgpuls.com/')
     // no site, so no market to sign up into: a spoofed header still reads as Norway, and the gate stops it first
-    for (const host of Object.keys(RESERVED_HOSTS)) {
+    expect(siteOf('de.orgpuls.com')).toBeNull()
+    expect(marketOfHost('de.orgpuls.com')).toBe('no')
+  })
+})
+
+describe('a brand’s host before its site opens (X-111, D-269)', () => {
+  it('shows Empvibe’s holding page at every address on empvibe.com, in English, and indexes nothing', async () => {
+    const { hostGate, HOLDING_HOSTS, HOLDING_PATH, holdingOf, siteOf, RESERVED_HOSTS } = await import('@/lib/hosts')
+    expect(Object.keys(HOLDING_HOSTS).sort()).toEqual(['empvibe.com', 'www.empvibe.com'])
+    for (const host of ['empvibe.com', 'www.empvibe.com', 'WWW.Empvibe.com:443']) {
+      expect(holdingOf(host)).toEqual({ brand: 'empvibe', lang: 'en' })
+      // never the Orgpuls site: no redirect to it, and no sign-up or sign-in in its place
+      for (const [path, pub] of [['/', true], ['/priser', true], ['/registrer', true], ['/logg-inn', true], ['/s/abc', true], ['/innsikt', false]] as const)
+        expect(hostGate(host, path, pub), `${host}${path}`).toEqual({ noindex: true, redirect: null, rewrite: HOLDING_PATH })
+      // robots.txt is answered there, and disallows everything (app/robots.ts)
+      expect(hostGate(host, '/robots.txt', true)).toEqual({ noindex: true, redirect: null })
       expect(siteOf(host)).toBeNull()
-      expect(marketOfHost(host)).toBe('no')
+      expect(RESERVED_HOSTS[host.toLowerCase().split(':')[0]!]).toBeUndefined()
+    }
+    // the holding page's address is nothing on Orgpuls's hosts
+    expect(holdingOf('www.orgpuls.com')).toBeNull()
+    expect(hostGate('www.orgpuls.com', HOLDING_PATH, true)).toEqual({ noindex: false, redirect: null })
+  })
+
+  it('names Empvibe in each language and never Orgpuls', async () => {
+    for (const lang of ['no', 'en', 'sv']) {
+      const m = JSON.parse(readFileSync(`messages/${lang}.json`, 'utf8')) as { holding: Record<string, string> }
+      expect(Object.keys(m.holding).sort(), lang).toEqual(['lead', 'note', 'title'])
+      expect(m.holding.title, lang).toContain('{brand}')
+      expect(JSON.stringify(m.holding), lang).not.toMatch(/orgpuls/i)
     }
   })
 })
