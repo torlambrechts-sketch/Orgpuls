@@ -13030,3 +13030,21 @@ English flow asked HSE's 35 questions on eight pages after the core and the exis
 - every language complete, HSE's Polish and English marked official;
 - the market migration, and the module kept out of Norway's pages;
 - the band reader matching `app.module_band`.
+
+**Hosted, 2026-10-10:**
+- 0225 was applied verbatim through `apply_migration`, before the module existed there.
+- `module_sync` with the seed's body hash `180e44a4…` made 1.0.0 a draft. A fingerprint of everything `module_seed`
+  stores (module, factors, statements, suggestions, sources, without ids or timestamps) matched the local database built
+  from the same file in all five parts.
+- The registry rows were written with SQL equivalent to `modules:registry`:
+  - the answer labels are written once per scale, and the English is read from the module's stored English;
+  - before use, the SQL was proven locally: it rewrote the local rows and produced the same fingerprint as the
+    script's.
+- On hosted, all six languages hold 218 rows with the local fingerprint. The platform's auto-approve approved them as
+  written (0101).
+- `module_set_status` published 1.0.0.
+- Checks:
+  - `module_market_ok` says the United Kingdom yes, Norway and Sweden no;
+  - `module_usable` is false for all three Norwegian organisations;
+  - no organisation is in the United Kingdom yet, and no round asks the module;
+  - the security advisor's findings are identical to the run before 0225.
