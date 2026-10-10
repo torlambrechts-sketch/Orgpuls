@@ -127,6 +127,9 @@ export interface RapportView {
     version: string
     variant: { name: string; code: string; version: string } | null
     provisional: boolean
+    /** its own risk bands where they are not the core's (0223), and the source it credits (0224); null for most */
+    ownBands: { low: number; medium: number } | null
+    attribution: string | null
     factors: { name: string; index: number | null; band: 'lav' | 'middels' | 'hoy' | null; legalBasis: string[]; measures: string[] }[]
     counts: { text: string; suppressed: boolean; ja: number | null; nei: number | null; vetIkke: number | null; total: number | null }[]
     threshold: number
@@ -914,6 +917,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
             </h2>
             <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
               {t('rapport.module.lead', { threshold: m.threshold })}
+              {m.ownBands ? ` ${t('rapport.module.ownBands', m.ownBands)}` : null}
             </p>
             <table className="mt-[10px] w-full border-collapse text-[12px] leading-[1.5]">
               <thead>
@@ -954,6 +958,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
                 ))}
               </>
             ) : null}
+            {m.attribution ? <p className="mt-[10px] text-[11.5px] leading-[1.6] text-mut">{m.attribution}</p> : null}
           </div>
         ))}
 

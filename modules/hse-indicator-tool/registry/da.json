@@ -1,0 +1,69 @@
+{
+  "locale": "da",
+  "factors": {
+    "demands": "Krav",
+    "control": "Kontrol",
+    "managers_support": "Støtte fra ledere",
+    "peer_support": "Kollegial støtte",
+    "relationships": "Relationer",
+    "role": "Rolle",
+    "change": "Forandring"
+  },
+  "items": {
+    "HS-RO-1": "Det er klart for mig hvad der forventes af mig på arbejdet",
+    "HS-CO-1": "Jeg kan bestemme hvornår jeg holder pause",
+    "HS-DE-1": "Forskellige grupper på arbejdet stiller krav til mig som er svære at forene",
+    "HS-RO-2": "Jeg ved hvordan jeg skal gribe det an for at få mit arbejde gjort",
+    "HS-RE-1": "Jeg bliver udsat for personlig chikane i form af uvenlige ord eller uvenlig opførsel",
+    "HS-DE-2": "Jeg har tidsfrister som er umulige at nå",
+    "HS-PS-1": "Hvis arbejdet bliver svært, hjælper mine kolleger mig",
+    "HS-MS-1": "Jeg får støttende tilbagemeldinger på det arbejde jeg laver",
+    "HS-DE-3": "Jeg er nødt til at arbejde meget intensivt",
+    "HS-CO-2": "Jeg har indflydelse på mit eget arbejdstempo",
+    "HS-RO-3": "Det er klart for mig hvilke opgaver og hvilket ansvar jeg har",
+    "HS-DE-4": "Jeg er nødt til at forsømme nogle opgaver fordi jeg har for meget at lave",
+    "HS-RO-4": "Det er klart for mig hvilke mål og delmål min afdeling har",
+    "HS-RE-2": "Der er gnidninger eller vrede mellem kolleger",
+    "HS-CO-3": "Jeg kan vælge hvordan jeg udfører mit arbejde",
+    "HS-DE-5": "Jeg kan ikke holde tilstrækkeligt med pauser",
+    "HS-RO-5": "Jeg forstår hvordan mit arbejde passer ind i virksomhedens overordnede mål",
+    "HS-DE-6": "Jeg bliver presset til at arbejde lange dage",
+    "HS-CO-4": "Jeg kan vælge hvad jeg laver på arbejdet",
+    "HS-DE-7": "Jeg er nødt til at arbejde meget hurtigt",
+    "HS-RE-3": "Jeg bliver udsat for mobning på arbejdet",
+    "HS-DE-8": "Jeg er under urealistisk tidspres",
+    "HS-MS-2": "Jeg kan regne med at min nærmeste leder hjælper mig med et problem i arbejdet",
+    "HS-PS-2": "Jeg får den hjælp og støtte jeg har brug for fra kolleger",
+    "HS-CO-5": "Jeg har en vis indflydelse på måden jeg arbejder på",
+    "HS-CH-1": "Jeg har tilstrækkelige muligheder for at stille spørgsmål til lederne om forandringer på arbejdet",
+    "HS-PS-3": "Jeg får den respekt jeg fortjener fra mine kolleger på arbejdet",
+    "HS-CH-2": "Medarbejderne bliver altid spurgt til råds om forandringer på arbejdet",
+    "HS-MS-3": "Jeg kan tale med min nærmeste leder om noget på arbejdet som har gjort mig ked af det eller irriteret mig",
+    "HS-CO-6": "Min arbejdstid kan være fleksibel",
+    "HS-PS-4": "Mine kolleger er villige til at lytte til mine arbejdsrelaterede problemer",
+    "HS-CH-3": "Når der bliver foretaget forandringer på arbejdet, er det klart for mig hvordan de vil fungere i praksis",
+    "HS-MS-4": "Jeg får støtte i følelsesmæssigt krævende arbejde",
+    "HS-RE-4": "Relationerne på arbejdet er anstrengte",
+    "HS-MS-5": "Min nærmeste leder opmuntrer mig i arbejdet"
+  },
+  "counts": {},
+  "scales": {
+    "frekvens": [
+      "Aldrig",
+      "Sjældent",
+      "Nogle gange",
+      "Ofte",
+      "Altid"
+    ],
+    "enighet": [
+      "Helt uenig",
+      "Uenig",
+      "Hverken enig eller uenig",
+      "Enig",
+      "Helt enig"
+    ]
+  },
+  "prefaces": {
+    "HS-RO-1": "Det er anerkendt at arbejdsforholdene påvirker medarbejdernes trivsel. Dine svar på spørgsmålene nedenfor hjælper os med at kortlægge vores arbejdsforhold som de er nu og gør det muligt at følge forbedringer fremover. For at vi kan sammenligne den nuværende situation med tidligere eller senere situationer, er det vigtigt at dine svar afspejler dit arbejde inden for de seneste seks måneder."
+  }
+}

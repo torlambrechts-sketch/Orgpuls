@@ -1,0 +1,924 @@
+{
+  "module_id": "hse-indicator-tool",
+  "locale": "nb-NO",
+  "name": "HSE Management Standards Indicator Tool",
+  "description": "Tilleggsmodul for virksomheter i Storbritannia: HSEs Management Standards Indicator Tool, 35 påstander i sju områder, stilt med HSEs ordlyd, svaralternativer og rekkefølge. Den stilles i tillegg til de elleve faktorene i hovedundersøkelsen, som dekker mye av det samme med egne påstander.",
+  "estimated_minutes": 5,
+  "scale": {
+    "type": "likert5",
+    "labels": [
+      "Helt uenig",
+      "Uenig",
+      "Verken eller",
+      "Enig",
+      "Helt enig"
+    ],
+    "to_index": {
+      "1": 0,
+      "2": 25,
+      "3": 50,
+      "4": 75,
+      "5": 100
+    }
+  },
+  "scoring": {
+    "factor_index": "mean of item indices, reversed statements scored 6 − value",
+    "risk_bands": [
+      {
+        "band": "lav",
+        "min": 75
+      },
+      {
+        "band": "middels",
+        "min": 26,
+        "max": 74
+      },
+      {
+        "band": "høy",
+        "max": 25
+      }
+    ]
+  },
+  "anonymity": {
+    "min_responses": 5,
+    "can_lower": false,
+    "count_items_reported_at": "organisation_only",
+    "segments_require_min": 5,
+    "block_differencing": true
+  },
+  "relation_to_core": {
+    "covered_by_core_factors": [
+      "Arbeidsmengde og tidspress",
+      "Medvirkning og kontroll",
+      "Støtte fra leder",
+      "Støtte fra kollegaer",
+      "Integritet og verdighet",
+      "Rolleklarhet",
+      "Motstridende krav"
+    ]
+  },
+  "factors": [
+    {
+      "id": "demands",
+      "name": "Krav",
+      "summary": "Om arbeidsmengden, tempoet og arbeidstiden er til å leve med over tid.",
+      "rationale": "HSE beskriver krav som ett av seks områder i arbeidet som, når de ikke håndteres godt, henger sammen med dårligere helse, lavere produktivitet og mer sykefravær. Tilstanden HSE foreslår å arbeide mot, er at de ansatte sier at de klarer kravene i jobben, og at virksomheten har en måte å fange opp den enkeltes bekymringer på. Alle åtte påstandene er formulert negativt og skåres omvendt, så en høyere indeks er alltid det bedre resultatet.",
+      "rationale_sources": [
+        "hse_standards",
+        "hse_demands"
+      ],
+      "legal_basis": [
+        "MHSWR 1999 reg. 3 og HSWA 1974 s. 2, slik HSEs veiledning anvender dem på arbeidsrelatert stress (egnet og tilstrekkelig risikovurdering)",
+        "HSEs Management Standards (veiledning, ikke lov): krav"
+      ],
+      "items": [
+        {
+          "id": "HS-DE-1",
+          "text": "Ulike grupper på jobben krever ting av meg som er vanskelige å forene",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 3"
+        },
+        {
+          "id": "HS-DE-2",
+          "text": "Jeg har tidsfrister som er umulige å nå",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 6"
+        },
+        {
+          "id": "HS-DE-3",
+          "text": "Jeg må jobbe svært intensivt",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 9"
+        },
+        {
+          "id": "HS-DE-4",
+          "text": "Jeg må forsømme noen oppgaver fordi jeg har for mye å gjøre",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 12"
+        },
+        {
+          "id": "HS-DE-5",
+          "text": "Jeg får ikke tatt nok pauser",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 16"
+        },
+        {
+          "id": "HS-DE-6",
+          "text": "Jeg blir presset til å jobbe lange dager",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 18"
+        },
+        {
+          "id": "HS-DE-7",
+          "text": "Jeg må jobbe svært raskt",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 20"
+        },
+        {
+          "id": "HS-DE-8",
+          "text": "Jeg har urealistisk tidspress",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 22"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hva tar tiden?",
+          "description": "Teamet kartlegger en vanlig uke: hvilke oppgaver som tar mest tid, hvilke som kommer uplanlagt, og hva som kan droppes, utsettes eller deles. Lederen tar med seg det teamet ikke kan løse selv.",
+          "remeasure_item": "HS-DE-4"
+        },
+        {
+          "type": "rutine",
+          "title": "Frister som går an",
+          "description": "Nye oppgaver får en frist som avtales med den som skal gjøre dem, og lederen sier samtidig hva som kan vente. Avtalen følges opp på neste teammøte.",
+          "remeasure_item": "HS-DE-2"
+        }
+      ]
+    },
+    {
+      "id": "control",
+      "name": "Kontroll",
+      "summary": "Om de ansatte har innflytelse på hvordan, når og i hvilket tempo de gjør arbeidet.",
+      "rationale": "HSE beskriver kontroll som hvor mye den enkelte har å si over måten arbeidet gjøres på. Tilstanden HSE foreslår å arbeide mot, er at de ansatte sier at de har innflytelse på hvordan de arbeider, og at virksomheten har en måte å fange opp den enkeltes bekymringer på. Lite innflytelse gjør høye krav tyngre å bære.",
+      "rationale_sources": [
+        "hse_standards",
+        "hse_control"
+      ],
+      "legal_basis": [
+        "MHSWR 1999 reg. 3 og HSWA 1974 s. 2, slik HSEs veiledning anvender dem på arbeidsrelatert stress (egnet og tilstrekkelig risikovurdering)",
+        "HSEs Management Standards (veiledning, ikke lov): kontroll"
+      ],
+      "items": [
+        {
+          "id": "HS-CO-1",
+          "text": "Jeg kan bestemme når jeg tar pause",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 2"
+        },
+        {
+          "id": "HS-CO-2",
+          "text": "Jeg har innflytelse på mitt eget arbeidstempo",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 10"
+        },
+        {
+          "id": "HS-CO-3",
+          "text": "Jeg kan velge hvordan jeg gjør arbeidet mitt",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 15"
+        },
+        {
+          "id": "HS-CO-4",
+          "text": "Jeg kan velge hva jeg gjør på jobben",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 19"
+        },
+        {
+          "id": "HS-CO-5",
+          "text": "Jeg har en viss innflytelse på hvordan jeg arbeider",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 25"
+        },
+        {
+          "id": "HS-CO-6",
+          "text": "Arbeidstiden min kan være fleksibel",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 30"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hvor kan vi bestemme selv?",
+          "description": "Teamet går gjennom arbeidsdagen og skiller mellom det som må gjøres på en bestemt måte, og det den enkelte kan avgjøre selv. Der det er rom for det, flyttes avgjørelsen til den som gjør jobben.",
+          "remeasure_item": "HS-CO-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Pauser når arbeidet ikke kan stoppe",
+          "description": "Lederen avtaler med teamet hvordan pauser tas når arbeidet ikke kan stoppe, slik at alle vet at de kan ta pause, og når.",
+          "remeasure_item": "HS-CO-1"
+        }
+      ]
+    },
+    {
+      "id": "managers_support",
+      "name": "Støtte fra ledere",
+      "summary": "Om nærmeste leder oppmuntrer, gir støttende tilbakemeldinger og hjelper når arbeidet er vanskelig.",
+      "rationale": "HSE beskriver støtte som oppmuntringen, ressursene og hjelpen virksomheten, lederne og kollegaene gir, og måler støtten fra ledere og fra kollegaer hver for seg. Tilstanden HSE foreslår å arbeide mot, er at de ansatte sier at de får tilstrekkelig informasjon og støtte fra ledere og kollegaer, og at virksomheten har en måte å fange opp den enkeltes bekymringer på.",
+      "rationale_sources": [
+        "hse_standards",
+        "hse_support"
+      ],
+      "legal_basis": [
+        "MHSWR 1999 reg. 3 og HSWA 1974 s. 2, slik HSEs veiledning anvender dem på arbeidsrelatert stress (egnet og tilstrekkelig risikovurdering)",
+        "HSEs Management Standards (veiledning, ikke lov): støtte"
+      ],
+      "items": [
+        {
+          "id": "HS-MS-1",
+          "text": "Jeg får støttende tilbakemeldinger på arbeidet jeg gjør",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 8"
+        },
+        {
+          "id": "HS-MS-2",
+          "text": "Jeg kan stole på at min nærmeste leder hjelper meg med et problem på jobben",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 23"
+        },
+        {
+          "id": "HS-MS-3",
+          "text": "Jeg kan snakke med min nærmeste leder om noe ved jobben som har opprørt eller irritert meg",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 29"
+        },
+        {
+          "id": "HS-MS-4",
+          "text": "Jeg får støtte i følelsesmessig krevende arbeid",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 33"
+        },
+        {
+          "id": "HS-MS-5",
+          "text": "Min nærmeste leder oppmuntrer meg i arbeidet",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 35"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "lederpraksis",
+          "title": "Fast tid med hver enkelt",
+          "description": "Lederen har en kort, fast samtale med hver ansatt der det er rom for å ta opp det som er vanskelig eller har irritert, ikke bare oppgaver.",
+          "remeasure_item": "HS-MS-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Si hva som fungerer",
+          "description": "Lederen gir konkrete tilbakemeldinger på arbeid som er gjort godt, like ofte som på det som må rettes.",
+          "remeasure_item": "HS-MS-1"
+        }
+      ]
+    },
+    {
+      "id": "peer_support",
+      "name": "Kollegastøtte",
+      "summary": "Om kollegaene hjelper, lytter og viser hverandre respekt.",
+      "rationale": "Kollegastøtte er den delen av HSEs område for støtte som gjelder hjelpen og respekten de ansatte gir hverandre. Påstandene spør om hjelp når arbeidet blir vanskelig, om respekt og om å bli lyttet til.",
+      "rationale_sources": [
+        "hse_standards",
+        "hse_support"
+      ],
+      "legal_basis": [
+        "MHSWR 1999 reg. 3 og HSWA 1974 s. 2, slik HSEs veiledning anvender dem på arbeidsrelatert stress (egnet og tilstrekkelig risikovurdering)",
+        "HSEs Management Standards (veiledning, ikke lov): støtte"
+      ],
+      "items": [
+        {
+          "id": "HS-PS-1",
+          "text": "Hvis arbeidet blir vanskelig, hjelper kollegaene mine meg",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 7"
+        },
+        {
+          "id": "HS-PS-2",
+          "text": "Jeg får den hjelpen og støtten jeg trenger fra kollegaer",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 24"
+        },
+        {
+          "id": "HS-PS-3",
+          "text": "Jeg får den respekten jeg fortjener fra kollegaene mine på jobben",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 27"
+        },
+        {
+          "id": "HS-PS-4",
+          "text": "Kollegaene mine er villige til å lytte til jobbrelaterte problemer jeg har",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 31"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hvem spør vi?",
+          "description": "Teamet blir enige om hvordan man ber om hjelp når det røyner på, og hvem som kan avlaste hvem i travle perioder.",
+          "remeasure_item": "HS-PS-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Ti minutter på teammøtet",
+          "description": "Hvert teammøte avsluttes med at alle kan nevne et problem de står i, og noen tilbyr seg å hjelpe.",
+          "remeasure_item": "HS-PS-4"
+        }
+      ]
+    },
+    {
+      "id": "relationships",
+      "name": "Relasjoner",
+      "summary": "Om arbeidsmiljøet er fritt for trakassering, mobbing, gnisninger og anstrengte relasjoner.",
+      "rationale": "HSE beskriver dette området som å fremme positivt samarbeid for å unngå konflikt, og å håndtere uakseptabel oppførsel. Tilstanden HSE foreslår å arbeide mot, er at de ansatte sier at de ikke blir utsatt for uakseptabel oppførsel som mobbing på jobben, og at virksomheten har en måte for dem å melde fra på. Alle fire påstandene er formulert negativt og skåres omvendt.",
+      "rationale_sources": [
+        "hse_standards",
+        "hse_relationships"
+      ],
+      "legal_basis": [
+        "MHSWR 1999 reg. 3 og HSWA 1974 s. 2, slik HSEs veiledning anvender dem på arbeidsrelatert stress (egnet og tilstrekkelig risikovurdering)",
+        "HSEs Management Standards (veiledning, ikke lov): relasjoner",
+        "Equality Act 2010 s. 26 (trakassering)"
+      ],
+      "items": [
+        {
+          "id": "HS-RE-1",
+          "text": "Jeg blir utsatt for personlig trakassering i form av uvennlige ord eller uvennlig oppførsel",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 5"
+        },
+        {
+          "id": "HS-RE-2",
+          "text": "Det er gnisninger eller sinne mellom kollegaer",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 14"
+        },
+        {
+          "id": "HS-RE-3",
+          "text": "Jeg blir utsatt for mobbing på jobben",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 21"
+        },
+        {
+          "id": "HS-RE-4",
+          "text": "Relasjonene på jobben er anstrengte",
+          "reverse": true,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 34"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "rutine",
+          "title": "Si fra, og hvem som tar imot",
+          "description": "Virksomheten gjør kjent hvordan trakassering og mobbing meldes, også utenom nærmeste leder, og hvem som følger opp og innen når.",
+          "remeasure_item": "HS-RE-3"
+        },
+        {
+          "type": "workshop",
+          "title": "Gnisninger før de vokser",
+          "description": "Teamet snakker om hva som skaper gnisninger i arbeidet, og blir enige om hvordan uenighet tas opp tidlig og direkte.",
+          "remeasure_item": "HS-RE-2"
+        }
+      ]
+    },
+    {
+      "id": "role",
+      "name": "Rolle",
+      "summary": "Om de ansatte vet hva som forventes, hva ansvaret deres er, og hvordan arbeidet henger sammen med målene.",
+      "rationale": "HSE beskriver rolle som om de ansatte forstår sin rolle i virksomheten, og om virksomheten sørger for at de ikke har motstridende roller. Tilstanden HSE foreslår å arbeide mot, er at de ansatte sier at de forstår rollen og ansvaret sitt, og at virksomheten har en måte å fange opp den enkeltes bekymringer på.",
+      "rationale_sources": [
+        "hse_standards",
+        "hse_role"
+      ],
+      "legal_basis": [
+        "MHSWR 1999 reg. 3 og HSWA 1974 s. 2, slik HSEs veiledning anvender dem på arbeidsrelatert stress (egnet og tilstrekkelig risikovurdering)",
+        "HSEs Management Standards (veiledning, ikke lov): rolle"
+      ],
+      "items": [
+        {
+          "id": "HS-RO-1",
+          "text": "Det er klart for meg hva som forventes av meg på jobben",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "preface": "Det er anerkjent at arbeidsforholdene påvirker arbeidstakernes trivsel. Svarene dine på spørsmålene nedenfor hjelper oss å kartlegge arbeidsforholdene våre slik de er nå, og gjør det mulig å følge med på forbedringer fremover. For at vi skal kunne sammenligne situasjonen nå med tidligere eller senere situasjoner, er det viktig at svarene dine gjenspeiler arbeidet ditt de siste seks månedene.",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 1"
+        },
+        {
+          "id": "HS-RO-2",
+          "text": "Jeg vet hvordan jeg skal gå frem for å få gjort jobben min",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 4"
+        },
+        {
+          "id": "HS-RO-3",
+          "text": "Det er klart for meg hvilke oppgaver og hvilket ansvar jeg har",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 11"
+        },
+        {
+          "id": "HS-RO-4",
+          "text": "Det er klart for meg hvilke mål og delmål avdelingen min har",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 13"
+        },
+        {
+          "id": "HS-RO-5",
+          "text": "Jeg forstår hvordan arbeidet mitt passer inn i virksomhetens overordnede mål",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "frekvens",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 17"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "lederpraksis",
+          "title": "Forventninger på ett ark",
+          "description": "Leder og ansatt skriver sammen ned de viktigste oppgavene, ansvaret og det som ligger utenfor, og ser på det igjen når noe endrer seg.",
+          "remeasure_item": "HS-RO-3"
+        },
+        {
+          "type": "workshop",
+          "title": "Fra mål til arbeidsdag",
+          "description": "Lederen går gjennom avdelingens mål med teamet, og hver enkelt sier hvordan eget arbeid bidrar.",
+          "remeasure_item": "HS-RO-4"
+        }
+      ]
+    },
+    {
+      "id": "change",
+      "name": "Endring",
+      "summary": "Om endringer blir forklart, om de ansatte blir spurt, og om det er klart hvordan endringene vil virke i praksis.",
+      "rationale": "HSE beskriver endring som hvordan organisatoriske endringer, store og små, ledes og formidles. Tilstanden HSE foreslår å arbeide mot, er at de ansatte sier at virksomheten involverer dem ofte når den gjennomfører endringer, og at de får nok informasjon til å forstå hvorfor.",
+      "rationale_sources": [
+        "hse_standards",
+        "hse_change"
+      ],
+      "legal_basis": [
+        "MHSWR 1999 reg. 3 og HSWA 1974 s. 2, slik HSEs veiledning anvender dem på arbeidsrelatert stress (egnet og tilstrekkelig risikovurdering)",
+        "HSEs Management Standards (veiledning, ikke lov): endring",
+        "SRSC 1977 reg. 4A og HSCER 1996 reg. 3 (å rådføre seg med sikkerhetsrepresentantene eller de ansatte i god tid om tiltak som i vesentlig grad kan påvirke helse og sikkerhet)"
+      ],
+      "items": [
+        {
+          "id": "HS-CH-1",
+          "text": "Jeg har tilstrekkelige muligheter til å stille lederne spørsmål om endringer på jobben",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 26"
+        },
+        {
+          "id": "HS-CH-2",
+          "text": "De ansatte blir alltid tatt med på råd om endringer på jobben",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 28"
+        },
+        {
+          "id": "HS-CH-3",
+          "text": "Når det gjøres endringer på jobben, er det klart for meg hvordan de vil fungere i praksis",
+          "reverse": false,
+          "pulse_eligible": true,
+          "scale": "enighet",
+          "source": "HSE Management Standards Indicator Tool, spørsmål 32"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "rutine",
+          "title": "Spør før det bestemmes",
+          "description": "Før en endring som berører arbeidet besluttes, blir de som berøres og sikkerhetsrepresentanten deres, der det finnes en, spurt om sitt syn, og de får vite hva som ble gjort med innspillene.",
+          "remeasure_item": "HS-CH-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Slik blir det i praksis",
+          "description": "Når en endring kunngjøres, forklarer lederen hva den betyr for den enkeltes arbeidsdag, og setter av tid til spørsmål.",
+          "remeasure_item": "HS-CH-3"
+        }
+      ]
+    }
+  ],
+  "scales": {
+    "frekvens": {
+      "labels": [
+        "Aldri",
+        "Sjelden",
+        "Noen ganger",
+        "Ofte",
+        "Alltid"
+      ]
+    },
+    "enighet": {
+      "labels": [
+        "Helt uenig",
+        "Uenig",
+        "Verken eller",
+        "Enig",
+        "Helt enig"
+      ]
+    }
+  },
+  "instrument": {
+    "order": [
+      "HS-RO-1",
+      "HS-CO-1",
+      "HS-DE-1",
+      "HS-RO-2",
+      "HS-RE-1",
+      "HS-DE-2",
+      "HS-PS-1",
+      "HS-MS-1",
+      "HS-DE-3",
+      "HS-CO-2",
+      "HS-RO-3",
+      "HS-DE-4",
+      "HS-RO-4",
+      "HS-RE-2",
+      "HS-CO-3",
+      "HS-DE-5",
+      "HS-RO-5",
+      "HS-DE-6",
+      "HS-CO-4",
+      "HS-DE-7",
+      "HS-RE-3",
+      "HS-DE-8",
+      "HS-MS-2",
+      "HS-PS-2",
+      "HS-CO-5",
+      "HS-CH-1",
+      "HS-PS-3",
+      "HS-CH-2",
+      "HS-MS-3",
+      "HS-CO-6",
+      "HS-PS-4",
+      "HS-CH-3",
+      "HS-MS-4",
+      "HS-RE-4",
+      "HS-MS-5"
+    ],
+    "not_relevant": false
+  },
+  "attribution": "Inneholder offentlig informasjon publisert av Health and Safety Executive (HSE) og lisensiert under Open Government Licence v3.0. HSE har ikke laget, godkjent eller gått god for denne tjenesten. Oversettelsene er våre, bortsett fra HSEs egen polske versjon.",
+  "count_items": [],
+  "segments": [],
+  "sources": [
+    {
+      "key": "hse_indicator",
+      "title": "Health and Safety Executive: HSE Management Standards Indicator Tool",
+      "url": "https://www.hse.gov.uk/stress/assets/docs/indicatortool.pdf"
+    },
+    {
+      "key": "hse_indicator_notes",
+      "title": "Health and Safety Executive: Notes on HSE Management Standards Indicator Tool",
+      "url": "https://www.hse.gov.uk/stress/standards/notesindicatortool.htm"
+    },
+    {
+      "key": "hse_polish",
+      "title": "Health and Safety Executive: HSE Management Standards Indicator Tool, polsk versjon",
+      "url": "https://www.hse.gov.uk/stress/assets/docs/polish.pdf"
+    },
+    {
+      "key": "hse_standards",
+      "title": "Health and Safety Executive: What are the Management Standards?",
+      "url": "https://www.hse.gov.uk/stress/standards/overview.htm"
+    },
+    {
+      "key": "hse_demands",
+      "title": "Health and Safety Executive: Management Standards, Demands",
+      "url": "https://www.hse.gov.uk/stress/standards/demands.htm"
+    },
+    {
+      "key": "hse_control",
+      "title": "Health and Safety Executive: Management Standards, Control",
+      "url": "https://www.hse.gov.uk/stress/standards/control.htm"
+    },
+    {
+      "key": "hse_support",
+      "title": "Health and Safety Executive: Management Standards, Support",
+      "url": "https://www.hse.gov.uk/stress/standards/support.htm"
+    },
+    {
+      "key": "hse_relationships",
+      "title": "Health and Safety Executive: Management Standards, Relationships",
+      "url": "https://www.hse.gov.uk/stress/standards/relationships.htm"
+    },
+    {
+      "key": "hse_role",
+      "title": "Health and Safety Executive: Management Standards, Role",
+      "url": "https://www.hse.gov.uk/stress/standards/role.htm"
+    },
+    {
+      "key": "hse_change",
+      "title": "Health and Safety Executive: Management Standards, Change",
+      "url": "https://www.hse.gov.uk/stress/standards/change.htm"
+    },
+    {
+      "key": "hse_risk_assessment",
+      "title": "Health and Safety Executive: Stress risk assessment",
+      "url": "https://www.hse.gov.uk/stress/risk-assessment.htm"
+    },
+    {
+      "key": "mhswr_3",
+      "title": "Management of Health and Safety at Work Regulations 1999, reg. 3",
+      "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/3"
+    },
+    {
+      "key": "hswa_2",
+      "title": "Health and Safety at Work etc. Act 1974, s. 2",
+      "url": "https://www.legislation.gov.uk/ukpga/1974/37/section/2"
+    },
+    {
+      "key": "ogl_v3",
+      "title": "The National Archives: Open Government Licence v3.0",
+      "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    }
+  ],
+  "translations": {
+    "en": {
+      "name": "HSE Management Standards Indicator Tool",
+      "description": "An add-on module for organisations in the United Kingdom: HSE's Management Standards Indicator Tool, 35 statements in seven areas, asked in HSE's wording, answers and order. It is asked alongside the eleven factors of the core survey, which cover much of the same ground in statements of their own.",
+      "scale_labels": [
+        "Strongly disagree",
+        "Disagree",
+        "Neutral",
+        "Agree",
+        "Strongly agree"
+      ],
+      "covered_by_core_factors": [
+        "Workload and time pressure",
+        "Participation and control",
+        "Support from manager",
+        "Support from colleagues",
+        "Integrity and dignity",
+        "Role clarity",
+        "Conflicting demands"
+      ],
+      "factors": {
+        "demands": {
+          "name": "Demands",
+          "summary": "Whether workload, pace and working hours can be sustained over time.",
+          "rationale": "HSE describes demands as one of six areas of work that, when not managed well, go with poorer health, lower productivity and more sickness absence. The state HSE suggests working towards is that employees say they can cope with the demands of their jobs, and that the organisation has a way of responding to individual concerns. All eight statements are worded negatively and scored in reverse, so a higher index is always the better result.",
+          "legal_basis": [
+            "MHSWR 1999 reg 3 and HSWA 1974 s.2, as applied to stress in HSE's guidance (a suitable and sufficient risk assessment)",
+            "HSE's Management Standards (guidance, not law): demands"
+          ],
+          "items": {
+            "HS-DE-1": "Different groups at work demand things from me that are hard to combine",
+            "HS-DE-2": "I have unachievable deadlines",
+            "HS-DE-3": "I have to work very intensively",
+            "HS-DE-4": "I have to neglect some tasks because I have too much to do",
+            "HS-DE-5": "I am unable to take sufficient breaks",
+            "HS-DE-6": "I am pressured to work long hours",
+            "HS-DE-7": "I have to work very fast",
+            "HS-DE-8": "I have unrealistic time pressures"
+          },
+          "action_suggestions": [
+            {
+              "title": "What takes the time?",
+              "description": "The team maps an ordinary week: which tasks take the most time, which arrive unplanned, and what can be dropped, postponed or shared. The manager takes on what the team cannot solve itself."
+            },
+            {
+              "title": "Deadlines that can be met",
+              "description": "New work gets a deadline agreed with the person doing it, and the manager says at the same time what can wait. The agreement is followed up at the next team meeting."
+            }
+          ]
+        },
+        "control": {
+          "name": "Control",
+          "summary": "Whether people have a say in how, when and at what pace they do their work.",
+          "rationale": "HSE describes control as how much say a person has in the way they do their work. The state HSE suggests working towards is that employees say they have a say about the way they do their work, and that the organisation has a way of responding to individual concerns. Little say makes high demands harder to carry.",
+          "legal_basis": [
+            "MHSWR 1999 reg 3 and HSWA 1974 s.2, as applied to stress in HSE's guidance (a suitable and sufficient risk assessment)",
+            "HSE's Management Standards (guidance, not law): control"
+          ],
+          "items": {
+            "HS-CO-1": "I can decide when to take a break",
+            "HS-CO-2": "I have a say in my own work speed",
+            "HS-CO-3": "I have a choice in deciding how I do my work",
+            "HS-CO-4": "I have a choice in deciding what I do at work",
+            "HS-CO-5": "I have some say over the way I work",
+            "HS-CO-6": "My working time can be flexible"
+          },
+          "action_suggestions": [
+            {
+              "title": "Where can we decide for ourselves?",
+              "description": "The team goes through the working day and separates what has to be done a set way from what each person can decide. Where there is room, the decision moves to the person doing the work."
+            },
+            {
+              "title": "Breaks when the work cannot stop",
+              "description": "The manager agrees with the team how breaks are taken when the work cannot stop, so everyone knows they can take one, and when."
+            }
+          ]
+        },
+        "managers_support": {
+          "name": "Managers' Support",
+          "summary": "Whether line managers encourage, give supportive feedback and help when work is difficult.",
+          "rationale": "HSE describes support as the encouragement, resources and help that the organisation, line management and colleagues provide, and measures support from managers and from colleagues separately. The state HSE suggests working towards is that employees say they get adequate information and support from their managers and colleagues, and that the organisation has a way of responding to individual concerns.",
+          "legal_basis": [
+            "MHSWR 1999 reg 3 and HSWA 1974 s.2, as applied to stress in HSE's guidance (a suitable and sufficient risk assessment)",
+            "HSE's Management Standards (guidance, not law): support"
+          ],
+          "items": {
+            "HS-MS-1": "I am given supportive feedback on the work I do",
+            "HS-MS-2": "I can rely on my line manager to help me out with a work problem",
+            "HS-MS-3": "I can talk to my line manager about something that has upset or annoyed me about work",
+            "HS-MS-4": "I am supported through emotionally demanding work",
+            "HS-MS-5": "My line manager encourages me at work"
+          },
+          "action_suggestions": [
+            {
+              "title": "Regular time with each person",
+              "description": "The manager holds a short, regular conversation with each employee, with room to raise what is difficult or has been annoying, not only tasks."
+            },
+            {
+              "title": "Say what works",
+              "description": "The manager gives specific feedback on work done well as often as on what needs correcting."
+            }
+          ]
+        },
+        "peer_support": {
+          "name": "Peer Support",
+          "summary": "Whether colleagues help, listen and show each other respect.",
+          "rationale": "Peer support is the part of HSE's support area that covers the help and respect employees give one another. The statements ask about help when work gets difficult, about respect and about being listened to.",
+          "legal_basis": [
+            "MHSWR 1999 reg 3 and HSWA 1974 s.2, as applied to stress in HSE's guidance (a suitable and sufficient risk assessment)",
+            "HSE's Management Standards (guidance, not law): support"
+          ],
+          "items": {
+            "HS-PS-1": "If work gets difficult, my colleagues will help me",
+            "HS-PS-2": "I get help and support I need from colleagues",
+            "HS-PS-3": "I receive the respect at work I deserve from my colleagues",
+            "HS-PS-4": "My colleagues are willing to listen to my work-related problems"
+          },
+          "action_suggestions": [
+            {
+              "title": "Who do we ask?",
+              "description": "The team agrees how to ask for help when things get hard, and who can cover for whom in busy periods."
+            },
+            {
+              "title": "Ten minutes at the team meeting",
+              "description": "Every team meeting ends with a chance for anyone to mention a problem they face, and someone offers to help."
+            }
+          ]
+        },
+        "relationships": {
+          "name": "Relationships",
+          "summary": "Whether work is free of harassment, bullying, friction and strained relationships.",
+          "rationale": "HSE describes this area as promoting positive working to avoid conflict, and dealing with unacceptable behaviour. The state HSE suggests working towards is that employees say they are not subjected to unacceptable behaviours such as bullying at work, and that the organisation has a way for them to report it. All four statements are worded negatively and scored in reverse.",
+          "legal_basis": [
+            "MHSWR 1999 reg 3 and HSWA 1974 s.2, as applied to stress in HSE's guidance (a suitable and sufficient risk assessment)",
+            "HSE's Management Standards (guidance, not law): relationships",
+            "Equality Act 2010 s.26 (harassment)"
+          ],
+          "items": {
+            "HS-RE-1": "I am subject to personal harassment in the form of unkind words or behaviour",
+            "HS-RE-2": "There is friction or anger between colleagues",
+            "HS-RE-3": "I am subject to bullying at work",
+            "HS-RE-4": "Relationships at work are strained"
+          },
+          "action_suggestions": [
+            {
+              "title": "Speak up, and who listens",
+              "description": "The organisation makes known how harassment and bullying are reported, including past the line manager, and who follows up and by when."
+            },
+            {
+              "title": "Friction before it grows",
+              "description": "The team talks about what causes friction in the work and agrees how disagreement is raised early and directly."
+            }
+          ]
+        },
+        "role": {
+          "name": "Role",
+          "summary": "Whether people know what is expected, what their responsibilities are, and how their work fits the goals.",
+          "rationale": "HSE describes role as whether people understand their role within the organisation and whether the organisation makes sure they do not have conflicting roles. The state HSE suggests working towards is that employees say they understand their role and responsibilities, and that the organisation has a way of responding to individual concerns.",
+          "legal_basis": [
+            "MHSWR 1999 reg 3 and HSWA 1974 s.2, as applied to stress in HSE's guidance (a suitable and sufficient risk assessment)",
+            "HSE's Management Standards (guidance, not law): role"
+          ],
+          "items": {
+            "HS-RO-1": "I am clear what is expected of me at work",
+            "HS-RO-2": "I know how to go about getting my job done",
+            "HS-RO-3": "I am clear what my duties and responsibilities are",
+            "HS-RO-4": "I am clear about the goals and objectives for my department",
+            "HS-RO-5": "I understand how my work fits into the overall aim of the organisation"
+          },
+          "action_suggestions": [
+            {
+              "title": "Expectations on one page",
+              "description": "Manager and employee write down together the main duties, the responsibilities and what falls outside them, and revisit it when something changes."
+            },
+            {
+              "title": "From goals to the working day",
+              "description": "The manager goes through the department's goals with the team, and each person says how their own work contributes."
+            }
+          ],
+          "prefaces": {
+            "HS-RO-1": "It is recognised that working conditions affect worker well-being. Your responses to the questions below will help us determine our working conditions now, and enable us to monitor future improvements. In order for us to compare the current situation with past or future situations, it is important that your responses reflect your work in the last six months."
+          }
+        },
+        "change": {
+          "name": "Change",
+          "summary": "Whether change is explained, whether staff are consulted, and whether it is clear how change will work out in practice.",
+          "rationale": "HSE describes change as how organisational change, large or small, is managed and communicated. The state HSE suggests working towards is that employees say the organisation engages them frequently when it undergoes change, and that they get enough information to understand why.",
+          "legal_basis": [
+            "MHSWR 1999 reg 3 and HSWA 1974 s.2, as applied to stress in HSE's guidance (a suitable and sufficient risk assessment)",
+            "HSE's Management Standards (guidance, not law): change",
+            "SRSC 1977 reg 4A and HSCER 1996 reg 3 (consulting safety representatives or employees in good time on any measure which may substantially affect health and safety)"
+          ],
+          "items": {
+            "HS-CH-1": "I have sufficient opportunities to question managers about change at work",
+            "HS-CH-2": "Staff are always consulted about change at work",
+            "HS-CH-3": "When changes are made at work, I am clear how they will work out in practice"
+          },
+          "action_suggestions": [
+            {
+              "title": "Ask before it is decided",
+              "description": "Before a change that affects the work is decided, the people affected and their safety representative, where there is one, are asked for their views and told what was done with them."
+            },
+            {
+              "title": "What it means in practice",
+              "description": "When a change is announced, the manager explains what it means for each person's working day and sets aside time for questions."
+            }
+          ]
+        }
+      },
+      "count_items": {},
+      "segments": {},
+      "scales": {
+        "frekvens": {
+          "labels": [
+            "Never",
+            "Seldom",
+            "Sometimes",
+            "Often",
+            "Always"
+          ]
+        },
+        "enighet": {
+          "labels": [
+            "Strongly disagree",
+            "Disagree",
+            "Neutral",
+            "Agree",
+            "Strongly agree"
+          ]
+        }
+      },
+      "attribution": "Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence v3.0. This service is not produced, approved or endorsed by HSE. The translations are ours, except HSE's own Polish version."
+    }
+  }
+}

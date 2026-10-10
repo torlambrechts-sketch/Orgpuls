@@ -465,6 +465,7 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
           minutes: simple?.estimatedMinutes ?? m.estimatedMinutes,
         }),
         provisional: m.provisional,
+        attribution: m.attribution,
         variant:
           simple && extended
             ? {

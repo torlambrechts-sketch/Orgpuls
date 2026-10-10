@@ -1,0 +1,73 @@
+{
+  "locale": "pl",
+  "factors": {
+    "demands": "Wymagania",
+    "control": "Kontrola nad pracą",
+    "managers_support": "Wsparcie ze strony kierowników",
+    "peer_support": "Wsparcie koleżeńskie",
+    "relationships": "Relacje",
+    "role": "Rola",
+    "change": "Zmiany"
+  },
+  "items": {
+    "HS-RO-1": "Wiem, czego się ode mnie oczekuje w pracy.",
+    "HS-CO-1": "Mogę sam decydować o przerwach w pracy.",
+    "HS-DE-1": "Różne grupy wymagają ode mnie różnych rzeczy, które trudno jest połączyć.",
+    "HS-RO-2": "Wiem, jak realizować powierzone mi zadania.",
+    "HS-RE-1": "Doświadczam przykrości w pracy w formie nieuprzejmych uwag lub zachowań.",
+    "HS-DE-2": "Wyznacza mi się niemożliwe do osiągnięcia terminy.",
+    "HS-PS-1": "Jeżeli praca okazuje się za trudna, mogę liczyć na pomoc ze strony współpracownika.",
+    "HS-MS-1": "Otrzymuję konstruktywne uwagi i informacje zwrotne na temat wykonywanej pracy.",
+    "HS-DE-3": "Muszę pracować bardzo intensywnie.",
+    "HS-CO-2": "Sam decyduję o tempie wykonywanej pracy.",
+    "HS-RO-3": "Moje obowiązki są jasno określone.",
+    "HS-DE-4": "Jestem zmuszony zaniedbywać niektóre obowiązki, ponieważ mam zbyt dużo pracy.",
+    "HS-RO-4": "Cele mojego działu są jasno określone.",
+    "HS-RE-2": "Pomiędzy pracownikami występują tarcia lub niesnaski.",
+    "HS-CO-3": "Sam decyduję o tym, jak wykonuję swoją pracę.",
+    "HS-DE-5": "Nie jestem w stanie robić sobie wystarczających przerw w pracy.",
+    "HS-RO-5": "Wiem, jak moja rola wpasowuje się w ogólne cele organizacji.",
+    "HS-DE-6": "Wywiera się na mnie presję, abym spędzał w pracy długie godziny.",
+    "HS-CO-4": "Mogę decydować o tym, co robię w pracy.",
+    "HS-DE-7": "Muszę pracować w dużym tempie.",
+    "HS-RE-3": "Jestem ofiarą prześladowań i mobbingu w pracy.",
+    "HS-DE-8": "Mam nierealistyczne i napięte terminy.",
+    "HS-MS-2": "Wiem, że mój kierownik zawsze udzieli mi pomocy w razie problemów w pracy.",
+    "HS-PS-2": "Otrzymuję pomoc i wsparcie od współpracowników.",
+    "HS-CO-5": "Mogę do pewnego stopnia decydować o tym, jak pracuję.",
+    "HS-CH-1": "Mam możliwości zadawania pytań kierownictwu na temat zmian w pracy.",
+    "HS-PS-3": "Jestem szanowany w miejscu pracy.",
+    "HS-CH-2": "Kierownictwo zawsze konsultuje się z pracownikami na temat zmian w pracy.",
+    "HS-MS-3": "Mogę porozmawiać z kierownikiem o sprawach, które mnie zmartwiły lub zdenerwowały w pracy.",
+    "HS-CO-6": "Mój czas pracy może być elastyczny.",
+    "HS-PS-4": "Moi koledzy chętnie wysłuchują moich problemów związanych z pracą.",
+    "HS-CH-3": "Kiedy w pracy wprowadzane są zmiany, wiem, jak będą się one przekładać na codziennie działania.",
+    "HS-MS-4": "Otrzymuję wsparcie podczas wykonywania trudnej emocjonalnie pracy.",
+    "HS-RE-4": "Relacje w pracy są napięte.",
+    "HS-MS-5": "Mój kierownik zachęca mnie i motywuje do pracy."
+  },
+  "counts": {},
+  "scales": {
+    "frekvens": [
+      "Nigdy",
+      "Rzadko",
+      "Czasami",
+      "Często",
+      "Zawsze"
+    ],
+    "enighet": [
+      "Zdecydowanie się nie zgadzam",
+      "Nie zgadzam się",
+      "Ani się zgadzam ani nie zgadzam",
+      "Zgadzam",
+      "Zdecydowanie zgadzam się"
+    ]
+  },
+  "prefaces": {
+    "HS-RO-1": "Uznaje się, że warunki pracy wpływają na samopoczucie pracowników. Twoje odpowiedzi na poniższe pytania pomogą nam ustalić, jakie są obecnie nasze warunki pracy, i pozwolą śledzić ich poprawę w przyszłości. Aby można było porównać obecną sytuację z wcześniejszą lub przyszłą, ważne jest, żeby odpowiedzi dotyczyły twojej pracy w ciągu ostatnich sześciu miesięcy."
+  },
+  "official": [
+    "items",
+    "scales"
+  ]
+}

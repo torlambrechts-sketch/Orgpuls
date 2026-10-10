@@ -1,0 +1,69 @@
+{
+  "locale": "lt",
+  "factors": {
+    "demands": "Reikalavimai",
+    "control": "Įtaka savo darbui",
+    "managers_support": "Vadovų parama",
+    "peer_support": "Kolegų parama",
+    "relationships": "Santykiai",
+    "role": "Vaidmuo",
+    "change": "Pokyčiai"
+  },
+  "items": {
+    "HS-RO-1": "Man aišku, ko iš manęs tikimasi darbe",
+    "HS-CO-1": "Galiu nuspręsti, kada daryti pertrauką",
+    "HS-DE-1": "Skirtingos grupės darbe reikalauja iš manęs dalykų, kuriuos sunku suderinti",
+    "HS-RO-2": "Žinau, kaip turėčiau atlikti savo darbą",
+    "HS-RE-1": "Patiriu asmeninį priekabiavimą, pasireiškiantį nedraugiškais žodžiais ar elgesiu",
+    "HS-DE-2": "Man nustatomi terminai, kurių neįmanoma laikytis",
+    "HS-PS-1": "Jei darbas tampa sunkus, kolegos man padeda",
+    "HS-MS-1": "Apie savo darbą gaunu palaikantį grįžtamąjį ryšį",
+    "HS-DE-3": "Turiu dirbti labai intensyviai",
+    "HS-CO-2": "Galiu daryti įtaką savo darbo tempui",
+    "HS-RO-3": "Man aišku, kokios yra mano pareigos ir atsakomybė",
+    "HS-DE-4": "Man tenka apleisti kai kurias užduotis, nes turiu per daug darbų",
+    "HS-RO-4": "Man aiškūs mano skyriaus tikslai ir uždaviniai",
+    "HS-RE-2": "Tarp kolegų kyla trinčių ar pykčio",
+    "HS-CO-3": "Galiu rinktis, kaip atlikti savo darbą",
+    "HS-DE-5": "Negaliu daryti pakankamai pertraukų",
+    "HS-RO-5": "Suprantu, kaip mano darbas siejasi su bendru organizacijos tikslu",
+    "HS-DE-6": "Man daromas spaudimas dirbti ilgas darbo dienas",
+    "HS-CO-4": "Galiu rinktis, ką darau darbe",
+    "HS-DE-7": "Turiu dirbti labai greitai",
+    "HS-RE-3": "Darbe patiriu patyčias",
+    "HS-DE-8": "Patiriu nerealistišką laiko spaudimą",
+    "HS-MS-2": "Galiu pasikliauti savo tiesioginiu vadovu, kai reikia išspręsti darbo problemą",
+    "HS-PS-2": "Gaunu iš kolegų reikiamą pagalbą ir paramą",
+    "HS-CO-5": "Galiu šiek tiek daryti įtaką tam, kaip dirbu",
+    "HS-CH-1": "Turiu pakankamai galimybių užduoti vadovams klausimų apie pokyčius darbe",
+    "HS-PS-3": "Sulaukiu iš kolegų tokios pagarbos darbe, kokios nusipelnau",
+    "HS-CH-2": "Su darbuotojais visada tariamasi dėl pokyčių darbe",
+    "HS-MS-3": "Galiu pasikalbėti su tiesioginiu vadovu apie tai, kas darbe mane nuliūdino ar suerzino",
+    "HS-CO-6": "Mano darbo laikas gali būti lankstus",
+    "HS-PS-4": "Kolegos noriai išklauso mano su darbu susijusias problemas",
+    "HS-CH-3": "Kai darbe daromi pokyčiai, man aišku, kaip jie veiks praktikoje",
+    "HS-MS-4": "Gaunu paramą emociškai sunkiame darbe",
+    "HS-RE-4": "Santykiai darbe įtempti",
+    "HS-MS-5": "Mano tiesioginis vadovas padrąsina mane darbe"
+  },
+  "counts": {},
+  "scales": {
+    "frekvens": [
+      "Niekada",
+      "Retai",
+      "Kartais",
+      "Dažnai",
+      "Visada"
+    ],
+    "enighet": [
+      "Visiškai nesutinku",
+      "Nesutinku",
+      "Nei sutinku, nei nesutinku",
+      "Sutinku",
+      "Visiškai sutinku"
+    ]
+  },
+  "prefaces": {
+    "HS-RO-1": "Pripažįstama, kad darbo sąlygos daro įtaką darbuotojų gerovei. Jūsų atsakymai į toliau pateiktus klausimus padės mums įvertinti, kokios dabar yra mūsų darbo sąlygos, ir leis ateityje stebėti, kaip jos gerėja. Kad galėtume palyginti dabartinę padėtį su ankstesne ar būsima, svarbu, kad jūsų atsakymai atspindėtų jūsų darbą per pastaruosius šešis mėnesius."
+  }
+}

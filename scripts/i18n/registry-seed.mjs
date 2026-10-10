@@ -7,7 +7,10 @@
  *   - the core statements (messages/en.json factor.<key>.s<n>) as core:<key>:<n>;
  *   - the questions outside the index and their options (extra.<key>.text, .o<n>);
  *   - the module items and their options, from app.module_items' own English (0072).
- *   - a worded module's variants (module:<uuid>:v:barnehage, :v:skole) from its "en.<wording>".
+ *   - a worded module's variants (module:<uuid>:v:barnehage, :v:skole) from its "en.<wording>";
+ *   - an instrument's text before a statement (module:<uuid>:p) from its preface's "en" (0224).
+ * A module that ships its English in modules/<key>/registry/en.json (HSE's, origin «official») is
+ * written again by scripts/modules/registry.ts, which replaces these drafts.
  * Every row is source 'machine' and a draft (0084): the product's English was written with AI
  * assistance, and approving it (the platform's translations.approve command, app.op_translations_approve) is the
  * human review. A new text for an approved row is a new version, a draft again; the approved
@@ -57,5 +60,9 @@ console.log(`insert into app.item_translations (item_id, locale, text, source)
 select 'module:' || i.id || ':o' || y.n, 'en', y.o ->> 'en', 'machine'
 from app.module_items i cross join lateral jsonb_array_elements(i.options) with ordinality as y(o, n)
 where coalesce(y.o ->> 'en', '') <> ''
+${upsert};`)
+// an instrument's text before a statement (0224): module:<uuid>:p from its preface's "en"
+console.log(`insert into app.item_translations (item_id, locale, text, source)
+select 'module:' || i.id || ':p', 'en', i.preface ->> 'en', 'machine' from app.module_items i where coalesce(i.preface ->> 'en', '') <> ''
 ${upsert};`)
 console.log('commit;')

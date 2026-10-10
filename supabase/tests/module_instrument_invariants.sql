@@ -62,14 +62,18 @@ declare
        "action_suggestions":[{"type":"rutine","title":"T","description":"D","remeasure_item":"PI-BB-1"}]}]'::jsonb,
     'count_items', '[]'::jsonb, 'segments', '[]'::jsonb);
 begin
-  -- 1 ---------------------------------------------------------------- modules before 0224
+  -- 1 ---------------------------------------------------------------- modules that are not instruments
+  -- (HSE's Indicator Tool, D-268, is the one module that states an instrument; every other is as before)
   select concat_ws('|',
-    (select count(*) from app.module_items where kind = 'likert5' and options is not null),
-    (select count(*) from app.module_items where preface is not null),
-    (select count(*) from app.module_items where not offers_not_relevant),
-    (select count(*) from app.question_modules where fixed_order or attribution is not null))
+    (select count(*) from app.module_items i join app.question_modules m on m.id = i.module_id
+      where not m.fixed_order and i.kind = 'likert5' and i.options is not null),
+    (select count(*) from app.module_items i join app.question_modules m on m.id = i.module_id
+      where not m.fixed_order and i.preface is not null),
+    (select count(*) from app.module_items i join app.question_modules m on m.id = i.module_id
+      where not m.fixed_order and not i.offers_not_relevant),
+    (select count(*) from app.question_modules where not fixed_order and attribution is not null))
     into v_txt;
-  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'every module seeded before is stored as it was: no own answers, preface, «not relevant» off or fixed order',
+  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'every module that is not an instrument is stored as before: no own answers, preface, «not relevant» off or attribution',
     'expected', '0|0|0|0', 'actual', v_txt, 'pass', v_txt = '0|0|0|0');
 
   select r.id into v_round from app.rounds r where r.status = 'apen' and r.org_id = v_org order by r.opens_at desc limit 1;

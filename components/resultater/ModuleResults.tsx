@@ -101,6 +101,12 @@ export async function ModuleResults({
               </div>
             ) : null}
             <p className="m-0 mt-[8px] text-[12px] text-mut">{t('foot', { threshold: results.threshold })}</p>
+            {/* a module whose bands are not the core's 65/50 says so (0223): HSE's 75/26 */}
+            {reg?.ownBands ? <p className="m-0 mt-[6px] text-[12px] text-mut">{t('ownBands', reg.ownBands)}</p> : null}
+            {/* the source the module credits (0224): the Open Government Licence line for HSE's Indicator Tool */}
+            {reg?.attribution ? (
+              <p className="m-0 mt-[6px] max-w-[640px] text-[12px] leading-[1.55] text-mut [text-wrap:pretty]">{reg.attribution}</p>
+            ) : null}
 
             <div className="mt-[16px] flex flex-col">
               {main.map((f) => {

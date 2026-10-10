@@ -1,0 +1,69 @@
+{
+  "locale": "sv",
+  "factors": {
+    "demands": "Krav",
+    "control": "Kontroll",
+    "managers_support": "Stöd från chefer",
+    "peer_support": "Kollegialt stöd",
+    "relationships": "Relationer",
+    "role": "Roll",
+    "change": "Förändring"
+  },
+  "items": {
+    "HS-RO-1": "Det är tydligt för mig vad som förväntas av mig i arbetet",
+    "HS-CO-1": "Jag kan bestämma när jag tar paus",
+    "HS-DE-1": "Olika grupper på arbetet ställer krav på mig som är svåra att förena",
+    "HS-RO-2": "Jag vet hur jag ska gå till väga för att få mitt arbete gjort",
+    "HS-RE-1": "Jag utsätts för personliga trakasserier i form av ovänliga ord eller ovänligt beteende",
+    "HS-DE-2": "Jag har tidsfrister som är omöjliga att hålla",
+    "HS-PS-1": "Om arbetet blir svårt, hjälper mina arbetskamrater mig",
+    "HS-MS-1": "Jag får stödjande återkoppling på det arbete jag gör",
+    "HS-DE-3": "Jag måste arbeta mycket intensivt",
+    "HS-CO-2": "Jag har inflytande över min egen arbetstakt",
+    "HS-RO-3": "Det är tydligt för mig vilka arbetsuppgifter och vilket ansvar jag har",
+    "HS-DE-4": "Jag måste försumma vissa arbetsuppgifter eftersom jag har för mycket att göra",
+    "HS-RO-4": "Det är tydligt för mig vilka mål och delmål min avdelning har",
+    "HS-RE-2": "Det finns friktion eller ilska mellan arbetskamrater",
+    "HS-CO-3": "Jag kan välja hur jag utför mitt arbete",
+    "HS-DE-5": "Jag kan inte ta tillräckligt med pauser",
+    "HS-RO-5": "Jag förstår hur mitt arbete passar in i organisationens övergripande mål",
+    "HS-DE-6": "Jag pressas att arbeta långa dagar",
+    "HS-CO-4": "Jag kan välja vad jag gör på arbetet",
+    "HS-DE-7": "Jag måste arbeta mycket snabbt",
+    "HS-RE-3": "Jag utsätts för mobbning på arbetet",
+    "HS-DE-8": "Jag har orealistisk tidspress",
+    "HS-MS-2": "Jag kan lita på att min närmaste chef hjälper mig med ett problem i arbetet",
+    "HS-PS-2": "Jag får den hjälp och det stöd jag behöver från arbetskamrater",
+    "HS-CO-5": "Jag har visst inflytande över hur jag arbetar",
+    "HS-CH-1": "Jag har tillräckliga möjligheter att ställa frågor till cheferna om förändringar på arbetet",
+    "HS-PS-3": "Jag får den respekt jag förtjänar från mina arbetskamrater på arbetet",
+    "HS-CH-2": "Personalen rådfrågas alltid om förändringar på arbetet",
+    "HS-MS-3": "Jag kan prata med min närmaste chef om något i arbetet som har upprört eller irriterat mig",
+    "HS-CO-6": "Min arbetstid kan vara flexibel",
+    "HS-PS-4": "Mina arbetskamrater är villiga att lyssna på mina arbetsrelaterade problem",
+    "HS-CH-3": "När förändringar görs på arbetet, är det tydligt för mig hur de kommer att fungera i praktiken",
+    "HS-MS-4": "Jag får stöd i känslomässigt krävande arbete",
+    "HS-RE-4": "Relationerna på arbetet är ansträngda",
+    "HS-MS-5": "Min närmaste chef uppmuntrar mig i arbetet"
+  },
+  "counts": {},
+  "scales": {
+    "frekvens": [
+      "Aldrig",
+      "Sällan",
+      "Ibland",
+      "Ofta",
+      "Alltid"
+    ],
+    "enighet": [
+      "Tar helt avstånd",
+      "Tar avstånd",
+      "Varken eller",
+      "Instämmer",
+      "Instämmer helt"
+    ]
+  },
+  "prefaces": {
+    "HS-RO-1": "Det är allmänt erkänt att arbetsförhållandena påverkar de anställdas välbefinnande. Dina svar på frågorna nedan hjälper oss att kartlägga hur våra arbetsförhållanden ser ut i dag och gör det möjligt att följa förbättringar framöver. För att vi ska kunna jämföra nuläget med tidigare eller senare tillfällen är det viktigt att dina svar speglar ditt arbete under de senaste sex månaderna."
+  }
+}

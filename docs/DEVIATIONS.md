@@ -12945,3 +12945,88 @@ module carries one.
     `authenticated`.
 - No module or statement holds any of the new values: 10 modules and 349 statements are as they were.
 - The security advisor lists the same kinds as before and nothing on an object 0224 added.
+
+## D-268 — HSE's Management Standards Indicator Tool: the United Kingdom's module (UK-D4, 2026-10-10)
+
+X-111 named HSE's Indicator Tool as the UK module. X-112 settled how it is asked:
+- it is released at the round's k, at least 5;
+- it is banded by HSE's own guidance: low risk from index 75 (a mean of 4), high at 25 and below (a mean of 2);
+- it is offered in every survey language, with HSE's official Polish where HSE publishes one.
+
+`modules/hse-indicator-tool/v1.json` is the first module on the instrument format (D-267).
+
+**HSE's instrument, as HSE publishes it.**
+- The 35 English questions, the instruction and both answer scales are taken verbatim from HSE's PDF
+  (https://www.hse.gov.uk/stress/assets/docs/indicatortool.pdf). A check against the PDF's text found all 35 word for
+  word. Nothing comes from HSE's paid online tool, whose terms forbid derived services.
+- HSE's order: question n is the n-th code of `instrument.order`.
+- Scales: questions 1–23 are answered Never…Always (`frekvens`), 24–35 Strongly disagree…Strongly agree (`enighet`).
+- No «Not relevant to me».
+- The instruction stands before question 1.
+- Seven factors, one for each of HSE's scales: demands 8, control 6, managers' support 5, peer support 4,
+  relationships 4, role 5, change 3. Codes are HS-DE-1…HS-CH-3, numbered within each scale in HSE's order. The
+  English factor names are those of HSE's Analysis Tool.
+- HSE's twelve negatively worded questions (3, 5, 6, 9, 12, 14, 16, 18, 20, 21, 22, 34) are marked `reverse`, so
+  `module_results` scores them 6 − value (0223).
+- Bands: `lav` from 75, `middels` from 26.
+- No `validation_status`. The bands are HSE's guidance, chosen by X-112, so the module makes no claim either way.
+
+**Ours, and said to be ours.**
+- The bokmål body is the product's translation.
+- The leader texts are ours, in bokmål and English: summaries, rationale, legal basis and two suggestions a factor.
+- They follow `docs/markets/uk-legal.md`:
+  - the duty is «MHSWR 1999 reg 3 and HSWA 1974 s.2, as applied to stress in HSE's guidance»;
+  - the six areas are «HSE's Management Standards (guidance, not law)»;
+  - the text says «HSE describes» and «the state HSE suggests working towards», never «the Management Standards
+    require»;
+  - relationships also cite Equality Act 2010 s.26, change SRSC 1977 reg 4A and HSCER 1996 reg 3.
+- The attribution, in bokmål and English, gives the OGL line, «Contains public sector information published by the
+  Health and Safety Executive and licensed under the Open Government Licence v3.0.», says the service is not produced,
+  approved or endorsed by HSE, and says the translations are ours except HSE's Polish. No HSE logo appears anywhere.
+
+**Survey languages (`modules/hse-indicator-tool/registry/`).**
+- **pl:** the questions and both answer scales are HSE's official Polish, written as origin *official*.
+  - A check against HSE's PDF found all 35 questions word for word.
+  - HSE's PDF prints «Zdecydowanie się zgadzam» (strongly agree) under answer 1 of the agreement scale. The anchor is
+    «Zdecydowanie się nie zgadzam», as the English and every other point make clear, and that is what is stored.
+  - HSE's Polish has no instruction text. The instruction and the scale names are machine drafts.
+- **uk, lt, sv, da:** machine drafts throughout.
+- **en:** HSE's own English, every section origin *official*. It is needed because English, like every survey
+  language, is offered only where each statement, answer and preface of the round is approved in the registry (D-133).
+  English is the language a UK organisation answers in. Without these rows a UK respondent would have been shown the
+  bokmål. `scripts/i18n/registry-seed.mjs` now also writes English drafts for any module preface.
+- The local run wrote 218 rows a language: 35 questions, 175 answer labels, the instruction and 7 factor names. With
+  them, no HSE key was missing in any of the six languages.
+
+**Market.** `0225_module_hse_market.sql` sets the module's market to `gb` before the module exists anywhere. It is
+kept out of Norway's industry pages and their legal review.
+
+**Leader screens.**
+- The attribution is shown on the module's card in Målinger › Spørsmålssett, under its results and at the end of its
+  section in the report.
+- A module whose bands are not the core's 65/50 now says so, in Resultater and in the report: «This module uses its own
+  risk levels: low risk from index 75, medium from 26, high below 26». Before this, the results said only that a
+  module is «scored the same way as the main survey», which HSE's bands would have made untrue.
+- `lib/modules/bands.ts` reads the bands as `app.module_band` does. Every other module states 65/50, so no other
+  screen gains the line (tested).
+
+**Seen on the local stack.** With the module on the QA tenant's open round (local only, removed afterwards), the
+English flow asked HSE's 35 questions on eight pages after the core and the existing module, with:
+- 5 5 5 4 4 statements on Never…Always and 4 4 4 on Strongly disagree…Strongly agree;
+- no factor pill and no «Not relevant»;
+- the instruction above question 1;
+- no console errors.
+
+**Left as it is, for the UK's review (UK-E/F):**
+- The report's heading reads «Industry module: HSE Management Standards Indicator Tool v1.0.0». «Industry» is the
+  catalogue's word for every module. A UK override belongs in the gb pack.
+- Heat-map cells keep the design's five-step palette, which reads the index the same way for every module. The band
+  words beside them are the module's own, so an HSE factor at 70 sits in a light green cell and reads «Medium risk».
+
+**Tests.** `tests/unit/module-hse.test.ts` (22) holds each of the above:
+- the order, the scales, the reversed questions, HSE's wording at both ends of the scale order;
+- the instruction, the bands, the attribution, UK law only;
+- the eight pages;
+- every language complete, HSE's Polish and English marked official;
+- the market migration, and the module kept out of Norway's pages;
+- the band reader matching `app.module_band`.

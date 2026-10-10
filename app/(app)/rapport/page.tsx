@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { K_DEFAULT } from '@/lib/org/threshold'
 import { DemoStamp } from '@/components/shell/DemoNotice'
 import { getDemoState } from '@/lib/demo/read'
-import { getRoundModules } from '@/lib/modules/read'
+import { getModulesById, getRoundModules } from '@/lib/modules/read'
 import { getCountTotals, getModuleResults } from '@/lib/modules/results'
 import { getModuleMeasures } from '@/lib/modules/measures'
 import {
@@ -333,37 +333,44 @@ async function reportModules(roundId: string | null): Promise<RapportView['modul
   if (!roundId) return []
   const rms = await getRoundModules([roundId])
   if (!rms.length) return []
-  const [results, totals, measures] = await Promise.all([
+  const [results, totals, measures, registry] = await Promise.all([
     getModuleResults(roundId),
     getCountTotals(roundId),
     getModuleMeasures(),
+    // the registry rows, for a module's own bands and the source it credits (0223, 0224)
+    getModulesById(rms.map((r) => r.moduleId)),
   ])
   if (!results) return []
-  return results.modules.map((m) => ({
-    name: m.name,
-    version: m.version,
-    // the footer names the variant asked and says «foreløpig» for a provisional module (§ 3.3, D-140)
-    variant: m.variant ? { name: m.variant.name, code: m.variant.code, version: m.variant.version } : null,
-    provisional: m.validation_status === 'provisional',
-    threshold: results.threshold,
-    // a module in variants: the round's own set; the comparable simplified index stays in Resultater (0089)
-    factors: m.factors.filter((f) => !f.comparable).map((f) => ({
-      name: f.name,
-      index: f.index,
-      band: f.band,
-      legalBasis: f.legal_basis,
-      measures: measures
-        .filter((x) => x.factorKey === f.key && x.moduleName === m.name && x.step !== 'lukket')
-        .map((x) => x.title),
-    })),
-    counts: (totals?.items ?? []).map((c) => ({
-      text: c.text,
-      suppressed: c.suppressed,
-      ja: c.n_ja,
-      nei: c.n_nei,
-      // null where the question offers no «vet ikke» (handel's HA-T-2, 0090)
-      vetIkke: (c.answers ?? ['ja', 'nei', 'vet_ikke']).includes('vet_ikke') ? c.n_vet_ikke : null,
-      total: c.n_total,
-    })),
-  }))
+  return results.modules.map((m) => {
+    const reg = registry.find((r) => r.key === m.key && r.version === m.version)
+    return {
+      name: m.name,
+      version: m.version,
+      ownBands: reg?.ownBands ?? null,
+      attribution: reg?.attribution ?? null,
+      // the footer names the variant asked and says «foreløpig» for a provisional module (§ 3.3, D-140)
+      variant: m.variant ? { name: m.variant.name, code: m.variant.code, version: m.variant.version } : null,
+      provisional: m.validation_status === 'provisional',
+      threshold: results.threshold,
+      // a module in variants: the round's own set; the comparable simplified index stays in Resultater (0089)
+      factors: m.factors.filter((f) => !f.comparable).map((f) => ({
+        name: f.name,
+        index: f.index,
+        band: f.band,
+        legalBasis: f.legal_basis,
+        measures: measures
+          .filter((x) => x.factorKey === f.key && x.moduleName === m.name && x.step !== 'lukket')
+          .map((x) => x.title),
+      })),
+      counts: (totals?.items ?? []).map((c) => ({
+        text: c.text,
+        suppressed: c.suppressed,
+        ja: c.n_ja,
+        nei: c.n_nei,
+        // null where the question offers no «vet ikke» (handel's HA-T-2, 0090)
+        vetIkke: (c.answers ?? ['ja', 'nei', 'vet_ikke']).includes('vet_ikke') ? c.n_vet_ikke : null,
+        total: c.n_total,
+      })),
+    }
+  })
 }

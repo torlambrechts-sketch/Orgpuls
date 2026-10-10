@@ -966,6 +966,7 @@
     "module": {
       "head": "Branschmodul: {name} v{version}",
       "lead": "Faktorerna i branschmodulen har mätts utöver huvudundersökningen och ingår inte i indexet. Ett värde visas bara när minst {threshold} har svarat på varje påstående.",
+      "ownBands": "Modulen använder egna risknivåer: låg från index {low}, medel från {medium}, hög under {medium}.",
       "factor": "Faktor",
       "index": "Index",
       "risk": "Risk",
@@ -3694,6 +3695,7 @@
       "groupN": "{name} · {n}",
       "withheld": "Visas inte: för få svar",
       "foot": "– betyder att cellen hålls tillbaka eftersom färre än {threshold} har svarat, eller för att skydda en annan grupp.",
+      "ownBands": "Den här modulen använder egna risknivåer: låg risk från index {low}, medel från {medium}, hög under {medium}.",
       "legal": "Lagstöd",
       "statements": "Påståendena",
       "band": {

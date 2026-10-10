@@ -9,6 +9,7 @@ import { COUNT_ANSWERS, type CountAnswer } from '@/lib/respond/answers'
 import { resolveIndustry, type ResolvedIndustry } from '@/content/industries/meta'
 import { contentLang } from '@/lib/i18n/locales'
 import { getModuleTranslations } from './registry-texts'
+import { ownBands } from './bands'
 
 /**
  * The industry modules, as the product reads them (0067, D-111).
@@ -38,6 +39,12 @@ const ModuleRow = z.object({
   /** an instrument asked in its own order (0224), and the source it credits */
   fixed_order: z.boolean().default(false),
   attribution: z.object({ nb: z.string(), en: z.string().optional() }).nullable().default(null),
+  /** its risk bands (0223): read only to say which bands a module uses where they are not the core's */
+  scoring: z
+    .object({ risk_bands: z.array(z.object({ band: z.string(), min: z.number().nullish() }).passthrough()).optional() })
+    .passthrough()
+    .nullable()
+    .default(null),
   i18n: z
     .object({ en: z.object({ name: z.string(), description: z.string(), covered_by_core_factors: z.array(z.string()).optional() }).partial() })
     .partial()
@@ -180,6 +187,8 @@ export type Module = {
   fixedOrder: boolean
   /** the source the module credits (0224), in the reader's language; null where it has none */
   attribution: string | null
+  /** its own risk bands where they are not the core's 65/50 (0223, HSE's 75/26); null for every other module */
+  ownBands: { low: number; medium: number } | null
   /** a module asked in two variants (0089): the simplified set first; empty for a module asked one way */
   variants: ModuleVariant[]
   coveredByCore: string[]
@@ -218,7 +227,7 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   let q = supabase
     .schema('app')
     .from('question_modules')
-    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, wording, validation_status, i18n, fixed_order, attribution')
+    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, wording, validation_status, i18n, fixed_order, attribution, scoring')
   if (filter.ids) q = q.in('id', filter.ids)
   if (filter.status) q = q.eq('status', filter.status)
   const { data: mods, error } = await q
@@ -302,6 +311,7 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       provisional: m.validation_status === 'provisional',
       fixedOrder: m.fixed_order,
       attribution: m.attribution ? (en && m.attribution.en) || m.attribution.nb : null,
+      ownBands: ownBands(m.scoring?.risk_bands),
       variants: va.data
         .filter((v) => v.module_id === m.id)
         .sort(bySort)

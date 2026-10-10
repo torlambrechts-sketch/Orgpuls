@@ -1,0 +1,75 @@
+{
+  "locale": "en",
+  "factors": {
+    "demands": "Demands",
+    "control": "Control",
+    "managers_support": "Managers' Support",
+    "peer_support": "Peer Support",
+    "relationships": "Relationships",
+    "role": "Role",
+    "change": "Change"
+  },
+  "items": {
+    "HS-RO-1": "I am clear what is expected of me at work",
+    "HS-CO-1": "I can decide when to take a break",
+    "HS-DE-1": "Different groups at work demand things from me that are hard to combine",
+    "HS-RO-2": "I know how to go about getting my job done",
+    "HS-RE-1": "I am subject to personal harassment in the form of unkind words or behaviour",
+    "HS-DE-2": "I have unachievable deadlines",
+    "HS-PS-1": "If work gets difficult, my colleagues will help me",
+    "HS-MS-1": "I am given supportive feedback on the work I do",
+    "HS-DE-3": "I have to work very intensively",
+    "HS-CO-2": "I have a say in my own work speed",
+    "HS-RO-3": "I am clear what my duties and responsibilities are",
+    "HS-DE-4": "I have to neglect some tasks because I have too much to do",
+    "HS-RO-4": "I am clear about the goals and objectives for my department",
+    "HS-RE-2": "There is friction or anger between colleagues",
+    "HS-CO-3": "I have a choice in deciding how I do my work",
+    "HS-DE-5": "I am unable to take sufficient breaks",
+    "HS-RO-5": "I understand how my work fits into the overall aim of the organisation",
+    "HS-DE-6": "I am pressured to work long hours",
+    "HS-CO-4": "I have a choice in deciding what I do at work",
+    "HS-DE-7": "I have to work very fast",
+    "HS-RE-3": "I am subject to bullying at work",
+    "HS-DE-8": "I have unrealistic time pressures",
+    "HS-MS-2": "I can rely on my line manager to help me out with a work problem",
+    "HS-PS-2": "I get help and support I need from colleagues",
+    "HS-CO-5": "I have some say over the way I work",
+    "HS-CH-1": "I have sufficient opportunities to question managers about change at work",
+    "HS-PS-3": "I receive the respect at work I deserve from my colleagues",
+    "HS-CH-2": "Staff are always consulted about change at work",
+    "HS-MS-3": "I can talk to my line manager about something that has upset or annoyed me about work",
+    "HS-CO-6": "My working time can be flexible",
+    "HS-PS-4": "My colleagues are willing to listen to my work-related problems",
+    "HS-CH-3": "When changes are made at work, I am clear how they will work out in practice",
+    "HS-MS-4": "I am supported through emotionally demanding work",
+    "HS-RE-4": "Relationships at work are strained",
+    "HS-MS-5": "My line manager encourages me at work"
+  },
+  "counts": {},
+  "scales": {
+    "frekvens": [
+      "Never",
+      "Seldom",
+      "Sometimes",
+      "Often",
+      "Always"
+    ],
+    "enighet": [
+      "Strongly disagree",
+      "Disagree",
+      "Neutral",
+      "Agree",
+      "Strongly agree"
+    ]
+  },
+  "prefaces": {
+    "HS-RO-1": "It is recognised that working conditions affect worker well-being. Your responses to the questions below will help us determine our working conditions now, and enable us to monitor future improvements. In order for us to compare the current situation with past or future situations, it is important that your responses reflect your work in the last six months."
+  },
+  "official": [
+    "factors",
+    "items",
+    "scales",
+    "prefaces"
+  ]
+}

@@ -27,6 +27,8 @@ export interface ModuleCard {
   wording: { value: Wording; source: 'chosen' | 'nace' | 'default' } | null
   /** not validated yet: its risk levels are provisional (0089) */
   provisional: boolean
+  /** the source the module credits (0224), in the reader's language: the OGL line for HSE's Indicator Tool */
+  attribution?: string | null
   /**
    * a module in two variants (0089, D-137): the organisation's choice, the extended factors it asks,
    * the fewest it may, and the simplified set's option label
@@ -231,6 +233,9 @@ export function ModuleChoices({
                     <span className="mt-[6px] block max-w-[640px] text-[12.5px] leading-[1.55] text-body [text-wrap:pretty]">{c.description}</span>
                     {c.provisional ? (
                       <span className="mt-[6px] block max-w-[640px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{labels.provisionalNote}</span>
+                    ) : null}
+                    {c.attribution ? (
+                      <span className="mt-[6px] block max-w-[640px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{c.attribution}</span>
                     ) : null}
                   </div>
                   <label className={`flex flex-none items-center gap-[9px] ${canEdit ? 'cursor-pointer' : 'cursor-default'}`}>

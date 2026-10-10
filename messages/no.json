@@ -1158,6 +1158,7 @@
     "module": {
       "head": "Bransjemodul: {name} v{version}",
       "lead": "Faktorene i bransjemodulen er målt i tillegg til hovedundersøkelsen og inngår ikke i indeksen. En verdi vises bare når minst {threshold} har svart på hver påstand.",
+      "ownBands": "Modulen bruker egne risikonivåer: lav fra indeks {low}, middels fra {medium}, høy under {medium}.",
       "factor": "Faktor",
       "index": "Indeks",
       "risk": "Risiko",
@@ -4089,6 +4090,7 @@
       "groupN": "{name} · {n}",
       "withheld": "Vises ikke: for få svar",
       "foot": "– betyr at cellen holdes tilbake fordi færre enn {threshold} har svart, eller for å beskytte en annen gruppe.",
+      "ownBands": "Denne modulen bruker egne risikonivåer: lav risiko fra indeks {low}, middels fra {medium}, høy under {medium}.",
       "legal": "Hjemmel",
       "statements": "Påstandene",
       "band": {

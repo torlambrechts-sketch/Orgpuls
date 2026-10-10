@@ -1158,6 +1158,7 @@
     "module": {
       "head": "Industry module: {name} v{version}",
       "lead": "The module’s factors were measured in addition to the main survey and are not part of the index. A value is shown only when at least {threshold} have answered every statement.",
+      "ownBands": "The module uses its own risk levels: low from index {low}, medium from {medium}, high below {medium}.",
       "factor": "Factor",
       "index": "Index",
       "risk": "Risk",
@@ -4089,6 +4090,7 @@
       "groupN": "{name} · {n}",
       "withheld": "Not shown: too few answers",
       "foot": "– means the cell is withheld because fewer than {threshold} answered, or to protect another group.",
+      "ownBands": "This module uses its own risk levels: low risk from index {low}, medium from {medium}, high below {medium}.",
       "legal": "Legal basis",
       "statements": "Statements",
       "band": {
