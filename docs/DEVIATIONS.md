@@ -13555,3 +13555,18 @@ changed:
 - **UK-G's, not UK-F's:**
   - UK SMS still go out with the sender «Orgpuls» (the phase-1 leftover «SMS sender per market»).
   - The beacon counts on Empvibe only once its site row is unconditional, since `EMPVIBE_SITE` is a server variable.
+
+**Shipped (189eee9, 2026-10-10).**
+- **Hosted:** 0226–0229 applied through `apply_migration`, verbatim, each named after its file. Proven by SELECT:
+  - the seven Norwegian versions plus `gb-2026-10-10` with the gb hash;
+  - `app.dpa_market` gives `no`, `no`, `gb` for no, se, gb;
+  - the eight-parameter `save_billing`, the old one in `app`, revoked;
+  - `vat_number` readable by `authenticated` under RLS, not writable directly, not readable by `anon`;
+  - `market` in both platform event kinds and in `op_org_get`;
+  - `submit_response` no longer stamps `now()`;
+  - 891 answered invitations restamped to their round's opening, 0 left on another time.
+- **`get_advisors security`:** no new finding. The anon list is the known public entry points, and `save_billing`
+  and `sign_dpa` are the authenticated RPCs they were.
+- **CI:** «checks, security invariants and screens» and the functions deploy were green on the commit.
+- **Production:** www.orgpuls.com answers with Norway's prices unchanged. empvibe.com still shows the holding page
+  (D-269) until UK-G, with `/privacy` and `/terms` in its page list.
