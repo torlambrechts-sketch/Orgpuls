@@ -8,6 +8,8 @@
 --   * below k it says nothing, not even how many answered; at k it counts (5, 6)
 --   * an open round, or a reader without the house's view, gets nothing (7)
 --   * nothing written here survives (8)
+--   * a statement marked reverse is scored 6 − value, in the item, the factor and every group (9, 0223)
+--   * a factor's band is the module's own (scoring.risk_bands), the core's 65/50 where it names none (10, 0223)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/module_results_invariants.sql
 
@@ -154,6 +156,47 @@ begin
       'expected', 'not_available,not_available,not_available,not_available', 'actual', v_txt,
       'pass', v_txt = 'not_available,not_available,not_available,not_available');
 
+    -- 9 ---------------------------------------------------------------- reversed statements (0223)
+    perform set_config('request.jwt.claims', format(claims, v_dl), true);
+    alter table app.module_items disable trigger module_items_frozen;
+    update app.module_items set reverse = true where id = v_items[1];
+    alter table app.module_items enable trigger module_items_frozen;
+    v_json := public.module_results(v_round);
+    select concat_ws('|',
+      (v_json->'modules'->0->'factors'->0->>'index') = (
+        select round(avg(case when ma.item_id = v_items[1] then app.to_index(6 - ma.value) else app.to_index(ma.value) end))::text
+        from app.module_answers ma join app.responses r on r.id = ma.response_id
+        where r.round_id = v_round and ma.item_id = any (v_items)),
+      coalesce(v_json->'modules'->0->'factors'->0->'items'->0->>'index', '-') = coalesce((
+        select case when count(distinct ma.response_id) >= v_k then round(avg(app.to_index(6 - ma.value)))::text end
+        from app.module_answers ma join app.responses r on r.id = ma.response_id
+        where r.round_id = v_round and ma.item_id = v_items[1]), '-'),
+      (select count(*) from jsonb_array_elements(v_json->'modules'->0->'groups') g
+        where g->>'status' = 'ok' and (g->'factors'->0->>'index') is distinct from (
+          select round(avg(case when ma.item_id = v_items[1] then app.to_index(6 - ma.value) else app.to_index(ma.value) end))::text
+          from app.module_answers ma join app.responses r on r.id = ma.response_id left join app.groups gg on gg.id = r.group_id
+          where r.round_id = v_round and ma.item_id = any (v_items) and coalesce(gg.name, 'Uten gruppe') = g->>'group_name')))
+      into v_txt;
+    v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'a reversed statement is scored 6 − value in the factor, the item and every group',
+      'expected', 't|t|0', 'actual', v_txt, 'pass', v_txt = 't|t|0');
+
+    -- 10 --------------------------------------------------------------- the module's own bands (0223)
+    v_txt := v_json->'modules'->0->'factors'->0->>'band';
+    alter table app.question_modules disable trigger question_modules_frozen;
+    update app.question_modules set scoring = '{"risk_bands":[{"band":"lav","min":75},{"band":"middels","min":26,"max":74},{"band":"høy","max":25}]}'
+    where id = v_mod;
+    alter table app.question_modules enable trigger question_modules_frozen;
+    v_json := public.module_results(v_round);
+    v_n := (v_json->'modules'->0->'factors'->0->>'index')::int;
+    v_txt := concat_ws('|',
+      v_txt = app.risk_band(v_n),
+      v_json->'modules'->0->'factors'->0->>'band' = case when v_n >= 75 then 'lav' when v_n >= 26 then 'middels' else 'hoy' end,
+      (select count(*) from jsonb_array_elements(v_json->'modules'->0->'groups') g cross join jsonb_array_elements(g->'factors') f
+        where f->>'band' is distinct from app.module_band((select scoring from app.question_modules where id = v_mod), (f->>'index')::numeric)));
+    perform set_config('request.jwt.claims', '', true);
+    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'with no bands of its own a module gets the core''s; with HSE''s 75/26, the house and every group are banded by them',
+      'expected', 't|t|0', 'actual', v_txt, 'pass', v_txt = 't|t|0');
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -176,7 +219,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._mres;
   if v_failed is not null then raise exception 'module results invariants failed: %', v_failed; end if;
-  if v_count <> 8 then raise exception 'module results invariants: expected 8 rows, got %', v_count; end if;
+  if v_count <> 10 then raise exception 'module results invariants: expected 10 rows, got %', v_count; end if;
 end $$;
 
 drop table public._mres;

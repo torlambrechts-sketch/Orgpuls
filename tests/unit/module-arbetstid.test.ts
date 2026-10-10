@@ -12,7 +12,8 @@ import no from '@/messages/no.json'
  *
  *  - the module offered in Norway: a key with no market row is Norway's (0220);
  *  - a respondent language taken out of the survey because one text is missing (X-089, D-133);
- *  - a statement scored backwards: `reverse` is stored and never applied (D-263);
+ *  - a statement scored backwards: every statement is worded so that agreeing is the better answer,
+ *    so none is marked `reverse` (which module_results applies since 0223, D-266);
  *  - a help line shown in bokmål to a Swedish respondent: help lines have no registry id (D-263);
  *  - the module in Norway's industry pages and legal review, which state Norwegian law.
  */

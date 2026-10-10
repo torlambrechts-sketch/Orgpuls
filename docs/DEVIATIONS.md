@@ -12823,3 +12823,39 @@ pack to naming no module.
 - it gives every factor a reference.
 
 New cases cover the UK's duties, the shape of its references, and no promise of an unbuilt module.
+
+## D-266 — Reversed statements are scored reversed, and a module's bands are its own (UK-D2, 2026-10-10)
+
+HSE's Indicator Tool (UK-D) has twelve statements where agreeing is the worse answer, such as «I have unachievable
+deadlines». It also bands its scales by HSE's guidance, not the core's (X-112). The module format could state both,
+and the database read neither.
+
+**Reverse scoring (0223).** `module_items.reverse` was stored by 0067 and never read: `module_results` scored the raw
+value. D-263 recorded this. `app.answer_index(value, reverse)` is an answer's index, 6 − value where the statement is
+reversed. `module_results` reads it for every item, factor and group index. No published module marks a statement
+reversed, so no figure has changed.
+
+**Bands per module.** Every module file carries `scoring.risk_bands`, but `module_results` printed the core's band
+(`app.risk_band`, 65/50) whatever the file said. `app.module_band(scoring, index)` reads the module's own lowest index
+for «low» and «medium» and falls back to 65/50 where the file names none. Every published module states 65/50, so
+their bands are unchanged. HSE's module will state 75 and 26: a mean of 4 or more on HSE's 1–5 scale is good, and 2
+or less needs improvement (X-112).
+
+**Recreated, not rewritten.** `module_results` is recreated from its live definition: 0089, as 0150 patched it to read
+the round's frozen k. It still uses the same k, releases the same cells and returns the same shape.
+
+**Tests.** `module_results_invariants.sql` has two new rows:
+- row 9 marks one probe statement reversed and checks that the factor, the item and every released group are scored
+  6 − value;
+- row 10 checks that a module with no bands of its own gets the core's, and that with HSE's 75/26 the house and every
+  group are banded by them.
+
+**Hosted, 2026-10-10:**
+- Before the apply, hosted's `module_results` had the same definition hash as the one recreated here.
+- Hosted had no reversed statement, and every module's bands were 65/50.
+- 0223 was applied verbatim.
+- The function is still security definer, executable by `authenticated` and not by `anon`.
+
+**Still to come for UK-D:** the format (two answer scales, up to eight statements a factor, HSE's fixed order, no «Not
+relevant to me», an instruction text, attribution) and the respondent flow that renders it. When the HSE module is
+added, the report's line on risk bands (`rapport.riskBands`, which names 65 and 50) must name the module's own bands.
