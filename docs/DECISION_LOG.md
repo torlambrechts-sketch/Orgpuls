@@ -3458,3 +3458,19 @@ Tor, 2026-10-10, answering where empvibe.com goes (X-110): «Som skal være den 
   presented as HSE-approved and never carries HSE's logo.
 - **Open, still Tor's:** GBP prices; a UK Article 27 representative and whether an ICO fee is due; a lawyer's review
   of the UK documents; Empvibe's own logo and colours, if it is to have any.
+
+### X-112 — HSE's Indicator Tool as a UK module: the release threshold, the bands, the languages
+
+Tor, 2026-10-10. These are the three choices docs/markets/PLAN.md left to him for UK-D. He took the recommended option
+each time.
+
+- **Release.** A group's result from the HSE module is shown at the round's k, at least 5 in the United Kingdom, as for
+  the rest of the survey. HSE's own online tool shows nothing under 10 answers, but the product keeps one threshold
+  for everything a round asks.
+- **Bands.** The scales are marked with HSE's own guidance on its 1–5 scale. A mean of 4 or more is good, and 2 or
+  less needs improvement. On the product's 0–100 index that is 75 and 25. The 11 factors keep their own bands
+  (65 and 50).
+- **Languages.** As X-089 asks, the module ships in every survey language. HSE's official Polish wording is used
+  where HSE publishes one. Elsewhere there are machine drafts in Ukrainian, Lithuanian, Swedish and Danish,
+  labelled as the product's translations, not HSE's. No language is taken out of a survey because the HSE module
+  is in it.
