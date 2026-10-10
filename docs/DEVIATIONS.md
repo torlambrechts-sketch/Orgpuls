@@ -12444,3 +12444,23 @@ orgpuls.de. Each is one row: a site row in SITES when the market or brand opens,
 - every address on the three hosts goes to the English site's same address;
 - the hosts have no site and so no market;
 - Norway's and Sweden's hosts are unchanged.
+
+## D-259 — The edge functions deploy from main through a workflow (2026-10-10)
+
+The functions were deployed by hand with `node scripts/functions/deploy.mjs` and a personal access token. In this
+session that step was refused when it was run from here (D-255), so the hosted dispatcher is still version 65. It
+predates the Swedish mail language (D-255) and the market's law in mail (D-257, 0219). The app deploys from `main`
+through Vercel; the functions now do the same.
+
+`.github/workflows/functions.yml` runs on a push to `main` that touches the functions or the texts they are built
+from, and by hand from the Actions tab:
+1. it generates the mail catalogue (the language files and each market's legal pack) and type-checks all five
+   functions;
+2. it deploys them, using the repository secret `SUPABASE_ACCESS_TOKEN`.
+
+Without that secret the deploy step writes «nothing deployed» to the run's summary and stays green. A missing secret
+is a setup step, not a broken commit, and the CI checks are unchanged.
+
+**Tor's one step:** create a personal access token in Supabase (Account › Access Tokens) and add it to GitHub as an
+Actions secret named `SUPABASE_ACCESS_TOKEN`. Then run «Deploy the edge functions» once from the Actions tab, or wait
+for the next push that touches the functions.

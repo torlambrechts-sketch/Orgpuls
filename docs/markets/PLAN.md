@@ -74,7 +74,7 @@ Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first E
 | SE-C | Legal pack per market: report, help and in-app legal texts on AML, AFS 2023:1 and AFS 2023:2; skyddsombud; written risk assessment (§ 11) and action plan (§ 13) | built (D-257): `messages/market/se/{sv,en}.json`, `lib/legal/pack.ts`, mail by market (0219); sources in `docs/markets/se-legal.md`. Open: a Swedish lawyer's review of the pack |
 | SE-D | Working time and recovery (AFS 2023:2 2:9) as a Swedish module; **modules carry their market**, so Norway's industry modules (whose legal basis is Norwegian) are offered only in Norway — required before launch (D-257) | |
 | SE-E | SEK prices, reverse charge, Swedish PUB-avtal and DPIA template | waits on prices |
-| SE-F | The Swedish site: its own pages and articles, Swedish search terms. Until then se.orgpuls.com serves the sign-up and the product only, unindexed (D-256). Launch checklist: DNS `se` → Vercel, the Vercel domain, Supabase Auth's redirect URLs, deploy the edge functions (D-255, D-257), and SE-D's modules by market | address decided: se.orgpuls.com (X-109) |
+| SE-F | The Swedish site: its own pages and articles, Swedish search terms. Until then se.orgpuls.com serves the sign-up and the product only, unindexed (D-256). Launch checklist: DNS `se` → Vercel, the Vercel domain, Supabase Auth's redirect URLs, deploy the edge functions (D-255, D-257; from main since D-259, once the `SUPABASE_ACCESS_TOKEN` secret is set), and SE-D's modules by market | address decided: se.orgpuls.com (X-109) |
 
 Decided: the address is se.orgpuls.com for now (X-109). Still open: the Swedish anonymity floor
 (5 or 6; built at 5, which can only be raised), SEK prices, and whether a Swedish sole trader (whose organisation
