@@ -1,0 +1,45 @@
+{
+  "locale": "da",
+  "factors": {
+    "schema_och_forutsagbarhet": "Arbejdsplan og forudsigelighed",
+    "aterhamtning_och_vila": "Restitution og hvile",
+    "nabarhet_och_granser": "Tilgængelighed og grænser",
+    "overtid_och_langa_arbetsdagar": "Overarbejde og lange arbejdsdage",
+    "natt_skift_och_langa_pass": "Natarbejde, skiftearbejde og lange vagter"
+  },
+  "items": {
+    "AA-SF-1": "Arbejdsplanen er klar i god tid før den gælder",
+    "AA-SF-2": "Ændringer i arbejdstiden med kort varsel er undtagelsen, ikke reglen",
+    "AA-SF-3": "Der tages hensyn til ønsker om arbejdstid når arbejdsplanen lægges",
+    "AA-AH-1": "Der bliver holdt pauser, også når der er meget at lave",
+    "AA-AH-2": "Fritiden mellem arbejdsdagene eller vagterne er lang nok til at man kan hvile ud",
+    "AA-AH-3": "Efter perioder med meget arbejde er der tid til at komme sig igen",
+    "AA-NG-1": "Det er accepteret at man ikke svarer på arbejdsrelaterede e-mails, opkald eller beskeder i sin fritid",
+    "AA-NG-2": "Det er tydeligt hvornår man skal være tilgængelig og hvornår man ikke behøver at være det",
+    "AA-NG-3": "Ledere undgår at kontakte medarbejdere om arbejde i deres fritid",
+    "AA-OT-1": "Overarbejde er undtagelsen, ikke reglen",
+    "AA-OT-2": "Arbejde der ikke bliver nået i arbejdstiden, bliver ikke skubbet over i fritiden",
+    "AA-OT-3": "Min nærmeste leder har overblik over hvor meget der reelt bliver arbejdet, også ud over det planlagte",
+    "AA-NS-1": "Efter nattevagter er der tilstrækkelig fri før næste vagt",
+    "AA-NS-2": "Risikofyldte og krævende arbejdsopgaver lægges helst i dagtimerne",
+    "AA-NS-3": "På lange vagter og nattevagter er der et uforstyrret sted at hvile"
+  },
+  "counts": {
+    "AA-T-1": {
+      "text": "Har du inden for de seneste tre måneder haft mindre end elleve timers fri mellem to vagter eller arbejdsdage, for eksempel en aftenvagt efterfulgt af en morgenvagt?",
+      "options": [
+        "Ja",
+        "Nej",
+        "Ved ikke"
+      ]
+    },
+    "AA-T-2": {
+      "text": "Er du inden for de seneste tre måneder blevet kontaktet om arbejde i din fritid hvor det blev forventet at du svarede, uden at du havde en aftalt rådigheds- eller tilkaldevagt?",
+      "options": [
+        "Ja",
+        "Nej",
+        "Ved ikke"
+      ]
+    }
+  }
+}

@@ -12652,3 +12652,30 @@ pages nor their legal review.
   - the market row in 0221;
   - absent from the industry pages.
 - `supabase/tests/module_market_invariants.sql` row 11.
+- `supabase/tests/count_answer_keys_invariants.sql` row 1 named handel as the only module with answer keys or a
+  count question asked with a factor. This module asks each count question with its factor (AA-T-1 with recovery,
+  AA-T-2 with availability), so a round that leaves the factor out does not ask the question. The row now lists both
+  modules by name, so a third module that uses either still fails it.
+
+**The translations' terms.** Drafted against `docs/translations/<lang>.md` and checked with `checkImport` in the JSON
+and XLIFF round trips: 28 rows per language, none untranslated. Where a glossary term would have changed the meaning:
+- Polish «zmiana» for a shift, not the glossary's «dyżur», which in Polish labour law is on-call duty. AA-T-2 needs
+  «dyżur» for that: «dyżur ani gotowość do pracy».
+- Danish «arbejdsplan», as the bokmål says, not «vagtplan», which would leave out people without shifts. On-call is
+  «rådigheds- eller tilkaldevagt».
+- On-call in Ukrainian and Lithuanian is «on call at work or at home», the Lithuanian labour code's own definition.
+- Lithuanian AA-NG-2 says «employees» must be reachable: about the respondent it would need a gendered form, which the
+  glossary forbids.
+
+**Hosted, 2026-10-10:**
+- 0221 applied through `apply_migration` verbatim, before the module existed there.
+- `module_sync` with the seed's body hash `e2bbf27f…` made 1.0.0 a draft.
+- `modules:registry` wrote 28 rows in each of da, lt, pl, sv and uk. The platform's auto-approve approved them as
+  written (0101).
+- `module_set_status` published it.
+- Checks:
+  - `module_market_ok` says Sweden yes and Norway no;
+  - `module_usable` is false for all three Norwegian organisations;
+  - the other five modules are unchanged;
+  - the security advisor shows the same four kinds of notice as before.
+- No organisation is in Sweden yet, so nobody can choose it until the Swedish site opens.

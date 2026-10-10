@@ -1,0 +1,45 @@
+{
+  "locale": "pl",
+  "factors": {
+    "schema_och_forutsagbarhet": "Grafik i przewidywalność",
+    "aterhamtning_och_vila": "Regeneracja i odpoczynek",
+    "nabarhet_och_granser": "Dostępność i granice",
+    "overtid_och_langa_arbetsdagar": "Nadgodziny i długie dni pracy",
+    "natt_skift_och_langa_pass": "Praca nocna, zmianowa i długie zmiany"
+  },
+  "items": {
+    "AA-SF-1": "Grafik pracy jest gotowy z dużym wyprzedzeniem, zanim zacznie obowiązywać",
+    "AA-SF-2": "Zmiany godzin pracy wprowadzane z krótkim wyprzedzeniem to wyjątek, a nie reguła",
+    "AA-SF-3": "Życzenia dotyczące godzin pracy są uwzględniane przy układaniu grafiku",
+    "AA-AH-1": "Z przerw korzysta się także wtedy, gdy jest dużo pracy",
+    "AA-AH-2": "Czas wolny między dniami pracy lub zmianami wystarcza, żeby porządnie wypocząć",
+    "AA-AH-3": "Po okresach wzmożonej pracy jest czas na regenerację",
+    "AA-NG-1": "Jest akceptowane, że w czasie wolnym nie odpowiada się na służbowe e-maile, telefony ani wiadomości",
+    "AA-NG-2": "Jest jasne, kiedy trzeba być w kontakcie, a kiedy nie ma takiej potrzeby",
+    "AA-NG-3": "Przełożeni unikają kontaktowania się w sprawach służbowych z osobami, które mają wolne",
+    "AA-OT-1": "Nadgodziny to wyjątek, a nie reguła",
+    "AA-OT-2": "Zadań, których nie udaje się wykonać w godzinach pracy, nie przesuwa się na czas wolny",
+    "AA-OT-3": "Przełożony ma rozeznanie, ile faktycznie się pracuje, także ponad to, co zaplanowano",
+    "AA-NS-1": "Po nocnych zmianach jest wystarczająco dużo czasu wolnego przed następną zmianą",
+    "AA-NS-2": "Ryzykowne i wymagające zadania planuje się w miarę możliwości na godziny dzienne",
+    "AA-NS-3": "Podczas długich i nocnych zmian jest miejsce, gdzie można odpocząć w spokoju"
+  },
+  "counts": {
+    "AA-T-1": {
+      "text": "Czy w ciągu ostatnich trzech miesięcy zdarzyło ci się mieć mniej niż jedenaście godzin wolnego między dwiema zmianami lub dwoma dniami pracy, na przykład gdy po zmianie wieczornej następowała zmiana poranna?",
+      "options": [
+        "Tak",
+        "Nie",
+        "Nie wiem"
+      ]
+    },
+    "AA-T-2": {
+      "text": "Czy w ciągu ostatnich trzech miesięcy kontaktowano się z tobą w sprawie pracy w twoim czasie wolnym i oczekiwano odpowiedzi, choć nie było to w ramach uzgodnionego dyżuru ani gotowości do pracy?",
+      "options": [
+        "Tak",
+        "Nie",
+        "Nie wiem"
+      ]
+    }
+  }
+}

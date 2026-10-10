@@ -1,0 +1,45 @@
+{
+  "locale": "sv",
+  "factors": {
+    "schema_och_forutsagbarhet": "Schema och förutsägbarhet",
+    "aterhamtning_och_vila": "Återhämtning och vila",
+    "nabarhet_och_granser": "Nåbarhet och gränser",
+    "overtid_och_langa_arbetsdagar": "Övertid och långa arbetsdagar",
+    "natt_skift_och_langa_pass": "Natt, skift och långa pass"
+  },
+  "items": {
+    "AA-SF-1": "Schemat är klart i god tid innan det börjar gälla",
+    "AA-SF-2": "Ändringar av arbetstiderna med kort varsel är undantag, inte regel",
+    "AA-SF-3": "Önskemål om arbetstider tas till vara när schemat läggs",
+    "AA-AH-1": "Raster och pauser blir av, även när det är mycket att göra",
+    "AA-AH-2": "Ledigheten mellan arbetsdagarna eller arbetspassen räcker för att hinna vila upp sig",
+    "AA-AH-3": "Efter perioder med mycket arbete finns det tid att återhämta sig",
+    "AA-NG-1": "Det är accepterat att man inte svarar på jobbmejl, samtal eller meddelanden på sin lediga tid",
+    "AA-NG-2": "Det är tydligt när man behöver vara nåbar och när man inte behöver det",
+    "AA-NG-3": "Chefer undviker att höra av sig om jobbet till den som är ledig",
+    "AA-OT-1": "Övertid är undantag, inte regel",
+    "AA-OT-2": "Arbete som inte hinns med på arbetstid flyttas inte över till den lediga tiden",
+    "AA-OT-3": "Chefen har koll på hur mycket som faktiskt arbetas, även utöver det planerade",
+    "AA-NS-1": "Efter nattpass finns det tillräckligt med ledig tid innan nästa arbetspass",
+    "AA-NS-2": "Riskfyllda och krävande arbetsmoment läggs i första hand på dagtid",
+    "AA-NS-3": "Under långa pass och nattpass finns det en ostörd plats att vila på"
+  },
+  "counts": {
+    "AA-T-1": {
+      "text": "Har du under de senaste tre månaderna haft mindre än elva timmar ledigt mellan två arbetspass eller arbetsdagar, till exempel ett kvällspass följt av ett morgonpass?",
+      "options": [
+        "Ja",
+        "Nej",
+        "Vet inte"
+      ]
+    },
+    "AA-T-2": {
+      "text": "Har du under de senaste tre månaderna blivit kontaktad om arbetet på din lediga tid, när det förväntades att du skulle svara, utan att du hade avtalad jour eller beredskap?",
+      "options": [
+        "Ja",
+        "Nej",
+        "Vet inte"
+      ]
+    }
+  }
+}

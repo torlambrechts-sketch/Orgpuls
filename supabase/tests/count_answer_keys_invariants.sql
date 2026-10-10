@@ -1,7 +1,8 @@
 -- count_answer_keys_invariants.sql — a count question's answer keys and its factor (0090, D-138).
 --
 --   * handel as seeded: HA-T-2 is stored ja / nei / ikke_aktuelt and asked with «Alene på vakt»;
---     every other count question is by position, as before (1)
+--     arbetstid-och-aterhamtning's two count questions are by position, each asked with its factor
+--     (D-263); every other count question is by position and asked with the module, as before (1)
 --   * the database refuses answer keys out of order, keys or a factor on a statement, and a
 --     factor of another module (2)
 --   * the form sends each option's answer key, and asks the question only where its factor is
@@ -64,12 +65,15 @@ begin
     (select string_agg(i.code || ':' || array_to_string(app.count_answer_keys(i), ',') || ':' || coalesce(f.key, '-'), ' ' order by i.code)
      from app.module_items i left join app.module_factors f on f.id = i.asked_with
      where i.module_id = m.id and i.kind = 'count'),
-    (select count(*) from app.module_items i where i.module_id <> m.id and (i.answer_keys is not null or i.asked_with is not null)))
+    (select coalesce(string_agg(o.key || ':' || i.code || ':' || coalesce(array_to_string(i.answer_keys, ','), '-') || ':' || coalesce(f.key, '-'), ' ' order by o.key, i.code), 'none')
+     from app.module_items i join app.question_modules o on o.id = i.module_id left join app.module_factors f on f.id = i.asked_with
+     where i.module_id <> m.id and (i.answer_keys is not null or i.asked_with is not null)))
     into v_txt
   from app.question_modules m where m.key = 'handel' and m.version = '1.0.0';
-  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'handel: HA-T-2 is ja/nei/ikke_aktuelt with «Alene på vakt»; no other module has either',
-    'expected', 'HA-T-1:ja,nei,vet_ikke:- HA-T-2:ja,nei,ikke_aktuelt:alene_pa_vakt|0', 'actual', coalesce(v_txt, 'not seeded'),
-    'pass', v_txt = 'HA-T-1:ja,nei,vet_ikke:- HA-T-2:ja,nei,ikke_aktuelt:alene_pa_vakt|0');
+  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'handel: HA-T-2 is ja/nei/ikke_aktuelt with «Alene på vakt»; arbetstid asks each count question with its factor; no other module has either',
+    'expected', 'HA-T-1:ja,nei,vet_ikke:- HA-T-2:ja,nei,ikke_aktuelt:alene_pa_vakt|arbetstid-och-aterhamtning:AA-T-1:-:aterhamtning_och_vila arbetstid-och-aterhamtning:AA-T-2:-:nabarhet_och_granser',
+    'actual', coalesce(v_txt, 'not seeded'),
+    'pass', v_txt = 'HA-T-1:ja,nei,vet_ikke:- HA-T-2:ja,nei,ikke_aktuelt:alene_pa_vakt|arbetstid-och-aterhamtning:AA-T-1:-:aterhamtning_och_vila arbetstid-och-aterhamtning:AA-T-2:-:nabarhet_och_granser');
 
   select r.id into v_round from app.rounds r where r.status = 'apen' and r.org_id = v_org order by r.opens_at desc limit 1;
   select e.id into v_emp from app.invitations i join app.employees e on e.id = i.employee_id

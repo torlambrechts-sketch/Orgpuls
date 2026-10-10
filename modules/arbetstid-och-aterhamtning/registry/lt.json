@@ -1,0 +1,45 @@
+{
+  "locale": "lt",
+  "factors": {
+    "schema_och_forutsagbarhet": "Darbo grafikas ir nuspėjamumas",
+    "aterhamtning_och_vila": "Atsigavimas ir poilsis",
+    "nabarhet_och_granser": "Pasiekiamumas ir ribos",
+    "overtid_och_langa_arbetsdagar": "Viršvalandžiai ir ilgos darbo dienos",
+    "natt_skift_och_langa_pass": "Naktinis ir pamaininis darbas, ilgos pamainos"
+  },
+  "items": {
+    "AA-SF-1": "Darbo grafikas parengiamas gerokai iš anksto, dar prieš jam pradedant galioti",
+    "AA-SF-2": "Darbo laiko pakeitimai, apie kuriuos pranešama vėlai, yra išimtis, o ne taisyklė",
+    "AA-SF-3": "Sudarant darbo grafiką, atsižvelgiama į pageidavimus dėl darbo laiko",
+    "AA-AH-1": "Pertraukos daromos net ir tada, kai daug darbo",
+    "AA-AH-2": "Laisvo laiko tarp darbo dienų ar pamainų pakanka, kad būtų galima gerai pailsėti",
+    "AA-AH-3": "Po intensyvaus darbo laikotarpių yra laiko atsigauti",
+    "AA-NG-1": "Laikoma priimtina laisvu laiku neatsakyti į darbo el. laiškus, skambučius ar žinutes",
+    "AA-NG-2": "Aišku, kada darbuotojai turi būti pasiekiami, o kada – ne",
+    "AA-NG-3": "Vadovai vengia kreiptis į darbuotojus darbo reikalais jų laisvu laiku",
+    "AA-OT-1": "Viršvalandžiai yra išimtis, o ne taisyklė",
+    "AA-OT-2": "Darbas, kurio nespėjama atlikti darbo metu, neperkeliamas į laisvą laiką",
+    "AA-OT-3": "Vadovas žino, kiek iš tikrųjų dirbama, taip pat ir viršijant suplanuotą laiką",
+    "AA-NS-1": "Po naktinių pamainų iki kitos pamainos lieka pakankamai laisvo laiko",
+    "AA-NS-2": "Rizikingos ir sudėtingos užduotys, kai įmanoma, atliekamos dieną",
+    "AA-NS-3": "Ilgų ir naktinių pamainų metu yra vieta, kur galima ramiai pailsėti"
+  },
+  "counts": {
+    "AA-T-1": {
+      "text": "Ar per pastaruosius tris mėnesius jums teko turėti mažiau nei vienuolika valandų laisvo laiko tarp dviejų pamainų ar darbo dienų, pavyzdžiui, kai po vakarinės pamainos buvo rytinė?",
+      "options": [
+        "Taip",
+        "Ne",
+        "Nežinau"
+      ]
+    },
+    "AA-T-2": {
+      "text": "Ar per pastaruosius tris mėnesius su jumis laisvu laiku buvo susisiekta darbo reikalais ir tikėtasi, kad atsakysite, nors nebuvo sutarta dėl budėjimo darbe ar namuose?",
+      "options": [
+        "Taip",
+        "Ne",
+        "Nežinau"
+      ]
+    }
+  }
+}
