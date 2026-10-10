@@ -12934,3 +12934,14 @@ stored, asked and scored exactly as before: every published module validates to 
 **Not yet shown.** `question_modules.attribution` is read by the module reader (`Module.attribution`). It is shown on the
 module's card, results and report with the HSE module itself (UK-D4), the first module that has one. Until then no
 module carries one.
+
+**Hosted, 2026-10-10:**
+- 0224 was applied verbatim through `apply_migration`, after 0223. Every replaced text was found exactly once, or the
+  migration would have stopped.
+- After the apply:
+  - the four columns exist with their defaults;
+  - the six functions carry the change and are still security definer where they were;
+  - `respond_form` and `submit_response` are still executable by `anon`, and `module_seed` is not executable by
+    `authenticated`.
+- No module or statement holds any of the new values: 10 modules and 349 statements are as they were.
+- The security advisor lists the same kinds as before and nothing on an object 0224 added.
