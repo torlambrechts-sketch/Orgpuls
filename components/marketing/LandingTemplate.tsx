@@ -37,11 +37,14 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
         // «Tips ledelsen»: a finished e-mail to the daglig leder, written in the browser (D-246)
         extra={
           slug === 'verneombud' ? (
-            <VoTip words={t.raw('seo.voTip') as VoTipWords} link={`${own?.site.url ?? MAIN_URL}/?utm_source=verneombud&utm_medium=tips`} />
+            <VoTip
+              words={t.raw('seo.voTip') as VoTipWords}
+              link={`${own?.site.url ?? MAIN_URL}/?utm_source=${own ? 'safety-representative' : 'verneombud'}&utm_medium=tips`}
+            />
           ) : undefined
         }
         informational
-        heroArt={slug === 'lovkrav' ? <LawArt className="h-auto w-full max-w-[440px]" /> : <SafetyRepArt className="h-auto w-full max-w-[440px]" />}
+        heroArt={slug === 'lovkrav' ? <LawArt className="h-auto w-full max-w-[440px]" seal={own ? '✓' : '§'} /> : <SafetyRepArt className="h-auto w-full max-w-[440px]" />}
       />
     )
   return (

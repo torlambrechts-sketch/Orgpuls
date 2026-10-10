@@ -199,8 +199,12 @@ describe('the United Kingdom’s duties (docs/markets/uk-legal.md § 5)', () => 
     for (const ref of Object.values(LEGAL_PACKS.gb.factorLawRefs ?? {})) expect(ref).toMatch(/^MHSWR reg 3( · HSE: [A-Z][a-z]+)?$/)
   })
 
-  it('promises no module that is not built', () => {
+  it('promises no module that is not built, and names HSE’s Indicator Tool only as the module it now is (UK-D4, D-268)', () => {
     const own = pack('gb', 'en')
-    expect(Object.entries(own).filter(([, v]) => /\bwill cover\b|Indicator Tool/i.test(v)).map(([k]) => k)).toEqual([])
+    expect(Object.entries(own).filter(([, v]) => /\bwill cover\b/i.test(v)).map(([k]) => k)).toEqual([])
+    if (Object.values(own).some((v) => /Indicator Tool/i.test(v))) {
+      expect(existsSync('modules/hse-indicator-tool/v1.json')).toBe(true)
+      expect(readFileSync('supabase/migrations/0225_module_hse_market.sql', 'utf8')).toMatch(/'gb'/)
+    }
   })
 })

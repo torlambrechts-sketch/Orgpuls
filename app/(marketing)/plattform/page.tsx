@@ -138,7 +138,16 @@ export default async function PlattformPage() {
   const measureRows = zip(MEASURE_ROWS, z.array(z.object({ title: Str, sub: Str })).parse(t.raw('tiltak.rows')))
   const reportRows = zip(REPORT_INK, z.array(z.object({ mark: Str, title: Str, sub: Str })).parse(t.raw('rapport.rows')))
   const roleRows = z.array(z.object({ mark: Str, title: Str, sub: Str, pill: Str })).length(3).parse(t.raw('roller.rows'))
-  const setupRows = zip(SETUP_ROWS, z.array(z.object({ title: Str, sub: Str, pill: Str })).parse(t.raw('oppsett.rows')))
+  // the site the page is on (D-270): its name, its addresses; a site of its own has no articles, so the
+  // survey's «Les mer» goes to the use case it serves there
+  const ld = await siteLd()
+  const own = await ownSite()
+  const readMoreOf = (id: CaseId) => (id === 'respondent' && !serves(own, '/artikler') ? '/bruksomrader#kartlegging' : USE[id])
+  // the first setup row is the register lookup in Norway (§); a site of its own looks nothing up (D-271)
+  const setupRows = zip(
+    SETUP_ROWS.map((r, i) => (i === 0 && own ? { ...r, glyph: '✓' } : r)),
+    z.array(z.object({ title: Str, sub: Str, pill: Str })).parse(t.raw('oppsett.rows')),
+  )
   const factor = (id: string) => all(`factor.${id}.name`)
 
   /** each section's card body; the head, frame and caption are the same for all eight */
@@ -248,11 +257,6 @@ export default async function PlattformPage() {
     tiltak: text.tiltak.card.title.replace('{factor}', factor('ytring').toLocaleLowerCase()),
   }
 
-  // the site the page is on (D-270): its name, its addresses; a site of its own has no articles, so the
-  // survey's «Les mer» goes to the use case it serves there
-  const ld = await siteLd()
-  const own = await ownSite()
-  const readMoreOf = (id: CaseId) => (id === 'respondent' && !serves(own, '/artikler') ? '/bruksomrader#kartlegging' : USE[id])
 
   return (
     <>

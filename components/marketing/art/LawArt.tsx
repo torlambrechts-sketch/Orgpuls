@@ -4,7 +4,7 @@
  * is hidden from screen readers. Drawn in the design's tokens: ink lines, sf paper, mint ground,
  * yellow seal.
  */
-export function LawArt({ className = '' }: { className?: string }) {
+export function LawArt({ className = '', seal = '§' }: { className?: string; /** the seal's mark: §, or ✓ where the law is not cited by section (the United Kingdom's, D-271) */ seal?: string }) {
   return (
     <svg viewBox="0 0 440 360" aria-hidden="true" className={className} fill="none">
       {/* ground */}
@@ -47,7 +47,7 @@ export function LawArt({ className = '' }: { className?: string }) {
         <circle r="52" fill="#F5C64A" stroke="#191510" strokeWidth="2" />
         <circle r="41" stroke="#191510" strokeWidth="1.4" strokeDasharray="3 4" />
         <text y="20" textAnchor="middle" fontFamily="'Playfair Display', serif" fontWeight="600" fontSize="56" fill="#191510">
-          §
+          {seal}
         </text>
       </g>
     </svg>

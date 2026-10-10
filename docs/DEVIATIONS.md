@@ -13181,3 +13181,79 @@ change against a build of `main`, 0 differing pixels each.
 - the 404 for every page written for Norway;
 - what passes;
 - the link mapping, one address per route.
+
+## D-271 — Empvibe's site in British English, for the United Kingdom's law (UK-E2, 2026-10-10)
+
+The UK site's words are the United Kingdom's market pack (`messages/market/gb/en.json`), laid over the English catalogue
+as any organisation in the market reads it (D-257). They are the `site.*`, `seo.*` and `start.*` keys its pages show:
+505 under `site`, 629 under `seo` and 3 under `start`. A key the pack leaves out is the English catalogue's, which was
+true for the United Kingdom as it stood.
+
+**What they say.**
+- **The law.** No UK statute names psychosocial factors or requires a survey. What the law requires:
+  - the general duty (HSWA 1974 s.2);
+  - a suitable and sufficient risk assessment that covers work-related stress (MHSWR 1999 reg 3);
+  - the significant findings and any group especially at risk written down from five employees (reg 3(6));
+  - arrangements written down from five employees (reg 5);
+  - consultation with union-appointed representatives (SRSC 1977), or with employees directly or through elected
+    representatives (HSCER 1996).
+
+  HSE's Management Standards are guidance («not new laws»), and a survey can form part of the assessment. Northern
+  Ireland's twins (MHSWR (NI) 2000, HSCER (NI) 1996, HSENI) are named where the Great Britain law is cited. Nothing is
+  filed: the employer keeps the record, and an inspector (HSE or the local authority; HSENI in Northern Ireland) may
+  ask to see it.
+- **The pages rewritten in full for the United Kingdom:**
+  - the law page (/work-related-stress-law, 37 blocks, 8 questions);
+  - safety representatives (/safety-representatives: who represents employees, the duty to consult, the
+    representative at each step, what to do with none, and the ready-made e-mail to the managing director);
+  - small businesses (/small-businesses: what the law asks by size, anonymity in a team of fewer than five, setting
+    up without HR).
+- **The other pages** keep their shape. Each Norwegian claim is replaced:
+  - the § references;
+  - Arbeidstilsynet's report, which becomes the written record;
+  - the AMU, which becomes «a safety committee if you have one»;
+  - Brønnøysund, which becomes the company number, typed in;
+  - SMS, which is gone;
+  - «5 by default», which becomes «at least 5, never lower»;
+  - every price, «free» and trial;
+  - the Norwegian demo names, which become Northfield Civils Ltd (UK-E3's example company).
+- **HSE's Indicator Tool** is named as the module it now is (UK-D4), unchanged, under the Open Government Licence. It
+  carries HSE's attribution wherever its content is described, and is never «approved», «endorsed» or «compliant».
+- **Following docs/markets/uk-legal.md § 9.** Every legal statement in the three rewritten pages rests on a section of
+  docs/markets/uk-legal.md, and the drafts list them. Quotations are word for word from it. Points it marks UNVERIFIED
+  are left out or presented as open:
+  - whether starting a survey needs prior consultation;
+  - SRSC (NI);
+  - which authority enforces where.
+
+**How they were written.**
+- Eight drafts, one per page group, written to one brief: the facts that hold for Empvibe and the claims rules.
+- Merged with the owner of each shared text winning: the home page's group for the chrome, and each landing page's
+  own group for its card.
+- Then corrected where the new test found Norway: the example company, the screenshots' alt texts, and the § tile.
+- Drafts by machine, as X-089 allows for texts nobody has reviewed yet. They want the same legal review as the UK pack
+  (UK-C) before the site opens.
+
+**Code beside them.**
+- The law page's seal and Plattform's setup row draw ✓ where Norway draws §, since UK law is cited by section and
+  regulation number, never by §.
+- The safety representative's e-mail link carries `utm_source=safety-representative`.
+- `tests/unit/legal-pack.test.ts` now knows the Indicator Tool is built. A pack may carry site words of its own; these
+  are held page by page by the new test.
+
+**Not in this step:**
+- **The privacy notice and the terms** stay the English catalogue's until UK-F writes the United Kingdom's. They name
+  Norwegian law and the Norwegian prices, and the test lists them as UK-F's.
+- **The product screenshots** are still the Norwegian edition's. UK-E3 captures English ones of Northfield Civils Ltd.
+- **The support address** is still hjelp@orgpuls.no, until Empvibe has a mailbox (UK-G).
+
+**Tests.** `tests/unit/uk-site.test.ts` checks:
+- that every text the served pages show by the page map, and every site text in the pack, says nothing only true in
+  Norway. Norway is allowed once, as the home of the company that provides it;
+- that no text makes a claim § 9 forbids;
+- that no text states a price, «free» or a trial;
+- that every menu and footer entry has words;
+- that every array a page counts keeps its length.
+
+Seen in a browser on a server with `EMPVIBE_SITE=open`: all ten pages answer 200, carry no Norwegian text outside the
+footer's company line, have no horizontal scroll at 390 and no console errors.
