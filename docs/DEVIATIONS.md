@@ -12464,3 +12464,53 @@ is a setup step, not a broken commit, and the CI checks are unchanged.
 **Tor's one step:** create a personal access token in Supabase (Account › Access Tokens) and add it to GitHub as an
 Actions secret named `SUPABASE_ACCESS_TOKEN`. Then run «Deploy the edge functions» once from the Actions tab, or wait
 for the next push that touches the functions.
+
+## D-260 — A module is offered in its market (SE-D, 2026-10-10)
+
+The five industry modules state Norwegian law. Their legal basis names arbeidsmiljøloven and the regulation's chapters,
+and their statements were written against Norwegian practice. Until now any organisation could switch one on. An
+organisation in Sweden would then have asked its employees questions grounded in another country's law, and its report
+would have cited that law as its own. That had to be closed before launch (PLAN.md, SE-D).
+
+**The rule, in the database (0220).**
+- `app.module_markets` lists, per module key, the markets the module is offered in.
+  - A key with no row is Norway's. Every module written so far is, and a module synced without a market stays where
+    the product has always offered it.
+  - A module for another market gets its row from the migration that brings it.
+  - Written by migrations only, as the markets are (0214): RLS, one read policy, no write grant.
+- `app.module_market_ok(key, market)` states the rule once.
+- `app.module_usable` (0071) adds it, with the organisation's market. It is the one gate every path a module takes into
+  a round passes:
+  - `set_org_module`, through `latest_usable_module`;
+  - `round_default_modules`;
+  - the `round_modules` trigger;
+  - the wording and variant writers (0083, 0089).
+  So the rule holds whichever path is used, the database's own included. A pilot does not get round it: a draft is
+  usable only where it is piloted, and now only in its market too.
+
+**The screens take the database's answer.** `public.org_module_keys(org)` returns the keys an organisation may use,
+to its members only. `getPublishedModules` keeps only those, so Målinger › Spørsmålssett and Måleoppsett offer what
+`set_org_module` will accept, with no second copy of the rule in the application. An unreadable answer offers
+nothing rather than everything.
+
+For an organisation in Sweden, until its own module exists:
+- Spørsmålssett shows the existing empty state, «Inga branschmoduler är tillgängliga än».
+- Måleoppsett has no module block, as before for an empty list.
+- Oppsett › Selskap has no «Bransch» card. The industry only chooses which module is suggested, so with no module
+  to suggest it would be a setting without an effect. The card lists only industries whose module the organisation
+  may use.
+
+Nothing already stored broke the rule. Hosted had no organisation outside Norway with a module on, a pilot or a module
+on a round (checked 2026-10-10).
+
+**Tests:**
+- `supabase/tests/module_market_invariants.sql` (10 rows):
+  - the grant surface;
+  - the rule;
+  - the five Norwegian modules offered in Norway only;
+  - set_org_module refusing a Swedish organisation with `not_available` while Norway switches the same module on;
+  - a round refusing the module even from the database's own functions;
+  - a pilot needing the market;
+  - a module given Sweden's market working there and not in Norway;
+  - the key list for members only.
+- `tests/unit/module-markets.test.ts`: the reader parses the answer, and an error or another shape offers nothing.

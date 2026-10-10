@@ -12,6 +12,7 @@ import { INDUSTRIES_IN_ORDER, resolveIndustry } from '@/content/industries/meta'
 import { isLocale } from '@/lib/i18n/locales'
 import { DEFAULT_MARKET, isMarket, MARKET_LANGS, REGISTRY_LOOKUP } from '@/lib/markets'
 import { committeeDuty, healthServiceDuty, LEGAL_PACKS } from '@/lib/legal/pack'
+import { getUsableModuleKeys } from '@/lib/modules/read'
 
 /**
  * Selskap. Bundle lines 1987-2108.
@@ -79,6 +80,10 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
 
   // the market decides the register to ask and the languages on offer (D-254)
   const market = isMarket(c.market) ? c.market : DEFAULT_MARKET
+  // the industry chooses which module is suggested (0091), so it is offered only for a module the
+  // organisation may use: a market with none (Sweden, until its own, D-260) has no choice to make
+  const usable = await getUsableModuleKeys(c.id)
+  const industries = INDUSTRIES_IN_ORDER.filter((i) => i.moduleKey && usable.has(i.moduleKey))
 
   const facts = [
     ['name', c.name],
@@ -354,6 +359,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
         </section>
 
         {/* «Bransje» (0091, D-139): not in the design bundle, which predates the industry modules */}
+        {industries.length ? (
         <section className="rounded-panel border border-line bg-sf px-[24px] py-[22px]" aria-labelledby="bransje">
           <h2 id="bransje" className="m-0 text-[11px] font-normal uppercase tracking-[0.11em] text-mut">
             {t('oppsett.industry.title')}
@@ -389,7 +395,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             canWrite={view.canWrite}
             options={[
               { value: 'none', label: t('oppsett.industry.none') },
-              ...INDUSTRIES_IN_ORDER.map((i) => ({ value: i.slug, label: industryName(i) })),
+              ...industries.map((i) => ({ value: i.slug, label: industryName(i) })),
             ]}
             selected={industry.chosen?.slug ?? 'none'}
             changed={
@@ -405,6 +411,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             }}
           />
         </section>
+        ) : null}
 
         {/* «Hva står i toppen» (0104, D-154): the design's logo choice, from its Assistenten tab (D-32) */}
         <LogoCard

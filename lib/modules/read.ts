@@ -342,22 +342,40 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
 }
 
 /**
+ * The module keys an organisation may use (org_module_keys, 0220): published or piloted, and
+ * offered in its market. An unreadable answer is the empty set: what the database would refuse is
+ * never shown as a choice.
+ */
+export const getUsableModuleKeys = cache(async (orgId: string): Promise<Set<string>> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('org_module_keys', { p_org: orgId })
+  const parsed = z.array(z.string()).safeParse(data)
+  return new Set(!error && parsed.success ? parsed.data : [])
+})
+
+/**
  * The module versions a new survey can use: the newest published version of each key, and
  * any draft the organisation pilots (0068), which takes the place of its key's published one.
+ * For an organisation, only the keys the database lets it use (org_module_keys, 0220): a module
+ * is offered in its market, so an organisation in Sweden is not offered one written for Norway.
  */
 export const getPublishedModules = cache(async (orgId?: string | null): Promise<Module[]> => {
   let pilots: string[] = []
+  let usable: Set<string> | null = null
   if (orgId) {
     const supabase = await createClient()
-    const { data, error } = await supabase.rpc('pilot_module_ids', { p_org: orgId })
-    const parsed = z.array(z.string().uuid()).safeParse(data)
-    if (!error && parsed.success) pilots = parsed.data
+    const [pi, keys] = await Promise.all([supabase.rpc('pilot_module_ids', { p_org: orgId }), getUsableModuleKeys(orgId)])
+    const parsed = z.array(z.string().uuid()).safeParse(pi.data)
+    if (!pi.error && parsed.success) pilots = parsed.data
+    usable = keys
   }
   const [published, drafts] = await Promise.all([
     loadModules({ status: 'published' }),
     pilots.length ? loadModules({ ids: pilots }) : Promise.resolve([] as Module[]),
   ])
-  const all = [...drafts, ...published.filter((p) => !drafts.some((d) => d.key === p.key))]
+  const all = [...drafts, ...published.filter((p) => !drafts.some((d) => d.key === p.key))].filter(
+    (m) => !usable || usable.has(m.key),
+  )
   const latest = new Map<string, Module>()
   for (const m of [...all].sort((a, b) => newestFirst(a.version, b.version))) {
     if (!latest.has(m.key)) latest.set(m.key, m)
