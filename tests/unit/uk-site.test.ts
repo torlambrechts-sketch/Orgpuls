@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { EMPVIBE_PAGES } from '@/lib/hosts'
 import { OWN_FOOTERS, OWN_NAV } from '@/lib/site/nav'
@@ -34,7 +34,7 @@ const gb = read('messages/market/gb/en.json')
 const shown = merge(en, gb)
 const map = read('lib/i18n/site-pages.json') as { pages: { path: string; keys: string[]; states?: string[] }[]; shared: string[] }
 
-/** The pages whose words are another step's, and why */
+/** The pages whose words are another step's, and why: not served until that step writes them (D-272) */
 const NOT_YET: Record<string, string> = {
   '/personvernerklaering': 'the UK privacy notice is UK-F, with the Article 27 representative and the ICO fee',
   '/vilkar': 'the UK terms are UK-F, with GBP prices and reverse-charge invoicing',
@@ -87,9 +87,15 @@ const texts = (): [string, string][] => {
 }
 
 describe('Empvibe’s site in words (UK-E2, D-271)', () => {
-  it('serves pages the page map knows, every one but the documents of UK-F', () => {
+  it('serves pages the page map knows, and not the documents of UK-F, which are Norway’s until then', () => {
     for (const path of EMPVIBE_PAGES) expect(map.pages.some((p) => p.path === path), path).toBe(true)
-    expect(served.length).toBe(EMPVIBE_PAGES.length - Object.keys(NOT_YET).length)
+    for (const [path, why] of Object.entries(NOT_YET)) expect(EMPVIBE_PAGES as readonly string[], why).not.toContain(path)
+    expect(served).toEqual([...EMPVIBE_PAGES])
+    // nothing on the site links to them meanwhile: not the footer's columns, and its bottom line draws
+    // the two tags as nothing on a site that does not serve them (app/(marketing)/layout.tsx), so each
+    // carries its own separator
+    for (const column of OWN_FOOTERS.home) for (const link of column.links) expect(Object.keys(NOT_YET)).not.toContain(link.href)
+    expect(String(at(shown, 'site.chrome.footer.bottom'))).toMatch(/<\/mail><privacy> · Privacy<\/privacy><terms> · Terms<\/terms>$/)
   })
 
   it('says nothing that is only true in Norway', () => {
@@ -137,5 +143,32 @@ describe('Empvibe’s site in words (UK-E2, D-271)', () => {
       .filter(([k, n, source]) => !free.test(k) && Array.isArray(source) && source.length !== n)
       .map(([k, n, source]) => `${k}: ${n} for ${(source as unknown[]).length}`)
     expect(changed).toEqual([])
+  })
+})
+
+describe('Empvibe’s pictures (UK-E3, D-272)', () => {
+  it('has its own picture for every product picture the site can show', () => {
+    const ids = readFileSync('lib/marketing/shot-ids.ts', 'utf8').match(/'([a-z]+)'/g)!.map((s) => s.slice(1, -1))
+    expect(ids.length).toBeGreaterThan(0)
+    for (const id of ids) expect(existsSync(`assets/produkt/empvibe/${id}.webp`), id).toBe(true)
+  })
+
+  it('has its own card for every page it serves with a card of its own, and a default for the rest', () => {
+    expect(existsSync('public/og/empvibe/default.png')).toBe(true)
+    for (const route of EMPVIBE_PAGES) {
+      const file = `app/(marketing)${route === '/' ? '' : route}/page.tsx`
+      const card = existsSync(file) ? readFileSync(file, 'utf8').match(/image: '\/og\/([a-z0-9-]+\.png)'/)?.[1] : undefined
+      if (card) expect(existsSync(`public/og/empvibe/${card}`), `${route}: ${card}`).toBe(true)
+    }
+  })
+
+  it('makes no claim on its cards that the site may not make', () => {
+    const pills = at(shown, 'seo.og.pills') as string[]
+    expect(pills).toHaveLength(3)
+    for (const pill of pills) {
+      expect(pill).not.toMatch(NORWAY)
+      expect(pill).not.toMatch(MISLEADING)
+      expect(pill).not.toMatch(PRICE)
+    }
   })
 })

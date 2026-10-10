@@ -8,9 +8,8 @@ import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization, siteLd } from '@/lib/marketing/schema'
-import { ownSite, serves } from '@/lib/site/own'
+import { ownSite, serves, siteShots } from '@/lib/site/own'
 import { zip } from '@/lib/site/zip'
-import sporsmal from '@/assets/produkt/sporsmal.webp'
 
 /**
  * Plattform (D-190): design-reference/orgpuls/nettside-v3/Plattform.dc.html.
@@ -141,6 +140,8 @@ export default async function PlattformPage() {
   // the site the page is on (D-270): its name, its addresses; a site of its own has no articles, so the
   // survey's «Les mer» goes to the use case it serves there
   const ld = await siteLd()
+  // the site's own pictures: Empvibe's in English, Orgpuls's elsewhere (D-272)
+  const { img: sporsmal } = (await siteShots()).sporsmal
   const own = await ownSite()
   const readMoreOf = (id: CaseId) => (id === 'respondent' && !serves(own, '/artikler') ? '/bruksomrader#kartlegging' : USE[id])
   // the first setup row is the register lookup in Norway (§); a site of its own looks nothing up (D-271)

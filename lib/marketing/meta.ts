@@ -29,7 +29,10 @@ export async function pageMeta(m: {
   const own = await ownSite()
   if (own) {
     const url = own.absolute(m.path || '/')
-    const image = { url: `${own.site.url}${m.image ?? '/og.png'}`, width: 1200, height: 630, alt: m.title }
+    // its own cards, under its name and in its words (public/og/<brand>/, og-images.mjs --brand, D-272):
+    // the page's where it has one, the site's otherwise
+    const card = m.image?.match(/^\/og\/([a-z0-9-]+\.png)$/)?.[1] ?? 'default.png'
+    const image = { url: `${own.site.url}/og/${own.site.brand}/${card}`, width: 1200, height: 630, alt: m.title }
     return {
       title: { absolute: m.title },
       description: m.description,

@@ -9,7 +9,7 @@ import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
 import { SiteHeader } from '@/components/site/v3/SiteHeader'
 import { FOOTERS, OWN_FOOTERS, OWN_NAV, SITE_NAV, type FooterId } from '@/lib/site/nav'
 import { SitePathsProvider } from '@/components/site/SitePaths'
-import { ownSite } from '@/lib/site/own'
+import { ownSite, serves } from '@/lib/site/own'
 import { industryLinks } from '@/lib/site/industries'
 import { INDUSTRY_META } from '@/content/industries/meta'
 import { CONTACT_MAIL } from '@/lib/marketing/site'
@@ -112,17 +112,21 @@ export default async function MarketingLayout({ children }: { children: React.Re
                 {chunks}
               </a>
             ),
-            // the design's words, now links to the pages they name (D-104, D-194), underlined as links in prose (G5)
-            privacy: (chunks) => (
-              <Link href="/personvernerklaering" className="text-inherit underline underline-offset-2 hover:text-ink">
-                {chunks}
-              </Link>
-            ),
-            terms: (chunks) => (
-              <Link href="/vilkar" className="text-inherit underline underline-offset-2 hover:text-ink">
-                {chunks}
-              </Link>
-            ),
+            // the design's words, now links to the pages they name (D-104, D-194), underlined as links in prose (G5);
+            // nothing on a site that does not serve the page yet (Empvibe's until UK-F, D-272), whose text
+            // carries its separator inside the tag for that
+            privacy: (chunks) =>
+              serves(own, '/personvernerklaering') ? (
+                <Link href="/personvernerklaering" className="text-inherit underline underline-offset-2 hover:text-ink">
+                  {chunks}
+                </Link>
+              ) : null,
+            terms: (chunks) =>
+              serves(own, '/vilkar') ? (
+                <Link href="/vilkar" className="text-inherit underline underline-offset-2 hover:text-ink">
+                  {chunks}
+                </Link>
+              ) : null,
           })}
         />
       </div>

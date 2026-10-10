@@ -1,8 +1,9 @@
 import 'server-only'
 import { headers } from 'next/headers'
 import { cache } from 'react'
-import { BRANDS } from '@/lib/brand'
+import { BRANDS, DEFAULT_BRAND } from '@/lib/brand'
 import { addressOf, siteOf, type Site } from '@/lib/hosts'
+import { BRAND_SHOTS } from '@/lib/marketing/shots'
 
 /**
  * The site of its own this request is on (D-270, lib/hosts.ts `Site.own`): Empvibe's, once open.
@@ -33,3 +34,6 @@ export const ownSite = cache(async (): Promise<OwnSite | null> => {
 
 /** Whether this site serves the route (a site of its own serves its list; Norway's hosts every page) */
 export const serves = (own: OwnSite | null, route: string) => !own || (own.site.own.pages as readonly string[]).includes(route)
+
+/** The product pictures this site shows: its brand's on a site of its own, Orgpuls's elsewhere (D-272) */
+export const siteShots = async () => BRAND_SHOTS[(await ownSite())?.site.brand ?? DEFAULT_BRAND]

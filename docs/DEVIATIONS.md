@@ -13257,3 +13257,88 @@ true for the United Kingdom as it stood.
 
 Seen in a browser on a server with `EMPVIBE_SITE=open`: all ten pages answer 200, carry no Norwegian text outside the
 footer's company line, have no horizontal scroll at 390 and no console errors.
+
+## D-272 — Empvibe's pictures: English screens of a British firm, its own share cards; the review's corrections (UK-E3, 2026-10-10)
+
+**What.** Empvibe's site shows its own product pictures and share cards, and no longer serves Norway's privacy notice
+and terms. An independent review of the UK texts (D-271) found three serious faults, all fixed here, and eleven
+lesser ones, all fixed:
+- **Serious 1.** The security page called the agreement in Settings a UK one. The agreement there is still Norway's.
+- **Serious 2.** The screenshots on the UK home page were Norwegian captures.
+- **Serious 3.** The privacy notice and the terms said Norwegian things.
+
+**The scenario as a British firm.** `node scripts/seed/design-fixture.mjs --market gb` emits the design fixture again,
+for Northfield Civils Ltd.
+- **Same numbers.** The answers, and so every figure, are the fixture's own: index 61, 64 the year before, 28 of 34.
+  They are solved once for both firms.
+- **New ids.** The fixture's ids move to an id space of its own, with 8044 in the fourth group.
+- **English texts.** Each Norwegian text the fixture writes is replaced with the British English that
+  `scripts/seed/design-fixture.gb.mjs` keys by it: the firm, its people and departments, the comments, the measures,
+  the risk assessment.
+- **UK facts.** The organisation is in market `gb`, in English, on London time. It has company number 99999999, which
+  is eight digits and far beyond any number Companies House has issued, so no real company holds it. It has no
+  Norwegian register snapshot and no occupational health service. Each measure cites its factor's UK reference
+  (lib/legal/pack.ts).
+- **The generator stops** if a Norwegian text has no English, if an English entry no longer matches anything, or if
+  any Norwegian is left.
+- **Norway's fixture is unchanged.** Without the flag the output is byte for byte the same; this was checked by
+  diffing the output before and after, for both the normal and the `--first-run` modes.
+- **Where it runs.** CI and `qa:up` seed it beside Norway's, so every SQL suite runs with a UK organisation present.
+  `supabase/tests/local_account.sql` signs its managing director in, in English, wherever the firm exists.
+
+**The pictures.** `scripts/marketing/product-shots.mjs --brand empvibe` takes the nine pictures from the running app,
+signed in to Northfield. It writes them to `assets/produkt/empvibe`. The crops are drawn from the app as it is today,
+so the anchors are the English words those screens show.
+- The overview is now the Advanced view's first screen: the index beside the eleven factors, placed by score and
+  importance.
+- `BRAND_SHOTS` holds each brand's set. `siteShots()` gives a site of its own its brand's set, and Norway's hosts keep
+  Orgpuls's.
+- ProductShot, the home page and Plattform take the site's set.
+- The alt texts in the UK pack now describe the pictures as they are.
+
+**The cards.** `scripts/marketing/og-images.mjs --brand empvibe` draws `public/og/empvibe/`:
+- the law page, the safety representatives page and the small-business page;
+- `default.png` for the rest;
+- each under Empvibe's name, in British English, with its pictures and three pills of its own (`seo.og.pills` in the
+  pack).
+
+On a site of its own, `pageMeta` points each page at its brand's card.
+
+**The review's corrections, in the UK pack:**
+- **The agreement.** The security page says the UK version is published before Empvibe opens in the United Kingdom.
+- **The company-number error.** It states the rule as `lib/org-number.ts` and migration 0222 hold it: 8 digits, or
+  SC, NI, R0, OC, SO or NC followed by 6 digits.
+- **Question order.** HSE's Indicator Tool keeps HSE's order; only the factors' statements are shuffled.
+- **The written record** holds the measures with owner, deadline and follow-up. It is not cited to reg 5, whose
+  record of arrangements is the employer's to write.
+- **Eliminate, then control** is HSE's advice, not reg 5(1).
+- **The threshold** is «never below 5», not «never lower», since a raised threshold can come down again.
+- **Consultation** is with employees or their representatives.
+- **Legal obligation** is the basis we recommend, not a fact about every employer.
+- **Removed:** an Article 11 citation with no source behind it, and «HSE's own bands».
+- **Fixed on the home page:** a Norwegian project name, and «the law is the same».
+
+**Not served until UK-F.** `/personvernerklaering` and `/vilkar` (`/privacy` and `/terms`) are out of
+`EMPVIBE_PAGES`, so they answer 404 on Empvibe's host.
+- The footer's columns no longer list them.
+- The footer's bottom line draws the two tags as nothing on a site that does not serve the pages. The pack's text
+  carries each separator inside its tag for that.
+- UK-G does not open without them.
+
+**Known and not in this step.** The English screens still print dates in American order («September 14», «02:00 AM»)
+and in Oslo's time zone; that is visible in the overview's top line and the year wheel. A UK organisation should see
+British dates and London time. That is product work to do before UK-G. The pictures are retaken after it with the same
+command.
+
+**Tests.** `tests/unit/uk-site.test.ts`:
+- every product picture has an Empvibe version;
+- every page served with a card of its own has an Empvibe card;
+- the cards' pills make no claim the site may not make;
+- the UK-F documents are not served, and nothing links to them.
+
+`tests/unit/markets.test.ts` checks that `/privacy` and `/terms` answer 404 on Empvibe's host.
+
+**Seen.**
+- **Empvibe's site** (`EMPVIBE_SITE=open`): ten pages answer 200, with no link to the UK-F documents, no horizontal
+  scroll at 390 and no console errors. Each page's `og:image` is Empvibe's card.
+- **Norway's pages:** fifteen pages at 1280 and 390, compared with pixelmatch against main's build, differ by 0 pixels.

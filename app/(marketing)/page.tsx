@@ -11,10 +11,9 @@ import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
 import { ARTICLES } from '@/lib/marketing/site'
 import { graph, organization, siteLd, software, website } from '@/lib/marketing/schema'
-import { SHOTS } from '@/lib/marketing/shots'
 import type { ShotId } from '@/lib/marketing/shot-ids'
 import { zip } from '@/lib/site/zip'
-import { ownSite, serves } from '@/lib/site/own'
+import { ownSite, serves, siteShots } from '@/lib/site/own'
 
 /**
  * The front page for small and medium-sized businesses (D-190): design-reference/orgpuls/
@@ -27,7 +26,8 @@ import { ownSite, serves } from '@/lib/site/own'
  * 768px so they never cover it.
  *
  * Every card that shows example figures is a `<figure>` captioned «Tenkte eksempeldata.» (G3); the
- * screenshots are the design fixture's real screens (Nordvik Anlegg AS), the files in assets/produkt.
+ * screenshots are the design fixture's real screens (Nordvik Anlegg AS), the files in assets/produkt;
+ * on Empvibe's site the same scenario's English screens (Northfield Civils Ltd, assets/produkt/empvibe, D-272).
  */
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -585,8 +585,9 @@ function keep(text: string) {
 }
 
 /** A product screenshot at its own pixels, scaled by the browser as the design scales it (G-18: alt, width and height) */
-function Shot({ id, alt, priority = false }: { id: ShotId; alt: string; priority?: boolean }) {
-  const { img } = SHOTS[id]
+async function Shot({ id, alt, priority = false }: { id: ShotId; alt: string; priority?: boolean }) {
+  // the site's own pictures: Empvibe's in English, Orgpuls's elsewhere (D-272)
+  const { img } = (await siteShots())[id]
   // the design's own <img>: the file as captured, eager and decoded with the page, so a reader who
   // jumps to #resultater (or a full-page capture) gets the picture, never a blank frame
   return (

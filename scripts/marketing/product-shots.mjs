@@ -17,6 +17,14 @@
  *
  * Signs in with ORGPULS_DEV_EMAIL / ORGPULS_DEV_PASSWORD from the environment, used once
  * and never printed.
+ *
+ * `--brand empvibe` takes Empvibe's set (UK-E3, D-272) instead: the same scenario as a British firm,
+ * Northfield Civils Ltd (design-fixture.mjs --market gb), signed in as its managing director in
+ * English, written to assets/produkt/empvibe/<id>.webp. It signs in with EMPVIBE_DEV_EMAIL /
+ * EMPVIBE_DEV_PASSWORD; on the local stack those are local_account.sql's second account. Its crops
+ * are the current screens', so they find their anchors by the English words those screens show.
+ *
+ *   node scripts/marketing/product-shots.mjs --brand empvibe --base http://localhost:3100
  */
 import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
@@ -28,7 +36,9 @@ const arg = (name, fallback) => {
   return i > -1 ? process.argv[i + 1] : fallback
 }
 const base = arg('base', 'http://localhost:3000')
-const out = 'assets/produkt'
+const brand = arg('brand', 'orgpuls')
+if (!['orgpuls', 'empvibe'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
+const out = brand === 'orgpuls' ? 'assets/produkt' : `assets/produkt/${brand}`
 const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && !all[i - 1]?.startsWith('--'))
 
 /** The nearest ancestor that is a card: it has a border and a rounded corner. */
@@ -42,7 +52,7 @@ const at = (text) => ({ text, up: null })
  * where a reader has seen enough of it; `click` presses one button, by its name, first; `hide` removes one
  * element, by its words. Widths are CSS pixels at the given viewport.
  */
-const SHOTS = [
+const ORGPULS = [
   {
     id: 'oversikt',
     route: '/innsikt',
@@ -89,13 +99,57 @@ const SHOTS = [
   { id: 'rapport', route: '/rapport', width: 1440, anchors: [at('3. Kartlegging'), at('Anerkjennelse og mening')], pad: 24 },
 ]
 
+/**
+ * Empvibe's set: the same nine pictures from the app as it is now, in English. The overview is the
+ * Advanced view's first screen — the index beside the eleven factors placed by score and importance
+ * — from its heading down, so no date in the American order the English screens still print
+ * (DEVIATIONS D-272) heads the picture that opens the site.
+ */
+const EMPVIBE = [
+  {
+    id: 'oversikt',
+    route: '/innsikt',
+    width: 1440,
+    click: 'Advanced',
+    anchors: [at('Where to spend your time'), card('High score')],
+    pad: 20,
+  },
+  { id: 'resultater', route: '/resultater', width: 1440, anchors: [card('Group × factor'), card('Fix first')], pad: 12 },
+  { id: 'varmekart', route: '/resultater', width: 1440, anchors: [card('Group × factor')], pad: 12, maxHeight: 400 },
+  { id: 'kommentarer', route: '/kommentarer', width: 1440, anchors: [card('Themes'), card('All comments')], pad: 20, maxHeight: 560 },
+  { id: 'samtaler', route: '/kommentarer', width: 1440, anchors: [card('All comments')], pad: 12, maxHeight: 304 },
+  {
+    id: 'tiltak',
+    route: '/tiltak',
+    width: 1440,
+    anchors: [at('From finding to effect'), panel('A new survey shows whether it worked'), panel('Suggested from the scores')],
+    pad: 12,
+  },
+  { id: 'arshjul', route: '/malinger', width: 1440, anchors: [card('Year wheel')], pad: 20 },
+  {
+    id: 'sporsmal',
+    // Northfield's 2026 baseline: the fixture's round in the UK id space (design-fixture.gb.mjs)
+    route: '/forhandsvis?runde=00000000-0000-4000-8044-000000000002',
+    width: 390,
+    anchors: [card('I can report censurable conditions without fearing consequences')],
+    pad: 0,
+    click: 'Start',
+    maxHeight: 721,
+    hide: 'Preview — nothing you choose here is sent.',
+  },
+  { id: 'rapport', route: '/rapport', width: 1440, anchors: [at('3. Survey'), at('Recognition and meaning')], pad: 24 },
+]
+
+const SHOTS = brand === 'orgpuls' ? ORGPULS : EMPVIBE
+const login = brand === 'orgpuls' ? 'ORGPULS' : 'EMPVIBE'
+
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 })
 const p = await ctx.newPage()
 
 await p.goto(`${base}/logg-inn`, { waitUntil: 'networkidle' })
-await p.getByLabel(/e-post|email/i).fill(process.env.ORGPULS_DEV_EMAIL ?? '')
-await p.getByLabel(/passord|password/i).fill(process.env.ORGPULS_DEV_PASSWORD ?? '')
+await p.getByLabel(/e-post|email/i).fill(process.env[`${login}_DEV_EMAIL`] ?? '')
+await p.getByLabel(/passord|password/i).fill(process.env[`${login}_DEV_PASSWORD`] ?? '')
 await Promise.all([
   p.waitForURL((u) => !u.pathname.startsWith('/logg-inn')),
   p.getByRole('button', { name: /logg inn|sign in/i }).click(),

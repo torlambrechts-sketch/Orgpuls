@@ -706,7 +706,7 @@
           "d": "Empvibe never links a response to a name, email or IP. Nobody sees a group until enough people have answered — not even administrators. The threshold is 5 responses and never lower; you can raise it to 10.",
           "points": [
             "Small groups are not shown, but count towards the whole",
-            "The question order is random for each person",
+            "The factors’ statements come in random order for each person",
             "Comments on a factor show only once enough have written – at least 5"
           ],
           "src": "UK GDPR and the ICO's guidance on anonymisation",
@@ -859,7 +859,7 @@
         "items": [
           {
             "q": "Can the manager see who answered what?",
-            "a": "No. Empvibe never links a response to a name, email or IP, and answers are stored in the EU. Nobody sees a group until it has at least 5 responses — your organisation can raise that to 10, never lower it — and that applies to administrators too."
+            "a": "No. Empvibe never links a response to a name, email or IP, and answers are stored in the EU. Nobody sees a group until it has at least 5 responses — your organisation can raise that to 10, never below 5 — and that applies to administrators too."
           },
           {
             "q": "Why not just one survey a year?",
@@ -898,7 +898,7 @@
         "placeholder": "8 characters, e.g. 01234567",
         "submit": "Get started",
         "fetching": "Opening the sign-up with {orgnr} …",
-        "invalid": "A company number has 8 characters: 8 digits, or 2 letters and 6 digits, such as 01234567 or SC123456."
+        "invalid": "Enter the Companies House number of a limited company or LLP: 8 digits, or SC, NI, R0, OC, SO or NC and 6 digits, such as 01234567 or SC123456."
       },
       "getStarted": "Get started",
       "trial": "Get started",
@@ -920,7 +920,7 @@
           "lovenForklart": "Work-related stress and the law",
           "verneombud": "Safety representatives"
         },
-        "bottom": "© {year} Empvibe · provided by Pundit Invest AS, a Norwegian company, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norway · <mail>hjelp@orgpuls.no</mail> · <privacy>Privacy</privacy> · <terms>Terms</terms>"
+        "bottom": "© {year} Empvibe · provided by Pundit Invest AS, a Norwegian company, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norway · <mail>hjelp@orgpuls.no</mail><privacy> · Privacy</privacy><terms> · Terms</terms>"
       },
       "band": {
         "title": "Start with your own organisation",
@@ -933,7 +933,7 @@
         "caption": "The health and safety representative is notified 2 days before, and employees get the invitation on Tuesday at 09:00. A pulse closes after 7 days, the main survey after 14."
       },
       "respondent": {
-        "p": "One topic at a time, the factor visible, comments optional – and any question can be skipped. The order is random for each person, so no one can guess who answered what from when the answer came in.",
+        "p": "One topic at a time, the factor visible, comments optional – and any question can be skipped. The statements on the eleven factors come in a random order for each person, so no one can guess who answered what from when the answer came in; HSE’s Indicator Tool keeps HSE’s own order.",
         "ticks": [
           "We never store a name, e-mail or IP address with the answer",
           "Managers see figures only once at least 5 have answered",
@@ -986,7 +986,7 @@
       "rapport": {
         "eyebrow": "Written record",
         "h": "The written record of your risk assessment, for management or an inspector",
-        "p": "Empvibe drafts it from the figures: the significant findings and any group especially at risk (MHSWR 1999 reg 3(6)), and the measures and how they are monitored and reviewed (reg 5). Choose the year, scope and recipient. You read it and approve it – nothing goes out automatically.",
+        "p": "Empvibe drafts it from the figures: the significant findings and any group especially at risk (MHSWR 1999 reg 3(6)), and the measures, with owner, deadline and follow-up. Choose the year, scope and recipient. You read it and approve it – nothing goes out automatically.",
         "ticks": [
           "Legal basis: MHSWR 1999 regs 3 and 5 in Great Britain, MHSWR (NI) 2000 in Northern Ireland",
           "Consultation with representatives, or with employees directly, is on record",
@@ -1133,7 +1133,7 @@
             "s": "Low, medium or high risk – and any group especially at risk."
           },
           {
-            "t": "Employees and their representatives consulted",
+            "t": "Employees or their representatives consulted",
             "s": "Your health and safety representative, if you have one, sees the same figures."
           },
           {
@@ -1172,7 +1172,7 @@
           {
             "t": "Too few to be anonymous",
             "p": "With 12 employees, it is easy to think the manager knows who wrote what.",
-            "s": "No group is shown with fewer than 5 answers. You can raise the limit, but never lower it or switch it off."
+            "s": "No group is shown with fewer than 5 answers. You can raise the limit, but never below 5, and never switch it off."
           },
           {
             "t": "Unclear what the law requires",
@@ -1184,7 +1184,8 @@
             "p": "A consultant and a separate project are more than the business has room for.",
             "s": "No consultant and no separate project: the first survey is planned the same day."
           }
-        ]
+        ],
+        "title": "The duty is the same for 12 employees as for 1,200"
       },
       "survey": {
         "title": "Stress at work, surveyed. In 4 minutes.",
@@ -1273,6 +1274,9 @@
         "index": {
           "meta": "Baseline 2026 · Northfield Civils"
         }
+      },
+      "measures": {
+        "title": "Measures · Projects"
       }
     }
   },
@@ -1384,7 +1388,7 @@
           },
           {
             "t": "p",
-            "text": "As an optional module, HSE’s Management Standards Indicator Tool – 35 statements in seven areas – can be added unchanged, and its results are shown in HSE’s own bands. Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence. The survey is sent by e-mail, Microsoft Teams or Slack, or shared as a link and a QR code. One reminder goes to those who have not answered, from the system and not the manager."
+            "text": "As an optional module, HSE’s Management Standards Indicator Tool – 35 statements in seven areas – can be added unchanged, and its results are shown for each of HSE’s seven areas. Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence. The survey is sent by e-mail, Microsoft Teams or Slack, or shared as a link and a QR code. One reminder goes to those who have not answered, from the system and not the manager."
           },
           {
             "t": "shot",
@@ -1455,7 +1459,7 @@
               },
               {
                 "title": "Your written record",
-                "text": "The record follows the risk assessment step by step: the survey, the assessment of the risk, the measures and how they are reviewed. It holds the significant findings and any group especially at risk (MHSWR 1999 reg 3(6); MHSWR (NI) 2000 in Northern Ireland) and the measures (reg 5). The figures are frozen when the round closes, and the record can be printed or saved as PDF. You keep it; nothing is filed anywhere, and an inspector (HSE or your local authority; HSENI in Northern Ireland) may ask to see it."
+                "text": "The record follows the risk assessment step by step: the survey, the assessment of the risk, the measures and how they are reviewed. It holds the significant findings and any group especially at risk (MHSWR 1999 reg 3(6); MHSWR (NI) 2000 in Northern Ireland) and the measures, with owner, deadline and follow-up. The figures are frozen when the round closes, and the record can be printed or saved as PDF. You keep it; nothing is filed anywhere, and an inspector (HSE or your local authority; HSENI in Northern Ireland) may ask to see it."
               }
             ]
           },
@@ -1524,7 +1528,7 @@
           },
           {
             "q": "Why is consent not used?",
-            "a": "Because, as the Information Commission (ICO) puts it, consent is not usually appropriate in the employment context: an employee cannot freely say no to their employer. Processing rests on legal obligation, UK GDPR Article 6(1)(c), with the risk assessment under MHSWR 1999 reg 3 (MHSWR (NI) 2000 in Northern Ireland)."
+            "a": "Because, as the Information Commission (ICO) puts it, consent is not usually appropriate in the employment context: an employee cannot freely say no to their employer. The basis we recommend is legal obligation, UK GDPR Article 6(1)(c), with the risk assessment under MHSWR 1999 reg 3 (MHSWR (NI) 2000 in Northern Ireland)."
           },
           {
             "q": "Are the answers used to train AI?",
@@ -1606,7 +1610,7 @@
           },
           {
             "t": "p",
-            "text": "The answers are personal data under UK GDPR, even though none can be traced to a person. The processing rests on legal obligation: UK GDPR Article 6(1)(c), with the risk assessment under MHSWR 1999 reg 3 (MHSWR (NI) 2000 in Northern Ireland). The Information Commission (ICO) says consent is not usually appropriate in the employment context, so consent is not used. The questions are designed not to collect health data, and answers about violence, threats and offensive behaviour are shown only as counts."
+            "text": "The answers are personal data under UK GDPR, even though none can be traced to a person. The basis we recommend is legal obligation: UK GDPR Article 6(1)(c), with the risk assessment under MHSWR 1999 reg 3 (MHSWR (NI) 2000 in Northern Ireland). The Information Commission (ICO) says consent is not usually appropriate in the employment context, so consent is not used. The questions are designed not to collect health data, and answers about violence, threats and offensive behaviour are shown only as counts."
           },
           {
             "t": "h2",
@@ -1617,16 +1621,16 @@
             "items": [
               "We store the data on servers in the EU (Frankfurt), and UK law treats the EEA as adequate for transfers (DPA 2018 Sch 21 paras 4–5)",
               "We do not share answers with third parties, and use no answers to train AI models",
-              "A single answer cannot be retrieved or deleted on its own, because it cannot be linked to a person (UK GDPR Article 11)"
+              "A single answer cannot be retrieved or deleted on its own, because it cannot be linked to a person"
             ]
           },
           {
             "t": "h2",
-            "text": "A data processing agreement under UK GDPR"
+            "text": "A data processing agreement"
           },
           {
             "t": "p",
-            "text": "You are the controller and Empvibe’s provider, Pundit Invest AS, the processor, under UK GDPR Article 28. The managing director reads and signs the agreement under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail), and a fourth for organisations that send the survey in Teams: Microsoft (Azure Bot Service, EU)."
+            "text": "You are the controller and Empvibe’s provider, Pundit Invest AS, the processor, under UK GDPR Article 28. The UK version of the agreement is published before Empvibe opens in the United Kingdom; the managing director then reads and signs it under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail), and a fourth for organisations that send the survey in Teams: Microsoft (Azure Bot Service, EU)."
           },
           {
             "t": "h2",
@@ -1994,7 +1998,7 @@
               {
                 "title": "Take action",
                 "ref": "MHSWR 1999 reg 5(1)",
-                "text": "Remove the cause where you can, otherwise control the risk – and plan, organise and monitor the measures."
+                "text": "Plan, organise, control, monitor and review the measures. HSE advises removing the cause where you can, and otherwise controlling the risk."
               },
               {
                 "title": "Record and review",
@@ -2494,7 +2498,7 @@
     "signup": {
       "label": "Company number",
       "submit": "Get started",
-      "invalid": "A company number has 8 characters, such as 01234567 or SC123456. Check that they are all there."
+      "invalid": "Enter the Companies House number of a limited company or LLP: 8 digits, or SC, NI, R0, OC, SO or NC and 6 digits, such as 01234567 or SC123456."
     },
     "common": {
       "priceLine": "Answers stored in the EU · No HR department or consultant needed",
@@ -2506,14 +2510,14 @@
         "alt": "Screenshot of the questionnaire on a phone, page 1 of 16: the theme freedom to speak up, one statement about speaking up without fear of consequences, five answers from strongly disagree to strongly agree, an option for not relevant and an optional comment."
       },
       "oversikt": {
-        "alt": "Screenshot of the Empvibe overview: index 61, three points lower than last year, 28 of 34 answered, and the eleven factors scored from 41 to 78."
+        "alt": "Screenshot of the Empvibe overview for Baseline 2026: 28 of 34 answered, index 61, three points lower than in 2025, and the eleven factors placed by score and by how much they matter to the whole, from speaking up at 41 to meaning at 78."
       },
       "caption": "{screen} · Northfield Civils Ltd — example",
       "varmekart": {
-        "alt": "Screenshot of the heatmap: the eleven factors against the departments, with speaking up in the Workshop at 28 as the lowest cell. Two departments are shown as a dash, under the threshold of five answers."
+        "alt": "Screenshot of the heat map: the eleven factors against the departments, with freedom to speak up in the Workshop at 28 as the lowest cell. Administration, with three answers, is shown as a dash, and so is Operations, held back so that Administration’s figures cannot be worked out from the others."
       },
       "resultater": {
-        "alt": "Screenshot of the heatmap: the eleven factors against the departments. Two departments are shown as a dash. Speaking up in the Workshop is selected, scored 28, with the statements behind it and three suggested measures."
+        "alt": "Screenshot of the heat map beside the cell chosen: freedom to speak up in the Workshop, 28, marked fix first, with the three statements behind it and anonymous comments on the factor."
       },
       "kommentarer": {
         "alt": "Screenshot of Comments: themes on the left, and anonymous comments with a reply field and a button to ask for direct contact."
@@ -2525,10 +2529,10 @@
         "alt": "Screenshot of the measures board, with four columns: finding, chosen focus, in progress and effect measured."
       },
       "arshjul": {
-        "alt": "Screenshot of the 2026 annual cycle: a pulse in March, the baseline in September at index 61, and a planned pulse in December."
+        "alt": "Screenshot of the 2026 year wheel: a pulse in March at index 53, the baseline in September at index 61, a pulse open in October and one planned in December."
       },
       "rapport": {
-        "alt": "Screenshot of the written record, part 3: the eleven factors with their scores for 2026 and 2025 and the risk level for each."
+        "alt": "Screenshot of the written record, part 3: the eleven factors with their legal basis, their scores for 2026 and 2025, and the risk level for each."
       }
     },
     "voTip": {
@@ -2553,6 +2557,13 @@
           "body": "One baseline a year and short pulses in between. Surveys go out on the dates you set, and the health and safety representative, where you have one, is told before the employees."
         }
       }
+    },
+    "og": {
+      "pills": [
+        "Anonymous – at least 5 answers",
+        "Built on QPS Nordic",
+        "For your stress risk assessment"
+      ]
     }
   },
   "start": {

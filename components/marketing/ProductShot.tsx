@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import type { ShotId } from '@/lib/marketing/shot-ids'
-import { SHOTS } from '@/lib/marketing/shots'
+import { siteShots } from '@/lib/site/own'
 
 /**
  * A picture of the product (D-84): a real screen, captured from the app signed in to the
@@ -22,7 +22,8 @@ export async function ProductShot({
   className?: string
 }) {
   const t = await getTranslations()
-  const { img, frame } = SHOTS[id]
+  // the site's own pictures: Empvibe's in English, Orgpuls's elsewhere (D-272)
+  const { img, frame } = (await siteShots())[id]
   const caption = t('seo.shots.caption', { screen: t(`seo.shots.${id}.screen`) })
   const width = Math.round(img.width / 2)
 

@@ -14,6 +14,12 @@
  * Writes public/og/<slug>.png for a landing page, public/og/artikler/<slug>.png for an article
  * (its H1 under the brand, no picture and no claims – D-235), and public/og.png, the site's own card (the start
  * page's first slide title). Run it when an H1, a picture or a pill (messages seo.og.pills) changes.
+ *
+ * `--brand empvibe` draws Empvibe's cards (UK-E3, D-272) into public/og/empvibe/: the pages its site
+ * serves that have a card of their own, and default.png for the rest, under its name, in its British
+ * English (messages/market/gb/en.json over en.json) and with its pictures (assets/produkt/empvibe).
+ *
+ *   node scripts/marketing/og-images.mjs --brand empvibe --base http://localhost:3000
  */
 import { mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -26,8 +32,22 @@ const arg = (name, fallback) => {
 const base = arg('base', 'http://localhost:3000')
 // --only <slug>: one card, leaving the others' files as they are
 const only = arg('only', null)
-const out = 'public/og'
+const brand = arg('brand', 'orgpuls')
+if (!['orgpuls', 'empvibe'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
+const empvibe = brand === 'empvibe'
+const out = empvibe ? 'public/og/empvibe' : 'public/og'
+const shots = empvibe ? 'assets/produkt/empvibe' : 'assets/produkt'
 const no = JSON.parse(readFileSync('messages/no.json', 'utf8'))
+/** the request config's merge (lib/i18n/request.ts): b over a, key by key, an array replaced whole */
+const isTree = (v) => !!v && typeof v === 'object' && !Array.isArray(v)
+const merge = (a, b) => Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, isTree(a[k]) && isTree(b[k]) ? merge(a[k], b[k]) : (b[k] ?? a[k])]))
+// Empvibe's words: the market pack over English, and the brand's name where a text says Orgpuls (lib/brand.ts rebrand)
+const gb = empvibe
+  ? merge(JSON.parse(readFileSync('messages/en.json', 'utf8')), JSON.parse(readFileSync('messages/market/gb/en.json', 'utf8')))
+  : null
+const named = (t) => (empvibe ? t.replace(/Orgpuls(?:'s|’s|'|’)(?![\p{L}\p{N}])/gu, 'Empvibe’s').replace(/Orgpuls/g, 'Empvibe') : t)
+const NAME = empvibe ? 'Empvibe' : 'Orgpuls'
+const LANG = empvibe ? 'en-GB' : 'nb'
 // the site's own @font-face rules; their /fonts/… URLs resolve against the running server
 const fonts = readFileSync('app/fonts.css', 'utf8')
 
@@ -60,8 +80,18 @@ if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1)) throw new Er
 // the start page's first slide title: its H1 is for screen readers and opens with the brand, which
 // the card already shows beside the logo (D-190)
 const DEFAULT_CARD = { slug: 'default', h1: no.site.home.slides[0].title, shot: 'rapport', file: '../og.png' }
+// Empvibe's: the pages its site serves with a card of their own (lib/hosts.ts EMPVIBE_PAGES), the two
+// guides under their legal references, and its default card for every other page
+const EMPVIBE_CARDS = empvibe
+  ? [
+      { slug: 'lovkrav', h1: gb.seo.lp.lovkrav.h1, article: true, kicker: gb.seo.lp.lovkrav.kicker },
+      { slug: 'verneombud', h1: gb.seo.lp.verneombud.h1, article: true, kicker: gb.seo.lp.verneombud.kicker },
+      { slug: 'smaa-bedrifter', h1: gb.seo.lp.smaaBedrifter.h1, shot: 'oversikt' },
+      { slug: 'default', h1: gb.site.home.slides[0].title, shot: 'rapport' },
+    ]
+  : null
 // the three claims on every card are messages (seo.og.pills), so they are in the legal review (D-130)
-const PILLS = no.seo.og.pills
+const PILLS = (empvibe ? gb : no).seo.og.pills
 if (!Array.isArray(PILLS) || PILLS.length !== 3) throw new Error('messages seo.og.pills changed shape')
 // the mark's own path and dot, read from the component rather than redrawn here
 const logoSrc = readFileSync('components/shell/Logo.tsx', 'utf8')
@@ -70,7 +100,7 @@ const markDot = logoSrc.match(/<circle cx="([\d.]+)" cy="([\d.]+)" r="([\d.]+)"/
 if (!markPath || !markDot) throw new Error('components/shell/Logo.tsx changed shape; update how the mark is read here')
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
-const article = (p) => `<!doctype html><html lang="nb"><head><base href="${base}/"><style>${fonts}</style>
+const article = (p) => `<!doctype html><html lang="${LANG}"><head><base href="${base}/"><style>${fonts}</style>
 <style>
   * { box-sizing: border-box; margin: 0 }
   body { width: 1200px; height: 630px; background: #FCF6E9; color: #191510; font-family: 'DM Sans', sans-serif; overflow: hidden; padding: 72px 80px; display: flex; flex-direction: column }
@@ -79,16 +109,16 @@ const article = (p) => `<!doctype html><html lang="nb"><head><base href="${base}
   .kicker { margin-top: auto; font-size: 20px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #5F5849 }
   h1 { margin-top: 18px; max-width: 1000px; font-family: 'Playfair Display', serif; font-weight: 600; font-size: 60px; line-height: 1.08; text-wrap: balance }
 </style></head><body>
-  <div class="brand"><span class="mark"><svg width="40" height="24" viewBox="0 0 20 12" fill="none"><path d="${markPath}" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${markDot[1]}" cy="${markDot[2]}" r="${markDot[3]}" fill="#191510"/></svg></span>Orgpuls</div>
-  <span class="kicker">${esc(p.kicker ?? no.seo.index.eyebrow)}</span>
-  <h1>${esc(p.h1)}</h1>
+  <div class="brand"><span class="mark"><svg width="40" height="24" viewBox="0 0 20 12" fill="none"><path d="${markPath}" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${markDot[1]}" cy="${markDot[2]}" r="${markDot[3]}" fill="#191510"/></svg></span>${NAME}</div>
+  <span class="kicker">${esc(named(p.kicker ?? no.seo.index.eyebrow))}</span>
+  <h1>${esc(named(p.h1))}</h1>
 </body></html>`
 
 const html = (p) => {
   if (p.article) return article(p)
-  const img = `data:image/webp;base64,${readFileSync(`assets/produkt/${p.shot}.webp`).toString('base64')}`
+  const img = `data:image/webp;base64,${readFileSync(`${shots}/${p.shot}.webp`).toString('base64')}`
   const phone = p.shot === 'sporsmal'
-  return `<!doctype html><html lang="nb"><head><base href="${base}/"><style>${fonts}</style>
+  return `<!doctype html><html lang="${LANG}"><head><base href="${base}/"><style>${fonts}</style>
 <style>
   * { box-sizing: border-box; margin: 0 }
   body { width: 1200px; height: 630px; background: #FCF6E9; color: #191510; font-family: 'DM Sans', sans-serif; overflow: hidden; position: relative }
@@ -103,20 +133,20 @@ const html = (p) => {
   .shot img { display: block; width: 100% }
 </style></head><body>
   <div class="left">
-    <div class="brand"><span class="mark"><svg width="40" height="24" viewBox="0 0 20 12" fill="none"><path d="${markPath}" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${markDot[1]}" cy="${markDot[2]}" r="${markDot[3]}" fill="#191510"/></svg></span>Orgpuls</div>
-    <h1>${esc(p.h1 ?? no.seo.lp[p.key].h1)}</h1>
-    <div class="pills">${PILLS.map((t) => `<span class="pill">${esc(t)}</span>`).join('')}</div>
+    <div class="brand"><span class="mark"><svg width="40" height="24" viewBox="0 0 20 12" fill="none"><path d="${markPath}" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${markDot[1]}" cy="${markDot[2]}" r="${markDot[3]}" fill="#191510"/></svg></span>${NAME}</div>
+    <h1>${esc(named(p.h1 ?? no.seo.lp[p.key].h1))}</h1>
+    <div class="pills">${PILLS.map((t) => `<span class="pill">${esc(named(t))}</span>`).join('')}</div>
   </div>
   <div class="shot"><img src="${img}"></div>
 </body></html>`
 }
 
-mkdirSync(join(out, 'artikler'), { recursive: true })
+mkdirSync(empvibe ? out : join(out, 'artikler'), { recursive: true })
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
 const page = await b.newPage({ viewport: { width: 1200, height: 630 } })
 // written into a page on the server's own origin, so its font files are same-origin
 await page.goto(`${base}/robots.txt`)
-for (const p of [...PAGES, ...ARTICLE_CARDS, DEFAULT_CARD].filter((x) => !only || x.slug === only)) {
+for (const p of (EMPVIBE_CARDS ?? [...PAGES, ...ARTICLE_CARDS, DEFAULT_CARD]).filter((x) => !only || x.slug === only)) {
   await page.setContent(html(p), { waitUntil: 'networkidle' })
   await page.evaluate(() => document.fonts.ready)
   const file = join(out, p.file ?? `${p.slug}.png`)
