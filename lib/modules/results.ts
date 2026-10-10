@@ -5,6 +5,8 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { COUNT_ANSWERS } from '@/lib/respond/answers'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
+import { contentLang } from '@/lib/i18n/locales'
+import { getModuleTranslations, type Translate } from './registry-texts'
 
 /**
  * A closed round's industry module, as `module_results` and `get_count_item_totals` (0070)
@@ -84,7 +86,11 @@ const Totals = z.object({
 export type ModuleResults = z.infer<typeof Results>
 export type CountTotals = z.infer<typeof Totals>
 
-function localise(r: ModuleResults, en: boolean): ModuleResults {
+/**
+ * The reader's language: bokmål as stored; English where the module has it; in a registry language
+ * (Swedish, D-262) the approved statements and factor names, English behind them.
+ */
+function localise(r: ModuleResults, en: boolean, tr: Translate = () => null): ModuleResults {
   if (!en) return r
   return {
     ...r,
@@ -93,11 +99,11 @@ function localise(r: ModuleResults, en: boolean): ModuleResults {
       name: m.name_en || m.name,
       factors: m.factors.map((f) => ({
         ...f,
-        name: f.en?.name || f.name,
+        name: tr(f.name) ?? (f.en?.name || f.name),
         summary: f.en?.summary || f.summary,
         rationale: f.en?.rationale || f.rationale,
         legal_basis: f.en?.legal_basis?.length === f.legal_basis.length ? f.en.legal_basis : f.legal_basis,
-        items: f.items.map((i) => ({ ...i, text: i.text_en || i.text })),
+        items: f.items.map((i) => ({ ...i, text: tr(i.text) ?? (i.text_en || i.text) })),
       })),
     })),
   }
@@ -110,7 +116,8 @@ export const getModuleResults = cache(async (roundId: string): Promise<ModuleRes
   if (z.object({ error: z.string() }).safeParse(data).success) return null
   const parsed = Results.safeParse(data)
   if (parseFailed('module_results', parsed)) return null
-  return localise(parsed.data, (await getLocale()) === 'en')
+  const locale = await getLocale()
+  return localise(parsed.data, contentLang(locale) === 'en', await getModuleTranslations(locale))
 })
 
 /** Organisation-level counts; null for a reader without the house's view (the RPC refuses). */
@@ -121,13 +128,19 @@ export const getCountTotals = cache(async (roundId: string): Promise<CountTotals
   if (z.object({ error: z.string() }).safeParse(data).success) return null
   const parsed = Totals.safeParse(data)
   if (parseFailed('get_count_item_totals', parsed)) return null
-  const en = (await getLocale()) === 'en'
+  const locale = await getLocale()
+  const en = contentLang(locale) === 'en'
+  const tr = await getModuleTranslations(locale)
   return {
     ...parsed.data,
-    items: parsed.data.items.map((i) => ({
-      ...i,
-      text: (en && i.text_en) || i.text,
-      options: pickList(i.options, i.options_en, en),
-    })),
+    items: parsed.data.items.map((i) => {
+      const options = i.options.map(tr)
+      return {
+        ...i,
+        text: tr(i.text) ?? ((en && i.text_en) || i.text),
+        // a translated option list only when every option has its translation, as the English list
+        options: options.every((o) => o !== null) && i.options.length ? (options as string[]) : pickList(i.options, i.options_en, en),
+      }
+    }),
   }
 })

@@ -12556,3 +12556,39 @@ Nothing on these paths reaches a UK organisation before the market exists.
   Orgpuls under Empvibe, in bokmål, English or Swedish; every address survives; possessives; shape kept.
 - `tests/unit/mail.test.ts` (3 more): the functions' brand names equal the app's; Orgpuls's mail catalogue is
   untouched; Empvibe's names no Orgpuls and keeps every address.
+
+## D-262 — Module texts in a Swedish leader's language (SE-D, 2026-10-10)
+
+D-253 left module texts out of the Swedish overlay, and said a Swedish leader read them in English. They actually
+read them in bokmål. `lib/modules/read.ts` and `lib/modules/results.ts` tested `getLocale() === 'en'`, so every
+language but English fell back to bokmål. The module pipeline's map (SE-D) found it. D-253's note was wrong on that
+point.
+
+**Now:**
+- **English behind every platform language but bokmål.** The readers ask `contentLang(locale)`, the rule the rest of
+  the product uses (D-252), so a Swedish leader reads a module's English where it has one, never its bokmål.
+- **The registry's Swedish where it is approved.** `lib/modules/registry-texts.ts` reads the language's approved
+  `module:` and `mfactor:` rows from `app.item_translations` (authenticated has select). Each row is matched on the
+  SHA-256 of the bokmål it was translated from, D-253's staleness rule. Matching on the hash lets the results
+  (`module_results`, which carry codes, not ids) and the count totals be served the same way as the module reader.
+- **What the Swedish covers:** statements, options and factor names. Summaries, rationale, legal basis,
+  suggestions and the module's name are not in the registry and stay in English.
+- **What else is untouched:**
+  - a worded module's bokmål variants are dropped where a translation is shown, as for English;
+  - bokmål and English readers are unchanged: no registry is read for them.
+
+**Seen in the browser** (QA stack, Lumio, which pilots kunnskap-og-kontor). Two approved Swedish rows were put
+into the local database for the check and removed after it.
+- With cookie `sv`, Frågeuppsättning shows the Swedish statement and English for the rest. No bokmål statement
+  shows, and there is no console error.
+- With `no` and `en` the page is unchanged.
+
+**Found, not fixed here.** The eight simplified factors of kunnskap-og-kontor 1.0.1 have no English stored: no
+`i18n.en`, on hosted as locally. An English leader therefore reads their names, summaries and suggestions in
+bokmål. The module file has them (`translations.en.variants.forenklet.factors`), but `module_seed` writes English
+for the extended factors only. The fix is in the seed and a new version of the module, its own step.
+
+**Tests:** `tests/unit/module-registry-texts.test.ts` (4) covers:
+- a translation shown for the bokmål the module still says;
+- none for changed or untranslated bokmål, or for a row with no source or no text;
+- the registry asked only for a registry language, with English behind it.

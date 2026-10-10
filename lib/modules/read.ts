@@ -7,6 +7,8 @@ import { parseFailed, readFailed } from '@/lib/supabase/read'
 import { pickWording, WORDINGS, type Wording, type WordingVariants } from './wording'
 import { COUNT_ANSWERS, type CountAnswer } from '@/lib/respond/answers'
 import { resolveIndustry, type ResolvedIndustry } from '@/content/industries/meta'
+import { contentLang } from '@/lib/i18n/locales'
+import { getModuleTranslations } from './registry-texts'
 
 /**
  * The industry modules, as the product reads them (0067, D-111).
@@ -240,12 +242,16 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   const va = z.array(VariantRow).safeParse(variants.data)
   if (parseFailed('module_factor_items', mem) || parseFailed('module_variants', va)) return []
 
-  // the reader's language where the module has it (0072), Norwegian otherwise
-  const en = (await getLocale()) === 'en'
-  const pick = (l: z.infer<typeof Locale>) => (en && l.en ? l.en : l.nb)
+  // the reader's language where the module has it (0072): bokmål, English, or a registry language's
+  // approved statements, options and factor names (Swedish, D-262) with English behind them
+  const locale = await getLocale()
+  const en = contentLang(locale) === 'en'
+  const tr = await getModuleTranslations(locale)
+  const pick = (l: z.infer<typeof Locale>) => tr(l.nb) ?? (en && l.en ? l.en : l.nb)
   const item = (r: z.infer<typeof ItemRow>): ModuleItem => {
     const b = r.text['nb.barnehage']
     const s = r.text['nb.skole']
+    const translated = tr(r.text.nb) !== null
     return {
       id: r.id,
       code: r.code,
@@ -255,8 +261,8 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       ...(r.help ? { help: pick(r.help) } : {}),
       ...(r.kind === 'count' ? { answers: r.answer_keys ?? COUNT_ANSWERS.slice(0, (r.options ?? []).length) } : {}),
       ...(r.asked_with ? { askedWith: r.asked_with } : {}),
-      // the wordings are Norwegian: a reader shown the English text has no use for them
-      ...(!(en && r.text.en) && typeof b === 'string' && typeof s === 'string' ? { variants: { barnehage: b, skole: s } } : {}),
+      // the wordings are Norwegian: a reader shown the English or a translated text has no use for them
+      ...(!translated && !(en && r.text.en) && typeof b === 'string' && typeof s === 'string' ? { variants: { barnehage: b, skole: s } } : {}),
     }
   }
   const itemById = new Map(it.data.map((r) => [r.id, item(r)]))
@@ -300,8 +306,8 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
           optional: r.optional,
           extendedOnly: r.extended_only,
           builtFrom: r.built_from,
-          name: (en && r.i18n.en?.name) || r.name,
-          ...(!(en && r.i18n.en?.name) && r.i18n['nb.barnehage'] && r.i18n['nb.skole']
+          name: tr(r.name) ?? ((en && r.i18n.en?.name) || r.name),
+          ...(tr(r.name) === null && !(en && r.i18n.en?.name) && r.i18n['nb.barnehage'] && r.i18n['nb.skole']
             ? { nameVariants: { barnehage: r.i18n['nb.barnehage'].name, skole: r.i18n['nb.skole'].name } }
             : {}),
           summary: (en && r.i18n.en?.summary) || r.summary,
