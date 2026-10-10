@@ -36,7 +36,7 @@ A host names a brand, a market and a default language. One codebase, one databas
 | 1 | **Market foundation, Norway unchanged** | **started** — 1a built and live, hosted included (D-251) |
 | 2 | Sweden | **started** — SE-A, SE-A2, SE-B1–B3 and SE-C: the app and the instrument in Swedish, Sweden as a market, the Swedish address and Sweden's law (D-252–D-257); the rest below |
 | 3 | Germany | waiting on the instrument and roles decisions; address de.orgpuls.com registered, redirected to the English site until the market opens (X-110, D-258) |
-| 4 | Empvibe, UK first | brand layer after phase 1; UK research done (artifact, «United Kingdom: what it takes»); empvibe.com registered, redirected to the English site until the brand opens (X-110, D-258) |
+| 4 | Empvibe, UK first | **decided (X-111)**: empvibe.com is the English site, brand Empvibe, market United Kingdom, floor 5, the 11 factors as core with HSE's Indicator Tool as a module; built first, then moved in one change. Steps below |
 | ∥ | Leadership 360 app, its own Supabase project | independent; shares packages, not the database |
 
 ### Phase 1 — what is done and what is left
@@ -63,6 +63,21 @@ Addresses (country domains or subdomains) · anonymity per market (Germany 5; Sw
 (Betriebsrat, external adviser — changes the three-role invariant) · the German instrument · an EU legal representative
 · the leadership app's database (separate project recommended) · manager data from Entra · the brand split (Orgpuls
 Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first English market (UK recommended).
+
+### Phase 4 — Empvibe and the United Kingdom, step by step (X-111)
+
+empvibe.com keeps redirecting to en.orgpuls.com until UK-G. Then empvibe.com opens, and en.orgpuls.com redirects to
+it.
+
+| Step | What | State |
+|---|---|---|
+| UK-A | Brand layer: a brand per site (name, wordmark, page titles, share images, mail brand), Empvibe's texts laid over the English catalogue as a market's are; brand follows the organisation's market in mail | |
+| UK-B | Market `gb`: floor 5, English, Europe/London, Companies House number rule (limited companies and LLPs; other firms later), sign-up on empvibe.com | |
+| UK-C | UK legal pack: HSWA 1974 s.2, MHSWR 1999 regs 3 and 5, the Management Standards mapped onto the 11 factors, safety representatives (SRSC 1977, HSCER 1996) and a «no representative» case, UK GDPR and ICO; sources in `docs/markets/uk-legal.md` | |
+| UK-D | HSE's Indicator Tool as a UK module (`module_markets` row `gb`), verbatim, attributed under the Open Government Licence | |
+| UK-E | The UK public site on empvibe.com: its own pages, Empvibe's name, UK search terms, hreflang and sitemap per host | |
+| UK-F | Documents: a UK Article 28 agreement, privacy notice, B2B terms; GBP prices and reverse-charge invoicing | waits on prices and legal review |
+| UK-G | The move: empvibe.com and www.empvibe.com as a site row, en.orgpuls.com redirected there, Supabase Auth redirect URLs, Brevo sender domain | |
 
 ### Phase 2 — Sweden, step by step
 

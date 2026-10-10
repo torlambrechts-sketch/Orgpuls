@@ -3437,3 +3437,24 @@ de.orgpuls.com and empvibe.com (with www.empvibe.com) answer from the Vercel pro
   signed up as a Norwegian one, and keeps the Norwegian site from being indexed twice under other names.
 - **Open, still Tor's:** whether Germany later moves to orgpuls.de; what Empvibe's address shows before its own site
   (built: a redirect to the English Orgpuls site).
+
+### X-111 — Empvibe is the English site, for the United Kingdom
+
+Tor, 2026-10-10, answering where empvibe.com goes (X-110): «Som skal være den engelske siden», then four choices.
+
+- **Brand.** empvibe.com becomes the English site and the product there carries the name Empvibe instead of Orgpuls.
+  The design is the same: colours, type and layout. The logo is the word «Empvibe» beside today's pulse icon until
+  a logo of its own exists. Mail keeps the orgpuls.com sender until empvibe.com is verified in Brevo.
+- **Market.** An organisation that signs up on empvibe.com belongs to the United Kingdom (market `gb`), not to Norway.
+  English-speaking firms in Norway keep the Norwegian site in English (www.orgpuls.com, the language switch).
+- **Order.** Build first, then move. empvibe.com keeps redirecting to en.orgpuls.com (D-258) until the brand, the UK
+  market, its law in the product and its public site exist. Then one change opens empvibe.com, and en.orgpuls.com
+  redirects there. Nobody sees a half-built site.
+- **Anonymity.** The UK floor is 5, as in Sweden: the product's default, never lower than the platform's 3, and
+  raise-only. The rationale is published with the UK site.
+- **Instrument.** The core is the same as Norway's and Sweden's: the 11 factors in QPS Nordic wording. The report
+  maps them onto HSE's six Management Standards areas. HSE's Indicator Tool (35 items) is added as a UK module. Its
+  wording, order and scoring are kept unchanged, and it is attributed under the Open Government Licence. It is never
+  presented as HSE-approved and never carries HSE's logo.
+- **Open, still Tor's:** GBP prices; a UK Article 27 representative and whether an ICO fee is due; a lawyer's review
+  of the UK documents; Empvibe's own logo and colours, if it is to have any.
