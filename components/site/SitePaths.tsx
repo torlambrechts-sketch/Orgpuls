@@ -1,9 +1,10 @@
 'use client'
 
 import type { Route } from 'next'
-import NextLink, { type LinkProps } from 'next/link'
+import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
-import { createContext, useContext, useMemo } from 'react'
+import { createContext, useContext, useMemo, type ComponentProps } from 'react'
+import type { UrlObject } from 'url'
 import { addressOf, routeOf } from '@/lib/hosts'
 import { DEFAULT_MARKET, type Market } from '@/lib/markets'
 
@@ -42,7 +43,7 @@ export function useRoute(): string {
  * site of its own each one is drawn as that site's address, so a crawler and a reader see one
  * address per page and nothing redirects.
  */
-export default function SiteLink<R>({ href, ...props }: LinkProps<R>) {
+export default function SiteLink({ href, ...props }: Omit<ComponentProps<typeof NextLink>, 'href'> & { href: string | UrlObject }) {
   const { address } = useSitePaths()
   return <NextLink {...props} href={typeof href === 'string' ? (address(href) as Route) : href} />
 }
