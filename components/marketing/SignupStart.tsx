@@ -3,7 +3,7 @@
 import { useId, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/marketing/events'
 import { currentUtm } from '@/lib/marketing/utm'
-import { normalizeOrgNumber, validOrgNumber } from '@/lib/org-number'
+import { normalizeOrgNumber, signupOrgNumber } from '@/lib/org-number'
 import { useSiteMarket, useSiteNavigate, useSitePaths } from '@/components/site/SitePaths'
 
 /**
@@ -50,7 +50,7 @@ export function SignupStart({
         }
         // a number the market accepts goes on as the number (eight characters typed at least: the UK
         // rule pads a short run of digits); anything else is the company's name
-        const number = normalizeOrgNumber(typed).length >= 8 && validOrgNumber(market, typed) ? normalizeOrgNumber(typed, market) : null
+        const number = normalizeOrgNumber(typed).length >= 8 && signupOrgNumber(market, typed) ? normalizeOrgNumber(typed, market) : null
         trackEvent('signup_started')
         const query = new URLSearchParams({ ...(number ? { orgnr: number } : { firma: typed }), ...currentUtm() })
         go(`/registrer?${query}`)

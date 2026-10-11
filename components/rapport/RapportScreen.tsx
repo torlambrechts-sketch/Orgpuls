@@ -415,11 +415,14 @@ export async function RapportScreen({ view }: { view: RapportView }) {
           view.org ? (
             <>
               <span>
-                {t('rapport.footerLeft', {
-                  org: view.org.name,
-                  orgnr: formatOrgNumber(view.org.orgNumber) ?? '',
-                  year: view.year,
-                })}
+                {/* an organisation that signed up without a number prints none (X-114, D-279) */}
+                {formatOrgNumber(view.org.orgNumber)
+                  ? t('rapport.footerLeft', {
+                      org: view.org.name,
+                      orgnr: formatOrgNumber(view.org.orgNumber) ?? '',
+                      year: view.year,
+                    })
+                  : t('rapport.footerLeftNoNumber', { org: view.org.name, year: view.year })}
               </span>
               <span>
                 {t('rapport.footerRight')}

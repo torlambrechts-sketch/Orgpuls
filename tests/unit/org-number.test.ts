@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatOrgNumber, normalizeOrgNumber, ORG_NUMBER_SHAPE, orgNumberInput, orgNumberValid, validOrgNumber } from '@/lib/org-number'
+import { formatOrgNumber, normalizeOrgNumber, ORG_NUMBER_SHAPE, orgNumberInput, orgNumberValid, signupOrgNumber, validOrgNumber } from '@/lib/org-number'
 import { PendingOrg } from '@/lib/signup/pending'
 
 /**
@@ -96,5 +96,21 @@ describe('a sign-up kept for its confirmation', () => {
   it('reads one kept before markets as Norway’s, nine digits as before', () => {
     const p = PendingOrg.safeParse({ ...base, orgNumber: '999000214' })
     expect(p.success && p.data.market).toBe('no')
+  })
+})
+
+describe('a number a sign-up may carry (X-114, D-279)', () => {
+  it('holds a Norwegian number to the register\'s check digit, so a typo is refused rather than routed', () => {
+    expect(signupOrgNumber('no', '987 654 325')).toBe(true)
+    expect(signupOrgNumber('no', '999999115')).toBe(true)
+    expect(signupOrgNumber('no', '999999995')).toBe(false)
+    expect(signupOrgNumber('no', '924118742')).toBe(false)
+    expect(validOrgNumber('no', '924118742')).toBe(true)
+  })
+
+  it('leaves other markets to their own rule', () => {
+    expect(signupOrgNumber('se', '556012-5790')).toBe(true)
+    expect(signupOrgNumber('gb', 'SC327000')).toBe(true)
+    expect(signupOrgNumber('gb', 'LP000001')).toBe(false)
   })
 })

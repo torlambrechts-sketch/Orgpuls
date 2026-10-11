@@ -253,9 +253,15 @@ describe('notices', () => {
     const request = { name: 'Kari <b>Nordmann</b>\nKlikk her', email: 'kari@nordvik.no' }
     const r = renderNotice(cat, job({ kind: 'tilgang', audience: 'daglig_leder', round: null, token: null, request }), { lang: 'no', member: true, name: null }, APP)
     expect(r.subject).toBe('Nordvik Anlegg AS: noen ber om tilgang')
-    expect(r.text).toContain('Kari <b>Nordmann</b> Klikk her (kari@nordvik.no) har registrert seg')
-    expect(r.html).toContain('Kari &lt;b&gt;Nordmann&lt;/b&gt; Klikk her')
-    expect(r.html).not.toContain('<b>Nordmann</b>')
+    expect(r.text).toContain('Kari b Nordmann b Klikk her (kari@nordvik.no) har registrert seg')
+    expect(r.html).not.toContain('<b>')
+    // an instruction with an address in the name field: no dot, colon or slash survives to be made a link
+    const lure = renderNotice(cat, job({ kind: 'tilgang', audience: 'daglig_leder', round: null, token: null, request: { name: 'Ola. Viktig: bekreft på orgpuls-hjelp.example/login', email: 'ola@nordvik.no' } }), { lang: 'no', member: true, name: null }, APP)
+    expect(lure.text).toContain('Ola Viktig bekreft på orgpuls-hjelp example login (ola@nordvik.no)')
+    expect(lure.text).not.toContain('orgpuls-hjelp.example')
+    // a name with a hyphen, an apostrophe and Norwegian letters is kept as it was
+    const real = renderNotice(cat, job({ kind: 'tilgang', audience: 'daglig_leder', round: null, token: null, request: { name: 'Åse Ødegård-O’Neill', email: 'aase@nordvik.no' } }), { lang: 'no', member: true, name: null }, APP)
+    expect(real.text).toContain('Åse Ødegård-O’Neill (aase@nordvik.no)')
     expect(r.text).toContain(`${APP}/oppsett?fane=roller`)
     expect(r.text).not.toMatch(/\{\w+\}/)
     const noName = renderNotice(cat, job({ kind: 'tilgang', audience: 'daglig_leder', round: null, token: null, request: { name: null, email: 'kari@nordvik.no' } }), { lang: 'en', member: true, name: null }, APP)

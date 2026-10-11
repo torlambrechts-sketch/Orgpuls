@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, useTransition } from 'react'
 import { countFor, SIZES, type SizeKey } from '@/lib/start/size'
 import { K_DEFAULT, K_FLOOR } from '@/lib/org/threshold'
 import { useTranslations } from 'next-intl'
-import { createAccount, separateCompany } from '@/app/(marketing)/registrer/actions'
+import { confirmJoin, createAccount, separateCompany } from '@/app/(marketing)/registrer/actions'
 import type { JoinRequest } from '@/lib/signup/organisation'
 import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
 import { MicrosoftButton } from '@/components/start/MicrosoftButton'
@@ -26,11 +26,11 @@ import { HeardAbout } from '@/components/start/HeardAbout'
  * What comes next is one of two (`signup_organisation`, 0232):
  *  - **created** — the company was not here, so it is made and the person is its daglig leder: the
  *    design's step 3;
- *  - **waiting** — the company is already here, found by its number, its name or a colleague's work
- *    address. Nothing is made and nobody is let in: the company's daglig leder is asked, and the card
- *    says so, with the company's name. Where it was found by name or address, the person can say it is
- *    another company with the same name, and their own is made from what they typed. A declined request
- *    reads as declined, with the same way out.
+ *  - **waiting** — the company is already here, found by its number, or else its name or its daglig
+ *    leder's work domain. Nothing is made and nobody is let in. The card names the company and asks
+ *    whether it is theirs; only on «yes» do their name and address go to its daglig leder. Where it was
+ *    found by name or domain, the person can instead say it is another company, and their own is made
+ *    from what they typed. A request waiting on the daglig leder, or declined, reads as such.
  *
  * **Two of the design's fields are collected and not stored** (D-38): the role question is dropped, and
  * the size band is kept by turning it into a number.
@@ -49,6 +49,7 @@ export function SignUpFlow({
   problem = null,
   done = null,
   waiting = null,
+  waitingUnread = false,
   registry = true,
   floor = K_FLOOR,
   legal = true,
@@ -60,6 +61,8 @@ export function SignUpFlow({
   done?: { firstName: string; company: string } | null
   /** the request filed, or declined, when the company was already here (0232) */
   waiting?: JoinRequest | null
+  /** a request was filed, but there is no session to read it by (a Microsoft sign-up is signed out after) */
+  waitingUnread?: boolean
   /** whether the market's register can be asked (lib/markets.ts REGISTRY_LOOKUP): the number's placeholder */
   registry?: boolean
   /** the market's anonymity floor (lib/markets.ts MARKET_K_FLOOR): Norway's note names three */
@@ -72,7 +75,7 @@ export function SignUpFlow({
   const t = useTranslations('registrer')
   const router = useRouter()
 
-  const [phase, setPhase] = useState<'form' | 'created' | 'waiting'>(done ? 'created' : waiting ? 'waiting' : 'form')
+  const [phase, setPhase] = useState<'form' | 'created' | 'waiting'>(done ? 'created' : waiting || waitingUnread ? 'waiting' : 'form')
   const [request, setRequest] = useState<JoinRequest | null>(waiting)
   const [createdName, setCreatedName] = useState(done?.company ?? '')
 
@@ -97,6 +100,8 @@ export function SignUpFlow({
   const [, startTransition] = useTransition()
   const [formProblem, setFormProblem] = useState<string | null>(null)
   const [creating, setCreating] = useState(false)
+  const [confirming, setConfirming] = useState(false)
+  const [confirmProblem, setConfirmProblem] = useState<string | null>(null)
   const [separating, setSeparating] = useState(false)
   const [separateProblem, setSeparateProblem] = useState<string | null>(null)
 
@@ -492,17 +497,66 @@ export function SignUpFlow({
             <div className="rounded-card border border-line bg-sf p-[clamp(24px,3.5vw,32px)]">
               <h1 className="m-0 max-w-[24ch] font-display text-[clamp(26px,3.6vw,32px)] font-semibold leading-[1.12] [text-wrap:balance]">
                 {request
-                  ? t(request.status === 'dismissed' ? 'declinedTitle' : 'waitingTitle', { company: request.company })
+                  ? t(
+                      request.status === 'unconfirmed' ? 'foundTitle' : request.status === 'dismissed' ? 'declinedTitle' : 'waitingTitle',
+                      { company: request.company },
+                    )
                   : t('waitingTitleGeneric')}
               </h1>
               <p className="mt-[12px] max-w-[54ch] text-[14.5px] leading-[1.65] text-body [text-wrap:pretty]">
-                {t(request?.status === 'dismissed' ? 'declinedLead' : 'waitingLead')}
+                {t(
+                  !request
+                    ? 'waitingLeadGeneric'
+                    : request.status === 'unconfirmed'
+                      ? 'foundLead'
+                      : request.status === 'dismissed'
+                        ? 'declinedLead'
+                        : 'waitingLead',
+                )}
               </p>
-              {request?.status === 'dismissed' ? null : (
+              {request?.status === 'pending' ? (
                 <p className="mt-[10px] max-w-[54ch] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">
                   {t('waitingNote')}
                 </p>
-              )}
+              ) : null}
+
+              {/* found, and nothing sent yet: the person says whether it is their company (0232) */}
+              {request?.status === 'unconfirmed' ? (
+                <div className="mt-[20px]">
+                  {request.separable ? null : (
+                    <p className="mb-[12px] mt-0 max-w-[54ch] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
+                      {t('foundNumberNote')}
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    disabled={confirming}
+                    onClick={() => {
+                      setConfirming(true)
+                      setConfirmProblem(null)
+                      startTransition(async () => {
+                        const result = await confirmJoin()
+                        setConfirming(false)
+                        if (result.status === 'pending') {
+                          trackForm('signup_step', 'join_confirmed')
+                          setRequest({ ...request, status: 'pending' })
+                        } else {
+                          setConfirmProblem(result.problem)
+                          trackForm('signup_error', `confirm_${result.problem}`)
+                        }
+                      })
+                    }}
+                    className="inline-flex h-[48px] cursor-pointer items-center rounded-tile border border-ink bg-ac px-[22px] text-[15.5px] font-bold text-ink"
+                  >
+                    {confirming ? t('confirming') : t('confirmButton')}
+                  </button>
+                  {confirmProblem ? (
+                    <p role="alert" className="mb-0 mt-[9px] text-[12.5px] leading-[1.5] text-danger [text-wrap:pretty]">
+                      {t.has(`problem.${confirmProblem}`) ? t(`problem.${confirmProblem}`) : t('problem.org_failed')}
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
 
               {request?.separable ? (
                 <div className="mt-[22px] rounded-note border border-line bg-bg px-[20px] py-[18px]">

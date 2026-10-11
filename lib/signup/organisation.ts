@@ -9,10 +9,10 @@ type Client = Awaited<ReturnType<typeof createClient>>
  * The organisation a sign-up names, made or asked into (0232, X-114, D-279).
  *
  * `signup_organisation` runs as the signed-in user. It looks for the company among those already
- * here, by the number where one is typed, by its name or by a colleague's work address; finding it,
- * it makes no second organisation and files a request for its daglig leder instead. The person is
- * let in only when the daglig leder says so (Oppsett › Roller). Finding nothing, it makes the
- * organisation, with or without a number, as `create_organisation` did.
+ * here, by the number where one is typed, otherwise by its name or by the daglig leder's work domain;
+ * finding it, it makes no second organisation and files a request, which goes to its daglig leder
+ * once the person says the company is theirs. The person is let in only when the daglig leder says so
+ * (Oppsett › Roller og tilgang). Finding nothing, it makes the organisation, with or without a number.
  *
  * One call for every way a sign-up finishes: the form with a session at once, the confirmation
  * link and a later password sign-in (lib/signup/pending.ts), and Google or Microsoft
@@ -45,16 +45,17 @@ export async function signUpOrganisation(
 }
 
 /**
- * The request the signed-in person made, for the page that tells them where it stands: still waiting
- * or declined, the company it went to, what they typed, and whether they may say that company is not
- * theirs (not where the number matched, 0232). Nothing once they belong to an organisation.
+ * The request the signed-in person made, for the page that tells them where it stands: found and not
+ * yet said to be theirs (nothing sent), waiting on the daglig leder, or declined; the company, what they
+ * typed, and whether they may say that company is not theirs (not where the number matched, 0232).
+ * Nothing once they belong to an organisation.
  */
-export type JoinRequest = { company: string; status: 'pending' | 'dismissed'; typed: string; separable: boolean }
+export type JoinRequest = { company: string; status: 'unconfirmed' | 'pending' | 'dismissed'; typed: string; separable: boolean }
 
 const MyRequest = z
   .object({
     company: z.string().min(1).max(200),
-    status: z.enum(['pending', 'dismissed']),
+    status: z.enum(['unconfirmed', 'pending', 'dismissed']),
     typed: z.string().min(1).max(200),
     separable: z.boolean(),
   })
@@ -65,6 +66,17 @@ export async function myJoinRequest(supabase: Client): Promise<JoinRequest | nul
   if (error) return null
   const parsed = MyRequest.safeParse(data)
   return parsed.success ? parsed.data : null
+}
+
+/** «Yes, this is my company»: the request goes to the daglig leder, who is told (0232) */
+export async function confirmJoinRequest(supabase: Client): Promise<{ ok: true } | { ok: false; reason: string }> {
+  const { data, error } = await supabase.rpc('confirm_join_request')
+  const verdict = z
+    .union([z.object({ ok: z.literal(true), company: z.string() }), z.object({ ok: z.literal(false), error: z.string() })])
+    .safeParse(data)
+  if (error || !verdict.success) return { ok: false, reason: 'org_failed' }
+  if (!verdict.data.ok) return { ok: false, reason: /^[a-z_]{1,40}$/.test(verdict.data.error) ? verdict.data.error : 'org_failed' }
+  return { ok: true }
 }
 
 /** «We are another company»: their own organisation, made from what they typed (0232) */

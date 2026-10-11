@@ -4,42 +4,40 @@
 -- own the company, or does not have the number to hand, stopped there. The form now asks for an
 -- e-mail address and the company's name; the number is optional. Before an organisation is made,
 -- the database looks for the company among those already here, and where it finds it, makes no
--- second one: the person is not let in, their request goes to the company's daglig leder, who lets
--- them in or not (Oppsett › Roller).
+-- second one: the person is not let in, and once they say it is their company, their request goes to
+-- the company's daglig leder, who lets them in or not (Oppsett › Roller og tilgang).
 --
--- **How the company is recognised**, in this order, within the market of the host the sign-up came
--- from, and never a demo organisation:
---   1. the organisation number, where one is typed: the same undertaking whatever its name;
---   2. the company's name as `app.org_name_key` reads it: case, spacing, punctuation and a trailing
---      legal form (AS, ASA, Ltd, AB …) do not count, so «Nordvik Anlegg AS» is «nordvik anlegg»;
---   3. a colleague's work address: a confirmed address at a domain an active member of the
---      organisation signs in with, their address confirmed too. A free mail provider never counts
---      (`app.free_mail`).
--- A name or a domain counts only where exactly one organisation answers to it: a request carries the
--- name and address of the person who asks, and two companies with one name must not receive each
--- other's. Where it is not one, nothing is found and a new organisation is made.
--- Where a number is typed and the organisation found by name or domain carries a different one,
--- they are different undertakings and no match is made.
+-- **How the company is recognised**, within the market of the host the sign-up came from, never a
+-- demo organisation:
+--   1. where a number is typed, by the number and by nothing else: the same undertaking whatever its
+--      name, and a typed number is never outvoted by a name somebody else registered first;
+--   2. with no number, by the company's name as `app.org_name_key` reads it: case, spacing,
+--      punctuation and a trailing legal form (AS, ASA, Ltd, AB …) do not count;
+--   3. with no number and no name, by a colleague's work address: a confirmed address at the domain
+--      the organisation's daglig leder signs in with, theirs confirmed too. A free mail provider never
+--      counts (`app.free_mail`), and a consultant's or accountant's address in some other company's
+--      organisation does not route their own colleagues there.
+-- A name or a domain counts only where exactly one organisation answers to it. A typed Norwegian
+-- number must carry a valid check digit (`app.no_org_number_ok`): a typo is refused, not routed.
+--
+-- **Nothing is sent until the person says it is theirs.** A match files a request as `unconfirmed`:
+-- the person sees «{company} already uses the product — is this your company?», and the daglig leder
+-- sees nothing. Saying yes (`confirm_join_request`) makes it `pending` and tells the daglig leder;
+-- saying it is another company (`signup_separately`) makes their own organisation from what they typed,
+-- except where the number matched, which is the same undertaking by definition.
 --
 -- **What a request is, and is not.** `app.join_requests` holds who asks (the name they gave, the
--- address they signed up with) and how they were matched; it lets nobody in. Only the daglig leder
--- of that organisation can read it (RLS) and decide it (`decide_join_request`, the same rules as an
--- invitation: the member lock, a role, a department for an avdelingsleder, one organisation per
--- account). Let in, the request is deleted: the membership is the record. Declined, it is kept for
--- thirty days, so the same person cannot ask again at once; a pending one is forgotten after thirty
--- days too. Telling the daglig leder is a notice in the outbox (`tilgang`, 0231), members only, at
--- most five a day for one organisation, so a name typed over and over cannot flood an inbox.
---
--- **When it is not them.** A name, and a work domain more so, can belong to more than one undertaking:
--- two franchise stores trading under one name, a group's companies on one domain. The request keeps
--- what the person typed (the company's name, its size, a number if one was typed, the market), so
--- `signup_separately` can make their own organisation from it when they say the company found is not
--- theirs. Never where the number matched: that is the same undertaking by definition. Saying so lets
--- them into nothing; it makes a second, empty organisation and withdraws the request.
+-- address they signed up with, what they typed) and how they were matched; it lets nobody in. Only the
+-- daglig leder of that organisation reads a confirmed one (RLS) and decides it (`decide_join_request`,
+-- an invitation's rules: the member lock, a role, a department for an avdelingsleder, one organisation
+-- per account). An account has one open request at a time. Let in anywhere, every request of theirs is
+-- withdrawn (a trigger on memberships). Declined, it is kept for thirty days so the same person cannot
+-- ask again at once; every request is forgotten after thirty days (a daily job). Telling the daglig
+-- leder is a notice in the outbox (`tilgang`, 0231), members only; past five in a day for one
+-- organisation the next wait their turn, five a day, rather than being dropped.
 --
 -- **What the answer reveals.** A person whose sign-up finds the company is told that it already uses
--- the product and its name: only after they have an account, and the same as a colleague telling
--- them. A sign-up that finds nothing makes the organisation, as before.
+-- the product and its name: only after they have an account, and the same as a colleague telling them.
 --
 -- `create_organisation` (0024, 0218) stays for the deploy before this one and the suite that proves
 -- it; nothing in the app calls it after this release.
@@ -61,24 +59,49 @@ as $fn$
   select nullif(btrim(s), '') from c
 $fn$;
 
-revoke all on function app.org_name_key(text) from public, anon, authenticated;
+-- an index expression is evaluated as whoever writes the row: every role that may write an
+-- organisation (Oppsett as the daglig leder, the platform as service_role) must be able to run it
+revoke all on function app.org_name_key(text) from public, anon;
+grant execute on function app.org_name_key(text) to authenticated, service_role;
 
 create index if not exists organizations_name_key_idx on app.organizations (market, app.org_name_key(name));
 
--- the providers anybody can have an address at: Norway's and the demo's (0146), the United Kingdom's
--- and Sweden's, and the throwaway ones
+-- a Norwegian organisation number's check digit (modulus 11, weights 3 2 7 6 5 4 3 2), as
+-- lib/brreg/orgnr.ts holds it: a remainder of 0 gives 0, a result of 10 cannot exist
+create or replace function app.no_org_number_ok(p_number text) returns boolean
+  language sql immutable parallel safe set search_path = ''
+as $fn$
+  select coalesce(p_number, '') ~ '^\d{9}$' and (
+    with s as (
+      select (3 * substr(p_number, 1, 1)::int + 2 * substr(p_number, 2, 1)::int + 7 * substr(p_number, 3, 1)::int
+            + 6 * substr(p_number, 4, 1)::int + 5 * substr(p_number, 5, 1)::int + 4 * substr(p_number, 6, 1)::int
+            + 3 * substr(p_number, 7, 1)::int + 2 * substr(p_number, 8, 1)::int) % 11 as r
+    )
+    select case when r = 0 then 0 else 11 - r end = substr(p_number, 9, 1)::int from s
+  )
+$fn$;
+
+revoke all on function app.no_org_number_ok(text) from public, anon, authenticated;
+
+-- the providers anybody can have an address at: Norway's and the demo's (0146), and the common ones
+-- of the United Kingdom, Sweden, Denmark, Germany, Poland and the rest of the world
 create or replace function app.free_mail(p_domain text) returns boolean
   language sql immutable set search_path = ''
 as $fn$
   select app.demo_free_mail(lower(coalesce(p_domain, ''))) or app.demo_throwaway(lower(coalesce(p_domain, '')))
       or lower(coalesce(p_domain, '')) = any (array[
-        'mac.com', 'ymail.com', 'rocketmail.com', 'aol.com', 'gmx.com', 'gmx.net', 'gmx.de', 'mail.com',
-        'yandex.com', 'zoho.com', 'fastmail.com', 'pm.me', 'protonmail.ch', 'hey.com', 'tutanota.com',
-        'yahoo.co.uk', 'hotmail.co.uk', 'live.co.uk', 'aol.co.uk', 'btinternet.com', 'sky.com', 'virginmedia.com',
-        'talktalk.net', 'ntlworld.com', 'blueyonder.co.uk', 'tiscali.co.uk',
-        'hotmail.se', 'live.se', 'yahoo.se', 'telia.com', 'spray.se', 'bredband.net', 'comhem.se', 'tele2.se',
-        'hotmail.dk', 'live.dk', 'yahoo.dk',
-        'getmail.no', 'frisurf.no', 'broadpark.no', 'lyse.net', 'altibox.no', 'c2i.net', 'start.no', 'gmail.no'])
+        'gmail.com', 'googlemail.com', 'outlook.com', 'hotmail.com', 'live.com', 'msn.com', 'icloud.com', 'me.com',
+        'mac.com', 'yahoo.com', 'ymail.com', 'rocketmail.com', 'aol.com', 'gmx.com', 'gmx.net', 'gmx.de', 'gmx.at',
+        'mail.com', 'yandex.com', 'yandex.ru', 'mail.ru', 'zoho.com', 'fastmail.com', 'proton.me', 'protonmail.com',
+        'pm.me', 'protonmail.ch', 'hey.com', 'tutanota.com', 'qq.com', '163.com', 'naver.com',
+        'yahoo.co.uk', 'hotmail.co.uk', 'live.co.uk', 'outlook.co.uk', 'aol.co.uk', 'btinternet.com', 'sky.com',
+        'virginmedia.com', 'talktalk.net', 'ntlworld.com', 'blueyonder.co.uk', 'tiscali.co.uk',
+        'hotmail.se', 'live.se', 'outlook.se', 'yahoo.se', 'telia.com', 'spray.se', 'bredband.net', 'comhem.se', 'tele2.se',
+        'hotmail.dk', 'live.dk', 'outlook.dk', 'yahoo.dk',
+        'web.de', 't-online.de', 'freenet.de', 'arcor.de', 'orange.fr', 'free.fr', 'laposte.net', 'libero.it',
+        'wp.pl', 'o2.pl', 'onet.pl', 'interia.pl', 'seznam.cz', 'inbox.lv', 'inbox.lt',
+        'hotmail.no', 'live.no', 'outlook.no', 'online.no', 'getmail.no', 'frisurf.no', 'broadpark.no', 'lyse.net',
+        'altibox.no', 'c2i.net', 'start.no', 'gmail.no'])
 $fn$;
 
 revoke all on function app.free_mail(text) from public, anon, authenticated;
@@ -97,26 +120,53 @@ create table if not exists app.join_requests (
   employee_count integer not null default 0 check (employee_count between 0 and 100000),
   market         text not null references app.markets(code),
   org_number     text,
-  status      text not null default 'pending' check (status in ('pending', 'dismissed')),
+  -- unconfirmed: found, not yet said to be theirs, told to nobody; pending: the daglig leder's to decide
+  status      text not null default 'unconfirmed' check (status in ('unconfirmed', 'pending', 'dismissed')),
   created_at  timestamptz not null default now(),
   unique (org_id, user_id)
 );
 
 create index if not exists join_requests_user_idx on app.join_requests (user_id);
+-- one open request per account: a person asks one company at a time
+create unique index if not exists join_requests_one_open on app.join_requests (user_id) where status in ('unconfirmed', 'pending');
 
 alter table app.join_requests enable row level security;
 revoke all on app.join_requests from public, anon, authenticated;
 -- what the daglig leder needs to judge a request, and nothing to address the account by
 grant select (id, org_id, email, full_name, matched_by, company_name, status, created_at) on app.join_requests to authenticated;
 
+-- a request the person has not confirmed is nobody's to read: their name and address go nowhere
+-- until they say the company is theirs
 create policy join_requests_daglig_leder on app.join_requests
   for select to authenticated
-  using (app.has_role(org_id, array['daglig_leder']::app.org_role[]));
+  using (status <> 'unconfirmed' and app.has_role(org_id, array['daglig_leder']::app.org_role[]));
 
 -- a demo copies no one's request to join (0094's plan names every table that holds an organisation's data)
 insert into app.demo_copy_plan (table_name, step, mode, via, note) values
   ('join_requests', null, 'skip', null, 'a person asking to join; a demo is found by nobody (0232)')
 on conflict (table_name) do nothing;
+
+-- let in anywhere, by a request, an invitation or a daglig leder's own hand, a person asks nothing
+-- more: every request of theirs is withdrawn, and its notice with it
+create or replace function app.join_requests_withdraw() returns trigger
+  language plpgsql security definer set search_path = ''
+as $fn$
+begin
+  if new.active then
+    delete from app.join_requests jr where jr.user_id = new.user_id;
+  end if;
+  return new;
+end $fn$;
+
+revoke all on function app.join_requests_withdraw() from public, anon, authenticated;
+
+create or replace trigger memberships_withdraw_join_requests
+  after insert or update of active on app.memberships
+  for each row execute function app.join_requests_withdraw();
+
+-- held thirty days at most, whether or not anybody signs up meanwhile
+select cron.schedule('orgpuls-join-requests-purge', '23 3 * * *',
+  $c$ delete from app.join_requests where created_at < now() - interval '30 days' $c$);
 
 -- the notice that tells the daglig leder (0231)
 alter table app.outbox add column if not exists join_request_id uuid references app.join_requests(id) on delete cascade;
@@ -146,14 +196,12 @@ begin
           greatest(app.k_min(), v_market.k_floor), v_market.code, v_market.default_lang, v_market.timezone)
   returning id into v_org;
 
+  -- the membership withdraws whatever this account had asked (memberships_withdraw_join_requests)
   insert into app.memberships (org_id, user_id, role, active)
   values (v_org, p_user, 'daglig_leder', true);
 
   -- created switched off (0024): nothing is planned for an organisation that has told nobody anything
   insert into app.year_wheels (org_id) values (v_org);
-
-  -- a member asks nothing: whatever this account had asked is withdrawn, and its notices with it
-  delete from app.join_requests jr where jr.user_id = p_user;
   return v_org;
 end $fn$;
 
@@ -180,11 +228,14 @@ declare
   v_org       uuid;
   v_org_name  text;
   v_by        text;
-  v_request   uuid;
+  v_open      text;
 begin
   if v_user is null then
     return jsonb_build_object('ok', false, 'error', 'not_signed_in');
   end if;
+
+  -- one account at a time: two tabs submitting at once make one organisation, not two
+  perform pg_advisory_xact_lock(hashtext('signup:' || v_user::text));
 
   -- one organisation per account (0024): a member asks nothing and makes nothing
   if exists (select 1 from app.memberships m where m.user_id = v_user and m.active) then
@@ -200,51 +251,54 @@ begin
     return jsonb_build_object('ok', false, 'error', 'invalid_market');
   end if;
 
-  -- optional now; where typed, it is the market's (0218, 0222)
-  if v_number is not null and not app.org_number_valid(v_market.org_number_rule, v_number) then
+  -- optional now; where typed, it is the market's (0218, 0222), and a Norwegian one carries its check digit
+  if v_number is not null and (not app.org_number_valid(v_market.org_number_rule, v_number)
+      or (v_market.org_number_rule = 'nine_digits' and not app.no_org_number_ok(v_number))) then
     return jsonb_build_object('ok', false, 'error', 'invalid_org_number');
   end if;
 
-  -- a request is held thirty days at most, a declined one too
-  delete from app.join_requests jr where jr.created_at < now() - interval '30 days';
+  -- an account asks one company at a time: one already waiting on a daglig leder is the answer
+  select o.name into v_open
+  from app.join_requests jr join app.organizations o on o.id = jr.org_id
+  where jr.user_id = v_user and jr.status = 'pending';
+  if v_open is not null then
+    return jsonb_build_object('ok', true, 'outcome', 'requested', 'company', v_open);
+  end if;
+  -- a request found and never confirmed is replaced by what this sign-up finds
+  delete from app.join_requests jr where jr.user_id = v_user and jr.status = 'unconfirmed';
 
   select lower(u.email::text), u.email_confirmed_at is not null into v_email, v_confirmed
   from auth.users u where u.id = v_user;
   v_domain := nullif(split_part(coalesce(v_email, ''), '@', 2), '');
 
-  -- 1. the number: the same undertaking whatever it is called
   if v_number is not null then
+    -- 1. the number, and only the number: the same undertaking whatever it is called; a typed number
+    -- is never matched to a name somebody else registered
     select o.id, o.name into v_org, v_org_name
     from app.organizations o
     where o.org_number = v_number and not app.is_demo(o.id);
     if v_org is not null then v_by := 'org_number'; end if;
-  end if;
-
-  -- 2. the name, in the same market, unless both carry numbers and they differ; only where one
-  -- organisation answers to it, since a request names the person who asks to whoever receives it
-  if v_org is null then
+  else
+    -- 2. the name, in the same market; only where one organisation answers to it
     select min(o.id::text)::uuid, min(o.name) into v_org, v_org_name
     from app.organizations o
     where o.market = v_market.code and app.org_name_key(o.name) = v_key and not app.is_demo(o.id)
-      and (v_number is null or o.org_number is null or o.org_number = v_number)
     having count(*) = 1;
     if v_org is not null then v_by := 'name'; end if;
-  end if;
 
-  -- 3. a colleague's work address: confirmed, not a free provider, the domain active members of one
-  -- organisation, and only one, sign in with
-  if v_org is null and v_confirmed and v_domain is not null and not app.free_mail(v_domain) then
-    select min(o.id::text)::uuid, min(o.name) into v_org, v_org_name
-    from app.organizations o
-    where o.market = v_market.code and not app.is_demo(o.id)
-      and (v_number is null or o.org_number is null or o.org_number = v_number)
-      -- a member's address counts only confirmed: an unconfirmed one at somebody else's domain would
-      -- otherwise route that company's colleagues, and their names, to whoever typed it
-      and exists (select 1 from app.memberships m join auth.users u on u.id = m.user_id
-                  where m.org_id = o.id and m.active and u.email_confirmed_at is not null
-                    and lower(split_part(u.email::text, '@', 2)) = v_domain)
-    having count(*) = 1;
-    if v_org is not null then v_by := 'domain'; end if;
+    -- 3. a colleague's work address: confirmed, not a free provider, the domain the daglig leder of one
+    -- organisation, and only one, signs in with, their address confirmed too
+    if v_org is null and v_confirmed and v_domain is not null and not app.free_mail(v_domain) then
+      select min(o.id::text)::uuid, min(o.name) into v_org, v_org_name
+      from app.organizations o
+      where o.market = v_market.code and not app.is_demo(o.id)
+        and exists (select 1 from app.memberships m join auth.users u on u.id = m.user_id
+                    where m.org_id = o.id and m.active and m.role = 'daglig_leder'
+                      and u.email_confirmed_at is not null
+                      and lower(split_part(u.email::text, '@', 2)) = v_domain)
+      having count(*) = 1;
+      if v_org is not null then v_by := 'domain'; end if;
+    end if;
   end if;
 
   -- the profile is the row a membership and a request hang off
@@ -256,22 +310,13 @@ begin
     if v_email is null then
       return jsonb_build_object('ok', false, 'error', 'org_failed');
     end if;
+    -- found: kept as unconfirmed, told to nobody, until the person says the company is theirs. One
+    -- declined here before stays declined.
     insert into app.join_requests (org_id, user_id, email, full_name, matched_by,
                                    company_name, employee_count, market, org_number)
     values (v_org, v_user, v_email, v_name, v_by,
             btrim(p_name), least(greatest(coalesce(p_employee_count, 0), 0), 100000), v_market.code, v_number)
-    on conflict (org_id, user_id) do nothing
-    returning id into v_request;
-
-    -- a new request is told to the daglig leder; five a day for one organisation at most
-    if v_request is not null and (
-      select count(*) from app.outbox x
-      where x.org_id = v_org and x.kind = 'tilgang' and x.created_at > now() - interval '1 day') < 5
-    then
-      insert into app.outbox (org_id, kind, audience, join_request_id, due_at)
-      values (v_org, 'tilgang', 'daglig_leder', v_request, now());
-    end if;
-
+    on conflict (org_id, user_id) do nothing;
     return jsonb_build_object('ok', true, 'outcome', 'requested', 'company', v_org_name);
   end if;
 
@@ -286,9 +331,50 @@ end $fn$;
 revoke all on function public.signup_organisation(text, integer, text, text, text) from public, anon;
 grant execute on function public.signup_organisation(text, integer, text, text, text) to authenticated;
 
--- the person who asked: the company they asked to join, whether it is still waiting or was declined,
--- what they typed, and whether they may say it is not theirs (not where the number matched). Their own
--- request only, and only while they belong nowhere.
+-- «Yes, this is my company»: the request goes to the daglig leder, and they are told. Past five
+-- notices in a day for one organisation, the next wait their turn, five a day: a name typed over and
+-- over cannot flood an inbox, nor push a colleague's notice out.
+create or replace function public.confirm_join_request() returns jsonb
+  language plpgsql security definer set search_path = ''
+as $fn$
+declare
+  v_user uuid := auth.uid();
+  r      app.join_requests%rowtype;
+  v_name text;
+  v_sent int;
+begin
+  if v_user is null then
+    return jsonb_build_object('ok', false, 'error', 'not_signed_in');
+  end if;
+  perform pg_advisory_xact_lock(hashtext('signup:' || v_user::text));
+  if exists (select 1 from app.memberships m where m.user_id = v_user and m.active) then
+    return jsonb_build_object('ok', false, 'error', 'already_a_member');
+  end if;
+
+  select * into r from app.join_requests jr
+  where jr.user_id = v_user and jr.status = 'unconfirmed' and jr.created_at >= now() - interval '30 days'
+  for update;
+  if not found then
+    return jsonb_build_object('ok', false, 'error', 'nothing_pending');
+  end if;
+
+  update app.join_requests set status = 'pending' where id = r.id;
+
+  select count(*) into v_sent from app.outbox x
+  where x.org_id = r.org_id and x.kind = 'tilgang' and x.created_at > now() - interval '1 day';
+  insert into app.outbox (org_id, kind, audience, join_request_id, due_at)
+  values (r.org_id, 'tilgang', 'daglig_leder', r.id, now() + (v_sent / 5) * interval '1 day');
+
+  select o.name into v_name from app.organizations o where o.id = r.org_id;
+  return jsonb_build_object('ok', true, 'company', v_name);
+end $fn$;
+
+revoke all on function public.confirm_join_request() from public, anon;
+grant execute on function public.confirm_join_request() to authenticated;
+
+-- the person who asked: the company they asked to join, whether it waits on their word, on the
+-- daglig leder's, or was declined, what they typed, and whether they may say it is not theirs (not
+-- where the number matched). Their own request only, and only while they belong nowhere.
 create or replace function public.my_join_request() returns jsonb
   language sql stable security definer set search_path = ''
 as $fn$
@@ -298,7 +384,7 @@ as $fn$
   join app.organizations o on o.id = jr.org_id
   where jr.user_id = auth.uid() and jr.created_at >= now() - interval '30 days'
     and not exists (select 1 from app.memberships m where m.user_id = jr.user_id and m.active)
-  order by jr.created_at desc
+  order by (jr.status = 'dismissed'), jr.created_at desc
   limit 1
 $fn$;
 
@@ -306,8 +392,8 @@ revoke all on function public.my_join_request() from public, anon;
 grant execute on function public.my_join_request() to authenticated;
 
 -- «We are another company»: the person's own organisation, made from what they typed. Not where the
--- number matched; never into the organisation found; the request, waiting or declined, is withdrawn
--- (signup_make_org).
+-- number matched; never into the organisation found; the request, unconfirmed, waiting or declined, is
+-- withdrawn with the membership.
 create or replace function public.signup_separately() returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -318,14 +404,14 @@ begin
   if v_user is null then
     return jsonb_build_object('ok', false, 'error', 'not_signed_in');
   end if;
+  perform pg_advisory_xact_lock(hashtext('signup:' || v_user::text));
   if exists (select 1 from app.memberships m where m.user_id = v_user and m.active) then
     return jsonb_build_object('ok', false, 'error', 'already_a_member');
   end if;
 
-  -- waiting or declined: a daglig leder who says «not ours» leaves them free to make their own
   select * into r from app.join_requests jr
   where jr.user_id = v_user and jr.created_at >= now() - interval '30 days'
-  order by jr.created_at desc
+  order by (jr.status = 'dismissed'), jr.created_at desc
   limit 1
   for update;
   if not found then
@@ -365,12 +451,20 @@ begin
   end if;
 
   select * into r from app.join_requests jr where jr.id = p_request for update;
-  -- the same answer for a request that does not exist and one that is not this caller's to decide
-  if not found or not app.has_role(r.org_id, array['daglig_leder']::app.org_role[]) then
+  -- the same answer for a request that does not exist, one the person has not confirmed, and one that
+  -- is not this caller's to decide
+  if not found or r.status = 'unconfirmed' or not app.has_role(r.org_id, array['daglig_leder']::app.org_role[]) then
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
+  perform pg_advisory_xact_lock(hashtext('signup:' || r.user_id::text));
   if r.status <> 'pending' then
     return jsonb_build_object('ok', false, 'error', 'not_pending');
+  end if;
+
+  -- already in this organisation (an invitation came first): nothing to decide, and no role changes
+  if exists (select 1 from app.memberships m where m.user_id = r.user_id and m.org_id = r.org_id and m.active) then
+    delete from app.join_requests where id = r.id;
+    return jsonb_build_object('ok', true);
   end if;
 
   if not coalesce(p_accept, false) then
@@ -398,12 +492,11 @@ begin
     return jsonb_build_object('ok', false, 'error', 'other_organisation');
   end if;
 
+  -- a former member of this organisation comes back with the role chosen now; the membership
+  -- withdraws the request (memberships_withdraw_join_requests): the membership is the record
   insert into app.memberships (org_id, user_id, role, active, group_id)
   values (r.org_id, r.user_id, v_role, true, v_group)
   on conflict (org_id, user_id) do update set role = excluded.role, group_id = excluded.group_id, active = true;
-
-  -- the membership is the record now
-  delete from app.join_requests where id = r.id;
   return jsonb_build_object('ok', true);
 end $fn$;
 

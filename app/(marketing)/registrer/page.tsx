@@ -43,9 +43,13 @@ export default async function RegistrerPage({
 
   let done: { firstName: string; company: string } | null = null
   let waiting: JoinRequest | null = null
+  let waitingUnread = false
   if (ferdig === '1' || venter === '1') {
     const supabase = await createClient()
     const { data: auth } = await supabase.auth.getUser()
+    // a Microsoft sign-up that found the company is signed out after (the callback's rule for an
+    // account with no membership): the request stands, and there is no session to read it by
+    if (!auth.user && venter === '1') waitingUnread = true
     if (auth.user) {
       const { data: row } = await supabase
         .schema('app')
@@ -79,6 +83,7 @@ export default async function RegistrerPage({
       problem={feil && /^[a-z_]{1,40}$/.test(feil) ? feil : null}
       done={done}
       waiting={waiting}
+      waitingUnread={waitingUnread}
       registry={registry}
       floor={MARKET_K_FLOOR[market]}
       legal={LEGAL_PACK[market]}

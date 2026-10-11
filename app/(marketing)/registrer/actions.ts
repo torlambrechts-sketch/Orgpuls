@@ -5,11 +5,11 @@ import { createClient } from '@/lib/supabase/server'
 import { headers } from 'next/headers'
 import { HEARD } from '@/lib/signup/heard'
 import { completePendingSignup, PENDING_KEY, type PendingOrg } from '@/lib/signup/pending'
-import { myJoinRequest, signUpSeparately, type JoinRequest } from '@/lib/signup/organisation'
+import { confirmJoinRequest, myJoinRequest, signUpSeparately, type JoinRequest } from '@/lib/signup/organisation'
 import { marketOfHost } from '@/lib/hosts'
 import { authReturn } from '@/lib/auth/return'
 import { orgNumberProblem } from '@/lib/markets'
-import { normalizeOrgNumber, ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
+import { normalizeOrgNumber, ORG_NUMBER_SHAPE, signupOrgNumber } from '@/lib/org-number'
 
 /**
  * Signing up (X-114, D-279).
@@ -72,7 +72,7 @@ export async function createAccount(
   }
   if (!parsed.success) return { status: 'problem', problem: 'invalid' }
   const orgNumber = parsed.data.orgNumber || null
-  if (orgNumber && !validOrgNumber(market, orgNumber)) return { status: 'problem', problem: orgNumberProblem(market) }
+  if (orgNumber && !signupOrgNumber(market, orgNumber)) return { status: 'problem', problem: orgNumberProblem(market) }
 
   const supabase = await createClient()
 
@@ -119,10 +119,20 @@ export async function createAccount(
     const request = await myJoinRequest(supabase)
     return {
       status: 'requested',
-      request: request ?? { company: made.company, status: 'pending', typed: parsed.data.companyName, separable: false },
+      request: request ?? { company: made.company, status: 'unconfirmed', typed: parsed.data.companyName, separable: false },
     }
   }
   return { status: 'created' }
+}
+
+/**
+ * «Ja, be om tilgang» on the waiting page: the person says the company found is theirs, and only now
+ * do their name and address go to its daglig leder (0232).
+ */
+export async function confirmJoin(): Promise<{ status: 'pending' } | { status: 'problem'; problem: string }> {
+  const supabase = await createClient()
+  const done = await confirmJoinRequest(supabase)
+  return done.ok ? { status: 'pending' } : { status: 'problem', problem: done.reason }
 }
 
 /**

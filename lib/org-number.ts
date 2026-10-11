@@ -1,4 +1,5 @@
 import type { Market } from '@/lib/markets'
+import { hasValidCheckDigit } from '@/lib/brreg/orgnr'
 
 /**
  * Organisation numbers per market (0218, D-254), the same rules as `app.org_number_valid`. The
@@ -69,6 +70,15 @@ export function orgNumberValid(rule: OrgNumberRule, digits: string): boolean {
 /** Whether what a person typed is an organisation number in this market */
 export const validOrgNumber = (market: Market, value: string): boolean =>
   orgNumberValid(ORG_NUMBER_RULE[market], normalizeOrgNumber(value, market))
+
+/**
+ * A number a sign-up may carry (X-114, D-279): the market's rule, and in Norway the register's check
+ * digit too. A typed number is matched to the organisation that holds it, so a typo must be refused,
+ * not routed to somebody else's company; `signup_organisation` (0232) holds the same rule.
+ */
+export const signupOrgNumber = (market: Market, value: string): boolean =>
+  validOrgNumber(market, value) &&
+  (ORG_NUMBER_RULE[market] !== 'nine_digits' || hasValidCheckDigit(normalizeOrgNumber(value, market)))
 
 /**
  * As it is printed: Norway's in groups of three (123 456 789), Sweden's with its hyphen

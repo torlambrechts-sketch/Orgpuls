@@ -14053,26 +14053,52 @@ planned send-out» lines say so in no, en, sv and the gb and se packs; texts tha
 product stay, since it still works.
 
 **What happens on submit** (`public.signup_organisation`, migration 0232). The account is made first; the organisation
-second, as the signed-in person. Before anything is made the database looks for the company among those here, in this
-order, never a demo organisation:
-1. the number, where one is typed;
-2. the name as `app.org_name_key` reads it (case, spacing, punctuation and a trailing legal form do not count), in the
-   market of the host;
-3. a confirmed work address at a domain that active members of one organisation sign in with, their addresses
-   confirmed too; never a free provider (`app.free_mail`).
-A name or a domain counts only where exactly one organisation answers to it, and not where both carry numbers that
-differ. Found, nothing is made: a request is filed (`app.join_requests`, RLS, the daglig leder of that organisation
-reads it, nobody writes it) and the daglig leder is told by mail (`tilgang`, at most five a day for one organisation).
-Not found, the organisation is made as before, with or without a number.
+second, as the signed-in person. Before anything is made the database looks for the company among those here, never a
+demo organisation:
+1. where a number is typed, by that number and nothing else: a typed number is never outvoted by a name somebody else
+   registered first, and a Norwegian one must carry a valid check digit (`app.no_org_number_ok`, and `signupOrgNumber`
+   at every entry point in the app), so a typo is refused rather than routed to whoever holds a number like it;
+2. with no number, by the name as `app.org_name_key` reads it (case, spacing, punctuation and a trailing legal form do
+   not count), in the market of the host;
+3. with no number and no name match, by a confirmed work address at the domain the organisation's **daglig leder**
+   signs in with, theirs confirmed too; never a free provider (`app.free_mail`, now with the common providers of the
+   markets and their neighbours). Any member's domain would route a consultant's or accountant's colleagues to a client.
+A name or a domain counts only where exactly one organisation answers to it.
 
-**The person who asked** sees «{company} already uses Orgpuls» (`/registrer?venter=1`, also after a confirmation link,
-Google or Microsoft, and on a later password sign-in while they belong nowhere). A declined request reads as declined.
-Where the company was found by name or domain, they can say it is another company (`public.signup_separately`): their
-own organisation is made from what they typed and the request is withdrawn. Never where the number matched.
+**Nothing is sent until the person says it is theirs.** A match files the request as `unconfirmed`: the page names the
+company and asks «is this your company? nothing has been sent yet». The daglig leder cannot read it (RLS) and is not
+told. «Ja, be om tilgang» (`confirm_join_request`) makes it `pending` and queues the notice; «Opprett … som egen
+virksomhet» (`signup_separately`) makes the person's own organisation from what they typed, not where the number
+matched. An account has one open request at a time (a partial unique index); signing up again while one waits on a
+daglig leder answers with that one.
 
-**The daglig leder** sees the requests on Oppsett › Roller og tilgang above the members, with what the person typed
+**The notice** (`tilgang`, members only): past five in a day for one organisation the next wait their turn, five a day,
+rather than being dropped, so a flood cannot push a colleague's notice out. What the person typed as their name is kept
+to letters, spaces, hyphens and apostrophes in the mail, and never in the subject: no address, link or instruction
+rides in a mail from the product's own sender.
+
+**The person who asked** sees where it stands on `/registrer?venter=1` (also after a confirmation link, a Google
+sign-up, and a later password or Google sign-in while they belong nowhere): found and unconfirmed, waiting, or declined.
+A Microsoft sign-up that finds the company is signed out after (D-201), so its page names no company and points to an
+invitation, the way in that works for a Microsoft account; its request stays unconfirmed and is sent to nobody.
+
+**The daglig leder** sees confirmed requests on Oppsett › Roller og tilgang above the members, with what the person typed
 and how they were recognised, and lets them in with a role (and a department for an avdelingsleder) or declines
-(`public.decide_join_request`: an invitation's rules). Let in, the request is deleted; declined, kept thirty days.
+(`public.decide_join_request`: an invitation's rules). A request from somebody who has since become a member changes
+nothing and is withdrawn. Let in anywhere, by a request, an invitation or the daglig leder's own hand, every request of
+theirs is withdrawn (`memberships_withdraw_join_requests`). Every request is forgotten after thirty days by a daily job
+(`orgpuls-join-requests-purge`), declined ones included, which is how long a declined person cannot simply ask again.
+
+**Concurrency.** The sign-up, the confirmation, «another company» and the decision take a per-account advisory lock, so
+two tabs make one organisation, not two.
+
+**Found by the review** (an independent pass before anything was applied): the name index's function was not executable
+by the roles that write organisations, which would have broken every rename and Brønnøysund fetch the moment 0232 was
+applied (now granted to authenticated and service_role, and proved as the daglig leder); a typed number could lose to a
+squatted name; no check digit; any member's domain counted; the notice carried a typed name verbatim and dropped notices
+over the cap while the page said they were sent; two concurrent sign-ups by one account; stale requests that could change
+a member's role; purging only on sign-up; the report footer printing an empty number. All fixed above, each with an
+assertion.
 
 **Not built, and why:**
 - **No mail to the person when they are let in.** The dispatcher addresses roles, not one account, and invitations are
@@ -14080,24 +14106,31 @@ and how they were recognised, and lets them in with a role (and a department for
 - **Sweden and the United Kingdom cannot add the number later.** Oppsett › Selskap has a number field only where a
   register can be asked (Norway); a Swedish or UK organisation that signed up without one has none until that field
   exists. The wizard no longer shows an empty number row there, and no longer says the number was registered at sign-up.
+- **A number is not checked against the register at sign-up**, only its check digit; whoever registers a real company's
+  number first holds it, as before this change (then: «already registered»), and its people's confirmed requests go to
+  them. The register fetch under Oppsett names the real company.
+- **The consent** («Jeg bekrefter at jeg kan inngå avtaler på vegne av virksomheten …») is still required of a person who
+  only asks to join. Its wording is a legal text and Tor's to change.
 - **`create_organisation`** has no caller now. It stays while the deploy before this one can still call it (database
   first, code second) and is allowlisted in the wiring audit with that reason; a later migration sets it aside.
 
 **Risks, accepted with the decision:**
-- **Name squatting.** Somebody who registers a real company's name before the company does receives its people's
-  requests: their names and work addresses. Bounded by the single-match rule, the domain rule needing confirmed
-  addresses on both sides, the cap of five notices a day, and the daglig leder's own judgement; the person asking can
-  always make their own organisation instead, unless the number matched.
+- **Name squatting.** Somebody who registers a real company's name, with no number, before the company does is found by
+  its people who type the name without a number. They are asked first and see the squatter's chosen name; those who
+  confirm send their name and address, and the squatter could let them in to a fake organisation. Bounded by: a typed
+  number always wins, the confirmation, single-match names, the daglig leder's domain only, one open request per
+  account, the notice pace, and the person's own judgement.
 - **Who uses the product is answerable.** Typing a company's name, after making an account, tells whether that company
   is here and what it is called. That was Tor's choice («the person sees that the company already uses Orgpuls»).
-- **A notice carries a name somebody typed.** It is kept out of the subject, on one line, escaped, and the notices
-  are capped.
 
 **The design's flow is replaced, so `/registrer` has no pixel baseline to hold it to** (it had none in CI before either;
 the phone-width check in CI covers it). The site's start band keeps the design's layout with new words. The local
 site-v3 pixel run cannot isolate it: the front page already differs from that baseline in height (6703 px against
 6070) and in every 900-pixel band, from the pages' own later changes, so the run says nothing about the band alone.
 
-Tests: `supabase/tests/join_request_invariants.sql` (46 assertions: the surface, RLS, name keys, every match and
-refusal, the dispatcher's payload and recipients, the cap, «another company», cleanup); `tests/unit/mail.test.ts`
-(the `tilgang` notice); `tests/unit/legal-pack.test.ts` (the optional number's register hint is Norway's only).
+Tests: `supabase/tests/join_request_invariants.sql` (58 assertions: the surface, RLS, name keys, the check digit, every
+match and refusal including the squatted name and the consultant's domain, nothing read or sent before confirming, one
+open request, the dispatcher's payload and recipients, the notice pace, the membership trigger, a member's stale request,
+«another company», the rename under the name index, the purge job, cleanup); `tests/unit/mail.test.ts` (the `tilgang`
+notice and what survives of a typed name); `tests/unit/org-number.test.ts` (`signupOrgNumber`);
+`tests/unit/legal-pack.test.ts` (the optional number's register hint is Norway's only).

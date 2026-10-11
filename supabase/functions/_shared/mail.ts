@@ -588,11 +588,12 @@ export function renderNotice(
   }
 
   // somebody signed up and found this organisation already here (0232, D-279): to its daglig leder.
-  // Who asks is in the body only, on one line: a name somebody typed never reaches the subject.
+  // Who asks is in the body only. What they typed as their name is kept to letters, spaces, hyphens and
+  // apostrophes: no address, link or instruction rides in a mail from the product's own sender.
   if (job.kind === 'tilgang') {
     const req = job.request ?? null
     if (!req) throw new Error('tilgang without a request')
-    const name = req.name ? req.name.replace(/\s+/g, ' ').trim() : ''
+    const name = req.name ? req.name.replace(/[^\p{L}\p{M}'’ -]+/gu, ' ').replace(/\s+/g, ' ').trim().slice(0, 80) : ''
     const subject = fill(pick(m, 'tilgang.subject'), { org })
     const paragraphs = [
       fill(pick(m, name ? 'tilgang.lead' : 'tilgang.leadNoName'), { name, email: req.email, org }),

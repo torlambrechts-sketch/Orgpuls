@@ -10,7 +10,7 @@ import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
 import { DEFAULT_MARKET, MARKETS } from '@/lib/markets'
 import { ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
-import { signUpOrganisation } from '@/lib/signup/organisation'
+import { myJoinRequest, signUpOrganisation } from '@/lib/signup/organisation'
 
 /**
  * Where Google (D-102) and Microsoft (D-201) send the browser back. The code is exchanged for a
@@ -125,8 +125,9 @@ export async function GET(request: NextRequest) {
       await signOutIfMicrosoft(supabase, check)
       redirect(`/registrer?feil=${made.reason}` as Route)
     }
-    // the company is already here (0232, D-279): no membership, the request is with its daglig leder.
-    // A Microsoft session with no membership is not kept (D-201); the page then names no company.
+    // the company is already here (0232, D-279): no membership, and the request waits on the person's
+    // word. A Microsoft session with no membership is not kept (D-201); the page then names no company
+    // and points to an invitation, the way in that works for a Microsoft account.
     if (made.kind === 'requested') {
       await signOutIfMicrosoft(supabase, check)
       redirect('/registrer?venter=1' as Route)
@@ -146,6 +147,9 @@ export async function GET(request: NextRequest) {
 
   // login
   if (!hasOrg) {
+    // a Google account whose request to join stands (0232, D-279) is shown where it stands, not refused;
+    // a Microsoft session with no membership is not kept (D-201)
+    if (p !== 'azure' && (await myJoinRequest(supabase))) redirect('/registrer?venter=1' as Route)
     await supabase.auth.signOut({ scope: 'local' })
     redirect(p === 'azure' ? '/logg-inn?feil=microsoft_refused' : '/logg-inn?feil=google_no_account')
   }

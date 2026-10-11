@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { marketOfHost } from '@/lib/hosts'
-import { normalizeOrgNumber, validOrgNumber } from '@/lib/org-number'
+import { normalizeOrgNumber, signupOrgNumber } from '@/lib/org-number'
 import { SIGNUP_COOKIE } from './cookies'
 
 /**
@@ -68,7 +68,7 @@ async function startOAuth(provider: Provider, formData: FormData): Promise<void>
   // the number has to be one in the market of the host the sign-up started on (0218), as that
   // market stores it (a UK number of digits only padded to eight, 0222)
   const market = marketOfHost(callback.host)
-  if (f.flow === 'signup' && f.orgNumber && !validOrgNumber(market, f.orgNumber)) redirect(failed as never)
+  if (f.flow === 'signup' && f.orgNumber && !signupOrgNumber(market, f.orgNumber)) redirect(failed as never)
   if (f.flow === 'signup') {
     ;(await cookies()).set(
       SIGNUP_COOKIE,

@@ -3523,4 +3523,6 @@ he chose:
   providers never count. («Name or email domain».)
 - **The number:** an optional field on the form; typed, it is matched too. («Optional field on the form».)
 
-Built as D-279, with the risks it carries.
+Built as D-279, with the risks it carries. Two choices made in building it, within the decision: a person found by
+name or domain is asked «is this your company?» before their name and address go anywhere, and a typed number is
+matched by the number alone.
