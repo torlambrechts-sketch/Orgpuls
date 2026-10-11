@@ -3507,3 +3507,20 @@ recommended option for the first three; on the fourth he chose «Ikke nødvendig
     - a pro-rata refund when Empvibe terminates on notice or a customer leaves over a price change;
     - a minimum in the liability cap, which is £0 for a customer on the free plan;
     - whether an Oslo judgment can be enforced in the UK now that Lugano no longer reaches it.
+
+### X-114 — Signing up with the company's name; the organisation number is optional
+
+Tor, 2026-10-11: «I think we make it too complicated to sign up, by requiring the org number we supress users that
+don't want to leave the org number for some reason, perhaps they dont own the company. Let go with a more normal email
+and company registration, lookup if the company exists with us and then create if it doesn't.» Asked three questions,
+he chose:
+
+- **A company already here:** the person is not let in and no second organisation is made. Their name and address go
+  to the company's daglig leder, who lets them in or not; the person is told that the company already uses the
+  product and that the daglig leder has been asked. («Ask admin to invite (Recommended)».)
+- **How it is recognised:** by its name, ignoring case, spacing, punctuation and the legal form, within the same
+  country; and by a colleague's work address at the same domain as people already in the organisation. Free mail
+  providers never count. («Name or email domain».)
+- **The number:** an optional field on the form; typed, it is matched too. («Optional field on the form».)
+
+Built as D-279, with the risks it carries.

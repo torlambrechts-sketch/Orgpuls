@@ -14035,3 +14035,69 @@ fast-forwarded to main.
   and /articles 404, no article in its sitemap.
 - **IndexNow:** `node scripts/seo/indexnow.mjs` submitted 55 URLs for www.orgpuls.com, 23 for www.empvibe.com and 10
   for se.orgpuls.com, each answered 200.
+
+## D-279 — Signing up with the company's name: one form, an optional number, and a request where the company is already here (X-114, 2026-10-11)
+
+The design's sign-up (Orgpuls_Start.dc.html 276-434) has three steps and starts with the organisation number, looked up
+in Brønnøysund. Tor decided otherwise (X-114): a person who does not own the company, or does not have the number,
+stopped there. The form is now one card, and the indicator counts two steps.
+
+**The form** (`components/start/SignUpFlow.tsx`). The design's controls, styles and texts are kept and moved into one
+card: the company's name takes the number field's place, the number follows as optional, then the design's step 2 as it
+was (name, work address, password and its meter, the size chips, the consent, the providers). The register lookup step
+and its texts are gone; the register facts are fetched where they always were, under Oppsett › Selskap and in the
+wizard, at any time. A landing page's start field (`OrgStart`, `SignupStart`) asks for the company's name too and opens
+the form with it (`?firma=`); a valid number typed there still goes through as the number (`?orgnr=`, eight characters
+at least, so a short run of digits is a name). The band's texts, the closing paragraphs and the «from org number to a
+planned send-out» lines say so in no, en, sv and the gb and se packs; texts that describe the Brønnøysund fetch in the
+product stay, since it still works.
+
+**What happens on submit** (`public.signup_organisation`, migration 0232). The account is made first; the organisation
+second, as the signed-in person. Before anything is made the database looks for the company among those here, in this
+order, never a demo organisation:
+1. the number, where one is typed;
+2. the name as `app.org_name_key` reads it (case, spacing, punctuation and a trailing legal form do not count), in the
+   market of the host;
+3. a confirmed work address at a domain that active members of one organisation sign in with, their addresses
+   confirmed too; never a free provider (`app.free_mail`).
+A name or a domain counts only where exactly one organisation answers to it, and not where both carry numbers that
+differ. Found, nothing is made: a request is filed (`app.join_requests`, RLS, the daglig leder of that organisation
+reads it, nobody writes it) and the daglig leder is told by mail (`tilgang`, at most five a day for one organisation).
+Not found, the organisation is made as before, with or without a number.
+
+**The person who asked** sees «{company} already uses Orgpuls» (`/registrer?venter=1`, also after a confirmation link,
+Google or Microsoft, and on a later password sign-in while they belong nowhere). A declined request reads as declined.
+Where the company was found by name or domain, they can say it is another company (`public.signup_separately`): their
+own organisation is made from what they typed and the request is withdrawn. Never where the number matched.
+
+**The daglig leder** sees the requests on Oppsett › Roller og tilgang above the members, with what the person typed
+and how they were recognised, and lets them in with a role (and a department for an avdelingsleder) or declines
+(`public.decide_join_request`: an invitation's rules). Let in, the request is deleted; declined, kept thirty days.
+
+**Not built, and why:**
+- **No mail to the person when they are let in.** The dispatcher addresses roles, not one account, and invitations are
+  sent by hand (D-51). The waiting page says to sign in once access is given; it promises no mail.
+- **Sweden and the United Kingdom cannot add the number later.** Oppsett › Selskap has a number field only where a
+  register can be asked (Norway); a Swedish or UK organisation that signed up without one has none until that field
+  exists. The wizard no longer shows an empty number row there, and no longer says the number was registered at sign-up.
+- **`create_organisation`** has no caller now. It stays while the deploy before this one can still call it (database
+  first, code second) and is allowlisted in the wiring audit with that reason; a later migration sets it aside.
+
+**Risks, accepted with the decision:**
+- **Name squatting.** Somebody who registers a real company's name before the company does receives its people's
+  requests: their names and work addresses. Bounded by the single-match rule, the domain rule needing confirmed
+  addresses on both sides, the cap of five notices a day, and the daglig leder's own judgement; the person asking can
+  always make their own organisation instead, unless the number matched.
+- **Who uses the product is answerable.** Typing a company's name, after making an account, tells whether that company
+  is here and what it is called. That was Tor's choice («the person sees that the company already uses Orgpuls»).
+- **A notice carries a name somebody typed.** It is kept out of the subject, on one line, escaped, and the notices
+  are capped.
+
+**The design's flow is replaced, so `/registrer` has no pixel baseline to hold it to** (it had none in CI before either;
+the phone-width check in CI covers it). The site's start band keeps the design's layout with new words. The local
+site-v3 pixel run cannot isolate it: the front page already differs from that baseline in height (6703 px against
+6070) and in every 900-pixel band, from the pages' own later changes, so the run says nothing about the band alone.
+
+Tests: `supabase/tests/join_request_invariants.sql` (46 assertions: the surface, RLS, name keys, every match and
+refusal, the dispatcher's payload and recipients, the cap, «another company», cleanup); `tests/unit/mail.test.ts`
+(the `tilgang` notice); `tests/unit/legal-pack.test.ts` (the optional number's register hint is Norway's only).

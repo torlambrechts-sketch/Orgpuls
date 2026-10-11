@@ -324,7 +324,6 @@ function IndustryCta({ title, text, ts }: { title: string; text: string; ts: Awa
             label={ts('seo.signup.label')}
             submit={ts('start.ctaFree')}
             invalid={ts('seo.signup.invalid')}
-            invalidChecksum={ts('seo.signup.invalidChecksum')}
           />
         </div>
         <p className="mb-0 mt-[9px] text-[12.5px] opacity-75">{ts('seo.common.priceLine')}</p>

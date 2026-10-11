@@ -1,6 +1,6 @@
 import { getLocale } from 'next-intl/server'
 import { MembersPanel } from '@/components/oppsett/MembersPanel'
-import { getMembers, getMembersLocked, getOpenInvites } from '@/lib/members/read'
+import { getJoinRequests, getMembers, getMembersLocked, getOpenInvites } from '@/lib/members/read'
 import { OppsettScreen, TABS, type OppsettView, type Tab } from '@/components/oppsett/OppsettScreen'
 import {
   countWithPhone,
@@ -75,6 +75,8 @@ export default async function OppsettPage({
   const members =
     tab === 'roller' && role === 'daglig_leder' ? await getMembers(company.id) : null
   const invites = members ? await getOpenInvites(company.id) : []
+  // people who signed up and found the organisation already here (0232, D-279): the daglig leder's to decide
+  const requests = members ? await getJoinRequests(company.id) : []
 
   // the data processing agreement's signatures: on its own tab, and the status on Personvern (D-87)
   const dpaTab = tab === 'databehandleravtale' || tab === 'personvern'
@@ -108,6 +110,7 @@ export default async function OppsettPage({
       <MembersPanel
         members={members}
         invites={invites}
+        requests={requests}
         groups={groups}
         canWrite={role === 'daglig_leder'}
         locked={membersLocked}

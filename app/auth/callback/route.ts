@@ -10,6 +10,7 @@ import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
 import { DEFAULT_MARKET, MARKETS } from '@/lib/markets'
 import { ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
+import { signUpOrganisation } from '@/lib/signup/organisation'
 
 /**
  * Where Google (D-102) and Microsoft (D-201) send the browser back. The code is exchanged for a
@@ -19,7 +20,8 @@ import { ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
  *              know is signed out again and told to register or use its invitation: signing
  *              in must never quietly create a customer.
  *   * signup — the company kept in a cookie by continueWithGoogle becomes the organisation,
- *              exactly as a password signup's does, unless the account already has one.
+ *              exactly as a password signup's does, unless the account already has one, or the
+ *              company is already here and the request goes to its daglig leder (0232).
  *   * invite — back to the invitation, now signed in, where the invited address is checked.
  *
  * **Microsoft (D-201).** After every exchange, whatever the query says, the database's sign-in
@@ -54,13 +56,14 @@ const Query = z.object({
 
 const Pending = z
   .object({
-    orgNumber: z.string().regex(ORG_NUMBER_SHAPE),
+    // optional since 0232 (X-114): null where none was typed
+    orgNumber: z.string().regex(ORG_NUMBER_SHAPE).nullable().default(null),
     companyName: z.string().min(1).max(200),
     employeeCount: z.number().int().min(0).max(100_000),
     // set by startOAuth from the host the sign-up began on (D-251); a cookie from before that is Norway's
     market: z.enum(MARKETS).default(DEFAULT_MARKET),
   })
-  .refine((p) => validOrgNumber(p.market, p.orgNumber), { path: ['orgNumber'] })
+  .refine((p) => p.orgNumber === null || validOrgNumber(p.market, p.orgNumber), { path: ['orgNumber'] })
 
 export async function GET(request: NextRequest) {
   const q = Query.safeParse(Object.fromEntries(request.nextUrl.searchParams))
@@ -117,19 +120,16 @@ export async function GET(request: NextRequest) {
       [meta.full_name, meta.name].find((v): v is string => typeof v === 'string' && v.trim().length > 1)?.trim().slice(0, 120) ??
       (user.email ?? '').split('@')[0] ??
       ''
-    const { data: made, error: madeError } = await supabase.rpc('create_organisation', {
-      p_name: pending.companyName,
-      p_org_number: pending.orgNumber,
-      p_employee_count: pending.employeeCount,
-      p_full_name: fullName,
-      // named only when it is not Norway, the database's default (lib/signup/pending.ts)
-      ...(pending.market === DEFAULT_MARKET ? {} : { p_market: pending.market }),
-    })
-    const outcome = z.object({ ok: z.boolean(), error: z.string().optional() }).safeParse(made)
-    if (madeError || !outcome.success || !outcome.data.ok) {
-      const why = outcome.success && outcome.data.error && /^[a-z_]{1,40}$/.test(outcome.data.error) ? outcome.data.error : 'org_failed'
+    const made = await signUpOrganisation(supabase, { ...pending, fullName })
+    if (made.kind === 'failed') {
       await signOutIfMicrosoft(supabase, check)
-      redirect(`/registrer?feil=${why}` as Route)
+      redirect(`/registrer?feil=${made.reason}` as Route)
+    }
+    // the company is already here (0232, D-279): no membership, the request is with its daglig leder.
+    // A Microsoft session with no membership is not kept (D-201); the page then names no company.
+    if (made.kind === 'requested') {
+      await signOutIfMicrosoft(supabase, check)
+      redirect('/registrer?venter=1' as Route)
     }
     // the new membership now exists: the first Microsoft sign-in binds it, as for any member
     if (!check.ok) {

@@ -2,60 +2,53 @@
 
 import Link from '@/components/site/SitePaths'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useActionState, useEffect, useRef, useState, useTransition } from 'react'
-import { bandOf, countFor, SIZES, type SizeKey } from '@/lib/start/size'
+import { useEffect, useRef, useState, useTransition } from 'react'
+import { countFor, SIZES, type SizeKey } from '@/lib/start/size'
 import { K_DEFAULT, K_FLOOR } from '@/lib/org/threshold'
 import { useTranslations } from 'next-intl'
-import {
-  createAccount,
-  lookupCompany,
-  type LookupState,
-  type SignUpState,
-} from '@/app/(marketing)/registrer/actions'
+import { createAccount, separateCompany } from '@/app/(marketing)/registrer/actions'
+import type { JoinRequest } from '@/lib/signup/organisation'
 import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
 import { MicrosoftButton } from '@/components/start/MicrosoftButton'
 import { trackEvent, trackForm } from '@/lib/marketing/events'
 import { HeardAbout } from '@/components/start/HeardAbout'
 
 /**
- * Sign-up. Orgpuls_Start.dc.html lines 276-434.
+ * Sign-up. Orgpuls_Start.dc.html lines 276-434, as one form since X-114 (D-279).
  *
- * Three steps, and the step is client state rather than a URL because nothing is written
- * until step 2 submits: a back button between steps must not be able to replay half a
- * registration, and the simplest way to guarantee that is for there to be nothing to
- * replay.
+ * The design's three steps asked for the organisation number first and looked it up in the register.
+ * A person who does not own the company, or does not have the number to hand, stopped there. The form
+ * now asks for the company's name, the person's name, a work address and a password; the number is
+ * optional. The design's fields, controls and styles are kept, in one card: the company field takes
+ * the number field's place, and the size chips, the password meter, the consent and the providers are
+ * the design's step 2 unchanged. The indicator counts two steps: the form, then what comes next.
  *
- * **Two of the design's fields are collected and not stored.** "Hva er rollen din?" and
- * "Omtrent hvor mange ansatte er dere?" are useful to a sales team and this product has
- * no table for either — the first is not `app.org_role` (the account is daglig leder by
- * construction, being the one that created the organisation) and the second is a band
- * where `employee_count` is a number. The size band is therefore the only one kept, and
- * it is kept by turning it into that number; the role question is dropped. D-38.
+ * What comes next is one of two (`signup_organisation`, 0232):
+ *  - **created** — the company was not here, so it is made and the person is its daglig leder: the
+ *    design's step 3;
+ *  - **waiting** — the company is already here, found by its number, its name or a colleague's work
+ *    address. Nothing is made and nobody is let in: the company's daglig leder is asked, and the card
+ *    says so, with the company's name. Where it was found by name or address, the person can say it is
+ *    another company with the same name, and their own is made from what they typed. A declined request
+ *    reads as declined, with the same way out.
  *
- * **Google (D-102):** step 2 can create the account with Google instead of a password,
- * once the provider is switched on. The company and the consent go with the form; the
- * callback creates the organisation and lands back here, on step 3 (`done`).
+ * **Two of the design's fields are collected and not stored** (D-38): the role question is dropped, and
+ * the size band is kept by turning it into a number.
  *
- * **Microsoft (D-201):** the same, through the `azure` provider, above Google as on /logg-inn.
- * The callback runs the Microsoft sign-in rules once the organisation exists, which binds the
- * new membership to the Microsoft person who made it.
+ * **Google (D-102) and Microsoft (D-201):** the providers create the account instead of a password; the
+ * company and the consent go with the form, and the callback lands back here, created (`?ferdig=1`) or
+ * waiting (`?venter=1`).
  *
- * **A market without a register to ask (`registry` false, Sweden until Bolagsverket, D-254):**
- * step 1 asks for the company's name beside its number, the number is held to the market's rule
- * on the server, and the confirmation shows what was typed. Norway's step 1 is unchanged.
- *
- * **Where the form is left (D-277):** each step as it is shown, the company found, the provider chosen
- * and every error met go to Sentral as codes (`step2_shown`, `lookup_not_found`, `step2_signup_failed`),
- * never what was typed.
+ * **Where the form is left (D-277):** the state shown, the provider chosen, a request filed and every
+ * error met go to Sentral as codes (`form_shown`, `join_requested`, `form_signup_failed`), never what was
+ * typed.
  */
-
-
-
 export function SignUpFlow({
   google = false,
   microsoft = false,
   problem = null,
   done = null,
+  waiting = null,
   registry = true,
   floor = K_FLOOR,
   legal = true,
@@ -65,7 +58,9 @@ export function SignUpFlow({
   microsoft?: boolean
   problem?: string | null
   done?: { firstName: string; company: string } | null
-  /** whether the market's register can be asked (lib/markets.ts REGISTRY_LOOKUP) */
+  /** the request filed, or declined, when the company was already here (0232) */
+  waiting?: JoinRequest | null
+  /** whether the market's register can be asked (lib/markets.ts REGISTRY_LOOKUP): the number's placeholder */
   registry?: boolean
   /** the market's anonymity floor (lib/markets.ts MARKET_K_FLOOR): Norway's note names three */
   floor?: number
@@ -77,69 +72,59 @@ export function SignUpFlow({
   const t = useTranslations('registrer')
   const router = useRouter()
 
-  const [step, setStep] = useState<1 | 2 | 3>(done ? 3 : 1)
-  const [company, setCompany] = useState<{ orgNumber: string; name: string } | null>(
-    done ? { orgNumber: '', name: done.company } : null,
-  )
+  const [phase, setPhase] = useState<'form' | 'created' | 'waiting'>(done ? 'created' : waiting ? 'waiting' : 'form')
+  const [request, setRequest] = useState<JoinRequest | null>(waiting)
+  const [createdName, setCreatedName] = useState(done?.company ?? '')
+
+  // Arriving from a landing page's form (SignupStart, OrgStart) with ?firma= or ?orgnr=: the field is
+  // filled in, so the visitor carries on from what they typed there (D-270).
+  const params = useSearchParams()
+  const prefillName = (params.get('firma') ?? '').trim().slice(0, 200)
+  const prefillNumber = (params.get('orgnr') ?? '').replace(/\s/g, '')
+  const prefilled = registry
+    ? /^\d{9}$/.test(prefillNumber) ? prefillNumber : ''
+    : /^[0-9A-Za-z-]{1,12}$/.test(prefillNumber) ? prefillNumber.toUpperCase() : ''
+
+  // controlled, so a refused submit does not empty the form (React resets a form's uncontrolled fields
+  // after its action)
+  const [companyName, setCompanyName] = useState(prefillName)
+  const [orgNumber, setOrgNumber] = useState(prefilled)
   const [size, setSize] = useState<SizeKey>('under25')
-  const [sizeTouched, setSizeTouched] = useState(false)
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState(done?.firstName ?? '')
-  // a Google signup is only complete when the callback lands back here with the organisation made
+  const [email, setEmail] = useState('')
+  const [consent, setConsent] = useState(false)
+  const [, startTransition] = useTransition()
+  const [formProblem, setFormProblem] = useState<string | null>(null)
+  const [creating, setCreating] = useState(false)
+  const [separating, setSeparating] = useState(false)
+  const [separateProblem, setSeparateProblem] = useState<string | null>(null)
+
+  // a provider's sign-up, or a confirmation link, is only complete when it lands back here with the
+  // organisation made
   const counted = useRef(false)
   useEffect(() => {
     if (!done || counted.current) return
     counted.current = true
     trackEvent('signup_completed')
   }, [done])
-  const [email, setEmail] = useState('')
-  // controlled, so a number the market refuses does not take the typed name with it (React resets a form's
-  // uncontrolled fields after its action)
-  const [companyName, setCompanyName] = useState('')
-  const [consent, setConsent] = useState(false)
-  const [, startTransition] = useTransition()
 
-  const [lookup, lookupAction, lookingUp] = useActionState<LookupState, FormData>(
-    lookupCompany,
-    { status: 'idle' },
-  )
-  const [signUp, setSignUp] = useState<SignUpState>({ status: 'idle' })
-  const [creating, setCreating] = useState(false)
-
-  const found = lookup.status === 'found' ? lookup : null
-
-  // where the form was left (D-277): the step shown, the company found, the error met, as codes only
+  // where the form was left (D-277): the state shown and the error met, as codes only
   useEffect(() => {
-    if (step < 3) trackForm('signup_step', `step${step}_shown`)
-  }, [step])
-  useEffect(() => {
-    if (lookup.status === 'found') trackForm('signup_step', 'org_found')
-    else if (lookup.status === 'problem') trackForm('signup_error', lookup.problem)
-  }, [lookup])
+    trackForm('signup_step', `${phase}_shown`)
+  }, [phase])
   useEffect(() => {
     // a provider's sign-in came back with an error (?feil=)
     if (problem) trackForm('signup_error', problem)
   }, [problem])
-  const registerCount = found?.employees ?? null
-  // the register's headcount picks the band until the visitor picks one themselves
-  useEffect(() => {
-    if (registerCount !== null && !sizeTouched) setSize(bandOf(registerCount))
-  }, [registerCount, sizeTouched])
 
-  // Arriving from a landing page's form (SignupStart) with ?orgnr=: fill it in and look it
-  // up at once, so the visitor lands on their company rather than on an empty field.
-  // Where the market has no register (the United Kingdom, Sweden), the number is filled in and the
-  // visitor names the company themselves (D-270).
-  const prefill = (useSearchParams().get('orgnr') ?? '').replace(/\s/g, '')
-  const prefilled = registry ? (/^\d{9}$/.test(prefill) ? prefill : '') : /^[0-9A-Za-z-]{1,12}$/.test(prefill) ? prefill.toUpperCase() : ''
-  const looked = useRef(false)
-  useEffect(() => {
-    if (!registry || !prefilled || looked.current) return
-    looked.current = true
-    const data = new FormData()
-    data.set('orgNumber', prefilled)
-    startTransition(() => lookupAction(data))
-  }, [registry, prefilled, lookupAction])
+  // a sign-up typed here starts at the first field touched; one begun on a landing page was counted there
+  const started = useRef(Boolean(prefillName || prefilled))
+  const markStarted = () => {
+    if (started.current) return
+    started.current = true
+    trackEvent('signup_started')
+  }
 
   /** Length counts twice and a non-letter once — the design's own meter (line 551). */
   const strength =
@@ -148,184 +133,126 @@ export function SignUpFlow({
     (/[^a-zA-ZæøåÆØÅ]/.test(password) ? 1 : 0)
 
   const canCreate =
+    companyName.trim().length > 0 &&
     firstName.trim().length > 1 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim()) &&
     password.length >= 8 &&
     consent
 
+  const steps = [t('stepAccount'), t(phase === 'waiting' ? 'stepWaiting' : 'step3')]
+  const reached = phase === 'form' ? 1 : 2
+  const inputClass = 'h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none'
+
   return (
     <div className="animate-entry mx-auto max-w-[1000px] px-[26px] pb-[70px] pt-[40px]">
       <ol className="m-0 flex list-none flex-wrap items-center gap-[7px] p-0">
-        {([1, 2, 3] as const).map((n) => (
-          <li key={n} className="flex items-center gap-[7px]">
-            <span
-              className="flex h-[23px] w-[23px] items-center justify-center rounded-pill border-[1.5px] text-[11px] font-bold"
-              style={{
-                background: step >= n ? '#F5C64A' : 'transparent',
-                borderColor: step >= n ? '#191510' : '#C4BCA8',
-                color: '#191510',
-              }}
-            >
-              {step > n ? '✓' : n}
-            </span>
-            <span
-              className={`text-[12.5px] ${step === n ? 'font-bold' : 'font-medium'}`}
-              style={{ color: step >= n ? '#191510' : '#8A8272' }}
-            >
-              {t(`step${n}`)}
-            </span>
-            {n < 3 ? <span className="block h-[1.5px] w-[22px] bg-line" /> : null}
-          </li>
-        ))}
+        {steps.map((label, i) => {
+          const n = i + 1
+          return (
+            <li key={n} className="flex items-center gap-[7px]">
+              <span
+                className="flex h-[23px] w-[23px] items-center justify-center rounded-pill border-[1.5px] text-[11px] font-bold"
+                style={{
+                  background: reached >= n ? '#F5C64A' : 'transparent',
+                  borderColor: reached >= n ? '#191510' : '#C4BCA8',
+                  color: '#191510',
+                }}
+              >
+                {reached > n ? '✓' : n}
+              </span>
+              <span
+                className={`text-[12.5px] ${reached === n ? 'font-bold' : 'font-medium'}`}
+                style={{ color: reached >= n ? '#191510' : '#8A8272' }}
+              >
+                {label}
+              </span>
+              {n < steps.length ? <span className="block h-[1.5px] w-[22px] bg-line" /> : null}
+            </li>
+          )
+        })}
       </ol>
 
       <div className="mt-[26px] grid items-start gap-[22px] md:[grid-template-columns:minmax(0,1.25fr)_minmax(258px,0.75fr)]">
         <div className="min-w-0">
-          {problem && step === 1 ? (
+          {problem && phase === 'form' ? (
             <p role="alert" className="mb-[12px] mt-0 text-[13.5px] leading-[1.55] text-danger [text-wrap:pretty]">
               {t.has(`problem.${problem}`)
                 ? t(`problem.${problem}`)
                 : t(problem.startsWith('microsoft_') ? 'problem.microsoft_failed' : 'problem.google_failed')}
             </p>
           ) : null}
-          {/* ------------------------------------------------------- step 1 */}
-          {step === 1 ? (
-            <form
-              action={(data) => {
-                // a lookup typed here starts a sign-up; one prefilled from a landing page was counted there
-                if (!looked.current) trackEvent('signup_started')
-                looked.current = true
-                lookupAction(data)
-              }}
-              className="rounded-card border border-line bg-sf p-[clamp(24px,3.5vw,32px)]"
-            >
-              <h1 className="m-0 max-w-[22ch] font-display text-[clamp(26px,3.6vw,32px)] font-semibold leading-[1.12] [text-wrap:balance]">
-                {t('step1Title')}
-              </h1>
-              <p className="mt-[11px] max-w-[52ch] text-[14.5px] leading-[1.65] text-mut [text-wrap:pretty]">
-                {t(registry ? 'step1Lead' : 'step1LeadManual')}
-              </p>
 
-              <label className="mt-[22px] block max-w-[340px]">
-                <span className="mb-[7px] block text-[13px] font-bold">{t('orgNumber')}</span>
-                <input
-                  name="orgNumber"
-                  inputMode={numberInput}
-                  autoCapitalize={numberInput === 'text' ? 'characters' : undefined}
-                  required
-                  defaultValue={found?.orgNumber ?? prefilled}
-                  placeholder={t(registry ? 'orgNumberPlaceholder' : 'orgNumberPlaceholderManual')}
-                  className="h-[50px] w-full rounded-tile border-[1.5px] bg-bg px-[16px] text-[19px] font-semibold tracking-[0.06em] text-ink outline-none"
-                  style={{ borderColor: found ? '#191510' : '#E8DFC9' }}
-                />
-              </label>
-
-              <div
-                className="mt-[8px] max-w-[52ch] text-[12.5px] leading-[1.5] [text-wrap:pretty]"
-                style={{ color: lookup.status === 'problem' ? '#A33A16' : '#5F5849' }}
-              >
-                {lookup.status === 'problem'
-                  ? t(`problem.${lookup.problem}`)
-                  : found
-                    ? t('lookupAgain')
-                    : t(registry ? 'orgNumberHint' : 'orgNumberHintManual')}
-              </div>
-
-              {registry ? null : (
-                <label className="mt-[14px] block max-w-[340px]">
-                  <span className="mb-[7px] block text-[13px] font-bold">{t('companyName')}</span>
-                  <input
-                    name="companyName"
-                    required
-                    autoComplete="organization"
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
-                    placeholder={t('companyNamePlaceholder')}
-                    className="h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
-                  />
-                </label>
-              )}
-
-              {found ? (
-                <>
-                  <div className="mt-[18px] rounded-note border-[1.5px] border-ink bg-sbg px-[22px] py-[20px]">
-                    <span className="block text-[11px] uppercase tracking-[0.1em] text-mut">
-                      {t(registry ? 'foundHead' : 'foundHeadManual')}
-                    </span>
-                    <span className="mt-[6px] block font-display text-[23px] font-semibold leading-[1.2]">
-                      {found.name}
-                    </span>
-                    <span className="mt-[12px] flex flex-col gap-[5px]">
-                      {found.rows.map((r) => (
-                        <span key={r.key} className="flex gap-[12px] text-[13px]">
-                          <span className="w-[94px] flex-none text-mut">{t(`fact.${r.key}`)}</span>
-                          <span className="min-w-0 font-semibold">{r.value}</span>
-                        </span>
-                      ))}
-                    </span>
-                  </div>
-                  <div className="mt-[16px] flex flex-wrap gap-[10px]">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCompany({ orgNumber: found.orgNumber, name: found.name })
-                        setStep(2)
-                      }}
-                      className="inline-flex h-[48px] cursor-pointer items-center rounded-tile border border-ink bg-ac px-[22px] text-[15.5px] font-bold text-ink"
-                    >
-                      {t('confirmCompany')}
-                    </button>
-                    <button
-                      type="submit"
-                      name="orgNumber"
-                      value=""
-                      className="inline-flex h-[48px] cursor-pointer items-center rounded-tile border border-line bg-transparent px-[18px] text-[15px] font-semibold text-ink"
-                    >
-                      {t('tryAnother')}
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={lookingUp}
-                  className="mt-[16px] inline-flex h-[48px] cursor-pointer items-center rounded-tile border border-ink bg-ac px-[22px] text-[15.5px] font-bold text-ink"
-                >
-                  {lookingUp ? t('looking') : t(registry ? 'lookUp' : 'lookUpManual')}
-                </button>
-              )}
-            </form>
-          ) : null}
-
-          {/* ------------------------------------------------------- step 2 */}
-          {step === 2 && company ? (
+          {/* ------------------------------------------------------- the form */}
+          {phase === 'form' ? (
             <form
               className="rounded-card border border-line bg-sf p-[clamp(24px,3.5vw,32px)]"
+              onChange={markStarted}
               action={(data) => {
-                data.set('orgNumber', company.orgNumber)
-                data.set('companyName', company.name)
-                data.set('employeeCount', String(countFor(size, registerCount)))
+                data.set('companyName', companyName)
+                data.set('orgNumber', orgNumber)
+                data.set('employeeCount', String(countFor(size, null)))
                 setCreating(true)
+                setFormProblem(null)
                 startTransition(async () => {
                   const result = await createAccount({ status: 'idle' }, data)
                   setCreating(false)
-                  setSignUp(result)
-                  if (result.status === 'problem') trackForm('signup_error', `step2_${result.problem}`)
-                  if (result.status === 'idle') {
+                  if (result.status === 'problem') {
+                    setFormProblem(result.problem)
+                    trackForm('signup_error', `form_${result.problem}`)
+                  } else if (result.status === 'requested') {
+                    trackForm('signup_step', 'join_requested')
+                    setRequest(result.request)
+                    setPhase('waiting')
+                  } else if (result.status === 'created') {
                     trackEvent('signup_completed')
-                    setStep(3)
+                    setCreatedName(companyName.trim())
+                    setPhase('created')
                   }
                 })
               }}
             >
-              <h1 className="m-0 max-w-[20ch] font-display text-[clamp(26px,3.6vw,32px)] font-semibold leading-[1.12] [text-wrap:balance]">
-                {t('step2Title')}
+              <h1 className="m-0 max-w-[22ch] font-display text-[clamp(26px,3.6vw,32px)] font-semibold leading-[1.12] [text-wrap:balance]">
+                {t('formTitle')}
               </h1>
               <p className="mt-[11px] max-w-[52ch] text-[14.5px] leading-[1.65] text-mut [text-wrap:pretty]">
-                {t('step2Lead')}
+                {t('formLead')}
               </p>
 
-              <div className="mt-[22px] grid gap-[14px] [grid-template-columns:repeat(auto-fit,minmax(215px,1fr))]">
+              <label className="mt-[22px] block max-w-[420px]">
+                <span className="mb-[7px] block text-[13px] font-bold">{t('companyName')}</span>
+                <input
+                  name="companyName"
+                  required
+                  autoComplete="organization"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  placeholder={t('companyNamePlaceholder')}
+                  className={inputClass}
+                />
+              </label>
+              <div className="mt-[8px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
+                {t('companyHint')}
+              </div>
+
+              <label className="mt-[16px] block max-w-[340px]">
+                <span className="mb-[7px] block text-[13px] font-bold">
+                  {t('orgNumber')} <span className="font-medium text-mut">{t('optional')}</span>
+                </span>
+                <input
+                  name="orgNumber"
+                  inputMode={numberInput}
+                  autoCapitalize={numberInput === 'text' ? 'characters' : undefined}
+                  value={orgNumber}
+                  onChange={(e) => setOrgNumber(e.target.value)}
+                  placeholder={t(registry ? 'orgNumberPlaceholder' : 'orgNumberPlaceholderManual')}
+                  className={inputClass}
+                />
+              </label>
+              <div className="mt-[8px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
+                {t(registry ? 'orgNumberOptionalHint' : 'orgNumberOptionalHintManual')}
+              </div>
+
+              <div className="mt-[16px] grid gap-[14px] [grid-template-columns:repeat(auto-fit,minmax(215px,1fr))]">
                 <label className="block">
                   <span className="mb-[7px] block text-[13px] font-bold">{t('name')}</span>
                   <input
@@ -335,7 +262,7 @@ export function SignUpFlow({
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     placeholder={t('namePlaceholder')}
-                    className="h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
+                    className={inputClass}
                   />
                 </label>
                 <label className="block">
@@ -349,7 +276,7 @@ export function SignUpFlow({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t('emailPlaceholder')}
-                    className="h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
+                    className={inputClass}
                   />
                 </label>
               </div>
@@ -420,7 +347,7 @@ export function SignUpFlow({
                         name="size"
                         value={s.key}
                         checked={size === s.key}
-                        onChange={() => (setSize(s.key), setSizeTouched(true))}
+                        onChange={() => setSize(s.key)}
                         className="peer absolute h-px w-px overflow-hidden opacity-0"
                       />
                       <span
@@ -476,21 +403,17 @@ export function SignUpFlow({
                 >
                   {creating ? t('creating') : t('createAccount')}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="inline-flex h-[48px] cursor-pointer items-center rounded-tile border border-line bg-transparent px-[18px] text-[15px] font-semibold text-ink"
-                >
-                  {t('back')}
-                </button>
               </div>
 
               <div
+                role={formProblem ? 'alert' : undefined}
                 className="mt-[11px] max-w-[52ch] text-[12.5px] leading-[1.5] [text-wrap:pretty]"
-                style={{ color: signUp.status === 'problem' ? '#A33A16' : '#5F5849' }}
+                style={{ color: formProblem ? '#A33A16' : '#5F5849' }}
               >
-                {signUp.status === 'problem'
-                  ? t(`problem.${signUp.problem}`)
+                {formProblem
+                  ? t.has(`problem.${formProblem}`)
+                    ? t(`problem.${formProblem}`)
+                    : t('problem.org_failed')
                   : canCreate
                     ? t('ctaHintReady')
                     : t('ctaHintMissing')}
@@ -500,12 +423,10 @@ export function SignUpFlow({
                 <>
                   <GoogleDivider label={t('googleOr')} />
                   <input type="hidden" name="flow" value="signup" />
-                  <input type="hidden" name="orgNumber" value={company.orgNumber} />
-                  <input type="hidden" name="companyName" value={company.name} />
-                  <input type="hidden" name="employeeCount" value={String(countFor(size, registerCount))} />
+                  <input type="hidden" name="employeeCount" value={String(countFor(size, null))} />
                   <div className="flex flex-col gap-[9px]">
-                    {microsoft ? <MicrosoftButton inForm label={t('microsoft')} disabled={!consent} onClick={() => trackForm('signup_step', 'sso_microsoft')} /> : null}
-                    {google ? <GoogleButton inForm label={t('google')} disabled={!consent} onClick={() => trackForm('signup_step', 'sso_google')} /> : null}
+                    {microsoft ? <MicrosoftButton inForm label={t('microsoft')} disabled={!consent || !companyName.trim()} onClick={() => trackForm('signup_step', 'sso_microsoft')} /> : null}
+                    {google ? <GoogleButton inForm label={t('google')} disabled={!consent || !companyName.trim()} onClick={() => trackForm('signup_step', 'sso_google')} /> : null}
                   </div>
                   <div className="mt-[9px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
                     {microsoft ? t('providerHint') : t('googleHint')}
@@ -515,8 +436,8 @@ export function SignUpFlow({
             </form>
           ) : null}
 
-          {/* ------------------------------------------------------- step 3 */}
-          {step === 3 && company ? (
+          {/* ------------------------------------------------------- created */}
+          {phase === 'created' ? (
             <div className="rounded-card border border-line bg-sf p-[clamp(24px,3.5vw,32px)]">
               <span className="flex h-[52px] w-[52px] items-center justify-center rounded-pill bg-mint text-[25px] text-greendeep">
                 ✓
@@ -525,7 +446,7 @@ export function SignUpFlow({
                 {t('doneTitle', { name: firstName.trim().split(' ')[0] || t('doneFallbackName') })}
               </h1>
               <p className="mt-[12px] max-w-[54ch] text-[14.5px] leading-[1.65] text-body [text-wrap:pretty]">
-                {t('doneLead', { company: company.name })}
+                {t('doneLead', { company: createdName })}
               </p>
 
               <div className="mt-[22px] flex flex-col gap-[9px]">
@@ -565,6 +486,70 @@ export function SignUpFlow({
               <HeardAbout />
             </div>
           ) : null}
+
+          {/* ------------------------------------------------------- waiting */}
+          {phase === 'waiting' ? (
+            <div className="rounded-card border border-line bg-sf p-[clamp(24px,3.5vw,32px)]">
+              <h1 className="m-0 max-w-[24ch] font-display text-[clamp(26px,3.6vw,32px)] font-semibold leading-[1.12] [text-wrap:balance]">
+                {request
+                  ? t(request.status === 'dismissed' ? 'declinedTitle' : 'waitingTitle', { company: request.company })
+                  : t('waitingTitleGeneric')}
+              </h1>
+              <p className="mt-[12px] max-w-[54ch] text-[14.5px] leading-[1.65] text-body [text-wrap:pretty]">
+                {t(request?.status === 'dismissed' ? 'declinedLead' : 'waitingLead')}
+              </p>
+              {request?.status === 'dismissed' ? null : (
+                <p className="mt-[10px] max-w-[54ch] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">
+                  {t('waitingNote')}
+                </p>
+              )}
+
+              {request?.separable ? (
+                <div className="mt-[22px] rounded-note border border-line bg-bg px-[20px] py-[18px]">
+                  <span className="block text-[14px] font-semibold">{t('separateTitle')}</span>
+                  <span className="mt-[4px] block max-w-[54ch] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
+                    {t('separateLead', { typed: request.typed })}
+                  </span>
+                  <button
+                    type="button"
+                    disabled={separating}
+                    onClick={() => {
+                      setSeparating(true)
+                      setSeparateProblem(null)
+                      startTransition(async () => {
+                        const result = await separateCompany()
+                        setSeparating(false)
+                        if (result.status === 'created') {
+                          trackForm('signup_step', 'separate_created')
+                          trackEvent('signup_completed')
+                          setCreatedName(request.typed)
+                          setPhase('created')
+                        } else {
+                          setSeparateProblem(result.problem)
+                          trackForm('signup_error', `separate_${result.problem}`)
+                        }
+                      })
+                    }}
+                    className="mt-[14px] inline-flex h-[44px] cursor-pointer items-center rounded-tile border border-ink bg-transparent px-[18px] text-[14.5px] font-bold text-ink"
+                  >
+                    {separating ? t('creating') : t('separateButton', { typed: request.typed })}
+                  </button>
+                  {separateProblem ? (
+                    <p role="alert" className="mb-0 mt-[9px] text-[12.5px] leading-[1.5] text-danger [text-wrap:pretty]">
+                      {t.has(`problem.${separateProblem}`) ? t(`problem.${separateProblem}`) : t('problem.org_failed')}
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
+
+              <Link
+                href="/logg-inn"
+                className="mt-[22px] inline-flex h-[48px] items-center rounded-tile border border-line bg-transparent px-[18px] text-[15px] font-semibold text-ink no-underline"
+              >
+                {t('waitingSignIn')}
+              </Link>
+            </div>
+          ) : null}
         </div>
 
         <div className="sticky top-[76px] flex min-w-0 flex-col gap-[12px]">
@@ -590,7 +575,7 @@ export function SignUpFlow({
           </div>
           <div className="rounded-note border border-line bg-sbg px-[21px] py-[19px]">
             <span className="block text-[13.5px] leading-[1.6] [text-wrap:pretty]">
-              {step === 1 && !registry ? t('reassure1Manual') : t(`reassure${step}`)}
+              {t(phase === 'form' ? 'reassure2' : 'reassure3')}
             </span>
           </div>
           <p className="text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">

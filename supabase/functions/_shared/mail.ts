@@ -48,6 +48,7 @@ export interface NoticeJob {
     | 'tiltak_forfalt'
     | 'svarprosent'
     | 'evaluering'
+    | 'tilgang'
   audience: string | null
   /** the channel the database chose for the link (0033; Teams since 0176, Slack since 0185); role notices are always e-mail */
   channel: 'email' | 'sms' | 'teams' | 'slack'
@@ -86,6 +87,8 @@ export interface NoticeJob {
    * unless `engagement_since_last` is on; an SMS never carries it (D-128).
    */
   since?: { first: true } | { first: false; since: string; items: { title: string; status: 'gjennomfort' | 'pagar' }[]; done: number } | null
+  /** a request to join (0232, D-279): the name the person gave and the address they signed up with */
+  request?: { name: string | null; email: string } | null
   /**
    * «Send test til meg» (0127): the round whose invitation this tests. A test has no token; its
    * link opens that round's preview, which needs a sign-in and answers nothing.
@@ -582,6 +585,21 @@ export function renderNotice(
     ]
     const cta = group.member ? { label: pick(m, 'evaluering.cta'), url: `${base}/rapport` } : null
     return { subject, ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
+  }
+
+  // somebody signed up and found this organisation already here (0232, D-279): to its daglig leder.
+  // Who asks is in the body only, on one line: a name somebody typed never reaches the subject.
+  if (job.kind === 'tilgang') {
+    const req = job.request ?? null
+    if (!req) throw new Error('tilgang without a request')
+    const name = req.name ? req.name.replace(/\s+/g, ' ').trim() : ''
+    const subject = fill(pick(m, 'tilgang.subject'), { org })
+    const paragraphs = [
+      fill(pick(m, name ? 'tilgang.lead' : 'tilgang.leadNoName'), { name, email: req.email, org }),
+      pick(m, 'tilgang.what'),
+    ]
+    const cta = group.member ? { label: pick(m, 'tilgang.cta'), url: `${base}/oppsett?fane=roller` } : null
+    return { subject, ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs, cta, after: [pick(m, 'tilgang.unknown')], footer }) }
   }
 
   if (!job.round) throw new Error(`${job.kind} without a round`)

@@ -45,10 +45,12 @@ export async function GET(request: NextRequest) {
     redirect('/logg-inn')
   }
 
-  // a confirmed sign-up: the organisation it named is made now (lib/signup/pending.ts, D-200)
+  // a confirmed sign-up: the organisation it named is made now (lib/signup/pending.ts, D-200), or,
+  // where the company is already here, the request to join it is filed (0232, D-279)
   if (parsed.data.type === 'email') {
     const made = await completePendingSignup(supabase)
     if (made.kind === 'created') redirect('/registrer?ferdig=1' as Route)
+    if (made.kind === 'requested') redirect('/registrer?venter=1' as Route)
     if (made.kind === 'failed') redirect(`/registrer?feil=${made.reason}` as Route)
   }
 

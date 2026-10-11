@@ -125,7 +125,7 @@ export async function StartBand() {
           label={t('label')}
           placeholder={t('placeholder')}
           submit={t('submit')}
-          fetching={t.raw('fetching') as string}
+          going={t.raw('going') as string}
           invalid={t('invalid')}
         />
       </div>

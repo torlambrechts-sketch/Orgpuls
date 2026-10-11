@@ -1,78 +1,35 @@
 'use server'
 
 import { z } from 'zod'
-import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
 import { headers } from 'next/headers'
-import { lookupOrgNumber } from '@/lib/brreg/lookup'
-import { lookupAllowed, networkOf } from '@/lib/brreg/throttle'
 import { HEARD } from '@/lib/signup/heard'
 import { completePendingSignup, PENDING_KEY, type PendingOrg } from '@/lib/signup/pending'
+import { myJoinRequest, signUpSeparately, type JoinRequest } from '@/lib/signup/organisation'
 import { marketOfHost } from '@/lib/hosts'
 import { authReturn } from '@/lib/auth/return'
-import { orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
+import { orgNumberProblem } from '@/lib/markets'
 import { normalizeOrgNumber, ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
 
 /**
- * Signing up.
+ * Signing up (X-114, D-279).
  *
- * Two server actions and a deliberate order: the account is created first, the
- * organisation second, and the second only happens because the first produced a session.
- * `rpc.create_organisation` runs as the signed-in user and refuses a caller who already
- * belongs to one — see 0024 for why that guard is the one that matters.
+ * One form: the company's name, the person's name, a work address and a password; the organisation
+ * number is optional. The account is created first and the organisation second, and the second only
+ * happens because the first produced a session: `signup_organisation` runs as the signed-in user,
+ * refuses a caller who already belongs to one, and looks for the company among those already here
+ * before it makes one (0232). Finding it, it makes no second organisation: the person's request goes
+ * to that organisation's daglig leder, and the form says so.
  *
- * **The company lookup is separate from the account.** Step 1 asks Brønnøysund and shows
- * what came back; nothing is written until step 2 is submitted. That is not only a nicer
- * flow, it is the correct one: a registry lookup is a read of public data and should not
- * leave a row behind if somebody changes their mind.
+ * Nothing is looked up before the account exists. The step that asked Brønnøysund for a typed number
+ * is gone with the number's place at the front of the form; the company's register facts are fetched
+ * in the product, under Oppsett, where the number can be added at any time.
  */
 
-export type LookupState =
-  | { status: 'idle' }
-  | { status: 'found'; orgNumber: string; name: string; rows: { key: string; value: string }[]; employees: number | null }
-  | { status: 'problem'; problem: string }
-
-export async function lookupCompany(_prev: LookupState, formData: FormData): Promise<LookupState> {
-  // the host decides the market (D-251), and the market the number's rule (0218)
-  const h = await headers()
-  const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
-  const typed = String(formData.get('orgNumber') ?? '')
-  if (!validOrgNumber(market, typed)) return { status: 'problem', problem: orgNumberProblem(market) }
-  const orgNumber = normalizeOrgNumber(typed, market)
-
-  // a market without a register to ask (Sweden, until Bolagsverket): the company names itself
-  if (!REGISTRY_LOOKUP[market]) {
-    const name = z.string().trim().min(1).max(200).safeParse(String(formData.get('companyName') ?? ''))
-    if (!name.success) return { status: 'problem', problem: 'invalid_name' }
-    return { status: 'found', orgNumber, name: name.data, rows: [], employees: null }
-  }
-
-  // S5: an outbound request on a public page is an amplifier; see lib/brreg/throttle.ts
-  if (!lookupAllowed(networkOf(h.get('x-forwarded-for') ?? h.get('x-real-ip')))) {
-    return { status: 'problem', problem: 'rate_limited' }
-  }
-
-  const result = await lookupOrgNumber(orgNumber)
-  if (!result.ok) return { status: 'problem', problem: result.problem }
-
-  const f = result.facts
-  const rows = [
-    ['address', f.address],
-    ['form', f.formLabel],
-    ['nace', f.naceLabel],
-    ['employees', f.employees === null ? null : String(f.employees)],
-  ]
-    .filter(([, v]) => v !== null && v !== '')
-    .map(([key, value]) => ({ key: key as string, value: value as string }))
-
-  // the register's headcount preselects the size band (0 means none registered, not none employed)
-  return { status: 'found', orgNumber: f.orgNumber, name: f.name, rows, employees: f.employees ? f.employees : null }
-}
-
 const SignUp = z.object({
-  // the shape here, as the market stores it; the market's rule below
-  orgNumber: z.string().regex(ORG_NUMBER_SHAPE),
   companyName: z.string().trim().min(1).max(200),
+  // optional: empty is none; typed, the shape here and the market's rule below
+  orgNumber: z.union([z.literal(''), z.string().regex(ORG_NUMBER_SHAPE)]),
   employeeCount: z.number().int().min(0).max(100_000),
   fullName: z.string().trim().min(2).max(120),
   email: z.string().trim().email(),
@@ -87,7 +44,11 @@ const SignUp = z.object({
   consent: z.literal(true),
 })
 
-export type SignUpState = { status: 'idle' } | { status: 'problem'; problem: string }
+export type SignUpState =
+  | { status: 'idle' }
+  | { status: 'created' }
+  | { status: 'requested'; request: JoinRequest }
+  | { status: 'problem'; problem: string }
 
 export async function createAccount(
   _prev: SignUpState,
@@ -96,23 +57,29 @@ export async function createAccount(
   const h = await headers()
   // the host decides the market, never a form field (D-251)
   const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
+  const typed = String(formData.get('orgNumber') ?? '').trim()
   const parsed = SignUp.safeParse({
-    orgNumber: normalizeOrgNumber(String(formData.get('orgNumber') ?? ''), market),
     companyName: String(formData.get('companyName') ?? ''),
+    orgNumber: typed ? normalizeOrgNumber(typed, market) : '',
     employeeCount: Number(formData.get('employeeCount') ?? 0),
     fullName: String(formData.get('fullName') ?? ''),
     email: String(formData.get('email') ?? ''),
     password: String(formData.get('password') ?? ''),
     consent: formData.get('consent') === 'on',
   })
+  if (typed && !parsed.success && parsed.error.issues.some((i) => i.path[0] === 'orgNumber')) {
+    return { status: 'problem', problem: orgNumberProblem(market) }
+  }
   if (!parsed.success) return { status: 'problem', problem: 'invalid' }
+  const orgNumber = parsed.data.orgNumber || null
+  if (orgNumber && !validOrgNumber(market, orgNumber)) return { status: 'problem', problem: orgNumberProblem(market) }
 
   const supabase = await createClient()
-  if (!validOrgNumber(market, parsed.data.orgNumber)) return { status: 'problem', problem: orgNumberProblem(market) }
 
-  // the company goes with the account, so the organisation can be made by the first confirmed
-  // session when the project asks for e-mail confirmation (lib/signup/pending.ts, D-200); the site
-  // and language go with it, so the confirmation comes from that site, in that language (D-275)
+  // the company goes with the account, so the organisation can be made, or asked into, by the
+  // first confirmed session when the project asks for e-mail confirmation (lib/signup/pending.ts,
+  // D-200); the site and language go with it, so the confirmation comes from that site, in that
+  // language (D-275)
   const back = await authReturn()
   const { data: signUp, error: signUpError } = await supabase.auth.signUp({
     email: parsed.data.email,
@@ -123,7 +90,7 @@ export async function createAccount(
         full_name: parsed.data.fullName,
         lang: back.lang,
         [PENDING_KEY]: {
-          orgNumber: parsed.data.orgNumber,
+          orgNumber,
           companyName: parsed.data.companyName,
           employeeCount: parsed.data.employeeCount,
           market,
@@ -140,13 +107,34 @@ export async function createAccount(
    */
   if (signUpError) return { status: 'problem', problem: 'signup_failed' }
 
-  // no session means the project requires e-mail confirmation first: the link makes the organisation
+  // no session means the project requires e-mail confirmation first: the link finishes the sign-up
   if (!signUp.session) return { status: 'problem', problem: 'confirm_email' }
 
   const made = await completePendingSignup(supabase)
   if (made.kind === 'failed') return { status: 'problem', problem: made.reason === 'invalid_org_number' ? orgNumberProblem(market) : made.reason }
   if (made.kind === 'none') return { status: 'problem', problem: 'org_failed' }
-  return { status: 'idle' }
+  if (made.kind === 'requested') {
+    // the request as the waiting page reads it, so the form can offer the same way out; where it cannot
+    // be read back, the company's name alone and no way out
+    const request = await myJoinRequest(supabase)
+    return {
+      status: 'requested',
+      request: request ?? { company: made.company, status: 'pending', typed: parsed.data.companyName, separable: false },
+    }
+  }
+  return { status: 'created' }
+}
+
+/**
+ * «Vi er en annen virksomhet» on the waiting page: the company found by its name or a colleague's
+ * address is not theirs, so their own organisation is made from what they typed (0232). The database
+ * refuses it where the number matched, and for anybody who already belongs to one.
+ */
+export async function separateCompany(): Promise<{ status: 'created' } | { status: 'problem'; problem: string }> {
+  const supabase = await createClient()
+  const made = await signUpSeparately(supabase)
+  if (made.kind === 'created') return { status: 'created' }
+  return { status: 'problem', problem: made.kind === 'failed' ? made.reason : 'org_failed' }
 }
 
 /**

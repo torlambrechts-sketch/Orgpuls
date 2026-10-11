@@ -260,7 +260,7 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
     setProblem(null)
     try {
       let ok = true
-      if (step === 1 && (model.org.fetched || !model.registry) && orgName.trim() !== model.org.name) {
+      if (step === 1 && (model.org.fetched || !model.registry || !model.org.orgNumber) && orgName.trim() !== model.org.name) {
         ok = await run(() => saveOrgName(form({ name: orgName })), 'org')
       }
       if (step === 2) {
@@ -526,14 +526,16 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
                     {fetching ? t('org.fetching') : model.org.fetched ? t('org.fetched') : t('org.fetch')}
                   </button>
                 </div>
-                ) : (
-                  // no register to ask in this market (Sweden): the number it signed up with, as printed there
+                ) : model.org.orgNumber ? (
+                  // no register to ask in this market (Sweden, the United Kingdom): the number it signed up
+                  // with, as printed there; none typed, no row (X-114)
                   <div className="mt-[18px] flex max-w-[520px] gap-[12px] text-[13px]">
                     <span className="w-[130px] flex-none text-mut">{t('org.number')}</span>
                     <span className="font-semibold">{model.org.orgNumber}</span>
                   </div>
-                )}
-                {model.org.fetched || !model.registry ? (
+                ) : null}
+                {/* the name as signed up with, editable; in Norway once fetched, or where there is no number to fetch by */}
+                {model.org.fetched || !model.registry || !model.org.orgNumber ? (
                   <div className="mt-[14px] max-w-[520px] rounded-opt border border-line bg-sf px-[18px] py-[16px]">
                     <label className="block">
                       <span className="mb-[6px] block text-[12.5px] font-semibold">{t('org.name')}</span>

@@ -1,6 +1,6 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { hasValidCheckDigit, lookupOrgNumber } from '@/lib/brreg/lookup'
-import { lookupAllowed, networkOf, resetLookupThrottle } from '@/lib/brreg/throttle'
+import { networkOf } from '@/lib/brreg/throttle'
 
 /** S5: the public registry lookup, and what stops it being used as an amplifier. */
 
@@ -36,25 +36,5 @@ describe('networkOf', () => {
 
   it('has a name for no address at all', () => {
     expect(networkOf(null)).toBe('unknown')
-  })
-})
-
-describe('lookupAllowed', () => {
-  beforeEach(() => resetLookupThrottle())
-
-  it('allows twenty in a window and refuses the twenty-first', () => {
-    const t = 1_000_000
-    for (let i = 0; i < 20; i++) expect(lookupAllowed('a', t)).toBe(true)
-    expect(lookupAllowed('a', t)).toBe(false)
-  })
-
-  it('one network being throttled does not throttle another', () => {
-    for (let i = 0; i < 21; i++) lookupAllowed('a', 0)
-    expect(lookupAllowed('b', 0)).toBe(true)
-  })
-
-  it('the window resets', () => {
-    for (let i = 0; i < 21; i++) lookupAllowed('a', 0)
-    expect(lookupAllowed('a', 10 * 60 * 1000)).toBe(true)
   })
 })

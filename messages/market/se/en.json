@@ -376,17 +376,17 @@
       "trial": "Get started",
       "start": {
         "title": "Set up Orgpuls for your own organisation",
-        "lead": "Enter your Swedish organisation number here and the company name on the next page. No consultant and no kick-off meeting – the first survey can be planned the same day.",
-        "placeholder": "10 digits",
+        "lead": "Enter your company’s name to get started. No consultant and no kick-off meeting – the first survey can be planned the same day.",
+        "placeholder": "As registered",
         "submit": "Get started",
-        "fetching": "Opening the sign-up with {orgnr} …",
-        "invalid": "A Swedish organisation number has ten digits, and a personal identity number cannot be used.",
-        "label": "Organisation number"
+        "invalid": "Enter the name of the company.",
+        "label": "Company name",
+        "going": "Opening the sign-up for {company} …"
       },
       "band": {
         "title": "Start with your own organisation",
-        "lead": "Enter your Swedish organisation number here and the company name on the next page. No consultant and no kick-off meeting, and answers are stored in the EU.",
-        "leadHome": "Enter your Swedish organisation number here and the company name on the next page. No consultant, no kick-off meeting – the first survey can be planned the same day, and no group is shown until at least 5 have answered."
+        "lead": "Enter your company’s name to get started. No consultant and no kick-off meeting, and answers are stored in the EU.",
+        "leadHome": "Enter your company’s name to get started. No consultant, no kick-off meeting – the first survey can be planned the same day, and no group is shown until at least 5 have answered."
       },
       "footer": {
         "about": "Orgpuls helps Swedish employers survey the organisational and social work environment and follow up with an action plan. Answers are stored in the EU, and no single answer can be traced back to a person.",

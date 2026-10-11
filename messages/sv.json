@@ -1923,8 +1923,22 @@
           "not_allowed": "Bara VD kan göra det här.",
           "not_found": "Det här finns inte längre. Läs in sidan igen.",
           "invalid": "Något i formuläret var ogiltigt.",
-          "failed": "Det gick inte. Inget ändrades – försök igen."
+          "failed": "Det gick inte. Inget ändrades – försök igen.",
+          "other_organisation": "Personen tillhör redan en annan organisation i Orgpuls.",
+          "not_pending": "Förfrågan är redan hanterad. Ladda om sidan."
         }
+      },
+      "requests": {
+        "head": "{count, plural, one {# ber om åtkomst} other {# ber om åtkomst}}",
+        "lead": "De har registrerat sig och hittat er organisation i Orgpuls. De kommer inte in förrän du ger dem åtkomst. Känner du inte personen avböjer du förfrågan.",
+        "typed": "skrev ”{company}”",
+        "matched": {
+          "org_number": "hittad via organisationsnumret",
+          "name": "hittad via namnet",
+          "domain": "hittad via e-postdomänen"
+        },
+        "grant": "Ge åtkomst",
+        "dismiss": "Avböj"
       }
     },
     "integrasjoner": {
@@ -2765,31 +2779,12 @@
       }
     },
     "finalTitle": "Prova på er egen organisation",
-    "finalBody": "Skriv in organisationsnumret, så hämtar vi resten från Brønnøysundregistrene. Ni är igång på 3 minuter och behöver inte ange några kortuppgifter förrän ni har bestämt er."
+    "finalBody": "Skriv in organisationens namn och din e-postadress, så är ni igång på 3 minuter och behöver inte ange några kortuppgifter förrän ni har bestämt er."
   },
   "registrer": {
-    "step1": "Organisation",
-    "step2": "Du",
     "step3": "Klart",
-    "step1Title": "Vilken organisation gäller det?",
-    "step1Lead": "Ange organisationsnumret. Vi hämtar namn, adress och bransch från Brønnøysundregistrene, så slipper du fylla i mer.",
     "orgNumber": "Organisationsnummer",
     "orgNumberPlaceholder": "9 siffror",
-    "orgNumberHint": "Du hittar det på era fakturor eller i Brønnøysundregistrene.",
-    "lookUp": "Hämta organisationen",
-    "looking": "Hämtar …",
-    "lookupAgain": "Stämmer det inte? Prova ett annat nummer.",
-    "foundHead": "Hittades i Brønnøysundregistrene",
-    "fact": {
-      "address": "Adress",
-      "form": "Juridisk form",
-      "nace": "Bransch",
-      "employees": "Anställda"
-    },
-    "confirmCompany": "Ja, det är vi",
-    "tryAnother": "Prova ett annat nummer",
-    "step2Title": "Och vem är du?",
-    "step2Lead": "Du blir första administratör och kan bjuda in resten efteråt. Anställda som bara ska svara behöver inget konto – de använder länken de får.",
     "name": "Namn",
     "namePlaceholder": "Förnamn Efternamn",
     "email": "E-post på jobbet",
@@ -2812,9 +2807,8 @@
     "consent": "Jag bekräftar att jag får ingå avtal för organisationens räkning och har läst integritetspolicyn.",
     "createAccount": "Prova gratis i 15 dagar",
     "creating": "Skapar …",
-    "back": "Tillbaka",
     "ctaHintReady": "Inga kortuppgifter nu. Efter 15 dagar frågar vi om ni vill fortsätta.",
-    "ctaHintMissing": "Fyll i namn, e-post, lösenord och bekräftelsen för att gå vidare.",
+    "ctaHintMissing": "Fyll i organisationens namn, ditt namn, e-post, lösenord och bekräftelsen för att gå vidare.",
     "doneTitle": "{name}, kontot är klart",
     "doneFallbackName": "Välkommen",
     "doneLead": "{company} har skapats, och du är administratör. Det som återstår tar mindre än en timme.",
@@ -2845,28 +2839,25 @@
       "conversations": "Anonyma samtal med de anställda",
       "users": "Obegränsat antal användare – skyddsombud och chefer kostar inget extra"
     },
-    "reassure1": "Vi hämtar bara offentlig information från Brønnøysundregistrene. Inget går ut till de anställda förrän du har godkänt utskicket.",
     "reassure2": "Inga kortuppgifter nu och ingen automatisk förnyelse. Vi frågar innan något faktureras.",
     "reassure3": "Behöver du hjälp med att komma igång, skriv till hjelp@orgpuls.no. Det kostar ingenting.",
     "haveAccount": "Har ni redan ett konto? <link>Logga in</link>.",
     "problem": {
       "invalid": "Något saknades i formuläret. Se över fälten och försök igen.",
       "invalid_org_number": "Ett organisationsnummer har nio siffror. Kontrollera numret och försök igen.",
-      "not_found": "Enhetsregisteret känner inte till det här numret.",
-      "deleted": "Organisationen står som avregistrerad i Enhetsregisteret.",
-      "unreachable": "Enhetsregisteret svarade inte. Försök igen om en stund – inget har ändrats.",
       "signup_failed": "Kontot kunde inte skapas med de här uppgifterna. Kontrollera e-postadressen och lösenordet, eller logga in om du redan har ett konto.",
-      "confirm_email": "Vi har skickat ett mejl till dig. Klicka på länken i det för att bekräfta adressen – då skapas organisationen och du kommer direkt vidare med inställningarna.",
+      "confirm_email": "Vi har skickat ett mejl till dig. Tryck på länken i det för att bekräfta adressen, så kommer du direkt vidare.",
       "org_failed": "Organisationen kunde inte skapas. Försök igen.",
       "already_a_member": "Du tillhör redan en organisation. Logga in i stället.",
       "already_registered": "Den här organisationen är redan registrerad i Orgpuls. Be en administratör där att bjuda in dig.",
       "invalid_name": "Organisationen saknar namn.",
       "not_signed_in": "Sessionen har gått ut. Försök igen.",
-      "rate_limited": "För många sökningar på kort tid. Vänta några minuter och försök igen.",
       "google_failed": "Registreringen med Google gick inte igenom. Försök igen eller registrera dig med e-post och lösenord.",
       "microsoft_failed": "Registreringen med Microsoft gick inte igenom. Försök igen eller registrera dig med e-post och lösenord.",
       "invalid_org_number_se": "Ett organisationsnummer har tio siffror, och ett personnummer kan inte användas. Kontrollera numret och försök igen.",
-      "invalid_org_number_gb": "Ett bolagsnummer från Companies House har åtta tecken: åtta siffror, eller två bokstäver som SC eller OC följda av sex siffror. Kontrollera numret och försök igen."
+      "invalid_org_number_gb": "Ett bolagsnummer från Companies House har åtta tecken: åtta siffror, eller två bokstäver som SC eller OC följda av sex siffror. Kontrollera numret och försök igen.",
+      "nothing_pending": "Det finns ingen förfrågan att gå vidare från. Logga in igen och försök på nytt.",
+      "same_number": "Organisationsnumret tillhör den här organisationen, så den kan inte skapas på nytt. Be administratören där om åtkomst."
     },
     "googleOr": "eller",
     "google": "Fortsätt med Google",
@@ -2888,14 +2879,27 @@
         "other": "Annat"
       }
     },
-    "step1LeadManual": "Ange organisationsnumret och organisationens namn.",
     "orgNumberPlaceholderManual": "10 siffror",
-    "orgNumberHintManual": "Du hittar det på era fakturor. En enskild firma som använder sitt personnummer kan inte registreras.",
     "companyName": "Organisationens namn",
     "companyNamePlaceholder": "Som det är registrerat",
-    "lookUpManual": "Fortsätt",
-    "foundHeadManual": "Organisationen",
-    "reassure1Manual": "Inget går ut till de anställda förrän du har godkänt utskicket."
+    "stepAccount": "Organisation och konto",
+    "stepWaiting": "Förfrågan skickad",
+    "formTitle": "Kom igång med Orgpuls",
+    "formLead": "Är organisationen ny hos oss blir du första administratör och kan bjuda in resten efteråt. Anställda som bara ska svara behöver inget konto – de använder länken de får.",
+    "companyHint": "Använder organisationen redan Orgpuls skapar vi ingen ny. Då ber vi administratören där att ge dig åtkomst.",
+    "optional": "(valfritt)",
+    "orgNumberOptionalHint": "Kan lämnas tomt. Med numret känner vi igen organisationen säkrare, och under Inställningar kan du när som helst hämta uppgifterna från Brønnøysundregistren.",
+    "orgNumberOptionalHintManual": "Kan lämnas tomt. Med numret känner vi igen organisationen säkrare. En enskild firma som använder sitt personnummer kan inte registreras med det.",
+    "waitingTitle": "{company} använder redan Orgpuls",
+    "waitingTitleGeneric": "Organisationen använder redan Orgpuls",
+    "waitingLead": "Vi har skickat ditt namn och din e-postadress till administratören där, som kan ge dig åtkomst. När det är gjort loggar du in med kontot du just skapade.",
+    "waitingNote": "Prata gärna med administratören också. De kan bjuda in dig direkt under Inställningar › Roller och åtkomst.",
+    "declinedTitle": "{company} har inte gett dig åtkomst",
+    "declinedLead": "Administratören där har avböjt förfrågan. Tror du att det är ett missförstånd, prata med dem direkt.",
+    "separateTitle": "Är ni en annan organisation?",
+    "separateLead": "Två organisationer kan ha samma namn, och bolag i en koncern delar ofta e-postdomän. Är det inte ni skapar vi ”{typed}” som en egen organisation, och du blir administratör där.",
+    "separateButton": "Skapa ”{typed}” som egen organisation",
+    "waitingSignIn": "Till inloggningen"
   },
   "headerPanel": {
     "close": "Stäng",
@@ -3883,7 +3887,7 @@
         "denied": "Bara VD kan ändra organisationens uppgifter.",
         "invalid": "Namnet får inte vara tomt."
       },
-      "leadManual": "Kontrollera namnet som organisationen ska visas med. Organisationsnumret registrerades när kontot skapades."
+      "leadManual": "Kontrollera namnet som organisationen ska visas med."
     },
     "people": {
       "lead": "Vi behöver namn, e-post eller mobilnummer och vilken grupp varje person tillhör. {count, plural, =0 {Inga anställda finns inlagda än.} one {# anställd finns redan inlagd. Nya läggs till utan att något skrivs över.} other {# anställda finns redan inlagda. Nya läggs till utan att något skrivs över.}}",

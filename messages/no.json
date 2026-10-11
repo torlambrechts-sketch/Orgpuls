@@ -2115,8 +2115,22 @@
           "not_allowed": "Bare daglig leder kan gjøre dette.",
           "not_found": "Fant ikke dette lenger. Last siden på nytt.",
           "invalid": "Noe i skjemaet var ugyldig.",
-          "failed": "Det gikk ikke. Ingenting ble endret — prøv igjen."
+          "failed": "Det gikk ikke. Ingenting ble endret — prøv igjen.",
+          "other_organisation": "Personen hører allerede til en annen virksomhet i Orgpuls.",
+          "not_pending": "Forespørselen er allerede behandlet. Last siden på nytt."
         }
+      },
+      "requests": {
+        "head": "{count, plural, one {# ber om tilgang} other {# ber om tilgang}}",
+        "lead": "De har registrert seg og funnet virksomheten deres i Orgpuls. De kommer ikke inn før du gir dem tilgang. Kjenner du ikke personen, avviser du forespørselen.",
+        "typed": "skrev «{company}»",
+        "matched": {
+          "org_number": "funnet på organisasjonsnummeret",
+          "name": "funnet på navnet",
+          "domain": "funnet på e-postdomenet"
+        },
+        "grant": "Gi tilgang",
+        "dismiss": "Avvis"
       }
     },
     "integrasjoner": {
@@ -2957,31 +2971,12 @@
       }
     },
     "finalTitle": "Prøv det på deres egen virksomhet",
-    "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+    "finalBody": "Skriv inn navnet på virksomheten og e-postadressen din, så er dere i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
   },
   "registrer": {
-    "step1": "Virksomhet",
-    "step2": "Deg",
     "step3": "I gang",
-    "step1Title": "Hvilken virksomhet gjelder det?",
-    "step1Lead": "Skriv inn organisasjonsnummeret. Vi henter navn, adresse og bransje fra Brønnøysundregistrene, så slipper du å fylle ut mer.",
     "orgNumber": "Organisasjonsnummer",
     "orgNumberPlaceholder": "9 siffer",
-    "orgNumberHint": "Du finner det på fakturaene deres, eller i Brønnøysundregistrene.",
-    "lookUp": "Hent virksomheten",
-    "looking": "Henter …",
-    "lookupAgain": "Stemmer det ikke? Prøv et annet nummer.",
-    "foundHead": "Funnet i Brønnøysundregistrene",
-    "fact": {
-      "address": "Adresse",
-      "form": "Organisasjonsform",
-      "nace": "Bransje",
-      "employees": "Ansatte"
-    },
-    "confirmCompany": "Ja, dette er oss",
-    "tryAnother": "Prøv et annet nummer",
-    "step2Title": "Og hvem er du?",
-    "step2Lead": "Du blir første administrator og kan invitere resten etterpå. De ansatte som bare skal svare, trenger ingen konto – de bruker lenken de får tilsendt.",
     "name": "Navn",
     "namePlaceholder": "Fornavn Etternavn",
     "email": "E-post på jobben",
@@ -3004,9 +2999,8 @@
     "consent": "Jeg bekrefter at jeg kan inngå avtaler på vegne av virksomheten, og har lest personvernerklæringen.",
     "createAccount": "Prøv gratis i 15 dager",
     "creating": "Oppretter …",
-    "back": "Tilbake",
     "ctaHintReady": "Ingen kortopplysninger nå. Etter 15 dager spør vi om dere vil fortsette.",
-    "ctaHintMissing": "Fyll ut navn, e-post, passord og bekreftelsen for å gå videre.",
+    "ctaHintMissing": "Fyll ut virksomhetens navn, ditt navn, e-post, passord og bekreftelsen for å gå videre.",
     "doneTitle": "{name}, kontoen er klar",
     "doneFallbackName": "Velkommen",
     "doneLead": "{company} er opprettet, og du er administrator. Det som står igjen tar under en time.",
@@ -3037,28 +3031,25 @@
       "conversations": "Anonyme samtaler med de ansatte",
       "users": "Ubegrenset antall brukere – verneombud og ledere koster ikke ekstra"
     },
-    "reassure1": "Vi henter bare offentlig informasjon fra Brønnøysundregistrene. Ingenting går ut til de ansatte før du har godkjent utsendingen.",
     "reassure2": "Ingen kortopplysninger nå, og ingen automatisk fornyelse. Vi spør før noe blir fakturert.",
     "reassure3": "Trenger du hjelp med det første oppsettet, skriv til hjelp@orgpuls.no. Det koster ingenting.",
     "haveAccount": "Har dere konto allerede? <link>Logg inn</link>.",
     "problem": {
       "invalid": "Noe manglet i skjemaet. Se over feltene og prøv igjen.",
       "invalid_org_number": "Et organisasjonsnummer er ni siffer. Sjekk tallet og prøv igjen.",
-      "not_found": "Enhetsregisteret kjenner ikke dette nummeret.",
-      "deleted": "Virksomheten står som slettet i Enhetsregisteret.",
-      "unreachable": "Enhetsregisteret svarte ikke. Prøv igjen om litt – ingenting er endret.",
       "signup_failed": "Kontoen kunne ikke opprettes med disse opplysningene. Sjekk e-postadressen og passordet, eller logg inn hvis du allerede har konto.",
-      "confirm_email": "Vi har sendt deg en e-post. Trykk på lenken i den for å bekrefte adressen – da opprettes virksomheten, og du kommer rett videre i oppsettet.",
+      "confirm_email": "Vi har sendt deg en e-post. Trykk på lenken i den for å bekrefte adressen, så kommer du rett videre.",
       "org_failed": "Virksomheten kunne ikke opprettes. Prøv igjen.",
       "already_a_member": "Du hører allerede til en virksomhet. Logg inn i stedet.",
       "already_registered": "Denne virksomheten er allerede registrert i Orgpuls. Be en administrator der om å invitere deg.",
       "invalid_name": "Virksomheten mangler navn.",
       "not_signed_in": "Økten er utløpt. Prøv igjen.",
-      "rate_limited": "For mange oppslag på kort tid. Vent noen minutter og prøv igjen.",
       "google_failed": "Registreringen med Google gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord.",
       "microsoft_failed": "Registreringen med Microsoft gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord.",
       "invalid_org_number_se": "Et svensk organisasjonsnummer er ti siffer, og et personnummer kan ikke brukes. Sjekk tallet og prøv igjen.",
-      "invalid_org_number_gb": "Et selskapsnummer fra Companies House har åtte tegn: åtte siffer, eller to bokstaver som SC eller OC fulgt av seks siffer. Sjekk nummeret og prøv igjen."
+      "invalid_org_number_gb": "Et selskapsnummer fra Companies House har åtte tegn: åtte siffer, eller to bokstaver som SC eller OC fulgt av seks siffer. Sjekk nummeret og prøv igjen.",
+      "nothing_pending": "Fant ingen forespørsel å gå videre fra. Logg inn på nytt og prøv igjen.",
+      "same_number": "Organisasjonsnummeret tilhører denne virksomheten, så den kan ikke opprettes på nytt. Be administratoren der om tilgang."
     },
     "googleOr": "eller",
     "google": "Fortsett med Google",
@@ -3080,14 +3071,27 @@
         "other": "Annet"
       }
     },
-    "step1LeadManual": "Skriv inn organisasjonsnummeret og navnet på virksomheten.",
     "orgNumberPlaceholderManual": "10 siffer",
-    "orgNumberHintManual": "Du finner det på fakturaene deres. Et enkeltpersonforetak som bruker personnummeret sitt, kan ikke registreres.",
     "companyName": "Navn på virksomheten",
     "companyNamePlaceholder": "Slik det er registrert",
-    "lookUpManual": "Fortsett",
-    "foundHeadManual": "Virksomheten",
-    "reassure1Manual": "Ingenting går ut til de ansatte før du har godkjent utsendingen."
+    "stepAccount": "Virksomhet og konto",
+    "stepWaiting": "Forespørsel sendt",
+    "formTitle": "Kom i gang med Orgpuls",
+    "formLead": "Er virksomheten ny hos oss, blir du første administrator og kan invitere resten etterpå. De ansatte som bare skal svare, trenger ingen konto – de bruker lenken de får tilsendt.",
+    "companyHint": "Bruker virksomheten Orgpuls allerede, lager vi ikke en ny. Da ber vi administratoren der om å gi deg tilgang.",
+    "optional": "(valgfritt)",
+    "orgNumberOptionalHint": "Kan stå tomt. Med nummeret kjenner vi igjen virksomheten sikrere, og under Oppsett kan du hente opplysningene fra Brønnøysundregistrene når som helst.",
+    "orgNumberOptionalHintManual": "Kan stå tomt. Med nummeret kjenner vi igjen virksomheten sikrere. Et enkeltpersonforetak som bruker personnummeret sitt, kan ikke registreres med det.",
+    "waitingTitle": "{company} bruker Orgpuls allerede",
+    "waitingTitleGeneric": "Virksomheten bruker Orgpuls allerede",
+    "waitingLead": "Vi har sendt navnet ditt og e-postadressen din til administratoren der, som kan gi deg tilgang. Når det er gjort, logger du inn med kontoen du nettopp opprettet.",
+    "waitingNote": "Snakk gjerne med administratoren også. De kan invitere deg direkte under Oppsett › Roller og tilgang.",
+    "declinedTitle": "{company} har ikke gitt deg tilgang",
+    "declinedLead": "Administratoren der har avslått forespørselen. Tror du det er en misforståelse, snakk med dem direkte.",
+    "separateTitle": "Er dere en annen virksomhet?",
+    "separateLead": "To virksomheter kan ha samme navn, og selskaper i et konsern deler ofte e-postdomene. Er dette ikke dere, oppretter vi «{typed}» som egen virksomhet, og du blir administrator der.",
+    "separateButton": "Opprett «{typed}» som egen virksomhet",
+    "waitingSignIn": "Til innlogging"
   },
   "headerPanel": {
     "close": "Lukk",
@@ -3655,6 +3659,14 @@
     "test": {
       "subject": "Test: {subject}",
       "lead": "Dette er en test av invitasjonen, sendt bare til deg. Lenken åpner forhåndsvisningen i Orgpuls: du må være logget inn, og ingenting du svarer der blir lagret. De ansatte får hver sin personlige lenke når målingen åpner."
+    },
+    "tilgang": {
+      "subject": "{org}: noen ber om tilgang",
+      "lead": "{name} ({email}) har registrert seg i Orgpuls og ber om tilgang til {org}.",
+      "leadNoName": "{email} har registrert seg i Orgpuls og ber om tilgang til {org}.",
+      "what": "Personen kommer ikke inn før du gir tilgang. Under Oppsett › Roller og tilgang velger du rolle og gir tilgang, eller avviser forespørselen.",
+      "cta": "Åpne Roller og tilgang",
+      "unknown": "Kjenner du ikke personen, avviser du forespørselen. Ingen får tilgang uten at du gir den."
     }
   },
   "newPassword": {
@@ -4278,7 +4290,7 @@
         "denied": "Bare daglig leder kan endre virksomheten.",
         "invalid": "Navnet kan ikke være tomt."
       },
-      "leadManual": "Sjekk navnet virksomheten skal vises med. Organisasjonsnummeret ble registrert da kontoen ble opprettet."
+      "leadManual": "Sjekk navnet virksomheten skal vises med."
     },
     "people": {
       "lead": "Vi trenger navn, e-post eller mobil, og hvilken gruppe hver person tilhører. {count, plural, =0 {Ingen ansatte ligger inne ennå.} one {# ansatt ligger inne fra før. Nye legges til uten å overskrive.} other {# ansatte ligger inne fra før. Nye legges til uten å overskrive.}}",
@@ -5209,7 +5221,7 @@
             ],
             "rows": [
               [
-                "Registrering med organisasjonsnummer",
+                "Registrering",
                 "Rundt 3 minutter"
               ],
               [
@@ -5244,7 +5256,7 @@
               {
                 "date": "Oppstart",
                 "title": "Registrer virksomheten",
-                "text": "Bruk organisasjonsnummeret, og legg inn de ansatte fra et regneark."
+                "text": "Registrer virksomheten med navnet, og legg inn de ansatte fra et regneark."
               },
               {
                 "date": "Hovedmålingen",
@@ -5318,7 +5330,7 @@
           }
         ],
         "finalTitle": "Prøv det på deres egen virksomhet",
-        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+        "finalBody": "Skriv inn navnet på virksomheten og e-postadressen din, så er dere i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
       },
       "byggOgAnlegg": {
         "title": "Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls",
@@ -5390,7 +5402,7 @@
           }
         ],
         "finalTitle": "Prøv på neste prosjekt",
-        "finalBody": "Skriv inn organisasjonsnummeret, legg inn mannskapet og send på SMS. Dere er i gang på 3 minutter, uten kortopplysninger."
+        "finalBody": "Skriv inn navnet på virksomheten, legg inn mannskapet og send på SMS. Dere er i gang på 3 minutter, uten kortopplysninger."
       },
       "helseOgOmsorg": {
         "title": "Arbeidsmiljøkartlegging i helse og omsorg | Orgpuls",
@@ -5484,7 +5496,7 @@
           }
         ],
         "finalTitle": "Prøv det på deres egen virksomhet",
-        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, uten kortopplysninger."
+        "finalBody": "Skriv inn navnet på virksomheten og e-postadressen din. Dere er i gang på 3 minutter, uten kortopplysninger."
       }
     },
     "articles": {
@@ -9844,7 +9856,7 @@
           },
           {
             "t": "p",
-            "text": "Registrer med organisasjonsnummeret, så henter vi navn og adresse fra Brønnøysundregistrene. Legg inn de ansatte fra et regneark eller én og én, og følg veiviseren gjennom oppsettet. Se [priser](/priser), eller [bruksområdene](/bruksomrader) for hvordan andre virksomheter bruker Orgpuls."
+            "text": "Registrer virksomheten med navnet. Med organisasjonsnummeret henter vi adresse og bransje fra Brønnøysundregistrene. Legg inn de ansatte fra et regneark eller én og én, og følg veiviseren gjennom oppsettet. Se [priser](/priser), eller [bruksområdene](/bruksomrader) for hvordan andre virksomheter bruker Orgpuls."
           }
         ],
         "finalTitle": "Se plattformen på deres egen virksomhet"
@@ -10169,7 +10181,7 @@
           },
           {
             "t": "p",
-            "text": "Vil dere heller prøve selv først? Registrer med organisasjonsnummeret – dere er i gang på 3 minutter, uten kortopplysninger."
+            "text": "Vil dere heller prøve selv først? Registrer virksomheten med navnet – dere er i gang på 3 minutter, uten kortopplysninger."
           }
         ]
       },
@@ -11089,10 +11101,9 @@
       }
     },
     "signup": {
-      "label": "Organisasjonsnummer",
+      "label": "Navn på virksomheten",
       "submit": "Prøv gratis",
-      "invalid": "Organisasjonsnummeret har ni siffer. Sjekk at alle er med.",
-      "invalidChecksum": "Sjekk nummeret – det ser ikke ut som et gyldig organisasjonsnummer."
+      "invalid": "Skriv inn navnet på virksomheten."
     },
     "og": {
       "pills": [
@@ -11301,17 +11312,17 @@
       "trial": "Prøv gratis i 15 dager",
       "start": {
         "title": "Prøv Orgpuls på deres egen virksomhet",
-        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. 15 dager med alt, deretter gratis for hovedkartleggingen. Uten kort og uten binding.",
-        "placeholder": "9 sifre",
+        "lead": "Skriv inn navnet på virksomheten, så er du i gang. 15 dager med alt, deretter gratis for hovedkartleggingen. Uten kort og uten binding.",
+        "placeholder": "Slik det er registrert",
         "submit": "Prøv gratis",
-        "fetching": "Vi henter {orgnr} fra Brønnøysundregistrene …",
-        "invalid": "Et organisasjonsnummer har 9 sifre.",
-        "label": "Organisasjonsnummer"
+        "invalid": "Skriv inn navnet på virksomheten.",
+        "label": "Navn på virksomheten",
+        "going": "Vi åpner registreringen for {company} …"
       },
       "band": {
         "title": "Prøv det på deres egen virksomhet",
-        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis å starte, og alt inkludert fra 265 kr i måneden. Uten betalingskort.",
-        "leadHome": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Ingen konsulent, ingen oppstartsmøte. 15 dager med alt, deretter gratis for hovedkartleggingen – eller alt inkludert fra 265 kr i måneden. Uten betalingskort."
+        "lead": "Skriv inn navnet på virksomheten, så er du i gang. Gratis å starte, og alt inkludert fra 265 kr i måneden. Uten betalingskort.",
+        "leadHome": "Skriv inn navnet på virksomheten, så er du i gang. Ingen konsulent, ingen oppstartsmøte. 15 dager med alt, deretter gratis for hovedkartleggingen – eller alt inkludert fra 265 kr i måneden. Uten betalingskort."
       },
       "footer": {
         "about": "Svar lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.",
@@ -11537,7 +11548,7 @@
         "stats": [
           {
             "v": "20 min",
-            "l": "fra org.nr. til planlagt utsending"
+            "l": "fra registrering til planlagt utsending"
           },
           {
             "v": "4 min",
@@ -12272,7 +12283,7 @@
           "ticks": [
             "Daglig leder med under 50 ansatte får enkel visning automatisk",
             "Lim inn de ansatte eller last opp en CSV – uten HR-system",
-            "Veiviseren tar deg fra org.nr. til planlagt utsending på rundt 20 minutter"
+            "Veiviseren tar deg fra registrering til planlagt utsending på rundt 20 minutter"
           ],
           "card": {
             "title": "Gjør dette nå",

@@ -4,6 +4,7 @@ import type { createClient } from '@/lib/supabase/server'
 import { restoreLocale } from '@/lib/i18n/server'
 import { DEFAULT_MARKET, MARKETS } from '@/lib/markets'
 import { ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
+import { signUpOrganisation, type SignupOutcome } from './organisation'
 
 type Client = Awaited<ReturnType<typeof createClient>>
 
@@ -14,24 +15,26 @@ type Client = Awaited<ReturnType<typeof createClient>>
  * created at the form: `create_organisation` runs as the signed-in user. The form therefore
  * keeps the company it named on the account (`user_metadata.pending_org`), and the first
  * confirmed session — the confirmation link (/auth/confirm) or a later password sign-in — creates
- * it. `create_organisation` checks everything again (one organisation per account, a free
- * org.nr.), so a value a user edits in their own metadata can name only their own sign-up.
+ * it, or files the request to join it where the company is already here (0232, D-279).
+ * `signup_organisation` checks everything again (one organisation per account, the number's rule),
+ * so a value a user edits in their own metadata can name only their own sign-up.
  */
 export const PENDING_KEY = 'pending_org'
 
 export const PendingOrg = z
   .object({
-    orgNumber: z.string().regex(ORG_NUMBER_SHAPE),
+    // optional since 0232 (X-114): a sign-up names the company, and the number only where it was typed
+    orgNumber: z.string().regex(ORG_NUMBER_SHAPE).nullable().default(null),
     companyName: z.string().trim().min(1).max(200),
     employeeCount: z.number().int().min(0).max(100_000),
     // the market of the host the form was sent from (D-251); a sign-up kept before it was carried is Norway's
     market: z.enum(MARKETS).default(DEFAULT_MARKET),
   })
-  // the market's organisation number rule (lib/org-number.ts, 0218, 0222): nine digits in Norway
-  .refine((p) => validOrgNumber(p.market, p.orgNumber), { path: ['orgNumber'] })
+  // the market's organisation number rule (lib/org-number.ts, 0218, 0222), where one was typed
+  .refine((p) => p.orgNumber === null || validOrgNumber(p.market, p.orgNumber), { path: ['orgNumber'] })
 export type PendingOrg = z.infer<typeof PendingOrg>
 
-export type PendingOutcome = { kind: 'none' } | { kind: 'created' } | { kind: 'failed'; reason: string }
+export type PendingOutcome = { kind: 'none' } | SignupOutcome
 
 export async function completePendingSignup(supabase: Client): Promise<PendingOutcome> {
   const {
@@ -58,21 +61,10 @@ export async function completePendingSignup(supabase: Client): Promise<PendingOu
     typeof meta.full_name === 'string' && meta.full_name.trim().length > 1
       ? meta.full_name.trim().slice(0, 120)
       : ((user.email ?? '').split('@')[0] ?? '')
-  const { data, error } = await supabase.rpc('create_organisation', {
-    p_name: pending.data.companyName,
-    p_org_number: pending.data.orgNumber,
-    p_employee_count: pending.data.employeeCount,
-    p_full_name: fullName,
-    // Norway is the database's default too: named only when it is another market, so the call
-    // resolves against a database with or without 0214
-    ...(pending.data.market === DEFAULT_MARKET ? {} : { p_market: pending.data.market }),
-  })
-  const outcome = z.object({ ok: z.boolean(), error: z.string().optional() }).safeParse(data)
-  if (error || !outcome.success || !outcome.data.ok) {
-    const reason = outcome.success && outcome.data.error && /^[a-z_]{1,40}$/.test(outcome.data.error) ? outcome.data.error : 'org_failed'
-    return { kind: 'failed', reason }
-  }
+  // made, or asked into where the company is already here (0232): either way the sign-up is done
+  const outcome = await signUpOrganisation(supabase, { ...pending.data, fullName })
+  if (outcome.kind === 'failed') return outcome
   await supabase.auth.updateUser({ data: { [PENDING_KEY]: null } })
   await restoreLocale(supabase)
-  return { kind: 'created' }
+  return outcome
 }

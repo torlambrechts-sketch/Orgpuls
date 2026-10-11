@@ -2115,8 +2115,22 @@
           "not_allowed": "Only the managing director can do this.",
           "not_found": "This no longer exists. Reload the page.",
           "invalid": "Something in the form was invalid.",
-          "failed": "That did not work. Nothing was changed — try again."
+          "failed": "That did not work. Nothing was changed — try again.",
+          "other_organisation": "This person already belongs to another organisation in Orgpuls.",
+          "not_pending": "The request has already been handled. Reload the page."
         }
+      },
+      "requests": {
+        "head": "{count, plural, one {# is asking for access} other {# are asking for access}}",
+        "lead": "They have signed up and found your organisation in Orgpuls. They cannot get in until you give them access. If you do not know the person, decline the request.",
+        "typed": "typed “{company}”",
+        "matched": {
+          "org_number": "found by the organisation number",
+          "name": "found by the name",
+          "domain": "found by the e-mail domain"
+        },
+        "grant": "Give access",
+        "dismiss": "Decline"
       }
     },
     "integrasjoner": {
@@ -2957,31 +2971,12 @@
       }
     },
     "finalTitle": "Try it on your own undertaking",
-    "finalBody": "Enter the organisation number and we fetch the rest from the Norwegian company register. You are up and running in 3 minutes, and do not need to give card details before you have decided."
+    "finalBody": "Enter the company name and your e-mail address, and you are up and running in 3 minutes, without giving card details before you have decided."
   },
   "registrer": {
-    "step1": "Company",
-    "step2": "You",
     "step3": "Ready",
-    "step1Title": "Which undertaking is it?",
-    "step1Lead": "Enter the organisation number. We fetch the name, address and industry from the Norwegian company register, so you do not have to fill in more.",
     "orgNumber": "Organisation number",
     "orgNumberPlaceholder": "9 digits",
-    "orgNumberHint": "You will find it on your invoices, or in the company register.",
-    "lookUp": "Fetch the company",
-    "looking": "Fetching …",
-    "lookupAgain": "Not right? Try another number.",
-    "foundHead": "Found in the company register",
-    "fact": {
-      "address": "Address",
-      "form": "Legal form",
-      "nace": "Industry",
-      "employees": "Employees"
-    },
-    "confirmCompany": "Yes, that is us",
-    "tryAnother": "Try another number",
-    "step2Title": "And who are you?",
-    "step2Lead": "You become the first administrator and can invite the rest afterwards. Employees who only answer need no account – they use the link they are sent.",
     "name": "Name",
     "namePlaceholder": "First Last",
     "email": "Work e-mail",
@@ -3004,9 +2999,8 @@
     "consent": "I confirm that I can enter into agreements on behalf of the undertaking, and have read the privacy statement.",
     "createAccount": "Try free for 15 days",
     "creating": "Creating …",
-    "back": "Back",
     "ctaHintReady": "No card details now. After 15 days we ask whether you want to continue.",
-    "ctaHintMissing": "Fill in name, e-mail, password and the confirmation to continue.",
+    "ctaHintMissing": "Fill in the company name, your name, e-mail, password and the confirmation to continue.",
     "doneTitle": "{name}, the account is ready",
     "doneFallbackName": "Welcome",
     "doneLead": "{company} has been created and you are its administrator. What is left takes under an hour.",
@@ -3037,28 +3031,25 @@
       "conversations": "Anonymous conversations with employees",
       "users": "Unlimited users – safety representatives and managers cost nothing extra"
     },
-    "reassure1": "We only fetch public information from the company register. Nothing goes out to employees before you have approved the send.",
     "reassure2": "No card details now, and no automatic renewal. We ask before anything is invoiced.",
     "reassure3": "If you need help with the first setup, write to hjelp@orgpuls.no. It costs nothing.",
     "haveAccount": "Already have an account? <link>Sign in</link>.",
     "problem": {
       "invalid": "Something was missing in the form. Check the fields and try again.",
       "invalid_org_number": "An organisation number is nine digits. Check the number and try again.",
-      "not_found": "The company register does not know this number.",
-      "deleted": "The undertaking is recorded as dissolved in the register.",
-      "unreachable": "The company register did not answer. Try again shortly – nothing was changed.",
       "signup_failed": "The account could not be created with these details. Check the e-mail address and the password, or sign in if you already have an account.",
-      "confirm_email": "We have sent you an e-mail. Press the link in it to confirm the address – your organisation is then created and you go straight on with the setup.",
+      "confirm_email": "We have sent you an e-mail. Press the link in it to confirm your address, and you will go straight on.",
       "org_failed": "The undertaking could not be created. Try again.",
       "already_a_member": "You already belong to an undertaking. Sign in instead.",
       "already_registered": "This undertaking is already registered in Orgpuls. Ask an administrator there to invite you.",
       "invalid_name": "The undertaking has no name.",
       "not_signed_in": "The session has expired. Try again.",
-      "rate_limited": "Too many lookups in a short time. Wait a few minutes and try again.",
       "google_failed": "Signing up with Google did not go through. Try again, or sign up with e-mail and password.",
       "microsoft_failed": "Registering with Microsoft did not go through. Try again, or register with e-mail and password.",
       "invalid_org_number_se": "A Swedish organisation number is ten digits, and a personal identity number cannot be used. Check the number and try again.",
-      "invalid_org_number_gb": "A Companies House company number is eight characters: eight digits, or two letters such as SC or OC followed by six digits. Check the number and try again."
+      "invalid_org_number_gb": "A Companies House company number is eight characters: eight digits, or two letters such as SC or OC followed by six digits. Check the number and try again.",
+      "nothing_pending": "There is no request to continue from. Sign in again and try once more.",
+      "same_number": "The organisation number belongs to this company, so it cannot be created again. Ask the administrator there for access."
     },
     "googleOr": "or",
     "google": "Continue with Google",
@@ -3080,14 +3071,27 @@
         "other": "Other"
       }
     },
-    "step1LeadManual": "Enter the organisation number and the name of the company.",
     "orgNumberPlaceholderManual": "10 digits",
-    "orgNumberHintManual": "You will find it on your invoices. A sole trader who uses their personal identity number cannot sign up.",
     "companyName": "Company name",
     "companyNamePlaceholder": "As registered",
-    "lookUpManual": "Continue",
-    "foundHeadManual": "The company",
-    "reassure1Manual": "Nothing goes out to employees before you have approved the send."
+    "stepAccount": "Company and account",
+    "stepWaiting": "Request sent",
+    "formTitle": "Get started with Orgpuls",
+    "formLead": "If the company is new to us, you become the first administrator and can invite the rest afterwards. Employees who only answer need no account – they use the link they are sent.",
+    "companyHint": "If the company already uses Orgpuls, we do not create a new one. We ask the administrator there to give you access instead.",
+    "optional": "(optional)",
+    "orgNumberOptionalHint": "You can leave it empty. With the number we recognise the company more reliably, and under Settings you can fetch its details from the Brønnøysund Register Centre at any time.",
+    "orgNumberOptionalHintManual": "You can leave it empty. With the number we recognise the company more reliably. A sole trader who uses their personal identity number cannot sign up with it.",
+    "waitingTitle": "{company} already uses Orgpuls",
+    "waitingTitleGeneric": "The company already uses Orgpuls",
+    "waitingLead": "We have sent your name and e-mail address to the administrator there, who can give you access. Once they have, sign in with the account you just created.",
+    "waitingNote": "You can also speak to the administrator. They can invite you directly under Settings › Roles and access.",
+    "declinedTitle": "{company} has not given you access",
+    "declinedLead": "The administrator there declined the request. If you think it is a misunderstanding, speak to them directly.",
+    "separateTitle": "Are you a different company?",
+    "separateLead": "Two companies can share a name, and companies in a group often share an e-mail domain. If this is not you, we create “{typed}” as a company of its own, and you become its administrator.",
+    "separateButton": "Create “{typed}” as a separate company",
+    "waitingSignIn": "Go to sign in"
   },
   "headerPanel": {
     "close": "Close",
@@ -3655,6 +3659,14 @@
     "test": {
       "subject": "Test: {subject}",
       "lead": "This is a test of the invitation, sent only to you. The link opens the preview in Orgpuls: you need to be signed in, and nothing you answer there is saved. Each employee gets a personal link when the survey opens."
+    },
+    "tilgang": {
+      "subject": "{org}: someone is asking for access",
+      "lead": "{name} ({email}) has signed up for Orgpuls and is asking for access to {org}.",
+      "leadNoName": "{email} has signed up for Orgpuls and is asking for access to {org}.",
+      "what": "They cannot get in until you give them access. Under Settings › Roles and access you choose a role and give access, or decline the request.",
+      "cta": "Open Roles and access",
+      "unknown": "If you do not know the person, decline the request. Nobody gets access unless you give it."
     }
   },
   "newPassword": {
@@ -4278,7 +4290,7 @@
         "denied": "Only the managing director can change the organisation.",
         "invalid": "The name cannot be empty."
       },
-      "leadManual": "Check the name the organisation is shown with. The organisation number was registered when the account was made."
+      "leadManual": "Check the name the organisation is shown with."
     },
     "people": {
       "lead": "We need a name, an email or mobile number, and which group each person belongs to. {count, plural, =0 {No employees are registered yet.} one {# employee is already registered. New people are added without overwriting.} other {# employees are already registered. New people are added without overwriting.}}",
@@ -5209,7 +5221,7 @@
             ],
             "rows": [
               [
-                "Signing up with the organisation number",
+                "Signing up",
                 "About 3 minutes"
               ],
               [
@@ -5244,7 +5256,7 @@
               {
                 "date": "Start",
                 "title": "Sign up",
-                "text": "Use your organisation number, and add employees from a spreadsheet."
+                "text": "Sign up with the company's name, and add employees from a spreadsheet."
               },
               {
                 "date": "The main survey",
@@ -5318,7 +5330,7 @@
           }
         ],
         "finalTitle": "Try it on your own organisation",
-        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in 3 minutes, and you give no card details until you have decided."
+        "finalBody": "Enter the company name and your e-mail address, and you are up and running in 3 minutes, without giving card details before you have decided."
       },
       "byggOgAnlegg": {
         "title": "Work environment survey for construction | Orgpuls",
@@ -5390,7 +5402,7 @@
           }
         ],
         "finalTitle": "Try it on the next project",
-        "finalBody": "Enter the organisation number, add the crew and send by SMS. You are up and running in 3 minutes, without card details."
+        "finalBody": "Enter the company name, add the crew and send by SMS. You are up and running in 3 minutes, without card details."
       },
       "helseOgOmsorg": {
         "title": "Work environment mapping in health and care | Orgpuls",
@@ -5484,7 +5496,7 @@
           }
         ],
         "finalTitle": "Try it on your own organisation",
-        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in 3 minutes, without card details."
+        "finalBody": "Enter the company name and your e-mail address. You are up and running in 3 minutes, without card details."
       }
     },
     "articles": {
@@ -9844,7 +9856,7 @@
           },
           {
             "t": "p",
-            "text": "Sign up with the organisation number and we fetch the name and address from the Brønnøysund registers. Add employees from a spreadsheet or one at a time, and follow the setup wizard. See [pricing](/priser), or the [use cases](/bruksomrader) for how other organisations use Orgpuls."
+            "text": "Sign up with the company's name. With the organisation number, we fetch the address and industry from the Brønnøysund registers. Add employees from a spreadsheet or one at a time, and follow the setup wizard. See [pricing](/priser), or the [use cases](/bruksomrader) for how other organisations use Orgpuls."
           }
         ],
         "finalTitle": "See the platform on your own organisation"
@@ -10169,7 +10181,7 @@
           },
           {
             "t": "p",
-            "text": "Would you rather try it yourself first? Sign up with your organisation number – you are up and running in 3 minutes, without card details."
+            "text": "Would you rather try it yourself first? Sign up with your company's name – you are up and running in 3 minutes, without card details."
           }
         ]
       },
@@ -11089,10 +11101,9 @@
       }
     },
     "signup": {
-      "label": "Organisation number",
+      "label": "Company name",
       "submit": "Try it free",
-      "invalid": "An organisation number has nine digits. Check that they are all there.",
-      "invalidChecksum": "Check the number – it does not look like a valid organisation number."
+      "invalid": "Enter the name of the company."
     },
     "og": {
       "pills": [
@@ -11301,17 +11312,17 @@
       "trial": "Try free for 15 days",
       "start": {
         "title": "Try Orgpuls on your own organisation",
-        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. 15 days with everything, then free for the main survey. No card and no lock-in.",
-        "placeholder": "9 digits",
+        "lead": "Enter your company's name and you're under way. 15 days with everything, then free for the main survey. No card and no lock-in.",
+        "placeholder": "As registered",
         "submit": "Try it free",
-        "fetching": "Fetching {orgnr} from the Brønnøysund Register Centre …",
-        "invalid": "An organisation number has 9 digits.",
-        "label": "Organisation number"
+        "invalid": "Enter the name of the company.",
+        "label": "Company name",
+        "going": "Opening the sign-up for {company} …"
       },
       "band": {
         "title": "Try it on your own organisation",
-        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free to start, and everything included from NOK 265 a month. No card needed.",
-        "leadHome": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. No consultant, no kick-off meeting. 15 days with everything, then free for the main survey – or everything included from NOK 265 a month. No card needed."
+        "lead": "Enter your company's name and you're under way. Free to start, and everything included from NOK 265 a month. No card needed.",
+        "leadHome": "Enter your company's name and you're under way. No consultant, no kick-off meeting. 15 days with everything, then free for the main survey – or everything included from NOK 265 a month. No card needed."
       },
       "footer": {
         "about": "Answers are stored in the EU, and no single answer can be traced back to a person.",
@@ -11537,7 +11548,7 @@
         "stats": [
           {
             "v": "20 min",
-            "l": "from organisation number to a planned send-out"
+            "l": "from sign-up to a planned send-out"
           },
           {
             "v": "4 min",
@@ -11703,7 +11714,7 @@
           "ticks": [
             "A managing director with fewer than 50 employees gets the simple view automatically",
             "Paste in your staff or upload a CSV – no HR system needed",
-            "The wizard takes you from organisation number to a planned send-out in about 20 minutes"
+            "The wizard takes you from sign-up to a planned send-out in about 20 minutes"
           ],
           "card": {
             "title": "Do this now",

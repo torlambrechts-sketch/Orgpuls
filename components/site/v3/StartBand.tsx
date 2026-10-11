@@ -38,7 +38,7 @@ export async function StartBand({ variant = 'page' }: { variant?: 'front' | 'pag
           label={t('start.label')}
           placeholder={t('start.placeholder')}
           submit={t('start.submit')}
-          fetching={t.raw('start.fetching') as string}
+          going={t.raw('start.going') as string}
           invalid={t('start.invalid')}
         />
       </div>

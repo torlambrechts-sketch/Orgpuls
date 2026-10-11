@@ -249,6 +249,20 @@ describe('notices', () => {
     expect(en.text).toContain('Last recorded evaluation: 1 September 2025.')
   })
 
+  it('tells the daglig leder who asks to join, and keeps what they typed out of the subject (0232, D-279)', () => {
+    const request = { name: 'Kari <b>Nordmann</b>\nKlikk her', email: 'kari@nordvik.no' }
+    const r = renderNotice(cat, job({ kind: 'tilgang', audience: 'daglig_leder', round: null, token: null, request }), { lang: 'no', member: true, name: null }, APP)
+    expect(r.subject).toBe('Nordvik Anlegg AS: noen ber om tilgang')
+    expect(r.text).toContain('Kari <b>Nordmann</b> Klikk her (kari@nordvik.no) har registrert seg')
+    expect(r.html).toContain('Kari &lt;b&gt;Nordmann&lt;/b&gt; Klikk her')
+    expect(r.html).not.toContain('<b>Nordmann</b>')
+    expect(r.text).toContain(`${APP}/oppsett?fane=roller`)
+    expect(r.text).not.toMatch(/\{\w+\}/)
+    const noName = renderNotice(cat, job({ kind: 'tilgang', audience: 'daglig_leder', round: null, token: null, request: { name: null, email: 'kari@nordvik.no' } }), { lang: 'en', member: true, name: null }, APP)
+    expect(noName.text).toContain('kari@nordvik.no has signed up for Orgpuls and is asking for access to Nordvik Anlegg AS.')
+    expect(() => renderNotice(cat, job({ kind: 'tilgang', audience: 'daglig_leder', round: null, token: null, request: null }), { lang: 'no', member: true, name: null }, APP)).toThrow()
+  })
+
   it('heads a notice with the organisation\'s logo, and only by an address the database made (0104)', () => {
     const key = 'a1'.repeat(16)
     const withLogo = renderNotice(cat, job({ token: TOKEN, logo: key }), { lang: 'no', member: false, name: null }, APP)

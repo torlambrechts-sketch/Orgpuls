@@ -81,10 +81,10 @@ const titleCase = (v: string) =>
  * The check digit every Norwegian organisation number carries (modulus 11, weights
  * 3 2 7 6 5 4 3 2). S5 in docs/CODE_REVIEW_2026-09-23.md.
  *
- * `lookupCompany` is a public server action that makes an outbound request, so a caller
- * iterating nine-digit numbers would have this server hammer data.brreg.no on their
- * behalf — and it is this server's address, not theirs, that Brønnøysund would throttle,
- * which breaks sign-up for everybody. A number that fails the check digit cannot exist in
+ * A lookup makes an outbound request, so a caller iterating nine-digit numbers would have this
+ * server hammer data.brreg.no on their behalf — and it is this server's address, not theirs,
+ * that Brønnøysund would throttle, which breaks the lookup for everybody. (The public one on the
+ * sign-up went with its lookup step, 0232; the Selskap tab's is behind sign-in.) A number that fails the check digit cannot exist in
  * the register, so it is answered `not_found` — exactly what the register itself would
  * say — without asking. That refuses about ten of every eleven enumerated numbers before
  * they leave the building, and it is correct validation whether or not anyone is

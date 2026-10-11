@@ -52,7 +52,8 @@ const NOT_IN_PACK: { prefix: string; why: string }[] = [
  * REGISTRY_LOOKUP). Sign-up, Oppsett and the wizard say the `…Manual` texts instead (D-254).
  */
 const REGISTRY_ONLY = [
-  'registrer.step1Lead', 'registrer.orgNumberHint', 'registrer.foundHead', 'registrer.reassure1',
+  // the sign-up's optional number names Brønnøysund only where a register can be asked (X-114, D-279)
+  'registrer.orgNumberOptionalHint',
   'oppsett.selskap.fetch', 'oppsett.industry.registeredUnknown', 'oppsett.industry.changed',
   'veiviser.org.fetch', 'veiviser.org.fetched', 'veiviser.org.problem.unreachable',
 ]

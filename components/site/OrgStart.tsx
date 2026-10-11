@@ -3,18 +3,19 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/marketing/events'
 import { currentUtm } from '@/lib/marketing/utm'
-import { normalizeOrgNumber, orgNumberInput, validOrgNumber } from '@/lib/org-number'
+import { normalizeOrgNumber, validOrgNumber } from '@/lib/org-number'
 import { useSiteMarket, useSiteNavigate, useSitePaths } from './SitePaths'
 
 /**
- * "Organisasjonsnummer" and "Prøv gratis" in the band at the foot of each page (D-88, D-190;
+ * The company's name and "Prøv gratis" in the band at the foot of each page (D-88, D-190, X-114;
  * nettside-v3/*.dc.html, `#kom-i-gang`).
  *
- * The design answers a submit with a line under the field: "Vi henter 123 456 789 fra
- * Brønnøysundregistrene …" for nine digits, "Et organisasjonsnummer har 9 sifre." for anything
- * else. Here the first is also what happens: the line is announced, then /registrer opens with the
- * number filled in and looked up, with the campaign tags the visit came with. It is a GET form to
- * /registrer, so it works before JavaScript has loaded.
+ * The design's field asked for the organisation number and answered "Vi henter 123 456 789 fra
+ * Brønnøysundregistrene …". Since X-114 the sign-up starts from the company's name (D-279): the field
+ * asks for it, a submit announces "Vi åpner registreringen for … …" in the live region, and
+ * /registrer opens with the name filled in (`?firma=`), with the campaign tags the visit came with.
+ * Somebody who types a number the market accepts anyway is sent on with it as the number (`?orgnr=`).
+ * It is a GET form to /registrer, so it works before JavaScript has loaded.
  *
  * The field (G-12): a visible label above it (D-187), 16px text, a border dark enough to see
  * (#8A8272, 3:1), and a polite live region that is always in the page, empty until a submit. An
@@ -26,7 +27,7 @@ export function OrgStart({
   label,
   placeholder,
   submit,
-  fetching,
+  going,
   invalid,
   stacked = false,
 }: {
@@ -34,8 +35,8 @@ export function OrgStart({
   label: string
   placeholder: string
   submit: string
-  /** with `{orgnr}`, grouped in threes */
-  fetching: string
+  /** with `{company}`: what was typed */
+  going: string
   invalid: string
   /** the field fills its row and the button goes under it (the v3 start band, D-190) */
   stacked?: boolean
@@ -76,35 +77,38 @@ export function OrgStart({
       noValidate
       onSubmit={(e) => {
         e.preventDefault()
-        const digits = market === 'no' ? value.replace(/\D/g, '') : normalizeOrgNumber(value, market)
-        if (market === 'no' ? digits.length !== 9 : !validOrgNumber(market, value)) {
+        const typed = value.trim().slice(0, 200)
+        if (!typed) {
           setNote({ ok: false, text: invalid })
           input.current?.focus()
           return
         }
-        // the org.nr. grouped in threes with narrow no-break spaces (copy T2); another market's as typed, normalised
-        setNote({ ok: true, text: fetching.replace('{orgnr}', digits.replace(/^(\d{3})(\d{3})(\d{3})$/, '$1 $2 $3')) })
+        // a number the market accepts goes on as the number; anything else is the company's name
+        // (eight characters typed at least: the UK rule pads a short run of digits, and «123» is a name)
+        const number = normalizeOrgNumber(typed).length >= 8 && validOrgNumber(market, typed) ? normalizeOrgNumber(typed, market) : null
+        setNote({ ok: true, text: going.replace('{company}', typed) })
         trackEvent('signup_started')
+        const query = new URLSearchParams({ ...(number ? { orgnr: number } : { firma: typed }), ...currentUtm() })
         // a moment for the live region to be read before the page changes
-        setTimeout(() => go(`/registrer?${new URLSearchParams({ orgnr: digits, ...currentUtm() })}`), 300)
+        setTimeout(() => go(`/registrer?${query}`), 300)
       }}
     >
       <div className="flex flex-wrap gap-[9px]">
-        <label htmlFor={`${id}-orgnr`} className="basis-full text-[13px] font-bold">
+        <label htmlFor={`${id}-firma`} className="basis-full text-[13px] font-bold">
           {label}
         </label>
         <input
           ref={input}
-          id={`${id}-orgnr`}
-          name="orgnr"
+          id={`${id}-firma`}
+          name="firma"
           type="text"
           value={value}
           onChange={(e) => {
             setValue(e.target.value)
             setNote(null)
           }}
-          inputMode={orgNumberInput(market)}
-          autoComplete="off"
+          autoComplete="organization"
+          maxLength={200}
           spellCheck={false}
           enterKeyHint="go"
           placeholder={placeholder}

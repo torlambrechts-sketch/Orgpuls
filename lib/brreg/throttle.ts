@@ -1,7 +1,10 @@
 import 'server-only'
 
 /**
- * A per-address limit on the public registry lookup. S5 in docs/CODE_REVIEW_2026-09-23.md.
+ * The network an address belongs to, for a per-address limit on a public endpoint (the QR entry,
+ * lib/entry/throttle.ts). It began as the limit on the public registry lookup (S5 in
+ * docs/CODE_REVIEW_2026-09-23.md), which went with the lookup step of the sign-up (0232, D-279);
+ * the reasoning below is still the entry throttle's.
  *
  * **Why in memory, and not a table.** The review first sketched a throttle table in
  * Postgres. It would have been worse than the problem: this project has no service-role
@@ -20,37 +23,10 @@ import 'server-only'
  * lives only as long as the instance does.
  */
 
-const LIMIT = 20
-const WINDOW_MS = 10 * 60 * 1000
-const MAX_KEYS = 5000
-
-const hits = new Map<string, { count: number; windowStart: number }>()
-
 /** The network an address belongs to; `unknown` when there is no address to go on. */
 export function networkOf(address: string | null | undefined): string {
   const first = (address ?? '').split(',')[0]?.trim() ?? ''
   if (/^\d{1,3}(\.\d{1,3}){3}$/.test(first)) return first.split('.').slice(0, 3).join('.') + '.0/24'
   if (first.includes(':')) return first.split(':').slice(0, 3).join(':') + '::/48'
   return 'unknown'
-}
-
-/** `true` if this network may make another lookup now. Counts the attempt either way. */
-export function lookupAllowed(network: string, now = Date.now()): boolean {
-  const entry = hits.get(network)
-  if (!entry || now - entry.windowStart >= WINDOW_MS) {
-    if (hits.size >= MAX_KEYS) {
-      // bounded memory: drop every expired window before admitting a new key
-      for (const [key, value] of hits) if (now - value.windowStart >= WINDOW_MS) hits.delete(key)
-      if (hits.size >= MAX_KEYS) return false
-    }
-    hits.set(network, { count: 1, windowStart: now })
-    return true
-  }
-  entry.count += 1
-  return entry.count <= LIMIT
-}
-
-/** For tests only. */
-export function resetLookupThrottle() {
-  hits.clear()
 }

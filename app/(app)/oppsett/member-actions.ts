@@ -112,3 +112,36 @@ export async function revokeInvite(id: string): Promise<MemberResult> {
   revalidatePath('/oppsett')
   return { ok: true }
 }
+
+const Decide = z.object({
+  id: z.string().uuid(),
+  accept: z.boolean(),
+  role: z.enum(MEMBER_ROLES).nullable(),
+  group: z.string().uuid().nullable(),
+})
+
+/**
+ * Letting in, or not, somebody who signed up and found the organisation already here (0232, D-279).
+ * `decide_join_request` holds an invitation's rules (the lock, a role, a department for an
+ * avdelingsleder, one organisation per account) and lets only this organisation's daglig leder decide.
+ */
+export async function decideJoinRequest(input: z.input<typeof Decide>): Promise<MemberResult> {
+  const parsed = Decide.safeParse(input)
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('decide_join_request', {
+    p_request: parsed.data.id,
+    p_accept: parsed.data.accept,
+    ...(parsed.data.accept
+      ? { p_role: parsed.data.role, p_group: parsed.data.role === 'avdelingsleder' ? parsed.data.group : null }
+      : {}),
+  })
+  if (callFailed('decideJoinRequest', error)) return { ok: false, problem: 'failed' }
+  const verdict = Verdict.safeParse(data)
+  if (!verdict.success) return { ok: false, problem: 'failed' }
+  if (!verdict.data.ok) return { ok: false, problem: verdict.data.error }
+
+  revalidatePath('/oppsett')
+  return { ok: true }
+}

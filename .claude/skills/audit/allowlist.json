@@ -56,7 +56,8 @@
     "results_summary": "called by results_digest (0044) in SQL; callable directly, checks membership and k itself",
     "results_items": "called by results_workspace in SQL; checks membership and k itself",
     "results_importance": "called by results_workspace in SQL; checks membership and k itself",
-    "results_workspace": "called by results_digest (0044) in SQL; checks membership and k itself"
+    "results_workspace": "called by results_digest (0044) in SQL; checks membership and k itself",
+    "create_organisation": "no app caller since 0232 (X-114, D-279): signup_organisation replaced it. Kept while the deploy before 0232 can still call it (database first, code second); signup_invariants.sql proves it. To be set aside (alter … set schema app; rename …_retired) in a later migration once that deploy is gone."
   },
   "settings_tables": [
     "organizations",

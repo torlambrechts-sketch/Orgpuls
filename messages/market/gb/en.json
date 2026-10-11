@@ -316,10 +316,9 @@
       }
     },
     "orgNumber": "Company number",
-    "step1LeadManual": "Enter your Companies House company number and the name of the company.",
     "orgNumberPlaceholderManual": "8 characters",
-    "orgNumberHintManual": "As Companies House prints it, such as 01234567 or SC123456. Limited companies and LLPs can sign up.",
-    "consent": "I confirm that I can enter into agreements on behalf of the organisation, and accept Empvibe’s terms of use and data processing agreement for it. I have read the privacy notice."
+    "consent": "I confirm that I can enter into agreements on behalf of the organisation, and accept Empvibe’s terms of use and data processing agreement for it. I have read the privacy notice.",
+    "orgNumberOptionalHintManual": "You can leave it empty. With the Companies House number, such as 01234567 or SC123456, we recognise the company more reliably."
   },
   "headerPanel": {
     "tabs": {
@@ -389,7 +388,7 @@
     },
     "org": {
       "number": "Company number",
-      "leadManual": "Check the name the organisation is shown with. The company number was registered when the account was made."
+      "leadManual": "Check the name the organisation is shown with."
     }
   },
   "plan": {
@@ -412,7 +411,7 @@
           "ticks": [
             "A managing director with fewer than 50 employees gets the simple view automatically",
             "Paste in your staff or upload a CSV – no HR system needed",
-            "The wizard takes you from company number to a planned send-out in about 20 minutes"
+            "The wizard takes you from sign-up to a planned send-out in about 20 minutes"
           ],
           "card": {
             "title": "Do this now",
@@ -912,12 +911,12 @@
       },
       "start": {
         "title": "Set up Empvibe for your own organisation",
-        "lead": "Enter your Companies House company number to sign up, then type the company name on the next page. No consultant and no kick-off meeting.",
-        "label": "Company number",
-        "placeholder": "8 characters, e.g. 01234567",
+        "lead": "Enter your company’s name to sign up. No consultant and no kick-off meeting.",
+        "label": "Company name",
+        "placeholder": "As registered",
         "submit": "Get started",
-        "fetching": "Opening the sign-up with {orgnr} …",
-        "invalid": "Enter the Companies House number of a limited company or LLP: 8 digits, or SC, NI, R0, OC, SO or NC and 6 digits, such as 01234567 or SC123456."
+        "invalid": "Enter the name of the company.",
+        "going": "Opening the sign-up for {company} …"
       },
       "getStarted": "Get started",
       "trial": "Get started",
@@ -944,8 +943,8 @@
       },
       "band": {
         "title": "Start with your own organisation",
-        "lead": "Enter your Companies House company number to sign up, then type the company name on the next page. No consultant and no kick-off meeting.",
-        "leadHome": "Enter your Companies House company number to sign up, then type the company name on the next page. No consultant, no kick-off meeting – the first survey can be planned the same day."
+        "lead": "Enter your company’s name to sign up. No consultant and no kick-off meeting.",
+        "leadHome": "Enter your company’s name to sign up. No consultant, no kick-off meeting – the first survey can be planned the same day."
       }
     },
     "plattform": {
@@ -1227,7 +1226,7 @@
         "stats": [
           {
             "v": "20 min",
-            "l": "from company number to a planned send-out"
+            "l": "from sign-up to a planned send-out"
           },
           {
             "v": "4 min",
@@ -1652,7 +1651,7 @@
           },
           {
             "t": "p",
-            "text": "Sign up with your Companies House company number and your company name. Add employees from a spreadsheet, one at a time or from Microsoft Entra ID, and follow the setup wizard. See the [use cases](/bruksomrader) for the situations Empvibe is built for."
+            "text": "Sign up with your company name; the Companies House number is optional. Add employees from a spreadsheet, one at a time or from Microsoft Entra ID, and follow the setup wizard. See the [use cases](/bruksomrader) for the situations Empvibe is built for."
           }
         ]
       },
@@ -1831,7 +1830,7 @@
           },
           {
             "t": "p",
-            "text": "Would you rather get started yourself? Sign up with your Companies House company number and type in your company’s name – then you can plan the first survey."
+            "text": "Would you rather get started yourself? Sign up with your company’s name – then you can plan the first survey."
           }
         ]
       },
@@ -2514,7 +2513,7 @@
           }
         ],
         "finalTitle": "Start with your own business",
-        "finalBody": "Enter your Companies House number and your company name. Signing up takes about three minutes, and setting up under an hour."
+        "finalBody": "Enter your company name and your e-mail address. Signing up takes about three minutes, and setting up under an hour."
       },
       "lovkrav": {
         "card": {
@@ -3101,9 +3100,9 @@
       }
     },
     "signup": {
-      "label": "Company number",
+      "label": "Company name",
       "submit": "Get started",
-      "invalid": "Enter the Companies House number of a limited company or LLP: 8 digits, or SC, NI, R0, OC, SO or NC and 6 digits, such as 01234567 or SC123456."
+      "invalid": "Enter the name of the company."
     },
     "common": {
       "priceLine": "Answers stored in the EU · No HR department or consultant needed",
@@ -5962,7 +5961,7 @@
   "start": {
     "ctaFree": "Get started",
     "finalTitle": "Start with your own organisation",
-    "finalBody": "Enter your Companies House company number and your company’s name, and you are ready to plan the first survey. Answers are stored in the EU, and no group is shown until at least 5 have answered."
+    "finalBody": "Enter your company’s name and your e-mail address, and you are ready to plan the first survey. Answers are stored in the EU, and no group is shown until at least 5 have answered."
   },
   "dpa": {
     "title": "Data processing agreement",

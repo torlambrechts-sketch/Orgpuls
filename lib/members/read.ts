@@ -75,6 +75,38 @@ export const getOpenInvites = cache(async (orgId: string): Promise<OpenInvite[]>
   return parsed.data
 })
 
+/**
+ * People who signed up and found this organisation already here (0232, X-114, D-279), waiting on
+ * the daglig leder. RLS gives the rows to the daglig leder only; the account behind a request is
+ * not a column they can read. A request is held thirty days.
+ */
+const JoinRequestRow = z.object({
+  id: z.string(),
+  email: z.string(),
+  full_name: z.string().nullable(),
+  matched_by: z.enum(['org_number', 'name', 'domain']),
+  company_name: z.string(),
+  created_at: z.string(),
+})
+export type PendingJoinRequest = z.infer<typeof JoinRequestRow>
+
+export const getJoinRequests = cache(async (orgId: string): Promise<PendingJoinRequest[]> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('join_requests')
+    .select('id, email, full_name, matched_by, company_name, created_at')
+    .eq('org_id', orgId)
+    .eq('status', 'pending')
+    .gte('created_at', new Date(Date.now() - 30 * 86_400_000).toISOString())
+    .order('created_at', { ascending: true })
+
+  if (readFailed('getJoinRequests', error, data)) return []
+  const parsed = z.array(JoinRequestRow).safeParse(data)
+  if (parseFailed('getJoinRequests', parsed)) return []
+  return parsed.data
+})
+
 /** What the page an invitation link opens may show. */
 const PreviewPayload = z.union([
   z.object({

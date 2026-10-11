@@ -1,3 +1,6 @@
+import type { Route } from 'next'
+import { redirect } from 'next/navigation'
+import { z } from 'zod'
 import { SignUpFlow } from '@/components/start/SignUpFlow'
 import { googleEnabled } from '@/lib/auth/google'
 import { microsoftEnabled } from '@/lib/auth/microsoft'
@@ -6,25 +9,41 @@ import { headers } from 'next/headers'
 import { marketOfHost } from '@/lib/hosts'
 import { LEGAL_PACK, MARKET_K_FLOOR, REGISTRY_LOOKUP } from '@/lib/markets'
 import { orgNumberInput } from '@/lib/org-number'
+import { myJoinRequest, type JoinRequest } from '@/lib/signup/organisation'
 
 /**
- * Registrering. Orgpuls_Start.dc.html lines 276-434.
+ * Registrering. Orgpuls_Start.dc.html lines 276-434, as one form since X-114 (D-279).
  *
- * All three steps live in one client component because nothing is written until step 2
- * submits: there is no half-created state for a URL to address, and none for a back
- * button to replay.
+ * The form and its outcomes live in one client component because nothing is written until it
+ * submits: there is no half-created state for a URL to address, and none for a back button to replay.
  *
- * A Google (D-102) or Microsoft (D-201) signup comes back from /auth/callback as `?ferdig=1` with the
- * organisation made, and opens on step 3; a refusal comes back as `?feil=<code>`.
+ * Three ways back in, each read on the server:
+ *  - `?ferdig=1` — a Google (D-102) or Microsoft (D-201) sign-up, or a confirmation link, made the
+ *    organisation: the page opens on what comes next;
+ *  - `?venter=1` — the company was already here, and the request to join it stands, or was declined
+ *    (0232): the page says which, with the company's name;
+ *  - `?feil=<code>` — a refusal.
  */
 export const dynamic = 'force-dynamic'
 
-export default async function RegistrerPage({ searchParams }: { searchParams: Promise<{ feil?: string; ferdig?: string }> }) {
-  const { feil, ferdig } = await searchParams
+// the membership's organisation, embedded: one row through a foreign key, an object or a list of one
+const Joined = z
+  .object({
+    organizations: z.union([z.object({ name: z.string() }), z.array(z.object({ name: z.string() })).length(1)]).nullable(),
+  })
+  .nullable()
+
+export default async function RegistrerPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ feil?: string; ferdig?: string; venter?: string }>
+}) {
+  const { feil, ferdig, venter } = await searchParams
   const [google, microsoft] = await Promise.all([googleEnabled(), microsoftEnabled()])
 
   let done: { firstName: string; company: string } | null = null
-  if (ferdig === '1') {
+  let waiting: JoinRequest | null = null
+  if (ferdig === '1' || venter === '1') {
     const supabase = await createClient()
     const { data: auth } = await supabase.auth.getUser()
     if (auth.user) {
@@ -36,14 +55,19 @@ export default async function RegistrerPage({ searchParams }: { searchParams: Pr
         .eq('active', true)
         .limit(1)
         .maybeSingle()
-      const org = (row as { organizations?: { name?: unknown } | null } | null)?.organizations?.name
-      const meta = auth.user.user_metadata as { full_name?: unknown; name?: unknown }
-      const name = [meta.full_name, meta.name].find((v): v is string => typeof v === 'string') ?? ''
-      if (typeof org === 'string') done = { firstName: name, company: org }
+      const joined = Joined.safeParse(row)
+      const orgs = joined.success ? joined.data?.organizations : null
+      const org = Array.isArray(orgs) ? orgs[0]?.name : orgs?.name
+      const meta = z.object({ full_name: z.string().optional(), name: z.string().optional() }).safeParse(auth.user.user_metadata)
+      const name = (meta.success ? (meta.data.full_name ?? meta.data.name) : undefined) ?? ''
+      if (ferdig === '1' && org) done = { firstName: name, company: org }
+      // let in since: the product, not the waiting page
+      if (venter === '1' && org) redirect('/innsikt' as Route)
+      if (venter === '1' && !org) waiting = await myJoinRequest(supabase)
     }
   }
 
-  // the host's market decides whether step 1 asks a register or the person (D-254)
+  // the host's market decides the number's rule and keyboard (D-254)
   const h = await headers()
   const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
   const registry = REGISTRY_LOOKUP[market]
@@ -54,6 +78,7 @@ export default async function RegistrerPage({ searchParams }: { searchParams: Pr
       microsoft={microsoft}
       problem={feil && /^[a-z_]{1,40}$/.test(feil) ? feil : null}
       done={done}
+      waiting={waiting}
       registry={registry}
       floor={MARKET_K_FLOOR[market]}
       legal={LEGAL_PACK[market]}

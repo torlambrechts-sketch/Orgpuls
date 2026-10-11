@@ -3,13 +3,14 @@
 import { useActionState, useState, useTransition } from 'react'
 import { useTranslations } from 'next-intl'
 import {
+  decideJoinRequest,
   inviteMember,
   revokeInvite,
   setMember,
   type InviteResult,
 } from '@/app/(app)/oppsett/member-actions'
 import { MEMBER_ROLES, type MemberRole } from '@/lib/members/roles'
-import type { Member, OpenInvite } from '@/lib/members/read'
+import type { Member, OpenInvite, PendingJoinRequest } from '@/lib/members/read'
 import { dateFormat, type Dates } from '@/lib/i18n/dates'
 
 /**
@@ -21,6 +22,10 @@ import { dateFormat, type Dates } from '@/lib/i18n/dates'
  * Every write goes through a 0028 function that holds the rules — invitation by address,
  * acceptance by the invited account only, the last daglig leder kept — so this component
  * only collects the choice and reports the verdict.
+ *
+ * Above the people, those who signed up and found the organisation already here (0232, X-114,
+ * D-279): who they are, what they typed and how they were recognised, and a role to let them in
+ * with, or no. Nobody is let in until the daglig leder says so.
  */
 
 const CONTROL = 'box-border h-[40px] w-full rounded-ctl border border-line bg-bg px-[11px] text-[13.5px] text-ink'
@@ -34,6 +39,7 @@ type Group = { id: string; name: string }
 export function MembersPanel({
   members,
   invites,
+  requests,
   groups,
   canWrite,
   locked,
@@ -41,6 +47,8 @@ export function MembersPanel({
 }: {
   members: Member[]
   invites: OpenInvite[]
+  /** people asking to join, waiting on the daglig leder (0232) */
+  requests: PendingJoinRequest[]
   groups: Group[]
   canWrite: boolean
   /** the shared demo organisation issues no invitations (0029) */
@@ -56,6 +64,8 @@ export function MembersPanel({
       <p className="mt-[6px] max-w-[680px] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">
         {!canWrite ? t('members.readOnly') : locked ? t('members.locked') : t('members.lead')}
       </p>
+
+      {canWrite && !locked && requests.length > 0 ? <JoinRequests requests={requests} groups={groups} dates={dates} /> : null}
 
       <div className="mt-[16px] flex flex-col gap-[9px]">
         {members.map((m) => (
@@ -192,6 +202,105 @@ const PROBLEMS = {
   not_found: 1,
   invalid: 1,
   failed: 1,
+  other_organisation: 1,
+  not_pending: 1,
+}
+
+function JoinRequests({ requests, groups, dates }: { requests: PendingJoinRequest[]; groups: Group[]; dates: Dates }) {
+  const t = useTranslations('oppsett.roller')
+  return (
+    <div className="mt-[16px] rounded-tile border border-ink bg-sbg px-[18px] py-[16px]">
+      <span className="block text-[14.5px] font-bold">{t('requests.head', { count: requests.length })}</span>
+      <span className="mt-[4px] block max-w-[680px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
+        {t('requests.lead')}
+      </span>
+      <div className="mt-[12px] flex flex-col gap-[9px]">
+        {requests.map((r) => (
+          <JoinRequestRow key={r.id} request={r} groups={groups} dates={dates} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function JoinRequestRow({ request, groups, dates }: { request: PendingJoinRequest; groups: Group[]; dates: Dates }) {
+  const t = useTranslations('oppsett.roller')
+  const [role, setRole] = useState<MemberRole>('avdelingsleder')
+  const [group, setGroup] = useState('')
+  const [problem, setProblem] = useState<string | null>(null)
+  const [pending, start] = useTransition()
+  const date = dateFormat(dates, { day: 'numeric', month: 'long' }).format(new Date(request.created_at))
+
+  const decide = (accept: boolean) =>
+    start(async () => {
+      setProblem(null)
+      const result = await decideJoinRequest({
+        id: request.id,
+        accept,
+        role: accept ? role : null,
+        group: accept && role === 'avdelingsleder' && group ? group : null,
+      })
+      if (!result.ok) setProblem(result.problem)
+    })
+
+  return (
+    <div className="grid items-center gap-[12px] rounded-tile border border-line bg-bg px-[16px] py-[13px] md:[grid-template-columns:minmax(0,1.3fr)_170px_190px_auto]">
+      <span className="min-w-0">
+        <span className="block text-[14px] font-semibold [overflow-wrap:anywhere]">{request.full_name ?? t('members.noName')}</span>
+        <span className="block text-[12.5px] text-mut [overflow-wrap:anywhere]">{request.email}</span>
+        <span className="mt-[2px] block text-[12px] text-mut [overflow-wrap:anywhere]">
+          {[t('requests.typed', { company: request.company_name }), t(`requests.matched.${request.matched_by}`), date].join(' · ')}
+        </span>
+      </span>
+
+      <label className="block">
+        <span className="sr-only">{t('members.role')}</span>
+        <select value={role} disabled={pending} onChange={(e) => setRole(e.target.value as MemberRole)} className={CONTROL}>
+          {MEMBER_ROLES.map((r) => (
+            <option key={r} value={r}>
+              {t(`role.${r}`)}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="block">
+        <span className="sr-only">{t('members.group')}</span>
+        {role === 'avdelingsleder' ? (
+          <select value={group} disabled={pending} onChange={(e) => setGroup(e.target.value)} className={CONTROL}>
+            <option value="">{t('members.chooseGroup')}</option>
+            {groups.map((g) => (
+              <option key={g.id} value={g.id}>
+                {g.name}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <span className="block text-[12.5px] text-mut max-md:hidden">—</span>
+        )}
+      </label>
+
+      <span className="flex flex-wrap justify-start gap-[8px] md:justify-end">
+        <button
+          type="button"
+          disabled={pending || (role === 'avdelingsleder' && !group)}
+          onClick={() => decide(true)}
+          className={PRIMARY}
+        >
+          {pending ? t('members.saving') : t('requests.grant')}
+        </button>
+        <button type="button" disabled={pending} onClick={() => decide(false)} className={SECONDARY}>
+          {t('requests.dismiss')}
+        </button>
+      </span>
+
+      {problem ? (
+        <p role="alert" className="m-0 text-[12.5px] text-danger md:col-span-4">
+          {t(`members.problem.${problem in PROBLEMS ? problem : 'failed'}`)}
+        </p>
+      ) : null}
+    </div>
+  )
 }
 
 function InviteForm({ groups }: { groups: Group[] }) {

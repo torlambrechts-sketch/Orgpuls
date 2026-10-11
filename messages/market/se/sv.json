@@ -376,17 +376,17 @@
       "trial": "Kom igång",
       "start": {
         "title": "Kom igång med Orgpuls i er egen verksamhet",
-        "lead": "Skriv in organisationsnumret här och företagets namn på nästa sida. Ingen konsult och inget uppstartsmöte – den första mätningen kan planeras samma dag.",
-        "placeholder": "10 siffror",
+        "lead": "Skriv in företagets namn för att komma i gång. Ingen konsult och inget uppstartsmöte – den första mätningen kan planeras samma dag.",
+        "placeholder": "Som det är registrerat",
         "submit": "Kom igång",
-        "fetching": "Vi öppnar registreringen med {orgnr} …",
-        "invalid": "Ett organisationsnummer har tio siffror, och ett personnummer kan inte användas.",
-        "label": "Organisationsnummer"
+        "invalid": "Skriv in företagets namn.",
+        "label": "Företagets namn",
+        "going": "Vi öppnar registreringen för {company} …"
       },
       "band": {
         "title": "Börja med er egen verksamhet",
-        "lead": "Skriv in organisationsnumret här och företagets namn på nästa sida. Ingen konsult och inget uppstartsmöte, och svaren lagras i EU.",
-        "leadHome": "Skriv in organisationsnumret här och företagets namn på nästa sida. Ingen konsult och inget uppstartsmöte – den första mätningen kan planeras samma dag, och ingen grupp visas förrän minst 5 har svarat."
+        "lead": "Skriv in företagets namn för att komma i gång. Ingen konsult och inget uppstartsmöte, och svaren lagras i EU.",
+        "leadHome": "Skriv in företagets namn för att komma i gång. Ingen konsult och inget uppstartsmöte – den första mätningen kan planeras samma dag, och ingen grupp visas förrän minst 5 har svarat."
       },
       "footer": {
         "about": "Orgpuls hjälper svenska arbetsgivare att kartlägga den organisatoriska och sociala arbetsmiljön och följa upp med en handlingsplan. Svaren lagras i EU, och inget enskilt svar kan spåras till en person.",
@@ -613,7 +613,7 @@
         "stats": [
           {
             "v": "20 min",
-            "l": "från organisationsnummer till planerat utskick"
+            "l": "från registrering till planerat utskick"
           },
           {
             "v": "4 min",
@@ -1041,7 +1041,7 @@
           "ticks": [
             "En VD med färre än 50 anställda får enkel vy automatiskt",
             "Klistra in de anställda eller ladda upp en CSV – inget HR-system behövs",
-            "Guiden tar dig från organisationsnummer till planerat utskick på ungefär 20 minuter"
+            "Guiden tar dig från registrering till planerat utskick på ungefär 20 minuter"
           ],
           "card": {
             "title": "Gör det här nu",
@@ -1612,10 +1612,9 @@
       "related": "Relaterade sidor"
     },
     "signup": {
-      "label": "Organisationsnummer",
+      "label": "Företagets namn",
       "submit": "Kom igång",
-      "invalid": "Ett organisationsnummer har tio siffror, och ett personnummer kan inte användas. Kontrollera numret.",
-      "invalidChecksum": "Kontrollera numret – det ser inte ut som ett giltigt organisationsnummer."
+      "invalid": "Skriv in företagets namn."
     },
     "og": {
       "pills": [
@@ -1861,7 +1860,7 @@
           },
           {
             "t": "p",
-            "text": "Registrera er med organisationsnumret – tio siffror – och företagets namn. Lägg in de anställda från ett kalkylark, en och en eller från Microsoft Entra ID, och följ guiden genom uppsättningen. Se [användningsområdena](/bruksomrader) för de situationer Orgpuls är byggt för."
+            "text": "Registrera er med företagets namn; organisationsnumret är valfritt. Lägg in de anställda från ett kalkylark, en och en eller från Microsoft Entra ID, och följ guiden genom uppsättningen. Se [användningsområdena](/bruksomrader) för de situationer Orgpuls är byggt för."
           }
         ],
         "finalTitle": "Se plattformen i er egen organisation"
@@ -2125,7 +2124,7 @@
           },
           {
             "t": "p",
-            "text": "Vill ni hellre komma i gång själva? Registrera er med organisationsnumret och företagets namn – sedan kan ni planera den första mätningen."
+            "text": "Vill ni hellre komma i gång själva? Registrera er med företagets namn – sedan kan ni planera den första mätningen."
           }
         ]
       },
@@ -2915,7 +2914,7 @@
             ],
             "rows": [
               [
-                "Registrering med organisationsnummer",
+                "Registrering",
                 "Cirka 3 minuter"
               ],
               [
@@ -2950,7 +2949,7 @@
               {
                 "date": "Start",
                 "title": "Registrera företaget",
-                "text": "Med organisationsnummer och företagsnamn. Lägg in de anställda från ett kalkylark."
+                "text": "Med företagets namn. Lägg in de anställda från ett kalkylark."
               },
               {
                 "date": "Baslinjemätningen",
@@ -3024,7 +3023,7 @@
           }
         ],
         "finalTitle": "Börja med ert eget företag",
-        "finalBody": "Skriv in ert organisationsnummer och företagets namn. Registreringen tar ungefär tre minuter, och uppsättningen under en timme."
+        "finalBody": "Skriv in företagets namn och din e-postadress. Registreringen tar ungefär tre minuter, och uppsättningen under en timme."
       }
     },
     "voTip": {
@@ -3057,7 +3056,7 @@
   },
   "start": {
     "finalTitle": "Börja med er egen verksamhet",
-    "finalBody": "Skriv in organisationsnumret och företagets namn, så är ni i gång på 3 minuter. Svaren lagras i EU, och ingen grupp visas förrän minst 5 har svarat.",
+    "finalBody": "Skriv in företagets namn och din e-postadress, så är ni i gång på 3 minuter. Svaren lagras i EU, och ingen grupp visas förrän minst 5 har svarat.",
     "ctaFree": "Kom igång",
     "faqEyebrow": "Frågor vi ofta får"
   }

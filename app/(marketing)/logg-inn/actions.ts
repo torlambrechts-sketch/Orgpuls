@@ -7,6 +7,7 @@ import type { Route } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { authReturn } from '@/lib/auth/return'
 import { completePendingSignup } from '@/lib/signup/pending'
+import { myJoinRequest } from '@/lib/signup/organisation'
 
 /**
  * Zod at the server boundary, per the security contract. The schema is deliberately
@@ -32,10 +33,15 @@ export async function signIn(_prev: SignInState, formData: FormData): Promise<Si
   const { error } = await supabase.auth.signInWithPassword(parsed.data)
   if (error) return { error: 'invalid' }
 
-  // an account confirmed on another device signs in here first: its organisation is made now (D-200)
+  // an account confirmed on another device signs in here first: its organisation is made now (D-200),
+  // or the request to join it is filed where the company is already here (0232, D-279)
   const made = await completePendingSignup(supabase)
   if (made.kind === 'created') redirect('/registrer?ferdig=1' as Route)
+  if (made.kind === 'requested') redirect('/registrer?venter=1' as Route)
   if (made.kind === 'failed') redirect(`/registrer?feil=${made.reason}` as Route)
+
+  // somebody still waiting for a daglig leder to let them in is told so, not shown an empty product
+  if (!(await hasMembership(supabase)) && (await myJoinRequest(supabase))) redirect('/registrer?venter=1' as Route)
 
   // the language saved on the profile, or the organisation's (D-96)
   await restoreLocale(supabase)
@@ -60,4 +66,12 @@ export async function requestReset(_prev: ResetState, formData: FormData): Promi
   // the link comes back to the site it was asked for on, under its name (D-275)
   await supabase.auth.resetPasswordForEmail(parsed.data, { redirectTo: (await authReturn()).redirectTo })
   return { status: 'sent' }
+}
+
+/** Whether the signed-in account belongs to an organisation: a request is only waited on by one that does not */
+async function hasMembership(supabase: Awaited<ReturnType<typeof createClient>>): Promise<boolean> {
+  const { data: user } = await supabase.auth.getUser()
+  if (!user.user) return false
+  const { data } = await supabase.schema('app').from('memberships').select('org_id').eq('user_id', user.user.id).eq('active', true).limit(1)
+  return Array.isArray(data) && data.length > 0
 }

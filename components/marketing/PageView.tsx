@@ -151,7 +151,6 @@ export async function PageView({
                     label={c.signupLabel || t('seo.signup.label')}
                     submit={t('seo.signup.submit')}
                     invalid={t('seo.signup.invalid')}
-                    invalidChecksum={t('seo.signup.invalidChecksum')}
                   />
                 </div>
                 <p className="mb-0 mt-[12px] text-[13px] leading-[1.6] text-mut">
@@ -187,7 +186,6 @@ export async function PageView({
                 label={c.signupLabel || t('seo.signup.label')}
                 submit={t('seo.signup.submit')}
                 invalid={t('seo.signup.invalid')}
-                invalidChecksum={t('seo.signup.invalidChecksum')}
               />
               <p className="mb-0 mt-[12px] text-[13px] leading-[1.6] text-mut">
                 <span className="block">{t('seo.common.priceLine')}</span>
