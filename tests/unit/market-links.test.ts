@@ -15,7 +15,8 @@ import {
   smsSenderOf,
   type MailCatalogue,
 } from '@/supabase/functions/_shared/mail'
-import { MAIL } from '@/supabase/functions/_shared/messages.gen'
+import en from '@/messages/en.json'
+import no from '@/messages/no.json'
 
 /**
  * Where an organisation's mail, SMS, Teams and Slack lead, and under whose name (UK-G, D-275). What
@@ -29,6 +30,8 @@ import { MAIL } from '@/supabase/functions/_shared/messages.gen'
  */
 const PROD = 'https://www.orgpuls.com'
 const base = { email: 'varsel@orgpuls.com', name: 'Orgpuls' }
+// the catalogue from the message files, as mail.test builds it: messages.gen.ts is written at deploy, not checked in
+const MAIL = { no: no.mail, en: en.mail } as unknown as MailCatalogue
 
 describe('each market’s site', () => {
   it('is the site the host registry names for it, and only a market with its own site has one', () => {
@@ -91,11 +94,11 @@ describe('an Auth mail (sign-up, invitation, new password)', () => {
 
   it('is written in the market’s language when the account names none, under the brand’s name', () => {
     expect(MARKET_AUTH_LANG.gb).toBe('en')
-    const r = renderAuth(MAIL as unknown as MailCatalogue, 'signup', 'en', 'a@b.co.uk', 'https://www.empvibe.com/auth/confirm?x=1', `${brandNameOf('gb')} · empvibe.com`)
+    const r = renderAuth(MAIL, 'signup', 'en', 'a@b.co.uk', 'https://www.empvibe.com/auth/confirm?x=1', `${brandNameOf('gb')} · empvibe.com`)
     expect(r.html).toContain('Empvibe · empvibe.com')
     expect(r.html).not.toContain('Orgpuls · orgpuls.com')
     // Norway's, as before
-    expect(renderAuth(MAIL as unknown as MailCatalogue, 'signup', 'no', 'a@b.no', 'https://www.orgpuls.com/x').html).toContain('Orgpuls · orgpuls.com')
+    expect(renderAuth(MAIL, 'signup', 'no', 'a@b.no', 'https://www.orgpuls.com/x').html).toContain('Orgpuls · orgpuls.com')
   })
 
   it('is asked for with the site and the language, on every path that sends one', () => {
