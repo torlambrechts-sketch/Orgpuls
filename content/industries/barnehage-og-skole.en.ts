@@ -1,7 +1,7 @@
 import type { IndustryPage } from './types'
 
 /**
- * en.orgpuls.com/barnehage-og-skole beyond its landing page (D-211, D-214): the menu name, whether
+ * The English /barnehage-og-skole (on www.orgpuls.com since D-275) beyond its landing page (D-211, D-214): the menu name, whether
  * it is live, the module, and the question page's own words (/barnehage-og-skole/sporsmal,
  * statements from modules/barnehage-og-skole/v1.json, its `translations.en` in all three wordings).
  * The Norwegian file's words, in the English the construction and health pages use.

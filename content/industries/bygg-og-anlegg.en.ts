@@ -1,7 +1,7 @@
 import type { IndustryPage } from './types'
 
 /**
- * en.orgpuls.com/bygg-og-anlegg beyond its landing page (D-208): the menu name, whether it is live, the module, and the
+ * The English /bygg-og-anlegg (on www.orgpuls.com since D-275) beyond its landing page (D-208): the menu name, whether it is live, the module, and the
  * question page's own words (/bygg-og-anlegg/sporsmal, statements from modules/bygg-og-anlegg/v1.json, its `translations.en`).
  * The page itself is the landing template and its messages; the words only the older template
  * drew are gone, and `law` stays as the legal review's record (D-213).

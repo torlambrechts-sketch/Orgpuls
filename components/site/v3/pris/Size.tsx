@@ -71,6 +71,9 @@ function rich(template: string, values: Record<string, string | number>) {
   return out
 }
 
+/** A month per employee: whole kroner; pounds and pence, a whole pound without them (£25, £1.39) */
+const perHead = (v: number, digits: number) => (!digits ? Math.round(v) : Number.isInteger(v) ? v : v.toFixed(digits))
+
 export type SliderWords = {
   label: string
   /** the typed number's name (R-02) */
@@ -115,7 +118,7 @@ export function SizeSlider({ w }: { w: SliderWords }) {
     plan: w.plans[fit]!,
     price: monthly ? (year && y ? y.year : monthly) : '',
     perMonth: y?.perMonth ?? '',
-    perHead: monthly ? (w.perHeadDigits ? (monthly / n).toFixed(w.perHeadDigits) : Math.round(monthly / n)) : '',
+    perHead: monthly ? perHead(monthly / n, w.perHeadDigits) : '',
   }
   const valuetext = (monthly ? (year ? w.valuetextYear : w.valuetext) : w.valuetextGroup).replace(
     /\{(\w+)\}/g,

@@ -139,11 +139,12 @@ export async function updateSession(request: NextRequest) {
   // a market's host before its own public site (D-256): the Norwegian site's pages go to the
   // sign-up, and nothing there is indexed; a moved host (D-275) and a reserved one (D-258) send every
   // address where an English reader goes. Pure string work on the host: it cannot throw.
-  const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path), request.nextUrl.search)
+  const read = request.method === 'GET' || request.method === 'HEAD'
+  const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path), request.nextUrl.search, read)
   // a site of its own (D-270): a page asked for by its Norwegian address goes to the site's own
   // address, permanently and with its query; only a page load, so a form posted there still lands
   if (gate.canonical) {
-    if (request.method !== 'GET' && request.method !== 'HEAD') return noindex(await route(request, path), gate.noindex)
+    if (!read) return noindex(await route(request, path), gate.noindex)
     const url = request.nextUrl.clone()
     url.pathname = gate.redirect!
     return NextResponse.redirect(url, 308)

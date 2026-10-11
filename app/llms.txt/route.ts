@@ -82,6 +82,7 @@ const PAGE_WORDS: Record<string, string> = {
   '/smaa-bedrifter': 'seo.lp.smaaBedrifter',
   '/sikkerhet': 'seo.pages.sikkerhet',
   '/kontakt': 'seo.pages.kontakt',
+  '/priser': 'seo.pages.priser',
   '/personvernerklaering': 'seo.pages.personvernerklaering',
   '/vilkar': 'seo.pages.vilkar',
 }

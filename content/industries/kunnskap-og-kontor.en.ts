@@ -1,7 +1,7 @@
 import type { IndustryPage } from './types'
 
 /**
- * en.orgpuls.com/kunnskap-og-kontor beyond its landing page (D-212, D-214): the menu name, whether
+ * The English /kunnskap-og-kontor (on www.orgpuls.com since D-275) beyond its landing page (D-212, D-214): the menu name, whether
  * it is live, the module, and the question page's own words (/kunnskap-og-kontor/sporsmal,
  * statements from modules/kunnskap-og-kontor/v1.json, its `translations.en` for both variants).
  * The Norwegian file's words, in the English the construction and health pages use.

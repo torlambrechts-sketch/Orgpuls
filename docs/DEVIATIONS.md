@@ -13583,15 +13583,22 @@ built the brand, the market, its law, its module, its site and its documents. Th
 - **Its pages** are D-270's list plus `/pricing` (below). The IndexNow key is served there too, and
   `scripts/seo/indexnow.mjs` submits www.empvibe.com in place of en.orgpuls.com.
 
-**en.orgpuls.com redirects (308).** X-111 says where its readers go: English-speaking firms in Norway keep Norway's
-site in English, and the English site is Empvibe's. So, by address (`toEnglish`):
-- **A page Empvibe has** goes to the same page on Empvibe, at its English address, with its query.
-- **Norway's own pages** — the industries, the articles, the templates, the demo — and signing in, signing up and a
-  new password go to the same address on www.orgpuls.com in English, through the language switch's own route
-  (`/api/sprak?l=en&til=…`, D-109). Those pages exist only there.
-- **Everything else** goes to the same address on www.orgpuls.com, query kept: the product, a survey or entry link,
-  an invitation, the auth callbacks, the API and the files. A Norwegian organisation's screens, and a poster printed
-  on en.orgpuls.com, keep working in the language the person or the employee has.
+**en.orgpuls.com redirects (308).** X-111 says both where its readers go and what they keep: «en.orgpuls.com redirects
+there», and «English-speaking firms in Norway keep the Norwegian site in English». By address (`toEnglish`):
+- **The brand's own pages** — the start page, the platform, the use cases, why, contact — go to the same page on
+  Empvibe, at its English address, with its query. They say what the product is, which is the same in every market.
+- **Every other page** goes to the same address on www.orgpuls.com in English, through the language switch's own
+  route, for that browser only (`/api/sprak?l=en&til=…&profil=0`, D-109). That covers Norway's prices, terms,
+  privacy notice, law, safety representatives, small businesses, security, industries, articles, templates and demo,
+  signing in, up and a new password, and the product's own screens.
+  - A Norwegian customer's bookmarked terms or prices never open another market's contract (pounds, the reverse
+    charge, the ICO).
+  - A bookmarked screen opens on its sign-in in English: the session cookie belonged to the old host.
+  - `profil=0` keeps a signed-in person's saved language as it was: following an old link is not choosing one.
+- **A link that carries its own key or language** — a survey, an entry code, a results page, an invitation — and
+  the auth callbacks, the API, the logo and the files go to the same address on www.orgpuls.com, query kept. So does
+  any form posted there, method kept. A poster printed on en.orgpuls.com keeps working.
+- **A query longer than the switch's 300-character return** is dropped, never the page.
 - **de.orgpuls.com** follows the same rule, temporarily (307), as D-258 had it go to the English site.
 
 **Norway's site has one address per page.**
@@ -13646,13 +13653,29 @@ site in English, and the English site is Empvibe's. So, by address (`toEnglish`)
 - **Hosted:** the Auth allow list gained https://www.empvibe.com/** and https://empvibe.com/** (Management API).
   en.orgpuls.com stays on it for links already in flight.
 
+**The review** (two independent passes: security and correctness; texts, SEO and journeys) found, and this fixes:
+- **en.orgpuls.com's market pages went to Empvibe's.** A Norwegian customer's bookmarked terms or prices opened
+  the UK contract. Only the brand's pages go to Empvibe now (above).
+- **Following an old link rewrote a signed-in person's saved language** (`profil=0`), and a bookmarked screen
+  opened its sign-in in bokmål.
+- **Empvibe's llms.txt printed `undefined` for /pricing** (`PAGE_WORDS`). A test now holds every served page to
+  its words.
+- **The UK pricing texts said more than the terms:**
+  - that reports can be printed at any time, which the free plan cannot;
+  - that all data is deleted, though invoices are kept;
+  - «a risk assessment per factor», where Empvibe gives the basis and the mapping onto HSE's areas is its own;
+  - «£0 forever».
+  - They now say what the terms say: the reply-notice exception in the anonymity answer, «no UK VAT is added», and
+    British wording.
+- **£25.00 per employee** at one employee: a whole pound now shows without pence.
+
 **Not done here, and why** — each needs an account or a DNS change only Tor has:
 - **Brevo:** add empvibe.com as a sender domain and its DNS records (DKIM, the Brevo code, DMARC) at Spaceship, where
   its DNS is. The code switches by itself once Brevo says authenticated.
 - **A mailbox for Empvibe:** empvibe.com has no MX. Until one exists, the UK texts and the Reply-To name
   hjelp@orgpuls.no.
 - **Slack:** the app's redirect URLs need https://www.empvibe.com/integrasjoner/slack/callback, or a UK leader's
-  «Connect Slack» is refused by Slack.
+  «Connect Slack» is refused by Slack. The UK site names Slack (since UK-E), so this is the first of these to do.
 - **Entra:** the app registration's redirect URIs need https://www.empvibe.com/integrasjoner/entra/callback for the
   import's admin consent. Sign-in with Microsoft needs nothing, since it returns through Supabase.
 - **Sentral:** web-collect has to know www.empvibe.com as a site, or Empvibe's visits are not counted. The beacon

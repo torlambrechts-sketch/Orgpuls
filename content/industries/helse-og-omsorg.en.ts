@@ -1,7 +1,7 @@
 import type { IndustryPage } from './types'
 
 /**
- * en.orgpuls.com/helse-og-omsorg beyond its landing page (D-210): the menu name, whether it is live, the module, and the
+ * The English /helse-og-omsorg (on www.orgpuls.com since D-275) beyond its landing page (D-210): the menu name, whether it is live, the module, and the
  * question page's own words (/helse-og-omsorg/sporsmal, statements from modules/helse-og-omsorg/v1.json, its `translations.en`).
  * The page itself is the landing template and its messages; the words only the older template
  * drew are gone, and `law` stays as the legal review's record (D-213).

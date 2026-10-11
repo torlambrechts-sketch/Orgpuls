@@ -427,7 +427,7 @@ const count = (es: Entry[]) => es.length
 const doc: string[] = [
   `# Orgpuls – alle tekster på nettsidene (${today})`,
   '',
-  'Dette dokumentet inneholder hver tekst på de offentlige sidene på orgpuls.no og en.orgpuls.com. Tekstene står side for side, deretter språk for språk og seksjon for seksjon, i samme rekkefølge som på siden.',
+  'Dette dokumentet inneholder hver tekst på de offentlige sidene på www.orgpuls.com, på norsk og engelsk. Tekstene står side for side, deretter språk for språk og seksjon for seksjon, i samme rekkefølge som på siden.',
   '',
   '## Slik bruker du dokumentet',
   '',

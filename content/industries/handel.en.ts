@@ -1,7 +1,7 @@
 import type { IndustryPage } from './types'
 
 /**
- * en.orgpuls.com/handel beyond its landing page (D-207, D-214): the menu name, whether it is live,
+ * The English /handel (on www.orgpuls.com since D-275) beyond its landing page (D-207, D-214): the menu name, whether it is live,
  * the module, and the question page's own words (/handel/sporsmal, statements from
  * modules/handel/v1.json, its `translations.en`). The Norwegian file's words, in the English the
  * construction and health pages use.

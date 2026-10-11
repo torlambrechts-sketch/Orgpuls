@@ -144,35 +144,41 @@ export const SITES: readonly Site[] = [
 /**
  * Where an English reader goes from a host that no longer has a site of its own (UK-G, D-275):
  *
- *   a public page Empvibe serves      the same page on Empvibe's site, at its English address
- *   any other page of the public site the same page on www.orgpuls.com, in English: Norway's site
- *   and signing in or up               in English is where English-speaking firms in Norway are
- *                                      (X-111), and its industries, articles and templates exist
- *                                      only there
- *   the product, the survey and its    the same address on www.orgpuls.com, with its query: an
- *   links, the API, the auth callbacks organisation's own screens, a respondent's link and a
- *                                      poster printed before the move keep working, in the language
- *                                      the person or the employee has
+ *   the brand's pages: the start       the same page on Empvibe's site, at its English address:
+ *   page, the platform, the use cases, what the product is and does, which is the same for every
+ *   why, contact                       market (X-111: «en.orgpuls.com redirects there»)
+ *   every other page: Norway's prices, the same address on www.orgpuls.com, in English: these
+ *   terms, privacy notice, law, safety pages state Norway's prices, contract and law, which
+ *   representatives, industries,       English-speaking firms in Norway keep (X-111), so a
+ *   articles; signing in and up; the   customer's bookmark never opens another market's contract;
+ *   product's own screens              and the product's screens open on its sign-in in English
+ *   a link that carries its own key    the same address on www.orgpuls.com, with its query: a
+ *   or language (survey, entry code,   respondent's link and a poster printed before the move
+ *   results page, invitation), the     keep working, in the employee's own language
+ *   auth callbacks, the API, the files
  *
- * `publicPath` is the middleware's own test of whether the path is the public site's.
+ * English is chosen through the switch's own route, for this browser only (`profil=0`): following
+ * an old link never changes a signed-in person's saved language. A form posted there (`read` false)
+ * goes to the same address, method kept, as nothing else can take it. `publicPath` is the
+ * middleware's own test of whether the path is the public site's.
  */
-export function toEnglish(path: string, search: string, publicPath: boolean): string {
-  if (publicPath && (EMPVIBE_PAGES as readonly string[]).includes(path)) return `${EMPVIBE_URL}${addressOf(EMPVIBE_PATHS, path)}${search}`
-  // a page of the public site, not a file (robots.txt, the sitemap, llms.txt) and not a link that
-  // carries its own key (a survey, an entry code, an invitation), which has its own language
-  const sitePage = publicPath && !/\.[a-z0-9]+$/i.test(path) && !within(WITHOUT_SITE, path)
-  if (sitePage || within(IN_ENGLISH, path)) return switchTo(MAIN_URL, 'en', `${path}${search}`)
-  return `${MAIN_URL}${path}${search}`
+export function toEnglish(path: string, search: string, publicPath: boolean, read = true): string {
+  if (read && publicPath && (BRAND_PAGES as readonly string[]).includes(path)) return `${EMPVIBE_URL}${addressOf(EMPVIBE_PATHS, path)}${search}`
+  if (!read || within(AS_THEY_ARE, path) || /\.[a-z0-9]+$/i.test(path)) return `${MAIN_URL}${path}${search}`
+  // the switch takes a return of at most 300 characters (lib/i18n/switch.ts safeReturn): a longer
+  // query is dropped rather than the page
+  const til = path.length + search.length <= 300 ? `${path}${search}` : path
+  return `${MAIN_URL}/api/sprak?${new URLSearchParams({ l: 'en', til, profil: '0' })}`
 }
 
-/** the steps an English reader takes in English on www.orgpuls.com: signing in and up, a new password */
-const IN_ENGLISH = ['/logg-inn', '/registrer', '/nytt-passord']
+/** The pages that are the brand's, not a market's: the same product, said by Empvibe for its market */
+const BRAND_PAGES = ['/', '/plattform', '/bruksomrader', '/hvorfor', '/kontakt'] as const
+
+/** What a moved host sends on as it is: links with their own key or language, the auth callbacks, the API, the logo */
+const AS_THEY_ARE = ['/s', '/inn', '/r', '/bli-med', '/auth', '/api', '/logo']
 
 /** whether the path is one of these or under one */
 const within = (list: readonly string[], path: string) => list.some((p) => path === p || path.startsWith(`${p}/`))
-
-/** the language switch's own route on a site (lib/i18n/switch.ts switchUrl, which this file cannot import) */
-const switchTo = (base: string, locale: string, path: string) => `${base}/api/sprak?${new URLSearchParams({ l: locale, til: path })}`
 
 /**
  * A host whose site moved (UK-G, D-275): en.orgpuls.com, the English edition of Norway's site, whose
@@ -277,17 +283,18 @@ const WITHOUT_SITE = ['/logg-inn', '/registrer', '/auth', '/s', '/inn', '/r', '/
  * D-275) and a reserved one (Germany, D-258): nothing; every address goes where an English reader is
  * sent (`toEnglish`), an absolute URL with its query, permanently from the moved host. `publicPath` is
  * the middleware's own test of whether the path is the public site's (lib/supabase/middleware.ts
- * isPublic), `search` the request's query.
+ * isPublic), `search` the request's query, `read` whether it is a page load (GET or HEAD).
  */
 export function hostGate(
   host: string | null | undefined,
   path: string,
   publicPath: boolean,
   search = '',
+  read = true,
 ): { noindex: boolean; redirect: string | null; rewrite?: string; canonical?: true; permanent?: true } {
   const name = hostOf(host)
-  if (MOVED_HOSTS.includes(name)) return { noindex: true, redirect: toEnglish(path, search, publicPath), permanent: true }
-  if (RESERVED_HOSTS.includes(name)) return { noindex: true, redirect: toEnglish(path, search, publicPath) }
+  if (MOVED_HOSTS.includes(name)) return { noindex: true, redirect: toEnglish(path, search, publicPath, read), permanent: true }
+  if (RESERVED_HOSTS.includes(name)) return { noindex: true, redirect: toEnglish(path, search, publicPath, read) }
   const site = siteOf(host)
   if (site?.own) return ownSite(site.own, path, publicPath)
   if (!site || site.publicSite) return { noindex: false, redirect: null }

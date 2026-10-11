@@ -16,7 +16,7 @@ import { contentLang } from '@/lib/i18n/locales'
 /**
  * An industry page (bransjesider-og-tilleggsmoduler.md § B1): the landing template
  * (components/industry/IndustryLanding.tsx, content/industries/landing.ts, D-207) for each of the
- * registry's industries, in the site's language (www Norwegian, en.orgpuls.com English). Live in that
+ * registry's industries, in the page's language (Norwegian, or English chosen on www, D-275). Live in that
  * language, the page; not yet live there, the same with ?forhandsvis=1, marked noindex; otherwise
  * nothing. Each language launches on its own (D-120). The older industry template, and the landing
  * page bygg and helse had before it, are gone (D-213).

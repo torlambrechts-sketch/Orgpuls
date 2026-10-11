@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { marketOfHost, outboundBase, PUBLIC_HOSTS, SITES, siteOf } from '@/lib/hosts'
+import { EMPVIBE_PAGES, marketOfHost, outboundBase, PUBLIC_HOSTS, SITES, siteOf } from '@/lib/hosts'
 import { LOCALES } from '@/lib/i18n/locales'
 import { PACK_LANGS } from '@/lib/i18n/market-overlay'
 import { DEFAULT_MARKET, isMarket, LEGAL_PACK, MARKET_K_FLOOR, MARKET_LANGS, MARKET_TIME_ZONE, MARKETS, orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
@@ -151,34 +151,44 @@ describe('a host without its own public site yet (D-256)', () => {
 })
 
 describe('the English host, moved (X-111, UK-G, D-275)', () => {
-  const sprak = (til: string) => `https://www.orgpuls.com/api/sprak?${new URLSearchParams({ l: 'en', til })}`
+  // English chosen for this browser only: following an old link never changes an account's language
+  const sprak = (til: string) => `https://www.orgpuls.com/api/sprak?${new URLSearchParams({ l: 'en', til, profil: '0' })}`
 
-  it('sends a page Empvibe has to Empvibe’s, at its English address, with its query, for good', async () => {
+  it('sends the brand’s own pages to Empvibe’s, at their English addresses, with the query, for good', async () => {
     const { hostGate, MOVED_HOSTS } = await import('@/lib/hosts')
     expect(MOVED_HOSTS).toEqual(['en.orgpuls.com'])
     const moved = (path: string, search = '') => hostGate('en.orgpuls.com', path, true, search)
     expect(moved('/')).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/', permanent: true })
     expect(moved('/plattform', '?utm_source=li')).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/platform?utm_source=li', permanent: true })
-    expect(moved('/priser').redirect).toBe('https://www.empvibe.com/pricing')
-    expect(moved('/vilkar').redirect).toBe('https://www.empvibe.com/terms')
-    expect(hostGate('EN.orgpuls.com:443', '/verneombud', true).redirect).toBe('https://www.empvibe.com/safety-representatives')
+    expect(moved('/bruksomrader').redirect).toBe('https://www.empvibe.com/use-cases')
+    expect(moved('/hvorfor').redirect).toBe('https://www.empvibe.com/why-empvibe')
+    expect(hostGate('EN.orgpuls.com:443', '/kontakt', true).redirect).toBe('https://www.empvibe.com/contact')
   })
 
-  it('sends Norway’s own pages, signing in and signing up to www.orgpuls.com in English (X-111)', async () => {
+  it('never opens another market’s contract: Norway’s prices, terms, law and own pages stay Norway’s, in English (X-111)', async () => {
     const { hostGate } = await import('@/lib/hosts')
     const moved = (path: string, pub = true, search = '') => hostGate('en.orgpuls.com', path, pub, search).redirect
-    for (const path of ['/artikler/medarbeiderundersokelse', '/bygg-og-anlegg', '/maler', '/demo', '/logg-inn', '/registrer', '/nytt-passord'])
+    for (const path of ['/priser', '/vilkar', '/personvernerklaering', '/lovkrav', '/verneombud', '/smaa-bedrifter', '/sikkerhet',
+      '/artikler/medarbeiderundersokelse', '/bygg-og-anlegg', '/maler', '/demo', '/logg-inn', '/registrer', '/nytt-passord'])
       expect(moved(path), path).toBe(sprak(path))
     expect(moved('/registrer', true, '?orgnr=922698422')).toBe(sprak('/registrer?orgnr=922698422'))
+    // a query too long for the switch's return is dropped, never the page
+    expect(moved('/priser', true, `?utm_source=${'x'.repeat(320)}`)).toBe(sprak('/priser'))
   })
 
-  it('keeps the product, the survey, an invitation and the files at the same address on www.orgpuls.com', async () => {
+  it('opens a bookmarked screen of the product on its sign-in in English', async () => {
     const { hostGate } = await import('@/lib/hosts')
-    const moved = (path: string, pub: boolean, search = '') => hostGate('en.orgpuls.com', path, pub, search).redirect
-    for (const path of ['/s/abc', '/r/abc', '/inn/abc', '/bli-med/x', '/auth/confirm', '/api/sprak', '/robots.txt', '/sitemap.xml', '/llms.txt'])
-      expect(moved(path, true), path).toBe(`https://www.orgpuls.com${path}`)
-    expect(moved('/innsikt', false, '?runde=1')).toBe('https://www.orgpuls.com/innsikt?runde=1')
-    expect(moved('/auth/confirm', true, '?token_hash=x&type=email')).toBe('https://www.orgpuls.com/auth/confirm?token_hash=x&type=email')
+    expect(hostGate('en.orgpuls.com', '/innsikt', false, '?runde=1').redirect).toBe(sprak('/innsikt?runde=1'))
+  })
+
+  it('keeps a link with its own key or language, the callbacks, the API and the files at the same address on www', async () => {
+    const { hostGate } = await import('@/lib/hosts')
+    const moved = (path: string, search = '') => hostGate('en.orgpuls.com', path, true, search).redirect
+    for (const path of ['/s/abc', '/r/abc', '/inn/abc', '/bli-med/x', '/auth/confirm', '/api/sprak', '/logo/x', '/robots.txt', '/sitemap.xml', '/llms.txt'])
+      expect(moved(path), path).toBe(`https://www.orgpuls.com${path}`)
+    expect(moved('/auth/confirm', '?token_hash=x&type=email')).toBe('https://www.orgpuls.com/auth/confirm?token_hash=x&type=email')
+    // a form posted there keeps its address and method (308)
+    expect(hostGate('en.orgpuls.com', '/registrer', true, '', false)).toEqual({ noindex: true, redirect: 'https://www.orgpuls.com/registrer', permanent: true })
   })
 
   it('is no site: nothing signs up into a market there, and no link is made with its address', async () => {
@@ -194,14 +204,20 @@ describe('a host reserved for a market not open yet (X-110, D-258)', () => {
     const { hostGate, RESERVED_HOSTS, siteOf, marketOfHost } = await import('@/lib/hosts')
     expect(RESERVED_HOSTS).toEqual(['de.orgpuls.com'])
     expect(hostGate('de.orgpuls.com', '/', true)).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/' })
-    expect(hostGate('DE.orgpuls.com:443', '/priser', true)).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/pricing' })
-    expect(hostGate('de.orgpuls.com', '/innsikt', false)).toEqual({ noindex: true, redirect: 'https://www.orgpuls.com/innsikt' })
+    expect(hostGate('DE.orgpuls.com:443', '/plattform', true)).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/platform' })
     expect(hostGate('de.orgpuls.com', '/registrer', true).redirect).toBe(
-      `https://www.orgpuls.com/api/sprak?${new URLSearchParams({ l: 'en', til: '/registrer' })}`,
+      `https://www.orgpuls.com/api/sprak?${new URLSearchParams({ l: 'en', til: '/registrer', profil: '0' })}`,
     )
     // no site, so no market to sign up into: a spoofed header still reads as Norway, and the gate stops it first
     expect(siteOf('de.orgpuls.com')).toBeNull()
     expect(marketOfHost('de.orgpuls.com')).toBe('no')
+  })
+})
+
+describe('Empvibe’s llms.txt', () => {
+  it('has the words for every page the site serves', () => {
+    const route = readFileSync('app/llms.txt/route.ts', 'utf8')
+    for (const page of EMPVIBE_PAGES.filter((p) => p !== '/' && p !== '/hvorfor')) expect(route, page).toContain(`'${page}': 'seo.`)
   })
 })
 

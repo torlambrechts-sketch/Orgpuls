@@ -1317,7 +1317,8 @@
           "Results per department and team, from 5 answers",
           "Unlimited measures with owner and deadline",
           "No card and no time limit"
-        ]
+        ],
+        "unit": "per month"
       },
       "plans": [
         {
@@ -1359,7 +1360,7 @@
           "cta": "Talk to us"
         }
       ],
-      "footnote": "All prices exclude VAT: a UK business accounts for it under the reverse charge. Invoiced monthly or yearly by e-mail, in pounds sterling. If you choose no plan after the trial, you carry on for free.",
+      "footnote": "All prices exclude VAT. No UK VAT is added: you account for any VAT yourself under the reverse charge. Invoiced monthly or yearly by e-mail, in pounds sterling. If you choose no plan after the trial, you carry on for free.",
       "included": {
         "lead": "A business with 8 employees gets the same questions, the same written record and the same help as one with 80. No features are locked behind a more expensive plan.",
         "sizes": [
@@ -1408,7 +1409,7 @@
           {
             "t": "Documentation",
             "items": [
-              "A risk assessment per factor, mapped to HSE’s Management Standards areas",
+              "The risk for each factor, mapped onto HSE’s Management Standards areas (our own mapping)",
               "A written record ready to print or save as PDF",
               "A log of who was told and consulted, and when"
             ]
@@ -2234,7 +2235,7 @@
       },
       "priser": {
         "title": "Pricing: staff survey on work-related stress | Empvibe",
-        "description": "Free yearly stress survey. Small £25 and Usual £55 a month excl. VAT, two months free yearly. 15 days with everything, no card.",
+        "description": "Free yearly stress survey. Small £25 and Usual £55 a month excl. VAT, two months free on a yearly plan. 15 days with everything, no card.",
         "crumb": "Pricing",
         "kicker": "Pricing",
         "h1": "Free to start. Everything included from £25 a month.",
@@ -2245,7 +2246,7 @@
           },
           {
             "t": "h2",
-            "text": "Included in every plan"
+            "text": "Included in every paid plan"
           },
           {
             "t": "ul",
@@ -2254,12 +2255,12 @@
               "A written record of your stress risk assessment, ready to print or save as PDF",
               "Unlimited measures, with ready suggestions",
               "Health and safety representatives at no extra cost",
-              "No setup fee and no lock-in"
+              "No set-up fee and no lock-in"
             ]
           },
           {
             "t": "p",
-            "text": "All prices exclude VAT, which a UK business accounts for itself under the reverse charge."
+            "text": "All prices exclude VAT. No UK VAT is added: you account for any VAT yourself under the reverse charge."
           }
         ],
         "faq": [
@@ -2273,15 +2274,15 @@
           },
           {
             "q": "Do you add VAT?",
-            "a": "No UK VAT is added to our invoices. Empvibe is supplied to UK businesses from outside the United Kingdom, so you account for any VAT yourself under the reverse charge. The managing director gives your VAT registration number under Settings › Payment, if you have one; otherwise your company number shows that you are a business."
+            "a": "No UK VAT is added to our invoices. Empvibe is supplied to UK businesses from outside the United Kingdom, so you account for any VAT yourself under the reverse charge. The managing director enters your VAT registration number under Settings › Payment, if you have one; otherwise your company number shows that you are a business."
           },
           {
             "q": "What if there are only twelve of us?",
-            "a": "Then you get figures for the whole organisation. A department is shown once at least 5 people in it have answered; fewer count in the whole. The limit can be raised to 10, never lowered below 5 – the fewer the answers, the easier it is to recognise who said what."
+            "a": "Then you get figures for the whole organisation. A department is shown once at least 5 people in it have answered; answers from smaller departments still count towards the whole. The limit can be raised to 10, never lowered below 5 – the fewer the answers, the easier it is to recognise who said what."
           },
           {
             "q": "Are the answers really anonymous?",
-            "a": "Yes. We never store a name, e-mail address or IP address with the answer – there is no column that could hold the link. And no group is shown until at least 5 people have answered."
+            "a": "Yes. We never store a name, e-mail address or IP address with the answer – there is no column that could hold the link. The one exception is a comment whose writer asks to be told when management replies: who wrote it is then stored, encrypted, only to send that notice, and never shown to you. And no group is shown until at least 5 people have answered."
           },
           {
             "q": "What happens when we pass 25 employees?",
@@ -2289,7 +2290,7 @@
           },
           {
             "q": "What happens to our data if we stop?",
-            "a": "It is yours. Reports can be printed or saved as PDF at any time, and for 30 days after the agreement ends. After that, we delete all the data."
+            "a": "It is yours. While your plan includes the written record, you can print it or save it as PDF at any time, and after you cancel until the data is deleted. We delete the organisation’s data 30 days after the agreement ends, except what the law requires us to keep, such as invoices. Moving to the free plan deletes nothing."
           }
         ]
       }

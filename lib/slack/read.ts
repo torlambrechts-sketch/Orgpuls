@@ -26,8 +26,8 @@ export const slackConfigured = (): boolean => slackAppFromEnv() !== null
 
 /**
  * Where Slack sends the browser back, on the host the leader is on so their session is there:
- * https://www.orgpuls.com/integrasjoner/slack/callback in production (en.orgpuls.com on the English
- * host; both are in the app's manifest), the loopback host locally, and never a preview's or a
+ * https://www.orgpuls.com/integrasjoner/slack/callback in production, www.empvibe.com's on Empvibe's
+ * site (D-275: its address must be in the app's manifest), the loopback host locally, and never a preview's or a
  * spoofed Host header's (lib/hosts.ts outboundBase). The same value goes to the authorisation
  * request and to the code exchange, as Slack requires.
  */

@@ -13,8 +13,8 @@ import type { IndustryPage } from './types'
 import { INDUSTRY_META } from './meta'
 
 /**
- * The industries (§ B1): one entry per address, in Norwegian (`page`) and English (`pageEn`,
- * en.orgpuls.com, D-120). The page at the address is the landing template
+ * The industries (§ B1): one entry per address, in Norwegian (`page`) and English (`pageEn`, D-120;
+ * on www.orgpuls.com in English since en.orgpuls.com moved, D-275). The page at the address is the landing template
  * (content/industries/landing.ts, D-207); what an entry carries is what the rest of the site needs:
  * the menu name, whether it is live in that language, the module, and the question page.
  */
