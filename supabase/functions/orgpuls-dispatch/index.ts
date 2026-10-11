@@ -65,7 +65,7 @@ import {
   brandNameOf,
   marketCatalogue,
   MARKET_MAIL_DOMAIN,
-  senderFor,
+  mailFrom,
   smsSenderOf,
   renderLifecycle,
   renderNotice,
@@ -154,10 +154,12 @@ Deno.serve(async (req) => {
   const key = env('BREVO_API_KEY')
   const sender = { email: env('ORGPULS_MAIL_FROM'), name: Deno.env.get('ORGPULS_MAIL_FROM_NAME') ?? 'Orgpuls' }
   // the sender's name is the brand of the organisation's market (X-111); its address the brand's own
-  // domain once Brevo has authenticated it (UK-G, D-275), asked once a run and only for such a brand
+  // domain once Brevo has authenticated it (UK-G, D-275), asked once a run and only for such a brand;
+  // answers to a mail from a brand's domain go to the support inbox, which the domain does not have yet
   let authenticated: Promise<Set<string>> | null = null
-  const senderOf = async (market: string | null | undefined) =>
-    senderFor(sender, market, MARKET_MAIL_DOMAIN[market ?? ''] ? await (authenticated ??= brevoAuthenticatedDomains(key)) : new Set<string>())
+  const support = Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no'
+  const fromOf = async (market: string | null | undefined) =>
+    mailFrom(sender, market, MARKET_MAIL_DOMAIN[market ?? ''] ? await (authenticated ??= brevoAuthenticatedDomains(key)) : new Set<string>(), support)
   const smsSender = Deno.env.get('ORGPULS_SMS_SENDER') ?? 'Orgpuls'
   const appUrl = env('ORGPULS_APP_URL')
   // a copy: the survey languages' texts are added per run, from the registry (below)
@@ -223,8 +225,10 @@ Deno.serve(async (req) => {
     const to = normalizePhone(body.to)
     if (!to) return json({ ok: false, code: 'bad_number' }, 400)
     const content = 'Test fra Orgpuls: SMS-utsendingen virker. Du trenger ikke gjøre noe med denne meldingen.'
-    const res = await brevoSendSms(key, { sender: smsSender, recipient: to, content, unicode: smsLength(content).unicode, tag: 'orgpuls-probe' })
-    return json(res.ok ? { ok: true, id: res.id, sender: smsSender, parts: smsLength(content).parts } : res)
+    // ?market=gb proves a brand's own sender (smsSenderOf) before an organisation's SMS goes from it (D-275)
+    const from = smsSenderOf(new URL(req.url).searchParams.get('market'), smsSender)
+    const res = await brevoSendSms(key, { sender: from, recipient: to, content, unicode: smsLength(content).unicode, tag: 'orgpuls-probe' })
+    return json(res.ok ? { ok: true, id: res.id, sender: from, parts: smsLength(content).parts } : res)
   }
 
   if (probe === 'teams') {
@@ -410,7 +414,7 @@ Deno.serve(async (req) => {
           const to = g.to.filter((r) => r.email)
           if (to.length === 0) return { ok: false, retryable: false, auth: false, code: 'no_address' } as SendResult
           const r = renderNotice(words, job, g, base)
-          const res = await brevoSend(key, { sender: await senderOf(job.market), to: to.map((p) => ({ email: p.email as string, name: p.name })), subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
+          const res = await brevoSend(key, { ...(await fromOf(job.market)), to: to.map((p) => ({ email: p.email as string, name: p.name })), subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
           if (!res.ok) return res
           outcome = res
         }
@@ -429,7 +433,7 @@ Deno.serve(async (req) => {
           const at = `${s.group.lang}:${s.group.member}`
           const r = rendered.get(at) ?? renderNotice(words, job, s.group, base)
           rendered.set(at, r)
-          const res = await brevoSend(key, { sender: await senderOf(job.market), to: [{ email: s.to.email, name: s.to.name }], subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
+          const res = await brevoSend(key, { ...(await fromOf(job.market)), to: [{ email: s.to.email, name: s.to.name }], subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
           if (res.ok) {
             const rec = await svc.rpc('dispatch_recipient_sent', { p_id: job.id, p_email: s.to.email, p_provider_id: res.id || null })
             const said = rec.data as { ok?: boolean; error?: string } | null
@@ -574,7 +578,7 @@ Deno.serve(async (req) => {
           market: t.market ?? null,
         }
         const r = renderNotice(marketCatalogue(cat, MAIL_PACKS, t.market), job, { lang, member: true, name: t.name }, appUrlOf(appUrl, t.market))
-        outcome = await brevoSend(key, { sender: await senderOf(t.market), to: [{ email: t.to, name: t.name }], subject: r.subject, html: r.html, text: r.text, tag: 'orgpuls-test' })
+        outcome = await brevoSend(key, { ...(await fromOf(t.market)), to: [{ email: t.to, name: t.name }], subject: r.subject, html: r.html, text: r.text, tag: 'orgpuls-test' })
       } catch (e) {
         console.error(`[dispatch] test ${t.id}: render failed: ${(e as Error).message}`)
         outcome = { ok: false, retryable: false, auth: false, code: 'render' }
@@ -610,7 +614,7 @@ Deno.serve(async (req) => {
           outcome = await brevoSendSms(key, { sender: smsSenderOf(job.market, smsSender), recipient: job.phone, content, unicode: smsLength(content).unicode, tag: 'orgpuls-svarvarsel' })
         } else if (job.email) {
           const r = renderReplyNotice(words, job, base)
-          outcome = await brevoSend(key, { sender: await senderOf(job.market), to: [{ email: job.email, name: '' }], subject: r.subject, html: r.html, text: r.text, tag: 'orgpuls-svarvarsel' })
+          outcome = await brevoSend(key, { ...(await fromOf(job.market)), to: [{ email: job.email, name: '' }], subject: r.subject, html: r.html, text: r.text, tag: 'orgpuls-svarvarsel' })
         } else {
           outcome = { ok: false, retryable: false, auth: false, code: 'unreachable' }
         }
@@ -721,7 +725,7 @@ Deno.serve(async (req) => {
         // the law a notice states is the organisation's market's (0219, D-257)
         const r = renderLifecycle(marketCatalogue(cat, MAIL_PACKS, job.market), job, appUrlOf(appUrl, job.market))
         outcome = await brevoSend(key, {
-          sender: await senderOf(job.market),
+          ...(await fromOf(job.market)),
           to: [{ email: job.to_email, name: job.name ?? undefined }],
           subject: r.subject,
           html: r.html,

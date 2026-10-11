@@ -6,6 +6,7 @@ import {
   appUrlOf,
   authSite,
   brandNameOf,
+  mailFrom,
   MARKET_AUTH_LANG,
   MARKET_MAIL_DOMAIN,
   MARKET_SITE_URL,
@@ -37,12 +38,15 @@ describe('each market’s site', () => {
     expect(MARKET_SITE_URL.se).toBeUndefined()
   })
 
-  it('is where a link to an organisation in it leads, except on a local or QA run', () => {
+  it('is where a link to an organisation in it leads from production, and only from production', () => {
     expect(appUrlOf(PROD, 'gb')).toBe('https://www.empvibe.com')
+    expect(appUrlOf(`${PROD}/`, 'gb')).toBe('https://www.empvibe.com')
     expect(appUrlOf(PROD, 'no')).toBe(PROD)
     expect(appUrlOf(PROD, 'se')).toBe(PROD)
     expect(appUrlOf(PROD, null)).toBe(PROD)
-    for (const local of ['http://localhost:3100', 'http://127.0.0.1:3000/', 'http://[::1]:3000']) expect(appUrlOf(local, 'gb'), local).toBe(local)
+    // a local, QA, branch or staging run keeps its own base: its tokens exist only in its own database
+    for (const other of ['http://localhost:3100', 'http://127.0.0.1:3000/', 'https://staging.orgpuls.com', 'https://orgpuls-git-x.vercel.app'])
+      expect(appUrlOf(other, 'gb'), other).toBe(other)
   })
 })
 
@@ -61,6 +65,15 @@ describe('the sender', () => {
     expect(senderFor(base, 'gb', new Set(['empvibe.com']))).toEqual({ email: 'varsel@empvibe.com', name: 'Empvibe' })
   })
 
+  it('of a mail from a brand’s own domain has its answers go to the support inbox, the domain having no mailbox', () => {
+    expect(mailFrom(base, 'gb', new Set(['empvibe.com']), 'hjelp@orgpuls.no')).toEqual({
+      sender: { email: 'varsel@empvibe.com', name: 'Empvibe' },
+      replyTo: { email: 'hjelp@orgpuls.no', name: 'Empvibe' },
+    })
+    expect(mailFrom(base, 'gb', new Set(), 'hjelp@orgpuls.no')).toEqual({ sender: { email: 'varsel@orgpuls.com', name: 'Empvibe' } })
+    expect(mailFrom(base, 'no', new Set(['empvibe.com']), 'hjelp@orgpuls.no')).toEqual({ sender: base })
+  })
+
   it('names, for every brand of its own, a domain its site is on', () => {
     for (const [market, domain] of Object.entries(MARKET_MAIL_DOMAIN)) expect(new URL(MARKET_SITE_URL[market]!).host.endsWith(domain), market).toBe(true)
   })
@@ -72,7 +85,7 @@ describe('an Auth mail (sign-up, invitation, new password)', () => {
     expect(authSite('https://empvibe.com/auth/confirm', PROD)).toEqual({ url: 'https://www.empvibe.com', market: 'gb' })
     for (const other of ['https://www.orgpuls.com/auth/confirm', 'https://evil.example/www.empvibe.com', 'https://www.empvibe.com.evil.example/', 'not a url', '', undefined, null])
       expect(authSite(other, PROD), String(other)).toEqual({ url: PROD, market: null })
-    // a local run keeps its own base, as every other link does
+    // a run that is not production's keeps its own base, as every other link does
     expect(authSite('https://www.empvibe.com/auth/confirm', 'http://localhost:3100')).toEqual({ url: 'http://localhost:3100', market: 'gb' })
   })
 
@@ -91,6 +104,8 @@ describe('an Auth mail (sign-up, invitation, new password)', () => {
     const hook = readFileSync('supabase/functions/orgpuls-auth-mail/index.ts', 'utf8')
     expect(hook).toMatch(/authSite\(data\.email_data\.redirect_to/)
     expect(hook).not.toMatch(/authLink\(Deno\.env/)
+    // Auth waits on the hook: the brand's domain is asked beside the wordings, and for a second at most
+    expect(hook).toMatch(/Promise\.all\(\[[\s\S]{0,200}brevoAuthenticatedDomains\(key, 1000\)/)
   })
 })
 
@@ -103,14 +118,15 @@ describe('the dispatcher', () => {
     const onProduct = src.match(/render(Notice|ReplyNotice|Lifecycle)\([^\n]*,\s*appUrl\)/g) ?? []
     expect(onProduct).toEqual([`renderNotice(cat, job, { lang: 'no', member: false, name: 'Probe' }, appUrl)`])
     // the configured sender only as the fallback of Orgpuls's own markets (and the operator's probe)
-    expect(src.match(/brevoSendSms\(key, \{ sender: smsSender,/g) ?? []).toHaveLength(1)
-    expect(src).toMatch(/probe === 'sms'[\s\S]{0,400}brevoSendSms\(key, \{ sender: smsSender,/)
+    expect(src.match(/brevoSendSms\(key, \{ sender: smsSender,/g) ?? []).toHaveLength(0)
+    // the operator's probe proves a brand's own sender before an organisation's SMS goes from it
+    expect(src).toMatch(/probe === 'sms'[\s\S]{0,600}smsSenderOf\(new URL\(req\.url\)\.searchParams\.get\('market'\), smsSender\)/)
   })
 
   it('sends each organisation’s mail under its market’s sender', () => {
     // the product's own sender only to the operator's probe and to the copy of a lead Orgpuls keeps
     const own = src.match(/brevoSend\(key, \{ sender, to: \[\{ email: [^,}]+/g) ?? []
     expect(own).toEqual([`brevoSend(key, { sender, to: [{ email: 'probe@orgpuls.com'`, 'brevoSend(key, { sender, to: [{ email: copyTo '])
-    expect(src.match(/sender: await senderOf\(/g)?.length).toBeGreaterThanOrEqual(5)
+    expect(src.match(/\.\.\.\(await fromOf\(/g)?.length).toBeGreaterThanOrEqual(5)
   })
 })

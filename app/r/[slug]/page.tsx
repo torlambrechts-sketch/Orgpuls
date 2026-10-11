@@ -54,7 +54,8 @@ const FROM_PAGE = '/?utm_source=ansattside&utm_medium=referral'
  */
 function homeOf(site: ReturnType<typeof siteOf>, locale: string): string {
   if (site?.own) return `${site.url}${FROM_PAGE}`
-  return locale === 'en' ? switchUrl(MAIN_URL, 'en', FROM_PAGE) : `${MAIN_URL}${FROM_PAGE}`
+  // English for this browser only: following a link is not choosing a language for an account
+  return locale === 'en' ? switchUrl(MAIN_URL, 'en', FROM_PAGE, false) : `${MAIN_URL}${FROM_PAGE}`
 }
 
 type T = Awaited<ReturnType<typeof getTranslations>>

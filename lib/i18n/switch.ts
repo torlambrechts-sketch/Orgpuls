@@ -8,6 +8,9 @@ export function safeReturn(value: string | null | undefined): string {
   return v
 }
 
-/** Where the switch sends someone to choose `locale` on the site at `base`: that host's own route. */
-export const switchUrl = (base: string, locale: string, path: string) =>
-  `${base}/api/sprak?${new URLSearchParams({ l: locale, til: safeReturn(path) })}`
+/**
+ * Where the switch sends someone to choose `locale` on the site at `base`: that host's own route.
+ * `account` false chooses for this browser only, as a link someone follows does (`profil=0`, D-275).
+ */
+export const switchUrl = (base: string, locale: string, path: string, account = true) =>
+  `${base}/api/sprak?${new URLSearchParams({ l: locale, til: safeReturn(path), ...(account ? {} : { profil: '0' }) })}`

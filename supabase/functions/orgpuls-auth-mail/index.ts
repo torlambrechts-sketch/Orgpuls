@@ -26,8 +26,8 @@ import {
   langOf,
   MARKET_AUTH_LANG,
   MARKET_MAIL_DOMAIN,
+  mailFrom,
   renderAuth,
-  senderFor,
   withMailOverrides,
   type AuthAction,
   type MailCatalogue,
@@ -100,15 +100,19 @@ Deno.serve(async (req) => {
   const lang = langOf(data.user.user_metadata?.lang ?? (site.market ? MARKET_AUTH_LANG[site.market] : undefined))
   const link = authLink(site.url, action, data.email_data.token_hash)
   const brand = brandNameOf(site.market)
-  const words = brandedCatalogue(await withOverrides(MAIL as unknown as MailCatalogue, lang), brand)
-  const footer = site.market ? `${brand} · ${new URL(site.url).host.replace(/^www\./, '')}` : undefined
-  const r = renderAuth(words, action, lang, email, link, footer)
-
   const key = Deno.env.get('BREVO_API_KEY') ?? ''
+  // the brand's domain is asked beside the wordings, and briefly: Auth waits on this hook, and a slow
+  // answer sends from the product's address rather than not at all
+  const [cat, domains] = await Promise.all([
+    withOverrides(MAIL as unknown as MailCatalogue, lang),
+    site.market && MARKET_MAIL_DOMAIN[site.market] ? brevoAuthenticatedDomains(key, 1000) : Promise.resolve(new Set<string>()),
+  ])
+  const footer = site.market ? `${brand} · ${new URL(site.url).host.replace(/^www\./, '')}` : undefined
+  const r = renderAuth(brandedCatalogue(cat, brand), action, lang, email, link, footer)
+
   const base = { email: Deno.env.get('ORGPULS_MAIL_FROM') ?? '', name: Deno.env.get('ORGPULS_MAIL_FROM_NAME') ?? 'Orgpuls' }
-  const domains = site.market && MARKET_MAIL_DOMAIN[site.market] ? await brevoAuthenticatedDomains(key) : new Set<string>()
   const res = await brevoSend(key, {
-    sender: senderFor(base, site.market, domains),
+    ...mailFrom(base, site.market, domains, Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no'),
     to: [{ email }],
     subject: r.subject,
     html: r.html,

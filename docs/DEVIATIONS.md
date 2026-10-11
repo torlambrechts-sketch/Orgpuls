@@ -13625,7 +13625,7 @@ there», and «English-speaking firms in Norway keep the Norwegian site in Engli
 
 **Links and senders follow the organisation's market** (`supabase/functions/_shared/mail.ts`).
 - **Links.** Mail, SMS, Teams and Slack to an organisation in the United Kingdom link to www.empvibe.com
-  (`appUrlOf`). A local or QA run keeps its own loopback base. Every channel takes the market's words
+  (`appUrlOf`). Only production's base is replaced; any other run keeps its own. Every channel takes the market's words
   (`marketCatalogue`), not only the mail.
 - **SMS sender.** An SMS goes from «Empvibe» (`smsSenderOf`). Norway keeps `ORGPULS_SMS_SENDER`.
 - **Mail sender.** Mail goes under the brand's name, as since UK-A. It goes from empvibe.com itself once Brevo
@@ -13668,6 +13668,26 @@ there», and «English-speaking firms in Norway keep the Norwegian site in Engli
   - They now say what the terms say: the reply-notice exception in the anonymity answer, «no UK VAT is added», and
     British wording.
 - **£25.00 per employee** at one employee: a whole pound now shows without pence.
+- **A link to Empvibe from any run but production's.** A branch or staging project would have mailed links into
+  production. A market's site now replaces only `https://www.orgpuls.com` (`appUrlOf`).
+- **Answers to a mail from empvibe.com would bounce**, since the domain has no mailbox. Such a mail now carries the
+  support inbox as its Reply-To (`mailFrom`), in the dispatcher and the Auth hook alike.
+- **The Auth hook's Brevo lookup could outrun the time Auth gives the hook.** It now runs beside the wordings, for a
+  second at most. A slow answer sends from the product's address.
+- **«Empvibe» could not be proved as an SMS sender before use.** It can now: `?probe=sms&market=gb`. A reply notice
+  goes by SMS only to a person without e-mail, and a refused sender would lose it. Run the probe before a UK
+  organisation turns SMS on; the UK site does not offer it.
+- **Accepted:**
+  - An Auth mail's brand follows `redirect_to`, which anyone may set when asking for a reset. A Norwegian customer
+    can get an Empvibe-branded reset mail. Its link is the same app's and nothing leaks.
+  - A signed-in UK user on www.orgpuls.com/priser reads pounds while the page's JSON-LD says kroner. Crawlers are
+    never signed in.
+- **Confirmed sound by the review:**
+  - no open redirect from the moved or reserved hosts;
+  - 0230 keeps the functions' definer rights, search path and grants;
+  - the market adds nothing to what the reply-notice claim reveals (X-103);
+  - Norway's mail, pages and JSON-LD are unchanged. A before/after screenshot run of fourteen of Norway's pages,
+    at 1440 and 390, differed by 0 pixels.
 
 **Not done here, and why** — each needs an account or a DNS change only Tor has:
 - **Brevo:** add empvibe.com as a sender domain and its DNS records (DKIM, the Brevo code, DMARC) at Spaceship, where

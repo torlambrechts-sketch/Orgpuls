@@ -192,15 +192,17 @@ export const brandNameOf = (market: string | null | undefined): string => MARKET
  */
 export const MARKET_SITE_URL: Readonly<Record<string, string>> = { gb: 'https://www.empvibe.com' }
 
-const LOOPBACK = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?(\/|$)/
+/** The product's own production address (lib/hosts.ts MAIN_URL), the only base a market's site replaces */
+const PRODUCTION = /^https:\/\/www\.orgpuls\.com\/?$/
 
 /**
- * The base of a link to an organisation in this market: its own site, except on a local or QA run,
- * whose base is its own loopback address and where nothing leaves the machine.
+ * The base of a link to an organisation in this market: its own site when the run is production's.
+ * Any other run — local, QA, a branch or a staging project — keeps its own base: its tokens exist
+ * only in its own database.
  */
 export function appUrlOf(appUrl: string, market: string | null | undefined): string {
   const own = MARKET_SITE_URL[market ?? '']
-  return own && !LOOPBACK.test(appUrl) ? own : appUrl
+  return own && PRODUCTION.test(appUrl) ? own : appUrl
 }
 
 /**
@@ -230,6 +232,20 @@ export function senderFor(
   const domain = MARKET_MAIL_DOMAIN[market ?? '']
   const email = domain && authenticated.has(domain) ? `${base.email.split('@')[0]}@${domain}` : base.email
   return { email, name }
+}
+
+/**
+ * A mail's sender, and where answers to it go: from a brand's own domain, to the support inbox,
+ * since the domain has no mailbox of its own yet (D-275); from the product's address, as before.
+ */
+export function mailFrom(
+  base: { email: string; name: string },
+  market: string | null | undefined,
+  authenticated: ReadonlySet<string>,
+  support: string,
+): { sender: { email: string; name: string }; replyTo?: { email: string; name: string } } {
+  const sender = senderFor(base, market, authenticated)
+  return sender.email === base.email ? { sender } : { sender, replyTo: { email: support, name: sender.name } }
 }
 
 /**
