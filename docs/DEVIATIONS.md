@@ -13999,3 +13999,39 @@ again and checked every quotation, provision, number and URL. What they changed:
 - `tests/unit/markets.test.ts`: the articles' addresses both ways on Empvibe, Norway's slugs 404 there, llms.txt
   lists the articles. `tests/unit/uk-site.test.ts`: the articles' words are held by its Norway and misleading-claim
   checks through the gb pack; their routes are outside Norway's page map.
+
+**Shipped (2026-10-11):** the work in 263b7b7…e6314fe, merged with main's D-277 (ef01604) as b9c0717 and
+fast-forwarded to main.
+- **CI:** «Deploy the edge functions» green. «checks, security invariants and screens» **red** on b9c0717, in «Smoke
+  every screen» only: `[/rapport] Error: Minified React error #418` (a hydration mismatch, "HTML"). Everything before
+  it passed on that run: types, lint, unit tests, i18n, the SQL suites, the design figures, the build. Why this is
+  recorded and not fixed:
+  - main's previous commit, ef01604, passed the same step 20 minutes earlier, and nothing this work changes is
+    rendered on /rapport or in the signed-in shell: its files are the marketing pages, the host map, the sitemap,
+    llms.txt, messages and the gb fixture's company name, which the Norwegian account the smoke signs in as never
+    reads;
+  - it did not reproduce: the CI route sequence run 8 times and /rapport alone 3 times against a production build of
+    b9c0717 on the rebuilt local stack, all without a console error; and `next dev`, which names a nesting fault or a
+    server/client difference exactly, logged neither on /rapport (the test browser bypassed the CSP, which forbids
+    the eval dev mode needs; the app's CSP is unchanged);
+  - it is the same unreproduced #418 in the same step that D-215 records (8ce16d0), now with the page named. React's
+    "HTML" variant means a node the client did not expect, not a different text;
+  - re-running the job returns 403 to this session, and the workflow has no manual trigger, so it was not retried.
+  The next push to main that touches code re-runs the job. If /rapport fails again there, it is real and is this
+  page's to root-cause.
+- **Hosted:** no migration. `list_migrations` still ends at `0230_dispatch_claims_market`. `get_advisors security`
+  shows the same four kinds as before (one table with RLS and no policy, the known definer RPCs for anon and for
+  authenticated, leaked-password protection).
+- **Production, www.empvibe.com:**
+  - **Articles:** /articles and the ten answer 200, `lang="en"`, canonical on themselves, Article JSON-LD in en-GB,
+    each with its own card (/og/empvibe/artikler/<slug>.png, 200; the index takes the site's default card). No link
+    to Norway's articles.
+  - **Old and foreign addresses:** /artikler and /artikler/<slug> give 308 to /articles…; Norway's slugs and /maler
+    are 404.
+  - **Sitemap and llms.txt:** the sitemap lists /articles and the ten and nothing under /artikler; llms.txt lists the
+    ten. The start page links the three newest and the survey article; /work-related-stress-law links its two.
+- **Norway and Sweden unchanged:** www.orgpuls.com/artikler and its articles 200 (JSON-LD nb-NO, cards and addresses
+  on www.orgpuls.com), /articles 404 there and nothing under /articles in its sitemap; se.orgpuls.com 200, /artikler
+  and /articles 404, no article in its sitemap.
+- **IndexNow:** `node scripts/seo/indexnow.mjs` submitted 55 URLs for www.orgpuls.com, 23 for www.empvibe.com and 10
+  for se.orgpuls.com, each answered 200.
