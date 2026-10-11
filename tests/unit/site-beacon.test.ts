@@ -13,7 +13,9 @@ import en from '@/messages/en.json'
 describe('where the beacon may count', () => {
   it('counts on the production hosts only, unless a test stack names its own collector', () => {
     expect(mayCount('www.orgpuls.com', '/', false, '')).toBe(true)
-    expect(mayCount('en.orgpuls.com', '/pricing', false, '')).toBe(true)
+    expect(mayCount('www.empvibe.com', '/pricing', false, '')).toBe(true)
+    // the English host moved (D-275): it serves no page, so nothing there is counted
+    expect(mayCount('en.orgpuls.com', '/', false, '')).toBe(false)
     expect(mayCount('orgpuls.com', '/priser', false, '')).toBe(true)
     expect(mayCount('orgpuls-git-x.vercel.app', '/', false, '')).toBe(false)
     expect(mayCount('localhost', '/', false, '')).toBe(false)
@@ -32,15 +34,10 @@ describe('where the beacon may count', () => {
     expect(mayCount('www.orgpuls.com', '/', true, '')).toBe(false)
   })
 
-  it('reads a site’s own addresses as their routes: Empvibe’s sign-in is never counted, its pages are (D-274)', async () => {
-    vi.stubEnv('EMPVIBE_SITE', 'open')
-    vi.resetModules()
-    const { mayCount: count } = await import('@/lib/marketing/beacon')
-    expect(count('www.empvibe.com', '/sign-in', false, '')).toBe(false)
-    expect(count('www.empvibe.com', '/privacy', false, '')).toBe(true)
-    expect(count('www.empvibe.com', '/sign-up', false, '')).toBe(true)
-    vi.unstubAllEnvs()
-    vi.resetModules()
+  it('reads a site’s own addresses as their routes: Empvibe’s sign-in is never counted, its pages are (D-274)', () => {
+    expect(mayCount('www.empvibe.com', '/sign-in', false, '')).toBe(false)
+    expect(mayCount('www.empvibe.com', '/privacy', false, '')).toBe(true)
+    expect(mayCount('www.empvibe.com', '/sign-up', false, '')).toBe(true)
   })
 })
 

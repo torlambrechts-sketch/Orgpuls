@@ -1,12 +1,10 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { useTransition } from 'react'
 import { setLanguage } from '@/lib/i18n/actions'
 import { bcp47, LOCALES, type Locale } from '@/lib/i18n/locales'
-import { EN_HOST, MAIN_URL } from '@/lib/hosts'
-import { switchUrl } from '@/lib/i18n/switch'
 
 const SHORT: Record<Locale, string> = { no: 'NO', en: 'EN', sv: 'SV' }
 const NAME: Record<Locale, string> = { no: 'Norsk', en: 'English', sv: 'Svenska' }
@@ -15,32 +13,24 @@ const NAME: Record<Locale, string> = { no: 'Norsk', en: 'English', sv: 'Svenska'
  * Norsk / English (D-96). Each language is named in itself, so someone who reads only one
  * of them can still find it.
  *
- * On the public site in production each language has its own host (D-98), so the switch is
- * a plain link to the same page on the other one: `hosts` is passed then. Otherwise the choice
- * is saved (lib/i18n/actions) and the page drawn again in place; leaving the English host for
- * Norwegian goes to www, since that host is English whatever is chosen.
- *
- * Choosing Norwegian goes through www's own /api/sprak (D-109): a choice is a cookie, and a
- * cookie belongs to one host, so an English choice made on www earlier would otherwise keep
- * www English after pressing NO. The link's href stays the page itself, for crawlers and for
- * opening in a new tab; a press goes through the route.
+ * The choice is saved (lib/i18n/actions) and the page drawn again in place. Until the move (UK-G,
+ * D-275) the public site's English had a host of its own (D-98) and the switch was a link to it;
+ * en.orgpuls.com now sends its readers on, so English on www.orgpuls.com is this choice, on the same
+ * address, as it is in the app.
  */
 export function LanguageSwitch({
   label,
   size = 'sm',
-  hosts,
   langs = LOCALES,
 }: {
   label: string
   /** `text`: the two names as words in the surrounding small type (the site footer's bottom line, D-190) */
   size?: 'sm' | 'lg' | 'text'
-  hosts?: { no: string; en: string }
   /** the languages offered: the public site offers its own (lib/hosts.ts `siteLangs`, D-252); the app, every one */
   langs?: readonly Locale[]
 }) {
   const current = useLocale()
   const router = useRouter()
-  const pathname = usePathname()
   const [pending, start] = useTransition()
   const text = size === 'text'
   const h = size === 'lg' ? 'h-[44px] flex-1' : 'h-[30px]'
@@ -67,27 +57,6 @@ export function LanguageSwitch({
       {langs.map((l) => {
         const on = l === current
         const cls = item(on)
-        if (hosts) {
-          return (
-            <a
-              key={l}
-              href={`${l === 'en' ? hosts.en : hosts.no}${pathname}`}
-              hrefLang={bcp47(l)}
-              lang={bcp47(l)}
-              aria-current={on ? 'true' : undefined}
-              aria-label={NAME[l]}
-              onClick={(e) => {
-                // the host decides on en.orgpuls.com; on www the saved choice must be Norwegian too
-                if (l !== 'no' || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
-                e.preventDefault()
-                window.location.href = switchUrl(hosts.no, 'no', pathname)
-              }}
-              className={cls}
-            >
-              {size === 'sm' ? SHORT[l] : NAME[l]}
-            </a>
-          )
-        }
         return (
           <button
             key={l}
@@ -99,11 +68,6 @@ export function LanguageSwitch({
             onClick={() => {
               if (on) return
               start(async () => {
-                if (l === 'no' && window.location.hostname === EN_HOST) {
-                  // www's own cookie is the one that counts there (D-109)
-                  window.location.href = switchUrl(MAIN_URL, 'no', pathname)
-                  return
-                }
                 await setLanguage(l)
                 router.refresh()
               })

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from '@/components/site/SitePaths'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { EN_URL, hostOf, MAIN_URL, marketOfHost, PUBLIC_HOSTS, siteLangs, siteOf } from '@/lib/hosts'
+import { marketOfHost, siteLangs } from '@/lib/hosts'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
@@ -36,10 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('site.chrome')
-  // on the production hosts each language has its own; the switch links across (D-98)
+  // the languages this host's switch offers; each is a choice on the same address (D-252, D-275)
   const host = (await headers()).get('host')
-  // Norway's hosts only: on the Swedish one, English is a choice on the same host (D-256)
-  const hosts = PUBLIC_HOSTS.includes(hostOf(host)) && siteOf(host)?.market === 'no' ? { no: MAIN_URL, en: EN_URL } : undefined
   // a site of its own (D-270): its menu, its footer, its addresses; no industries, no demo, one language
   const own = await ownSite()
   const nav = own ? OWN_NAV : SITE_NAV
@@ -103,7 +101,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           columns={columns}
           label={t('footerNav')}
           about={t('footer.about')}
-          language={langs.length > 1 ? <LanguageSwitch label={t('language')} size="text" hosts={hosts} langs={langs} /> : null}
+          language={langs.length > 1 ? <LanguageSwitch label={t('language')} size="text" langs={langs} /> : null}
           bottom={t.rich('footer.bottom', {
             year: new Date().getFullYear(),
             // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)

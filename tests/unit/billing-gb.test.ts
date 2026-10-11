@@ -3,7 +3,10 @@ import { describe, expect, it } from 'vitest'
 import gb from '@/messages/market/gb/en.json'
 import { PLAN_MAX } from '@/lib/billing/read'
 import { MARKETS } from '@/lib/markets'
-import { ANNUAL_MONTHS, PLAN_PRICES, PLAN_SIZES, PRICE_MARKET, planPrices } from '@/lib/site/pricing'
+import { ANNUAL_MONTHS, PLAN_PRICES, PLAN_SIZES, PRICE_MARKET, planPrices, planSizes } from '@/lib/site/pricing'
+import { EMPVIBE_PAGES } from '@/lib/hosts'
+import { OWN_FOOTERS, OWN_NAV } from '@/lib/site/nav'
+import { ORGPULS_LD, software } from '@/lib/marketing/schema'
 import { vatNumberAsStored } from '@/lib/billing/vat'
 
 /**
@@ -72,5 +75,38 @@ describe('the VAT number (0227)', () => {
     const tab = readFileSync('components/oppsett/BillingTab.tsx', 'utf8')
     expect(tab).toMatch(/const uk = market === 'gb'/)
     expect(tab).toMatch(/vat=\{\s*uk/)
+  })
+})
+
+describe('the price page on Empvibe’s site (UK-G, D-275)', () => {
+  const pris = gb.site.pris as unknown as { plans: { price: string }[]; included: { sizes: { price: string }[] }; free: { price: string } }
+
+  it('draws the United Kingdom’s list, as Oppsett › Betaling charges it', () => {
+    expect(planSizes('gb').map((s) => s.monthly)).toEqual([PLAN_PRICES.gb.small, PLAN_PRICES.gb.usual, null])
+    expect(pris.plans.map((p) => p.price)).toEqual([`£${PLAN_PRICES.gb.small}`, `£${PLAN_PRICES.gb.usual}`, 'By agreement'])
+    expect(pris.included.sizes.map((s) => s.price)).toEqual([`£${PLAN_PRICES.gb.small} per month`, `£${PLAN_PRICES.gb.usual} per month`, 'By agreement'])
+    expect(pris.free.price).toBe('£0')
+  })
+
+  it('leaves Norway’s page on Norway’s list, size for size', () => {
+    expect(planSizes('no')).toEqual(PLAN_SIZES.map((s) => ({ ...s })))
+    expect(planSizes('se')).toEqual(planSizes('no'))
+  })
+
+  it('is served at /pricing and named in the site’s menu and footer', () => {
+    expect(EMPVIBE_PAGES as readonly string[]).toContain('/priser')
+    expect(OWN_NAV.map((i) => i.href)).toContain('/priser')
+    expect(OWN_FOOTERS.home.flatMap((c) => c.links.map((l) => l.href))).toContain('/priser')
+  })
+
+  it('tells a search engine the prices in the site’s currency, at the site’s address', () => {
+    const site = { ...ORGPULS_LD, url: 'https://www.empvibe.com', absolute: (p: string) => `https://www.empvibe.com${p === '/priser' ? '/pricing' : p}`, offers: { prices: PLAN_PRICES.gb, names: { free: 'Free', small: 'Small', usual: 'Usual' } } }
+    const offers = software('x', site).offers as { url: string; priceCurrency?: string; priceSpecification?: { price: string; priceCurrency: string } }[]
+    expect(offers.every((o) => (o.priceCurrency ?? o.priceSpecification?.priceCurrency) === 'GBP')).toBe(true)
+    expect(offers.map((o) => o.priceSpecification?.price ?? '0')).toEqual(['0', '25', '55', '250', '550'])
+    expect(new Set(offers.map((o) => o.url))).toEqual(new Set(['https://www.empvibe.com/pricing']))
+    // Norway's, as before
+    const no = software('x').offers as { priceCurrency?: string; priceSpecification?: { price: string; priceCurrency: string } }[]
+    expect(no.map((o) => o.priceSpecification?.price ?? '0')).toEqual(['0', '265', '565', '2650', '5650'])
   })
 })

@@ -6,7 +6,9 @@ describe('outboundBase', () => {
   it('keeps a production host, over https', () => {
     expect(outboundBase('www.orgpuls.com', 'https')).toBe('https://www.orgpuls.com')
     expect(outboundBase('orgpuls.com', 'http')).toBe('https://www.orgpuls.com')
-    expect(outboundBase('en.orgpuls.com', null)).toBe('https://en.orgpuls.com')
+    expect(outboundBase('www.empvibe.com', null)).toBe('https://www.empvibe.com')
+    // the English host moved (D-275): a link made there is www's
+    expect(outboundBase('en.orgpuls.com', null)).toBe('https://www.orgpuls.com')
     expect(outboundBase('WWW.ORGPULS.COM:443', 'https')).toBe('https://www.orgpuls.com')
   })
   it('keeps a loopback host with its port, for local and QA runs', () => {

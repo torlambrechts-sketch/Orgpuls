@@ -40,11 +40,6 @@
   "brand": {
     "name": "Orgpuls"
   },
-  "holding": {
-    "title": "{brand} is on its way",
-    "lead": "A survey of the psychosocial work environment, made for employers in the United Kingdom.",
-    "note": "This is where it will open."
-  },
   "app": {
     "name": "Orgpuls",
     "tagline": "Psychosocial work environment for Norwegian organisations. Answers are stored in the EU, and no single answer can be traced back to a person."

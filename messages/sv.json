@@ -37,11 +37,6 @@
       "microsoft_refused": "Vi kunde inte logga in dig med det här Microsoft-kontot. Har organisationen kopplat Orgpuls till Microsoft 365, måste du använda jobbkontot från den organisationen, samma som du har loggat in med tidigare. Är ni inte kund än, registrera organisationen först, och är du inbjuden, använd länken i inbjudan. Du kan också logga in med e-post och lösenord."
     }
   },
-  "holding": {
-    "title": "{brand} är på väg",
-    "lead": "En kartläggning av den psykosociala arbetsmiljön, gjord för arbetsgivare i Storbritannien.",
-    "note": "Det är här den öppnar."
-  },
   "app": {
     "name": "Orgpuls",
     "tagline": "Psykosocial arbetsmiljö för norska organisationer. Svaren lagras i EU, och inga enskilda svar kan spåras tillbaka till en person."

@@ -1,5 +1,5 @@
 import { cookies, headers } from 'next/headers'
-import { holdingOf, siteOf } from '@/lib/hosts'
+import { siteOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
 import { brandOf, rebrand, type Brand } from '@/lib/brand'
 import type { Market } from '@/lib/markets'
@@ -51,8 +51,8 @@ async function loadMessages(locale: string, market: Market, brand: Brand = brand
 }
 
 /**
- * There is no locale routing: no /no or /en prefix. On en.orgpuls.com the locale is English
- * (D-98): a site whose host decides its language (lib/hosts.ts SITES, `pinned`, D-251). Elsewhere
+ * There is no locale routing: no /no or /en prefix. On Empvibe's site the locale is English
+ * (D-270): a site whose host decides its language (lib/hosts.ts SITES, `pinned`, D-251). Elsewhere
  * it is the one chosen with the
  * language switch, kept in a cookie (lib/i18n/actions). A signed-in user's choice is also
  * saved on their profile and restored into the cookie at sign-in, falling back to their
@@ -74,20 +74,17 @@ export default getRequestConfig(async ({ locale: asked }) => {
       getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
     }
   }
-  // en.orgpuls.com is the English site: the host decides there, whatever the cookie says (D-98);
-  // elsewhere the visitor's choice, then the site's language, then Norwegian (D-251)
+  // a pinned site (Empvibe's) decides its language, whatever the cookie says (D-251); elsewhere the
+  // visitor's choice, then the site's language, then Norwegian
   const host = (await headers()).get('host')
   const site = siteOf(host)
   const chosen = (await cookies()).get(LOCALE_COOKIE)?.value
-  // a brand's holding page (D-269) is in its brand's language and under its name, whatever market
-  // the host would otherwise read as: no text on it says Orgpuls, shown or not
-  const holding = holdingOf(host)
-  const locale = holding?.lang ?? (site?.pinned ? site.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE))
+  const locale = site?.pinned ? site.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE)
   const market = await requestMarket()
 
   return {
     locale,
-    messages: await loadMessages(locale, market, holding?.brand ?? brandOf(market)),
+    messages: await loadMessages(locale, market, brandOf(market)),
     getMessageFallback: ({ namespace, key }) =>
       namespace ? `${namespace}.${key}` : key,
   }

@@ -1,14 +1,18 @@
 import type { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
-import { EN_URL, MAIN_URL } from '@/lib/hosts'
+import { MAIN_URL } from '@/lib/hosts'
 import { ownSite } from '@/lib/site/own'
 import { absolute } from './site'
 
 /**
- * A public page's metadata: its title and description, the canonical URL (one address per page
- * and language — no locale prefix, no query), the page's twin in the other language
- * (`hreflang`, D-98: www.orgpuls.com is Norwegian, en.orgpuls.com English), and the card a link
- * unfurls into on LinkedIn, Teams or Slack.
+ * A public page's metadata: its title and description, the canonical URL (one address per page —
+ * no locale prefix, no query), and the card a link unfurls into on LinkedIn, Teams or Slack.
+ *
+ * Norway's site has one address per page since the move (UK-G, D-275): en.orgpuls.com, the English
+ * twin each page named as its `hreflang` alternate (D-98), now sends its readers to Empvibe or to
+ * www.orgpuls.com in English, and an alternate that redirects is an error to a search engine. English
+ * on www.orgpuls.com is the reader's choice on the same address, which a search engine reads in
+ * Norwegian (D-96), so a page names no alternate there.
  */
 export async function pageMeta(m: {
   title: string
@@ -19,10 +23,8 @@ export async function pageMeta(m: {
   modified?: string
   /** the page's own card (public/og/<slug>.png, scripts/marketing/og-images.mjs); the site's otherwise */
   image?: string
-  /** a page written in Norwegian only (a newsletter issue): canonical on www, no English twin (D-104) */
+  /** a page written in Norwegian only (a newsletter issue): its card says so whatever the reader chose (D-104) */
   norwegianOnly?: boolean
-  /** a page that exists in this language but whose twin is not live yet: canonical here, no hreflang (D-120) */
-  noTwin?: boolean
 }): Promise<Metadata> {
   // a site of its own (D-270): canonical at its own address, in British English, under its own
   // name, and no twin on Orgpuls's hosts, whose pages are another brand's and another market's
@@ -51,18 +53,12 @@ export async function pageMeta(m: {
     }
   }
   const en = (await getLocale()) === 'en' && !m.norwegianOnly
-  const path = m.path || '/'
-  const url = `${en ? EN_URL : MAIN_URL}${path}`
+  const url = `${MAIN_URL}${m.path || '/'}`
   const image = { url: absolute(m.image ?? '/og.png'), width: 1200, height: 630, alt: m.title }
   return {
     title: { absolute: m.title },
     description: m.description,
-    alternates: m.norwegianOnly || m.noTwin
-      ? { canonical: url }
-      : {
-          canonical: url,
-          languages: { nb: `${MAIN_URL}${path}`, en: `${EN_URL}${path}`, 'x-default': `${MAIN_URL}${path}` },
-        },
+    alternates: { canonical: url },
     openGraph: {
       type: m.type ?? 'website',
       url,

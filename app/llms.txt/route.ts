@@ -1,6 +1,5 @@
-import { headers } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
-import { EN_HOST, EN_URL, hostOf, MAIN_URL } from '@/lib/hosts'
+import { MAIN_URL } from '@/lib/hosts'
 import { ARTICLES, LANDING_PAGES, landingKey, SITE_PAGES } from '@/lib/marketing/site'
 import { TEMPLATES } from '@/lib/marketing/templates'
 import { getIndustry, INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
@@ -11,8 +10,9 @@ import { ownSite, type OwnSite } from '@/lib/site/own'
 /**
  * /llms.txt (llmstxt.org): the public site as a reading list for language models and AI search —
  * what Orgpuls is, and each page a person would want an answer from, with its own description.
- * The same pages as the sitemap (app/sitemap.ts), in the host's language, and the same words as
- * each page's own <title> and meta description, so nothing here can say what the site does not.
+ * The same pages as the sitemap (app/sitemap.ts), in the site's language (Norwegian on Norway's
+ * site since en.orgpuls.com moved, D-275), and the same words as each page's own <title> and meta
+ * description, so nothing here can say what the site does not.
  */
 export const revalidate = 3600
 
@@ -21,9 +21,8 @@ export async function GET() {
   // a site of its own (D-270): the pages it serves, at its own addresses, under its own name
   const own = await ownSite()
   if (own) return new Response(await ownList(own), { headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
-  const en = hostOf((await headers()).get('host')) === EN_HOST
-  const locale = en ? 'en' : 'no'
-  const base = en ? EN_URL : MAIN_URL
+  const locale = 'no'
+  const base = MAIN_URL
   const t = await getTranslations({ locale })
   const line = (path: string, title: string, description: string) => `- [${title.replace(/ \| Orgpuls$/, '')}](${base}${path}): ${description}`
 

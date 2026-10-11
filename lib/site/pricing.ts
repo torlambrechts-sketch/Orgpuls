@@ -32,6 +32,17 @@ export const PLAN_SIZES = [
 ] as const
 
 /**
+ * The three plans with a market's prices: /priser on Norway's site, /pricing on Empvibe's (UK-G,
+ * D-275), and the price list a signed-in organisation's market pays by wherever it reads the page,
+ * as its words are that market's too (lib/i18n/request.ts).
+ */
+export const planSizes = (market: Market) => {
+  const prices = planPrices(market)
+  return PLAN_SIZES.map((s) => ({ ...s, monthly: s.key === 'group' ? null : prices[s.key] }))
+}
+export type PlanSize = ReturnType<typeof planSizes>[number]
+
+/**
  * A year costs this many months' price: two months free (0201, D-217). app.annual_months() is the
  * same number in the database, and Oppsett › Betaling reads it through lib/billing/read.
  */

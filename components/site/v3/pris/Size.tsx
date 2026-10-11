@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState } from 'react'
-import { fitOf, PLAN_SIZES, SIZE_RANGE } from '@/lib/site/pricing'
+import { fitOf, SIZE_RANGE } from '@/lib/site/pricing'
 
 /**
  * Pris's «Hvor mange ansatte er dere?» (D-190; nettside-v3/Pris.dc.html, the hero's slider): one
@@ -82,6 +82,10 @@ export type SliderWords = {
   /** the read-out and the range's text when yearly is chosen: the year's price and it as a month */
   readoutYear: string
   valuetextYear: string
+  /** per plan, in PLAN_SIZES order: a month's price in the market's list (lib/site/pricing planSizes), null by agreement */
+  monthly: (number | null)[]
+  /** a month per employee to this many decimals: whole kroner, pounds and pence (UK-G, D-275) */
+  perHeadDigits: number
   /** per plan, in PLAN_SIZES order: the year's price and that as a month, in the page's language */
   yearPrices: { year: string; perMonth: string }[]
   /** «ansatt» / «ansatte»: the unit after the number, singular at 1 */
@@ -103,7 +107,7 @@ export function SizeSlider({ w }: { w: SliderWords }) {
   const [draft, setDraft] = useState<string | null>(null)
   const year = useContext(Billing) === 'year'
   const fit = fitOf(n)
-  const monthly = PLAN_SIZES[fit]!.monthly
+  const monthly = w.monthly[fit] ?? null
   const y = w.yearPrices[fit]
   const values = {
     n,
@@ -111,7 +115,7 @@ export function SizeSlider({ w }: { w: SliderWords }) {
     plan: w.plans[fit]!,
     price: monthly ? (year && y ? y.year : monthly) : '',
     perMonth: y?.perMonth ?? '',
-    perHead: monthly ? Math.round(monthly / n) : '',
+    perHead: monthly ? (w.perHeadDigits ? (monthly / n).toFixed(w.perHeadDigits) : Math.round(monthly / n)) : '',
   }
   const valuetext = (monthly ? (year ? w.valuetextYear : w.valuetext) : w.valuetextGroup).replace(
     /\{(\w+)\}/g,

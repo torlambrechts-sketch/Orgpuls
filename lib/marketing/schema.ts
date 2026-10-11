@@ -1,12 +1,13 @@
 import { absolute, SITE_URL } from './site'
 import { plain, type FaqItem } from './blocks'
-import { PLAN_SIZES, yearly } from '@/lib/site/pricing'
+import { getTranslations } from 'next-intl/server'
+import { PLAN_PRICES, planPrices, yearly, type PriceList } from '@/lib/site/pricing'
 import { ownSite } from '@/lib/site/own'
 
 /**
  * The site a page's schema.org objects describe: Orgpuls on Norway's hosts, or a site of its own
- * (Empvibe's, D-270) with its own address, name, country and language, and no offers until its
- * market has prices (UK-F). Every URL is the site's own address for the route.
+ * (Empvibe's, D-270) with its own address, name, country and language, and its market's prices since
+ * it serves them (UK-G, D-275). Every URL is the site's own address for the route.
  */
 export type SiteLd = {
   url: string
@@ -15,23 +16,33 @@ export type SiteLd = {
   absolute: (path: string) => string
   areaServed: string
   languages: readonly string[]
-  /** whether the site publishes prices (Norway's do; the United Kingdom's are UK-F) */
-  offers: boolean
+  /** the prices the site publishes, and its plans' names as its price page shows them */
+  offers: { prices: PriceList; names: { free: string; small: string; usual: string } }
 }
 
-export const ORGPULS_LD: SiteLd = { url: SITE_URL, name: 'Orgpuls', absolute, areaServed: 'NO', languages: ['nb', 'en'], offers: true }
+export const ORGPULS_LD: SiteLd = {
+  url: SITE_URL,
+  name: 'Orgpuls',
+  absolute,
+  areaServed: 'NO',
+  languages: ['nb', 'en'],
+  offers: { prices: PLAN_PRICES.no, names: { free: 'Gratis', small: 'Liten', usual: 'Vanlig' } },
+}
 
 /** This request's site, for its pages' schema.org objects */
 export async function siteLd(): Promise<SiteLd> {
   const own = await ownSite()
   if (!own) return ORGPULS_LD
+  // the plans' names in the site's own words, as its price page draws them
+  const t = await getTranslations({ locale: own.site.lang, namespace: 'site.pris' })
+  const plans = t.raw('plans') as { name: string }[]
   return {
     url: own.site.url,
     name: own.name,
     absolute: (path) => (path === '/' ? own.site.url : own.absolute(path)),
     areaServed: own.site.market.toUpperCase(),
     languages: own.site.langs,
-    offers: false,
+    offers: { prices: planPrices(own.site.market), names: { free: t('free.name'), small: plans[0]!.name, usual: plans[1]!.name } },
   }
 }
 
@@ -86,30 +97,34 @@ export const software = (description: string, site: SiteLd = ORGPULS_LD) => ({
   description,
   url: site.url,
   publisher: { '@id': `${site.url}/#organization` },
-  ...(site.offers ? { offers: norwegianOffers() } : {}),
+  offers: offers(site),
 })
 
-/** Norway's published prices, as /priser shows them */
-const norwegianOffers = () => [
-  { '@type': 'Offer', name: 'Gratis', url: `${SITE_URL}/priser`, price: '0', priceCurrency: 'NOK' },
-  ...[
-    { name: 'Liten', price: PLAN_SIZES[0].monthly, unitText: 'MON' },
-    { name: 'Vanlig', price: PLAN_SIZES[1].monthly, unitText: 'MON' },
-    { name: 'Liten', price: yearly(PLAN_SIZES[0].monthly).year, unitText: 'ANN' },
-    { name: 'Vanlig', price: yearly(PLAN_SIZES[1].monthly).year, unitText: 'ANN' },
-  ].map((o) => ({
-    '@type': 'Offer',
-    name: o.name,
-    url: `${SITE_URL}/priser`,
-    priceSpecification: {
-      '@type': 'UnitPriceSpecification',
-      price: String(o.price),
-      priceCurrency: 'NOK',
-      unitText: o.unitText,
-      valueAddedTaxIncluded: false,
-    },
-  })),
-]
+/** The site's published prices, as its price page shows them, in its market's currency */
+const offers = (site: SiteLd) => {
+  const { prices, names } = site.offers
+  const url = site.absolute('/priser')
+  return [
+    { '@type': 'Offer', name: names.free, url, price: '0', priceCurrency: prices.currency },
+    ...[
+      { name: names.small, price: prices.small, unitText: 'MON' },
+      { name: names.usual, price: prices.usual, unitText: 'MON' },
+      { name: names.small, price: yearly(prices.small).year, unitText: 'ANN' },
+      { name: names.usual, price: yearly(prices.usual).year, unitText: 'ANN' },
+    ].map((o) => ({
+      '@type': 'Offer',
+      name: o.name,
+      url,
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: String(o.price),
+        priceCurrency: prices.currency,
+        unitText: o.unitText,
+        valueAddedTaxIncluded: false,
+      },
+    })),
+  ]
+}
 
 export const faqPage = (items: FaqItem[]) => ({
   '@type': 'FAQPage',

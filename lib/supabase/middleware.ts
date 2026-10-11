@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { readSupabaseEnv } from '@/lib/supabase/env'
-import { HOLDING_PATH, hostGate } from '@/lib/hosts'
+import { hostGate } from '@/lib/hosts'
 
 /**
  * Refreshes the auth session on every request and redirects anonymous visitors to
@@ -137,10 +137,9 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname
 
   // a market's host before its own public site (D-256): the Norwegian site's pages go to the
-  // sign-up, and nothing there is indexed; a reserved host (D-258) goes to the English site whole,
-  // and a brand's host before its site (D-269) shows its holding page.
-  // Pure string work on the host: it cannot throw.
-  const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path))
+  // sign-up, and nothing there is indexed; a moved host (D-275) and a reserved one (D-258) send every
+  // address where an English reader goes. Pure string work on the host: it cannot throw.
+  const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path), request.nextUrl.search)
   // a site of its own (D-270): a page asked for by its Norwegian address goes to the site's own
   // address, permanently and with its query; only a page load, so a form posted there still lands
   if (gate.canonical) {
@@ -150,20 +149,20 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url, 308)
   }
   if (gate.redirect) {
-    // a reserved host's redirect is absolute and keeps the query; a market's host goes to its sign-up
-    const url = gate.redirect.startsWith('https://') ? new URL(`${gate.redirect}${request.nextUrl.search}`) : request.nextUrl.clone()
-    if (!gate.redirect.startsWith('https://')) {
+    // a moved or reserved host's redirect is absolute and carries the query, permanently from a moved
+    // host (308, which keeps a form's method); a market's host goes to its sign-up
+    const absolute = gate.redirect.startsWith('https://')
+    const url = absolute ? new URL(gate.redirect) : request.nextUrl.clone()
+    if (!absolute) {
       url.pathname = gate.redirect
       url.search = ''
     }
-    return noindex(NextResponse.redirect(url), true)
+    return noindex(NextResponse.redirect(url, gate.permanent ? 308 : 307), true)
   }
-  // a brand's host before its site (D-269): its holding page, in place, whatever the address; on a
-  // site of its own (D-270), a page at its English address, or the 404 for a page it does not serve
+  // on a site of its own (D-270), a page at its English address, or the 404 for a page it does not serve
   if (gate.rewrite) {
     const url = request.nextUrl.clone()
     url.pathname = gate.rewrite
-    if (gate.rewrite === HOLDING_PATH) url.search = ''
     return noindex(NextResponse.rewrite(url), gate.noindex)
   }
   return noindex(await route(request, path), gate.noindex)

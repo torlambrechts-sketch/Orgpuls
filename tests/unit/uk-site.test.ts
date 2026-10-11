@@ -60,8 +60,8 @@ const MISLEADING =
   /HSE[- ](approved|endorsed|compliant|accredited)|(meets|complies with) (the )?(HSE('s)? )?Management Standards|statutory (report|factors|survey)|report(s|ed)? to HSE|Information Commissioner\b|required by law to (run|carry out) (a|this|the) survey/i
 /** Another currency than the United Kingdom's */
 const FOREIGN_PRICE = /€|\$|\bNOK\b|\bSEK\b|\bkr\b/
-/** The United Kingdom's list (X-113): each plan a month, and a year at ANNUAL_MONTHS months */
-const GB_AMOUNTS = new Set([PLAN_PRICES.gb.small, PLAN_PRICES.gb.usual].flatMap((m) => [m, m * ANNUAL_MONTHS]))
+/** The United Kingdom's list (X-113): the free plan, each plan a month, and a year at ANNUAL_MONTHS months */
+const GB_AMOUNTS = new Set([0, ...[PLAN_PRICES.gb.small, PLAN_PRICES.gb.usual].flatMap((m) => [m, m * ANNUAL_MONTHS])])
 
 const pageKeys = (path: string) => {
   const page = map.pages.find((p) => p.path === path)

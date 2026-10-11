@@ -10,9 +10,9 @@ import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { FaqItems } from '@/lib/marketing/blocks'
 import { pageMeta } from '@/lib/marketing/meta'
-import { breadcrumbs, faqPage, graph, ldLanguage, organization, software } from '@/lib/marketing/schema'
-import { absolute } from '@/lib/marketing/site'
-import { PLAN_SIZES, yearly } from '@/lib/site/pricing'
+import { breadcrumbs, faqPage, graph, ldLanguage, organization, siteLd, software } from '@/lib/marketing/schema'
+import { requestMarket } from '@/lib/i18n/market'
+import { planPrices, planSizes, yearly } from '@/lib/site/pricing'
 
 /**
  * Pris (D-190): design-reference/orgpuls/nettside-v3/Pris.dc.html. «Fra 265 kr i måneden. Alt
@@ -27,6 +27,10 @@ import { PLAN_SIZES, yearly } from '@/lib/site/pricing'
  * The words are `seo.pages.priser` (the hero and the questions, which the FAQPage data repeats) and
  * `site.pris` (the rest); the prices and limits the slider computes with are lib/site/pricing, the
  * numbers billing keeps (0048).
+ *
+ * Empvibe's site serves it at /pricing since the move (UK-G, D-275): the same page with the United
+ * Kingdom's words (messages/market/gb) and its list in pounds (X-113). The prices follow the market
+ * the page's words are in, so the two never disagree.
  */
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -50,12 +54,16 @@ export default async function PrisPage() {
   const chrome = await getTranslations('site.chrome')
 
   const format = await getFormatter()
-  const plans = z.array(Plan).length(PLAN_SIZES.length).parse(t.raw('plans'))
+  const ld = await siteLd()
+  // the market the page's words are in: its list, in its currency (lib/site/pricing, X-113)
+  const market = await requestMarket()
+  const fit = planSizes(market)
+  const plans = z.array(Plan).length(fit.length).parse(t.raw('plans'))
   const free = Free.parse(t.raw('free'))
   // a year at ten months' price, and that as a month, in the page's language (0201, D-217)
   const kr = (n: number) => t('price.kr', { n: format.number(n) })
-  const years = PLAN_SIZES.map((s) => (s.monthly === null ? null : yearly(s.monthly)))
-  const sizes = z.array(Size).length(PLAN_SIZES.length).parse(t.raw('included.sizes'))
+  const years = fit.map((s) => (s.monthly === null ? null : yearly(s.monthly)))
+  const sizes = z.array(Size).length(fit.length).parse(t.raw('included.sizes'))
   const groups = z.array(Group).length(GLYPHS.length).parse(t.raw('included.groups'))
   const faq = FaqItems.parse(seo.raw('pages.priser.faq'))
   const crumb = seo('pages.priser.crumb')
@@ -64,21 +72,24 @@ export default async function PrisPage() {
     <SizeProvider>
       <JsonLd
         data={graph(
-          organization(),
+          organization(ld),
           {
             '@type': 'WebPage',
-            url: absolute('/priser'),
+            url: ld.absolute('/priser'),
             name: seo('pages.priser.title'),
             description: seo('pages.priser.description'),
-            inLanguage: ldLanguage(await getLocale()),
+            inLanguage: ld.languages.includes('en') && ld.languages.length === 1 ? 'en-GB' : ldLanguage(await getLocale()),
           },
-          breadcrumbs([
-            { name: seo('common.home'), path: '/' },
-            { name: crumb, path: '/priser' },
-          ]),
+          breadcrumbs(
+            [
+              { name: seo('common.home'), path: '/' },
+              { name: crumb, path: '/priser' },
+            ],
+            ld,
+          ),
           // the questions below, word for word
           faqPage(faq),
-          software(seo('home.description')),
+          software(seo('home.description'), ld),
         )}
       />
 
@@ -92,7 +103,7 @@ export default async function PrisPage() {
             <ol className="m-0 flex list-none gap-[8px] p-0">
               <li>
                 <Link href="/" className="text-body hover:text-body">
-                  Orgpuls
+                  {ld.name}
                 </Link>
               </li>
               <li aria-current="page" className="flex gap-[8px]">
@@ -128,6 +139,9 @@ export default async function PrisPage() {
               unitOne: t('size.unitOne'),
               unitOther: t('size.unitOther'),
               plans: plans.map((p) => p.name),
+              monthly: fit.map((s) => s.monthly),
+              // whole kroner; pounds to the penny, where a whole pound per head would be a different price
+              perHeadDigits: planPrices(market).currency === 'NOK' ? 0 : 2,
               yearPrices: years.map((y) => ({ year: y ? format.number(y.year) : '', perMonth: y ? format.number(y.perMonth) : '' })),
             }}
           />

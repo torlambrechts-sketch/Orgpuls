@@ -36,23 +36,20 @@ async function resolve(props: Props) {
   if (!page?.module || !page.questionPage) notFound()
   const preview = (await props.searchParams).forhandsvis === '1'
   if (!page.launched && !preview) notFound()
-  const twin = pageIn(entry, lang === 'en' ? 'no' : 'en')
   return {
     page: { ...page, module: page.module, questionPage: page.questionPage },
     lang,
     preview: !page.launched,
-    twinLive: !!(page.launched && twin?.launched && twin.questionPage),
   } as const
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const { page, preview, twinLive } = await resolve(props)
+  const { page, preview } = await resolve(props)
   const meta = await pageMeta({
     title: page.questionPage.metaTitle,
     description: page.questionPage.metaDescription,
     path: `/${page.slug}/sporsmal`,
     image: `/og/${page.slug}.png`,
-    noTwin: !twinLive,
   })
   return preview ? { ...meta, robots: { index: false, follow: false } } : meta
 }

@@ -52,8 +52,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     description: t('description'),
     path: `/${at.landing.slug}`,
     image: `/og/${at.landing.slug}.png`,
-    // hreflang names the other language only where that address shows a page (D-131)
-    noTwin: !at.landing.live.no || !at.landing.live.en,
   })
   return at.preview ? { ...meta, robots: { index: false, follow: false } } : meta
 }

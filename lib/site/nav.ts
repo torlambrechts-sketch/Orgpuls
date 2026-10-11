@@ -165,8 +165,8 @@ export const footerFor = (pathname: string): FooterId =>
  * A site of its own (Empvibe's, D-270): the pages it serves (lib/hosts.ts `Site.own`) and no others.
  * Its menu is Plattform with Bruksområder and Hvorfor under it, as Norway's; Ressurser opens on the
  * law, with safety representatives, small businesses and security under it, since the site has no
- * articles; Kontakt where Norway has Pris, until the United Kingdom has prices (UK-F). No Bransjer:
- * the industry modules are Norway's. The words are the market's (messages/market/gb).
+ * articles; Pris since the move (UK-G, D-275), the United Kingdom's own (X-113); and Kontakt. No
+ * Bransjer: the industry modules are Norway's. The words are the market's (messages/market/gb).
  */
 export const OWN_NAV: typeof SITE_NAV = [
   {
@@ -188,6 +188,8 @@ export const OWN_NAV: typeof SITE_NAV = [
       { key: 'sikkerhet', href: '/sikkerhet' },
     ],
   },
+  // the United Kingdom's prices (X-113), served since the move (UK-G, D-275)
+  { key: 'pris', href: '/priser' },
   { key: 'kontakt', href: '/kontakt' },
 ]
 
@@ -201,6 +203,7 @@ const OWN_FOOTER: FooterColumn[] = [
       { key: 'resultater', href: '/plattform#resultater' },
       { key: 'kommentarer', href: '/plattform#kommentarer' },
       { key: 'tiltak', href: '/plattform#tiltak' },
+      { key: 'pris', href: '/priser' },
       { key: 'hvorfor', href: '/hvorfor' },
     ],
   },

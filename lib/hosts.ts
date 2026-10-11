@@ -6,16 +6,17 @@ import { DEFAULT_MARKET, MARKET_LANGS, type Market } from '@/lib/markets'
  * The production hosts (D-90, D-98). Edge-safe: read by the middleware as well as the server.
  *
  *   www.orgpuls.com    the product and the Norwegian public site
- *   en.orgpuls.com     the same, in English: the host decides the language (lib/i18n/request)
+ *   en.orgpuls.com     moved (UK-G, D-275): the English edition of Norway's site until Empvibe opened.
+ *                      Its pages go to Empvibe's where Empvibe has them, everything else to
+ *                      www.orgpuls.com in English (MOVED_HOSTS); EN_HOST overrides it
  *   se.orgpuls.com     the Swedish market (X-109): sign-up and product in Swedish; its public site
  *                      is SE-F, so until then its public pages are not served there (D-256).
  *                      SE_HOST overrides it, like EN_HOST
- *   de.orgpuls.com     reserved for Germany (X-110): every address goes to the English site until
- *                      the market opens (RESERVED_HOSTS, D-258)
+ *   de.orgpuls.com     reserved for Germany (X-110): every address goes where an English reader is
+ *                      sent from en.orgpuls.com, until the market opens (RESERVED_HOSTS, D-258)
  *   www.empvibe.com    Empvibe, the English-speaking brand, the United Kingdom's site (X-111, UK-E,
- *                      D-270): built and served where EMPVIBE_SITE=open, and until the move (UK-G)
- *                      its holding page in production (HOLDING_HOSTS, D-269), never the Orgpuls name.
- *                      EMPVIBE_HOST overrides it, like EN_HOST
+ *                      D-270), open since the move (UK-G, D-275). EMPVIBE_HOST overrides it, like
+ *                      EN_HOST
  *
  * `EN_HOST` overrides the default, e.g. for a staging domain. Local and preview builds match
  * none of these, so the language switch works there on one host. The platform admin is no
@@ -25,12 +26,11 @@ export const MAIN_HOST = 'www.orgpuls.com'
 export const EN_HOST = process.env.EN_HOST?.trim().toLowerCase() || 'en.orgpuls.com'
 
 export const MAIN_URL = `https://${MAIN_HOST}`
-export const EN_URL = `https://${EN_HOST}`
 
 /**
  * What each production host is (D-251): the brand it shows, the market a sign-up there joins, the
- * language it opens in and whether the host decides the language (`pinned`: en.orgpuls.com is the
- * English site whatever the cookie says) or the visitor's choice does. `url` is the canonical
+ * language it opens in and whether the host decides the language (`pinned`: Empvibe's site is in
+ * English whatever the cookie says) or the visitor's choice does. `url` is the canonical
  * address a link made there carries (outboundBase). A new country or brand is a row here, a market
  * in app.markets and its texts, never a branch in a component.
  */
@@ -82,18 +82,9 @@ export const EMPVIBE_HOST = process.env.EMPVIBE_HOST?.trim().toLowerCase() || 'w
 export const EMPVIBE_URL = `https://${EMPVIBE_HOST}`
 
 /**
- * Whether Empvibe's site is open (X-111: build first, move when ready). Until the move (UK-G) it is
- * not, in production: the hosts show the holding page (D-269), no site row names them, and so no
- * host signs anyone up into the United Kingdom. A local or QA server sets EMPVIBE_SITE=open to see
- * the site as it will be. UK-G makes it the default and removes the holding rows.
- */
-export const EMPVIBE_OPEN = process.env.EMPVIBE_SITE?.trim() === 'open'
-
-/**
  * The pages Empvibe's site serves, by route (D-270): the product, the use cases, the argument, the
- * law, safety representatives, small businesses, security, contact and the documents. Not the
- * industries, the articles, the templates or the demo, which are written for Norway, and not the
- * prices until the United Kingdom has its own (UK-F).
+ * law, safety representatives, small businesses, security, contact, the prices and the documents.
+ * Not the industries, the articles, the templates or the demo, which are written for Norway.
  */
 export const EMPVIBE_PAGES = [
   '/',
@@ -105,6 +96,8 @@ export const EMPVIBE_PAGES = [
   '/smaa-bedrifter',
   '/sikkerhet',
   '/kontakt',
+  // the United Kingdom's prices (X-113, UK-G, D-275): the gb pack's words, PLAN_PRICES.gb's amounts
+  '/priser',
   // the UK privacy notice and terms (UK-F, D-274): the gb pack's own, not Norway's, which name its law,
   // its regulator, its prices and its register
   '/personvernerklaering',
@@ -143,11 +136,51 @@ const EMPVIBE_SITES: readonly Site[] = [EMPVIBE_HOST, 'empvibe.com'].map((host) 
 export const SITES: readonly Site[] = [
   { host: MAIN_HOST, url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS, publicSite: true },
   { host: 'orgpuls.com', url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS, publicSite: true },
-  { host: EN_HOST, url: EN_URL, brand: 'orgpuls', market: 'no', lang: 'en', pinned: true, langs: NORWAY_LANGS, publicSite: true },
   // the Swedish public site is SE-F; until it is built, the host serves the sign-up and the product
   { host: SE_HOST, url: SE_URL, brand: 'orgpuls', market: 'se', lang: 'sv', pinned: false, langs: MARKET_LANGS.se, publicSite: false },
-  ...(EMPVIBE_OPEN ? EMPVIBE_SITES : []),
+  ...EMPVIBE_SITES,
 ]
+
+/**
+ * Where an English reader goes from a host that no longer has a site of its own (UK-G, D-275):
+ *
+ *   a public page Empvibe serves      the same page on Empvibe's site, at its English address
+ *   any other page of the public site the same page on www.orgpuls.com, in English: Norway's site
+ *   and signing in or up               in English is where English-speaking firms in Norway are
+ *                                      (X-111), and its industries, articles and templates exist
+ *                                      only there
+ *   the product, the survey and its    the same address on www.orgpuls.com, with its query: an
+ *   links, the API, the auth callbacks organisation's own screens, a respondent's link and a
+ *                                      poster printed before the move keep working, in the language
+ *                                      the person or the employee has
+ *
+ * `publicPath` is the middleware's own test of whether the path is the public site's.
+ */
+export function toEnglish(path: string, search: string, publicPath: boolean): string {
+  if (publicPath && (EMPVIBE_PAGES as readonly string[]).includes(path)) return `${EMPVIBE_URL}${addressOf(EMPVIBE_PATHS, path)}${search}`
+  // a page of the public site, not a file (robots.txt, the sitemap, llms.txt) and not a link that
+  // carries its own key (a survey, an entry code, an invitation), which has its own language
+  const sitePage = publicPath && !/\.[a-z0-9]+$/i.test(path) && !within(WITHOUT_SITE, path)
+  if (sitePage || within(IN_ENGLISH, path)) return switchTo(MAIN_URL, 'en', `${path}${search}`)
+  return `${MAIN_URL}${path}${search}`
+}
+
+/** the steps an English reader takes in English on www.orgpuls.com: signing in and up, a new password */
+const IN_ENGLISH = ['/logg-inn', '/registrer', '/nytt-passord']
+
+/** whether the path is one of these or under one */
+const within = (list: readonly string[], path: string) => list.some((p) => path === p || path.startsWith(`${p}/`))
+
+/** the language switch's own route on a site (lib/i18n/switch.ts switchUrl, which this file cannot import) */
+const switchTo = (base: string, locale: string, path: string) => `${base}/api/sprak?${new URLSearchParams({ l: locale, til: path })}`
+
+/**
+ * A host whose site moved (UK-G, D-275): en.orgpuls.com, the English edition of Norway's site, whose
+ * English-speaking audience is Empvibe's now (X-111: «then one change opens empvibe.com, and
+ * en.orgpuls.com redirects there»). Every address goes where `toEnglish` says, permanently (308, so a
+ * form posted there keeps its method). Nothing is served on the host any more.
+ */
+export const MOVED_HOSTS: readonly string[] = [EN_HOST]
 
 /**
  * Addresses registered for a market that is not open yet: routed to the app (DNS, the Vercel domain)
@@ -158,31 +191,10 @@ export const SITES: readonly Site[] = [
  *
  * Nothing is served there, not even the sign-up: no market exists to join, and the Norwegian site
  * would otherwise be indexed a second time under another name and sign a German firm up as a
- * Norwegian one. Every request goes to the same address on the English site, the one of the existing
- * sites its visitors can read, and temporarily (307), so the day the market opens, its own site takes
- * over (hostGate, D-258).
+ * Norwegian one. Every request goes where an English reader goes from en.orgpuls.com (`toEnglish`),
+ * temporarily (307), so the day the market opens, its own site takes over (hostGate, D-258).
  */
-export const RESERVED_HOSTS: Readonly<Record<string, string>> = {
-  [process.env.DE_HOST?.trim().toLowerCase() || 'de.orgpuls.com']: EN_URL,
-}
-
-/**
- * A brand's addresses before its site opens (D-269): empvibe.com and www.empvibe.com, Empvibe's
- * (X-111). A redirect would hand an English-speaking visitor to a site called Orgpuls, a name that
- * means nothing in English, so the host shows a holding page of its own instead: the brand's name,
- * in English, and nothing to sign up to, since the United Kingdom's terms, agreement and prices are
- * not in place yet (docs/markets/PLAN.md UK-F). Every address on the host is that page (hostGate),
- * nothing there is indexed, and the day the brand's site opens it becomes a row in SITES.
- */
-export const HOLDING_HOSTS: Readonly<Record<string, { brand: Brand; lang: Locale }>> = EMPVIBE_OPEN
-  ? {}
-  : Object.fromEntries(EMPVIBE_SITES.map((s) => [s.host, { brand: s.brand, lang: s.lang }]))
-
-/** where hostGate takes every address on a holding host; the page answers 404 on any other host */
-export const HOLDING_PATH = '/venteside'
-
-/** the brand and language of a holding host, or null for any other host */
-export const holdingOf = (host: string | null | undefined) => HOLDING_HOSTS[hostOf(host)] ?? null
+export const RESERVED_HOSTS: readonly string[] = [process.env.DE_HOST?.trim().toLowerCase() || 'de.orgpuls.com']
 
 /** The production hosts of the product and the public site. */
 export const PUBLIC_HOSTS: readonly string[] = SITES.map((s) => s.host)
@@ -261,20 +273,21 @@ const WITHOUT_SITE = ['/logg-inn', '/registrer', '/auth', '/s', '/inn', '/r', '/
 /**
  * What a request to this host may see (D-256). On a host that serves the public site: everything,
  * indexed as before. On one that does not yet (Sweden until SE-F): a public page of the Norwegian
- * site is sent to the sign-up, and nothing on the host is indexed. On a reserved host (Germany,
- * D-258): nothing; every address goes to the same one on the English site, an absolute URL. On a
- * holding host (Empvibe, D-269): every address is the brand's holding page, shown in place
- * (`rewrite`), and robots.txt says so. `publicPath` is the middleware's own test of whether the path
- * is the public site's (lib/supabase/middleware.ts isPublic).
+ * site is sent to the sign-up, and nothing on the host is indexed. On a moved host (en.orgpuls.com,
+ * D-275) and a reserved one (Germany, D-258): nothing; every address goes where an English reader is
+ * sent (`toEnglish`), an absolute URL with its query, permanently from the moved host. `publicPath` is
+ * the middleware's own test of whether the path is the public site's (lib/supabase/middleware.ts
+ * isPublic), `search` the request's query.
  */
 export function hostGate(
   host: string | null | undefined,
   path: string,
   publicPath: boolean,
-): { noindex: boolean; redirect: string | null; rewrite?: string; canonical?: true } {
-  const reserved = RESERVED_HOSTS[hostOf(host)]
-  if (reserved) return { noindex: true, redirect: `${reserved}${path}` }
-  if (holdingOf(host)) return path === '/robots.txt' ? { noindex: true, redirect: null } : { noindex: true, redirect: null, rewrite: HOLDING_PATH }
+  search = '',
+): { noindex: boolean; redirect: string | null; rewrite?: string; canonical?: true; permanent?: true } {
+  const name = hostOf(host)
+  if (MOVED_HOSTS.includes(name)) return { noindex: true, redirect: toEnglish(path, search, publicPath), permanent: true }
+  if (RESERVED_HOSTS.includes(name)) return { noindex: true, redirect: toEnglish(path, search, publicPath) }
   const site = siteOf(host)
   if (site?.own) return ownSite(site.own, path, publicPath)
   if (!site || site.publicSite) return { noindex: false, redirect: null }
@@ -291,7 +304,10 @@ export function hostGate(
  */
 function ownSite(own: NonNullable<Site['own']>, path: string, publicPath: boolean) {
   const serves = (route: string) =>
-    (own.pages as readonly string[]).includes(route) || WITHOUT_SITE.some((p) => route === p || route.startsWith(`${p}/`)) || SITE_FILES.includes(route)
+    (own.pages as readonly string[]).includes(route) ||
+    WITHOUT_SITE.some((p) => route === p || route.startsWith(`${p}/`)) ||
+    SITE_FILES.includes(route) ||
+    INDEXNOW_KEY.test(route)
   const notServed = { noindex: true, redirect: null, rewrite: NOT_SERVED_PATH }
   const route = routeOf(own.paths, path)
   if (route !== path) return serves(route) ? { noindex: false, redirect: null, rewrite: route } : notServed
@@ -302,3 +318,6 @@ function ownSite(own: NonNullable<Site['own']>, path: string, publicPath: boolea
 
 /** the files a site of its own answers for itself (app/sitemap.ts, app/llms.txt) */
 const SITE_FILES = ['/sitemap.xml', '/llms.txt']
+
+/** the IndexNow key (public/<32 hex>.txt, D-234), which the engines fetch on each host it submits for */
+const INDEXNOW_KEY = /^\/[0-9a-f]{32}\.txt$/

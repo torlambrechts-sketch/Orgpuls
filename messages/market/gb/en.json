@@ -1298,6 +1298,131 @@
       "measures": {
         "title": "Measures · Projects"
       }
+    },
+    "pris": {
+      "size": {
+        "valuetext": "{n} {unit} – {plan}, £{price} per month",
+        "valuetextYear": "{n} {unit} – {plan}, £{price} per year",
+        "readout": "{unit} · <b>{plan}</b> · £{price}<abbr>/month</abbr><sr> per month</sr> · £{perHead} per employee",
+        "readoutYear": "{unit} · <b>{plan}</b> · £{price}<abbr>/year</abbr><sr> per year</sr> · £{perMonth} per month"
+      },
+      "price": {
+        "kr": "£{n}",
+        "yearPerMonth": "Equals £{n} per month"
+      },
+      "free": {
+        "price": "£0",
+        "items": [
+          "Yearly main survey with the standard questions",
+          "Results per department and team, from 5 answers",
+          "Unlimited measures with owner and deadline",
+          "No card and no time limit"
+        ]
+      },
+      "plans": [
+        {
+          "name": "Small",
+          "who": "Up to 25 employees",
+          "price": "£25",
+          "unit": "per month",
+          "items": [
+            "All features included",
+            "Unlimited surveys and measures",
+            "Health and safety representatives at no extra cost",
+            "Monthly with no lock-in, or yearly with two months free"
+          ],
+          "cta": "Try it free"
+        },
+        {
+          "name": "Usual",
+          "who": "26 to 100 employees",
+          "price": "£55",
+          "unit": "per month",
+          "items": [
+            "All features included",
+            "Unlimited surveys and measures",
+            "Health and safety representatives at no extra cost",
+            "Monthly with no lock-in, or yearly with two months free"
+          ],
+          "cta": "Try it free"
+        },
+        {
+          "name": "Several companies",
+          "who": "Groups and over 100 employees",
+          "price": "By agreement",
+          "items": [
+            "All features included",
+            "Unlimited surveys and measures",
+            "Health and safety representatives at no extra cost",
+            "Price and terms in a separate offer"
+          ],
+          "cta": "Talk to us"
+        }
+      ],
+      "footnote": "All prices exclude VAT: a UK business accounts for it under the reverse charge. Invoiced monthly or yearly by e-mail, in pounds sterling. If you choose no plan after the trial, you carry on for free.",
+      "included": {
+        "lead": "A business with 8 employees gets the same questions, the same written record and the same help as one with 80. No features are locked behind a more expensive plan.",
+        "sizes": [
+          {
+            "name": "Small",
+            "range": "1–25 employees",
+            "price": "£25 per month"
+          },
+          {
+            "name": "Usual",
+            "range": "26–100 employees",
+            "price": "£55 per month"
+          },
+          {
+            "name": "Several companies",
+            "range": "Over 100 employees",
+            "price": "By agreement"
+          }
+        ],
+        "groups": [
+          {
+            "t": "Surveys",
+            "items": [
+              "Main survey and pulses, as often as every month",
+              "The year wheel plans the rounds for you",
+              "Sent by e-mail, Teams and Slack",
+              "A link or QR code for people without a work e-mail"
+            ]
+          },
+          {
+            "t": "Results",
+            "items": [
+              "Results by department and team, from 5 answers",
+              "Heat map and trends over time",
+              "Anonymous comments you can reply to"
+            ]
+          },
+          {
+            "t": "Follow-up",
+            "items": [
+              "Three suggested measures per factor",
+              "Unlimited measures with owner and deadline",
+              "The pulse shows whether the measure worked"
+            ]
+          },
+          {
+            "t": "Documentation",
+            "items": [
+              "A risk assessment per factor, mapped to HSE’s Management Standards areas",
+              "A written record ready to print or save as PDF",
+              "A log of who was told and consulted, and when"
+            ]
+          },
+          {
+            "t": "Roles and help",
+            "items": [
+              "Health and safety representatives at no extra cost",
+              "Department managers see only their own team",
+              "Help from the people who build the product"
+            ]
+          }
+        ]
+      }
     }
   },
   "seo": {
@@ -2104,6 +2229,67 @@
           {
             "t": "p",
             "text": "Pundit Invest AS, organisation number 922 698 422 (Norway), Øvre Prinsdals vei 36L, 1266 Oslo, Norway · [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)"
+          }
+        ]
+      },
+      "priser": {
+        "title": "Pricing: staff survey on work-related stress | Empvibe",
+        "description": "Free yearly stress survey. Small £25 and Usual £55 a month excl. VAT, two months free yearly. 15 days with everything, no card.",
+        "crumb": "Pricing",
+        "kicker": "Pricing",
+        "h1": "Free to start. Everything included from £25 a month.",
+        "lead": "One fixed price by headcount – not per user, not per survey. Monthly with no lock-in, or yearly with two months free. Health and safety representatives cost nothing extra. 15 days with everything, then free for the main survey.",
+        "blocks": [
+          {
+            "t": "plans"
+          },
+          {
+            "t": "h2",
+            "text": "Included in every plan"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "A main survey each year with pulses in between, as many rounds as you like",
+              "A written record of your stress risk assessment, ready to print or save as PDF",
+              "Unlimited measures, with ready suggestions",
+              "Health and safety representatives at no extra cost",
+              "No setup fee and no lock-in"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "All prices exclude VAT, which a UK business accounts for itself under the reverse charge."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Is there a free version?",
+            "a": "Yes. For the first 15 days you have everything, with no card. If you choose no plan, you carry on for free with the standard main survey, the results and the measures – for as long as you like, however many you are. Pulses, follow-up surveys, optional modules such as HSE’s Management Standards Indicator Tool, your own questions, comparisons with earlier rounds and the written record of the risk assessment come with Small and Usual."
+          },
+          {
+            "q": "What does a yearly agreement cost?",
+            "a": "Ten months’ price for twelve: Small £250 and Usual £550 a year excl. VAT, invoiced a year at a time. A monthly agreement has no lock-in."
+          },
+          {
+            "q": "Do you add VAT?",
+            "a": "No UK VAT is added to our invoices. Empvibe is supplied to UK businesses from outside the United Kingdom, so you account for any VAT yourself under the reverse charge. The managing director gives your VAT registration number under Settings › Payment, if you have one; otherwise your company number shows that you are a business."
+          },
+          {
+            "q": "What if there are only twelve of us?",
+            "a": "Then you get figures for the whole organisation. A department is shown once at least 5 people in it have answered; fewer count in the whole. The limit can be raised to 10, never lowered below 5 – the fewer the answers, the easier it is to recognise who said what."
+          },
+          {
+            "q": "Are the answers really anonymous?",
+            "a": "Yes. We never store a name, e-mail address or IP address with the answer – there is no column that could hold the link. And no group is shown until at least 5 people have answered."
+          },
+          {
+            "q": "What happens when we pass 25 employees?",
+            "a": "Then the Usual plan applies, the price for 26 to 100 employees. The managing director changes the plan under Settings › Payment, and everything you have measured and all your measures come with you."
+          },
+          {
+            "q": "What happens to our data if we stop?",
+            "a": "It is yours. Reports can be printed or saved as PDF at any time, and for 30 days after the agreement ends. After that, we delete all the data."
           }
         ]
       }
