@@ -25,6 +25,13 @@
  * are the current screens', so they find their anchors by the English words those screens show.
  *
  *   node scripts/marketing/product-shots.mjs --brand empvibe --base http://localhost:3100
+ *
+ * `--market se` takes the Swedish site's set (SE-F3, D-276): the same scenario as a Swedish firm,
+ * Norrvik Anläggning AB (design-fixture.mjs --market se), signed in as its VD in Swedish, written to
+ * assets/produkt/se/<id>.webp. It signs in with SE_DEV_EMAIL / SE_DEV_PASSWORD; on the local stack
+ * those are local_account.sql's third account. Its anchors are the Swedish words its screens show.
+ *
+ *   node scripts/marketing/product-shots.mjs --market se --base http://localhost:3100
  */
 import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
@@ -36,8 +43,11 @@ const arg = (name, fallback) => {
   return i > -1 ? process.argv[i + 1] : fallback
 }
 const base = arg('base', 'http://localhost:3000')
-const brand = arg('brand', 'orgpuls')
-if (!['orgpuls', 'empvibe'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
+// the set: Norway's (the default), Empvibe's (--brand empvibe) or the Swedish site's (--market se)
+const market = arg('market', null)
+if (market !== null && market !== 'se') throw new Error(`--market is se, not ${market}`)
+const brand = market ?? arg('brand', 'orgpuls')
+if (!['orgpuls', 'empvibe', 'se'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
 const out = brand === 'orgpuls' ? 'assets/produkt' : `assets/produkt/${brand}`
 const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && !all[i - 1]?.startsWith('--'))
 
@@ -139,8 +149,49 @@ const EMPVIBE = [
   { id: 'rapport', route: '/rapport', width: 1440, anchors: [at('3. Survey'), at('Recognition and meaning')], pad: 24 },
 ]
 
-const SHOTS = brand === 'orgpuls' ? ORGPULS : EMPVIBE
-const login = brand === 'orgpuls' ? 'ORGPULS' : 'EMPVIBE'
+/**
+ * The Swedish site's set: the same nine pictures, in Swedish, with Swedish dates on Stockholm's clock.
+ * As Empvibe's, the overview is the Advanced view's first screen.
+ */
+const SE = [
+  {
+    id: 'oversikt',
+    route: '/innsikt',
+    width: 1440,
+    click: 'Avancerad',
+    anchors: [at('Var ni bör lägga tiden'), card('Hög poäng')],
+    pad: 20,
+  },
+  { id: 'resultater', route: '/resultater', width: 1440, anchors: [card('Grupp × faktor'), card('Åtgärda först')], pad: 12 },
+  { id: 'varmekart', route: '/resultater', width: 1440, anchors: [card('Grupp × faktor')], pad: 12, maxHeight: 400 },
+  { id: 'kommentarer', route: '/kommentarer', width: 1440, anchors: [card('Teman'), card('Alla kommentarer')], pad: 20, maxHeight: 560 },
+  { id: 'samtaler', route: '/kommentarer', width: 1440, anchors: [card('Alla kommentarer')], pad: 12, maxHeight: 304 },
+  {
+    id: 'tiltak',
+    route: '/tiltak',
+    width: 1440,
+    anchors: [at('Från fynd till effekt'), panel('En ny mätning visar om det fungerade'), panel('Föreslås utifrån poängen')],
+    pad: 12,
+  },
+  { id: 'arshjul', route: '/malinger', width: 1440, anchors: [card('Årshjulet')], pad: 20 },
+  {
+    id: 'sporsmal',
+    // Norrvik's 2026 baseline: the fixture's round in the Swedish id space (design-fixture.se.mjs). The
+    // survey is in English for a Swedish organisation's employees until Swedish is switched on for it
+    // (locale_sv, X-109; D-255), so the phone shows the survey as they get it today
+    route: '/forhandsvis?runde=00000000-0000-4000-8046-000000000002',
+    width: 390,
+    anchors: [card('I can report censurable conditions without fearing consequences')],
+    pad: 0,
+    click: 'Start',
+    maxHeight: 721,
+    hide: 'Förhandsvisning – inget du väljer här skickas.',
+  },
+  { id: 'rapport', route: '/rapport', width: 1440, anchors: [at('3. Kartläggning'), at('Uppskattning och meningsfullhet')], pad: 24 },
+]
+
+const SHOTS = brand === 'orgpuls' ? ORGPULS : brand === 'empvibe' ? EMPVIBE : SE
+const login = brand === 'orgpuls' ? 'ORGPULS' : brand === 'empvibe' ? 'EMPVIBE' : 'SE'
 
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 })
@@ -148,10 +199,10 @@ const p = await ctx.newPage()
 
 await p.goto(`${base}/logg-inn`, { waitUntil: 'networkidle' })
 await p.getByLabel(/e-post|email/i).fill(process.env[`${login}_DEV_EMAIL`] ?? '')
-await p.getByLabel(/passord|password/i).fill(process.env[`${login}_DEV_PASSWORD`] ?? '')
+await p.getByLabel(/passord|lösenord|password/i).fill(process.env[`${login}_DEV_PASSWORD`] ?? '')
 await Promise.all([
   p.waitForURL((u) => !u.pathname.startsWith('/logg-inn')),
-  p.getByRole('button', { name: /logg inn|sign in/i }).click(),
+  p.getByRole('button', { name: /logg inn|logga in|sign in/i }).click(),
 ])
 
 mkdirSync(out, { recursive: true })

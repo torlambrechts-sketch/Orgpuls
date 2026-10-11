@@ -187,10 +187,12 @@ export const brandNameOf = (market: string | null | undefined): string => MARKET
 
 /**
  * A market's own site, where the links in its organisations' mail, SMS, Teams and Slack lead since it
- * opened (UK-G, D-275): Empvibe's for the United Kingdom (lib/hosts.ts EMPVIBE_URL; tests/unit/mail.test.ts
- * holds the two equal). Any other market is reached through the product's own address, ORGPULS_APP_URL.
+ * opened: Empvibe's for the United Kingdom (UK-G, D-275), se.orgpuls.com for Sweden (SE-F, D-276), where
+ * a Swedish leader's session is (lib/hosts.ts EMPVIBE_URL, SE_URL; tests/unit/market-links.test.ts
+ * holds them to the host registry). Norway is reached through the product's own address,
+ * ORGPULS_APP_URL.
  */
-export const MARKET_SITE_URL: Readonly<Record<string, string>> = { gb: 'https://www.empvibe.com' }
+export const MARKET_SITE_URL: Readonly<Record<string, string>> = { gb: 'https://www.empvibe.com', se: 'https://se.orgpuls.com' }
 
 /** The product's own production address (lib/hosts.ts MAIN_URL), the only base a market's site replaces */
 const PRODUCTION = /^https:\/\/www\.orgpuls\.com\/?$/
@@ -268,8 +270,12 @@ export function authSite(redirectTo: string | null | undefined, appUrl: string):
   return { url: appUrl, market: null }
 }
 
-/** The language of an Auth mail to a person whose sign-up named none: the market's (en), else bokmål */
-export const MARKET_AUTH_LANG: Readonly<Record<string, Lang>> = { gb: 'en' }
+/**
+ * The language of an Auth mail to a person whose sign-up named none: the market's, else bokmål. English
+ * for Sweden as well, the language a Swedish organisation's leaders read their mail in until it exists
+ * in Swedish (D-255)
+ */
+export const MARKET_AUTH_LANG: Readonly<Record<string, Lang>> = { gb: 'en', se: 'en' }
 
 /**
  * The texts under a brand's name, as lib/brand.ts `rebrand` does for the app: «Orgpuls» becomes the

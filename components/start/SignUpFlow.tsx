@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useActionState, useEffect, useRef, useState, useTransition } from 'react'
 import { bandOf, countFor, SIZES, type SizeKey } from '@/lib/start/size'

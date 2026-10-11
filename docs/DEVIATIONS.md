@@ -13739,3 +13739,101 @@ there», and «English-speaking firms in Norway keep the Norwegian site in Engli
   - /registrer gives 308 to /sign-up, which answers in English;
   - www.orgpuls.com/priser: Norway's prices unchanged (0, 265, 565, 2650, 5650), no hreflang, and no en.orgpuls.com
     in its sitemap.
+
+## D-276 — Sweden's site of its own on se.orgpuls.com: Swedish pages for Swedish law, indexed (SE-F, 2026-10-11)
+
+Until now se.orgpuls.com served the sign-up and the product only, and sent every public page to the sign-up,
+unindexed (D-256). The Norwegian site is written for Norwegian law, so on a Swedish host it would have said things
+that are not true in Sweden. This gives Sweden a site of its own, as Empvibe has (D-270), and retires D-256's holding
+rule.
+
+**The site's shape** (`lib/hosts.ts`, the se row's `own`).
+- **Its pages** (`SE_PAGES`): the start page, the platform, the use cases, why Orgpuls, the law, skyddsombud,
+  small businesses, security, contact and the privacy policy.
+- **Not served:** the prices and the terms, which wait on Sweden's own (SE-E); the industry pages, the articles,
+  the templates and the demo, which are written for Norway. Each of those addresses is a 404 there.
+- **Its addresses are Swedish** (`SE_PATHS`): /anvandningsomraden, /varfor-orgpuls,
+  /organisatorisk-och-social-arbetsmiljo (the words a Swedish employer searches for), /skyddsombud, /sma-foretag,
+  /sakerhet, /integritetspolicy, /logga-in, /registrera. /plattform and /kontakt are Swedish as they are. A route's
+  Norwegian address on the host gives 308 to its Swedish one, query kept.
+- **Menu and footer** list only what the site serves (`app/(marketing)/layout.tsx`).
+- **No language switch on its pages.** They are Swedish whatever the reader chose. The middleware names the page's
+  language in `x-orgpuls-page-lang`, after removing any the client sent, and `lib/i18n/request.ts` honours it only
+  when it is the site's own language on a site of its own. Signing in, signing up and the product keep the
+  reader's choice, Swedish or English (D-252), and so does the chrome around them.
+- `publicSite` and D-256's branch in `hostGate` are gone: a host either has a site of its own or is Norway's.
+- **Retired with it:** D-256's redirect of public pages to the sign-up, and its `noindex`.
+
+**Indexed, under its own name and language.**
+- Canonical at its own address. `hreflang` names sv-SE and x-default, both itself. No twin on www.orgpuls.com,
+  whose pages are another market's.
+- `og:locale` is sv_SE. schema.org says sv-SE and gives **no offers**: the site has no prices (only a site that
+  serves /priser carries them). Norway's JSON-LD is unchanged: five offers, nb-NO and en.
+- Its own sitemap (ten pages), robots.txt (sign-in, sign-up and the product disallowed at their Swedish addresses
+  too) and llms.txt in Swedish. IndexNow submits se.orgpuls.com (`scripts/seo/indexnow.mjs`).
+
+**The words: written for Sweden, not translated** (`messages/market/se/sv.json`: `site`, `seo`, `start`, about
+1,530 strings, laid over Swedish and English as a Swedish organisation reads them).
+- **Written from a brief** (what is true for a Swedish customer, the law in short, what never to write) by parallel
+  writers, each from `docs/markets/se-legal.md`. Every legal statement rests on a section of it, cited as it says
+  (AML 3 kap. 2 a §, AFS 2023:1 11 §, AFS 2023:2 2 kap. 6 §). Nothing it marks UNVERIFIED is claimed.
+- **What they say:**
+  - the law asks the employer to investigate and assess, not to run a survey. A survey is a good way to do part of
+    it, and Orgpuls is never «compliance»;
+  - anonymity from 5 answers, which an organisation may raise to 10, never lower;
+  - no register lookup: the company types its organisationsnummer and name;
+  - no SMS, prices, «gratis», trial or free plan, and no industries;
+  - Arbetsmiljöverket may ask for the documentation, and nothing is filed with it;
+  - the provider is Pundit Invest AS, a Norwegian company, the only place the site names Norway.
+- **The survey's language is not named,** and nothing says it is Swedish: Swedish in the survey is not switched on
+  (`locale_sv`, still Tor's, X-109). The leaders' product is in Swedish.
+- **The privacy policy** is served in Swedish, with IMY as the supervisory authority beside Datatilsynet. Norway's
+  register lookup at sign-up is not in it, since a Swedish organisation types its own facts.
+- **English** (`messages/market/se/en.json`) carries only the chrome (`site.chrome`), which frames sign-in and
+  sign-up in English. The pages' words exist in Swedish alone, since an English version would never be shown.
+  - `scripts/verify/i18n.mjs` asks those keys only in the site's language (`PAGES_IN_SITE_LANG`). Every other key
+    of a pack is still required in every language of it.
+  - `tests/unit/se-site.test.ts` holds that exemption to the site's row and to the request config's pin.
+- **Machine-drafted.** Tor, or a Swedish reviewer, should read the law page, skyddsombud and the privacy policy
+  before anyone relies on them.
+
+**The pictures are Sweden's** (`lib/marketing/shots.ts` `SITE_SHOTS.se`, `assets/produkt/se/`).
+- **Leaders' screens:** Swedish screens of the same scenario told by a Swedish firm, Norrvik Anläggning AB
+  (`scripts/seed/design-fixture.mjs --market se`, organisation number 5599999991, ids in `…8046-`), with the
+  statements and factor names of the approved Swedish registry rows. Locally those rows had to be copied from
+  hosted, 44 of them, for the run.
+- **The questionnaire picture is in English,** as a Swedish employee meets it today. Its alt text says so.
+- **The home page's drawn survey** is in English too (`surveyPictureLocale`, `tests/unit/survey-picture.test.ts`).
+  It had Swedish statements inside English page words: the statements come from the registry's approved Swedish
+  (D-253), the page words from the catalogue, which has no Swedish `respond.*`. It is drawn in one language, never two:
+  - the site's own only where the survey offers it and the survey page's words are in the catalogue;
+  - English otherwise, which every survey offers.
+  It stays English even after `locale_sv` is signed off, until the Swedish survey page's words reach the catalogue
+  (for instance by mapping `ui:respond.*` in `lib/i18n/registry-overlay.ts`).
+- **Share cards:** `public/og/se/` has its own (`og-images.mjs --market se`): the law, skyddsombud, small businesses
+  and the default, in Swedish, with Swedish pictures.
+- `Site.own.key` names a site's folders: «empvibe» for the brand, «se» for the market. `BRAND_SHOTS` became
+  `SITE_SHOTS`.
+
+**Mail follows** (`supabase/functions/_shared/mail.ts`).
+- **Links:** an organisation in Sweden is linked to https://se.orgpuls.com (`MARKET_SITE_URL.se`), in production
+  only, as Empvibe's are.
+- **Auth mail:** an Auth mail asked on se.orgpuls.com goes back there (`authSite`), in English for an account that
+  names no language, as D-255 has the leaders' mail.
+
+**Local and fixture.**
+- `scripts/qa/up.sh` seeds the Swedish fixture beside Norway's and the UK's.
+- `supabase/tests/local_account.sql` adds a Swedish leader (dev.sverige@norrvik.example, local only).
+- Norway's and the UK's fixture output is byte for byte as before.
+
+**Also fixed:** the «sign in» and «sign up» links between the two forms named the Norwegian routes. On Empvibe and
+on Sweden's site they took a redirect. They are drawn at the site's own address now (`SignUpFlow`, `SignInPanel`).
+
+**Tests:**
+- `tests/unit/markets.test.ts`: Sweden's addresses both ways, the page language only on its pages, the 404s, and
+  Norway unchanged.
+- `tests/unit/se-site.test.ts`: no Norwegian law, body, register, letter or price; no claim Swedish law does not
+  allow; no threshold under five; no Swedish survey; the law cited as se-legal.md does; IMY in the privacy policy;
+  words for every menu and footer entry; array lengths; the pictures and cards.
+- `tests/unit/market-links.test.ts`: mail links and the Auth mail's site for Sweden.
+- `tests/unit/legal-pack.test.ts`: the reason `site.` is outside the legal pack names both sites' tests.

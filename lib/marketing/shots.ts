@@ -14,10 +14,18 @@ import oversikt from '@/assets/produkt/oversikt.webp'
 import rapport from '@/assets/produkt/rapport.webp'
 import resultater from '@/assets/produkt/resultater.webp'
 import samtaler from '@/assets/produkt/samtaler.webp'
+import seArshjul from '@/assets/produkt/se/arshjul.webp'
+import seKommentarer from '@/assets/produkt/se/kommentarer.webp'
+import seOversikt from '@/assets/produkt/se/oversikt.webp'
+import seRapport from '@/assets/produkt/se/rapport.webp'
+import seResultater from '@/assets/produkt/se/resultater.webp'
+import seSamtaler from '@/assets/produkt/se/samtaler.webp'
+import seSporsmal from '@/assets/produkt/se/sporsmal.webp'
+import seTiltak from '@/assets/produkt/se/tiltak.webp'
+import seVarmekart from '@/assets/produkt/se/varmekart.webp'
 import sporsmal from '@/assets/produkt/sporsmal.webp'
 import tiltak from '@/assets/produkt/tiltak.webp'
 import varmekart from '@/assets/produkt/varmekart.webp'
-import type { Brand } from '@/lib/brand'
 import type { ShotId } from './shot-ids'
 
 type Shots = Record<ShotId, { img: StaticImageData; frame: 'window' | 'phone' }>
@@ -57,5 +65,27 @@ const EMPVIBE_SHOTS: Shots = {
   rapport: { img: empvibeRapport, frame: 'window' },
 }
 
-/** Each brand's pictures: a site of its own shows its brand's (lib/site/own.ts siteShots) */
-export const BRAND_SHOTS: Record<Brand, Shots> = { orgpuls: SHOTS, empvibe: EMPVIBE_SHOTS }
+/**
+ * Sweden's pictures (SE-F3, D-276): the leaders' screens in Swedish, of the same scenario told by a
+ * Swedish firm, Norrvik Anläggning AB (design-fixture.mjs --market se), with the statements and factor
+ * names from the approved Swedish registry rows. The questionnaire is in English, as a Swedish
+ * employee meets it until Swedish is switched on in the survey (`locale_sv`, still Tor's decision,
+ * X-109): a picture shows the product as it is.
+ */
+const SE_SHOTS: Shots = {
+  oversikt: { img: seOversikt, frame: 'window' },
+  varmekart: { img: seVarmekart, frame: 'window' },
+  resultater: { img: seResultater, frame: 'window' },
+  kommentarer: { img: seKommentarer, frame: 'window' },
+  samtaler: { img: seSamtaler, frame: 'window' },
+  tiltak: { img: seTiltak, frame: 'window' },
+  arshjul: { img: seArshjul, frame: 'window' },
+  sporsmal: { img: seSporsmal, frame: 'phone' },
+  rapport: { img: seRapport, frame: 'window' },
+}
+
+/**
+ * Each site of its own's pictures, by its key (lib/hosts.ts `Site.own.key`, lib/site/own.ts
+ * siteShots): Empvibe's English screens, Sweden's Swedish ones, and Norway's elsewhere.
+ */
+export const SITE_SHOTS: Readonly<Record<string, Shots>> = { empvibe: EMPVIBE_SHOTS, se: SE_SHOTS }

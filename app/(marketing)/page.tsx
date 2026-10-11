@@ -13,7 +13,7 @@ import { ARTICLES } from '@/lib/marketing/site'
 import { graph, organization, siteLd, software, website } from '@/lib/marketing/schema'
 import type { ShotId } from '@/lib/marketing/shot-ids'
 import { zip } from '@/lib/site/zip'
-import { ownSite, serves, siteShots } from '@/lib/site/own'
+import { ownSite, serves, siteShots, surveyPictureLocale } from '@/lib/site/own'
 
 /**
  * The front page for small and medium-sized businesses (D-190): design-reference/orgpuls/
@@ -105,6 +105,10 @@ export default async function StartPage() {
   const chrome = await getTranslations('site.chrome')
   const factor = await getTranslations('factor')
   const respond = await getTranslations('respond')
+  // the survey's picture, in the language the site's employees answer in (English on Sweden's, D-276)
+  const surveyLocale = await surveyPictureLocale()
+  const surveyFactor = surveyLocale ? await getTranslations({ locale: surveyLocale, namespace: 'factor' }) : factor
+  const surveyRespond = surveyLocale ? await getTranslations({ locale: surveyLocale, namespace: 'respond' }) : respond
   const seo = await getTranslations('seo')
   // the site the page is on (D-270): its name, its addresses, its offers, the pages it serves
   const ld = await siteLd()
@@ -327,9 +331,9 @@ export default async function StartPage() {
                 >
                   <span className="flex flex-wrap items-baseline justify-between gap-x-[12px] gap-y-[4px]">
                     <span className="text-[11px] font-bold uppercase tracking-[.11em] text-mut">
-                      {factor('ytring.name')} · <span className="whitespace-nowrap">{respond('progress', { n: 4, total: 15 })}</span>
+                      {surveyFactor('ytring.name')} · <span className="whitespace-nowrap">{surveyRespond('progress', { n: 4, total: 15 })}</span>
                     </span>
-                    <span className="whitespace-nowrap text-[12px] text-mut">{respond('timeLeft', { minutes: 3 })}</span>
+                    <span className="whitespace-nowrap text-[12px] text-mut">{surveyRespond('timeLeft', { minutes: 3 })}</span>
                   </span>
                   <span className="mt-[10px] block h-[6px] rounded-bar bg-track">
                     <span className="block h-full w-[27%] rounded-bar bg-ink" />
@@ -338,7 +342,7 @@ export default async function StartPage() {
                     {PICKED.map((picked, i) => (
                       <span key={i} className="block">
                         <span className="block font-display text-[17px] font-semibold leading-[1.3] [text-wrap:pretty]">
-                          {factor(`ytring.s${i + 1}`)}
+                          {surveyFactor(`ytring.s${i + 1}`)}
                         </span>
                         <span className="mt-[10px] grid grid-cols-5 gap-[6px]">
                           {[1, 2, 3, 4, 5].map((o) => (
@@ -356,7 +360,7 @@ export default async function StartPage() {
                     ))}
                   </span>
                   <span className="mt-[20px] block rounded-opt border border-dashed border-rule px-[14px] py-[12px] text-[13px] text-mut">
-                    {respond('commentPrompt')}
+                    {surveyRespond('commentPrompt')}
                   </span>
                 </div>
                 <div

@@ -20,6 +20,13 @@
  * English (messages/market/gb/en.json over en.json) and with its pictures (assets/produkt/empvibe).
  *
  *   node scripts/marketing/og-images.mjs --brand empvibe --base http://localhost:3000
+ *
+ * `--market se` draws the Swedish site's cards (SE-F3, D-276) into public/og/se/ the same way: its
+ * guides and small-business page, and default.png, under Orgpuls's name, in Sweden's Swedish
+ * (messages/market/se/sv.json over sv.json over en.json, as the request config lays them) and with
+ * its pictures (assets/produkt/se).
+ *
+ *   node scripts/marketing/og-images.mjs --market se --base http://localhost:3000
  */
 import { mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -32,22 +39,30 @@ const arg = (name, fallback) => {
 const base = arg('base', 'http://localhost:3000')
 // --only <slug>: one card, leaving the others' files as they are
 const only = arg('only', null)
-const brand = arg('brand', 'orgpuls')
-if (!['orgpuls', 'empvibe'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
+const market = arg('market', null)
+if (market !== null && market !== 'se') throw new Error(`--market is se, not ${market}`)
+// the set: Norway's (the default), Empvibe's (--brand empvibe) or the Swedish site's (--market se)
+const brand = market ?? arg('brand', 'orgpuls')
+if (!['orgpuls', 'empvibe', 'se'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
 const empvibe = brand === 'empvibe'
-const out = empvibe ? 'public/og/empvibe' : 'public/og'
-const shots = empvibe ? 'assets/produkt/empvibe' : 'assets/produkt'
+const own = brand !== 'orgpuls'
+const out = own ? `public/og/${brand}` : 'public/og'
+const shots = own ? `assets/produkt/${brand}` : 'assets/produkt'
 const no = JSON.parse(readFileSync('messages/no.json', 'utf8'))
 /** the request config's merge (lib/i18n/request.ts): b over a, key by key, an array replaced whole */
 const isTree = (v) => !!v && typeof v === 'object' && !Array.isArray(v)
 const merge = (a, b) => Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, isTree(a[k]) && isTree(b[k]) ? merge(a[k], b[k]) : (b[k] ?? a[k])]))
-// Empvibe's words: the market pack over English, and the brand's name where a text says Orgpuls (lib/brand.ts rebrand)
+const read = (path) => JSON.parse(readFileSync(path, 'utf8'))
+// a site of its own's words: Empvibe's, the market pack over English, and the brand's name where a text
+// says Orgpuls (lib/brand.ts rebrand); Sweden's, its pack over Swedish over English (lib/i18n/request.ts)
 const gb = empvibe
-  ? merge(JSON.parse(readFileSync('messages/en.json', 'utf8')), JSON.parse(readFileSync('messages/market/gb/en.json', 'utf8')))
-  : null
+  ? merge(read('messages/en.json'), read('messages/market/gb/en.json'))
+  : brand === 'se'
+    ? merge(merge(read('messages/en.json'), read('messages/sv.json')), read('messages/market/se/sv.json'))
+    : null
 const named = (t) => (empvibe ? t.replace(/Orgpuls(?:'s|’s|'|’)(?![\p{L}\p{N}])/gu, 'Empvibe’s').replace(/Orgpuls/g, 'Empvibe') : t)
 const NAME = empvibe ? 'Empvibe' : 'Orgpuls'
-const LANG = empvibe ? 'en-GB' : 'nb'
+const LANG = empvibe ? 'en-GB' : brand === 'se' ? 'sv-SE' : 'nb'
 // the site's own @font-face rules; their /fonts/… URLs resolve against the running server
 const fonts = readFileSync('app/fonts.css', 'utf8')
 
@@ -80,9 +95,9 @@ if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1)) throw new Er
 // the start page's first slide title: its H1 is for screen readers and opens with the brand, which
 // the card already shows beside the logo (D-190)
 const DEFAULT_CARD = { slug: 'default', h1: no.site.home.slides[0].title, shot: 'rapport', file: '../og.png' }
-// Empvibe's: the pages its site serves with a card of their own (lib/hosts.ts EMPVIBE_PAGES), the two
-// guides under their legal references, and its default card for every other page
-const EMPVIBE_CARDS = empvibe
+// a site of its own's: the pages it serves with a card of their own (lib/hosts.ts EMPVIBE_PAGES,
+// SE_PAGES), the two guides under their legal references, and its default card for every other page
+const EMPVIBE_CARDS = own
   ? [
       { slug: 'lovkrav', h1: gb.seo.lp.lovkrav.h1, article: true, kicker: gb.seo.lp.lovkrav.kicker },
       { slug: 'verneombud', h1: gb.seo.lp.verneombud.h1, article: true, kicker: gb.seo.lp.verneombud.kicker },
@@ -91,7 +106,7 @@ const EMPVIBE_CARDS = empvibe
     ]
   : null
 // the three claims on every card are messages (seo.og.pills), so they are in the legal review (D-130)
-const PILLS = (empvibe ? gb : no).seo.og.pills
+const PILLS = (own ? gb : no).seo.og.pills
 if (!Array.isArray(PILLS) || PILLS.length !== 3) throw new Error('messages seo.og.pills changed shape')
 // the mark's own path and dot, read from the component rather than redrawn here
 const logoSrc = readFileSync('components/shell/Logo.tsx', 'utf8')
@@ -141,7 +156,7 @@ const html = (p) => {
 </body></html>`
 }
 
-mkdirSync(empvibe ? out : join(out, 'artikler'), { recursive: true })
+mkdirSync(own ? out : join(out, 'artikler'), { recursive: true })
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
 const page = await b.newPage({ viewport: { width: 1200, height: 630 } })
 // written into a page on the server's own origin, so its font files are same-origin

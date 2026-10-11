@@ -35,9 +35,7 @@ const PRIVATE = [
 /** each host names its own sitemap (app/sitemap.ts, D-132) */
 export default async function robots(): Promise<MetadataRoute.Robots> {
   const host = (await headers()).get('host')
-  // a market's host before its own public site (D-256): nothing there is for crawlers yet
-  if (siteOf(host)?.publicSite === false) return { rules: [{ userAgent: '*', disallow: '/' }] }
-  // a site of its own (D-270) names its own sitemap, and its sign-in and sign-up under their own addresses
+  // a site of its own (D-270, D-276) names its own sitemap, and its sign-in and sign-up under their own addresses
   const own = siteOf(host)?.own
   const base = own ? siteOf(host)!.url : MAIN_URL
   const disallow = own ? [...new Set([...PRIVATE, ...PRIVATE.map((p) => addressOf(own.paths, p))])] : PRIVATE

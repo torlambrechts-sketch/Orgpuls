@@ -1,5 +1,5 @@
 import { cookies, headers } from 'next/headers'
-import { siteOf } from '@/lib/hosts'
+import { PAGE_LANG_HEADER, siteOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
 import { brandOf, rebrand, type Brand } from '@/lib/brand'
 import type { Market } from '@/lib/markets'
@@ -74,12 +74,14 @@ export default getRequestConfig(async ({ locale: asked }) => {
       getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
     }
   }
-  // a pinned site (Empvibe's) decides its language, whatever the cookie says (D-251); elsewhere the
-  // visitor's choice, then the site's language, then Norwegian
-  const host = (await headers()).get('host')
-  const site = siteOf(host)
+  // a pinned site (Empvibe's) decides its language, whatever the cookie says (D-251), and so does a
+  // site of its own's page, written in that language only (Sweden's, D-276; the middleware names it);
+  // elsewhere the visitor's choice, then the site's language, then Norwegian
+  const head = await headers()
+  const site = siteOf(head.get('host'))
+  const ownPage = !!site?.own && head.get(PAGE_LANG_HEADER) === site.lang
   const chosen = (await cookies()).get(LOCALE_COOKIE)?.value
-  const locale = site?.pinned ? site.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE)
+  const locale = site?.pinned || ownPage ? site!.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE)
   const market = await requestMarket()
 
   return {

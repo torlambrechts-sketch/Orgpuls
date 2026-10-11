@@ -111,5 +111,50 @@ begin
   on conflict (org_id, user_id) do update set active = true, role = excluded.role;
 end $$;
 
+-- The same for the design fixture in Sweden (design-fixture.mjs --market se, D-276): the Swedish
+-- site's product pictures are taken signed in to Norrvik Anläggning AB, in Swedish. Only where that
+-- organisation was seeded; elsewhere this block writes nothing.
+do $$
+declare
+  v_uid uuid := '00000000-0000-4000-8046-0000000000aa';
+  v_org uuid := '00000000-0000-4000-8046-000000000001';
+begin
+  if not exists (select 1 from app.organizations where id = v_org) then
+    return;
+  end if;
+
+  insert into auth.users (
+    id, instance_id, aud, role, email,
+    encrypted_password, email_confirmed_at, created_at, updated_at,
+    raw_app_meta_data, raw_user_meta_data,
+    confirmation_token, recovery_token, email_change, email_change_token_new,
+    email_change_token_current, phone_change, phone_change_token, reauthentication_token
+  )
+  values (
+    v_uid, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
+    'dev.sverige@norrvik.example',
+    crypt('orgpuls-local-only', gen_salt('bf')), now(), now(), now(),
+    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
+    '', '', '', '', '', '', '', ''
+  )
+  on conflict (id) do nothing;
+
+  insert into auth.identities (id, user_id, provider_id, provider, identity_data,
+                               created_at, updated_at, last_sign_in_at)
+  values (gen_random_uuid(), v_uid, v_uid::text, 'email',
+          jsonb_build_object('sub', v_uid::text, 'email', 'dev.sverige@norrvik.example',
+                             'email_verified', true),
+          now(), now(), now())
+  on conflict do nothing;
+
+  insert into app.profiles (id, full_name, lang)
+  values (v_uid, 'Tove Berg', 'sv')
+  on conflict (id) do nothing;
+
+  insert into app.memberships (org_id, user_id, role, active)
+  values (v_org, v_uid, 'daglig_leder', true)
+  on conflict (org_id, user_id) do update set active = true, role = excluded.role;
+end $$;
+
 select 'local account ready: ' || (select count(*) from app.memberships where active)
        || ' active membership(s)' as result;

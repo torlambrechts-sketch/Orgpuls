@@ -36,11 +36,16 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('site.chrome')
-  // the languages this host's switch offers; each is a choice on the same address (D-252, D-275)
+  // the languages this host's switch offers; each is a choice on the same address (D-252, D-275). A site
+  // of its own has none: its pages are written in its one language (D-270, D-276)
   const host = (await headers()).get('host')
-  // a site of its own (D-270): its menu, its footer, its addresses; no industries, no demo, one language
+  // a site of its own (D-270): its menu, its footer, its addresses; no industries, no demo, one language.
+  // Its menu and footer link only to the pages it serves: Sweden's has no prices or terms yet (D-276)
   const own = await ownSite()
-  const nav = own ? OWN_NAV : SITE_NAV
+  const linked = (href: string) => serves(own, href.split('#')[0]!)
+  const nav = (own ? OWN_NAV : SITE_NAV)
+    .filter((i) => linked(i.href))
+    .map((i) => (i.children ? { ...i, children: i.children.filter((c) => linked(c.href)) } : i))
   const footers = own ? OWN_FOOTERS : FOOTERS
   const industries = own ? [] : await industryLinks()
   // Bransjer's column links to the cards /bransjer shows in this language: on English only the
@@ -53,6 +58,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
       footers[id].map((c) => ({
         head: t(`footer.head.${c.head}`),
         links: c.links
+          .filter((l) => !l.href || linked(l.href))
           .filter((l) => !l.href?.startsWith('/bransjer#') || shown.has(l.href.slice('/bransjer#'.length)))
           .map((l) => ({ label: t(`footer.link.${l.key}`), href: l.href })),
       })),
@@ -101,7 +107,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           columns={columns}
           label={t('footerNav')}
           about={t('footer.about')}
-          language={langs.length > 1 ? <LanguageSwitch label={t('language')} size="text" langs={langs} /> : null}
+          language={!own && langs.length > 1 ? <LanguageSwitch label={t('language')} size="text" langs={langs} /> : null}
           bottom={t.rich('footer.bottom', {
             year: new Date().getFullYear(),
             // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)

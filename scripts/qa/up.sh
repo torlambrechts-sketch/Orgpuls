@@ -17,8 +17,10 @@ npm run -s modules:registry | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
 psql "${db/postgres:postgres@/supabase_admin:postgres@}" -q -v ON_ERROR_STOP=1 -c "alter database postgres set app.environment = 'qa'" >/dev/null
 npm run -s i18n:registry | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
 node scripts/seed/design-fixture.mjs | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
-# the same scenario as a British firm, for Empvibe's product pictures (D-272)
+# the same scenario as a British firm, for Empvibe's product pictures (D-272), and as a Swedish one,
+# for the Swedish site's (D-276)
 node scripts/seed/design-fixture.mjs --market gb | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
+node scripts/seed/design-fixture.mjs --market se | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
 node scripts/seed/demo-org.mjs | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
 psql "$db" -q -v ON_ERROR_STOP=1 -c "select opened, closed, queued, planned from app.wheel_tick()" >/dev/null
 psql "$db" -q -v ON_ERROR_STOP=1 -f supabase/tests/local_account.sql >/dev/null

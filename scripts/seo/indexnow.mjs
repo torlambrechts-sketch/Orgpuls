@@ -3,19 +3,19 @@
  * that the public site's pages exist or have changed, so a new article is crawled within hours instead
  * of whenever the crawler next comes by. Google does not take part; it reads the sitemap.
  *
- * It reads each host's own sitemap (www.orgpuls.com, Norway's; www.empvibe.com, Empvibe's: app/sitemap.ts;
- * en.orgpuls.com moved at UK-G, D-275) and submits its
+ * It reads each host's own sitemap (www.orgpuls.com, Norway's; www.empvibe.com, Empvibe's; se.orgpuls.com,
+ * Sweden's since SE-F, D-276: app/sitemap.ts; en.orgpuls.com moved at UK-G, D-275) and submits its
  * URLs under that host, with the key the site serves at /<key>.txt (public/, a public value by design:
  * the engines fetch it to check that the submission came from the site's owner).
  *
- *   node scripts/seo/indexnow.mjs           submit every URL in both sitemaps
+ *   node scripts/seo/indexnow.mjs           submit every URL in every sitemap
  *   node scripts/seo/indexnow.mjs --dry     list what would be submitted, send nothing
  *
  * Run it after a deploy that adds or changes public pages.
  */
 import { readdirSync } from 'node:fs'
 
-const HOSTS = ['www.orgpuls.com', 'www.empvibe.com']
+const HOSTS = ['www.orgpuls.com', 'www.empvibe.com', 'se.orgpuls.com']
 const ENDPOINT = 'https://api.indexnow.org/indexnow'
 const dry = process.argv.includes('--dry')
 

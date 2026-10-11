@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { EMPVIBE_URL, SITES } from '@/lib/hosts'
+import { EMPVIBE_URL, SE_URL, SITES } from '@/lib/hosts'
 import { MARKETS } from '@/lib/markets'
 import {
   appUrlOf,
@@ -36,20 +36,23 @@ const MAIL = { no: no.mail, en: en.mail } as unknown as MailCatalogue
 describe('each market’s site', () => {
   it('is the site the host registry names for it, and only a market with its own site has one', () => {
     expect(MARKET_SITE_URL.gb).toBe(EMPVIBE_URL)
+    // Sweden's since its site opened (SE-F, D-276): a Swedish leader's session is on se.orgpuls.com
+    expect(MARKET_SITE_URL.se).toBe(SE_URL)
     for (const [market, url] of Object.entries(MARKET_SITE_URL)) expect(SITES.some((s) => s.market === market && s.url === url), market).toBe(true)
+    // every market with a site of its own has its links there
+    for (const s of SITES.filter((x) => x.own)) expect(MARKET_SITE_URL[s.market], s.host).toBe(s.url)
     expect(MARKET_SITE_URL.no).toBeUndefined()
-    expect(MARKET_SITE_URL.se).toBeUndefined()
   })
 
   it('is where a link to an organisation in it leads from production, and only from production', () => {
     expect(appUrlOf(PROD, 'gb')).toBe('https://www.empvibe.com')
     expect(appUrlOf(`${PROD}/`, 'gb')).toBe('https://www.empvibe.com')
     expect(appUrlOf(PROD, 'no')).toBe(PROD)
-    expect(appUrlOf(PROD, 'se')).toBe(PROD)
+    expect(appUrlOf(PROD, 'se')).toBe('https://se.orgpuls.com')
     expect(appUrlOf(PROD, null)).toBe(PROD)
     // a local, QA, branch or staging run keeps its own base: its tokens exist only in its own database
     for (const other of ['http://localhost:3100', 'http://127.0.0.1:3000/', 'https://staging.orgpuls.com', 'https://orgpuls-git-x.vercel.app'])
-      expect(appUrlOf(other, 'gb'), other).toBe(other)
+      for (const market of ['gb', 'se']) expect(appUrlOf(other, market), `${other} ${market}`).toBe(other)
   })
 })
 
@@ -86,7 +89,8 @@ describe('an Auth mail (sign-up, invitation, new password)', () => {
   it('leads back to the site it was asked on, read from redirect_to, and to the product’s otherwise', () => {
     expect(authSite('https://www.empvibe.com/auth/confirm', PROD)).toEqual({ url: 'https://www.empvibe.com', market: 'gb' })
     expect(authSite('https://empvibe.com/auth/confirm', PROD)).toEqual({ url: 'https://www.empvibe.com', market: 'gb' })
-    for (const other of ['https://www.orgpuls.com/auth/confirm', 'https://evil.example/www.empvibe.com', 'https://www.empvibe.com.evil.example/', 'not a url', '', undefined, null])
+    expect(authSite('https://se.orgpuls.com/auth/confirm', PROD)).toEqual({ url: 'https://se.orgpuls.com', market: 'se' })
+    for (const other of ['https://www.orgpuls.com/auth/confirm', 'https://evil.example/www.empvibe.com', 'https://www.empvibe.com.evil.example/', 'https://se.orgpuls.com.evil.example/', 'https://orgpuls.com/auth/confirm', 'not a url', '', undefined, null])
       expect(authSite(other, PROD), String(other)).toEqual({ url: PROD, market: null })
     // a run that is not production's keeps its own base, as every other link does
     expect(authSite('https://www.empvibe.com/auth/confirm', 'http://localhost:3100')).toEqual({ url: 'http://localhost:3100', market: 'gb' })
@@ -94,6 +98,8 @@ describe('an Auth mail (sign-up, invitation, new password)', () => {
 
   it('is written in the market’s language when the account names none, under the brand’s name', () => {
     expect(MARKET_AUTH_LANG.gb).toBe('en')
+    // a Swedish organisation's leaders read their mail in English until it exists in Swedish (D-255)
+    expect(MARKET_AUTH_LANG.se).toBe('en')
     const r = renderAuth(MAIL, 'signup', 'en', 'a@b.co.uk', 'https://www.empvibe.com/auth/confirm?x=1', `${brandNameOf('gb')} · empvibe.com`)
     expect(r.html).toContain('Empvibe · empvibe.com')
     expect(r.html).not.toContain('Orgpuls · orgpuls.com')

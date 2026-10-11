@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { readSupabaseEnv } from '@/lib/supabase/env'
-import { hostGate } from '@/lib/hosts'
+import { hostGate, PAGE_LANG_HEADER } from '@/lib/hosts'
 
 /**
  * Refreshes the auth session on every request and redirects anonymous visitors to
@@ -136,37 +136,38 @@ const isPublic = (path: string) => PUBLIC_PATHS.some((p) => path === p || path.s
 export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname
 
-  // a market's host before its own public site (D-256): the Norwegian site's pages go to the
-  // sign-up, and nothing there is indexed; a moved host (D-275) and a reserved one (D-258) send every
-  // address where an English reader goes. Pure string work on the host: it cannot throw.
+  // a site of its own (D-270, D-276) shows its pages at its own addresses; a moved host (D-275) and a
+  // reserved one (D-258) send every address where an English reader goes. Pure string work on the
+  // host: it cannot throw.
   const read = request.method === 'GET' || request.method === 'HEAD'
   const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path), request.nextUrl.search, read)
+  // a site of its own's page is in its own language (D-276): the request config reads it from here.
+  // A public page never carries a value the visitor sent; the product's pages (guard) keep the
+  // request as it came, and the request config takes the value only where it names the site's own
+  // language, so a sent one can ask for nothing a page of that site is not anyway
+  const headers = new Headers(request.headers)
+  headers.delete(PAGE_LANG_HEADER)
+  if (gate.lang) headers.set(PAGE_LANG_HEADER, gate.lang)
   // a site of its own (D-270): a page asked for by its Norwegian address goes to the site's own
   // address, permanently and with its query; only a page load, so a form posted there still lands
   if (gate.canonical) {
-    if (!read) return noindex(await route(request, path), gate.noindex)
+    if (!read) return noindex(await route(request, path, headers), gate.noindex)
     const url = request.nextUrl.clone()
     url.pathname = gate.redirect!
     return NextResponse.redirect(url, 308)
   }
   if (gate.redirect) {
     // a moved or reserved host's redirect is absolute and carries the query, permanently from a moved
-    // host (308, which keeps a form's method); a market's host goes to its sign-up
-    const absolute = gate.redirect.startsWith('https://')
-    const url = absolute ? new URL(gate.redirect) : request.nextUrl.clone()
-    if (!absolute) {
-      url.pathname = gate.redirect
-      url.search = ''
-    }
-    return noindex(NextResponse.redirect(url, gate.permanent ? 308 : 307), true)
+    // host (308, which keeps a form's method)
+    return noindex(NextResponse.redirect(new URL(gate.redirect), gate.permanent ? 308 : 307), true)
   }
-  // on a site of its own (D-270), a page at its English address, or the 404 for a page it does not serve
+  // on a site of its own (D-270, D-276), a page at its own address, or the 404 for a page it does not serve
   if (gate.rewrite) {
     const url = request.nextUrl.clone()
     url.pathname = gate.rewrite
-    return noindex(NextResponse.rewrite(url), gate.noindex)
+    return noindex(NextResponse.rewrite(url, { request: { headers } }), gate.noindex)
   }
-  return noindex(await route(request, path), gate.noindex)
+  return noindex(await route(request, path, headers), gate.noindex)
 }
 
 const noindex = (response: NextResponse, on: boolean) => {
@@ -174,9 +175,9 @@ const noindex = (response: NextResponse, on: boolean) => {
   return response
 }
 
-async function route(request: NextRequest, path: string) {
+async function route(request: NextRequest, path: string, headers: Headers) {
   // no session needed here, so nothing here may depend on one being obtainable
-  if (isPublic(path)) return NextResponse.next({ request })
+  if (isPublic(path)) return NextResponse.next({ request: { headers } })
 
   try {
     return await guard(request)

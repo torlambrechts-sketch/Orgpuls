@@ -342,5 +342,2723 @@
   },
   "roundPage": {
     "madeWithWhat": "arbetsmiljökartläggning enligt arbetsmiljölagen"
+  },
+  "site": {
+    "chrome": {
+      "nav": {
+        "plattform": "Plattform",
+        "omPlattformen": "Så fungerar plattformen",
+        "bruksomrader": "Användningsområden",
+        "hvorfor": "Varför Orgpuls",
+        "pris": "Pris",
+        "bransjer": "Branscher",
+        "alleBransjer": "Alla branscher",
+        "ressurser": "Resurser",
+        "alleArtikler": "Alla artiklar",
+        "lovkrav": "OSA-reglerna förklarade",
+        "verneombud": "Skyddsombudets roll",
+        "fraResultater": "Från resultat till åtgärder",
+        "maler": "Mallar",
+        "sikkerhet": "Dataskydd och anonymitet",
+        "medarbeiderundersokelse": "Medarbetarundersökning",
+        "smaaBedrifter": "Små företag",
+        "kontakt": "Kontakt"
+      },
+      "navLabel": "Huvudmeny",
+      "menu": "Meny",
+      "demo": "Se demo",
+      "signIn": "Logga in",
+      "getStarted": "Kom igång",
+      "skip": "Hoppa till huvudinnehållet",
+      "footerNav": "Sidfotsmeny",
+      "sections": "Avsnitt",
+      "crumbs": "Du är här",
+      "trial": "Kom igång",
+      "start": {
+        "title": "Kom igång med Orgpuls i er egen verksamhet",
+        "lead": "Skriv in organisationsnumret här och företagets namn på nästa sida. Ingen konsult och inget uppstartsmöte – den första mätningen kan planeras samma dag.",
+        "placeholder": "10 siffror",
+        "submit": "Kom igång",
+        "fetching": "Vi öppnar registreringen med {orgnr} …",
+        "invalid": "Ett organisationsnummer har tio siffror, och ett personnummer kan inte användas.",
+        "label": "Organisationsnummer"
+      },
+      "band": {
+        "title": "Börja med er egen verksamhet",
+        "lead": "Skriv in organisationsnumret här och företagets namn på nästa sida. Ingen konsult och inget uppstartsmöte, och svaren lagras i EU.",
+        "leadHome": "Skriv in organisationsnumret här och företagets namn på nästa sida. Ingen konsult och inget uppstartsmöte – den första mätningen kan planeras samma dag, och ingen grupp visas förrän minst 5 har svarat."
+      },
+      "footer": {
+        "about": "Orgpuls hjälper svenska arbetsgivare att kartlägga den organisatoriska och sociala arbetsmiljön och följa upp med en handlingsplan. Svaren lagras i EU, och inget enskilt svar kan spåras till en person.",
+        "bottom": "© {year} Orgpuls · tillhandahålls av Pundit Invest AS, ett bolag registrerat i Norge, org.nr 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norge · <mail>hjelp@orgpuls.no</mail> · <privacy>Integritetspolicy</privacy><terms> · Villkor</terms>",
+        "head": {
+          "produkt": "Produkt",
+          "bruksomrader": "Användningsområden",
+          "ressurser": "Resurser",
+          "omOss": "Om oss",
+          "hvorfor": "Varför Orgpuls",
+          "bransjer": "Branscher"
+        },
+        "link": {
+          "plattform": "Plattform",
+          "malinger": "Mätningar och årshjul",
+          "resultater": "Resultat",
+          "kommentarer": "Kommentarer",
+          "tiltak": "Åtgärder",
+          "pris": "Pris",
+          "kartleggingNoun": "Kartläggning av arbetsmiljön",
+          "medarbeiderundersokelse": "Medarbetarundersökning",
+          "pulsmalinger": "Pulsmätningar",
+          "rapportArbeidstilsynet": "Dokumentation vid tillsyn",
+          "amu": "Skyddsombud och skyddskommitté",
+          "alleArtikler": "Alla artiklar",
+          "maler": "Mallar",
+          "slikVirker": "Så fungerar det",
+          "lovenForklart": "OSA-reglerna förklarade",
+          "sporsmalssettet": "Frågeuppsättningen",
+          "personvernAnonymitet": "Dataskydd och anonymitet",
+          "faq": "Vanliga frågor",
+          "hvorfor": "Varför Orgpuls",
+          "kontakt": "Kontakt",
+          "personvernerklaering": "Integritetspolicy",
+          "vilkar": "Villkor",
+          "arlig": "Årlig kartläggning",
+          "puls": "Puls mellan mätningarna",
+          "utenHr": "Utan HR-avdelning",
+          "smaaBedrifter": "Små företag",
+          "tilsyn": "Tillsyn och dokumentation",
+          "positivt": "Positivt fokus",
+          "anonymitet": "Anonymitet",
+          "forskning": "Forskningen bakom",
+          "sammenlignet": "Jämförelse",
+          "handel": "Handel",
+          "kontor": "Kunskap och kontor",
+          "bygg": "Bygg och anläggning",
+          "skole": "Förskola och skola",
+          "helse": "Vård och omsorg",
+          "verneombud": "Skyddsombud"
+        }
+      },
+      "language": "Språk",
+      "risk": "Ingen konsult · Ingen HR-avdelning behövs",
+      "trust": {
+        "label": "Kort om Orgpuls",
+        "eu": "Svaren lagras i EU",
+        "k": "Minst 5 svar innan en grupp visas",
+        "qps": "Frågor byggda på QPS Nordic",
+        "law": "För riskbedömningen, AFS 2023:1 11 §"
+      }
+    },
+    "home": {
+      "h1": "Orgpuls – medarbetarundersökning och kartläggning av den organisatoriska och sociala arbetsmiljön för små och medelstora företag",
+      "example": "Fiktiva exempeldata.",
+      "carousel": {
+        "roledescription": "karusell",
+        "label": "Vad Orgpuls hjälper till med",
+        "tablist": "Välj tema",
+        "prev": "Föregående tema",
+        "next": "Nästa tema",
+        "announce": "Tema {n} av 3: {label}"
+      },
+      "risk": "Svaren lagras i EU · resultat bara för grupper med minst 5 svar · ingen konsult behövs",
+      "cta": "Kom igång",
+      "done": "klart",
+      "bar": {
+        "oversikt": "se.orgpuls.com · Översikt",
+        "resultater": "se.orgpuls.com · Resultat"
+      },
+      "slides": [
+        {
+          "tab": "Fånga upp tidigt",
+          "title": "Medarbetar- och arbetsmiljö­undersökningar för små och medelstora företag",
+          "lead": "I ett litet företag märks varje sjukskrivning och varje uppsägning. Orgpuls kartlägger arbetsmiljön anonymt och visar vad ni bör göra – utan HR-avdelning, och det tar under en timme att komma igång.",
+          "link": "Se hur det fungerar",
+          "caption": "Ni ser direkt vad som fungerar – och vad ni bör göra nu."
+        },
+        {
+          "tab": "Riskbedömning",
+          "eyebrow": "AML 3 kap. 2 a § · AFS 2023:1",
+          "title": "Undersök och bedöm riskerna – utan att bli arbetsmiljöexpert.",
+          "lead": "Ni ska regelbundet undersöka arbetsmiljön och bedöma riskerna, också de organisatoriska och sociala. En enkät är ett bra sätt att göra en del av det. Orgpuls frågar om belastning, krav och stöd i AFS 2023:2 2 kap., tar med skyddsombudet och dokumenterar riskbedömningen skriftligt.",
+          "link": "Se vad reglerna kräver",
+          "caption": "Dokumentationen växer fram medan ni arbetar."
+        },
+        {
+          "tab": "Från svar till åtgärder",
+          "eyebrow": "Från undersökning till åtgärder",
+          "title": "Från svar till åtgärder – utan ett eget projekt.",
+          "lead": "Resultatet kommer med tre förslag till åtgärder per faktor. Ni väljer, ger åtgärden en ansvarig och en frist, och nästa pulsmätning visar om den hjälpte. Det blir er handlingsplan, och inget hamnar i byrålådan.",
+          "link": "Se hur åtgärder fungerar",
+          "caption": "Varje åtgärd har en ansvarig, en frist och en status."
+        }
+      ],
+      "law": {
+        "title": "SAM · Norrvik Anläggning AB",
+        "pill": "4 av 4 på plats",
+        "rows": [
+          {
+            "t": "Undersökning av den organisatoriska och sociala arbetsmiljön",
+            "s": "Belastning, krav, resurser och stöd i AFS 2023:2 2 kap."
+          },
+          {
+            "t": "Riskbedömning per faktor",
+            "s": "Låg, medel eller hög risk – dokumenterad skriftligt (AFS 2023:1 11 §)."
+          },
+          {
+            "t": "Skyddsombud och anställda medverkar",
+            "s": "Skyddsombudet får besked först och ser samma siffror som ledningen."
+          },
+          {
+            "t": "Dokumentation redo för tillsyn",
+            "s": "Riskbedömning och handlingsplan, klara om Arbetsmiljöverket begär dem."
+          }
+        ]
+      },
+      "measures": {
+        "title": "Åtgärder · Projekt Syd",
+        "meta": "3 aktiva · 1 stängd",
+        "rows": [
+          {
+            "t": "Fast avstämning av tidsplanen med laget",
+            "s": "{factor} · ansvarig: platschef · frist 15 nov.",
+            "pill": "Pågår"
+          },
+          {
+            "t": "”Stoppa och säg till” på morgonmötet",
+            "s": "{factor} · ansvarig: lagbas · frist 1 dec.",
+            "pill": "Beslutad"
+          },
+          {
+            "t": "Fadder för nyanställda de första 4 veckorna",
+            "s": "{factor} · ansvarig: projektledare · frist 10 jan.",
+            "pill": "Föreslagen"
+          },
+          {
+            "t": "Kort teammöte varje vecka",
+            "s": "{factor} · effekten mätt i pulsmätningen",
+            "pill": "Stängd"
+          }
+        ]
+      },
+      "trust": [
+        {
+          "tile": "5",
+          "t": "Anonymt, minst 5 svar per grupp"
+        },
+        {
+          "tile": "EU",
+          "t": "Svaren lagras i EU"
+        },
+        {
+          "tile": "§",
+          "t": "Kopplat till AFS 2023:2 2 kap."
+        },
+        {
+          "tile": "Q",
+          "t": "Frågor byggda på QPS Nordic"
+        }
+      ],
+      "challenges": {
+        "k": "Känner du igen dig?",
+        "title": "Lagen gäller med 12 anställda lika väl som med 1 200",
+        "lead": "Kravet på systematiskt arbetsmiljöarbete i arbetsmiljölagen 3 kap. 2 a § gäller alla arbetsgivare. Skillnaden är att ett litet företag måste få det gjort utan egen HR, utan konsult och utan att lägga veckor på det.",
+        "problem": "Utmaningen",
+        "solution": "Med Orgpuls",
+        "cards": [
+          {
+            "t": "Ingen HR-avdelning",
+            "p": "VD:n har arbetsmiljön vid sidan av försäljning, löner och drift.",
+            "s": "Orgpuls planerar, skickar ut och påminner. Du tittar igenom, och resten sköter sig självt."
+          },
+          {
+            "t": "För få för att vara anonyma",
+            "p": "Med 12 anställda är det lätt att tro att chefen vet vem som skrev vad.",
+            "s": "Ingen grupp visas med färre än 5 svar. Ni kan höja gränsen, men aldrig sänka den under 5 eller stänga av den."
+          },
+          {
+            "t": "Oklart vad lagen kräver",
+            "p": "Föreskrifterna är skrivna för jurister, och Arbetsmiljöverket kan begära att få se dokumentationen.",
+            "s": "Faktorerna är kopplade till områdena i AFS 2023:2 2 kap. Rapporten visar riskbedömningen och paragrafen för varje faktor."
+          },
+          {
+            "t": "Lite tid och liten budget",
+            "p": "En konsult och ett eget projekt är mer än företaget har utrymme för.",
+            "s": "Ingen konsult och inget eget projekt: den första mätningen planeras samma dag."
+          }
+        ]
+      },
+      "survey": {
+        "k": "Mätningar",
+        "title": "Arbetsmiljön kartlagd. På 4 minuter.",
+        "lead": "Elva faktorer byggda på QPS Nordic, tre påståenden per faktor, svar från 1 till 5. Ett bra sätt att göra en del av den undersökning som AFS 2023:1 11 § kräver – och kort nog för att folk ska svara.",
+        "mock": "Exempel på enkäten: tre påståenden om yttrandeklimat, svar från 1 till 5, kommentar frivillig",
+        "note": {
+          "t": "Anonymt i grunden",
+          "d": "Ingen grupp visas med färre än 5 svar. Ni kan höja gränsen, men lägre går det aldrig – det golvet är produktens, inte ert."
+        },
+        "caption": "Så ser en sida ut för den anställda.",
+        "h3": "Fyra minuter för den anställda. Färdig dokumentation för er.",
+        "points": [
+          "Inbjudan via e-post, Teams eller Slack – och de anställda kan hämtas in från Entra ID.",
+          "Påminnelser går ut av sig själva, och skyddsombudet får besked före varje omgång.",
+          "De anställda svarar i mobilen, via länken de får, utan att logga in.",
+          "Rapport redo om Arbetsmiljöverket begär den, med paragraf per faktor."
+        ],
+        "link": "Se frågorna"
+      },
+      "band": {
+        "k": "Mindre att komma ihåg",
+        "title": "Byggt för dig som har arbetsmiljön som en av tio uppgifter",
+        "lead": "Orgpuls planerar omgångarna, skickar ut, påminner och skriver rapporten. Du lägger tiden på att följa upp.",
+        "stats": [
+          {
+            "v": "20 min",
+            "l": "från organisationsnummer till planerat utskick"
+          },
+          {
+            "v": "4 min",
+            "l": "att svara på huvudenkäten"
+          },
+          {
+            "v": "5 svar",
+            "l": "minimum per grupp – aldrig lägre"
+          },
+          {
+            "v": "11",
+            "l": "faktorer, kopplade till områdena i AFS 2023:2 2 kap."
+          }
+        ],
+        "callout": {
+          "head": "Verkstad · 8 svar",
+          "value": "28",
+          "text": "Lägst i kartan. Tre förslag till åtgärder ligger klara."
+        },
+        "caption": "Verkstad sticker ut på yttrandeklimat.",
+        "h3": "Tryggt även när alla känner alla.",
+        "text": "Grupper med färre än 5 svar visas som ett streck (—), så ingen kan pekas ut – inte ens på en verkstad med sex anställda. Skyddsombudet ser samma siffror som ledningen, samtidigt."
+      },
+      "results": {
+        "title": "En sida: det som fungerar, och det ni gör nu",
+        "lead": "Resultatet kommer som en mening, inte en tabell. Siffrorna ligger under, faktor för faktor, med förändringen sedan förra gången.",
+        "since": "Sedan sist",
+        "index": {
+          "label": "Arbetsmiljöindex",
+          "value": "61",
+          "delta": "−3",
+          "meta": "Baslinje 2026 · Norrvik Anläggning"
+        },
+        "caption": "Indexet sjunker, och arbetsmängden drar ner mest."
+      },
+      "loop": {
+        "title": "Att mäta är första steget. Det är åtgärderna som gör skillnad.",
+        "lead": "Mätningar, resultat, kommentarer och åtgärder i ett kretslopp. Varje omgång börjar där den förra slutade.",
+        "pillars": [
+          {
+            "t": "Mät",
+            "d": "En baslinjemätning om året, pulsmätningar däremellan. Årshjulet planerar omgångarna själv."
+          },
+          {
+            "t": "Förstå",
+            "d": "Resultat per avdelning och faktor, och anonyma kommentarer du kan svara på utan att veta vem som skrev."
+          },
+          {
+            "t": "Följ upp",
+            "d": "Tre förslag till åtgärder per faktor. Varje åtgärd får en ansvarig och en frist, och nästa pulsmätning visar om den fungerade."
+          }
+        ]
+      },
+      "roles": {
+        "k": "Vem är du?",
+        "title": "Arbetsmiljön är sällan en persons jobb",
+        "lead": "Chefer, HR och skyddsombud har alla en del i arbetet. Varje roll får sin egen väg in.",
+        "cta": "Se vad du får",
+        "cards": [
+          {
+            "i": "VD",
+            "t": "VD",
+            "s": "Utan HR-avdelning",
+            "get": [
+              "En sida: vad som fungerar, och vad ni gör nu",
+              "Stöd i riskbedömningen, utan att läsa paragrafer",
+              "Rapport till ledningsgruppen"
+            ]
+          },
+          {
+            "i": "HR",
+            "t": "HR",
+            "s": "Ofta ensam i rollen",
+            "get": [
+              "Resultat per avdelning, team och segment",
+              "Utveckling över åren, mätning för mätning",
+              "Roller och åtkomst styrda från ett ställe"
+            ]
+          },
+          {
+            "i": "AC",
+            "t": "Avdelningschef",
+            "s": "Eget team",
+            "get": [
+              "Bara ditt team, och först när tillräckligt många har svarat",
+              "Anonyma kommentarer du kan svara på",
+              "Tre förslag till åtgärder, klara att välja"
+            ]
+          },
+          {
+            "i": "SO",
+            "t": "Skyddsombud",
+            "s": "Företräder de anställda",
+            "get": [
+              "Samma siffror som ledningen, samtidigt",
+              "Besked före varje utskick",
+              "Riskbedömning och handlingsplan, faktor för faktor"
+            ]
+          }
+        ]
+      },
+      "industries": {
+        "k": "Branscher",
+        "all": "Alla branscher",
+        "new": "Ny"
+      }
+    },
+    "plattform": {
+      "crumb": "Plattform",
+      "eyebrow": "Plattform",
+      "h1": "Kartläggning som leder till åtgärder.",
+      "lead": "Mätningen är starten. Resultatet visar vad som drar ner, kommentarerna förklarar varför, och nästa mätning visar om åtgärderna fungerade. Klart på 20 minuter – med eller utan HR-system.",
+      "next": "Se användningsområdena",
+      "index": [
+        {
+          "t": "Mätningar",
+          "d": "Ett årshjul som sköter sig självt"
+        },
+        {
+          "t": "Resultat",
+          "d": "Vad som lyfter, vad som drar ner"
+        },
+        {
+          "t": "Kommentarer",
+          "d": "Svara de anställda utan att veta vem"
+        },
+        {
+          "t": "Åtgärder",
+          "d": "Ägare, frist och mätt effekt"
+        }
+      ],
+      "lesMer": "Läs mer",
+      "example": "Fiktiva exempeldata.",
+      "malinger": {
+        "eyebrow": "Mätningar och årshjul",
+        "h": "Årshjulet sköter sig självt",
+        "p": "En huvudmätning om året sätter baslinjen. Pulsmätningarna däremellan mäter bara det ni har satt in åtgärder på – tre påståenden per faktor. Orgpuls skickar ut, påminner och aviserar åt er.",
+        "ticks": [
+          "Baslinje: 37 frågor, alla anställda, en gång om året",
+          "Puls: tre påståenden från varje faktor med öppna åtgärder",
+          "Faktorn faller ur pulsen när åtgärderna är stängda",
+          "Lägg till en puls i valfri månad direkt i årshjulet"
+        ],
+        "use": "Användningsområde: årlig kartläggning",
+        "caption": "Skyddsombudet aviseras 2 dagar före, och de anställda får inbjudan på tisdag kl. 09.00. En puls stänger efter 7 dagar, huvudmätningen efter 14.",
+        "card": {
+          "title": "Årshjul 2026",
+          "meta": "4 utskick · paus i juli"
+        },
+        "months": [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "Maj",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Okt",
+          "Nov",
+          "Dec"
+        ],
+        "tags": {
+          "pulse": "Puls",
+          "holiday": "Semester",
+          "main": "Baslinje"
+        }
+      },
+      "respondent": {
+        "eyebrow": "Så är det att svara",
+        "h": "Fyra minuter, i mobilen, på rasten",
+        "p": "Ett tema i taget, faktorn synlig, kommentar frivillig. Ordningen slumpas för varje person, så ingen kan gissa vem som svarade vad utifrån när svaret kom in.",
+        "ticks": [
+          "Vi sparar aldrig namn, e-post eller IP-adress tillsammans med svaret",
+          "Chefen ser siffror först när minst fem har svarat",
+          "Alla kan hoppa över frågor, och kommentarer är frivilliga",
+          "Inbjudan via e-post, Teams eller Slack – eller en QR-kod för dem utan egen skärm"
+        ],
+        "use": "Användningsområde: årlig kartläggning",
+        "caption": "Så här ser det ut för den anställda.",
+        "card": {
+          "title": "Enkäten i mobilen",
+          "meta": "ett tema per sida"
+        }
+      },
+      "resultater": {
+        "eyebrow": "Resultat",
+        "h": "Sorterat efter vad som betyder mest – inte efter lägst siffra",
+        "p": "Faktorer med index 0–100, utveckling sedan i fjol och risknivå. Tryck på en faktor och se påståendena bakom siffran, svarsfördelningen och tre förslag på åtgärder.",
+        "ticks": [
+          "Värmekarta, prioritet, segmentprofil och utveckling – samma siffror, fyra frågor",
+          "Grupper under tröskeln visas som ”—”, även för administratören",
+          "Varje faktor kopplas till sin paragraf – i rapporten och på varje åtgärd"
+        ],
+        "use": "Användningsområde: ett team sticker ut",
+        "caption": "Överst står det som drar ner mest, med förslag direkt under.",
+        "card": {
+          "title": "Faktor · index och utveckling",
+          "meta": "Risk"
+        },
+        "rows": [
+          {
+            "mark": "41",
+            "sub": "AFS 2023:2 2 kap. 3 § · −7 sedan i fjol",
+            "pill": "Hög"
+          },
+          {
+            "mark": "44",
+            "sub": "AFS 2023:2 2 kap. 6 § · −9",
+            "pill": "Hög"
+          },
+          {
+            "mark": "52",
+            "sub": "AFS 2023:2 2 kap. 7 § · −6",
+            "pill": "Medel"
+          },
+          {
+            "mark": "64",
+            "sub": "AFS 2023:2 2 kap. 3, 7 §§ · −5",
+            "pill": "Medel"
+          },
+          {
+            "mark": "71",
+            "sub": "AFS 2023:2 2 kap. 7 § · −2",
+            "pill": "Låg"
+          }
+        ]
+      },
+      "kommentarer": {
+        "eyebrow": "Kommentarer",
+        "h": "Anonym dialog, inte en inkorg",
+        "p": "Orgpuls sorterar fritextsvaren efter faktor och ton. Chefen svarar utan att veta vem som skrev, och den anställda läser svaret via sin privata länk.",
+        "ticks": [
+          "Grupperade per faktor, med ton utifrån svaret som kommentaren hör till",
+          "Svaret når den som skrev – utan att någon vet vem",
+          "En faktor visas först när minst fem har svarat"
+        ],
+        "use": "Användningsområde: ny chef",
+        "caption": "Den som skrev ser ditt svar – du får aldrig veta vem det var.",
+        "card": {
+          "title": "Alla faktorer",
+          "meta": "18 kommentarer"
+        },
+        "rows": [
+          {
+            "title": "”Det hjälper inte att säga ifrån. Vi anmälde en avvikelse på riggningen i våras och hörde aldrig något mer.”",
+            "sub": "{factor} · väntar · 6 dagar",
+            "pill": "Negativ"
+          },
+          {
+            "title": "”Omläggningen av morgonmötet var ett bra grepp.”",
+            "sub": "{factor} · du svarade: Vad roligt att höra – vi fortsätter med det.",
+            "pill": "Positiv"
+          }
+        ]
+      },
+      "tiltak": {
+        "eyebrow": "Åtgärder",
+        "h": "Från fynd till effekt, med ägare och frist",
+        "p": "Varje faktor har tre färdiga förslag byggda på forskning: en rutin, en workshop eller en ledarskapspraxis. Varje förslag anger hur lång tid det tar och vilket påstående som mäter effekten.",
+        "ticks": [
+          "Sex steg: föreslagen, beslutad, pågår, genomförd, effekt mätt, stängd",
+          "Ägare och frist på varje åtgärd: handlingsplanen enligt AFS 2023:1 13 §",
+          "Effekten mäts på samma påstående i nästa puls"
+        ],
+        "use": "Användningsområde: puls mellan mätningarna",
+        "caption": "Tre förslag per faktor, redo att väljas.",
+        "card": {
+          "title": "Förslag · {factor}",
+          "meta": "index 41"
+        },
+        "rows": [
+          {
+            "title": "Svara på varje påpekande inom fem dagar",
+            "sub": "Rutin · löpande"
+          },
+          {
+            "title": "Workshop: Vad hindrar oss från att säga ifrån?",
+            "sub": "Workshop · 90 min"
+          },
+          {
+            "title": "Chefen frågar först och talar sist",
+            "sub": "Ledarskapspraxis · på varje möte"
+          }
+        ],
+        "pill": "Lägg i planen"
+      },
+      "rapport": {
+        "eyebrow": "Rapport",
+        "h": "Rapport för skyddskommittén, styrelsen och Arbetsmiljöverket",
+        "p": "Orgpuls sammanställer rapporten utifrån siffrorna och era bedömningar: den dokumenterade riskbedömningen (AFS 2023:1 11 §), handlingsplanen (13 §) och underlag till den årliga uppföljningen (14 §). Välj år, omfattning och mottagare. Du läser igenom och godkänner – ingenting skickas automatiskt.",
+        "ticks": [
+          "Regelverk: AML 3 kap. 2 a §, AFS 2023:1 11–14 §§ och AFS 2023:2 2 kap.",
+          "Skyddsombudets medverkan och samverkan med facket står dokumenterade",
+          "Spara som PDF – uppgifterna är era"
+        ],
+        "use": "Användningsområde: tillsyn och dokumentation",
+        "caption": "Klar när skyddskommittén eller Arbetsmiljöverket ber om den.",
+        "card": {
+          "title": "Rapport · 2026",
+          "meta": "PDF"
+        },
+        "rows": [
+          {
+            "mark": "1",
+            "title": "Metod och delaktighet",
+            "sub": "Skyddsombud · facklig företrädare"
+          },
+          {
+            "mark": "3",
+            "title": "Kartläggning",
+            "sub": "Vad som fungerar bra, vad som drar ner"
+          },
+          {
+            "mark": "4",
+            "title": "Riskbedömning",
+            "sub": "AFS 2023:1 11 § · risker och hur allvarliga de är"
+          },
+          {
+            "mark": "5",
+            "title": "Åtgärder",
+            "sub": "4 åtgärder · 1 effekt mätt"
+          }
+        ]
+      },
+      "roller": {
+        "eyebrow": "Roller och åtkomst",
+        "h": "Ingen ser vem som svarade",
+        "p": "Rollen styr vad du ser. Ingen ser enskilda svar, och tröskeln – minst fem svar – gäller även administratörer. Enkel vy ger en sida, full vy ger alla analyser.",
+        "ticks": [
+          "VD ser hela verksamheten och alla kommentarer",
+          "Avdelningschefen ser sitt eget team när tillräckligt många har svarat",
+          "Skyddsombudet ser helheten och riskbedömningen"
+        ],
+        "use": "Användningsområde: skyddsombud och skyddskommitté",
+        "caption": "Märkena visar när varje roll aviseras före utskicket.",
+        "card": {
+          "title": "Åtkomst per roll",
+          "meta": "tröskel 5 svar"
+        },
+        "rows": [
+          {
+            "mark": "VD",
+            "title": "VD",
+            "sub": "Hela verksamheten · alla kommentarer · sätter ägare och frist",
+            "pill": "1 dag före"
+          },
+          {
+            "mark": "AC",
+            "title": "Avdelningschef",
+            "sub": "Eget team · egna kommentarer och åtgärder",
+            "pill": "1 dag före"
+          },
+          {
+            "mark": "SO",
+            "title": "Skyddsombud",
+            "sub": "Hela verksamheten · riskbedömning och lagstöd",
+            "pill": "2 dagar före"
+          }
+        ]
+      },
+      "oppsett": {
+        "eyebrow": "Uppstart",
+        "h": "Klart på 20 minuter, med eller utan HR-system",
+        "p": "Skriv in organisationsnumret och företagets namn. Klistra in de anställda, ladda upp en CSV eller hämta dem från Microsoft Entra ID – så håller Orgpuls listan uppdaterad.",
+        "ticks": [
+          "Guide i 9 steg från organisation till första utskick",
+          "Minst fem svar per grupp, kan höjas till tio – små grupper räknas med i helheten",
+          "Data i EU, och ni undertecknar personuppgiftsbiträdesavtalet i appen"
+        ],
+        "use": "Användningsområde: utan HR-avdelning",
+        "caption": "Allt fungerar utan HR-system.",
+        "card": {
+          "title": "Integrationer",
+          "meta": "fungerar utan HR-system"
+        },
+        "rows": [
+          {
+            "title": "Inloggning med Microsoft och Google",
+            "sub": "Logga in med jobbkontot, via Entra ID eller Google",
+            "pill": "Klar"
+          },
+          {
+            "title": "CSV, lista eller Entra ID",
+            "sub": "Grupp och roll i tabellen, eller hämtat från Microsoft",
+            "pill": "Klar"
+          },
+          {
+            "title": "E-post, QR-kod, Teams och Slack",
+            "sub": "Länken kommer dit folk faktiskt läser",
+            "pill": "Klar"
+          },
+          {
+            "title": "HR- och lönesystem",
+            "sub": "Inte klart än – berätta vad ni använder",
+            "pill": "Kommer"
+          }
+        ]
+      }
+    },
+    "bruksomrader": {
+      "crumb": "Användningsområden",
+      "eyebrow": "Användningsområden",
+      "h1": "Från kartläggning av arbetsmiljön till ledarverktyg.",
+      "lead": "Samma frågor, samma tröskel och samma åtgärdslista – använda på åtta sätt. Välj den situation som liknar er, och se hur ni löser den i praktiken.",
+      "next": "Se plattformen",
+      "usesLabel": "Det här använder ni",
+      "example": "Fiktiva exempeldata.",
+      "use": {
+        "opp": "Inställningar",
+        "mal": "Mätningar och årshjul",
+        "rap": "Rapport",
+        "res": "Resultat",
+        "tilt": "Åtgärder",
+        "kom": "Kommentarer",
+        "rol": "Roller och åtkomst"
+      },
+      "sections": [
+        {
+          "eyebrow": "Utan HR-avdelning",
+          "short": "VD, 20 anställda, ingen HR",
+          "h": "VD, 20 anställda, ingen HR-avdelning",
+          "p": "Enkel vy ger en enda sida: vad folk är nöjda med, vad som drar ner och tre saker att göra nu. Assistenten Tuva visar vad som återstår innan ni är i gång, och hjälpen finns på varje sida.",
+          "ticks": [
+            "En VD med färre än 50 anställda får enkel vy automatiskt",
+            "Klistra in de anställda eller ladda upp en CSV – inget HR-system behövs",
+            "Guiden tar dig från organisationsnummer till planerat utskick på ungefär 20 minuter"
+          ],
+          "card": {
+            "title": "Gör det här nu",
+            "meta": "Översikt · enkel vy",
+            "rows": [
+              {
+                "title": "Fast svar på avvikelserapporter inom fem dagar",
+                "sub": "{factor} · frist 15 okt."
+              },
+              {
+                "title": "Prioriteringsmöte varje måndag",
+                "sub": "{factor} · ansvarig: du · frist 1 nov."
+              },
+              {
+                "title": "Två anonyma kommentarer väntar på svar",
+                "sub": "Kommentarer · har väntat i 6 dagar"
+              }
+            ]
+          },
+          "caption": "Folk upplever arbetet som meningsfullt. Det som drar ner är yttrandeklimatet och arbetsmängden."
+        },
+        {
+          "eyebrow": "Årlig kartläggning",
+          "short": "Årets kartläggning, i gång på en timme",
+          "h": "Årets kartläggning av arbetsmiljön, i gång på en timme",
+          "p": "En huvudundersökning om året kan vara en del av den regelbundna undersökningen av arbetsmiljön som AFS 2023:1 11 § kräver, och sätter baslinjen ni mäter allt annat mot. Frågorna är klara, tröskeln är satt och Orgpuls tar fram rapporten.",
+          "ticks": [
+            "33 påståenden om 11 faktorer, cirka 4 minuter att svara",
+            "Skyddsombudet får besked 2 dagar före utskicket",
+            "Påminnelser går ut automatiskt, och omgången stänger efter 14 dagar",
+            "Skriftlig riskbedömning per faktor, med lagrum"
+          ],
+          "card": {
+            "title": "Årshjul 2026",
+            "meta": "1 huvudundersökning · 3 pulsmätningar"
+          },
+          "caption": "Huvudundersökningen i september ger resultat före höstens budget- och åtgärdsarbete."
+        },
+        {
+          "eyebrow": "Puls mellan mätningarna",
+          "short": "Se om åtgärderna fungerar – före nästa år",
+          "h": "Se om åtgärderna fungerar – före nästa år",
+          "p": "Pulsmätningen ställer de tre påståendena för varje faktor där ni har satt in åtgärder, och visar om kurvan vänder medan det fortfarande finns tid att justera.",
+          "ticks": [
+            "Pulsmätningen frågar bara om faktorerna med öppna åtgärder",
+            "Samma formulering som i huvudundersökningen, så att ni kan jämföra siffrorna",
+            "Faktorn faller bort när åtgärderna är stängda"
+          ],
+          "card": {
+            "title": "{factor} · hela verksamheten",
+            "meta": "streckad linje = mål 60",
+            "goal": "Mål 60",
+            "labels": [
+              "Basl. 25",
+              "Basl. 26",
+              "Puls dec",
+              "Puls mar",
+              "Puls jun"
+            ],
+            "sr": "Baslinje 2025: 48. Baslinje 2026: 41. Puls december: 44. Puls mars: 48. Puls juni: 53. Mål: 60."
+          },
+          "caption": "Åtgärden ”fast svar på avvikelserapporter” startade i oktober. Pulsmätningarna visar att den fungerar, men inte tillräckligt än."
+        },
+        {
+          "eyebrow": "Inspektion och dokumentation",
+          "short": "När Arbetsmiljöverket gör en inspektion",
+          "h": "Redo när Arbetsmiljöverket begär dokumentationen",
+          "p": "Rapporten samlar undersökning, riskbedömning, åtgärder och medverkan, med lagrum per faktor. Välj år och omfattning, läs igenom och spara som PDF. Inget skickas in – ni har den redo om Arbetsmiljöverket begär den (AML 7 kap. 3 §).",
+          "ticks": [
+            "Riskbedömning (AFS 2023:1 11 §), handlingsplan (13 §) och underlag till den årliga uppföljningen (14 §)",
+            "Visar att skyddsombudet fick besked och fick medverka (AFS 2023:1 6 §)",
+            "Åtgärdslogg med ansvarig, frist och uppmätt effekt"
+          ],
+          "card": {
+            "title": "Rapport · 2026",
+            "meta": "PDF",
+            "done": "klar",
+            "rows": [
+              {
+                "title": "Metod och medverkan",
+                "sub": "Skyddsombud och samverkan med facket"
+              },
+              {
+                "title": "Kartläggning",
+                "sub": "Vad som fungerar bra, vad som drar ner"
+              },
+              {
+                "title": "Riskbedömning",
+                "sub": "Vilka riskerna är och om de är allvarliga"
+              },
+              {
+                "title": "Handlingsplan",
+                "sub": "Vem, när och status"
+              }
+            ]
+          },
+          "caption": "Dokumentationen växer fram medan ni arbetar."
+        },
+        {
+          "eyebrow": "Ett team sticker ut",
+          "short": "När ett team har det tyngre än resten",
+          "h": "När ett team har det tyngre än resten",
+          "p": "Värmekartan visar team mot faktor. Segmentprofilen jämför ett team med resten och pekar på var skillnaden är störst – utan att peka ut någon enskild person.",
+          "ticks": [
+            "Grupper under gränsen visas som ett streck, även för administratören",
+            "Avdelningschefen ser bara sitt eget team",
+            "Tre förslag på åtgärder per faktor, klara att välja"
+          ],
+          "card": {
+            "title": "Team × faktor",
+            "meta": "tröskel 5 svar",
+            "table": "Team och faktor",
+            "short": [
+              "Ytt",
+              "Mgd",
+              "Chf",
+              "Rol",
+              "Men"
+            ],
+            "hidden": "dold, under 5 svar",
+            "teams": [
+              {
+                "g": "Drift",
+                "sr": "Drift, 8 svar"
+              },
+              {
+                "g": "Projekt",
+                "sr": "Projekt, 9 svar"
+              },
+              {
+                "g": "Verkstad",
+                "sr": "Verkstad, 8 svar"
+              },
+              {
+                "g": "Adm.",
+                "sr": "Administration, 3 svar"
+              }
+            ]
+          },
+          "caption": "Verkstad och Projekt sticker ut på var sin faktor. Det är två olika problem, och de behöver var sin åtgärd."
+        },
+        {
+          "eyebrow": "Omorganisation och förändring",
+          "short": "Mät före och efter en förändring",
+          "h": "Mät före och efter en förändring",
+          "p": "Lägg en extra pulsmätning i årshjulet 4–6 veckor efter en omorganisation, ett systembyte eller en sammanslagning. Då ser ni om folk vet vad som förväntas av dem, och om stödet från chefen håller.",
+          "ticks": [
+            "Lägg till en pulsmätning i valfri månad med ett klick",
+            "Välj de faktorer som påverkas: rolltydlighet, oförenliga krav, stöd från chef",
+            "Jämför med baslinjen från före förändringen"
+          ],
+          "card": {
+            "title": "{factor} · före och efter",
+            "meta": "baslinje mot pulsmätning 6 veckor efter",
+            "bars": [
+              "Vet vad som förväntas · före",
+              "Vet vad som förväntas · efter",
+              "Vet var ansvaret slutar · före",
+              "Vet var ansvaret slutar · efter"
+            ]
+          },
+          "caption": "Fallet är störst för ansvarsgränserna. En kort rollkarta per team är en bra första åtgärd."
+        },
+        {
+          "eyebrow": "Ny chef",
+          "short": "En ärlig utgångspunkt för en ny chef",
+          "h": "Ge en ny chef en ärlig utgångspunkt",
+          "p": "Baslinjen från före chefsbytet och pulsmätningen efteråt visar hur teamet upplever stöd, rolltydlighet och yttrandeklimat. Siffrorna gäller teamet som helhet – aldrig enskilda personer, och aldrig chefen som person.",
+          "ticks": [
+            "Teamet måste ha minst 5 svar innan något visas",
+            "Förslag på ledarskapspraxis för de flesta faktorerna",
+            "Chefen kan svara på anonyma kommentarer utan att veta vem som skrev dem"
+          ],
+          "card": {
+            "title": "{factor} · Projekt",
+            "meta": "9 svar",
+            "bars": [
+              "Får stöd när jobbet blir krävande",
+              "Chefen vet vad jobbet innebär",
+              "Kan ta upp svåra saker"
+            ]
+          },
+          "caption": "En utgångspunkt att bygga på, inte ett betyg."
+        },
+        {
+          "eyebrow": "Skyddsombud och skyddskommitté",
+          "short": "Samma siffror på bordet för alla parter",
+          "h": "Samma siffror på bordet för alla parter",
+          "p": "Skyddsombudet ser samma siffror och samma riskbedömning som ledningen, samtidigt, och deltar när handlingsplanen upprättas (AML 6 kap. 4 §). Skyddskommittén – från 50 arbetstagare på arbetsstället, eller när de anställda begär det – behandlar planen (6 kap. 8–9 §§).",
+          "ticks": [
+            "Skyddsombudet får besked före varje utskick",
+            "Åtgärderna står med ansvarig och frist i ärendet till skyddskommittén",
+            "Ingen i någon roll ser enskilda svar"
+          ],
+          "card": {
+            "title": "Inför skyddskommitténs möte",
+            "meta": "ur ärendet till kommittén",
+            "rows": [
+              {
+                "mark": "AFS",
+                "title": "Skyddsombudet fick besked 2 dagar före utskicket",
+                "sub": "Klart 12 sep.",
+                "pill": "Klart"
+              },
+              {
+                "mark": "AML",
+                "title": "Skyddsombudet med när handlingsplanen togs fram",
+                "sub": "Klart 6 okt.",
+                "pill": "Klart"
+              },
+              {
+                "mark": "Risk",
+                "title": "Två faktorer med hög risk – åtgärder beslutade",
+                "sub": "Tas upp på kommitténs möte",
+                "pill": "Ska behandlas"
+              }
+            ]
+          },
+          "caption": "Medverkan är dokumenterad innan någon frågar."
+        }
+      ]
+    },
+    "story": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "Maj",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Dec"
+      ],
+      "base": "Huvud",
+      "pulse": "Puls",
+      "holiday": "Semester",
+      "source": "Källa: {src}",
+      "use": {
+        "mal": "Mätningar och årshjul",
+        "svar": "Så är det att svara",
+        "res": "Resultat",
+        "vis": "Fyra vyer",
+        "kom": "Kommentarer",
+        "tilt": "Åtgärder",
+        "rap": "Rapport",
+        "rol": "Roller och åtkomst",
+        "opp": "Inställningar",
+        "ast": "Assistenten"
+      }
+    },
+    "hvorfor": {
+      "seoTitle": "Varför Orgpuls – följ upp arbetsmiljön hela året | Orgpuls",
+      "seoDescription": "Medarbetarundersökning om organisatorisk och social arbetsmiljö: styrkor först, åtgärder med ansvarig och datum, anonymitet från 5 svar och underlag för SAM.",
+      "crumb": "Varför Orgpuls",
+      "h1": "Följ upp arbetsmiljön hela året och se vad som fungerar",
+      "lead": "En undersökning om året visar hur folk hade det i september – inte om åtgärderna fungerade. Med Orgpuls bygger chefer och skyddsombud på det som fungerar, ger varje fynd en ansvarig och mäter effekten. Här är valen bakom, och varför.",
+      "next": "Se användningsområdena →",
+      "usesLabel": "Se i plattformen",
+      "sections": [
+        {
+          "k": "Positivt fokus",
+          "t": "Börja med det som fungerar",
+          "d": "Sammanfattningen visar först vad som ger folk energi, sedan vad som tar energi. Ni bygger på det som är starkt – och folk är lättare att få med på att förbättra något när de ser att det goda också blir sett.",
+          "points": [
+            "Sammanfattningen börjar med det folk trivs med",
+            "Varje område får en etikett – också ”Bra”, inte bara ”Behöver insats”",
+            "Kommentarer med positiv ton visas tillsammans med de kritiska"
+          ],
+          "m": {
+            "title": "Det folk är mest nöjda med",
+            "note": "baslinjemätning 2026",
+            "rows": [
+              "Uppskattning och meningsfullhet",
+              "Stöd från arbetskamrater",
+              "Rolltydlighet",
+              "Delaktighet och kontroll"
+            ],
+            "foot": "Folk trivs med meningen i arbetet och med varandra. Det är en bra utgångspunkt för att ta tag i yttrandeklimatet."
+          }
+        },
+        {
+          "k": "Kontinuerlig uppföljning",
+          "t": "En mätning är en ögonblicksbild. Fyra är en riktning.",
+          "d": "Huvudundersökningen sätter nollpunkten. Korta pulsmätningar däremellan mäter bara det ni arbetar med. Då ser ni om kurvan vänder medan det fortfarande finns tid att justera – inte ett år senare.",
+          "points": [
+            "Årshjulet skickar ut, påminner och aviserar av sig självt",
+            "Pulsen frågar bara om de faktorer ni har öppna åtgärder på",
+            "Faktorn faller bort ur pulsen när åtgärderna är stängda, så att folk inte får samma fråga i all evighet"
+          ],
+          "m": {
+            "title": "Arbetsmängd · Projekt",
+            "note": "mål 60",
+            "labels": [
+              "Basl. 25",
+              "Basl. 26",
+              "Puls dec",
+              "Puls mar",
+              "Puls jun"
+            ]
+          }
+        },
+        {
+          "k": "Från fynd till handling",
+          "t": "Varje fynd får en ansvarig och ett slutdatum",
+          "d": "En siffra som ingen äger blir liggande. Varje åtgärd i Orgpuls hör till en faktor, har en ansvarig och ett slutdatum, och kan inte stängas förrän nästa mätning har visat om den fungerade.",
+          "points": [
+            "Tre förslag per faktor: workshop, rutin eller ledarskapspraxis",
+            "Varje förslag anger vilket påstående som ska mätas på nytt",
+            "Åtgärderna följer med som handlingsplan i rapporten till ledningen och skyddskommittén, om ni har en"
+          ],
+          "m": {
+            "title": "Fast svar på avvikelserapporter",
+            "note": "Anna Ryd · senast 15 okt",
+            "steps": [
+              {
+                "t": "Föreslagen",
+                "d": "Från resultatet för yttrandeklimat"
+              },
+              {
+                "t": "Beslutad",
+                "d": "Med skyddsombudet 24 sep"
+              },
+              {
+                "t": "Pågår",
+                "d": "Svar inom fem dagar på varje rapport"
+              },
+              {
+                "t": "Effekt mätt",
+                "d": "Puls i december"
+              },
+              {
+                "t": "Stängd",
+                "d": "När yttrandeklimatet är över 60"
+              }
+            ]
+          }
+        },
+        {
+          "k": "Anonymitet",
+          "t": "Anonymitet som inte går att stänga av",
+          "d": "Orgpuls kopplar aldrig ett svar till namn, e-post eller IP-adress. Ingen ser en grupp förrän tillräckligt många har svarat – inte heller administratörer. Tröskeln är minst 5 svar, aldrig lägre; ni kan höja den till 10.",
+          "points": [
+            "Små grupper visas inte, men räknas med i helheten",
+            "Ordningen på påståendena slumpas för varje person",
+            "Kommentarer till en faktor visas först när tillräckligt många har skrivit – minst 5"
+          ],
+          "src": "GDPR och IMY:s vägledning om personuppgifter i arbetslivet",
+          "m": {
+            "title": "Det chefen ser",
+            "note": "tröskel 5 svar",
+            "cols": [
+              "Yttr.",
+              "Mängd",
+              "Chef",
+              "Roll",
+              "Mening"
+            ],
+            "teams": [
+              "Drift · 8",
+              "Projekt · 9",
+              "Adm. · 3",
+              "Lager · 4"
+            ],
+            "foot": "Administration och Lager har för få svar. De räknas med i helheten, men visas aldrig som en egen rad."
+          }
+        },
+        {
+          "k": "Forskningen bakom",
+          "t": "Frågor med forskning bakom",
+          "d": "Frågorna bygger på QPS Nordic, ett nordiskt frågeformulär om psykologiska och sociala faktorer i arbetet. Formuleringen är låst, så att ni kan jämföra år för år.",
+          "points": [
+            "11 faktorer, 3 påståenden per faktor, skala 1–5",
+            "Svaren blir ett lättläst index från 0 till 100",
+            "Förslagen till åtgärder bygger på känd forskning om vad som fungerar"
+          ],
+          "src": "QPS Nordic · STAMI",
+          "m": {
+            "title": "Ett urval av faktorerna",
+            "note": "11 totalt",
+            "cards": [
+              {
+                "tag": "Yttrandeklimat",
+                "t": "Jag kan säga ifrån om missförhållanden utan att vara rädd för konsekvenser",
+                "meta": "3 påståenden"
+              },
+              {
+                "tag": "Arbetsmängd",
+                "t": "Min arbetsmängd går att hantera i längden",
+                "meta": "3 påståenden"
+              },
+              {
+                "tag": "Rolltydlighet",
+                "t": "Jag vet vad som förväntas av mig i mitt jobb",
+                "meta": "3 påståenden"
+              }
+            ]
+          }
+        },
+        {
+          "k": "Regelverket",
+          "t": "Dokumentationen under arbetets gång – inte i efterhand",
+          "d": "Föreskrifterna kräver att ni regelbundet undersöker arbetsmiljön, bedömer riskerna, genomför åtgärder och har en handlingsplan för det som inte görs direkt. En enkät är inget krav, men ett bra sätt att göra en del av undersökningen. Orgpuls följer stegen, så dokumentationen växer fram medan ni arbetar. Vill ni inte se paragrafer kan ni stänga av dem.",
+          "points": [
+            "Undersökning och riskbedömning (AFS 2023:1 11 §) av den organisatoriska och sociala arbetsmiljön",
+            "Orgpuls registrerar skyddsombudets medverkan och samverkan med facket",
+            "En rapport att visa när Arbetsmiljöverket begär den, klar att spara som PDF"
+          ],
+          "src": "AML 3 kap. 2 a § och 6 kap. 4 § · AFS 2023:1 6 och 11–13 §§ · AFS 2023:2 2 kap.",
+          "m": {
+            "title": "Lagrum per steg",
+            "note": "ur rapporten",
+            "cards": [
+              {
+                "tag": "AFS 2023:1 11 §",
+                "t": "Undersökning och riskbedömning",
+                "meta": "Stöds"
+              },
+              {
+                "tag": "AFS 2023:2 2 kap.",
+                "t": "Organisatorisk och social arbetsmiljö",
+                "meta": "Stöds"
+              },
+              {
+                "tag": "AFS 2023:1 13 §",
+                "t": "Handlingsplan med när och vem",
+                "meta": "Dokumenterad"
+              }
+            ],
+            "foot": "Orgpuls täcker undersökningen av den organisatoriska och sociala arbetsmiljön. Övriga arbetsmiljöskyldigheter ligger utanför."
+          }
+        }
+      ],
+      "compare": {
+        "k": "Jämförelse",
+        "t": "Mot kalkylark och mot stora HR-system",
+        "d": "Två vanliga alternativ är ett eget formulär med svaren i ett kalkylark och en enkätmodul i ett stort HR-system. Båda kan fungera. Så här skiljer de sig från Orgpuls.",
+        "cols": [
+          "Kalkylark och formulär",
+          "Stort HR-system",
+          "Orgpuls"
+        ],
+        "rows": [
+          {
+            "k": "Tid till första utskick",
+            "a": "Dagar",
+            "b": "Beror på upplägget",
+            "c": "20 minuter"
+          },
+          {
+            "k": "Färdiga frågor med forskning bakom",
+            "a": "Nej",
+            "b": "Ofta",
+            "c": "QPS Nordic"
+          },
+          {
+            "k": "Anonymitet med tröskel",
+            "a": "Manuellt",
+            "b": "Ja",
+            "c": "Minst 5 svar, även för admin"
+          },
+          {
+            "k": "Visar styrkor före svagheter",
+            "a": "Nej",
+            "b": "Varierar",
+            "c": "Ja"
+          },
+          {
+            "k": "Förslag till åtgärder",
+            "a": "Nej",
+            "b": "Sällan",
+            "c": "3 per faktor"
+          },
+          {
+            "k": "Mäter om åtgärderna fungerade",
+            "a": "Nej",
+            "b": "Delvis",
+            "c": "Puls på åtgärderna"
+          },
+          {
+            "k": "Dokumentation av riskbedömning och handlingsplan",
+            "a": "Manuellt",
+            "b": "Varierar",
+            "c": "Inbyggd"
+          },
+          {
+            "k": "Frågor om arbetstid och återhämtning",
+            "a": "Egna frågor",
+            "b": "Varierar",
+            "c": "Som modul"
+          }
+        ]
+      },
+      "faq": {
+        "k": "Vanliga frågor",
+        "nav": "Frågor",
+        "t": "Det folk undrar över innan de börjar",
+        "d": "Hittar du inte svaret? Skriv till oss i <link>kontaktformuläret</link>. Vi svarar personligen.",
+        "items": [
+          {
+            "q": "Kan chefen se vem som svarade vad?",
+            "a": "Nej. Orgpuls kopplar aldrig ett svar till namn, e-post eller IP-adress – det är inbyggt i databasen, inte en rutin – och svaren lagras i EU. Ingen ser en grupp förrän minst 5 har svarat, och det gäller även administratörer. Ni kan höja gränsen till 10, men aldrig sänka den under 5."
+          },
+          {
+            "q": "Måste vi göra en medarbetarundersökning?",
+            "a": "Ni måste undersöka arbetsmiljön, men lagen kräver ingen enkät. Det som krävs är att ni regelbundet undersöker arbetsmiljön och bedömer riskerna, även de organisatoriska och sociala förhållandena (AFS 2023:1 5 och 11 §§). Riskbedömningen ska alltid dokumenteras skriftligt, och det som inte åtgärdas direkt ska in i en handlingsplan (13 §). En enkät är ett bra sätt att göra en del av undersökningen."
+          },
+          {
+            "q": "Vad gör skyddsombudet?",
+            "a": "Skyddsombudet företräder de anställda i arbetsmiljöfrågor och ska delta när handlingsplaner upprättas (AML 6 kap. 4 §). Skyddsombud ska finnas på arbetsställen med minst fem anställda och utses av facket eller av de anställda, inte av arbetsgivaren (6 kap. 2 §). I Orgpuls har skyddsombudet en egen roll och ser resultaten samtidigt som ledningen."
+          },
+          {
+            "q": "Hur lång tid tar det?",
+            "a": "De anställda svarar på ungefär fyra minuter i baslinjemätningen och på under en minut i en pulsmätning, på mobilen. Uppsättningen tar under en timme första gången: ni lägger in de anställda – klistra in, ladda upp en CSV-fil eller skriv in dem för hand – väljer tröskel och bekräftar frågorna. Sedan planerar årshjulet omgångarna själv. Ni behöver inget HR-system."
+          },
+          {
+            "q": "Varför inte bara en undersökning om året?",
+            "a": "En mätning visar hur det stod till vid ett tillfälle. Den säger inte om åtgärderna fungerade, och genomförda åtgärder ska kontrolleras (AFS 2023:1 13 §). Pulsen mäter bara de faktorer ni arbetar med, så ni ser utvecklingen utan att fråga om allt varje gång."
+          },
+          {
+            "q": "Täcker Orgpuls hela arbetsmiljöarbetet?",
+            "a": "Nej. Orgpuls stöder undersökningen och riskbedömningen av den organisatoriska och sociala arbetsmiljön, handlingsplanen och kontrollen av åtgärderna, och dokumenterar dem (AFS 2023:1 11–13 §§). Rapporten ger underlag till den årliga uppföljningen (14 §), men uppföljningen gör ni själva – liksom arbetsmiljöpolicy, rutiner, rutinen för kränkande särbehandling och skyddsronder."
+          }
+        ]
+      }
+    },
+    "contact": {
+      "k": "Kontakt",
+      "t": "Skriv till oss",
+      "d": "Frågor om produkten, flera bolag i en koncern eller hjälp med första utskicket. Vi svarar själva inom en arbetsdag.",
+      "topics": [
+        "Frågor om produkten",
+        "Flera bolag eller en stor organisation",
+        "Hjälp med första utskicket",
+        "Dataskydd och personuppgiftsbiträdesavtal"
+      ],
+      "topicsLabel": "Vad gäller det?",
+      "name": "Namn",
+      "mail": "E-post",
+      "org": "Organisation",
+      "orgPlaceholder": "Valfritt",
+      "msg": "Meddelande",
+      "send": "Skicka meddelande",
+      "invalid": "Fyll i namn och en giltig e-postadress.",
+      "sent": "Tack! Vi har fått meddelandet och svarar dig via e-post inom en arbetsdag.",
+      "limited": "Du har skickat flera meddelanden den senaste timmen. Vänta en stund, eller skriv till oss via e-post.",
+      "failed": "Meddelandet kom inte fram. Skriv till oss på {mail}, så svarar vi inom en arbetsdag."
+    }
+  },
+  "seo": {
+    "common": {
+      "home": "Startsida",
+      "onThisPage": "På den här sidan",
+      "aside": "Innehåll och nästa steg",
+      "breadcrumb": "Brödsmulor",
+      "articles": "Artiklar",
+      "priceLine": "Anonymt från 5 svar · Svaren lagras i EU · Rapport skriven för AFS 2023:1",
+      "readMore": "Läs mer",
+      "readArticle": "Läs artikeln →",
+      "byline": "Uppdaterad {date} · {minutes} min läsning",
+      "sources": "Källor",
+      "disclaimer": "Det här är allmän information, inte juridisk rådgivning. Vi kontrollerade lagtexterna hos Riksdagen och föreskrifterna hos Arbetsmiljöverket i oktober 2026.",
+      "priceFrom": "Resultat bara för grupper med minst 5 svar",
+      "anonymity": "Ingen avdelning visas förrän minst 5 har svarat.",
+      "related": "Relaterade sidor"
+    },
+    "signup": {
+      "label": "Organisationsnummer",
+      "submit": "Kom igång",
+      "invalid": "Ett organisationsnummer har tio siffror, och ett personnummer kan inte användas. Kontrollera numret.",
+      "invalidChecksum": "Kontrollera numret – det ser inte ut som ett giltigt organisationsnummer."
+    },
+    "og": {
+      "pills": [
+        "Byggd på QPS Nordic",
+        "För OSA enligt AFS 2023:2",
+        "Anonymt – minst 5 svar"
+      ]
+    },
+    "shots": {
+      "caption": "{screen} · Norrvik Anläggning AB – exempel",
+      "oversikt": {
+        "screen": "Översikt",
+        "alt": "Skärmbild av översikten i Orgpuls: index 61, tre poäng lägre än i fjol, 28 av 34 har svarat, och de elva faktorerna placerade efter poäng och betydelse, från Yttrandeklimat på 41 till Uppskattning och meningsfullhet på 78."
+      },
+      "varmekart": {
+        "screen": "Resultat",
+        "alt": "Skärmbild av värmekartan: de elva faktorerna mot avdelningarna, med Yttrandeklimat på Verkstad på 28 som lägsta cell. Två avdelningar visas med streck: Administration, under gränsen på fem svar, och Drift, så att Administrations siffror inte kan räknas fram."
+      },
+      "resultater": {
+        "screen": "Resultat",
+        "alt": "Skärmbild av värmekartan bredvid den valda cellen: Yttrandeklimat på Verkstad, 28, markerad Åtgärda först, med de tre påståendena bakom och anonyma kommentarer om faktorn."
+      },
+      "kommentarer": {
+        "screen": "Kommentarer",
+        "alt": "Skärmbild av Kommentarer: teman till vänster och anonyma kommentarer med ett svarsfält och knappen «Be om direktkontakt»."
+      },
+      "samtaler": {
+        "screen": "Kommentarer",
+        "alt": "Skärmbild av en anonym kommentar om yttrandeklimatet, med ett fält för att svara anonymt och knappen «Be om direktkontakt»."
+      },
+      "tiltak": {
+        "screen": "Åtgärder",
+        "alt": "Skärmbild av åtgärdstavlan med fyra kolumner: Fynd, Valt fokus, Pågående åtgärder och Effekt mätt."
+      },
+      "arshjul": {
+        "screen": "Mätningar",
+        "alt": "Skärmbild av årshjulet för 2026: en pulsmätning i mars, baslinjemätningen i september med index 61 och en planerad pulsmätning i december."
+      },
+      "sporsmal": {
+        "screen": "Enkät",
+        "alt": "Skärmbild av enkäten på en mobil, här på engelska, sida 1 av 16: temat Yttrandeklimat med ett påstående om att kunna säga ifrån om missförhållanden utan att vara rädd för konsekvenser, svar från helt oenig till helt enig, ett val för inte relevant och en frivillig kommentar."
+      },
+      "rapport": {
+        "screen": "Rapport",
+        "alt": "Skärmbild av rapporten, del 3 Kartläggning: de elva faktorerna med lagrum, poäng för 2026 och 2025 och risknivå."
+      }
+    },
+    "llms": {
+      "pages": "Sidor",
+      "forWho": "Vem det är för",
+      "industries": "Branscher",
+      "articles": "Artiklar",
+      "templates": "Mallar"
+    },
+    "home": {
+      "title": "Medarbetarundersökning och OSA-kartläggning | Orgpuls",
+      "description": "Anonym medarbetarundersökning för kartläggningen av den organisatoriska och sociala arbetsmiljön (OSA), med riskbedömning, handlingsplan och rapport för ert SAM.",
+      "articlesEyebrow": "Artiklar",
+      "articlesTitle": "Läs på innan ni börjar",
+      "articlesAll": "Alla artiklar →",
+      "showcase": {
+        "eyebrow": "Så ser det ut",
+        "title": "Från svar till åtgärder, på några få skärmar",
+        "lead": "Skärmbilderna är från Orgpuls och visar exempelföretaget Norrvik Anläggning AB, med 34 anställda i 4 avdelningar. 28 av dem svarade på baslinjemätningen.",
+        "oversikt": {
+          "title": "Översikten säger det med ord",
+          "body": "Chefen ser först en mening om vad som lyfter och vad som drar ner, och sedan alla 11 faktorer på en skala från 0 till 100. Det som ligger under 50 bör ni göra något åt."
+        },
+        "varmekart": {
+          "title": "Värmekarta per avdelning",
+          "body": "Faktorerna mot avdelningarna. Tryck på en cell för att se påståendena bakom och förslag till åtgärder. En avdelning som inte kan visas utan att röja någon får ett streck."
+        },
+        "tiltak": {
+          "title": "Från fynd till effekt",
+          "body": "Åtgärderna ligger på en tavla med ansvarig och frist – det är er handlingsplan. En åtgärd stängs inte förrän en ny mätning har visat om den fungerade."
+        },
+        "sporsmal": {
+          "title": "Runt 4 minuter i mobilen",
+          "body": "De anställda svarar från länken de får, utan att logga in. Ett påstående i taget, på en femgradig skala, och ett frivilligt fält för den som vill säga mer."
+        },
+        "arshjul": {
+          "title": "Årshjulet sköter sig självt",
+          "body": "En baslinjemätning om året och korta pulsmätningar däremellan. Mätningarna går ut på de datum ni har satt, och skyddsombudet får besked före de anställda."
+        },
+        "more": "Se hela plattformen",
+        "samtaler": {
+          "title": "Svara utan att veta vem",
+          "body": "Kommentarerna samlas per tema. Chefen svarar i den anonyma tråden och kan be om direktkontakt, men bara den anställda själv kan välja att träda fram."
+        }
+      }
+    },
+    "pages": {
+      "plattform": {
+        "title": "Plattformen: arbetsmiljöundersökning och handlingsplan | Orgpuls",
+        "description": "Anonym arbetsmiljöundersökning för OSA: resultat per faktor och avdelning, riskbedömning, handlingsplan med ägare och frist, och puls som visar effekten.",
+        "crumb": "Plattform",
+        "kicker": "Plattformen",
+        "h1": "En plattform för hela omgången: kartlägga, förstå, agera och se att det fungerade",
+        "lead": "Orgpuls samlar undersökningen av den organisatoriska och sociala arbetsmiljön, riskbedömningen och uppföljningen av åtgärderna i en fast rytm, som en del av ert systematiska arbetsmiljöarbete (SAM). Varje del kan användas för sig, men värdet ligger i att de hänger ihop: mätningen blir åtgärder, och nästa mätning visar om åtgärderna fungerade.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Kartläggning"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Baslinje",
+                "text": "Elva faktorer i den organisatoriska och sociala arbetsmiljön, med tre påståenden vardera, besvarade på en femgradig skala. Formuleringarna bygger på QPS Nordic, det nordiska forskningsinstrumentet, och täcker arbetsbelastning, krav, resurser och socialt stöd i AFS 2023:2 2 kap. Runt fyra minuter per anställd."
+              },
+              {
+                "title": "Puls",
+                "text": "Korta mätningar mellan baslinjerna, bara om de faktorer där en åtgärd pågår. Pulsen är ingen ny kartläggning, utan ett sätt att kontrollera att åtgärden fungerar (AFS 2023:1 13 §). Under en minut."
+              },
+              {
+                "title": "Egna frågor",
+                "text": "Upp till fem egna frågor per mätning, för det som är speciellt för er. De redovisas för sig och räknas aldrig in i indexet."
+              },
+              {
+                "title": "Utanför indexet",
+                "text": "En rekommendationsfråga, screening för kränkande särbehandling och för våld och hot – bara som antal för hela verksamheten – och ett öppet fält."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Som tillval finns modulen ”Arbetstid och återhämtning”, byggd på AFS 2023:2 2 kap. 9 § om arbetstidens förläggning, som en extra frågeuppsättning. Enkäten skickas via e-post, Microsoft Teams eller Slack, eller delas som länk och QR-kod. En påminnelse går till dem som inte har svarat, från systemet och inte från chefen."
+          },
+          {
+            "t": "shot",
+            "id": "sporsmal"
+          },
+          {
+            "t": "h2",
+            "text": "Resultat"
+          },
+          {
+            "t": "p",
+            "text": "Svaren blir ett index från 0 till 100 per faktor, med ett riskband: 65 eller mer är låg risk, 50–64 medel och under 50 hög. Siffran är underlaget – riskbedömningen gör ni per faktor, och den dokumenteras alltid skriftligt (AFS 2023:1 11 §). Resultatet kan läsas på flera sätt:"
+          },
+          {
+            "t": "shot",
+            "id": "oversikt"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Värmekarta** – faktorerna mot avdelningarna, med påståendena bakom varje siffra",
+              "**Prioritet** – vilka faktorer som betyder mest för om folk skulle rekommendera arbetsplatsen",
+              "**Segmentprofil, Jämför och Utveckling** – en avdelning, två mätningar eller utvecklingen över tid"
+            ]
+          },
+          {
+            "t": "shot",
+            "id": "resultater"
+          },
+          {
+            "t": "p",
+            "text": "En avdelning visas först när minst fem har svarat. Ni kan höja tröskeln till tio, men aldrig sänka den under fem. När en avdelning skulle kunna räknas fram ur de andra hålls ytterligare en tillbaka. Läs mer om [anonymitet och säkerhet](/sikkerhet)."
+          },
+          {
+            "t": "h2",
+            "text": "Kommentarer och samtal"
+          },
+          {
+            "t": "p",
+            "text": "De anställda kan skriva en kommentar till ett påstående. Ledningen kan svara utan att veta vem som skrev, och den som skrev kan läsa svaret och svara tillbaka via en privat länk. Vill en chef prata direkt går det att be om det – och den anställda avgör själv om att ge sig till känna, genom att skriva från sin egen e-post."
+          },
+          {
+            "t": "shot",
+            "id": "kommentarer"
+          },
+          {
+            "t": "h2",
+            "text": "Åtgärder"
+          },
+          {
+            "t": "p",
+            "text": "Fynden blir åtgärder på en tavla, från fynd till effekt. Varje åtgärd har en ägare, en frist och den faktor den ska flytta – handlingsplanen enligt AFS 2023:1 13 §, med när och vem – och färdiga förslag finns redo att utgå från. **En åtgärd kan inte stängas förrän effekten är mätt** – nästa puls måste visa om siffran har flyttat sig."
+          },
+          {
+            "t": "shot",
+            "id": "tiltak"
+          },
+          {
+            "t": "h2",
+            "text": "Årshjul och rapport"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Årshjulet",
+                "text": "Ni väljer rytmen en gång – från en baslinje om året till puls varje månad – och årshjulet planerar omgångarna självt. Skyddsombud och fackliga företrädare aviseras först, före de anställda, så att skyddsombudet kan medverka i tid (AFS 2023:1 6 §)."
+              },
+              {
+                "title": "Rapport och dokumentation",
+                "text": "Rapporten följer stegen i AFS 2023:1: undersökning och riskbedömning (11 §), åtgärder och handlingsplan (13 §) och underlag till den årliga uppföljningen (14 §). Siffrorna fryses när omgången stängs, och rapporten kan skrivas ut eller sparas som PDF, för skyddskommittén och styrelsen. Ni behåller den – ingenting skickas in, men Arbetsmiljöverket kan begära dokumentationen (AML 7 kap. 3 §)."
+              }
+            ]
+          },
+          {
+            "t": "shot",
+            "id": "arshjul"
+          },
+          {
+            "t": "shot",
+            "id": "rapport"
+          },
+          {
+            "t": "h2",
+            "text": "Roller och åtkomst"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Roll",
+              "Ser"
+            ],
+            "rows": [
+              [
+                "VD",
+                "Hela verksamheten, alla faktorer och de anonyma samtalen"
+              ],
+              [
+                "Avdelningschef",
+                "Den egna avdelningen när tröskeln är nådd, och samtalen därifrån"
+              ],
+              [
+                "Skyddsombud",
+                "Samma siffror och samma riskbedömning som ledningen – de handlingar ombudet behöver (AML 6 kap. 6 §)"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Ingen roll ser vem som har svarat vad. Den kopplingen finns inte."
+          },
+          {
+            "t": "h2",
+            "text": "Kom igång"
+          },
+          {
+            "t": "p",
+            "text": "Registrera er med organisationsnumret – tio siffror – och företagets namn. Lägg in de anställda från ett kalkylark, en och en eller från Microsoft Entra ID, och följ guiden genom uppsättningen. Se [användningsområdena](/bruksomrader) för de situationer Orgpuls är byggt för."
+          }
+        ],
+        "finalTitle": "Se plattformen i er egen organisation"
+      },
+      "bruksomrader": {
+        "title": "Användningsområden: arbetsmiljöundersökning i praktiken | Orgpuls",
+        "description": "Åtta situationer i praktiken: utan HR-avdelning, årlig kartläggning, pulsmätning, inspektion, ett team som sticker ut, omorganisation, ny chef och skyddskommitté.",
+        "crumb": "Användningsområden",
+        "kicker": "Användningsområden",
+        "h1": "Samma regler, olika arbetsplatser",
+        "lead": "Alla arbetsgivare ska regelbundet undersöka arbetsmiljön, också den organisatoriska och sociala (AFS 2023:1 5 och 11 §§). Men vad som betyder mest, och hur man når folk, varierar. Här är sidorna för de vanligaste behoven.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Efter behov"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Vad reglerna kräver",
+                "text": "Vad arbetsmiljölagen, AFS 2023:1 och AFS 2023:2 kräver av undersökning, riskbedömning och handlingsplan – och hur ni dokumenterar det.",
+                "href": "/lovkrav"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Efter roll"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "För skyddsombud",
+                "text": "Samma siffror och samma riskbedömning som ledningen – aldrig någons enskilda svar.",
+                "href": "/verneombud"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Efter storlek"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Små företag",
+                "text": "Ingen HR-avdelning: anonym medarbetarundersökning, riskbedömning och handlingsplan på ett ställe.",
+                "href": "/smaa-bedrifter"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Efter situation"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Medarbetare utan jobbmejl",
+                "text": "Dela en länk eller sätt upp en QR-affisch – alla svarar i mobilen, och ingen behöver en e-postadress på jobbet.",
+                "href": "/plattform#respondent"
+              },
+              {
+                "title": "Skift och scheman",
+                "text": "Huvudundersökningen är öppen i 14 dagar, så att alla skift hinner svara, och påminnelserna går ut av sig själva.",
+                "href": "/plattform#malinger"
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Hittar ni inte er situation?",
+            "text": "Reglerna är desamma för alla arbetsgivare, och Orgpuls fungerar likadant. Se [hur plattformen hänger ihop](/plattform), eller [skriv till oss](/kontakt)."
+          }
+        ]
+      },
+      "sikkerhet": {
+        "title": "Säkerhet, dataskydd och anonymitet | Orgpuls",
+        "description": "Så håller Orgpuls svaren i medarbetarundersökningen anonyma: ingen koppling till person, minst 5 svar per grupp, data i EU. Vad vi lagrar, och vad vi inte lagrar.",
+        "crumb": "Säkerhet och dataskydd",
+        "kicker": "Säkerhet och dataskydd",
+        "h1": "Anonymitet som inte hänger på att någon håller ett löfte",
+        "lead": "Ingen kan se vem som har svarat vad – inte heller ni. Det är inbyggt i hur svaren lagras, inte i en rutin som någon måste följa. Därför kan de anställda svara ärligt.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Vad vi lagrar, och vad vi inte lagrar"
+          },
+          {
+            "t": "p",
+            "text": "I personalregistret lagrar vi namn, e-post och grupp för varje anställd. Hämtar ni anställda från Microsoft Entra ID lagras också personens objekt-ID i katalogen. Själva svaret hamnar i en tabell som **inte har någon kolumn som skulle kunna hålla en koppling till en person**. Raden visar omgången, gruppen och timmen svaret kom in – inte minuten."
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls känner igen inbjudningslänken på en kryptografisk kontrollsumma. Inbjudan minns att den har använts, så att du inte får någon påminnelse – men aldrig svaret. VD, avdelningschef och skyddsombud ser var och en det som rollen tillåter, men ingen vy, export eller databasfråga visar vad en namngiven person har svarat, inte heller för VD eller administratörer: uppgiften finns inte."
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Inbjudan",
+                "title": "Känns igen på en kontrollsumma",
+                "text": "Länken slås upp på en kryptografisk kontrollsumma. Inbjudan minns bara att den har använts, så att du inte får någon påminnelse."
+              },
+              {
+                "date": "Svaret",
+                "title": "Lagras utan koppling till dig",
+                "text": "Raden visar omgången, gruppen och timmen svaret kom in. Ingen kolumn kan hålla en koppling till en person."
+              },
+              {
+                "date": "Resultatet",
+                "title": "Visas först när tillräckligt många har svarat",
+                "text": "Siffrorna visas per grupp, och bara när gruppen har minst lika många svar som tröskeln."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Färre än 5 svar ger ett streck – alltid"
+          },
+          {
+            "t": "p",
+            "text": "Ingen grupp visas förrän minst 5 har svarat. Databasen upprätthåller tröskeln: ni kan höja den upp till 10, men ingen kan sänka den under 5. Ju färre svar, desto lättare är det att känna igen vem som sa vad, och IMY anser att arbetsgivaren ska pröva om uppgifterna kan tas fram så att enskilda inte kan identifieras. En omgång behåller den tröskel den startade med, så en lägre tröskel öppnar aldrig tidigare omgångar. Skulle siffrorna för de andra grupperna avslöja en dold grupp, döljer Orgpuls en grupp till, så att ingen kan räkna sig fram."
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Minst 5 svar",
+                "ref": "Golvet och standard",
+                "text": "Ingen grupp visas med färre svar. Ingen kan sänka tröskeln under 5."
+              },
+              {
+                "title": "6 till 9 svar",
+                "ref": "Ert val",
+                "text": "Höj tröskeln om era grupper är stora. En omgång behåller den tröskel den startade med."
+              },
+              {
+                "title": "Upp till 10 svar",
+                "ref": "Högsta tröskel",
+                "text": "Ni kan höja tröskeln. Ju fler svar per grupp, desto svårare är det att känna igen vem som sa vad."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Kommentarer och samtal förblir anonyma"
+          },
+          {
+            "t": "p",
+            "text": "En kommentar visas bara när gruppen den kommer från har tillräckligt många svar, och gruppen följer aldrig med kommentaren. Den som skrev får en privat nyckel till samtalet; databasen sparar bara en kontrollsumma av den. Vill en chef prata direkt kan chefen be om det – men bara den anställda kan ge sig till känna, genom att skriva från sin egen e-post."
+          },
+          {
+            "t": "h2",
+            "text": "Grunden är rättslig förpliktelse, inte samtycke"
+          },
+          {
+            "t": "p",
+            "text": "Behandlingen bygger på rättslig förpliktelse: GDPR artikel 6.1 c och dataskyddslagen 2 kap. 1 §, med arbetsmiljölagen (AML) 3 kap. 2 a § och AFS 2023:1 11 § som skyldigheten. Enligt IMY kan en arbetsgivare normalt inte använda samtycke, eftersom anställda är i beroendeställning, så samtycke används inte. Frågorna är utformade för att inte samla in hälsouppgifter, som är känsliga personuppgifter (GDPR artikel 9), och svar om våld, hot och kränkande särbehandling visas bara som antal."
+          },
+          {
+            "t": "h2",
+            "text": "Lagrat i EU och inte delat vidare"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Vi lagrar uppgifterna på servrar i EU (Frankfurt), under GDPR",
+              "Vi delar inte svaren med tredje part och använder inga svar för att träna AI-modeller",
+              "Ett enskilt svar kan inte tas fram eller raderas för sig, eftersom det inte kan kopplas till en person (GDPR artikel 11)"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Personuppgiftsbiträdesavtalet finns i Orgpuls"
+          },
+          {
+            "t": "p",
+            "text": "Ni är personuppgiftsansvariga och Orgpuls personuppgiftsbiträde, enligt GDPR artikel 28. VD läser och undertecknar avtalet under Inställningar, och kan skriva ut det eller spara det som PDF. Vi använder tre underbiträden: Supabase (databas och inloggning, Frankfurt), Vercel (drift, Frankfurt) och Brevo (e-post), och ett fjärde för organisationer som skickar mätningen i Teams: Microsoft (Azure Bot Service, EU)."
+          },
+          {
+            "t": "h2",
+            "text": "Frågor ni bör ställa till varje leverantör"
+          },
+          {
+            "t": "p",
+            "text": "Anonymitet är lätt att lova och svårt att bevisa. Ställ de här frågorna – till oss och till andra:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Finns det någon kolumn eller logg som kan koppla ett svar till en person – även för administratörer?",
+              "Hur stor måste en grupp vara innan den visas, och vem kan sänka gränsen?",
+              "Kan en dold grupp räknas fram ur totalen och de andra grupperna?",
+              "Följer gruppen med när en kommentar visas?",
+              "Var lagras uppgifterna, och vilka underbiträden används?",
+              "Används svaren till något annat, till exempel för att träna AI-modeller?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Läs mer i IMY:s vägledning om [grundläggande principer när arbetsgivare behandlar personuppgifter](https://www.imy.se/verksamhet/dataskydd/dataskydd-pa-olika-omraden/arbetsliv/tillaten-behandling--vilka-krav-galler/grundlaggande-principer/)."
+          },
+          {
+            "t": "box",
+            "title": "Frågor om dataskydd?",
+            "text": "Skriv till [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Sveriges dataskyddsmyndighet är IMY, Integritetsskyddsmyndigheten; läs dess vägledning om [rättslig grund i arbetslivet](https://www.imy.se/verksamhet/dataskydd/dataskydd-pa-olika-omraden/arbetsliv/tillaten-behandling--vilka-krav-galler/rattslig-grund/)."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Kan arbetsgivaren se vem som har svarat vad?",
+            "a": "Nej. Svaret lagras i en tabell som inte har någon kolumn som kan koppla det till en person. Ingen vy, export eller databasfråga visar vad en namngiven person har svarat, inte heller för VD eller administratörer."
+          },
+          {
+            "q": "Vad händer när en grupp är för liten?",
+            "a": "Ingen grupp visas förrän minst 5 har svarat; då visas ett streck. En organisation kan höja tröskeln till 10, men aldrig sänka den under 5. Kan en dold grupp räknas fram ur de andra, döljs en grupp till."
+          },
+          {
+            "q": "Var lagras uppgifterna?",
+            "a": "På servrar i EU (Frankfurt), under GDPR. Underbiträdena är Supabase, Vercel och Brevo, och Microsoft för organisationer som skickar mätningen i Teams."
+          },
+          {
+            "q": "Varför används inte samtycke?",
+            "a": "Eftersom anställda är i beroendeställning till sin arbetsgivare och därför som regel inte kan lämna ett frivilligt samtycke, som IMY påpekar. Behandlingen bygger på rättslig förpliktelse, GDPR artikel 6.1 c och dataskyddslagen 2 kap. 1 §, med AML 3 kap. 2 a § och AFS 2023:1 11 § som skyldigheten."
+          },
+          {
+            "q": "Används svaren för att träna AI?",
+            "a": "Nej. Vi delar inte svaren med tredje part och använder inga svar för att träna AI-modeller."
+          }
+        ]
+      },
+      "kontakt": {
+        "title": "Kontakta oss – frågor om arbetsmiljöundersökningar | Orgpuls",
+        "description": "Frågor om Orgpuls, hjälp med uppstarten eller Orgpuls i flera bolag? Skriv till hjelp@orgpuls.no.",
+        "crumb": "Kontakt",
+        "kicker": "Kontakt",
+        "h1": "Fråga oss – vi svarar inom en arbetsdag",
+        "lead": "Använd formuläret nedan eller e-post. Skriv vad det gäller och hur många anställda ni är, så kan vi svara konkret direkt.",
+        "blocks": [
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Flera bolag eller en stor organisation",
+                "text": "Använder ni Orgpuls i flera bolag eller i en stor organisation? Berätta hur ni är organiserade. Skriv till [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Orgpuls%20i%20flera%20bolag)."
+              },
+              {
+                "title": "Hjälp med uppstarten",
+                "text": "Behöver ni hjälp med den första uppsättningen, skriv till [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Hj%C3%A4lp%20med%20uppstarten) och berätta var ni har kört fast."
+              },
+              {
+                "title": "Dataskydd",
+                "text": "Frågor om vad vi lagrar och hur: [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Dataskydd). Se även [säkerhet och dataskydd](/sikkerhet)."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Vill ni hellre komma i gång själva? Registrera er med organisationsnumret och företagets namn – sedan kan ni planera den första mätningen."
+          }
+        ]
+      },
+      "personvernerklaering": {
+        "title": "Integritetspolicy | Orgpuls",
+        "description": "Personuppgifterna Orgpuls behandlar när du besöker webbplatsen, registrerar en organisation, får nyhetsbrev eller kontaktar oss – och dina rättigheter.",
+        "crumb": "Integritetspolicy",
+        "kicker": "Integritetsskydd",
+        "h1": "Integritetspolicy",
+        "lead": "Här står vad Orgpuls samlar in om dig, varför, hur länge vi behåller det och vem som hjälper oss. Senast uppdaterad 8 oktober 2026.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Vem som är ansvarig"
+          },
+          {
+            "t": "p",
+            "text": "Pundit Invest AS (norskt org.nr 922 698 422), Øvre Prinsdals vei 36L, 1266 Oslo, Norge, som tillhandahåller Orgpuls, är personuppgiftsansvarig för de uppgifter som beskrivs här: besök på webbplatsen, registrering av organisationer, nyhetsbrev, marknadsföring och kundsupport. Frågor om dataskydd skickar du till [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
+          },
+          {
+            "t": "box",
+            "title": "Svar på medarbetarundersökningar",
+            "text": "När en organisation använder Orgpuls för att kartlägga arbetsmiljön är organisationen personuppgiftsansvarig och Orgpuls personuppgiftsbiträde enligt ett personuppgiftsbiträdesavtal. Svaren lagras utan koppling till den som svarade, och resultaten för en grupp visas bara när minst fem har svarat; för en svensk organisation går gränsen aldrig under fem. Det enda undantaget är en kommentar vars skribent ber att få veta när ledningen svarar på den: då lagras vem som skrev den, krypterat och bara för att skicka det beskedet, och uppgiften raderas när samtalet avslutas, när beskedet stängs av och senast efter ett år. Hämtar organisationen de anställda från Microsoft Entra ID gör vi det för organisationens räkning och bara för de grupper den väljer: namn, e-postadress, språk, gruppmedlemskap och objekt-ID i katalogen, och mobilnummer bara om organisationen slår på det. Använder din arbetsgivare Slack för att skicka länken till dig hittar Orgpuls dig i arbetsytan via din e-postadress på jobbet och lagrar ditt medlems-ID där, för arbetsgivarens räkning. Meddelandet är en kort text och den personliga länken, utan läskvitto och utan registrering av klick. Slack är arbetsgivarens eget verktyg: Slack-administratören där kan läsa meddelandena, på samma sätt som en e-postadministratör kan läsa e-post, och en påminnelse visar att du inte hade svarat när den skickades. Ditt svar lagras utan koppling till meddelandet. Hur det är byggt står under [Säkerhet och integritet](/sikkerhet). Frågor om en kartläggning som du deltar i riktar du till din arbetsgivare."
+          },
+          {
+            "t": "h2",
+            "text": "När du besöker webbplatsen"
+          },
+          {
+            "t": "p",
+            "text": "Vi för vår egen statistik över användningen av orgpuls.com, även se.orgpuls.com, utan kakor och utan att lagra något på din enhet. För varje sidvisning skickar webbläsaren vilken sida det är, webbplatsen du kom från (bara domänen) och eventuella kampanjtaggar i adressen (utm) till vår egen plattform. Trycker du på en knapp som leder till registreringen, eller påbörjar eller slutför du en registrering, skickas även det, utan något av det du skrev. IP-adressen och webbläsarens identifiering lagras inte. De används bara för att skapa en besökskod med en nyckel som byts varje dygn, så att vi kan räkna besök inom ett dygn utan att kunna följa dig från en dag till nästa. Dessutom mäter Vercel, som driver webbplatsen, sidvisningar och laddningstid utan kakor."
+          },
+          {
+            "t": "p",
+            "text": "Ber din webbläsare om att inte bli spårad (Global Privacy Control eller Do Not Track) skickas ingenting till vår plattform. Statistiken raderas efter 13 månader. Den rättsliga grunden är vårt berättigade intresse av att förstå hur webbplatsen används, GDPR artikel 6.1 f."
+          },
+          {
+            "t": "h2",
+            "text": "När du registrerar en organisation"
+          },
+          {
+            "t": "p",
+            "text": "Vi lagrar ditt namn, din e-postadress, ditt lösenord (bara som en kryptografisk hash), organisationens namn, organisationsnummer och antal anställda. Vi lagrar också ditt svar om du berättar hur du hörde talas om oss. Den rättsliga grunden är avtalet med organisationen, artikel 6.1 b, och vårt berättigade intresse av att veta vilka kanaler som fungerar, artikel 6.1 f."
+          },
+          {
+            "t": "p",
+            "text": "Loggar du in med Google får vi ditt namn och din e-postadress från Google. Vi får aldrig ditt lösenord där."
+          },
+          {
+            "t": "p",
+            "text": "Loggar du in med Microsoft får vi ditt namn och din e-postadress från Microsoft, och vi lagrar två tekniska kännetecken för kontot: ID:t för den Microsoft 365-organisation det hör till (tenant-ID) och kontots objekt-ID där. Vi använder dem bara för att säkerställa att det är samma Microsoft-konto, från den Microsoft 365-organisation som organisationen eventuellt har anslutit, som loggar in igen. Vi får aldrig ditt lösenord där. Kännetecknen raderas tillsammans med kontot. Den rättsliga grunden är avtalet med organisationen, artikel 6.1 b, och vårt berättigade intresse av att säkra inloggningen, artikel 6.1 f. Oavsett hur du loggar in sparar vår inloggningstjänst de identitetsuppgifter som Google eller Microsoft skickar till den och registrerar IP-adress och webbläsare vid varje inloggning, av säkerhetsskäl."
+          },
+          {
+            "t": "h2",
+            "text": "När du provar demon"
+          },
+          {
+            "t": "p",
+            "text": "Ber du om en demo lagrar vi ditt namn, din e-postadress, organisationen och rollen du uppger, om du kryssade i rutan för e-post från oss, och en besökskod för nätverket du kom från, skapad av IP-adressen med en nyckel som byts varje dygn. Själva IP-adressen lagras inte. Förfrågan raderas efter 30 dagar. Vi använder den för att skicka inloggningslänken och för att förhindra missbruk, som många länkar till samma adress. Den rättsliga grunden är att du har bett om demon, artikel 6.1 b, och vårt berättigade intresse av att stoppa missbruk, artikel 6.1 f."
+          },
+          {
+            "t": "p",
+            "text": "Demon är en kopia av en fiktiv organisation som bara du har tillgång till. Den och din inloggning raderas efter 14 dagar utan inloggning, eller så snart du väljer att skapa ett eget konto. När du har öppnat länken lagrar vi din adress, ditt namn, din organisation och din roll som en kontakt märkt ”demo”, så att vi vet vem som har provat Orgpuls. Fanns du redan som kontakt behåller vi det vi hade och fyller bara i det som saknades. Den rättsliga grunden är vårt berättigade intresse av att känna till dem som provar produkten, artikel 6.1 f. Kontakten behåller vi tills du ber oss radera den eller invänder. Vi skickar e-post om Orgpuls till dig bara om du kryssade i rutan för det, artikel 6.1 a, och du kan avregistrera dig i varje e-postmeddelande."
+          },
+          {
+            "t": "h2",
+            "text": "Nyhetsbrev och e-post om Orgpuls"
+          },
+          {
+            "t": "p",
+            "text": "Anmäler du dig till nyhetsbrevet lagrar vi e-postadressen, eventuellt namn och organisation, vilka listor du har valt och när du bekräftade anmälan. Den rättsliga grunden är ditt samtycke, artikel 6.1 a. Vi registrerar om ett utskick levererades, öppnades eller klickades, för att veta vad som är användbart. Du kan avregistrera dig med länken längst ned i varje e-postmeddelande eller välja listor på nytt. Efter avregistrering behåller vi bara en kryptografisk hash av adressen, så att vi inte skickar till den igen."
+          },
+          {
+            "t": "p",
+            "text": "Till organisationer kan vi skicka e-post om Orgpuls till funktionsadresser (till exempel post@), med berättigat intresse som grund. Personliga adresser får e-post från oss bara med samtycke, eller när du redan är kund och inte har tackat nej. Varje e-postmeddelande har en avregistreringslänk. När vi skriver till en organisation i Norge hämtar vi namn, organisationsnummer, bransch och adress från det norska Enhetsregisteret och namnet på den verkställande direktören (daglig leder) från de offentliga rolluppgifterna där. Namnet använder vi bara för att vända oss till organisationen, på organisationens egen adress. Den rättsliga grunden är berättigat intresse, artikel 6.1 f, och uppgifterna kommer från en offentlig källa (artikel 14). Du kan invända när som helst, se nedan."
+          },
+          {
+            "t": "h2",
+            "text": "När du kontaktar oss"
+          },
+          {
+            "t": "p",
+            "text": "Skriver du till oss, via formuläret eller per e-post, lagrar vi ditt namn, din e-postadress och det du skriver, för att kunna svara och följa upp ärendet. Den rättsliga grunden är vårt berättigade intresse av att svara på förfrågningar, eller avtalet om du är kund."
+          },
+          {
+            "t": "h2",
+            "text": "När du laddar ner en mall"
+          },
+          {
+            "t": "p",
+            "text": "Laddar du ner en av mallarna lagrar vi ditt namn, din e-postadress, vilken mall du laddade ner, organisationen och rollen om du uppger dem, och om du kryssade i rutan för e-post från oss. Den rättsliga grunden är vårt berättigade intresse av att veta vem som använder mallarna, artikel 6.1 f. E-post om nya mallar och artiklar får du bara om du kryssade i rutan för det; då är den rättsliga grunden ditt samtycke, artikel 6.1 a, och du kan återkalla det med länken i varje e-postmeddelande. Webbläsaren får en kaka som kommer ihåg vilka mallar du har laddat ner, i ett år."
+          },
+          {
+            "t": "h2",
+            "text": "Kakor (cookies)"
+          },
+          {
+            "t": "p",
+            "text": "Vi använder bara kakor som behövs för att tjänsten ska fungera: inloggning, ditt språkval, visningsval i appen och en kortlivad kaka som kommer ihåg organisationen medan du registrerar dig med Google. I demon kommer webbläsaren ihåg vilka ställen i demoguiden du har besökt; det lagras bara på din enhet. Laddar du ner en mall kommer en kaka ihåg vilka mallar det var, i ett år, så att du slipper fylla i formuläret igen. Ingen används för statistik eller annonser."
+          },
+          {
+            "t": "h2",
+            "text": "Vem som hjälper oss"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Supabase Inc. (USA): databas, inloggning, bakgrundsjobb och vår egen besöksstatistik. Data lagras och behandlas i Frankfurt, Tyskland.",
+              "Vercel Inc. (USA): drift av webbplatsen och applikationen, och den kakfria mätningen av sidvisningar. Serverfunktionerna körs i Frankfurt.",
+              "Brevo SAS (Frankrike): utskick av e-post och sms, och registrering av leverans, öppning och klick i e-post.",
+              "Google (Irland): inloggning med Google, bara om du väljer det.",
+              "Microsoft (Irland): inloggning med Microsoft, bara om du väljer det.",
+              "Microsoft Ireland Operations Ltd (Irland): Azure Bot Service förmedlar Teams-meddelandet med länken till undersökningen, för organisationer som har slagit på Teams. Tjänsten är konfigurerad i EU (Västeuropa)."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Leverantörer utanför EES är bundna av EU-kommissionens standardavtalsklausuler för överföring. Vi säljer inte personuppgifter och delar dem inte med andra för deras marknadsföring."
+          },
+          {
+            "t": "h2",
+            "text": "Hur länge vi behåller uppgifterna"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Besöksstatistik: 13 månader. Besökskoden byts varje dygn.",
+              "Kontot och organisationens uppgifter: så länge kundförhållandet varar och därefter så länge den norska redovisningslagen (regnskapsloven) kräver för det som ingår i räkenskaperna.",
+              "Demo: förfrågan 30 dagar. Demon och inloggningen 14 dagar utan inloggning. Kontakten tills du ber oss radera den.",
+              "Nyhetsbrev: tills du avregistrerar dig. Därefter bara hashen som förhindrar nya utskick.",
+              "Ärenden till kundsupporten: så länge det behövs för att följa upp ärendet och kundförhållandet.",
+              "Nedladdning av mallar: tills du ber oss radera uppgifterna. Samtycket till e-post: tills du återkallar det."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Dina rättigheter"
+          },
+          {
+            "t": "p",
+            "text": "Du kan begära tillgång till, rättelse och radering av uppgifter om dig, be oss begränsa behandlingen, invända mot behandling som grundar sig på berättigat intresse och få ut uppgifter som du har lämnat till oss i ett maskinläsbart format. Skriv till [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no); vi svarar inom 30 dagar. Anser du att vi behandlar uppgifter i strid med reglerna kan du klaga till tillsynsmyndigheten i landet där du bor, i Sverige [Integritetsskyddsmyndigheten (IMY)](https://www.imy.se). Pundit Invest AS står under tillsyn av [Datatilsynet](https://www.datatilsynet.no) i Norge, dit du också kan klaga."
+          }
+        ]
+      }
+    },
+    "lp": {
+      "lovkrav": {
+        "title": "Organisatorisk och social arbetsmiljö (OSA): vad lagen kräver | Orgpuls",
+        "description": "Vad arbetsmiljölagen och AFS 2023:2 kräver om organisatorisk och social arbetsmiljö (OSA): undersökning, riskbedömning, handlingsplan och skyddsombud.",
+        "crumb": "OSA och lagen",
+        "card": {
+          "title": "OSA och lagen",
+          "text": "Vad arbetsmiljölagen och AFS 2023:2 kräver om organisatorisk och social arbetsmiljö, område för område."
+        },
+        "kicker": "Arbetsmiljölagen 3 kap. 2 a § och AFS 2023:2 2 kap.",
+        "h1": "Vad kräver lagen av arbetet med organisatorisk och social arbetsmiljö (OSA)?",
+        "lead": "Arbetsgivaren ska systematiskt planera, leda och kontrollera verksamheten så att arbetsmiljön uppfyller kraven på en god arbetsmiljö (arbetsmiljölagen 3 kap. 2 a §). Det gäller också de organisatoriska och sociala förhållandena: arbetsgivaren ska regelbundet undersöka dem, bedöma riskerna, genomföra åtgärder och följa upp arbetet varje år (AFS 2023:1). Kraven på den organisatoriska och sociala arbetsmiljön står i AFS 2023:2 2 kap., som den 1 januari 2025 ersatte AFS 2015:4. Arbetstagarna och skyddsombuden ska få medverka. Varken lagen eller föreskrifterna kräver en enkät, men riskbedömningen ska alltid dokumenteras skriftligt.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Vad lagen kräver – fyra steg"
+          },
+          {
+            "t": "p",
+            "text": "Grunden står i arbetsmiljölagen 3 kap. 2 a §: arbetsgivaren ska «systematiskt planera, leda och kontrollera verksamheten på ett sätt som leder till att arbetsmiljön uppfyller föreskrivna krav på en god arbetsmiljö», och «fortlöpande undersöka riskerna i verksamheten och vidta de åtgärder som föranleds av detta». Hur det ska gå till står i Arbetsmiljöverkets föreskrifter AFS 2023:1 om systematiskt arbetsmiljöarbete (SAM). Enligt 5 § ska arbetet omfatta «alla fysiska, organisatoriska och sociala förhållanden som har betydelse för arbetsmiljön». Föreskrifterna gäller sedan den 1 januari 2025."
+          },
+          {
+            "t": "cycle",
+            "center": "Med medverkan av arbetstagarna och skyddsombuden",
+            "items": [
+              {
+                "title": "Undersöka",
+                "ref": "AFS 2023:1 11 §",
+                "text": "Undersök arbetsmiljöförhållandena regelbundet, också de organisatoriska och sociala, och när ändringar planeras."
+              },
+              {
+                "title": "Bedöma riskerna",
+                "ref": "AFS 2023:1 11 §",
+                "text": "Bedöm riskerna för ohälsa och olycksfall. Skriv alltid ned vilka riskerna är och om de är allvarliga."
+              },
+              {
+                "title": "Åtgärda",
+                "ref": "AFS 2023:1 13 §",
+                "text": "Genomför de åtgärder som behövs. Det som inte görs direkt skrivs in i en handlingsplan, med när och vem."
+              },
+              {
+                "title": "Kontrollera och följa upp",
+                "ref": "AFS 2023:1 13–14 §§",
+                "text": "Kontrollera de åtgärder som har genomförts, och följ upp hela arbetsmiljöarbetet varje år."
+              }
+            ]
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "AML 3 kap. 2 a §",
+                "text": "Systematiskt planera, leda och kontrollera verksamheten, fortlöpande undersöka riskerna och vidta åtgärder. Det som inte kan göras direkt ska tidsplaneras."
+              },
+              {
+                "ref": "AFS 2023:1 11 §",
+                "text": "Regelbundet undersöka arbetsmiljöförhållandena och bedöma riskerna. Riskbedömningen ska alltid dokumenteras skriftligt."
+              },
+              {
+                "ref": "AFS 2023:2 2 kap.",
+                "text": "Kraven på den organisatoriska och sociala arbetsmiljön: arbetsbelastning, tydliga uppgifter, påfrestande arbete, arbetstid och kränkande särbehandling."
+              },
+              {
+                "ref": "AML 6 kap. 4 §",
+                "text": "Skyddsombudet ska delta när handlingsplaner upprättas."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Kartläggningen av arbetsmiljön är en del av det systematiska arbetsmiljöarbetet, inte ett eget projekt. AFS 2023:1 kräver också bland annat en arbetsmiljöpolicy (7 §), rutiner för när och hur arbetet görs (8 §), en uppgiftsfördelning (9 §), tillräckliga kunskaper om arbetet och riskerna (10 §), utredning när någon drabbas av ohälsa eller olycksfall eller ett allvarligt tillbud inträffar (12 §), och företagshälsovård eller annan sakkunnig hjälp utifrån när den egna kompetensen inte räcker (15 §). Den organisatoriska och sociala arbetsmiljön hör hemma i samma system."
+          },
+          {
+            "t": "h2",
+            "text": "Områdena i AFS 2023:2"
+          },
+          {
+            "t": "p",
+            "text": "AFS 2023:2 2 kap. räknar inte upp faktorer som ska mätas. Det ställer krav inom några områden och beskriver vad den organisatoriska och sociala arbetsmiljön består av: ledning och styrning, kommunikation, delaktighet, handlingsutrymme, fördelning av arbetsuppgifter samt krav, resurser och ansvar, och socialt samspel, samarbete och socialt stöd från chefer och kollegor (2 kap. 3 §). Vanliga enkätbegrepp som rollklarhet och erkänsla står inte i texten med de orden. Undersökningen ska omfatta de förhållanden som har betydelse för arbetsmiljön hos er (AFS 2023:1 5 §)."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Område",
+              "Bestämmelse",
+              "Vad som krävs"
+            ],
+            "rows": [
+              [
+                "Arbetsbelastning och återhämtning",
+                "AFS 2023:2 2 kap. 3 och 6 §§",
+                "Resurserna ska anpassas till kraven i arbetet. Obalansen blir ohälsosam om den är långvarig och möjligheterna till återhämtning är otillräckliga."
+              ],
+              [
+                "Uppgifter, resultat och prioriteringar",
+                "2 kap. 7 §",
+                "Arbetstagarna ska veta vilka uppgifter de ska utföra, vilket resultat som ska uppnås och vad som ska prioriteras när tiden inte räcker."
+              ],
+              [
+                "Befogenheter",
+                "2 kap. 7 §",
+                "Arbetstagarna ska känna till vilka befogenheter de har i sitt arbete."
+              ],
+              [
+                "Hjälp och stöd i arbetet",
+                "2 kap. 7 § punkt 5",
+                "Arbetstagarna ska veta vem de kan vända sig till för att få hjälp och stöd att utföra arbetet."
+              ],
+              [
+                "Socialt stöd, samarbete och kommunikation",
+                "2 kap. 3 §",
+                "Ingår i definitionerna: socialt samspel, samarbete och socialt stöd från chefer och kollegor, och kommunikation."
+              ],
+              [
+                "Handlingsutrymme och delaktighet",
+                "2 kap. 3 § · AML 2 kap. 1 §",
+                "Arbetstagaren ska ges möjlighet att medverka i utformningen av sin egen arbetssituation."
+              ],
+              [
+                "Starkt psykiskt påfrestande arbete",
+                "2 kap. 8 §",
+                "Åtgärder så att starkt psykiskt påfrestande arbetsuppgifter och arbetssituationer inte leder till ohälsa."
+              ],
+              [
+                "Arbetstidens förläggning",
+                "2 kap. 9 §",
+                "Åtgärder så att arbetstidens förläggning inte leder till ohälsa."
+              ],
+              [
+                "Kränkande särbehandling",
+                "2 kap. 10–11 §§",
+                "Klargöra att det inte accepteras, motverka förhållanden som kan ge upphov till det, och ha rutiner som alla känner till."
+              ],
+              [
+                "Chefernas kunskaper",
+                "2 kap. 4 §",
+                "Chefer och arbetsledare ska veta hur man förebygger och hanterar ohälsosam arbetsbelastning och kränkande särbehandling."
+              ],
+              [
+                "Mål för den organisatoriska och sociala arbetsmiljön",
+                "2 kap. 5 §",
+                "Mål som främjar hälsa, framtagna med arbetstagarnas medverkan. Skriftliga från tio arbetstagare."
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Våld och hot om våld har ett eget kapitel i AFS 2023:2 (5 kap.), med krav på att förebygga risker, ha särskilda säkerhetsrutiner, ge särskilt stöd och handledning och utreda och dokumentera tillbud och händelser. Trakasserier med samband med en diskrimineringsgrund och sexuella trakasserier regleras dessutom i diskrimineringslagen: arbetsgivaren ska ha riktlinjer och rutiner för att förhindra dem (3 kap. 6 §) och utreda när en arbetstagare anser sig ha blivit utsatt i samband med arbetet (2 kap. 3 §). Där har Diskrimineringsombudsmannen tillsynen."
+          },
+          {
+            "t": "h2",
+            "text": "AFS 2023:2 2 kap., paragraf för paragraf"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "1977",
+                "title": "Arbetsmiljölagen",
+                "text": "Lagen (1977:1160) är grunden. I dag kräver den en god arbetsmiljö (2 kap. 1 §) och systematiskt arbetsmiljöarbete (3 kap. 2 a §)."
+              },
+              {
+                "date": "2015",
+                "title": "AFS 2015:4",
+                "text": "Arbetsmiljöverkets föreskrifter om organisatorisk och social arbetsmiljö."
+              },
+              {
+                "date": "1 januari 2025",
+                "title": "AFS 2023:1 och AFS 2023:2 gäller",
+                "text": "AFS 2023:2 ersätter AFS 2015:4, och AFS 2023:1 ersätter AFS 2001:1. Kraven på OSA står nu i AFS 2023:2 2 kap."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Kapitlet heter «Organisatorisk och social arbetsmiljö» och har elva paragrafer. 1–3 §§ anger när kapitlet gäller, vem det riktar sig till och vad begreppen betyder: arbetsgivaren ansvarar för att bestämmelserna följs (2 §). Kraven står i 4–11 §§:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "AFS 2023:2 2 kap. 4 §",
+                "text": "Chefer och arbetsledare ska ha kunskaper om hur man förebygger och hanterar ohälsosam arbetsbelastning och kränkande särbehandling, och förutsättningar att omsätta kunskaperna i praktiken."
+              },
+              {
+                "ref": "AFS 2023:2 2 kap. 5 §",
+                "text": "Arbetsgivaren ska ha mål för den organisatoriska och sociala arbetsmiljön, som syftar till att främja hälsa och öka organisationens förmåga att motverka ohälsa. Arbetstagarna ska få medverka och känna till målen. Från tio arbetstagare ska målen vara skriftliga."
+              },
+              {
+                "ref": "AFS 2023:2 2 kap. 6–7 §§",
+                "text": "Arbetsuppgifter och befogenheter får inte ge upphov till ohälsosam arbetsbelastning: resurserna ska anpassas till kraven. Arbetstagarna ska veta vilka uppgifter de ska utföra, vilket resultat som ska uppnås, om arbetet ska utföras på ett särskilt sätt, vad som ska prioriteras när tiden inte räcker och vem de kan vända sig till för hjälp och stöd."
+              },
+              {
+                "ref": "AFS 2023:2 2 kap. 8–9 §§",
+                "text": "Arbetsgivaren ska vidta åtgärder för att motverka att starkt psykiskt påfrestande arbetsuppgifter och arbetssituationer, och arbetstidens förläggning, leder till ohälsa. De allmänna råden nämner bland annat skiftarbete, arbete nattetid, mycket övertid och förväntningar på att vara ständigt nåbar."
+              },
+              {
+                "ref": "AFS 2023:2 2 kap. 10–11 §§",
+                "text": "Arbetsgivaren ska klargöra att kränkande särbehandling inte accepteras och motverka förhållanden som kan ge upphov till det. Det ska finnas rutiner för hur kränkande särbehandling hanteras, och alla arbetstagare ska känna till dem."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Föreskrifterna finns i sin helhet hos Arbetsmiljöverket: [AFS 2023:1 om systematiskt arbetsmiljöarbete](https://www.av.se/arbetsmiljoarbete-och-inspektioner/publikationer/foreskrifter/afs-20231/) och [AFS 2023:2 om planering och organisering av arbetsmiljöarbete](https://www.av.se/arbetsmiljoarbete-och-inspektioner/publikationer/foreskrifter/afs-20232/). Där står också de allmänna råden, som ger vägledning men inte är bindande."
+          },
+          {
+            "t": "h2",
+            "text": "Vem som ska vara med"
+          },
+          {
+            "t": "hub",
+            "center": {
+              "title": "Arbetsgivaren",
+              "text": "Ansvarar för att bestämmelserna följs (AFS 2023:2 2 kap. 2 §). Att undersöka och bedöma riskerna är arbetsgivarens skyldighet (AML 3 kap. 2 a §)."
+            },
+            "items": [
+              {
+                "title": "Skyddsombudet",
+                "text": "Utses på arbetsställen med minst fem arbetstagare, av det lokala facket som är eller brukar vara bundet av kollektivavtal, annars av arbetstagarna – inte av arbetsgivaren (AML 6 kap. 2 §). Vakar över att arbetsgivaren uppfyller 3 kap. 2 a § och deltar när handlingsplaner upprättas (6 kap. 4 §)."
+              },
+              {
+                "title": "Skyddskommittén",
+                "text": "Ska finnas på arbetsställen med minst femtio arbetstagare, och på mindre om arbetstagarna begär det (AML 6 kap. 8 §). Deltar i planeringen av arbetsmiljöarbetet och behandlar bland annat handlingsplaner (6 kap. 9 §)."
+              },
+              {
+                "title": "Arbetstagarna",
+                "text": "Ska få möjlighet att medverka i det systematiska arbetsmiljöarbetet (AFS 2023:1 6 §) och i arbetet med målen (AFS 2023:2 2 kap. 5 §). De ska själva medverka i arbetsmiljöarbetet (AML 3 kap. 4 §)."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Rutinen för kränkande särbehandling hör till",
+            "text": "Arbetsgivaren ska ha rutiner för hur kränkande särbehandling hanteras: vem som tar emot information om att det förekommer, vad mottagaren ska göra, och hur och var de som är utsatta snabbt kan få hjälp. Rutinerna ska göras kända för alla arbetstagare (AFS 2023:2 2 kap. 11 §). Om folk faktiskt vågar använda dem är en fråga om yttrandeklimat."
+          },
+          {
+            "t": "h2",
+            "text": "Vad som ska dokumenteras"
+          },
+          {
+            "t": "p",
+            "text": "Riskbedömningen ska alltid dokumenteras skriftligt, oavsett hur många ni är: «Av dokumentationen ska det framgå vilka riskerna är, och om de är allvarliga» (AFS 2023:1 11 §). Åtgärder som inte genomförs direkt skrivs in i en handlingsplan med när och vem (13 §). Med tio eller fler arbetstagare – räknat i hela verksamheten, inte per arbetsställe – ska också arbetsmiljöpolicyn, rutinerna, uppgiftsfördelningen, resultatet av den årliga uppföljningen och målen för den organisatoriska och sociala arbetsmiljön vara skriftliga (AFS 2023:1 7, 8, 9 och 14 §§; AFS 2023:2 2 kap. 5 §). Sammantaget bör dokumentationen visa:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "vad som undersöktes, när och hur",
+              "att arbetstagarna och skyddsombudet fick medverka",
+              "vilka riskerna är och om de är allvarliga, för varje område och grupp",
+              "vilka åtgärder som valdes, när de ska vara genomförda och vem som ser till det",
+              "kontrollen: om åtgärderna fungerade"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Undersökningen är mer än en enkät",
+            "text": "Varken lagen eller föreskrifterna kräver en enkät. De kräver att arbetsmiljöförhållandena undersöks och att riskerna bedöms. En anonym medarbetarundersökning är ett bra sätt att göra en del av det, och visar hur arbetstagarna själva ser på arbetsbelastning, stöd och bemötande. Skyddsronder, tillbudsrapporter, sjukfrånvaro och samtal med arbetstagarna kan ge en mer fullständig bild. En enkät bedömer inte riskerna och beslutar inga åtgärder – det gör arbetsgivaren, och det är det dokumentationen ska visa."
+          },
+          {
+            "t": "h2",
+            "text": "Vad som händer om kraven inte följs"
+          },
+          {
+            "t": "p",
+            "text": "Arbetsmiljöverket utövar tillsyn över att arbetsmiljölagen och föreskrifterna följs (AML 7 kap. 1 §), och ska ges tillträde till arbetsstället för det (7 kap. 5 §). Riskbedömningen och handlingsplanen ska finnas hos er, och Arbetsmiljöverket har rätt att efter anfordran få de handlingar som behövs för tillsynen (7 kap. 3 §). Brister kan leda till ett föreläggande eller förbud, som får förenas med vite (7 kap. 7 §)."
+          },
+          {
+            "t": "p",
+            "text": "Så kan en brist leda till ett beslut, steg för steg:"
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Skyddsombudets begäran",
+                "ref": "AML 6 kap. 6 a §",
+                "text": "Skyddsombudet begär åtgärder av arbetsgivaren, som ska lämna besked utan dröjsmål. Annars prövar Arbetsmiljöverket saken på ombudets begäran."
+              },
+              {
+                "title": "Begäran om handlingar",
+                "ref": "AML 7 kap. 3 §",
+                "text": "Arbetsmiljöverket kan kräva de upplysningar och handlingar som behövs för tillsynen, till exempel riskbedömningen och handlingsplanen."
+              },
+              {
+                "title": "Föreläggande eller förbud",
+                "ref": "AML 7 kap. 7 §",
+                "text": "Arbetsmiljöverket kan besluta de förelägganden eller förbud som behövs för att lagen och föreskrifterna ska följas."
+              },
+              {
+                "title": "Vite",
+                "ref": "AML 7 kap. 7 §",
+                "text": "Ett beslut om föreläggande eller förbud får förenas med vite, så att det kostar att inte följa det."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Vid en inspektion är det dokumentationen som visar vad ni har gjort. En undersökning som är riskbedömd, åtgärdad och uppföljd – och som finns skriftligt i riskbedömningen, handlingsplanen och den årliga uppföljningen – är därför också det bästa svaret när Arbetsmiljöverket frågar."
+          },
+          {
+            "t": "p",
+            "text": "Läs mer om [skyddsombudets roll](/verneombud) och om [vad som gäller för små företag](/smaa-bedrifter). Lagtexten finns hos riksdagen: [arbetsmiljölagen (1977:1160)](https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/arbetsmiljolag-19771160_sfs-1977-1160/)."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Gäller kraven små företag?",
+            "a": "Ja. Skyldigheten i arbetsmiljölagen 3 kap. 2 a § är arbetsgivarens oavsett storlek, och AFS 2023:2 2 kap. gäller «all verksamhet där arbetstagare utför arbete för arbetsgivares räkning» (2 kap. 1 §). Riskbedömningen och handlingsplanen ska alltid vara skriftliga. Med färre än tio arbetstagare behöver policyn, rutinerna, uppgiftsfördelningen, den årliga uppföljningen och målen inte vara skriftliga – men arbetet ska göras."
+          },
+          {
+            "q": "Kräver lagen en medarbetarundersökning?",
+            "a": "Nej. Varken arbetsmiljölagen, AFS 2023:1 eller AFS 2023:2 kräver en enkät. De kräver att arbetsgivaren regelbundet undersöker arbetsmiljöförhållandena och bedömer riskerna (AFS 2023:1 11 §), genomför åtgärder och följer upp, med arbetstagarnas och skyddsombudets medverkan. En anonym medarbetarundersökning eller arbetsmiljöundersökning är ett bra sätt att undersöka den organisatoriska och sociala arbetsmiljön, men den är en källa, inte hela riskbedömningen."
+          },
+          {
+            "q": "Vad ändrades den 1 januari 2025?",
+            "a": "Då trädde AFS 2023:1 och AFS 2023:2 i kraft. AFS 2023:2 upphävde bland annat AFS 2015:4 om organisatorisk och social arbetsmiljö, och kraven på OSA står nu i dess 2 kap. AFS 2023:1 ersatte AFS 2001:1 om systematiskt arbetsmiljöarbete. En rutin eller policy som hänvisar till AFS 2015:4 hänvisar alltså till föreskrifter som inte längre gäller."
+          },
+          {
+            "q": "Hur ofta måste vi undersöka?",
+            "a": "Föreskrifterna säger «regelbundet» (AFS 2023:1 11 §) men anger inget fast intervall. När ändringar i verksamheten planeras ska ni också undersöka om de medför risker för ohälsa eller olycksfall och bedöma dem (11 § andra stycket). Hela det systematiska arbetsmiljöarbetet ska följas upp varje år (14 §). Enligt de allmänna råden kan det finnas skäl för fler uppföljningar, till exempel efter en omorganisation."
+          },
+          {
+            "q": "Vem har ansvaret för undersökningen?",
+            "a": "Arbetsgivaren. Det är arbetsgivaren som ska systematiskt planera, leda och kontrollera verksamheten (AML 3 kap. 2 a §) och som ansvarar för att AFS 2023:2 2 kap. följs (2 kap. 2 §). Uppgifter i arbetsmiljöarbetet kan fördelas (AFS 2023:1 9 §), och chefer och arbetsledare ska ha kunskaper om arbetsbelastning och kränkande särbehandling (AFS 2023:2 2 kap. 4 §). Skyddsombudet och arbetstagarna ska få medverka, men det är inte deras ansvar att genomföra undersökningen."
+          },
+          {
+            "q": "Måste vi ha skyddsombud?",
+            "a": "På ett arbetsställe där minst fem arbetstagare regelbundet sysselsätts ska det utses skyddsombud, och på mindre arbetsställen om arbetsförhållandena kräver det (AML 6 kap. 2 §). Skyddsombudet utses av en lokal facklig organisation som är eller brukar vara bunden av kollektivavtal med arbetsgivaren, och annars av arbetstagarna – aldrig av arbetsgivaren. Där det inte finns någon skyddskommitté kan facket utse ett regionalt skyddsombud."
+          },
+          {
+            "q": "Måste vi undersöka alla områden i AFS 2023:2?",
+            "a": "Undersökningen ska omfatta alla organisatoriska och sociala förhållanden som har betydelse för arbetsmiljön (AFS 2023:1 5 §). AFS 2023:2 2 kap. är ingen lista över faktorer att mäta, utan ställer krav inom arbetsbelastning, uppgifter och prioriteringar, starkt psykiskt påfrestande arbete, arbetstid och kränkande särbehandling. Vilka förhållanden som har betydelse beror på verksamheten. En enkät täcker sällan allt: arbetstidens förläggning syns till exempel ofta bättre i scheman och övertid."
+          },
+          {
+            "q": "Vad kan Arbetsmiljöverket göra om vi inte har undersökt?",
+            "a": "Begära de upplysningar och handlingar som behövs för tillsynen (AML 7 kap. 3 §), till exempel riskbedömningen och handlingsplanen, och besluta de förelägganden eller förbud som behövs för att lagen och föreskrifterna ska följas (7 kap. 7 §). Ett sådant beslut får förenas med vite. Ett skyddsombud som har begärt åtgärder utan att få besked kan också vända sig till Arbetsmiljöverket (6 kap. 6 a §)."
+          }
+        ]
+      },
+      "verneombud": {
+        "title": "Skyddsombudets uppgifter och rättigheter | Orgpuls",
+        "description": "Skyddsombudets uppgifter och rättigheter när arbetsmiljön kartläggs: vad arbetsmiljölagen säger, din roll i varje steg och vad du gör när ingen svarar.",
+        "crumb": "För skyddsombud",
+        "card": {
+          "title": "Skyddsombud",
+          "text": "Skyddsombudets uppgifter och rättigheter när arbetsmiljön kartläggs, steg för steg."
+        },
+        "kicker": "Arbetsmiljölagen 6 kap. 4 §",
+        "h1": "Skyddsombudet och kartläggningen: uppgifter, rättigheter och arbetsgång",
+        "lead": "Skyddsombudet företräder arbetstagarna i arbetsmiljöfrågor och ska vaka över att arbetsgivaren arbetar systematiskt med arbetsmiljön. När arbetsmiljön kartläggs ska arbetsgivaren ge skyddsombudet möjlighet att medverka – i undersökningen, i riskbedömningen och när handlingsplanen upprättas. Ansvaret för att det blir gjort ligger hos arbetsgivaren.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Det du har rätt till"
+          },
+          {
+            "t": "p",
+            "text": "Arbetsmiljölagen 6 kap. 4 § säger att skyddsombudet företräder arbetstagarna och ska ”verka för en tillfredsställande arbetsmiljö”. Ombudet ska vaka över ”att arbetsgivaren uppfyller kraven i 3 kap. 2 a §”, alltså det systematiska arbetsmiljöarbetet, och ska ”delta vid upprättande av handlingsplaner”. Det arbetet omfattar även de organisatoriska och sociala förhållandena (AFS 2023:1 5 §), och arbetsgivaren ska ge skyddsombuden möjlighet att medverka i det (AFS 2023:1 6 §)."
+          },
+          {
+            "t": "hub",
+            "center": {
+              "title": "Skyddsombudet",
+              "text": "Företräder arbetstagarna i arbetsmiljöfrågor och ska verka för en tillfredsställande arbetsmiljö (AML 6 kap. 4 §)."
+            },
+            "items": [
+              {
+                "title": "Vakar",
+                "text": "Över skyddet mot ohälsa och olycksfall, och över att arbetsgivaren uppfyller kraven i 3 kap. 2 a § (6 kap. 4 §)."
+              },
+              {
+                "title": "Deltar",
+                "text": "När arbetsorganisationen planeras och när handlingsplaner upprättas (6 kap. 4 § andra stycket)."
+              },
+              {
+                "title": "Tar del",
+                "text": "Av de handlingar och upplysningar som behövs för uppdraget (6 kap. 6 §)."
+              },
+              {
+                "title": "Begär",
+                "text": "Åtgärder av arbetsgivaren – som ska lämna besked utan dröjsmål (6 kap. 6 a §)."
+              }
+            ]
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "AML 6 kap. 2 §",
+                "text": "På ett arbetsställe där minst fem arbetstagare regelbundet arbetar ska ett eller flera skyddsombud utses bland arbetstagarna, och på ett mindre om arbetsförhållandena kräver det. Skyddsombudet utses av den lokala fackliga organisation som är eller brukar vara bunden av kollektivavtal med arbetsgivaren, annars av arbetstagarna. Aldrig av arbetsgivaren."
+              },
+              {
+                "ref": "AML 6 kap. 4 §",
+                "text": "Skyddsombudet vakar över skyddet mot ohälsa och olycksfall och över arbetsgivarens systematiska arbetsmiljöarbete, och ska delta när arbetsorganisationen planeras och när handlingsplaner upprättas. Arbetsgivaren ska underrätta ombudet om förändringar av betydelse för arbetsmiljön."
+              },
+              {
+                "ref": "AML 6 kap. 6 §",
+                "text": "Skyddsombudet har rätt att ta del av de handlingar och få de upplysningar i övrigt som behövs för uppdraget."
+              },
+              {
+                "ref": "AFS 2023:1 6 §",
+                "text": "Arbetsgivaren ska ge arbetstagarna och skyddsombuden möjlighet att medverka i det systematiska arbetsmiljöarbetet, där undersökningen, riskbedömningen och handlingsplanen ingår (11 och 13 §§). Rutinerna ska säga vilka som ska medverka (8 §)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Din roll i varje steg"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Steg 1 · Planering",
+                "title": "Vara med när upplägget och tidpunkten bestäms.",
+                "text": "**Fråga:** När ska kartläggningen göras, och vem är med och bestämmer upplägget?"
+              },
+              {
+                "date": "Steg 2 · Undersökning",
+                "title": "Uppmuntra kollegorna att svara, och kunna förklara varför det är tryggt.",
+                "text": "**Fråga:** Hur är anonymiteten säkrad, och hur små grupper visas?"
+              },
+              {
+                "date": "Steg 3 · Riskbedömning",
+                "title": "Bedöma siffrorna tillsammans med ledningen – inte få en sammanfattning efteråt.",
+                "text": "**Fråga:** Får jag se samma siffror som ledningen, och är jag med när riskerna bedöms?"
+              },
+              {
+                "date": "Steg 4 · Handlingsplan",
+                "title": "Vara med när åtgärderna väljs, och se att de riktar sig mot orsakerna.",
+                "text": "**Fråga:** Har varje åtgärd en ansvarig och ett datum, och riktar den sig mot orsaken?"
+              },
+              {
+                "date": "Steg 5 · Uppföljning",
+                "title": "Se att åtgärderna genomförs, och att någon kontrollerar om de fungerade.",
+                "text": "**Fråga:** Hur ska vi se om åtgärderna fungerade, och när?"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "I Orgpuls har skyddsombudet en egen roll, **Skyddsombud**. Den ser samma resultat och samma riskbedömning som ledningen, men bara på gruppnivå: aldrig ett enskilt svar och aldrig vem som har svarat. Skyddsombudet får besked före de anställda när en mätning ska skickas ut. Läs mer om [vad reglerna kräver](/lovkrav) och om [hur anonymiteten fungerar](/sikkerhet)."
+          },
+          {
+            "t": "h2",
+            "text": "Vad skyddsombudet bör få ta del av"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Samma underlag som ledningen",
+                "text": "För att kunna vara med i riskbedömningen behöver skyddsombudet samma resultat som ledningen – inte bara en sammanfattning i efterhand (AML 6 kap. 6 §)."
+              },
+              {
+                "title": "Handlingsplanen",
+                "text": "Vilka åtgärder som har valts, vem som ska se till att de genomförs, när de ska vara klara och hur de ska kontrolleras (AFS 2023:1 13 §)."
+              },
+              {
+                "title": "Hur anonymiteten är säkrad",
+                "text": "Skyddsombudet bör kunna förklara för kollegorna varför det är tryggt att svara: vad som lagras, och hur små grupper som visas."
+              },
+              {
+                "title": "Dokumentationen",
+                "text": "Vad som undersöktes, vilka riskerna är och om de är allvarliga, och vad som gjordes. Riskbedömningen ska alltid dokumenteras skriftligt (AFS 2023:1 11 §)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "När du vill ta upp det med ledningen"
+          },
+          {
+            "t": "p",
+            "text": "Vet du att arbetsmiljön borde ha kartlagts, men inte hur du ska ta upp det? Börja med frågor, inte krav: när undersöktes den organisatoriska och sociala arbetsmiljön senast, vad kom fram, och vad hände sedan? Hänvisa gärna till AFS 2023:1 11 §, som kräver att arbetsgivaren regelbundet undersöker arbetsmiljön och bedömer riskerna, och till AFS 2023:2 2 kap., som sedan 1 januari 2025 ersätter AFS 2015:4 om organisatorisk och social arbetsmiljö. Läs mer om [vad reglerna kräver](/lovkrav)."
+          },
+          {
+            "t": "box",
+            "title": "Ett råd från praktiken",
+            "text": "Ta upp det som en fråga om rytm, inte om ett verktyg: ”När kartlade vi senast, och vad hände med det vi kom fram till?” Svaret säger oftast mer än någon enkät."
+          },
+          {
+            "t": "h2",
+            "text": "När ledningen inte tar tag i det"
+          },
+          {
+            "t": "p",
+            "text": "Lagen ger skyddsombudet en fast väg att gå. Anser du att åtgärder behövs för en tillfredsställande arbetsmiljö, vänder du dig till arbetsgivaren och begär dem, och arbetsgivaren ska utan dröjsmål lämna besked. Får du inget besked, eller beaktas inte begäran inom skälig tid, prövar Arbetsmiljöverket efter din framställan om ett föreläggande eller förbud ska meddelas (AML 6 kap. 6 a §)."
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Ta upp det",
+                "text": "Med närmaste chef eller VD, gärna skriftligt."
+              },
+              {
+                "title": "Visa siffrorna",
+                "text": "Vilka faktorer, vilka grupper, och hur de har utvecklats."
+              },
+              {
+                "title": "Begär åtgärder",
+                "text": "Och besked om vad som ska göras, och när. Arbetsgivaren ska svara utan dröjsmål.",
+                "ref": "AML 6 kap. 6 a §"
+              },
+              {
+                "title": "Gå vidare",
+                "text": "Utan besked, eller utan åtgärd inom skälig tid: till Arbetsmiljöverket, som prövar om ett föreläggande eller förbud ska meddelas.",
+                "ref": "AML 6 kap. 6 a §"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Kränkande särbehandling har en egen väg: arbetsgivarens rutin ska säga vem som tar emot informationen och hur den som är utsatt snabbt kan få hjälp (AFS 2023:2 2 kap. 11 §). Enligt de allmänna råden kan arbetstagare också vända sig till ett skyddsombud."
+          },
+          {
+            "t": "h2",
+            "text": "När en avdelning inte visas"
+          },
+          {
+            "t": "p",
+            "text": "I Orgpuls visas resultat bara för grupper där minst fem har svarat. En organisation kan höja gränsen till tio, men aldrig sänka den under fem. När en liten avdelning inte visas döljer ingen något för dig: siffran har inte räknats fram för någon, just för att ingen ska kunna se vem som har svarat vad. Svaren räknas ändå med i siffrorna för helheten. Läs mer om [hur anonymiteten fungerar](/sikkerhet)."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Måste vi ha skyddsombud?",
+            "a": "Ja, på ett arbetsställe där minst fem arbetstagare regelbundet arbetar ska ett eller flera skyddsombud utses (AML 6 kap. 2 §). På ett mindre arbetsställe ska skyddsombud utses om arbetsförhållandena kräver det. Skyddsombudet utses av den lokala fackliga organisation som har eller brukar ha kollektivavtal med arbetsgivaren, annars av arbetstagarna – aldrig av arbetsgivaren."
+          },
+          {
+            "q": "Kan ledningen se vem som har svarat vad?",
+            "a": "Nej. I Orgpuls kan inget enskilt svar spåras till en person – det är inbyggt i databasen, inte ett löfte om rutiner – och resultat visas bara för grupper där minst fem har svarat. Rollen Skyddsombud ser samma siffror som ledningen, på gruppnivå – aldrig ett enskilt svar."
+          },
+          {
+            "q": "Vad händer om ledningen inte vill?",
+            "a": "Skyldigheten att undersöka arbetsmiljön, bedöma riskerna och genomföra åtgärder gäller ändå, och ansvaret är arbetsgivarens (AML 3 kap. 2 a §, AFS 2023:1 11 och 13 §§). Som skyddsombud kan du begära åtgärder. Får du inget besked, eller beaktas inte begäran inom skälig tid, kan du vända dig till Arbetsmiljöverket (AML 6 kap. 6 a §)."
+          },
+          {
+            "q": "Behöver vi en skyddskommitté?",
+            "a": "På ett arbetsställe där minst femtio arbetstagare regelbundet arbetar ska det finnas en skyddskommitté, med företrädare för arbetsgivaren och arbetstagarna. På ett mindre arbetsställe ska en tillsättas om arbetstagarna begär det (AML 6 kap. 8 §). Kommittén deltar i planeringen av arbetsmiljöarbetet och behandlar bland annat handlingsplaner (6 kap. 9 §)."
+          },
+          {
+            "q": "Ska skyddsombudet vara med i riskbedömningen?",
+            "a": "Ja. Arbetsgivaren ska ge skyddsombuden möjlighet att medverka i det systematiska arbetsmiljöarbetet (AFS 2023:1 6 §), och undersökningen och riskbedömningen är en del av det (11 §). Skyddsombudet ska också delta när handlingsplaner upprättas (AML 6 kap. 4 §) och har rätt att ta del av de handlingar som behövs (6 kap. 6 §)."
+          },
+          {
+            "q": "Vad gör jag om arbetsgivaren inte svarar?",
+            "a": "Arbetsgivaren ska utan dröjsmål lämna besked på skyddsombudets begäran. Gör arbetsgivaren inte det, eller beaktas inte begäran inom skälig tid, prövar Arbetsmiljöverket efter skyddsombudets framställan om ett föreläggande eller förbud ska meddelas (AML 6 kap. 6 a §)."
+          }
+        ]
+      },
+      "smaaBedrifter": {
+        "title": "Arbetsmiljö i småföretag – medarbetarundersökning | Orgpuls",
+        "description": "Arbetsmiljö i småföretag: vad lagen kräver efter antal anställda, och en anonym medarbetarundersökning för litet företag med resultat först från 5 svar.",
+        "crumb": "Små företag",
+        "card": {
+          "title": "Små företag",
+          "text": "Ingen HR-avdelning? En anonym medarbetarundersökning som kan bli en del av er riskbedömning."
+        },
+        "kicker": "För småföretag utan HR-avdelning",
+        "h1": "Medarbetar­undersökning för småföretag – i gång på under en timme",
+        "lead": "Små företag har sällan en HR-avdelning, men kraven på systematiskt arbetsmiljöarbete gäller från första anställd. Orgpuls är en medarbetarundersökning som sköter utskick, påminnelser och dokumentation. Ni lägger tiden på det som kommer fram.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hur blir det med anonymiteten när vi är få?"
+          },
+          {
+            "t": "p",
+            "text": "Det är den första frågan i ett litet företag, och den är rätt att ställa. Orgpuls visar ingen grupp förrän minst 5 personer har svarat. Är ni 12 ser ni siffror för hela företaget, men inte för en avdelning på 3: deras svar räknas in i helheten, aldrig för sig."
+          },
+          {
+            "t": "p",
+            "text": "I Sverige är gränsen 5, och den går inte att sänka. Ni kan höja den till högst 10. Gränsen ligger i databasen, och en mätning behåller den gräns den öppnades med. Svaret sparas utan namn, e-postadress eller IP-adress, och ingen kolumn kan koppla ett svar till en person."
+          },
+          {
+            "t": "h2",
+            "text": "Vad lagen kräver – efter antal anställda"
+          },
+          {
+            "t": "p",
+            "text": "Kravet att undersöka arbetsmiljön, bedöma riskerna och åtgärda gäller från första anställd. Övriga krav räknas på två sätt: kraven på skriftlighet efter antalet arbetstagare i hela verksamheten, skyddsombud och skyddskommitté efter antalet på ett och samma arbetsställe."
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Från första anställd",
+                "title": "Undersöka, riskbedöma, åtgärda och följa upp",
+                "text": "Regelbundet, med en uppföljning varje år. AML 3 kap. 2 a §, AFS 2023:1 11–14 §§."
+              },
+              {
+                "date": "Från första anställd",
+                "title": "Skriftlig riskbedömning och handlingsplan",
+                "text": "Alltid, oavsett storlek. Handlingsplanen gäller det som inte åtgärdas direkt och visar när och vem. AFS 2023:1 11 och 13 §§."
+              },
+              {
+                "date": "Från 5 på ett arbetsställe",
+                "title": "Skyddsombud",
+                "text": "Utses av facket eller av de anställda, inte av arbetsgivaren. AML 6 kap. 2 §."
+              },
+              {
+                "date": "Från 10 i verksamheten",
+                "title": "Skriftlig policy, rutiner och uppgiftsfördelning",
+                "text": "Liksom resultatet av den årliga uppföljningen och målen för OSA. AFS 2023:1 7–9 och 14 §§, AFS 2023:2 2 kap. 5 §."
+              },
+              {
+                "date": "Från 50 på ett arbetsställe",
+                "title": "Skyddskommitté",
+                "text": "Även med färre, om arbetstagarna begär det. AML 6 kap. 8 §."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Läs mer om [vad reglerna kräver för den organisatoriska och sociala arbetsmiljön](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "Enklare – men inte frivilligt"
+          },
+          {
+            "t": "p",
+            "text": "Reglerna tar hänsyn till storleken. Arbetsmiljön dokumenteras i den utsträckning verksamheten kräver (AML 3 kap. 2 a §), och under tio arbetstagare behöver policy, rutiner, uppgiftsfördelning och den årliga uppföljningen inte vara skriftliga. Ett litet företag kan alltså göra det enklare än ett stort. Men riskbedömningen och handlingsplanen ska alltid vara skriftliga, och kravet på att undersöka, bedöma risker, åtgärda och följa upp gäller lika fullt."
+          },
+          {
+            "t": "box",
+            "title": "I ett litet företag märks allt",
+            "text": "När en person blir sjukskriven eller slutar märker alla det. Därför lönar sig en enkel, fast rytm mer för ett litet företag än för ett stort – inte mindre."
+          },
+          {
+            "t": "h2",
+            "text": "Tiden det tar"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Vad",
+              "Tid"
+            ],
+            "rows": [
+              [
+                "Registrering med organisationsnummer",
+                "Cirka 3 minuter"
+              ],
+              [
+                "Uppsättning första gången",
+                "Under 1 timme"
+              ],
+              [
+                "Baslinjemätningen, per anställd",
+                "Cirka 4 minuter"
+              ],
+              [
+                "En pulsmätning, per anställd",
+                "Under 1 minut"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Kom i gång utan HR-avdelning"
+          },
+          {
+            "t": "p",
+            "text": "Klistra in de anställda från ett kalkylark eller lägg in dem en och en – ni behöver inget HR-system. Använder ni Microsoft Entra ID kan de hämtas därifrån. Skicka enkäten med e-post, i Microsoft Teams eller Slack, eller dela den som länk eller QR-kod i fikarummet för dem som inte sitter vid en dator. Alla kan svara i mobilen."
+          },
+          {
+            "t": "h2",
+            "text": "Ett år i ett litet företag"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Start",
+                "title": "Registrera företaget",
+                "text": "Med organisationsnummer och företagsnamn. Lägg in de anställda från ett kalkylark."
+              },
+              {
+                "date": "Baslinjemätningen",
+                "title": "Skicka baslinjemätningen",
+                "text": "Cirka fyra minuter per anställd, med en påminnelse från systemet."
+              },
+              {
+                "date": "Inom ett par veckor",
+                "title": "Gå igenom resultaten",
+                "text": "Med de anställda och skyddsombudet, om ni har ett. Bedöm riskerna och skriv ner dem: riskbedömningen ska alltid vara skriftlig."
+              },
+              {
+                "date": "Därefter",
+                "title": "Välj två eller tre åtgärder",
+                "text": "Var och en med ansvarig och datum. Det är er handlingsplan (AFS 2023:1 13 §)."
+              },
+              {
+                "date": "Under året",
+                "title": "Mät igen",
+                "text": "En kort pulsmätning på faktorerna där åtgärderna pågår, och nästa baslinjemätning om ett år."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Det här får ni"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "En årlig baslinjemätning av 11 faktorer från QPS Nordic, med korta pulsmätningar däremellan",
+              "De resultat som betyder mest, omsatta i åtgärder med ansvarig och datum i en handlingsplan",
+              "En rapport med undersökningen, den skriftliga riskbedömningen (AFS 2023:1 11 §) och handlingsplanen (13 §), som underlag till den årliga uppföljningen (14 §)",
+              "En egen inloggning för skyddsombudet, med samma siffror som ledningen ser"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Det här gör ni själva",
+            "text": "Orgpuls ger er undersökningen, handlingsplanen och rapporten. Rutinen för kränkande särbehandling och den årliga uppföljningen av hela arbetsmiljöarbetet står ni för själva, och från tio arbetstagare i verksamheten även skriftlig policy, rutiner, uppgiftsfördelning och mål för OSA. Samtalet med de anställda om resultaten är också ert."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Måste små företag undersöka arbetsmiljön?",
+            "a": "Ja. Varje arbetsgivare ska systematiskt planera, leda och kontrollera verksamheten så att arbetsmiljön uppfyller kraven (AML 3 kap. 2 a §) och regelbundet undersöka arbetsmiljöförhållandena för att bedöma riskerna (AFS 2023:1 11 §), också de organisatoriska och sociala (5 §). Riskbedömningen ska alltid dokumenteras skriftligt, hur få ni än är."
+          },
+          {
+            "q": "Vad händer om bara 4 svarar?",
+            "a": "Då visas ett streck i stället för en siffra. Siffran är inte dold just för er – den räknas inte ut för någon. I Sverige är gränsen 5 och går inte att sänka, så ett företag där färre än fem svarar får inga resultat från mätningen. Det är vad som krävs för att ingen ska kunna känna igen ett svar."
+          },
+          {
+            "q": "Behöver vi ett HR-system?",
+            "a": "Nej. Klistra in de anställda från ett kalkylark eller lägg in dem en och en. E-postadress är valfri om ni delar enkäten som länk eller QR-kod."
+          },
+          {
+            "q": "Måste vi göra en enkät?",
+            "a": "Nej. Lagen kräver ingen enkät – den kräver att ni undersöker arbetsmiljön och bedömer riskerna (AFS 2023:1 11 §). En medarbetarundersökning är ett bra sätt att göra en del av det, särskilt för den organisatoriska och sociala arbetsmiljön. Det som räknas är att ni gör något åt det ni hittar."
+          },
+          {
+            "q": "Måste vi ha skyddsombud när vi är få?",
+            "a": "På ett arbetsställe där minst fem arbetstagare regelbundet sysselsätts ska det finnas skyddsombud, och på ett mindre om arbetsförhållandena kräver det (AML 6 kap. 2 §). Skyddsombudet utses av den lokala fackliga organisationen som har eller brukar ha kollektivavtal med er, annars av de anställda – aldrig av arbetsgivaren. Har ni ett, ser skyddsombudet samma siffror i Orgpuls som ledningen."
+          },
+          {
+            "q": "Behöver vi rutiner för kränkande särbehandling?",
+            "a": "Ja, oavsett storlek (AFS 2023:2 2 kap. 11 §). Rutinerna ska visa vem som tar emot information om kränkande särbehandling, vad mottagaren ska göra och hur den som är utsatt snabbt kan få hjälp, och de ska vara kända för alla. Interna kanaler för visselblåsning krävs först från 50 arbetstagare (5 kap. 2 § lagen (2021:890) om skydd för personer som rapporterar om missförhållanden), och en anonym kommentar i Orgpuls är ingen sådan kanal."
+          },
+          {
+            "q": "Skickar vi något till Arbetsmiljöverket?",
+            "a": "Nej. Ingenting lämnas in. Ni har dokumentationen själva, och Arbetsmiljöverket kan begära den vid tillsyn (AML 7 kap. 3 §). Rapporten i Orgpuls samlar undersökningen, riskbedömningen och handlingsplanen på ett ställe."
+          }
+        ],
+        "finalTitle": "Börja med ert eget företag",
+        "finalBody": "Skriv in ert organisationsnummer och företagets namn. Registreringen tar ungefär tre minuter, och uppsättningen under en timme."
+      }
+    },
+    "voTip": {
+      "kicker": "För skyddsombud",
+      "title": "Tipsa ledningen om kartläggningen",
+      "lead": "Skriv in namnen, så får du ett färdigt mejl till VD. Du skickar det själv, från din egen e-post. Orgpuls ser inte vad du skriver och sparar ingenting.",
+      "you": "Ditt namn",
+      "leader": "VD:ns förnamn",
+      "org": "Arbetsplatsen",
+      "optional": "valfritt",
+      "preview": "Mejlet",
+      "open": "Öppna i e-postprogrammet",
+      "copy": "Kopiera texten",
+      "copied": "Kopierad. Klistra in den i ett nytt mejl.",
+      "failed": "Det gick inte att kopiera. Markera texten och kopiera den själv.",
+      "subject": "Förslag: kartläggning av arbetsmiljön",
+      "greeting": "Hej {leader},",
+      "greetingPlain": "Hej,",
+      "inOrg": " på {org}",
+      "body": [
+        "Vi ska regelbundet undersöka arbetsmiljön{inOrg} och bedöma riskerna, också i den organisatoriska och sociala arbetsmiljön (AFS 2023:1 11 § och AFS 2023:2 2 kap.). Som skyddsombud ska jag delta när handlingsplaner upprättas (arbetsmiljölagen 6 kap. 4 §), och jag skulle gärna se att vi kommer i gång.",
+        "Jag har tittat på Orgpuls, en tjänst för just detta. De anställda svarar anonymt på mobilen, inget enskilt svar kan spåras till en person, och en grupps resultat visas bara när minst fem har svarat. Vi får resultaten, en handlingsplan med vem och när, och dokumentationen av riskbedömningen som Arbetsmiljöverket kan begära att få se.",
+        "Det tar under en timme att sätta upp. Skyddsombudet kan få en egen roll som ser samma resultat som ledningen, på gruppnivå, så lägg gärna in mig som skyddsombud när det sätts upp.",
+        "Här kan du läsa mer och komma i gång: {link}",
+        "Kan vi ta upp det på nästa möte?"
+      ],
+      "sign": "Vänliga hälsningar\n{you}\nskyddsombud",
+      "signPlain": "Vänliga hälsningar\nskyddsombudet"
+    }
+  },
+  "start": {
+    "finalTitle": "Börja med er egen verksamhet",
+    "finalBody": "Skriv in organisationsnumret och företagets namn, så är ni i gång på 3 minuter. Svaren lagras i EU, och ingen grupp visas förrän minst 5 har svarat.",
+    "ctaFree": "Kom igång",
+    "faqEyebrow": "Frågor vi ofta får"
   }
 }

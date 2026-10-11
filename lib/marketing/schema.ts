@@ -2,12 +2,14 @@ import { absolute, SITE_URL } from './site'
 import { plain, type FaqItem } from './blocks'
 import { getTranslations } from 'next-intl/server'
 import { PLAN_PRICES, planPrices, yearly, type PriceList } from '@/lib/site/pricing'
-import { ownSite } from '@/lib/site/own'
+import { ownSite, serves } from '@/lib/site/own'
+import { siteTag } from '@/lib/hosts'
 
 /**
  * The site a page's schema.org objects describe: Orgpuls on Norway's hosts, or a site of its own
- * (Empvibe's, D-270) with its own address, name, country and language, and its market's prices since
- * it serves them (UK-G, D-275). Every URL is the site's own address for the route.
+ * (Empvibe's, D-270; Sweden's, D-276) with its own address, name, country and language, and its
+ * market's prices where it serves them (Empvibe since UK-G, D-275; Sweden not until SE-E). Every URL
+ * is the site's own address for the route.
  */
 export type SiteLd = {
   url: string
@@ -16,8 +18,10 @@ export type SiteLd = {
   absolute: (path: string) => string
   areaServed: string
   languages: readonly string[]
-  /** the prices the site publishes, and its plans' names as its price page shows them */
-  offers: { prices: PriceList; names: { free: string; small: string; usual: string } }
+  /** a site of its own's pages' language (BCP 47): en-GB, sv-SE; null on Norway's, which says it per page */
+  tag: string | null
+  /** the prices the site publishes, and its plans' names as its price page shows them; null where it publishes none */
+  offers: { prices: PriceList; names: { free: string; small: string; usual: string } } | null
 }
 
 export const ORGPULS_LD: SiteLd = {
@@ -26,6 +30,7 @@ export const ORGPULS_LD: SiteLd = {
   absolute,
   areaServed: 'NO',
   languages: ['nb', 'en'],
+  tag: null,
   offers: { prices: PLAN_PRICES.no, names: { free: 'Gratis', small: 'Liten', usual: 'Vanlig' } },
 }
 
@@ -33,16 +38,21 @@ export const ORGPULS_LD: SiteLd = {
 export async function siteLd(): Promise<SiteLd> {
   const own = await ownSite()
   if (!own) return ORGPULS_LD
-  // the plans' names in the site's own words, as its price page draws them
-  const t = await getTranslations({ locale: own.site.lang, namespace: 'site.pris' })
-  const plans = t.raw('plans') as { name: string }[]
+  // the plans' names in the site's own words, as its price page draws them, where it has one
+  const offers = async () => {
+    const t = await getTranslations({ locale: own.site.lang, namespace: 'site.pris' })
+    const plans = t.raw('plans') as { name: string }[]
+    return { prices: planPrices(own.site.market), names: { free: t('free.name'), small: plans[0]!.name, usual: plans[1]!.name } }
+  }
   return {
     url: own.site.url,
     name: own.name,
     absolute: (path) => (path === '/' ? own.site.url : own.absolute(path)),
     areaServed: own.site.market.toUpperCase(),
-    languages: own.site.langs,
-    offers: { prices: planPrices(own.site.market), names: { free: t('free.name'), small: plans[0]!.name, usual: plans[1]!.name } },
+    // the languages its pages are in: its own one (D-276)
+    languages: [siteTag(own.site)],
+    tag: siteTag(own.site),
+    offers: serves(own, '/priser') ? await offers() : null,
   }
 }
 
@@ -78,7 +88,7 @@ export const website = (locale = 'no', site: SiteLd = ORGPULS_LD) => ({
   '@id': `${site.url}/#website`,
   url: site.url,
   name: site.name,
-  inLanguage: site === ORGPULS_LD ? ldLanguage(locale) : 'en-GB',
+  inLanguage: site.tag ?? ldLanguage(locale),
   publisher: { '@id': `${site.url}/#organization` },
 })
 
@@ -92,17 +102,17 @@ export const software = (description: string, site: SiteLd = ORGPULS_LD) => ({
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
   // the product itself is in both; a site of its own, in its own
-  inLanguage: site === ORGPULS_LD ? ['nb-NO', 'en'] : ['en-GB'],
+  inLanguage: site.tag ? [site.tag] : ['nb-NO', 'en'],
   // the description is in the page's language
   description,
   url: site.url,
   publisher: { '@id': `${site.url}/#organization` },
-  offers: offers(site),
+  // a site that publishes no prices states none (Sweden's until SE-E, D-276)
+  ...(site.offers ? { offers: offers(site.offers, site) } : {}),
 })
 
 /** The site's published prices, as its price page shows them, in its market's currency */
-const offers = (site: SiteLd) => {
-  const { prices, names } = site.offers
+const offers = ({ prices, names }: NonNullable<SiteLd['offers']>, site: SiteLd) => {
   const url = site.absolute('/priser')
   return [
     { '@type': 'Offer', name: names.free, url, price: '0', priceCurrency: prices.currency },

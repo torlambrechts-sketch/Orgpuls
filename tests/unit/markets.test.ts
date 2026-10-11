@@ -106,18 +106,20 @@ describe('the Swedish site', () => {
     vi.resetModules()
   })
 
-  it('is se.orgpuls.com (X-109), in Swedish with English beside it, and signs up into Sweden', async () => {
+  it('is se.orgpuls.com (X-109), a site of its own in Swedish with English for the product, and signs up into Sweden', async () => {
     vi.stubEnv('SE_HOST', '')
     vi.resetModules()
     const hosts = await import('@/lib/hosts')
-    expect(hosts.siteOf('se.orgpuls.com')).toMatchObject({ market: 'se', lang: 'sv', pinned: false, url: 'https://se.orgpuls.com', publicSite: false })
+    expect(hosts.siteOf('se.orgpuls.com')).toMatchObject({ brand: 'orgpuls', market: 'se', lang: 'sv', pinned: false, url: 'https://se.orgpuls.com' })
+    expect(hosts.siteOf('se.orgpuls.com')?.own?.key).toBe('se')
+    expect(hosts.siteTag(hosts.siteOf('se.orgpuls.com')!)).toBe('sv-SE')
     expect(hosts.marketOfHost('SE.orgpuls.com:443')).toBe('se')
     expect(hosts.siteLangs('se.orgpuls.com')).toEqual(['sv', 'en'])
     expect(hosts.outboundBase('se.orgpuls.com', 'http')).toBe('https://se.orgpuls.com')
-    // Norway's hosts are untouched, and serve their public site as before
+    // Norway's hosts are untouched, and have no addresses of their own
     expect(hosts.marketOfHost('www.orgpuls.com')).toBe('no')
     expect(hosts.siteLangs('www.orgpuls.com')).toEqual(['no', 'en'])
-    for (const s of hosts.SITES.filter((x) => x.market === 'no')) expect(s.publicSite, s.host).toBe(true)
+    for (const s of hosts.SITES.filter((x) => x.market === 'no')) expect(s.own, s.host).toBeUndefined()
   })
 
   it('moves with SE_HOST, as the English site moves with EN_HOST', async () => {
@@ -125,27 +127,70 @@ describe('the Swedish site', () => {
     vi.resetModules()
     const hosts = await import('@/lib/hosts')
     expect(hosts.marketOfHost('orgpuls.se')).toBe('se')
+    expect(hosts.siteOf('orgpuls.se')?.url).toBe('https://orgpuls.se')
     expect(hosts.marketOfHost('se.orgpuls.com')).toBe('no')
   })
 })
 
-describe('a host without its own public site yet (D-256)', () => {
-  it('sends the Norwegian site’s pages to the sign-up, serves the rest, and indexes nothing', async () => {
+describe('Sweden’s site of its own (SE-F, D-276)', () => {
+  const se = 'se.orgpuls.com'
+
+  it('serves each of its pages at its Swedish address, in Swedish, and the Norwegian address goes there', async () => {
     const { hostGate } = await import('@/lib/hosts')
-    const se = 'se.orgpuls.com'
-    expect(hostGate(se, '/', true)).toEqual({ noindex: true, redirect: '/registrer' })
-    expect(hostGate(se, '/priser', true)).toEqual({ noindex: true, redirect: '/registrer' })
-    expect(hostGate(se, '/artikler/medarbeiderundersokelse', true)).toEqual({ noindex: true, redirect: '/registrer' })
-    for (const path of ['/registrer', '/logg-inn', '/auth/callback', '/s/abc', '/r/abc', '/inn/abc', '/bli-med/x', '/nytt-passord', '/api/sprak', '/robots.txt'])
-      expect(hostGate(se, path, true), path).toEqual({ noindex: true, redirect: null })
-    // the product needs a session and is not public: it passes, as everywhere
-    expect(hostGate(se, '/innsikt', false)).toEqual({ noindex: true, redirect: null })
+    const pages: [string, string][] = [
+      ['/anvandningsomraden', '/bruksomrader'],
+      ['/varfor-orgpuls', '/hvorfor'],
+      ['/organisatorisk-och-social-arbetsmiljo', '/lovkrav'],
+      ['/skyddsombud', '/verneombud'],
+      ['/sma-foretag', '/smaa-bedrifter'],
+      ['/sakerhet', '/sikkerhet'],
+      ['/integritetspolicy', '/personvernerklaering'],
+    ]
+    for (const [address, route] of pages) {
+      expect(hostGate(se, address, true), address).toEqual({ noindex: false, redirect: null, rewrite: route, lang: 'sv' })
+      expect(hostGate(se, route, true), route).toEqual({ noindex: false, redirect: address, canonical: true, lang: 'sv' })
+    }
+    // the pages whose route is Swedish already
+    for (const path of ['/', '/plattform', '/kontakt']) expect(hostGate(se, path, true), path).toEqual({ noindex: false, redirect: null, lang: 'sv' })
+    // the sign-in and sign-up keep the visitor's language: they lead into the product
+    expect(hostGate(se, '/logga-in', true)).toEqual({ noindex: false, redirect: null, rewrite: '/logg-inn' })
+    expect(hostGate(se, '/registrera', true)).toEqual({ noindex: false, redirect: null, rewrite: '/registrer' })
+    expect(hostGate(se, '/registrer', true)).toEqual({ noindex: false, redirect: '/registrera', canonical: true })
+  })
+
+  it('answers 404 for the prices and terms it has none of yet, and for the pages written for Norway', async () => {
+    const { hostGate, NOT_SERVED_PATH } = await import('@/lib/hosts')
+    const notServed = { noindex: true, redirect: null, rewrite: NOT_SERVED_PATH }
+    for (const path of ['/priser', '/vilkar', '/bransjer', '/handel', '/artikler', '/artikler/medarbeiderundersokelse', '/maler', '/demo', '/pricing', '/platform'])
+      expect(hostGate(se, path, true), path).toEqual(notServed)
+  })
+
+  it('lets the product, the survey, the callbacks, the API and the site’s files through, in the visitor’s language', async () => {
+    const { hostGate } = await import('@/lib/hosts')
+    const key = readdirSync('public').find((f) => /^[0-9a-f]{32}\.txt$/.test(f))!
+    for (const path of ['/auth/callback', '/s/abc', '/r/abc', '/inn/abc', '/bli-med/x', '/nytt-passord', '/logo/x', '/api/sprak', '/robots.txt', '/sitemap.xml', '/llms.txt', `/${key}`])
+      expect(hostGate(se, path, true), path).toEqual({ noindex: false, redirect: null })
+    expect(hostGate(se, '/innsikt', false)).toEqual({ noindex: false, redirect: null })
+  })
+
+  it('has one address per route, none of them another route’s, and draws each link there', async () => {
+    const { addressOf, routeOf, siteOf, SE_PAGES } = await import('@/lib/hosts')
+    const paths = siteOf(se)!.own!.paths
+    expect(new Set(Object.values(paths)).size).toBe(Object.keys(paths).length)
+    for (const address of Object.values(paths)) expect(Object.keys(paths), address).not.toContain(address)
+    expect(addressOf(paths, '/smaa-bedrifter#team')).toBe('/sma-foretag#team')
+    expect(addressOf(paths, '/registrer?orgnr=5560360793')).toBe('/registrera?orgnr=5560360793')
+    expect(routeOf(paths, '/skyddsombud')).toBe('/verneombud')
+    // every address is a Swedish word in the site's own shape: lower case, no å, ä or ö
+    for (const address of Object.values(paths)) expect(address, address).toMatch(/^\/[a-z0-9]+(-[a-z0-9]+)*$/)
+    // no prices, terms, articles, templates, industries or demo until Sweden has its own
+    for (const route of ['/priser', '/vilkar', '/artikler', '/maler', '/bransjer', '/demo']) expect(SE_PAGES as readonly string[]).not.toContain(route)
   })
 
   it('changes nothing on Norway’s hosts or on any other host', async () => {
     const { hostGate } = await import('@/lib/hosts')
     for (const host of ['www.orgpuls.com', 'orgpuls.com', 'localhost:3000', null])
-      for (const path of ['/', '/priser', '/registrer'])
+      for (const path of ['/', '/priser', '/registrer', '/lovkrav'])
         expect(hostGate(host, path, true), `${host} ${path}`).toEqual({ noindex: false, redirect: null })
   })
 })
@@ -214,10 +259,14 @@ describe('a host reserved for a market not open yet (X-110, D-258)', () => {
   })
 })
 
-describe('Empvibe’s llms.txt', () => {
-  it('has the words for every page the site serves', () => {
+describe('each site of its own’s llms.txt', () => {
+  it('has the words for every page the site serves: Empvibe’s and Sweden’s (D-276)', () => {
     const route = readFileSync('app/llms.txt/route.ts', 'utf8')
-    for (const page of EMPVIBE_PAGES.filter((p) => p !== '/' && p !== '/hvorfor')) expect(route, page).toContain(`'${page}': 'seo.`)
+    // one entry per site, though Empvibe answers on two hosts
+    const own = [...new Map(SITES.flatMap((s) => (s.own ? [[s.own.key, s.own] as const] : []))).values()]
+    expect(own.map((o) => o.key).sort()).toEqual(['empvibe', 'se'])
+    for (const { key, pages } of own)
+      for (const page of pages.filter((p) => p !== '/' && p !== '/hvorfor')) expect(route, `${key} ${page}`).toContain(`'${page}': 'seo.`)
   })
 })
 
@@ -278,13 +327,13 @@ describe('Empvibe’s site, open since the move (X-111, UK-E, UK-G, D-270, D-275
     const hosts = await open()
     expect('HOLDING_HOSTS' in hosts).toBe(false)
     for (const host of ['www.empvibe.com', 'empvibe.com', 'WWW.EMPVIBE.COM:443']) {
-      expect(hosts.siteOf(host)).toMatchObject({ brand: 'empvibe', market: 'gb', lang: 'en', pinned: true, url: 'https://www.empvibe.com', publicSite: true })
+      expect(hosts.siteOf(host)).toMatchObject({ brand: 'empvibe', market: 'gb', lang: 'en', pinned: true, url: 'https://www.empvibe.com' })
       expect(hosts.marketOfHost(host)).toBe('gb')
       expect(hosts.siteLangs(host)).toEqual(['en'])
       expect(hosts.outboundBase(host, 'http')).toBe('https://www.empvibe.com')
       expect(hosts.PUBLIC_HOSTS).toContain(host.toLowerCase().split(':')[0])
     }
-    // Norway's and Sweden's hosts are unchanged, and have no addresses of their own
+    // Norway's hosts have no addresses of their own; Sweden's is its own site
     expect(hosts.siteOf('www.orgpuls.com')?.own).toBeUndefined()
     expect(hosts.marketOfHost('se.orgpuls.com')).toBe('se')
   })
@@ -315,10 +364,12 @@ describe('Empvibe’s site, open since the move (X-111, UK-E, UK-G, D-270, D-275
       ['/sign-up', '/registrer'],
     ]
     for (const [address, route] of pages) {
-      expect(hostGate(host, address, true), address).toEqual({ noindex: false, redirect: null, rewrite: route })
-      expect(hostGate(host, route, true), route).toEqual({ noindex: false, redirect: address, canonical: true })
+      // a page of the site is in its language; the sign-in and sign-up keep the visitor's, which here is the same
+      const lang = ['/logg-inn', '/registrer'].includes(route) ? {} : { lang: 'en' }
+      expect(hostGate(host, address, true), address).toEqual({ noindex: false, redirect: null, rewrite: route, ...lang })
+      expect(hostGate(host, route, true), route).toEqual({ noindex: false, redirect: address, canonical: true, ...lang })
     }
-    expect(hostGate(host, '/', true)).toEqual({ noindex: false, redirect: null })
+    expect(hostGate(host, '/', true)).toEqual({ noindex: false, redirect: null, lang: 'en' })
   })
 
   it('answers 404 for the pages written for Norway, and lets the product, the survey and the API through', async () => {

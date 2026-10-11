@@ -168,6 +168,16 @@ console.log(`sms: ${sms} templates checked for GSM-7 (${SMS_LOCALES.join(', ')})
  *    a pack is GSM-7 as any other.
  */
 const MARKET_DIR = join(DIR, 'market')
+/**
+ * A site of its own shows its pages in its own language only (lib/i18n/request.ts, PAGE_LANG_HEADER,
+ * D-276): Sweden's pages on se.orgpuls.com are Swedish whatever the reader chose, so the pack's page
+ * words (site., seo., start.) exist in Swedish alone; another language of the pack would never be
+ * shown. The chrome (site.chrome.) also frames sign-in and sign-up, which keep the reader's language,
+ * so it is in every language of the pack, as any other key. The language is the site's (lib/hosts.ts,
+ * the se row's `lang`; tests/unit/se-site.test.ts holds the two together).
+ */
+const PAGES_IN_SITE_LANG = { se: 'sv' }
+const pageWord = (key) => /^(site|seo|start)\./.test(key) && !key.startsWith('site.chrome.')
 let packKeys = 0
 for (const market of existsSync(MARKET_DIR) ? readdirSync(MARKET_DIR) : []) {
   const packs = Object.fromEntries(
@@ -183,6 +193,7 @@ for (const market of existsSync(MARKET_DIR) ? readdirSync(MARKET_DIR) : []) {
     const tag = cldrTag(lang)
     for (const key of keys) {
       if (!(key in packs[lang])) {
+        if (PAGES_IN_SITE_LANG[market] && PAGES_IN_SITE_LANG[market] !== lang && pageWord(key)) continue
         fail(id, key, 'parity', `is missing; the pack's other languages have it`)
         continue
       }

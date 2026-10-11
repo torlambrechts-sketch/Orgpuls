@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
-import { MAIN_URL } from '@/lib/hosts'
+import { MAIN_URL, siteTag } from '@/lib/hosts'
 import { ownSite } from '@/lib/site/own'
 import { absolute } from './site'
 
@@ -26,26 +26,28 @@ export async function pageMeta(m: {
   /** a page written in Norwegian only (a newsletter issue): its card says so whatever the reader chose (D-104) */
   norwegianOnly?: boolean
 }): Promise<Metadata> {
-  // a site of its own (D-270): canonical at its own address, in British English, under its own
-  // name, and no twin on Orgpuls's hosts, whose pages are another brand's and another market's
+  // a site of its own (D-270): canonical at its own address, in its own language in its market
+  // (en-GB on Empvibe's, sv-SE on Sweden's, D-276), under its own name, and no twin on Orgpuls's
+  // hosts, whose pages are another market's
   const own = await ownSite()
   if (own) {
     const url = own.absolute(m.path || '/')
-    // its own cards, under its name and in its words (public/og/<brand>/, og-images.mjs --brand, D-272):
+    const tag = siteTag(own.site)
+    // its own cards, in its words (public/og/<key>/, og-images.mjs --brand/--market, D-272, D-276):
     // the page's where it has one, the site's otherwise
     const card = m.image?.match(/^\/og\/([a-z0-9-]+\.png)$/)?.[1] ?? 'default.png'
-    const image = { url: `${own.site.url}/og/${own.site.brand}/${card}`, width: 1200, height: 630, alt: m.title }
+    const image = { url: `${own.site.url}/og/${own.site.own.key}/${card}`, width: 1200, height: 630, alt: m.title }
     return {
       title: { absolute: m.title },
       description: m.description,
-      alternates: { canonical: url, languages: { 'en-GB': url, 'x-default': url } },
+      alternates: { canonical: url, languages: { [tag]: url, 'x-default': url } },
       openGraph: {
         type: m.type ?? 'website',
         url,
         title: m.title,
         description: m.description,
         siteName: own.name,
-        locale: 'en_GB',
+        locale: tag.replace('-', '_'),
         images: [image],
         ...(m.type === 'article' ? { publishedTime: m.published, modifiedTime: m.modified } : {}),
       },
