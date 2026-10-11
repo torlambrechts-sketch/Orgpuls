@@ -27,6 +27,8 @@ const WPM = 200
 export async function ArticleView({ article: a }: { article: Article }) {
   const t = await getTranslations()
   const k = `seo.articles.${a.key}`
+  // the law drawing's seal: § on Norway's site, ✓ on a site of its own, whose law is not cited by section (D-271)
+  const seal = (await ownSite()) ? '✓' : '§'
   return (
     <ArticleBody
       content={{
@@ -40,7 +42,7 @@ export async function ArticleView({ article: a }: { article: Article }) {
       published={a.published}
       modified={a.modified}
       image={articleImage(a.slug)}
-      art={artFor(a.art, t)}
+      art={artFor(a.art, t, seal)}
       related={a.related}
       template={a.template}
     />
@@ -48,13 +50,13 @@ export async function ArticleView({ article: a }: { article: Article }) {
 }
 
 /** The picture beside an article's title (D-237): a drawing by kind, or a factor's own statements. */
-function artFor(art: string, t: Awaited<ReturnType<typeof getTranslations>>): React.ReactNode {
+function artFor(art: string, t: Awaited<ReturnType<typeof getTranslations>>, seal: string): React.ReactNode {
   const cls = 'h-auto w-full max-w-[400px]'
   if (art.startsWith('factor:')) {
     const f = `factor.${art.slice('factor:'.length)}`
     return <FactorArt label={t(`${f}.label`)} statements={[1, 2, 3].map((n) => t(`${f}.s${n}`))} className={cls} />
   }
-  return <ArticleArt kind={art as ArtKind} className={cls} />
+  return <ArticleArt kind={art as ArtKind} className={cls} seal={seal} />
 }
 
 export type ArticleContent = {

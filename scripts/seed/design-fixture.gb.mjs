@@ -10,7 +10,9 @@
  * a picture. And the organisation's own facts in the United Kingdom: the market, its language and
  * clock, a company number, and no Norwegian register or occupational health service.
  *
- * **Nothing here is real.** Northfield Civils Ltd is invented. Its company number, 99999999, is
+ * **Nothing here is real.** Brackenmoor Civils Ltd is invented: no company of that name was on the Companies
+ * House register when it was chosen (11 October 2026, D-277). Its first name, Northfield Civils Ltd, turned out
+ * to be a real, dissolved company (15171746), so the pictures no longer carry it. Its company number, 99999999, is
  * eight digits as Companies House writes a company in England and Wales, and lies far beyond the
  * numbers Companies House has issued (about 16 million in 2026), so no real company holds it. People
  * are invented; addresses are on `.example`.
@@ -24,14 +26,14 @@ export const ORG = {
   market: 'gb',
   lang: 'en',
   timezone: 'Europe/London',
-  name: 'Northfield Civils Ltd',
+  name: 'Brackenmoor Civils Ltd',
   number: '99999999',
 }
 
 /** Every Norwegian text the fixture writes, and the British English that replaces it */
 export const TEXT = {
   // the organisation, its departments and the people the design names
-  'Nordvik Anlegg AS': 'Northfield Civils Ltd',
+  'Nordvik Anlegg AS': 'Brackenmoor Civils Ltd',
   '924118742': ORG.number,
   Drift: 'Operations',
   Prosjekt: 'Projects',
@@ -41,11 +43,11 @@ export const TEXT = {
   'Tomas Vik': 'Tom Walsh',
   'Anne Rygg': 'Anna Reid',
   'Tuva Berg': 'Tess Barker',
-  'kari@nordvik.example': 'karen@northfield.example',
-  'tomas@nordvik.example': 'tom@northfield.example',
-  'anne@nordvik.example': 'anna@northfield.example',
-  'tuva@nordvik.example': 'tess@northfield.example',
-  '@nordvik.example': '@northfield.example',
+  'kari@nordvik.example': 'karen@brackenmoor.example',
+  'tomas@nordvik.example': 'tom@brackenmoor.example',
+  'anne@nordvik.example': 'anna@brackenmoor.example',
+  'tuva@nordvik.example': 'tess@brackenmoor.example',
+  '@nordvik.example': '@brackenmoor.example',
   'Kari Sund, tillitsvalgt Fellesforbundet': 'Karen Sutton, union safety representative',
 
   // where the work happens

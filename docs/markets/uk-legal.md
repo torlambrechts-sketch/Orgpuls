@@ -956,6 +956,33 @@ distinctions». Inside the product, a wrong legal statement is also a documentat
 
 ---
 
+## Addendum (UK-H, 11 October 2026): guidance Empvibe's articles quote
+
+Empvibe's articles (`docs/markets/uk-articles.md`, D-277) quote HSE, HSENI, Acas and ICO guidance beyond the sections
+above. Each quotation below was fetched live on **11 October 2026** by the article's writer and again by an independent
+fact-checker, and found verbatim on its page. Guidance, never law; the articles say so.
+
+| Source | Verbatim |
+|---|---|
+| HSE, Management Standards Step 2 https://www.hse.gov.uk/stress/standards/step2/index.htm (updated 2022-05-17) | «A survey is not an essential step and for smaller organisations it would not be proportionate to run such a survey, particularly where the same data can be gathered in other ways.» |
+| HSE, Talking Toolkits https://www.hse.gov.uk/stress/talking-toolkit.htm (2025-09-05) | the toolkits «were developed for smaller organisations so they can gather data that larger organisations may gather through surveys» |
+| HSE Books, FAQs for Stress Indicator Tool https://books.hse.gov.uk/faqs-stress-indicator-tool | «You can use the free SIT once per year (a maximum of 50 employees invited to participate)» · «The data is available for review once a minimum of 10 responses have been collected.» (a rule for the whole survey; the FAQ says nothing of smaller breakdowns) |
+| HSENI, Mental well-being: questions and answers https://www.hseni.gov.uk/mental-well-being-questions-and-answers | «When selecting demographics no group of less than 10 employees can be identified. If a demographic has less than 10 employees the filter will not apply and the results will revert to the organisational averages.» (how HSENI's own tool filters, not a rule for employers) · HSENI «will undertake enforcement action where duty holders fail to carry out the legally required suitable and sufficient risk assessment» |
+| HSE, Step 3 https://www.hse.gov.uk/stress/standards/step3/index.htm | «Groups of between 6 and 10 people work best» · some items are «asked in the negative and therefore are reverse scored» · with fewer than ten records in the Analysis Tool «you can copy and paste all the records until the total exceeds 10» (the articles add that this does nothing for anonymity) |
+| HSE, Step 4 https://www.hse.gov.uk/stress/standards/step4/index.htm | the plan's actions «are assigned to an individual or function» (with priority, resources, a realistic timescale and a review) |
+| HSE, Step 5 https://www.hse.gov.uk/stress/standards/step5/index.htm (2025-01-13) | «You may wish to set this up as an annual survey or as part of an annual survey.» · «If it becomes obvious that the solutions implemented are not working, don't wait for the next scheduled review but take action as soon as possible.» |
+| HSE, Step 1 https://www.hse.gov.uk/stress/standards/step1/index.htm | «HSE does not expect an employer to meet all the standards. They represent a target for the organisation, goals that employers should be working towards through an ongoing process of risk assessment and continuous improvement.» |
+| HSE, What are the Management Standards? https://www.hse.gov.uk/stress/standards/overview.htm | «If you follow the Management Standards approach correctly, you will be adopting an approach that is considered suitable and sufficient.» |
+| HSE, Work-related stress, anxiety or depression statistics in Great Britain, 2025 https://www.hse.gov.uk/statistics/assets/docs/stress.pdf (published 20 November 2025; Labour Force Survey, self-reported) | «964,000 workers suffering from work-related stress, depression or anxiety (new and long-standing) in 2024/25» · «22.1 million working days lost» · «52% of all work-related ill health and 62% of all working days lost». Dates the article; replace at HSE's next annual release |
+| Acas, Risk assessments https://www.acas.org.uk/managing-work-related-stress/risk-assessments (2025-01-16) | «If an employee tells them they are experiencing work-related stress, they should do an individual risk assessment.» |
+| ICO, Data protection and workers' health information (URL in § 6) | «you may find it difficult to rely on consent to process health information about your workers» · «You should carry out a DPIA given the sensitive and potentially intrusive nature of processing workers’ health information.» |
+| MHSWR 1999 reg 7(5) https://www.legislation.gov.uk/uksi/1999/3242/regulation/7 | «A person shall be regarded as competent … where he has sufficient training and experience or knowledge and other qualities to enable him properly to assist in undertaking the measures referred to in paragraph (1).» Regs 3(3), 3(6), 5(2), 7(1) and 10(1) of MHSWR (NI) 2000 read the same as Great Britain's. |
+| DPA 2018 s.165(2), as in force on 9 October 2026 https://www.legislation.gov.uk/ukpga/2018/12/section/165 | «A data subject may make a complaint to the Commission if the data subject considers that, in connection with personal data relating to the data subject, there is an infringement of the UK GDPR or Part 3 or 4 of this Act.» |
+
+**Not a real example firm.** «Northfield Civils Ltd», the British example firm of Empvibe's product pictures and design
+fixture (D-272), is a real company on the Companies House register: NORTHFIELD CIVILS LTD, 15171746, dissolved
+10 December 2024 (read 11 October 2026). The articles name no firm; the pictures' firm is to be renamed (D-277).
+
 ## Mapping for the product
 
 | Norwegian / Swedish concept | UK counterpart | Citation |

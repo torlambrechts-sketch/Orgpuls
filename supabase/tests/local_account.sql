@@ -67,7 +67,7 @@ begin
 end $$;
 
 -- The same for the design fixture in the United Kingdom (design-fixture.mjs --market gb, D-272):
--- Empvibe's product pictures are taken signed in to Northfield Civils Ltd, in English. Only where
+-- Empvibe's product pictures are taken signed in to Brackenmoor Civils Ltd, in English. Only where
 -- that organisation was seeded; elsewhere this block writes nothing.
 do $$
 declare
@@ -87,7 +87,7 @@ begin
   )
   values (
     v_uid, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
-    'dev.empvibe@northfield.example',
+    'dev.empvibe@brackenmoor.example',
     crypt('orgpuls-local-only', gen_salt('bf')), now(), now(), now(),
     '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
     '', '', '', '', '', '', '', ''
@@ -97,7 +97,7 @@ begin
   insert into auth.identities (id, user_id, provider_id, provider, identity_data,
                                created_at, updated_at, last_sign_in_at)
   values (gen_random_uuid(), v_uid, v_uid::text, 'email',
-          jsonb_build_object('sub', v_uid::text, 'email', 'dev.empvibe@northfield.example',
+          jsonb_build_object('sub', v_uid::text, 'email', 'dev.empvibe@brackenmoor.example',
                              'email_verified', true),
           now(), now(), now())
   on conflict do nothing;

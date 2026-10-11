@@ -49,7 +49,7 @@ export const SHOTS: Shots = {
 
 /**
  * Empvibe's pictures (UK-E3, D-272): the same screens in English, of the same scenario told by a
- * British firm, Northfield Civils Ltd (design-fixture.mjs --market gb), so a British reader never
+ * British firm, Brackenmoor Civils Ltd (design-fixture.mjs --market gb), so a British reader never
  * meets a Norwegian screen, and assets/produkt/empvibe is where product-shots.mjs --brand empvibe
  * writes them.
  */

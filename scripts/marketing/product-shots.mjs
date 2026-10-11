@@ -19,7 +19,7 @@
  * and never printed.
  *
  * `--brand empvibe` takes Empvibe's set (UK-E3, D-272) instead: the same scenario as a British firm,
- * Northfield Civils Ltd (design-fixture.mjs --market gb), signed in as its managing director in
+ * Brackenmoor Civils Ltd (design-fixture.mjs --market gb), signed in as its managing director in
  * English, written to assets/produkt/empvibe/<id>.webp. It signs in with EMPVIBE_DEV_EMAIL /
  * EMPVIBE_DEV_PASSWORD; on the local stack those are local_account.sql's second account. Its crops
  * are the current screens', so they find their anchors by the English words those screens show.
@@ -137,7 +137,7 @@ const EMPVIBE = [
   { id: 'arshjul', route: '/malinger', width: 1440, anchors: [card('Year wheel')], pad: 20 },
   {
     id: 'sporsmal',
-    // Northfield's 2026 baseline: the fixture's round in the UK id space (design-fixture.gb.mjs)
+    // Brackenmoor's 2026 baseline: the fixture's round in the UK id space (design-fixture.gb.mjs)
     route: '/forhandsvis?runde=00000000-0000-4000-8044-000000000002',
     width: 390,
     anchors: [card('I can report censurable conditions without fearing consequences')],

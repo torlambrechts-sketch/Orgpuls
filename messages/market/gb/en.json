@@ -1142,7 +1142,7 @@
         }
       ],
       "law": {
-        "title": "Stress risk assessment · Northfield Civils Ltd",
+        "title": "Stress risk assessment · Brackenmoor Civils Ltd",
         "rows": [
           {
             "t": "Survey of the risks of work-related stress",
@@ -1292,7 +1292,7 @@
       },
       "results": {
         "index": {
-          "meta": "Baseline 2026 · Northfield Civils"
+          "meta": "Baseline 2026 · Brackenmoor Civils"
         }
       },
       "measures": {
@@ -3118,7 +3118,7 @@
       "oversikt": {
         "alt": "Screenshot of the Empvibe overview for Baseline 2026: 28 of 34 answered, index 61, three points lower than in 2025, and the eleven factors placed by score and by how much they matter to the whole, from speaking up at 41 to meaning at 78."
       },
-      "caption": "{screen} · Northfield Civils Ltd — example",
+      "caption": "{screen} · Brackenmoor Civils Ltd — example",
       "varmekart": {
         "alt": "Screenshot of the heat map: the eleven factors against the departments, with freedom to speak up in the Workshop at 28 as the lowest cell. Administration, with three answers, is shown as a dash, and so is Operations, held back so that Administration’s figures cannot be worked out from the others."
       },
@@ -3158,7 +3158,7 @@
       "title": "Stress risk assessment and employee wellbeing survey | Empvibe",
       "description": "Anonymous employee wellbeing survey for your stress risk assessment: results mapped onto HSE Management Standards areas, measures to act on, and a written record.",
       "showcase": {
-        "lead": "The screenshots show the example company Northfield Civils Ltd, with 34 employees in 4 departments. 28 of them answered the baseline.",
+        "lead": "The screenshots show the example company Brackenmoor Civils Ltd, with 34 employees in 4 departments. 28 of them answered the baseline.",
         "arshjul": {
           "body": "One baseline a year and short pulses in between. Surveys go out on the dates you set, and the health and safety representative, where you have one, is told before the employees."
         }
@@ -3195,6 +3195,2833 @@
           "title": "After the survey",
           "text": "How to share the results with employees and turn them into an action plan."
         }
+      }
+    },
+    "articles": {
+      "ukQuestions": {
+        "title": "Staff wellbeing survey questions: what to ask about stress | Empvibe",
+        "description": "What to ask in a staff wellbeing survey on work-related stress: HSE's six areas, example statements, the scale, length, comments and group sizes.",
+        "h1": "Staff wellbeing survey questions: what to ask about work-related stress, and what not to ask",
+        "lead": "A staff wellbeing survey for your stress risk assessment should ask about working conditions, not people's health: the demands of the job, how much say people have, support, relationships, clarity of role and how change is handled – the six areas of HSE's Management Standards. Short statements about the last six months, answered on a five-point scale, work well; HSE's own Indicator Tool covers the ground in 35 items. Keep the survey no longer than you are prepared to act on, break results down only where groups are big enough to protect anonymity, and handle open comments with care. No law requires a survey, and HSE says that for smaller organisations one would not be proportionate, particularly where the same data can be gathered in other ways.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Ask about working conditions, not people's health"
+          },
+          {
+            "t": "p",
+            "text": "A staff or employee survey used for your stress risk assessment has one job: to show which parts of the work put people under too much pressure, and where. The law does not require one. In Great Britain it requires a suitable and sufficient assessment of the risks to employees' health and safety (MHSWR 1999 reg 3; in Northern Ireland, where HSENI is the regulator, MHSWR (NI) 2000 reg 3), and HSE applies that duty to stress. HSE lists surveys as one technique among “pre-existing data, surveys and other techniques”. More on [work-related stress and the law](/lovkrav)."
+          },
+          {
+            "t": "p",
+            "text": "So the questions should be about the work, not the person. HSE describes its own questionnaire, the Management Standards Indicator Tool, as 35 items “that ask about 'working conditions' known to be potential causes of work related stress”. None of them asks about sleep, symptoms or diagnoses."
+          },
+          {
+            "t": "p",
+            "text": "There is a data protection reason too. The Information Commission (ICO) lists “a questionnaire completed by workers to detect problems with their health” among the circumstances in which an employer may process information about workers' health, which is special category data with extra rules. Asking people to rate their anxiety or count their sick days moves a survey into that territory. Questions about workload, support and clarity are about the work rather than anyone's health, and point at things you can change."
+          },
+          {
+            "t": "box",
+            "title": "Conditions, not symptoms",
+            "text": "Leave out sleep, symptoms, diagnoses, medication, sickness absence, money worries and life outside work. Ask about demands, control, support, relationships, role and change."
+          },
+          {
+            "t": "h2",
+            "text": "Example questions for each of HSE's six areas"
+          },
+          {
+            "t": "p",
+            "text": "HSE's Management Standards describe six areas of work design. Each standard opens with what employees indicate – for Demands, that “employees indicate that they are able to cope with the demands of their jobs” – so asking employees is a direct way to see where you stand. The statements below are examples written for this article, not HSE's items. Each area is explained in [HSE's Management Standards](/artikler/hse-management-standards)."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Area",
+              "What it is about",
+              "Example statements (not HSE wording)"
+            ],
+            "rows": [
+              [
+                "Demands",
+                "Workload, work patterns and the working environment",
+                "“I can usually get my work done within my contracted hours” · “When I raise a concern about my working environment, it is dealt with”"
+              ],
+              [
+                "Control",
+                "How much say people have in the way they do their work",
+                "“I can plan the order in which I do my tasks” · “I am asked for my view before my working pattern changes”"
+              ],
+              [
+                "Support",
+                "Encouragement and resources from the organisation, managers and colleagues",
+                "“I know where to go for help if work is getting too much” · “My manager makes time for me when I need to talk about work”"
+              ],
+              [
+                "Relationships",
+                "Positive working, conflict and unacceptable behaviour",
+                "“People here treat each other fairly” · “If I reported unacceptable behaviour, I trust it would be dealt with”"
+              ],
+              [
+                "Role",
+                "Understanding the role, and not being given conflicting roles",
+                "“My job description matches what I actually do” · “When my priorities clash, I know how to get them resolved”"
+              ],
+              [
+                "Change",
+                "How change is managed and communicated",
+                "“I am told early enough why changes are being made” · “I get the support I need when my job changes”"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "If you would rather use HSE's wording, use the [Indicator Tool](https://www.hse.gov.uk/stress/assets/docs/indicatortool.pdf) unchanged. Its items include, by number:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "3 – “Different groups at work demand things from me that are hard to combine”",
+              "6 – “I have unachievable deadlines”",
+              "13 – “I am clear about the goals and objectives for my department”",
+              "23 – “I can rely on my line manager to help me out with a work problem”",
+              "26 – “I have sufficient opportunities to question managers about change at work”",
+              "34 – “Relationships at work are strained”"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence. If you build HSE's items into your own survey, HSE suggests you “keep the question wording and scoring system the same and the items in the same order”, and analyse the results with its Analysis Tool, a spreadsheet. [The HSE Indicator Tool](/artikler/hse-indicator-tool) explains how it is scored and run."
+          },
+          {
+            "t": "h2",
+            "text": "What the six areas leave out"
+          },
+          {
+            "t": "p",
+            "text": "Reading the standards and the states HSE describes, three topics are not named as such: emotionally demanding work, isolation, and whether work feels meaningful. HSE's Indicator Tool touches the first in one item, “I am supported through emotionally demanding work”. Speaking up is touched on only in part: by the second half of every standard, “systems are in place locally to respond to any individual concerns”, and by states such as “Systems are in place to enable and encourage employees to report unacceptable behaviour” (Relationships)."
+          },
+          {
+            "t": "p",
+            "text": "If these matter in your workplace – a care service, people who often work alone – add a few statements and report them under their own headings, not as Management Standards areas or inside a Management Standards score. Examples, again written for this article:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Emotional demands:** “After a difficult situation at work, there is time to talk it through”",
+              "**Isolation:** “I rarely feel cut off from the rest of the team”",
+              "**Meaning:** “I can see the difference my work makes”",
+              "**Speaking up:** “I can point out a problem at work without worrying about how it will be received”"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "The answer scale and the time frame"
+          },
+          {
+            "t": "p",
+            "text": "HSE's Indicator Tool sets a time frame in its instructions: “it is important that your responses reflect your work in the last six months”. A fixed period keeps answers about the job rather than about this morning, and makes one survey comparable with the next."
+          },
+          {
+            "t": "p",
+            "text": "The tool uses two five-point scales. Items 1 to 23 are answered Never, Seldom, Sometimes, Often or Always; items 24 to 35 from Strongly disagree through Neutral to Strongly agree. Some items are worded negatively, such as “I have unachievable deadlines”, and HSE notes that “the scoring system is reversed for some items”. Its Analysis Tool reports scores from 1 (poor) to 5 (desirable)."
+          },
+          {
+            "t": "p",
+            "text": "If you write your own statements, a few rules keep the answers clean:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**One idea per statement.** “My workload is fair and my manager supports me” cannot be answered by someone who agrees with half of it.",
+              "**Plain words**, with no jargon or acronyms.",
+              "**A midpoint** (Neutral, Sometimes), so nobody is pushed to take a side.",
+              "**One scale per block** of statements.",
+              "**The same wording next time**, or you cannot compare results."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "How long it should be"
+          },
+          {
+            "t": "p",
+            "text": "Long enough to cover the six areas, short enough to finish in one sitting. For HSE's 35 items, the example covering message in its user manual tells staff: “The questionnaire takes about 15 minutes to complete.” That is a sensible ceiling."
+          },
+          {
+            "t": "p",
+            "text": "Length is also a promise. HSE's manual says employees should feel “that their views matter and that they will be acted on”. Ask only what you are prepared to act on, and take out anything you would not change whatever the answer. What to do next is in [from staff survey results to an action plan](/artikler/staff-survey-action-plan)."
+          },
+          {
+            "t": "h3",
+            "text": "How many people need to answer"
+          },
+          {
+            "t": "p",
+            "text": "HSE's manual gives a rule of thumb: “a response rate of over 50% could be considered adequate; over 60% desirable, over 70% good and more than 80% very good”. Below 50%, it says, the data “should be considered as indicative only, and treated with extreme caution”. It recommends surveying everyone in an organisation of 500 or fewer, and letting people complete the survey in work time, which it says gives “much better response rates”."
+          },
+          {
+            "t": "h2",
+            "text": "Open comments: useful, and the biggest risk to anonymity"
+          },
+          {
+            "t": "p",
+            "text": "An open question catches what the statements miss. It is also where anonymity is most easily lost: people can be recognised by their writing style, an incident only they were involved in, or a detail of their role. As the ICO puts it, “A person can be identifiable even if you do not know their name.” And a comment that mentions someone's health brings health information into the survey."
+          },
+          {
+            "t": "p",
+            "text": "If you include an open question:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Ask something specific, such as “What one change would make your work more manageable?”, not “Any other comments?”.",
+              "Say next to the box that people should not name anyone or describe anyone's health, including their own.",
+              "Let few people read raw comments, and never show them by team or beside a small group's figures.",
+              "Report themes rather than quotations where a group is small.",
+              "Never try to work out who wrote something, and say so in advance."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "More on how anonymity breaks in [is an anonymous staff survey really anonymous?](/artikler/anonymous-staff-survey)"
+          },
+          {
+            "t": "h2",
+            "text": "Group questions only where groups are big enough"
+          },
+          {
+            "t": "p",
+            "text": "Questions about where people work – department, site, team – show where the problems are, and HSE advises looking first at issues that affect groups of employees. But each one also shrinks the group a result rests on. HSE's manual says that if you add questions about “which site or department they work in, or about grade, age groups, gender etc”, you should “ensure that these are not sufficient to allow individuals to be identified”."
+          },
+          {
+            "t": "p",
+            "text": "Two public tools set a floor. HSE's online Stress Indicator Tool, free for one survey a year of up to 50 employees, makes a survey's data available for review only “once a minimum of 10 responses have been collected”. HSENI's Indicator Tool will not show a group smaller than 10: “If a demographic has less than 10 employees the filter will not apply and the results will revert to the organisational averages.”"
+          },
+          {
+            "t": "p",
+            "text": "A lower minimum lets you see smaller teams, but each answer then weighs more in the result and is easier for colleagues to guess. A higher minimum protects people better, but hides more teams, and in a small organisation it may leave only the overall figure. Whatever number you choose, apply it to every breakdown and ask only the background questions you will use. In a small organisation, one question about team or site is usually enough; adding age, gender and length of service can single people out."
+          },
+          {
+            "t": "h2",
+            "text": "Does a small business need a survey at all?"
+          },
+          {
+            "t": "quote",
+            "text": "A survey is not an essential step and for smaller organisations it would not be proportionate to run such a survey, particularly where the same data can be gathered in other ways.",
+            "cite": "HSE, [Step 2: Who can be harmed and how](https://www.hse.gov.uk/stress/standards/step2/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "In a small team you often learn more by talking. HSE says that “In smaller organisations this may be as easy as having a chat”, and its free [Stress Talking Toolkits](https://www.hse.gov.uk/stress/talking-toolkit.htm) give managers a structure for those conversations. The toolkits, HSE says, “were developed for smaller organisations so they can gather data that larger organisations may gather through surveys”, though they “should not be used in isolation as your only measure for preventing stress”."
+          },
+          {
+            "t": "p",
+            "text": "Whichever method you use, the duty is the same: assess the risk and act on it. With five or more employees, you must record the significant findings and any group identified as especially at risk (MHSWR 1999 reg 3(6); the same in Northern Ireland). A survey can feed that record, but it is not the record. [How to do a stress risk assessment](/artikler/stress-risk-assessment-steps) takes you through the steps."
+          },
+          {
+            "t": "box",
+            "title": "A survey is a starting point",
+            "text": "HSE calls a survey “a broad indicator of the situation in an organisation”, intended “to provide a starting point rather than giving a clear diagnosis of all the likely sources of work-related stress”. Check it against absence, turnover and what staff tell you before deciding what to do."
+          }
+        ],
+        "sources": [
+          {
+            "label": "HSE – Step 2: Who can be harmed and how",
+            "url": "https://www.hse.gov.uk/stress/standards/step2/index.htm"
+          },
+          {
+            "label": "HSE – Management Standards Indicator Tool (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/indicatortool.pdf"
+          },
+          {
+            "label": "HSE – Management Standards Indicator Tool: user manual (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/indicatortoolmanual.pdf"
+          },
+          {
+            "label": "HSE – FAQs for the Stress Indicator Tool",
+            "url": "https://books.hse.gov.uk/faqs-stress-indicator-tool"
+          },
+          {
+            "label": "HSENI – Mental well-being: questions and answers",
+            "url": "https://www.hseni.gov.uk/mental-well-being-questions-and-answers"
+          },
+          {
+            "label": "ICO – Data protection and workers' health information",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/employment/information-about-workers-health/data-protection-and-workers-health-information/"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, regulation 3",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/3"
+          }
+        ]
+      },
+      "ukIndicatorTool": {
+        "title": "HSE Indicator Tool: 35 questions, scoring and how to run it | Empvibe",
+        "description": "HSE's Management Standards Indicator Tool: the 35 questions, the two answer scales, reverse scoring, three ways to run it and the response rate to aim for.",
+        "h1": "The HSE Management Standards Indicator Tool: the 35 questions, how they are scored and how to run it",
+        "lead": "The HSE Management Standards Indicator Tool is a free 35-item questionnaire that asks employees about the working conditions behind HSE's six Management Standards areas: demands, control, support, relationships, role and change. Each answer is scored from 1 to 5, and HSE's Excel Analysis Tool turns the scores into an average for each area, from 1 (poor) to 5 (desirable). You can run it on paper with the Analysis Tool, through HSE's online Stress Indicator Tool, which is free for up to 50 employees a year, or in a third-party tool that keeps HSE's wording, scoring and order unchanged. HSE presents it as one source for a stress risk assessment, not the only one, and no law requires you to use it.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the Indicator Tool is, and what HSE says it is not"
+          },
+          {
+            "t": "p",
+            "text": "The Indicator Tool belongs to HSE's [Management Standards](/artikler/hse-management-standards) approach to work-related stress. HSE's user manual describes it as “a 35-item questionnaire relating to the six primary stressors identified in the Management Standards approach”, designed to give “a broad indication to organisations of how well their workforce rate their performance in managing the risks associated with work related stress”. The questionnaire, its manual and the Excel Analysis Tool are free to download from HSE's website."
+          },
+          {
+            "t": "quote",
+            "text": "The Management Standards approach suggests using a survey as one (but not the only) useful source of information on whether work related stress appears to be a potential problem for your workforce and, if so, who is likely to be affected and how.",
+            "cite": "HSE, [Surveys](https://www.hse.gov.uk/stress/standards/step2/surveys.htm)"
+          },
+          {
+            "t": "p",
+            "text": "No law requires the Indicator Tool, or any staff survey. In Great Britain the duty is a suitable and sufficient assessment of the risks to employees' health and safety, stress included (MHSWR 1999 reg 3; in Northern Ireland, MHSWR (NI) 2000 reg 3) – see [work-related stress and the law](/lovkrav). HSE's [Step 2 guidance](https://www.hse.gov.uk/stress/standards/step2/index.htm) is also frank about size: “A survey is not an essential step and for smaller organisations it would not be proportionate to run such a survey, particularly where the same data can be gathered in other ways.” Instead, HSE's [Talking Toolkits](https://www.hse.gov.uk/stress/talking-toolkit.htm) “were developed for smaller organisations so they can gather data that larger organisations may gather through surveys”."
+          },
+          {
+            "t": "h2",
+            "text": "The 35 questions and the two answer scales"
+          },
+          {
+            "t": "p",
+            "text": "The form asks employees to answer so that their responses “reflect your work in the last six months”. Items 1 to 23 use a frequency scale: Never, Seldom, Sometimes, Often, Always. Items 24 to 35 use an agreement scale: Strongly disagree, Disagree, Neutral, Agree, Strongly agree. The form prints a score from 1 to 5 beside every answer. HSE's example covering letter says the questionnaire “takes about 15 minutes to complete”."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Item (HSE's wording)",
+              "Answer scale",
+              "Scoring"
+            ],
+            "rows": [
+              [
+                "1. “I am clear what is expected of me at work”",
+                "Never to Always",
+                "Never 1, Always 5"
+              ],
+              [
+                "6. “I have unachievable deadlines”",
+                "Never to Always",
+                "Reversed: Never 5, Always 1"
+              ],
+              [
+                "25. “I have some say over the way I work”",
+                "Strongly disagree to Strongly agree",
+                "Strongly disagree 1, Strongly agree 5"
+              ],
+              [
+                "34. “Relationships at work are strained”",
+                "Strongly disagree to Strongly agree",
+                "Reversed: Strongly disagree 5, Strongly agree 1"
+              ]
+            ]
+          },
+          {
+            "t": "h3",
+            "text": "Some items are scored in reverse"
+          },
+          {
+            "t": "p",
+            "text": "On HSE's form, twelve items – numbers 3, 5, 6, 9, 12, 14, 16, 18, 20, 21, 22 and 34 – print their scores in reverse, from 5 down to 1. HSE's Step 3 page explains why: some questions are “asked in the negative and therefore are reverse scored”. On “I am subject to bullying at work”, for example, Never scores 5 and Always scores 1, so a higher score always means better conditions. HSE's notes warn that if you analyse the data in other software, “the scoring system is reversed for some items”, and its Step 3 page names this as a recurring reason imported data goes wrong: users “assume that all questions are scored in the same direction”."
+          },
+          {
+            "t": "p",
+            "text": "Items quoted in this section are from HSE's [Management Standards Indicator Tool](https://www.hse.gov.uk/stress/assets/docs/indicatortool.pdf). Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence."
+          },
+          {
+            "t": "h2",
+            "text": "Six areas, seven scales"
+          },
+          {
+            "t": "p",
+            "text": "The items correspond to HSE's six areas. HSE's survey page says the Analysis Tool computes “an average figure for each of the six Management Standards”, but the tool's own summary of results shows seven scales, because it splits Support in two: Managers' Support and Peer Support. The split is useful in practice, since weak support from line managers and weak support between colleagues call for different action."
+          },
+          {
+            "t": "box",
+            "title": "Let the Analysis Tool do the scoring",
+            "text": "HSE's manual recommends that the Analysis Tool “be used to score the responses, regardless of whether it is used as a standalone measuring device or incorporated into a wider staff survey”. The tool groups the items into its scales for you. What it needs from you is the score printed beside each answer, reversed items included."
+          },
+          {
+            "t": "h2",
+            "text": "Three ways to run it"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "1. The PDF and HSE's Analysis Tool",
+                "text": "Circulate HSE's questionnaire on paper or by email, then enter each response in HSE's Excel Analysis Tool. Both are free. The tool can break results down by the demographic questions you add, and accepts data from up to three surveys: “the current one and two previous sets of data”."
+              },
+              {
+                "title": "2. HSE's online Stress Indicator Tool",
+                "text": "HSE describes it as an online 35-question survey on the six areas, with a report produced automatically when the survey closes. The free version lets an organisation “survey up to 50 employees per annum”, once a year; above 50 a paid licence is needed. Results are available “once a minimum of 10 responses have been collected” ([HSE Books](https://books.hse.gov.uk/faqs-stress-indicator-tool))."
+              },
+              {
+                "title": "3. A third-party survey tool",
+                "text": "HSE's notes describe using the questionnaire “in conjunction with a commercially available survey tool” to conduct an online survey, then importing the results into the Analysis Tool."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "If you build the questions into a survey of your own, HSE's [notes on the Indicator Tool](https://www.hse.gov.uk/stress/standards/notesindicatortool.htm) suggest that you “keep the question wording and scoring system the same and the items in the same order”. Change any of them and you are no longer running HSE's questionnaire, and results stop being comparable with earlier rounds."
+          },
+          {
+            "t": "h3",
+            "text": "If the Analysis Tool will not work"
+          },
+          {
+            "t": "p",
+            "text": "HSE's [Step 3 page](https://www.hse.gov.uk/stress/standards/step3/index.htm) lists the usual causes of complaints that the tool “isn't working”:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Running it from HSE's website.** It “should be saved to your own system” first.",
+              "**Answers instead of scores.** Data from another survey tool must give “the score (1 - 5) rather than the 'answer'”.",
+              "**Too few responses.** “The tool is designed to work when there are 10 or more records”.",
+              "**The password.** For a single year's data you only need the Raw Data worksheet, which needs no password; the other sheets fill themselves in.",
+              "**Column B.** Every row of data needs an entry in column B, such as the date, so that the tool treats the row as valid."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Response rates and sample size"
+          },
+          {
+            "t": "quote",
+            "text": "As a crude rule of thumb, for a survey of this type, a response rate of over 50% could be considered adequate; over 60% desirable, over 70% good and more than 80% very good. With a response rate of less than 50%, the data should be considered as indicative only, and treated with extreme caution",
+            "cite": "HSE, [Indicator Tool user manual](https://www.hse.gov.uk/stress/assets/docs/indicatortoolmanual.pdf)"
+          },
+          {
+            "t": "p",
+            "text": "The manual also wants the response balanced “across different types of worker and various locations”, and notes that office-based staff generally respond more than manual workers. Its advice for a good response includes explaining the purpose of the survey and when results will be shared, avoiding major holiday periods, one or two reminders, and letting staff answer in work time: “We know that this provides much better response rates.”"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Total number of workers",
+              "Recommended minimum sample size (HSE)"
+            ],
+            "rows": [
+              [
+                "500 or fewer",
+                "All workers"
+              ],
+              [
+                "501–1,000",
+                "500"
+              ],
+              [
+                "1,001–2,000",
+                "650"
+              ],
+              [
+                "2,001–3,000",
+                "700"
+              ],
+              [
+                "Over 3,000",
+                "800"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "HSE's sizes assume a response rate of 50% and aim at data accurate to at least 5%, plus or minus, of the resulting score. A sample should be chosen at random from an up-to-date list of all workers. For most small and medium employers the answer is simpler: survey everyone. In the manual's words, “A survey including all your workers will always provide a more precise picture than a sample.”"
+          },
+          {
+            "t": "h2",
+            "text": "Anonymity in small teams"
+          },
+          {
+            "t": "p",
+            "text": "HSE's manual says anonymity “will encourage employees to give frank and honest responses”, and that “A formal statement of anonymity at the beginning of the survey is the best way to do this.” If you add questions about site, department, grade, age or gender, it says to “ensure that these are not sufficient to allow individuals to be identified”."
+          },
+          {
+            "t": "p",
+            "text": "HSE's tools need 10 responses before they show results: the online Stress Indicator Tool makes results available only once 10 responses are in, and the Analysis Tool will not run the analysis on fewer than 10 records. Neither is presented as an anonymity rule. For the Analysis Tool, HSE's Step 3 page says that with fewer records “you can copy and paste all the records until the total exceeds 10”. That makes the spreadsheet run; it does nothing for anonymity, since the averages are still those of the few people who answered. HSENI, Northern Ireland's regulator, describes a group floor in its own Indicator Tool: “When selecting demographics no group of less than 10 employees can be identified. If a demographic has less than 10 employees the filter will not apply and the results will revert to the organisational averages” ([HSENI](https://www.hseni.gov.uk/mental-well-being-questions-and-answers)). A survey tool may let you set a lower threshold for groups. That lets smaller teams see their own results, but the smaller the group, the easier it is to work out who answered what, so take particular care with groups near the threshold and with combinations of filters."
+          },
+          {
+            "t": "p",
+            "text": "Anonymous answers are not the same as no personal data. The Information Commission (ICO) puts it plainly: “A person can be identifiable even if you do not know their name.” The promise you can make to staff is that no single answer can be traced to a person. More in [anonymous staff surveys](/artikler/anonymous-staff-survey)."
+          },
+          {
+            "t": "h2",
+            "text": "Reading the scores, and what comes next"
+          },
+          {
+            "t": "p",
+            "text": "The Analysis Tool scores each area “from 1 (poor) to 5 (desirable)” and shows the results as bar charts, for the whole organisation and for the groups your demographic questions create. Read them against your earlier surveys and across parts of the organisation, not as a pass mark. The manual is clear about their limits: the results “can only provide an indication of performance in managing work-related stress”, and need to be discussed with employees, for example in focus groups."
+          },
+          {
+            "t": "quote",
+            "text": "HSE does not expect an employer to meet all the standards. They represent a target for the organisation, goals that employers should be working towards through an ongoing process of risk assessment and continuous improvement.",
+            "cite": "HSE, [Step 1: Identify the risk factors](https://www.hse.gov.uk/stress/standards/step1/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "The checklist at the back of HSE's manual sets out what follows the survey:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Tell staff and their representatives the results, and compare them with sickness absence, staff turnover and accident records.",
+              "Hold focus groups or staff forums to confirm the results and explore the topics that need action. HSE's Step 3 page says groups “of between 6 and 10 people work best”.",
+              "Summarise the discussions: the issues that concern most people, and the actions to reduce them.",
+              "Tell staff the outcome and the action plans you have drawn up.",
+              "Run the process again after a suitable period, to see what has changed."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Read more about [sharing staff survey results](/artikler/sharing-staff-survey-results) and [turning them into an action plan](/artikler/staff-survey-action-plan)."
+          },
+          {
+            "t": "h2",
+            "text": "The licence, the wording and what it does not mean"
+          },
+          {
+            "t": "p",
+            "text": "HSE's material is Crown copyright, and HSE says you may reuse it “free of charge in any format or medium” under the [Open Government Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Its preferred acknowledgement is the line printed under the quoted items above. The licence has a condition that matters for anyone presenting results: it gives no right to use the material in a way that suggests “any official status or that the Information Provider and/or Licensor endorse you or your use of the Information”. HSE adds that its logo “cannot be reproduced without the prior written permission of the Health and Safety Executive”."
+          },
+          {
+            "t": "p",
+            "text": "So using the Indicator Tool does not mean HSE has approved your survey or your risk assessment. What HSE does say is about the whole approach: “If you follow the Management Standards approach correctly, you will be adopting an approach that is considered suitable and sufficient.” The survey is one step in it, alongside existing data, conversations with staff, an action plan and a review. In Northern Ireland, HSENI publishes the 35 Management Standards questions as the HSENI Indicator Tool."
+          }
+        ],
+        "sources": [
+          {
+            "label": "HSE, Management Standards Indicator Tool (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/indicatortool.pdf"
+          },
+          {
+            "label": "HSE, Management Standards Indicator Tool: user manual (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/indicatortoolmanual.pdf"
+          },
+          {
+            "label": "HSE, Surveys (Management Standards, Step 2)",
+            "url": "https://www.hse.gov.uk/stress/standards/step2/surveys.htm"
+          },
+          {
+            "label": "HSE, Notes on HSE Management Standards Indicator Tool",
+            "url": "https://www.hse.gov.uk/stress/standards/notesindicatortool.htm"
+          },
+          {
+            "label": "HSE, Step 3: Evaluate the risks",
+            "url": "https://www.hse.gov.uk/stress/standards/step3/index.htm"
+          },
+          {
+            "label": "HSE Books, FAQs for Stress Indicator Tool",
+            "url": "https://books.hse.gov.uk/faqs-stress-indicator-tool"
+          },
+          {
+            "label": "HSENI, Mental well-being: questions and answers",
+            "url": "https://www.hseni.gov.uk/mental-well-being-questions-and-answers"
+          }
+        ]
+      },
+      "ukStressSteps": {
+        "title": "How to do a stress risk assessment: HSE's five steps | Empvibe",
+        "description": "How to do a stress risk assessment in HSE's five steps: who does it, what evidence to gather, what to record with five or more employees, and when to review.",
+        "h1": "How to do a stress risk assessment: HSE's five steps for UK employers",
+        "lead": "You do a stress risk assessment the way you assess any other risk to health, applied to the way work is designed. HSE's Management Standards approach breaks it into five steps: identify the risk factors, find out who could be harmed and how, evaluate the risks with your employees, record your findings and an action plan, and monitor and review. Start with problems that affect groups of employees rather than individual cases, and use the information you already hold before you add a survey. With five or more employees you must write down the significant findings – and you keep that record yourself: nothing is sent to HSE.",
+        "blocks": [
+          {
+            "t": "p",
+            "text": "In Great Britain, the Management of Health and Safety at Work Regulations 1999 require every employer to make a “suitable and sufficient assessment” of the risks to its employees' health and safety (reg 3), and HSE says that duty covers stress. Northern Ireland has the same duty in the Management of Health and Safety at Work Regulations (Northern Ireland) 2000, enforced by HSENI. No law prescribes a method or requires a staff survey; [what the law requires](/lovkrav) is set out in full on the law page."
+          },
+          {
+            "t": "p",
+            "text": "HSE's [Management Standards](https://www.hse.gov.uk/stress/standards/) – guidance, not law – turn that duty into five steps, after a stage of preparing the organisation. HSE says that if you follow the approach correctly, “you will be adopting an approach that is considered suitable and sufficient”."
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Identify the risk factors** – HSE's six areas of work design.",
+              "**Who can be harmed and how** – what your figures and your people already tell you.",
+              "**Evaluate the risks** – talk the findings through with employees and agree solutions.",
+              "**Record your findings** – the significant findings, any group especially at risk, and an action plan.",
+              "**Monitor and review** – check that the actions happen, and that they work."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Before you start: who does it, and who needs to back it"
+          },
+          {
+            "t": "p",
+            "text": "The duty is the employer's, but you need not do the work alone. The 1999 Regulations require you to appoint one or more competent persons to help you comply with health and safety law (reg 7(1); Northern Ireland's 2000 regulations say the same). A competent person has “sufficient training and experience or knowledge and other qualities” to assist properly (reg 7(5)), and if you employ such a person, they come before an outsider (reg 7(8)). HSE says that could be you, one or more of your workers or someone from outside, and that formal qualifications are not usually essential. But “as the employer, managing health and safety will still be your legal duty.”"
+          },
+          {
+            "t": "p",
+            "text": "HSE's [Before you start](https://www.hse.gov.uk/stress/standards/before.htm) page asks you first to secure commitment: senior managers' support, “committing adequate resources, in particular, staff time”, and the commitment of employees and their representatives. A small firm can keep it simple: “Smaller organisations may not need a formal steering group, where they can gather information in simpler ways.”"
+          },
+          {
+            "t": "p",
+            "text": "You must also consult employees on health and safety, whatever your size: through union-appointed safety representatives where a recognised trade union has appointed them, and otherwise directly or through representatives the employees have elected (see [health and safety representatives](/verneombud)). Whether starting a survey is itself a measure you must consult on is a question of interpretation, but HSE advises involving employees and their representatives “at the beginning of the process”."
+          },
+          {
+            "t": "h2",
+            "text": "Step 1: identify the risk factors"
+          },
+          {
+            "t": "p",
+            "text": "HSE's Management Standards cover “six key areas of work design that, if not properly managed, are associated with poor health, lower productivity and increased accident and sickness absence rates”:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Demands** – workload, work patterns and the work environment",
+              "**Control** – how much say people have in the way they do their work",
+              "**Support** – from the organisation, line managers and colleagues",
+              "**Relationships** – positive working, and dealing with unacceptable behaviour",
+              "**Role** – whether people understand their role, and whether roles conflict",
+              "**Change** – how change, large or small, is managed and communicated"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Each area has a standard and “states to be achieved” that organisations should work towards; [HSE's Management Standards explained](/artikler/hse-management-standards) goes through them one by one. They are a target, not a pass mark:"
+          },
+          {
+            "t": "quote",
+            "text": "HSE does not expect an employer to meet all the standards. They represent a target for the organisation, goals that employers should be working towards through an ongoing process of risk assessment and continuous improvement.",
+            "cite": "HSE, [Step 1: Identify the risk factors](https://www.hse.gov.uk/stress/standards/step1/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "Two points from HSE shape the rest of the assessment. First, look at the organisation before individuals – HSE's advice is to “first focus on organisational level issues that potentially impact on a group and possibly large numbers of employees”, because removing a cause of stress works better than managing many individual cases. Second, the factors “often overlap, combine or interact”, so look at the job as a whole: high demands may be easier to bear with more support."
+          },
+          {
+            "t": "h2",
+            "text": "One assessment for the organisation, or one per person?"
+          },
+          {
+            "t": "p",
+            "text": "Both, in that order. HSE's approach looks at groups first. Individual assessments come in when someone needs one: Acas says that if an employee tells a manager they are experiencing work-related stress, the manager “should do an individual risk assessment”. What you learn from individual cases then feeds back into the organisation's assessment – see [individual stress risk assessments](/artikler/individual-stress-risk-assessment)."
+          },
+          {
+            "t": "h2",
+            "text": "Step 2: find out who could be harmed, and how"
+          },
+          {
+            "t": "p",
+            "text": "This step measures the gap between how things are and what the standards describe. HSE says you do not need extensive analysis, and that most organisations already hold useful data. Look for patterns across sources: a team with disciplinary issues, high turnover and high sickness absence may have a stress problem."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Sickness absence**, and its timing – stress-related absence is not always reported as such",
+              "**Staff turnover and exit interviews** – are more people leaving one team?",
+              "**Productivity, complaints and disciplinary cases** in one area",
+              "**Accidents and near misses** – HSE notes that stress can affect concentration and sleep",
+              "**Occupational health or employee assistance figures**, where you have them",
+              "**What staff tell you** – in one-to-ones, team meetings, toolbox talks, and through any representatives"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "A survey is one more source, not a requirement. HSE's wording is plain:"
+          },
+          {
+            "t": "quote",
+            "text": "A survey is not an essential step and for smaller organisations it would not be proportionate to run such a survey, particularly where the same data can be gathered in other ways.",
+            "cite": "HSE, [Step 2: Who can be harmed and how](https://www.hse.gov.uk/stress/standards/step2/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "HSE's [Talking Toolkits](https://www.hse.gov.uk/stress/talking-toolkit.htm) “were developed for smaller organisations so they can gather data that larger organisations may gather through surveys”. If you do run a survey, HSE's own is the 35-question [Indicator Tool](/artikler/hse-indicator-tool). HSE suggests surveying “all of your staff in all areas”, senior managers included, and treating the result as “a broad indicator” to check against your other sources. Report results only for groups large enough that no single answer can be traced to a person."
+          },
+          {
+            "t": "box",
+            "title": "Note any group especially at risk",
+            "text": "If one team, site or role is more exposed than the rest, write it down: “any group of his employees identified by it as being especially at risk” belongs in the written record you must keep with five or more employees (MHSWR 1999 reg 3(6)(b))."
+          },
+          {
+            "t": "h2",
+            "text": "Step 3: evaluate the risks and agree solutions with employees"
+          },
+          {
+            "t": "p",
+            "text": "Figures show where to look; people tell you why. In HSE's words: “If you want to know what is affecting employees, you have to ask them.” Talk the findings through with a representative group of employees and work out solutions with them. HSE suggests focus groups of between 6 and 10 people; in a small firm, the Talking Toolkit conversations can replace them. New issues often come up at this stage, and some the data pointed to may matter less to employees."
+          },
+          {
+            "t": "p",
+            "text": "Then decide what to do. HSE sorts solutions into three types, and prefers the first:"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Primary",
+                "text": "Tackle the cause at source. HSE calls these “the ideal type of intervention”, and normally the most cost-effective."
+              },
+              {
+                "title": "Secondary",
+                "text": "Help employees deal with the situation – but these “do not address the underlying cause of the problem”."
+              },
+              {
+                "title": "Tertiary",
+                "text": "Help people made ill by their work to recover and return to work."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The general duty is to ensure, so far as is reasonably practicable, the health, safety and welfare at work of all your employees (HSWA 1974 s.2(1); in Northern Ireland, art. 4(1) of the Health and Safety at Work (Northern Ireland) Order 1978). HSE explains reasonably practicable as “balancing the level of risk against the measures needed to control the real risk in terms of money, time or trouble”."
+          },
+          {
+            "t": "h2",
+            "text": "Step 4: record your findings and your action plan"
+          },
+          {
+            "t": "p",
+            "text": "With five or more employees, the law asks for two records, and sets no format for either:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "MHSWR 1999 reg 3(6)",
+                "text": "Where the employer employs five or more employees, he shall record— (a) the significant findings of the assessment; and (b) any group of his employees identified by it as being especially at risk."
+              },
+              {
+                "ref": "MHSWR 1999 reg 5(2)",
+                "text": "With five or more employees, record your arrangements for the effective planning, organisation, control, monitoring and review of the preventive and protective measures."
+              },
+              {
+                "ref": "HSWA 1974 s.20(2)(k)",
+                "text": "An inspector may require you to produce, and may inspect and copy, the documents the law requires you to keep."
+              },
+              {
+                "ref": "Northern Ireland",
+                "text": "MHSWR (NI) 2000 regs 3(6) and 5(2) are worded the same."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The record is yours. It is not filed with HSE or anyone else: you keep it, and an inspector (HSE or your local authority; HSENI in Northern Ireland) may ask to see it. HSE's advice: “For most people this does not need to be a big exercise – just note the main points about the significant risks and what you decided.” With fewer than five employees you need not write it down, though HSE notes a record is useful for reviewing later."
+          },
+          {
+            "t": "p",
+            "text": "HSE suggests recording the findings as an action plan in which every action has a priority, enough resources, a named person or function and a realistic timescale, with a review to check that it works. Agree the plan with senior managers and employee representatives, and share the final plan and timetable with employees."
+          },
+          {
+            "t": "p",
+            "text": "Sharing it also helps you meet a legal duty: employees must be given comprehensible and relevant information on the risks the assessment identifies and on the preventive and protective measures (MHSWR 1999 reg 10; the same in Northern Ireland). A [stress risk assessment template](/artikler/stress-risk-assessment-template) with a filled-in example shows one way to lay the record out, and [the staff survey action plan](/artikler/staff-survey-action-plan) covers turning findings into actions."
+          },
+          {
+            "t": "h2",
+            "text": "Step 5: monitor and review"
+          },
+          {
+            "t": "p",
+            "text": "HSE describes three tasks: monitor that the agreed actions are happening, evaluate whether they work, and decide what further action or data gathering is needed. Ask the employees affected, and look again at the figures you started with. If something is clearly not working, “don't wait for the next scheduled review but take action as soon as possible.”"
+          },
+          {
+            "t": "p",
+            "text": "The law sets no fixed interval. You must review the assessment if there is reason to suspect it is no longer valid, or there has been a significant change in the matters it relates to, and make any changes needed (MHSWR 1999 reg 3(3); the same in Northern Ireland). HSE's guidance adds that you should review it regularly; its example employers chose every year, or straight away after a major change. If you ran a survey, HSE suggests repeating it after a period of time – see [how often to run a staff survey](/artikler/how-often-staff-survey)."
+          },
+          {
+            "t": "h2",
+            "text": "Northern Ireland, and free help"
+          },
+          {
+            "t": "p",
+            "text": "In Northern Ireland the same duties apply under its own law: the general duty is in article 4 of the 1978 Order, and the assessment, the records and the review in the 2000 regulations. HSENI enforces them and uses the Management Standards approach too. It accepts other approaches, but says that any alternative approach “must include a suitable and sufficient risk assessment”."
+          },
+          {
+            "t": "p",
+            "text": "Free help from HSE:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Three [example stress risk assessments](https://www.hse.gov.uk/stress/risk-assessment.htm): a baker with 9 people, a financial services company with 40 and a college with 150.",
+              "The checklist [Is my risk assessment approach suitable and sufficient?](https://www.hse.gov.uk/stress/assets/docs/checklist.pdf) for an approach of your own.",
+              "The [Talking Toolkits](https://www.hse.gov.uk/stress/talking-toolkit.htm), including versions for construction and education.",
+              "[Working Minds](https://workright.campaign.gov.uk/working-minds/), HSE's campaign, with free online learning, templates and its “5 Rs” for everyday stress prevention."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Why it matters: HSE's latest figures"
+          },
+          {
+            "t": "p",
+            "text": "HSE's latest annual statistics for Great Britain, published on 20 November 2025, estimate that 964,000 workers were suffering from work-related stress, depression or anxiety in 2024/25, new and long-standing cases together, and that 22.1 million working days were lost to it. That was 52% of all work-related ill health and 62% of the working days lost to work-related ill health in 2024/25. The figures are self-reported, from the Labour Force Survey."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, regulation 3 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/3"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, regulation 7 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/7"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations (Northern Ireland) 2000, regulation 3 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/nisr/2000/388/regulation/3"
+          },
+          {
+            "label": "HSE: Management Standards, steps 1 to 5",
+            "url": "https://www.hse.gov.uk/stress/standards/"
+          },
+          {
+            "label": "HSE: Stress risk assessment",
+            "url": "https://www.hse.gov.uk/stress/risk-assessment.htm"
+          },
+          {
+            "label": "HSE: Work-related stress, depression or anxiety statistics in Great Britain, 2025 (PDF)",
+            "url": "https://www.hse.gov.uk/statistics/assets/docs/stress.pdf"
+          },
+          {
+            "label": "Acas: Risk assessments – managing work-related stress",
+            "url": "https://www.acas.org.uk/managing-work-related-stress/risk-assessments"
+          }
+        ]
+      },
+      "ukStressTemplate": {
+        "title": "Stress risk assessment template, with a filled-in example | Empvibe",
+        "description": "A stress risk assessment template with one row per HSE area, a filled-in example for a small firm, and what the law says the written record must hold.",
+        "h1": "Stress risk assessment template, with a filled-in example for a small business",
+        "lead": "A stress risk assessment template can be a simple table with one row for each of HSE's six Management Standards areas – demands, control, support, relationships, role and change – and columns for what you found, who is affected, what you already do, what more you will do, who owns each action, by when, and how you will review it. Below is one such template, then a filled-in example for a fictional civil engineering contractor. The law prescribes no form: with five or more employees, you must record the significant findings, any group especially at risk and your arrangements for planning, organising, monitoring and reviewing the measures that follow. HSE also publishes a general template and three example stress assessments.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the written record must hold"
+          },
+          {
+            "t": "p",
+            "text": "With five or more employees, the regulations ask for two written records. They apply in Great Britain; Northern Ireland's 2000 regulations word both the same."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "MHSWR 1999 reg 3(6)",
+                "text": "Where the employer employs five or more employees, he shall record— (a) the significant findings of the assessment; and (b) any group of his employees identified by it as being especially at risk."
+              },
+              {
+                "ref": "MHSWR 1999 reg 5(2)",
+                "text": "Where the employer employs five or more employees, he shall record the arrangements referred to in paragraph (1) – those for the effective planning, organisation, control, monitoring and review of the preventive and protective measures."
+              },
+              {
+                "ref": "HSWA 1974 s.20(2)(k)",
+                "text": "An inspector may require the production of, inspect and take copies of the documents the law requires you to keep."
+              },
+              {
+                "ref": "MHSWR (NI) 2000 regs 3(6), 5(2)",
+                "text": "The same two records, in the same words, in Northern Ireland."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The regulations set no format and no length. HSE's guidance on stress puts it like this:"
+          },
+          {
+            "t": "quote",
+            "text": "Any paperwork you produce should help you communicate and manage the risks in your business. For most people this does not need to be a big exercise – just note the main points about the significant risks and what you decided.",
+            "cite": "HSE, [Stress risk assessment](https://www.hse.gov.uk/stress/risk-assessment.htm)"
+          },
+          {
+            "t": "p",
+            "text": "The record is not a report to anyone. Nothing is filed with HSE: you keep it, and produce it if an inspector (HSE or your local authority; HSENI in Northern Ireland) asks. With fewer than five employees you need not write it down, though HSE notes a record is useful for reviewing later. The duty to assess applies whatever your size – see [what the law requires](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "The template: one row per HSE area"
+          },
+          {
+            "t": "p",
+            "text": "Start with a short header, then fill in one row for each of HSE's six areas. Copy both tables into a document or spreadsheet; a dash marks a field you fill in."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Field",
+              "What to write"
+            ],
+            "rows": [
+              [
+                "Organisation",
+                "Name, what you do, number of employees, sites and teams"
+              ],
+              [
+                "Date of assessment",
+                "When the assessment was agreed"
+              ],
+              [
+                "Carried out by",
+                "Who led it, and the competent person who helped"
+              ],
+              [
+                "Who was consulted",
+                "Safety representatives, if you have them, or employees directly – and how"
+              ],
+              [
+                "Evidence used",
+                "Absence and turnover figures, conversations, group discussions, a survey if you ran one"
+              ],
+              [
+                "Groups especially at risk",
+                "Any team, site or role more exposed than the rest (MHSWR 1999 reg 3(6)(b))"
+              ],
+              [
+                "Arrangements",
+                "Who owns the plan and how progress is checked and reviewed (reg 5(2)); how staff hear about it (reg 10)"
+              ],
+              [
+                "Next review",
+                "A date, and what would bring it forward"
+              ]
+            ]
+          },
+          {
+            "t": "table",
+            "head": [
+              "HSE area",
+              "What we found",
+              "Who is affected",
+              "What we already do",
+              "What more we will do",
+              "Owner",
+              "By when",
+              "Review"
+            ],
+            "rows": [
+              [
+                "**Demands** – workload, work patterns, the work environment",
+                "Can people cope with their workload in their agreed hours? Where are the peaks?",
+                "Teams, roles or seasons with the heaviest load",
+                "How work is planned, staffed and scheduled",
+                "–",
+                "–",
+                "–",
+                "–"
+              ],
+              [
+                "**Control** – how much say people have in their work",
+                "Do people have a say in how and at what pace they work?",
+                "Roles with little say",
+                "How staff help plan their own work",
+                "–",
+                "–",
+                "–",
+                "–"
+              ],
+              [
+                "**Support** – from the organisation, line managers and colleagues",
+                "Do people get the help, information and feedback they need, and know where to find it?",
+                "New starters, people working away from a base, teams with a new manager",
+                "One-to-ones, induction, who staff can talk to",
+                "–",
+                "–",
+                "–",
+                "–"
+              ],
+              [
+                "**Relationships** – positive working, unacceptable behaviour",
+                "Is there conflict or unacceptable behaviour? Can people report it, and does anything happen?",
+                "Teams where complaints or disputes cluster",
+                "Policy on unacceptable behaviour, how reports are handled",
+                "–",
+                "–",
+                "–",
+                "–"
+              ],
+              [
+                "**Role** – clear roles that do not conflict",
+                "Do people know what is expected of them? Do demands from different managers clash?",
+                "Roles that answer to more than one manager",
+                "Job descriptions, who settles clashes",
+                "–",
+                "–",
+                "–",
+                "–"
+              ],
+              [
+                "**Change** – how change is managed and communicated",
+                "Are people told about changes in time, and consulted before they are decided?",
+                "Teams going through change now or soon",
+                "How changes are announced and discussed",
+                "–",
+                "–",
+                "–",
+                "–"
+              ]
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Two habits that make the record useful",
+            "text": "Write “no significant finding” rather than leaving a row empty, so the record shows you looked. And write about work and groups, not named people: findings are shared with staff, and a finding about a team of two can point at a person."
+          },
+          {
+            "t": "h2",
+            "text": "A filled-in example (invented): a civil engineering contractor"
+          },
+          {
+            "t": "box",
+            "title": "An invented example",
+            "text": "This example is invented. It describes a fictional civil engineering contractor with 34 employees on two sites, in four departments – Operations, Projects, Workshop and Administration – not any real company, site or person. It shows how a completed assessment reads, not answers to copy: none of its measures is required by law or by HSE, and yours should come from your own findings and your own staff. HSE gives the same warning about its own examples."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Field",
+              "Fictional contractor (invented)"
+            ],
+            "rows": [
+              [
+                "Date of assessment",
+                "April 2026"
+              ],
+              [
+                "Carried out by",
+                "The managing director, with the office manager as competent person"
+              ],
+              [
+                "Who was consulted",
+                "The union safety representative at each stage; all staff at team briefings"
+              ],
+              [
+                "Evidence used",
+                "Sickness absence and leavers over 12 months; incident reports; a short anonymous staff survey; two group discussions of six"
+              ],
+              [
+                "Groups especially at risk",
+                "Projects, in the peak season from May to November"
+              ],
+              [
+                "Arrangements",
+                "The managing director owns the plan; progress is checked monthly with the safety representative; staff hear back at team briefings."
+              ],
+              [
+                "Next review",
+                "December 2026, after the peak season, or sooner after a significant change"
+              ]
+            ]
+          },
+          {
+            "t": "table",
+            "head": [
+              "HSE area",
+              "What we found",
+              "Who is affected",
+              "What we already do",
+              "What more we will do",
+              "Owner",
+              "By when",
+              "Review"
+            ],
+            "rows": [
+              [
+                "**Demands**",
+                "Three projects run at once with no agreed order. Evening work most weeks in peak season; every deadline falls in the same week in November.",
+                "Projects – a group especially at risk",
+                "Two extra agency staff in peak season",
+                "A priorities meeting every Monday ending in one written list. Raise the November deadlines with clients before the next contracts.",
+                "Projects manager; managing director",
+                "Meeting from May; clients by September",
+                "Ask Projects staff in December; compare evening work with last year"
+              ],
+              [
+                "**Control**",
+                "No significant finding. Crews say they have a say in how they do their work.",
+                "–",
+                "Crews plan the day at the morning meeting",
+                "None needed now",
+                "–",
+                "–",
+                "At the next review"
+              ],
+              [
+                "**Support**",
+                "New starters rate support from managers lowest. Crews at the second site rarely see their manager there.",
+                "First-year staff; crews at the second site",
+                "Friday reviews in the Workshop, which staff value",
+                "A buddy – a colleague, not a manager – for each new starter's first eight weeks. The operations manager at the second site every Tuesday.",
+                "Office manager; operations manager",
+                "June",
+                "Ask new starters at eight weeks; check visits monthly"
+              ],
+              [
+                "**Relationships**",
+                "The Workshop reported four incidents in spring and heard nothing back. Some say people who raise problems at the morning meeting get labelled as difficult.",
+                "Workshop and Operations",
+                "Policy on unacceptable behaviour in the staff handbook",
+                "A named reply to every incident report within five working days. Managers ask for problems at the start of each morning meeting.",
+                "Workshop supervisor; managing director",
+                "May",
+                "Monthly count of replies on time; team briefings in September"
+              ],
+              [
+                "**Role**",
+                "Two project managers sometimes ask for the same crew in the same week, giving crews conflicting instructions.",
+                "Operations crews",
+                "Job descriptions for every role",
+                "Crews allocated once a week at the Monday meeting; the operations manager settles clashes.",
+                "Operations manager",
+                "May",
+                "Ask crew leaders in September whether clashes have stopped"
+              ],
+              [
+                "**Change**",
+                "No significant finding. Staff valued having a say in choosing the Workshop's new tools.",
+                "–",
+                "Changes discussed at team briefings before they are decided",
+                "Involve staff the same way in the next change",
+                "Managing director",
+                "Ongoing",
+                "At the next review"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Each action has an owner, a date and a check that it worked, as HSE's guidance on action plans asks, and the group especially at risk is named (reg 3(6)(b)). For keeping the actions moving, see [the staff survey action plan](/artikler/staff-survey-action-plan)."
+          },
+          {
+            "t": "h2",
+            "text": "Where the evidence comes from"
+          },
+          {
+            "t": "p",
+            "text": "The evidence comes from figures you already hold (absence, turnover, complaints, accidents and near misses), conversations with staff, group discussions and, where it is proportionate, a staff survey. HSE says a survey “is not an essential step” and that for smaller organisations it “would not be proportionate”, particularly where the same data can be gathered in other ways. [How to do a stress risk assessment](/artikler/stress-risk-assessment-steps) goes through each source; HSE's own survey is the [Indicator Tool](/artikler/hse-indicator-tool)."
+          },
+          {
+            "t": "h2",
+            "text": "HSE's own template and example assessments"
+          },
+          {
+            "t": "p",
+            "text": "HSE's general [risk assessment template](https://www.hse.gov.uk/simple-health-safety/risk/risk-assessment-template-and-examples.htm), in Word and Open Document format, has a header for the company name, the assessor and the dates, and columns for the hazards, who might be harmed and how, what you already do, what further action you need, who carries it out, by when, and “Done”. HSE's stress page calls it an easy way to record your findings, and links three example stress assessments, each set out by the six areas:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "[Baker employs 9 people](https://www.hse.gov.uk/stress/assets/docs/perfect-cakes-risk-assessment.pdf) – heavy demands and conflicting deadlines, with summer weddings as the peak",
+              "[Financial services company has 40 workers](https://www.hse.gov.uk/stress/assets/docs/alpha-financial-services-risk-assessment.pdf) – deadlines, the end of the financial year and a history of stress-related ill health",
+              "[College employs 150 people on multiple sites](https://www.hse.gov.uk/stress/assets/docs/learning-with-care-risk-assessment.pdf) – staff in its smaller houses with too much responsibility and not enough support from managers"
+            ]
+          },
+          {
+            "t": "quote",
+            "text": "This example risk assessment is not a generic risk assessment that you can just put your company name on and adopt wholesale without any thought. This would not satisfy the law – and would not be effective in protecting people.",
+            "cite": "HSE, [Example risk assessment on work-related stress in a small business](https://www.hse.gov.uk/stress/assets/docs/perfect-cakes-risk-assessment.pdf)"
+          },
+          {
+            "t": "p",
+            "text": "HSE's [Action plan and worked example](https://www.hse.gov.uk/stress/assets/docs/actionplan.pdf) has columns for the standard area, the “Desired state”, the “Current state”, “Practical solutions”, who takes the work forward, when, how staff will receive feedback, and whether the action is completed."
+          },
+          {
+            "t": "h2",
+            "text": "“Mental health risk assessment” or “stress risk assessment”?"
+          },
+          {
+            "t": "p",
+            "text": "HSE's guidance uses the term stress risk assessment, and describes its scope in these words:"
+          },
+          {
+            "t": "quote",
+            "text": "Employers have a legal duty to protect workers from stress at work by doing a risk assessment and acting on it. You should assess the risk of stress, and its impact on mental and physical ill-health, in the same way as you assess other work-related health and safety risks.",
+            "cite": "HSE, [Stress risk assessment](https://www.hse.gov.uk/stress/risk-assessment.htm)"
+          },
+          {
+            "t": "p",
+            "text": "HSE also writes that “Stress is not an illness, but it can make you ill”, and that “You may need to develop individual action plans for workers suffering from stress.” How to do that is covered in [individual stress risk assessments](/artikler/individual-stress-risk-assessment)."
+          },
+          {
+            "t": "h2",
+            "text": "Keeping the record: who sees it, when to review it, and inspectors"
+          },
+          {
+            "t": "p",
+            "text": "Employees must be given comprehensible and relevant information on the risks the assessment identifies and on the preventive and protective measures (MHSWR 1999 reg 10; the same in Northern Ireland). The regulation speaks of information rather than of the record itself; HSE's example employers simply emailed the finished assessment to all staff. Union-appointed safety representatives may, with reasonable notice, inspect and copy relevant documents the employer must keep, except health records of identifiable individuals (SRSC 1977 reg 7(1)) – see [health and safety representatives](/verneombud)."
+          },
+          {
+            "t": "p",
+            "text": "The law sets no fixed interval for reviewing it. You must review the assessment if there is reason to suspect it is no longer valid, or there has been a significant change in the matters it relates to, and make the changes that follow (MHSWR 1999 reg 3(3)). HSE's guidance says to “Review the risk assessment regularly and particularly after significant change”, and its example employers chose every year, or straight away after a major change – practice, not a legal deadline."
+          },
+          {
+            "t": "p",
+            "text": "If an inspector asks, this record is what you produce. HSE's checklist for stress assessments explains why it pays to document the whole process:"
+          },
+          {
+            "t": "quote",
+            "text": "Documenting the process you have followed provides an audit trail to help you demonstrate to the relevant inspection authorities that what you have done represents a suitable and sufficient risk assessment.",
+            "cite": "HSE, [Is my risk assessment approach suitable and sufficient?](https://www.hse.gov.uk/stress/assets/docs/checklist.pdf)"
+          },
+          {
+            "t": "p",
+            "text": "And from HSE's general guidance on risk assessment: “Do not rely purely on paperwork as your main priority should be to control the risks in practice.”"
+          }
+        ],
+        "sources": [
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, regulation 3 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/3"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, regulation 5 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/5"
+          },
+          {
+            "label": "Health and Safety at Work etc. Act 1974, section 20 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/ukpga/1974/37/section/20"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations (Northern Ireland) 2000, regulation 3 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/nisr/2000/388/regulation/3"
+          },
+          {
+            "label": "HSE: Risk assessment template and examples",
+            "url": "https://www.hse.gov.uk/simple-health-safety/risk/risk-assessment-template-and-examples.htm"
+          },
+          {
+            "label": "HSE: Stress risk assessment, with three example assessments",
+            "url": "https://www.hse.gov.uk/stress/risk-assessment.htm"
+          },
+          {
+            "label": "HSE: Action plan and worked example (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/actionplan.pdf"
+          }
+        ]
+      },
+      "ukStandards": {
+        "title": "HSE Management Standards: the six areas explained | Empvibe",
+        "description": "HSE's Management Standards for work-related stress: the six areas, the standard and the states to be achieved for each, and why they are guidance, not law.",
+        "h1": "HSE's Management Standards for work-related stress: the six areas explained",
+        "lead": "HSE's Management Standards are the Health and Safety Executive's guidance on managing work-related stress. They describe six areas of work design – demands, control, support, relationships, role and change – and give each a standard, written as what employees indicate together with local systems for individual concerns, and a list of states the organisation should work towards. They are not law: the legal duty is a suitable and sufficient risk assessment that covers stress, and HSE says it does not expect an employer to meet all the standards. HSE says that following the approach correctly is an approach it considers suitable and sufficient.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the Management Standards are, and what they are not"
+          },
+          {
+            "t": "p",
+            "text": "HSE says the standards “cover six key areas of work design that, if not properly managed, are associated with poor health, lower productivity and increased accident and sickness absence rates”. They allow assessment of the current situation using “pre-existing data, surveys and other techniques” ([What are the Management Standards?](https://www.hse.gov.uk/stress/standards/overview.htm))."
+          },
+          {
+            "t": "quote",
+            "text": "The Management Standards are not new laws.",
+            "cite": "HSE, [Securing management commitment](https://www.hse.gov.uk/stress/assets/docs/securing.pdf)"
+          },
+          {
+            "t": "p",
+            "text": "The law sits underneath them. In Great Britain, every employer must ensure, so far as is reasonably practicable, the health, safety and welfare at work of all its employees (HSWA 1974 s.2(1)), and make a suitable and sufficient assessment of the risks to their health and safety (MHSWR 1999 reg 3). Northern Ireland has the same duties in art. 4 of the Health and Safety at Work (Northern Ireland) Order 1978 and reg 3 of MHSWR (NI) 2000. HSE applies these duties to stress, but no statute or regulation names the six areas or any other stress factors. With five or more employees, the significant findings of the assessment must be written down (MHSWR 1999 reg 3(6)). More on [work-related stress and the law](/lovkrav)."
+          },
+          {
+            "t": "quote",
+            "text": "HSE does not expect an employer to meet all the standards. They represent a target for the organisation, goals that employers should be working towards through an ongoing process of risk assessment and continuous improvement.",
+            "cite": "HSE, [Step 1: Identify the risk factors](https://www.hse.gov.uk/stress/standards/step1/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "Nor are they the only route. HSE says that if you follow the approach correctly, “you will be adopting an approach that is considered suitable and sufficient”. Asked whether a different approach can be used, HSENI answers: “Yes, but any alternative approach must include a suitable and sufficient risk assessment.” HSE's [equivalence checklist](https://www.hse.gov.uk/stress/assets/docs/checklist.pdf) helps you judge whether your own approach measures up."
+          },
+          {
+            "t": "h2",
+            "text": "The six areas"
+          },
+          {
+            "t": "p",
+            "text": "Each area's description, standard and states below are HSE's, word for word, from its six area pages. The **Ask about it** questions come from HSE's [Talking Toolkit](https://www.hse.gov.uk/stress/assets/docs/stress-talking-toolkit.pdf); the examples are illustrations, not HSE's. Contains public sector information published by the Health and Safety Executive and licensed under the [Open Government Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)."
+          },
+          {
+            "t": "h3",
+            "text": "Demands"
+          },
+          {
+            "t": "p",
+            "text": "[HSE](https://www.hse.gov.uk/stress/standards/demands.htm): “This includes issues such as workload, work patterns, and the work environment.” **The standard is that:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "employees indicate that they are able to cope with the demands of their jobs; and",
+              "systems are in place locally to respond to any individual concerns."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**What should be happening:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "The organisation provides employees with adequate and achievable demands in relation to the agreed hours of work",
+              "People's skills and abilities are matched to the job demands",
+              "Jobs are designed to be within the capabilities of employees",
+              "Employees' concerns about their work environment are addressed"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Example:** a dental practice adds evening appointments without changing the rota. **Ask about it:** “Does your workload feel achievable?”"
+          },
+          {
+            "t": "h3",
+            "text": "Control"
+          },
+          {
+            "t": "p",
+            "text": "[HSE](https://www.hse.gov.uk/stress/standards/control.htm): “How much say the person has in the way they do their work.” **The standard is that:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "employees indicate that they are able to have a say about the way they do their work",
+              "systems are in place locally to respond to any individual concerns."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**What should be happening/States to be achieved:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Where possible, employees have control over their pace of work",
+              "Employees are encouraged to use their skills and initiative to do their work",
+              "Where possible, employees are encouraged to develop new skills to help them undertake new and challenging pieces of work",
+              "The organisation encourages employees to develop their skills",
+              "Employees have a say over when breaks can be taken",
+              "Employees are consulted over their work patterns"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Example:** warehouse pickers whose pace is set by a handheld scanner. **Ask about it:** “Do you feel you have a say in how your work is organised and undertaken?”"
+          },
+          {
+            "t": "h3",
+            "text": "Support"
+          },
+          {
+            "t": "p",
+            "text": "[HSE](https://www.hse.gov.uk/stress/standards/support.htm): “This includes the encouragement, sponsorship and resources provided by the organisation, line management and colleagues.” **The standard is that:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "employees indicate that they receive adequate information and support from their colleagues and superiors; and",
+              "systems are in place locally to respond to any individual concerns."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**What should be happening/States to be achieved:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "The organisation has policies and procedures to adequately support employees",
+              "Systems are in place to enable and encourage managers to support their staff",
+              "Systems are in place to enable and encourage employees to support their colleagues",
+              "Employees know what support is available and how and when to access it",
+              "Employees know how to access the required resources to do their job",
+              "Employees receive regular and constructive feedback"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Example:** a new site supervisor who has never been told whom to call when a job goes wrong. **Ask about it:** “Do you know who to talk to and where to go when you need support?”"
+          },
+          {
+            "t": "h3",
+            "text": "Relationships"
+          },
+          {
+            "t": "p",
+            "text": "[HSE](https://www.hse.gov.uk/stress/standards/relationships.htm): “This includes promoting positive working to avoid conflict and dealing with unacceptable behaviour.” **The standard is that:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "employees indicate that they are not subjected to unacceptable behaviours, eg bullying at work",
+              "systems are in place locally to respond to any individual concerns."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**What should be happening:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "The organisation promotes positive behaviours at work to avoid conflict and ensure fairness",
+              "Employees share information relevant to their work",
+              "The organisation has agreed policies and procedures to prevent or resolve unacceptable behaviour",
+              "Systems are in place to enable and encourage managers to deal with unacceptable behaviour",
+              "Systems are in place to enable and encourage employees to report unacceptable behaviour"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Example:** two colleagues whose falling-out the rest of a small team works around. **Ask about it:** “Have you experienced or witnessed unacceptable behaviour at work?”"
+          },
+          {
+            "t": "p",
+            "text": "Individual cases of bullying take a different route: HSE says it “is not the appropriate body to investigate bullying or harassment”, and that such issues “should be referred to Acas” ([Reporting a concern](https://www.hse.gov.uk/stress/reporting-concern.htm)). In Northern Ireland, HSENI says it “does not have the power to investigate individual employee relations cases”, and that the Labour Relations Agency (LRA) is better placed to advise."
+          },
+          {
+            "t": "h3",
+            "text": "Role"
+          },
+          {
+            "t": "p",
+            "text": "[HSE](https://www.hse.gov.uk/stress/standards/role.htm): “This includes whether people understand their role within the organisation and whether the organisation ensures that the person does not have conflicting roles.” **The Standard is that:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "employees indicate that they understand their role and responsibilities",
+              "systems are in place locally to respond to any individual concerns"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**What should be happening:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "The organisation ensures that, as far as possible, the different requirements it places upon employees are compatible",
+              "The organisation provides information to enable employees to understand their role and responsibilities",
+              "The organisation ensures that, as far as possible, the requirements it places upon employees are clear",
+              "Systems are in place to enable employees to raise concerns about any uncertainties or conflicts they have in their role and responsibilities"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Example:** a shop supervisor told by the owner to cut staff hours and by the area manager to open longer. **Ask about it:** “Do you feel clear on what your responsibilities are?”"
+          },
+          {
+            "t": "h3",
+            "text": "Change"
+          },
+          {
+            "t": "p",
+            "text": "[HSE](https://www.hse.gov.uk/stress/standards/change.htm): “This includes how organisational change (large or small) is managed and communicated in the organisation.” **The Standard is that:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "employees indicate that the organisation engages them frequently when undergoing an organisational change",
+              "systems are in place locally to respond to any individual concerns"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**What should be happening:**"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "The organisation provides employees with timely information to enable them to understand the reasons for proposed changes",
+              "The organisation ensures adequate employee consultation on changes and provides opportunities for employees to influence proposals",
+              "Employees are aware of the probable impact of any changes to their jobs. If necessary, employees are given training to support any changes in their jobs",
+              "Employees are aware of timetables for changes",
+              "Employees have access to relevant support during changes"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Example:** a new booking system announced to staff the week before it goes live. **Ask about it:** “Do you feel you are properly consulted when changes are made which affect you and your role?”"
+          },
+          {
+            "t": "h2",
+            "text": "The standard and the states to be achieved"
+          },
+          {
+            "t": "p",
+            "text": "The two parts do different jobs. **The standard** is written from the employees' side – what they indicate – together with a system for individual concerns, so asking employees is the main way to find out whether it is met. **The states to be achieved** describe what should be happening in the organisation. HSE's leaflet [INDG430](https://www.hse.gov.uk/pubns/indg430.pdf) puts it this way: “Under each area there are ‘states to be achieved’, which organisations should work towards.” The Indicator Tool manual calls them “aspirational targets for what should be happening in your organisation”."
+          },
+          {
+            "t": "p",
+            "text": "In practice, the states are where actions come from. HSE's checklist asks whether your approach shows “the extent and nature of the gap, if any, between the current situation, and what is seen as good practice”, such as the states to be achieved."
+          },
+          {
+            "t": "h2",
+            "text": "What the six areas do not name"
+          },
+          {
+            "t": "p",
+            "text": "The six areas are about work design. Read side by side, their standards and states leave some things unnamed. This is a reading of HSE's text, not something HSE says:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Emotional demands.** Demands covers “workload, work patterns, and the work environment”. Work with distressed clients, patients or members of the public is not named, though HSE's Talking Toolkit suggests regular breaks “especially when the work is complex or emotionally demanding”.",
+              "**Isolation and lone working.** Neither is mentioned on the six area pages.",
+              "**Meaning and recognition.** The nearest state is “Employees receive regular and constructive feedback”, under Support. Whether people find their work worthwhile is not part of the standards."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "If they are risks in your work, they still belong in your risk assessment, presented as your own additions rather than as Management Standards areas. See [staff wellbeing survey questions](/artikler/wellbeing-survey-questions)."
+          },
+          {
+            "t": "h2",
+            "text": "Stress, psychosocial risk, wellbeing: the words"
+          },
+          {
+            "t": "p",
+            "text": "HSE defines stress as “the adverse reaction people have to excessive pressures or other types of demand placed on them.” No UK statute or regulation lists psychosocial factors. The nearest anchors in Great Britain law are the 1974 Act's definition of personal injury, which “includes any disease and any impairment of a person’s physical or mental condition” ([s.53(1)](https://www.legislation.gov.uk/ukpga/1974/37/section/53)), and the principles of prevention in [MHSWR 1999 Schedule 1](https://www.legislation.gov.uk/uksi/1999/3242/schedule/1), which include a prevention policy covering “technology, organisation of work, working conditions, social relationships and the influence of factors relating to the working environment”. HSENI speaks of mental well-being and of a wellbeing risk assessment. Whatever the word, the legal duty is the same risk assessment."
+          },
+          {
+            "t": "h2",
+            "text": "How to measure the six areas"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Ask employees",
+                "text": "Each standard starts with what employees indicate, so asking them is the direct measure of that part. HSE's [Indicator Tool](/artikler/hse-indicator-tool) does it in 35 questions, and HSE's online version is free for up to 50 employees a year."
+              },
+              {
+                "title": "Use what you already have",
+                "text": "HSE's Step 2 points to sickness absence, staff turnover, exit interviews, complaints and conversations in team meetings, and suggests using more than one source."
+              },
+              {
+                "title": "Talk it through",
+                "text": "The [Talking Toolkits](https://www.hse.gov.uk/stress/talking-toolkit.htm) “were developed for smaller organisations so they can gather data that larger organisations may gather through surveys”, with one conversation per area."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "HSE is explicit that a survey is optional: “A survey is not an essential step and for smaller organisations it would not be proportionate to run such a survey, particularly where the same data can be gathered in other ways” ([Step 2](https://www.hse.gov.uk/stress/standards/step2/index.htm)). Whatever the source, aim to show for each area where you stand against the states to be achieved, and what you will do about the gap. See [how to do a stress risk assessment](/artikler/stress-risk-assessment-steps)."
+          },
+          {
+            "t": "h2",
+            "text": "Do the Management Standards apply in Northern Ireland?"
+          },
+          {
+            "t": "p",
+            "text": "Yes, as guidance. HSENI writes that “In 2004 the HSE developed a set of principles (The Management Standards) to help employers comply with the law”, and publishes the 35 Management Standards questions as the HSENI Indicator Tool. The legal duty comes from art. 4 of the 1978 Order and reg 3 of MHSWR (NI) 2000, and HSENI enforces it. HSENI says an organisation “would be unlikely to be subject to enforcement action by HSENI provided it could demonstrate it had adequately assessed the risks and was taking steps to address any problems identified”."
+          }
+        ],
+        "sources": [
+          {
+            "label": "HSE, What are the Management Standards?",
+            "url": "https://www.hse.gov.uk/stress/standards/overview.htm"
+          },
+          {
+            "label": "HSE, Management Standards (the overview and the five steps)",
+            "url": "https://www.hse.gov.uk/stress/standards/"
+          },
+          {
+            "label": "HSE, Step 1: Identify the risk factors",
+            "url": "https://www.hse.gov.uk/stress/standards/step1/index.htm"
+          },
+          {
+            "label": "HSE, Securing management commitment (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/securing.pdf"
+          },
+          {
+            "label": "HSE, How to tackle work-related stress, INDG430 (PDF)",
+            "url": "https://www.hse.gov.uk/pubns/indg430.pdf"
+          },
+          {
+            "label": "HSE, Talking Toolkit: preventing work-related stress (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/stress-talking-toolkit.pdf"
+          },
+          {
+            "label": "HSENI, Mental well-being: questions and answers",
+            "url": "https://www.hseni.gov.uk/mental-well-being-questions-and-answers"
+          }
+        ]
+      },
+      "ukActionPlan": {
+        "title": "Staff survey action plan: what to do after a stress survey | Empvibe",
+        "description": "Staff survey action plan: choose a few priorities, give each action an owner, resources, a timescale and a review, agree it with staff, then check it worked.",
+        "h1": "From staff survey results to an action plan: what to do after a stress survey",
+        "lead": "After a staff survey, turn the results into a short action plan: a few priorities, each with an action that tackles the issue, the resources it needs, an owner, a realistic timescale and a way to check that it worked. HSE's guidance asks that the actions in a plan are prioritised, resourced, assigned to an individual or function, given a realistic timescale and reviewed, and that the plan is agreed with senior managers and employee representatives and shared with employees. No law requires a survey or an action plan as such, but in Great Britain the law does require you to make arrangements to plan, monitor and review the measures your risk assessment identifies, to tell employees about the risks and the measures, and – with five or more employees – to record those arrangements. Start with how the work is organised before you turn to individuals.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Start with two or three priorities"
+          },
+          {
+            "t": "p",
+            "text": "A survey produces more numbers than anyone can act on at once. HSE calls it “only the start of the risk assessment process and a broad indicator of the situation in an organisation” ([Step 2](https://www.hse.gov.uk/stress/standards/step2/index.htm)). Before you plan, check what the figures mean with the people who gave them – see [sharing staff survey results with employees](/artikler/sharing-staff-survey-results)."
+          },
+          {
+            "t": "p",
+            "text": "HSE's [guide to focus groups](https://www.hse.gov.uk/stress/assets/docs/focusgroups.pdf) names two common mistakes: organisations “either try to circumvent Step 3, moving directly from data analysis to action planning, or alternatively, make Step 3 overly complex generating very detailed and exhaustive action plans that are very difficult to implement”. Two or three priorities that are delivered do more than twenty that are not."
+          },
+          {
+            "t": "p",
+            "text": "In deciding what actions to include in the plan, the same guide says three questions need to be considered:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "“What action is the organisation already taking?”",
+              "“Is it enough?”",
+              "“What more does the organisation need to do?”"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Then weigh how many people an issue affects, how serious it is and whether it lies within your control. A group whose results stand out may be one your assessment identifies as especially at risk, which with five or more employees must be recorded (MHSWR 1999 reg 3(6))."
+          },
+          {
+            "t": "h2",
+            "text": "What each action needs"
+          },
+          {
+            "t": "p",
+            "text": "HSE's [Step 4](https://www.hse.gov.uk/stress/standards/step4/index.htm) is the nearest thing to a checklist. When you develop your action plans, it says, you should ensure that the actions suggested:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "“are given an order of priority”",
+              "“adequately tackle an issue (including a review process to check it does)”",
+              "“have sufficient resources allocated to them”",
+              "“are assigned to an individual or function”",
+              "“have an agreed realistic timescale for completion”"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "In practice, “assigned to an individual or function” means a name or a role – the operations manager, the HR lead – not ‘management’. And the review is decided at the start: HSE's leaflet [INDG430](https://www.hse.gov.uk/pubns/indg430.pdf) suggests asking “How will we know if this is working and what measures can we use?”"
+          },
+          {
+            "t": "p",
+            "text": "HSE's [action plan template](https://www.hse.gov.uk/stress/assets/docs/actionplan.pdf) has a column worth copying: “How will staff receive feedback?” Deciding it up front means progress gets reported rather than forgotten."
+          },
+          {
+            "t": "box",
+            "title": "Quick wins and long hauls",
+            "text": "Where an action can deliver a positive outcome in a short time, HSE says “take the opportunity for a quick win”. For actions that take months or years, “it is important to consider how employees will be kept informed of progress” ([Step 3](https://www.hse.gov.uk/stress/standards/step3/index.htm))."
+          },
+          {
+            "t": "h2",
+            "text": "Agree the plan with employees or their representatives"
+          },
+          {
+            "t": "quote",
+            "text": "You need to agree the action plan with senior managers and employee representatives, and also share the final plan and timetable with employees.",
+            "cite": "HSE, [Step 4: Record your findings – develop and implement action plans](https://www.hse.gov.uk/stress/standards/step4/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "The law points the same way. Every employer must consult employees on health and safety, whatever its size: union safety representatives where a recognised union has appointed them, otherwise employees directly or through representatives they have elected. Consultation must come in good time, in particular on “the introduction of any measure at the workplace which may substantially affect the health and safety” of employees (SRSC 1977 reg 4A(1)(a); HSCER 1996 reg 3(a)). Whether a particular action meets that test is a judgement; consulting on the whole plan is simpler, and it is what HSE advises. More on [health and safety representatives](/verneombud)."
+          },
+          {
+            "t": "p",
+            "text": "Involve the people who will carry an action out. HSE: “Those who will be asked to implement an intervention should be involved in its design (bottom-up approach) by involving employees in focus or other groups.”"
+          },
+          {
+            "t": "h2",
+            "text": "Fix the organisation before the individual"
+          },
+          {
+            "t": "p",
+            "text": "A plan goes wrong when it answers an organisational problem with an individual remedy – a resilience workshop for a team whose rota is two people short. HSE is clear about the order:"
+          },
+          {
+            "t": "quote",
+            "text": "When assessing the risks to your employees, first focus on organisational level issues that potentially impact on a group and possibly large numbers of employees. It is more effective to remove a stressor or significantly reduce its impact than it is to manage lots of individual cases.",
+            "cite": "HSE, [Step 1: Identify the risk factors](https://www.hse.gov.uk/stress/standards/step1/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "If you fail to remove a stressor, HSE adds, “more people could be affected and those 'treated' for stress would be coming back to the same stressor on their return to work”. Its Step 3 guidance sorts actions into three types:"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Primary",
+                "text": "Tackles the issue at source. HSE calls these “the ideal type of intervention” and says they are “normally the most cost-effective”."
+              },
+              {
+                "title": "Secondary",
+                "text": "Helps employees deal with the situation but, in HSE's words, does “not address the underlying cause of the problem”."
+              },
+              {
+                "title": "Tertiary",
+                "text": "Aimed at the health of employees already made ill by their work, and at helping them return."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The regulations point the same way. Preventive and protective measures must be implemented on the basis of the general principles of prevention in Schedule 1 (MHSWR 1999 reg 4), which include:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "MHSWR 1999 Sch 1 (c)",
+                "text": "“combating the risks at source;”"
+              },
+              {
+                "ref": "MHSWR 1999 Sch 1 (g)",
+                "text": "“developing a coherent overall prevention policy which covers technology, organisation of work, working conditions, social relationships and the influence of factors relating to the working environment;”"
+              },
+              {
+                "ref": "MHSWR 1999 Sch 1 (h)",
+                "text": "“giving collective protective measures priority over individual protective measures;”"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The regulations do not say how these principles apply to stress. Combating risks at source, and a prevention policy that covers the organisation of work and social relationships, fit HSE's advice closely; reading principle (h) as ‘organisational action before individual help’ is an interpretation, not an express rule. Individual help still matters: each of HSE's standards includes “systems are in place locally to respond to any individual concerns”, and someone already struggling needs support now – see [the individual stress risk assessment](/artikler/individual-stress-risk-assessment). But the organisational action goes into the plan first."
+          },
+          {
+            "t": "h2",
+            "text": "Tell staff what will happen – and what won't"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "MHSWR 1999 reg 10(1)",
+                "text": "“Every employer shall provide his employees with comprehensible and relevant information on— (a) the risks to their health and safety identified by the assessment; (b) the preventive and protective measures; …”"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Sharing the action plan is a natural way to give that information for stress: it names the risks found and the measures chosen. HSE's Step 4 asks you to share “the final plan and timetable with employees”, and adds: “You may need to provide some background particularly where several problems have had to be prioritised.”"
+          },
+          {
+            "t": "p",
+            "text": "Say plainly what is not in the plan this time, and why. People whose issue was left out are otherwise likely to conclude that nobody read their answers. Keep the language comprehensible, as the regulation asks: ‘workload on the night shift’, not ‘Demands, sub-group 3’."
+          },
+          {
+            "t": "h2",
+            "text": "Check whether it worked"
+          },
+          {
+            "t": "p",
+            "text": "HSE's [Step 5](https://www.hse.gov.uk/stress/standards/step5/index.htm) has three parts:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Monitor:** “review your action plan to ensure the agreed actions are being implemented”",
+              "**Evaluate:** “check if the solutions you have implemented are effective”",
+              "**Decide** “what further action or data gathering is needed. If the solutions are not working, what else can you do? If the solutions are working, can they be rolled out across other parts of the organisation?”"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Ask the people affected. HSE: “You should ask your employees whether they feel the solutions have improved the situation or not.” Compare figures such as sickness absence and staff turnover with where you started, and do not expect an immediate change: HSE notes that some actions take time to bed in."
+          },
+          {
+            "t": "p",
+            "text": "But do not wait for the calendar when something is clearly failing: “If it becomes obvious that the solutions implemented are not working, don't wait for the next scheduled review but take action as soon as possible.” HSE also suggests repeating a survey after a period of time – see [how often to run a staff survey](/artikler/how-often-staff-survey)."
+          },
+          {
+            "t": "p",
+            "text": "The law ties the review of the risk assessment to circumstances: reason to suspect it is no longer valid, or a significant change in the matters it relates to (MHSWR 1999 reg 3(3)). An action that has visibly failed may well be such a reason."
+          },
+          {
+            "t": "h2",
+            "text": "Record the arrangements if you have five or more employees"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "MHSWR 1999 reg 5(1)",
+                "text": "“Every employer shall make and give effect to such arrangements as are appropriate, having regard to the nature of his activities and the size of his undertaking, for the effective planning, organisation, control, monitoring and review of the preventive and protective measures.”"
+              },
+              {
+                "ref": "MHSWR 1999 reg 5(2)",
+                "text": "“Where the employer employs five or more employees, he shall record the arrangements referred to in paragraph (1).”"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "An action plan kept up to date – owners, dates, what was checked and what happened – is a practical way to show those arrangements, alongside the record of the significant findings (reg 3(6)). The regulation prescribes no form. With fewer than five employees, the duties to assess, plan and act still apply, but these regulations do not require the findings or the arrangements to be written down; HSE notes that a record is still useful."
+          },
+          {
+            "t": "p",
+            "text": "Nothing is sent to HSE. You keep the record, and an inspector (HSE or your local authority; HSENI in Northern Ireland) may ask to see it (in Great Britain, HSWA 1974 s.20(2)(k)). HSE's [checklist](https://www.hse.gov.uk/stress/assets/docs/checklist.pdf) for a suitable and sufficient approach asks: “Do you provide documentation to show what you have done at each stage of the process and that you are implementing the recommended actions?” More on [what to write down](/lovkrav)."
+          },
+          {
+            "t": "p",
+            "text": "These are Great Britain's regulations. In Northern Ireland, the Management of Health and Safety at Work Regulations (Northern Ireland) 2000 set the same duties in regs 3, 5 and 10, and HSENI enforces them. HSENI says it “will undertake enforcement action where duty holders fail to carry out the legally required suitable and sufficient risk assessment”, and that an organisation would be unlikely to face such action “provided it could demonstrate it had adequately assessed the risks and was taking steps to address any problems identified” ([HSENI, mental well-being questions and answers](https://www.hseni.gov.uk/mental-well-being-questions-and-answers))."
+          },
+          {
+            "t": "h2",
+            "text": "An example action plan, for an invented firm"
+          },
+          {
+            "t": "p",
+            "text": "The plan below is **invented**, for a fictional civil engineering contractor with 60 employees, four sites and two union safety representatives. Its survey and the conversations that followed pointed to three priorities; the plan was agreed with the representatives and presented at site briefings."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Priority",
+              "What we found",
+              "Action",
+              "Owner and resources",
+              "Timescale",
+              "How we will check"
+            ],
+            "rows": [
+              [
+                "1. Workload – site engineers",
+                "Design changes arrive late in the week for Monday; weekend work has become routine.",
+                "No design changes after Wednesday noon for the following week; a weekly design and site planning meeting.",
+                "Operations director; an hour a week of each site lead's time",
+                "From March; review end of May",
+                "Overtime records; a short check-in survey of site engineers in June"
+              ],
+              [
+                "2. Change – depot merger",
+                "Staff heard about a depot merger from customers first.",
+                "A monthly briefing by the managing director; the timetable on noticeboards; written answers within a week.",
+                "Managing director; an HR adviser's time",
+                "Monthly until the merger",
+                "Questions raised and answered; next year's survey"
+              ],
+              [
+                "3. Support – new supervisors",
+                "New supervisors had no preparation for managing people.",
+                "People-management training; monthly team conversations using HSE's Talking Toolkit.",
+                "HR manager; training budget for eight",
+                "Training by June; conversations from July",
+                "Feedback from supervisors and teams in September"
+              ],
+              [
+                "Not this year: office space",
+                "Office staff raised noise and cramped desks.",
+                "Left out: the lease ends in 18 months. Staff told why; on next year's list.",
+                "Finance director",
+                "Revisit next spring",
+                "–"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "No action reads ‘raise awareness’, every row has an owner, and the item left out is written down with its reason, so the people who raised it can see it was heard."
+          }
+        ],
+        "sources": [
+          {
+            "label": "HSE: Step 1 – Identify the risk factors",
+            "url": "https://www.hse.gov.uk/stress/standards/step1/index.htm"
+          },
+          {
+            "label": "HSE: Step 3 – Evaluate the risks",
+            "url": "https://www.hse.gov.uk/stress/standards/step3/index.htm"
+          },
+          {
+            "label": "HSE: Step 4 – Record your findings, develop and implement action plans",
+            "url": "https://www.hse.gov.uk/stress/standards/step4/index.htm"
+          },
+          {
+            "label": "HSE: Step 5 – Monitor and review",
+            "url": "https://www.hse.gov.uk/stress/standards/step5/index.htm"
+          },
+          {
+            "label": "HSE: Action plan template (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/actionplan.pdf"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, reg 5",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/5"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, reg 10",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/10"
+          }
+        ]
+      },
+      "ukAnonymous": {
+        "title": "Anonymous staff survey: is it really anonymous? | Empvibe",
+        "description": "When is an anonymous staff survey really anonymous? What the ICO says, how anonymity breaks, minimum group sizes, lawful basis, DPIAs and complaints.",
+        "h1": "Is an anonymous staff survey really anonymous? What UK data protection law says",
+        "lead": "A staff survey is anonymous only if no answer can be linked back to a person – through a name, a unique link or a login, or by putting together a small team, a few filters or a telling comment. The regulator, the Information Commission (ICO), says a person can be identifiable even if you do not know their name, and turning answers into statistics still counts as processing personal data. The honest promise is that no single answer can be traced to a person, with results shown only for groups big enough to keep it so. The ICO says “consent is not usually appropriate in the employment context” and, if in any doubt, recommends a data protection impact assessment; staff can complain to the employer (normally the controller) and to the ICO.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What “anonymous” means to the ICO"
+          },
+          {
+            "t": "p",
+            "text": "In everyday use, an anonymous staff or employee survey is one that does not ask your name. Data protection law sets a stricter test. The regulator, the Information Commission (ICO), defines anonymous information like this:"
+          },
+          {
+            "t": "quote",
+            "text": "In data protection law, anonymous information is data that does not relate to an identified or identifiable person (ie data that is not personal data). Data protection law does not apply to anonymous information.",
+            "cite": "ICO, [Introduction to anonymisation](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/introduction-to-anonymisation/)"
+          },
+          {
+            "t": "p",
+            "text": "The word that matters is “identifiable”. The ICO says “Identifiability exists on a spectrum”, and that you should take account of the “means reasonably likely to be used to enable identification” – not only whether a name is attached. Information that falls short is not anonymous: “Any information that does not meet this threshold is not anonymous information, and you must treat it as personal data.”"
+          },
+          {
+            "t": "p",
+            "text": "The ICO guidance quoted here carries a notice that, because of the Data (Use and Access) Act, it “is under review and may be subject to change”. None of it is written specifically for staff surveys, so what follows applies its general guidance."
+          },
+          {
+            "t": "h2",
+            "text": "Why survey answers are usually still personal data"
+          },
+          {
+            "t": "p",
+            "text": "Most online surveys know whom each invitation went to, so links work once and reminders reach the right people. If the system can connect an answer to an invitation, the answers are not anonymous, however carefully names are kept off the screen. The ICO says that if you anonymise data, “you must not retain any additional information within your organisation that would allow identification”. If you do keep it, “you are still holding personal data. The dataset is pseudonymised, rather than anonymised.”"
+          },
+          {
+            "t": "p",
+            "text": "Even a well-built survey processes personal data. The ICO says that turning personal data into anonymous information “counts as processing personal data”, giving “aggregate statistical information from personal data” as an example. The group results managers read may be anonymous in their hands, provided nobody can be singled out from them; the survey behind them is not."
+          },
+          {
+            "t": "box",
+            "title": "Promise what you can keep",
+            "text": "“No single answer can be traced to a person” is a promise you can keep and explain. “Completely anonymous” and “no personal data is collected” usually are not."
+          },
+          {
+            "t": "h2",
+            "text": "Four ways anonymity breaks"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Identifiers",
+                "text": "A name, email address, employee number, login or unique link stored with the answers. Taking the name off the report does not help if the link is still in the data."
+              },
+              {
+                "title": "Small groups",
+                "text": "A result for a team of three tells everyone roughly what each of them said."
+              },
+              {
+                "title": "Filters",
+                "text": "Each breakdown – team, site, length of service, age band – narrows the group. Two harmless filters together can point to one person, and comparing everyone with everyone except one team reveals that team."
+              },
+              {
+                "title": "Comments",
+                "text": "A writing style, an incident only one person saw, or a detail of someone's role can identify the writer as surely as a name."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The ICO notes that combining pieces of information that identify nobody on their own is sometimes known as “the mosaic or jigsaw effect”. It also warns that identifiability risk “can arise where one person or group knows a great deal about another person” – which describes most teams – and gives an example close to a staff survey: “an employee may work out that a particular absence statistic relates to a colleague who they know is on long-term sick leave”."
+          },
+          {
+            "t": "p",
+            "text": "The test it tells you to use is the “motivated intruder”: someone reasonably competent who wants to identify people, and who “can be someone who is not intended to have access to the information, or someone who is permitted access to it”. In a staff survey, the likeliest intruder is a manager or colleague who already knows the team well."
+          },
+          {
+            "t": "h2",
+            "text": "Minimum group sizes compared"
+          },
+          {
+            "t": "p",
+            "text": "The usual safeguard is a minimum: no result is shown for a group until enough people have answered. Neither UK data protection law nor the ICO's anonymisation guidance sets a number for staff surveys. The ICO describes the idea, a threshold called k, and says “The higher the value of (k), the stronger the privacy guarantees.” The public stress-survey tools compare like this:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Tool",
+              "Rule"
+            ],
+            "rows": [
+              [
+                "[HSE's online Stress Indicator Tool](https://books.hse.gov.uk/faqs-stress-indicator-tool), free for one survey a year of up to 50 employees",
+                "A survey's data is available for review only “once a minimum of 10 responses have been collected”; the FAQ does not say how smaller breakdowns are handled"
+              ],
+              [
+                "[HSENI Indicator Tool](https://www.hseni.gov.uk/mental-well-being-questions-and-answers) (Northern Ireland)",
+                "“no group of less than 10 employees can be identified”; a smaller group's filter falls back to the organisation's averages"
+              ],
+              [
+                "[HSE's Indicator Tool](https://www.hse.gov.uk/stress/assets/docs/indicatortoolmanual.pdf) with its spreadsheet Analysis Tool",
+                "No number. Background questions must not be “sufficient to allow individuals to be identified”"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "A lower minimum shows results for smaller teams and gives managers more to act on, but each answer weighs more and is easier for colleagues to guess. A higher minimum, such as HSENI's 10, protects people better but hides more teams: in an organisation of 40 in teams of six to eight, it may leave only the overall figure. What matters is that the number is chosen before the survey, told to staff and applied without exceptions. More on HSE's questionnaire in [the HSE Indicator Tool](/artikler/hse-indicator-tool)."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Count responses, not team size.** A team of 12 in which five people answered is, for anonymity, a group of five.",
+              "**Apply it everywhere:** to every filter, combination, comparison and trend, and to comments.",
+              "**Remember unanimity.** If everyone in a group gives the same answer, the result reveals each person's answer, whatever the group's size – what the ICO lists as a “homogeneity” attack."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Lawful basis: not consent, and a DPIA"
+          },
+          {
+            "t": "p",
+            "text": "Survey responses need a lawful basis. Consent looks natural for a voluntary survey, but the ICO is wary of it at work:"
+          },
+          {
+            "t": "quote",
+            "text": "A person must freely give their consent for it to be valid. This means that consent is not usually appropriate in the employment context, due to the imbalance of power between you and your workers. Workers are likely to feel that they have no choice but to give you consent.",
+            "cite": "ICO, [Data protection and monitoring workers](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/employment/monitoring-workers/data-protection-and-monitoring-workers/)"
+          },
+          {
+            "t": "p",
+            "text": "Employers are “not banned from using consent”, the ICO adds in [When is consent appropriate?](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/lawful-basis/consent/when-is-consent-appropriate/), but where freely given consent would be hard to show, its guidance on [collecting and keeping employment records](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/employment/employment-practices-and-data-protection-keeping-employment-records/collecting-and-keeping-employment-records/) suggests “relying on a different lawful basis, such as legitimate interests”. Taking part can still be voluntary; that is a separate question."
+          },
+          {
+            "t": "p",
+            "text": "One reading (an interpretation, not ICO guidance): a private employer can point to its duty to assess risks to health, stress included (MHSWR 1999 reg 3 in Great Britain; MHSWR (NI) 2000 reg 3 in Northern Ireland, where HSENI enforces), and rely on legal obligation (UK GDPR art. 6(1)(c)), with legitimate interests (art. 6(1)(f)) as the alternative. As the law requires an assessment rather than a survey, whether the survey is necessary for that obligation is a judgement. Public authorities would look to art. 6(1)(e). Take advice, and record your choice."
+          },
+          {
+            "t": "h3",
+            "text": "A data protection impact assessment"
+          },
+          {
+            "t": "p",
+            "text": "A DPIA is required where processing “is likely to result in a high risk to the rights and freedoms of natural persons” (UK GDPR art. 35(1)). The ICO's DPIA guidance does not mention staff surveys, but it says “One group who may count as vulnerable in this sense are employees”, lists “Data concerning vulnerable data subjects” and “Sensitive data or data of a highly personal nature” among the indicators of high risk, and adds: “In most cases, a combination of two of these factors indicates the need for a DPIA.” And: “If in any doubt, we would always recommend that you do a DPIA to ensure compliance and encourage best practice.”"
+          },
+          {
+            "t": "p",
+            "text": "Read together – again an interpretation – a survey about stress at work meets the indicator for vulnerable data subjects and arguably one more, so a DPIA is the safe course. Record the decision and the reasons, and use it to settle the minimum group size, who reads comments and how long responses are kept."
+          },
+          {
+            "t": "h2",
+            "text": "Can my employer see who answered?"
+          },
+          {
+            "t": "p",
+            "text": "Two things can be visible: whether someone took part, and what they said. Some surveys track who has responded, to send reminders. That record is personal data and should never be joined to the answers. If it is kept at all, keep it apart, open to few people, and delete it when the survey closes."
+          },
+          {
+            "t": "p",
+            "text": "Even a separate participation list can give answers away. In a team of six where five answered, a manager who knows who did not answer knows whose views the result reflects. Apply the same minimum to response rates by team, or send everyone the same reminders and track nothing."
+          },
+          {
+            "t": "p",
+            "text": "HSE's Indicator Tool manual advises: “Ensure anonymity of responses”, adding that “A formal statement of anonymity at the beginning of the survey is the best way to do this.” Say in it what is stored, who sees what, and the minimum group size."
+          },
+          {
+            "t": "p",
+            "text": "If you are an employee and unsure, ask what is stored with your answers, who sees your team's results and what happens to comments. A [health and safety representative](/verneombud), if you have one, can ask for everyone. The ICO suggests consulting representatives such as trade unions when assessing whether people could be identified."
+          },
+          {
+            "t": "h2",
+            "text": "Questions to ask any survey provider"
+          },
+          {
+            "t": "p",
+            "text": "Before you promise staff anything, get written answers to these:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Is anything that could identify a person stored with the answers, or anywhere it could be joined to them?",
+              "Can anyone, including the provider's staff or your administrator, trace an answer back to an invitation?",
+              "What is the minimum number of responses before a result is shown, and does it apply to every filter, comparison and trend?",
+              "Who reads open comments, are they shown by team, and what happens to one that names someone or describes their health?",
+              "Can anyone see who has or has not responded?",
+              "Where is the data held, and when are responses deleted?",
+              "Who is the controller and who is the processor, and what will the provider supply for your DPIA?"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Complaints: DPA 2018 s.164A and the Information Commission"
+          },
+          {
+            "t": "p",
+            "text": "Since 19 June 2026, the Data Protection Act 2018 has let people complain to the controller if they consider that the handling of their personal data infringes the UK GDPR – for a staff survey, usually the employer rather than a survey provider."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "DPA 2018 s.164A(1)",
+                "text": "A data subject may make a complaint to the controller if they consider that, in connection with personal data relating to them, there is an infringement of the UK GDPR or Part 3 of the Act."
+              },
+              {
+                "ref": "DPA 2018 s.164A(2)",
+                "text": "The controller must facilitate complaints, by steps such as providing “a complaint form which can be completed electronically and by other means”."
+              },
+              {
+                "ref": "DPA 2018 s.164A(3)–(4)",
+                "text": "Acknowledge receipt within 30 days of receiving the complaint and, without undue delay, take appropriate steps to respond and inform the complainant of the outcome."
+              },
+              {
+                "ref": "DPA 2018 s.165(2)",
+                "text": "A data subject may also make a complaint to the Commission if they consider that, in connection with personal data relating to them, there is an infringement of the UK GDPR or Part 3 or 4 of the Act."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The Commission in [section 165](https://www.legislation.gov.uk/ukpga/2018/12/section/165) is the Information Commission (ICO), the regulator since 30 September 2026. In practice, one way to meet these duties is to put a complaint route in the survey's privacy information, name who handles it, and acknowledge complaints within 30 days."
+          },
+          {
+            "t": "p",
+            "text": "Anonymity is mostly decided before the survey opens: by what you ask, which breakdowns you allow and what you promise. See also [staff wellbeing survey questions](/artikler/wellbeing-survey-questions), [how to share staff survey results](/artikler/sharing-staff-survey-results) and [how often to survey staff](/artikler/how-often-staff-survey)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "ICO – Introduction to anonymisation",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/introduction-to-anonymisation/"
+          },
+          {
+            "label": "ICO – How do we ensure anonymisation is effective?",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/how-do-we-ensure-anonymisation-is-effective/"
+          },
+          {
+            "label": "ICO – Data protection and monitoring workers",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/employment/monitoring-workers/data-protection-and-monitoring-workers/"
+          },
+          {
+            "label": "ICO – When do we need to do a DPIA?",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/data-protection-impact-assessments-dpias/when-do-we-need-to-do-a-dpia/"
+          },
+          {
+            "label": "Data Protection Act 2018, section 164A",
+            "url": "https://www.legislation.gov.uk/ukpga/2018/12/section/164A"
+          },
+          {
+            "label": "HSE – FAQs for the Stress Indicator Tool",
+            "url": "https://books.hse.gov.uk/faqs-stress-indicator-tool"
+          },
+          {
+            "label": "HSENI – Mental well-being: questions and answers",
+            "url": "https://www.hseni.gov.uk/mental-well-being-questions-and-answers"
+          }
+        ]
+      },
+      "ukHowOften": {
+        "title": "How often should you run a staff survey? | Empvibe",
+        "description": "No law sets an interval for staff surveys. What the law asks of the risk assessment, what HSE suggests, and when to use an annual survey or a pulse.",
+        "h1": "How often should you survey staff? Annual surveys, pulse surveys and the stress risk assessment",
+        "lead": "No law says how often to survey staff, and no statute requires a staff survey at all. What the law asks is that you review your risk assessment, work-related stress included, when there is reason to suspect it is no longer valid or there has been a significant change (in Great Britain MHSWR 1999 reg 3(3); Northern Ireland has the same rule). A workable rhythm is one full survey a year, an option HSE mentions, with a short pulse only when there is something specific to check. Survey no more often than you can act on the answers – and in a small team, extra rounds can mean fewer answers each time and more groups too small to show.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "The law sets no fixed interval"
+          },
+          {
+            "t": "p",
+            "text": "No statute requires a staff survey, so none sets an interval for one either. The duty is to make a suitable and sufficient assessment of the risks to your employees' health and safety, work-related stress included, and to keep it up to date. The [Management of Health and Safety at Work Regulations 1999](https://www.legislation.gov.uk/uksi/1999/3242/regulation/3) tie the review to events, not to the calendar."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "MHSWR 1999 reg 3(3) – Great Britain",
+                "text": "“Any assessment such as is referred to in paragraph (1) or (2) shall be reviewed by the employer or relevant self-employed person who made it if— (a) there is reason to suspect that it is no longer valid; or (b) there has been a significant change in the matters to which it relates; and where as a result of any such review changes to an assessment are required, the employer or relevant self-employed person concerned shall make them.”"
+              },
+              {
+                "ref": "MHSWR (NI) 2000 reg 3(3) – Northern Ireland",
+                "text": "The same review rule, with the same two triggers, in the Management of Health and Safety at Work Regulations (Northern Ireland) 2000. HSENI enforces it."
+              },
+              {
+                "ref": "MHSWR 1999 reg 5 – Great Britain",
+                "text": "Arrangements for the “effective planning, organisation, control, monitoring and review” of the measures you take, recorded in writing if you employ five or more employees (reg 5(2)). Northern Ireland's MHSWR (NI) 2000 reg 5 uses the same words."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "You may see a fixed interval recommended – every six months, or at least once a year. That is advice, not the law: neither interval is in the regulations. A fixed review date is a sensible habit, but the legal test is whether there is reason to suspect the assessment is no longer valid, or there has been a significant change."
+          },
+          {
+            "t": "p",
+            "text": "The regulations do not define a reason to suspect or a significant change, so you have to judge it. In practice it might be a restructuring, new systems or working hours, a team losing several people, a rise in sickness absence or staff turnover, or concerns raised by employees or their representatives. [What the law requires](/lovkrav) sets out the duty itself, and the record you keep if you have five or more employees."
+          },
+          {
+            "t": "h2",
+            "text": "What HSE suggests"
+          },
+          {
+            "t": "p",
+            "text": "HSE's Management Standards approach, which is guidance rather than law, ends with a step called monitor and review. On repeating a survey, HSE writes:"
+          },
+          {
+            "t": "quote",
+            "text": "If you carried out a survey as part of the approach you may want to repeat it. The Management Standards approach suggests that you do this after a period of time, as part of the 'continuous improvement' model. You may wish to set this up as an annual survey or as part of an annual survey.",
+            "cite": "HSE, [Step 5: Monitor and review](https://www.hse.gov.uk/stress/standards/step5/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "The same page is clear that the calendar should not hold you back: “If it becomes obvious that the solutions implemented are not working, don't wait for the next scheduled review but take action as soon as possible.” The user manual for HSE's Indicator Tool ends with a review step: “Conduct the process again after a suitable period of time to assess whether there have been changes / improvements.” The free version of HSE's online Stress Indicator Tool can be used once a year: “You can use the free SIT once per year (a maximum of 50 employees invited to participate)” ([HSE Books](https://books.hse.gov.uk/faqs-stress-indicator-tool)). That is a condition of the free licence, not advice on how often to survey."
+          },
+          {
+            "t": "h2",
+            "text": "What the annual survey is for"
+          },
+          {
+            "t": "p",
+            "text": "A yearly survey is your baseline: the same questions, asked of everyone, at about the same time of year, so that this year can be compared with last. HSE's Analysis Tool, the spreadsheet that scores its Indicator Tool, is built for that. It is “designed to accept data from up to three surveys, the current one and two previous sets of data”. Comparisons only work when the survey stays the same. If you use HSE's questions inside your own survey, HSE suggests that you “keep the question wording and scoring system the same and the items in the same order”."
+          },
+          {
+            "t": "p",
+            "text": "The Indicator Tool also sets a time frame. Its instructions ask people to answer about the last six months:"
+          },
+          {
+            "t": "quote",
+            "text": "In order for us to compare the current situation with past or future situations, it is important that your responses reflect your work in the last six months.",
+            "cite": "HSE, [Management Standards Indicator Tool](https://www.hse.gov.uk/stress/assets/docs/indicatortool.pdf). Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence"
+          },
+          {
+            "t": "p",
+            "text": "Run that questionnaire every month and people answer about largely the same months again and again. A full survey once or at most twice a year fits the question; anything more frequent is better done with something shorter."
+          },
+          {
+            "t": "p",
+            "text": "Timing matters as much as frequency. HSE's guide to planning its online survey advises: “Avoid holidays (Christmas, Easter etc.) and periods of organisational change (e.g. reduction in staff numbers, restructuring) when running the survey, as these will influence response rates.” Keeping to the same month each year also keeps the comparison fair."
+          },
+          {
+            "t": "h2",
+            "text": "What pulse surveys are for"
+          },
+          {
+            "t": "p",
+            "text": "A pulse survey is a short survey – a handful of questions, sometimes for one team – run between full surveys. It is a practice, not a legal requirement. It earns its place when there is a specific question to answer:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**After a change.** A restructure, a new rota or a new system can be the kind of significant change that makes a review due. A short pulse a few weeks later, alongside conversations with the people affected, shows whether the change has created new pressure.",
+              "**To test an action.** HSE's Step 5 says: “You should ask your employees whether they feel the solutions have improved the situation or not.” A pulse on the few questions the action was meant to move is one way to ask.",
+              "**Before and after.** HSE suggests its Talking Toolkits can be used “to test potential interventions (using them before and after implementation to evaluate them)”. The same logic works for a short survey."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Give an action time before you measure it. HSE warns: “Don't expect an immediate change, some solutions you put in place may have quick results, others may take time to bed in”. Sickness absence, turnover and what people say in team meetings are evidence too; a pulse is one source among several."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Method",
+              "When",
+              "Good for",
+              "Watch out for"
+            ],
+            "rows": [
+              [
+                "Full survey",
+                "Once a year, in the same season",
+                "A baseline; comparing years and groups; evidence for the stress risk assessment",
+                "Needs enough answers per group, and a full cycle of feedback and action"
+              ],
+              [
+                "Pulse survey",
+                "After a change, or a few months into an action",
+                "Checking one question or one team",
+                "Small groups fall below the reporting threshold; fatigue if it has no purpose"
+              ],
+              [
+                "Conversation, such as HSE's Talking Toolkits",
+                "Any time: team meetings, one-to-ones",
+                "Small organisations; understanding why a score moved",
+                "Not anonymous; someone has to note what was said and act on it"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Survey fatigue: survey only as often as you can act"
+          },
+          {
+            "t": "p",
+            "text": "The real limit on frequency is your capacity to respond. Every round asks people for their time and implies that something will happen. HSE's Indicator Tool manual says employees should feel “that their views matter and that they will be acted on”. If the last results were never shared, another survey mostly measures disappointment."
+          },
+          {
+            "t": "p",
+            "text": "Response rates show it first. HSE's manual offers a rule of thumb: “a response rate of over 50% could be considered adequate”, and below 50% “the data should be considered as indicative only, and treated with extreme caution”. HSE's planning guide ties feedback to the next round: “Following up with staff makes them feel actively involved and that their opinion matters, they are then more likely to participate in the next survey.”"
+          },
+          {
+            "t": "box",
+            "title": "Three checks before the next round",
+            "text": "Have staff seen the results of the last survey? Does each agreed action have an owner and a date? Do you know what you will do with the new answers? If any answer is no, finish that first. See [sharing staff survey results](/artikler/sharing-staff-survey-results) and [from survey results to an action plan](/artikler/staff-survey-action-plan)."
+          },
+          {
+            "t": "h2",
+            "text": "Small teams: more rounds, fewer answers"
+          },
+          {
+            "t": "p",
+            "text": "Anonymity depends on numbers. A survey should show results for a group only when enough people in it have answered, so that no single answer can be traced to a person. HSE's online Stress Indicator Tool makes a survey's data available for review only “once a minimum of 10 responses have been collected”. HSENI says of [its Indicator Tool](https://www.hseni.gov.uk/mental-well-being-questions-and-answers) that “no group of less than 10 employees can be identified”: for a smaller group, the filter does not apply and the results revert to the organisational averages. Whatever threshold your survey uses, the arithmetic is the same."
+          },
+          {
+            "t": "p",
+            "text": "Frequent rounds work against the threshold. Take a team of 15, and a survey that shows a group's results once 10 people in it have answered. In an annual survey with a good response, 12 or 13 answer and the team's results can be shown. In a monthly pulse, perhaps seven or eight answer each time, and the team drops below the line, round after round. Many small rounds can leave you with less to look at than one full survey."
+          },
+          {
+            "t": "p",
+            "text": "Repetition adds a second risk. When the same small group is surveyed often, a shift in its results between two rounds can point to the one person who joined, left or changed their mind. The Information Commission (ICO) warns: “A person can be identifiable even if you do not know their name.” It calls a “motivated intruder” test “a good starting point to consider identifiability risk” ([How do we ensure anonymisation is effective?](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/how-do-we-ensure-anonymisation-is-effective/)). More in [anonymous staff surveys](/artikler/anonymous-staff-survey)."
+          },
+          {
+            "t": "p",
+            "text": "For a small organisation HSE goes further: “A survey is not an essential step and for smaller organisations it would not be proportionate to run such a survey, particularly where the same data can be gathered in other ways.” Its Talking Toolkits “were developed for smaller organisations so they can gather data that larger organisations may gather through surveys”. A small employer that does survey is usually better served by one round a year for the whole organisation, with conversations in between, than by frequent pulses."
+          },
+          {
+            "t": "h2",
+            "text": "An example year"
+          },
+          {
+            "t": "p",
+            "text": "An invented example: an organisation of about 60 employees in three departments, surveying once a year and reviewing its stress risk assessment when things change."
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "February",
+                "title": "Annual survey",
+                "text": "Everyone, the same questions as last year, outside the holidays. Results for each department large enough to show."
+              },
+              {
+                "date": "March",
+                "title": "Results shared, priorities agreed",
+                "text": "All staff see the results. Two priorities, each with an owner and a date, agreed with employees or their representatives."
+              },
+              {
+                "date": "June",
+                "title": "Pulse in one department",
+                "text": "Workload stood out in the office team, which moved to a new rota in April. Five questions on workload, for that team only."
+              },
+              {
+                "date": "September",
+                "title": "Restructure in two teams",
+                "text": "A significant change, so the risk assessment is reviewed and the teams affected are consulted. A pulse is planned for November, once the new structure has settled."
+              },
+              {
+                "date": "December",
+                "title": "Check the actions",
+                "text": "Are the actions done, and did they work? Changes go into the record of the risk assessment."
+              },
+              {
+                "date": "February",
+                "title": "Next annual survey",
+                "text": "The same questions again, compared with the two previous years."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Rule of thumb",
+            "text": "One full survey a year as the baseline, a pulse only when it has a purpose, a review of the risk assessment whenever something significant changes – and no new round before people have seen what came of the last one. For where the survey sits in the assessment itself, see [how to do a stress risk assessment](/artikler/stress-risk-assessment-steps)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, regulation 3 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/3"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations (Northern Ireland) 2000, regulation 3 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/nisr/2000/388/regulation/3"
+          },
+          {
+            "label": "HSE: Step 5 – Monitor and review",
+            "url": "https://www.hse.gov.uk/stress/standards/step5/index.htm"
+          },
+          {
+            "label": "HSE: Step 2 – Who can be harmed and how",
+            "url": "https://www.hse.gov.uk/stress/standards/step2/index.htm"
+          },
+          {
+            "label": "HSE: Management Standards Indicator Tool user manual (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/indicatortoolmanual.pdf"
+          },
+          {
+            "label": "HSE: Stress Indicator Tool – planning your survey (PDF)",
+            "url": "https://books.hse.gov.uk/gempdf/Guidance_on_planning_your_stress_survey.pdf"
+          },
+          {
+            "label": "HSE: Stress Talking Toolkits",
+            "url": "https://www.hse.gov.uk/stress/talking-toolkit.htm"
+          }
+        ]
+      },
+      "ukSharing": {
+        "title": "Sharing staff survey results with employees | Empvibe",
+        "description": "Sharing staff survey results with employees: when and with whom, what representatives see, how to talk results through in small groups and keep anonymity.",
+        "h1": "How to share staff survey results with employees, and talk them through",
+        "lead": "Share the results soon after the survey closes, with everyone who was asked and with any health and safety representatives, having kept people informed along the way so that, in HSE's words, “the figures do not come as a shock”. Then talk the findings through in small groups: HSE says focus groups of between 6 and 10 people work best, and in a small firm its Talking Toolkit conversations can do the same job. Show figures only for groups large enough that no single answer can be traced to a person, and keep the discussion on working conditions, not on who said what. Close by telling staff what will happen next, and turn the conclusions into an action plan.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Share quickly, and with everyone"
+          },
+          {
+            "t": "p",
+            "text": "HSE's Step 2 guidance says that once a survey is analysed, you should communicate the findings to the board and the steering group, and compare them with your other data, such as sickness absence and staff turnover. Then: “You also need to communicate the findings to the workforce and their representatives.”"
+          },
+          {
+            "t": "quote",
+            "text": "Be sure to keep managers, staff representatives, trade unions and employees fully consulted and informed throughout the survey process so that the figures do not come as a shock.",
+            "cite": "HSE, [Step 2: Who can be harmed and how](https://www.hse.gov.uk/stress/standards/step2/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "HSE sets no deadline. A few weeks is a sensible aim: long enough to check the figures and plan the conversations, short enough that people still remember answering. A long silence tends to be read as something to hide."
+          },
+          {
+            "t": "p",
+            "text": "Share every area, the weak ones as well as the strong; how many people answered; which groups are not shown because too few answered; and what happens next. Present the results as a starting point, which is how HSE describes a survey: “only the start of the risk assessment process and a broad indicator of the situation in an organisation”."
+          },
+          {
+            "t": "h2",
+            "text": "Representatives: consult in good time, and show them group figures"
+          },
+          {
+            "t": "p",
+            "text": "No law requires a staff survey or says how to share one. But in Great Britain you must give employees comprehensible and relevant information on the risks your assessment identified and the measures you take ([MHSWR 1999 reg 10](https://www.legislation.gov.uk/uksi/1999/3242/regulation/10)), and the consultation regulations list “any health and safety information he is required to provide” to employees among the matters on which you must consult in good time: union safety representatives where a recognised union has appointed them (SRSC 1977 reg 4A(1)(c)), and otherwise the employees themselves, directly or through representatives they have elected (HSCER 1996 regs 3(c) and 4(1))."
+          },
+          {
+            "t": "p",
+            "text": "Whether launching the survey was itself a measure you had to consult on beforehand is a question of interpretation; consulting before it goes out is good practice that the duty to consult supports. Once results exist, let representatives see them before or with everyone else, not afterwards. There is no headcount threshold for any of this, and an organisation may lawfully have no representative – see [health and safety representatives](/verneombud)."
+          },
+          {
+            "t": "p",
+            "text": "The same regulations draw the line that protects anonymity. Representatives, and employees consulted directly, are to be given the information they need – but that duty does not extend to information relating specifically to one person, unless that person has consented:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "SRSC 1977 reg 7(2)(c)",
+                "text": "“An employer shall make available to safety representatives the information, within the employer's knowledge, necessary to enable them to fulfil their functions except— … (c) any information relating specifically to an individual, unless he has consented to its being disclosed;”"
+              },
+              {
+                "ref": "HSCER 1996 reg 5(1) and (3)(c)",
+                "text": "Employees consulted directly are given the information “necessary to enable them to participate fully and effectively in the consultation”, but nothing requires the employer to make available any information “relating specifically to an individual, unless he has consented to its being disclosed”."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "In practice: show representatives the same group figures as management, never one person's answers or a comment that points to its author. The MHSWR 1999 and the HSCER 1996 apply in Great Britain. In Northern Ireland, MHSWR (NI) 2000 reg 10 sets the same duty to inform employees, the Health and Safety (Consultation with Employees) Regulations (Northern Ireland) 1996 give the same choice of consulting directly or through elected representatives, and HSENI enforces."
+          },
+          {
+            "t": "h2",
+            "text": "Talk the conclusions through"
+          },
+          {
+            "t": "p",
+            "text": "The figures tell you where to look, not why. HSE's [Step 3](https://www.hse.gov.uk/stress/standards/step3/index.htm) is to “talk the conclusions through with a representative sample of employees and work with them to develop solutions”, because “Data analysis can only give a broad indication of the underlying issues affecting the health of employees. If you want to know what is affecting employees, you have to ask them.”"
+          },
+          {
+            "t": "p",
+            "text": "Conversations also correct the survey. HSE quotes an NHS trust – “Peer support showed as a problem on the staff survey but not in focus groups!” – and notes that one function of focus groups is “to validate the data analysis”."
+          },
+          {
+            "t": "h3",
+            "text": "Focus groups in a larger organisation"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Size:** “Groups of between 6 and 10 people work best”, says HSE. Its [guide to running focus groups](https://www.hse.gov.uk/stress/assets/docs/focusgroups.pdf) gives the same range: enough for different views, small enough that everyone gets a say.",
+              "**Length:** 1.5 to 2 hours, with time for “no more than four or five key questions”.",
+              "**Who sits together:** people doing similar work who are comfortable with one another. HSE: “Avoid bringing together supervisors and subordinates in the same group.”",
+              "**Who leads:** someone seen as neutral. HSE notes that it “may be very difficult” for managers to facilitate within their own section; someone from occupational health, HR or another part of the organisation with “no axe to grind” can do it.",
+              "**Questions:** start open and positive – HSE's example is “what's it like to work here?” – then ask for detail with probes such as “Can you give us an example?”, and later narrow the discussion with “Which of these issues needs tackling first?”"
+            ]
+          },
+          {
+            "t": "h3",
+            "text": "Conversations in a small firm"
+          },
+          {
+            "t": "p",
+            "text": "In a small business a formal focus group can feel heavy. HSE's [Talking Toolkits](https://www.hse.gov.uk/stress/talking-toolkit.htm) “were developed for smaller organisations so they can gather data that larger organisations may gather through surveys”, and “The conversations also can replace the ‘focus group’ element of the Management Standards approach.” The stress toolkit gives a line manager six conversations, one for each of HSE's six areas, each ending in an agreed action plan and a date to revisit it. Its advice: “Line managers should listen to what is being said rather than trying to offer excuses or explanations. Action points and solutions should be agreed together.”"
+          },
+          {
+            "t": "box",
+            "title": "A survey is not essential for a small firm",
+            "text": "HSE: a survey “is not an essential step and for smaller organisations it would not be proportionate to run such a survey, particularly where the same data can be gathered in other ways”. If you did run one, the advice here still applies; if you did not, the same conversations can start from what you already know."
+          },
+          {
+            "t": "h2",
+            "text": "Ground rules that protect anonymity"
+          },
+          {
+            "t": "p",
+            "text": "People will only talk about what is really wrong if they trust that nothing will come back to them. HSE's focus group guide asks you to make clear, in the invitation and again at the start, that taking part is voluntary, how confidentiality will be dealt with, and “that individual responses will not be attributable”. The facilitator should repeat that “the main focus will be on issues that affect groups of employees and with tackling the organisational causes of work-related stress”."
+          },
+          {
+            "t": "p",
+            "text": "Rules worth writing down and reading out at the start:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Small groups are not shown – to anyone.** HSENI's own Indicator Tool works this way. In its [mental well-being questions and answers](https://www.hseni.gov.uk/mental-well-being-questions-and-answers), under identifying hot spots, HSENI says: “When selecting demographics no group of less than 10 employees can be identified.” That describes how HSENI's tool filters results; HSENI does not present it as a rule for employers. Whatever minimum you use, apply it to every breakdown, including two filters combined.",
+              "**Nobody guesses who wrote what**, in the room or afterwards. People can be recognised by what they describe; as the Information Commission (ICO) puts it in its [anonymisation guidance](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/how-do-we-ensure-anonymisation-is-effective/), “A person can be identifiable even if you do not know their name.”",
+              "**Comments are summarised as themes**, not read out or circulated word for word when a detail could point to someone.",
+              "**Notes record issues, not names.** HSE's guide says individual responses should be anonymised before being reported back, and that it may help to say how.",
+              "**Taking part is voluntary**, and anyone who would rather not speak in a group has another way to give a view."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Anonymity can break in more ways than this – see [anonymous staff surveys](/artikler/anonymous-staff-survey)."
+          },
+          {
+            "t": "h2",
+            "text": "A meeting agenda"
+          },
+          {
+            "t": "p",
+            "text": "For a team meeting or a focus group of up to two hours:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Why we ran the survey and who answered:** the response rate, and which groups are not shown because too few answered.",
+              "**The results, area by area**, the strong with the weak, and what other information such as sickness absence says.",
+              "**Does this match your experience?** Open questions first, and what is good about working here before what is not.",
+              "**What lies behind the weakest areas?** Ask for examples of situations, not of people.",
+              "**What would help?** Collect practical suggestions, then ask which issue needs tackling first.",
+              "**What happens next.** HSE's guide suggests a prepared closing statement on “How results will be summarised, interpreted and reported”, what other actions will be taken, “The timescales for reporting and subsequent action” and “How participants will be kept informed of progress.”"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "When one team's results are poor"
+          },
+          {
+            "t": "p",
+            "text": "A team's results describe its working conditions – workload, resources, how change reached it. They are not a verdict on the manager as a person, and treating them as one gives managers a reason to fear the next survey. Some causes lie outside the team altogether: HSE's Step 3 separates issues a group can fix from those whose solution is “outside the control of a single group”."
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Show the manager the team's results privately first, with time to take them in and support to respond.",
+              "Have someone neutral run the team's discussion. HSE notes that people may hold back “when they see management or particular managers as contributing to or the source of some of the problems that they wish to discuss”.",
+              "Look for causes in how the work is organised before looking at people, as HSE advises.",
+              "Where management skills are part of the answer, treat it as development: HSE suggests identifying and developing “the competencies your managers need to manage potential sources of work-related stress”.",
+              "If what emerges is a complaint about one person's behaviour, take it out of the survey discussion and into your usual procedures."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Close the loop: ‘you said, we did’, then the action plan"
+          },
+          {
+            "t": "p",
+            "text": "One way to report back is ‘you said, we did’: what people raised, and what was done about each point. Whatever you call it, the loop has to close. HSE's focus group guide is blunt: “The greatest failures in the use of focus groups occur in two areas; failure to report to the focus group participants and failure to apply the results to the purpose for which they were originally commissioned.”"
+          },
+          {
+            "t": "table",
+            "head": [
+              "You said (invented example)",
+              "We did",
+              "Still to come"
+            ],
+            "rows": [
+              [
+                "Deadlines from other departments land without warning",
+                "A weekly planning meeting with the two departments that send most work",
+                "A shared deadline calendar in the autumn"
+              ],
+              [
+                "We hear about changes last",
+                "A monthly briefing by the managing director, with written answers to questions",
+                "–"
+              ],
+              [
+                "The break room is too small",
+                "Not this year: the lease ends next year, and space is on the list for the move",
+                "A decision in the spring"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Send participants a summary of their session soon afterwards, as HSE advises, and tell everyone how their views were used. Then turn the conclusions into an [action plan](/artikler/staff-survey-action-plan) with owners and dates, and tell employees about the risks found and the measures chosen. Include what you decided not to do yet, and why. When you next survey, open the results meeting with what has changed since last time – see [how often to run a staff survey](/artikler/how-often-staff-survey)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "HSE: Step 2 – Who can be harmed and how",
+            "url": "https://www.hse.gov.uk/stress/standards/step2/index.htm"
+          },
+          {
+            "label": "HSE: Step 3 – Evaluate the risks",
+            "url": "https://www.hse.gov.uk/stress/standards/step3/index.htm"
+          },
+          {
+            "label": "HSE: How to organise and run focus groups (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/focusgroups.pdf"
+          },
+          {
+            "label": "HSE: Stress Talking Toolkits",
+            "url": "https://www.hse.gov.uk/stress/talking-toolkit.htm"
+          },
+          {
+            "label": "Safety Representatives and Safety Committees Regulations 1977, reg 7",
+            "url": "https://www.legislation.gov.uk/uksi/1977/500/regulation/7"
+          },
+          {
+            "label": "Health and Safety (Consultation with Employees) Regulations 1996, reg 5",
+            "url": "https://www.legislation.gov.uk/uksi/1996/1513/regulation/5"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, reg 10",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/10"
+          }
+        ]
+      },
+      "ukIndividual": {
+        "title": "Individual stress risk assessment: when you need one | Empvibe",
+        "description": "When an individual stress risk assessment is needed, how to run the conversation, what to record and who sees it, and how it fits with the team assessment.",
+        "h1": "Individual stress risk assessment: when you need one, and how it fits with the team assessment",
+        "lead": "An individual stress risk assessment looks at one employee's work: what is causing them stress, and what you will change. Acas says a manager should do one when an employee says they are experiencing work-related stress, and a return to work after time off with work-related stress is a good moment to do or review one. It does not replace the assessment for your organisation: HSE advises focusing first on the issues that affect groups of employees, because removing a cause helps everyone exposed to it. What you record is often health information, so keep it to a need-to-know minimum – and take what you learn about causes back into the assessment for the team.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Organisation first, then the individual"
+          },
+          {
+            "t": "p",
+            "text": "The legal duty is the general one: a suitable and sufficient assessment of the risks to your employees' health and safety (in Great Britain [MHSWR 1999 reg 3](https://www.legislation.gov.uk/uksi/1999/3242/regulation/3); in Northern Ireland MHSWR (NI) 2000 reg 3, enforced by HSENI). HSE says that duty covers stress. The regulations do not set out a separate individual stress assessment; guidance from HSE and Acas describes when to look at one person's situation. HSE is clear about the order:"
+          },
+          {
+            "t": "quote",
+            "text": "When assessing the risks to your employees, first focus on organisational level issues that potentially impact on a group and possibly large numbers of employees. It is more effective to remove a stressor or significantly reduce its impact than it is to manage lots of individual cases.",
+            "cite": "HSE, [Step 1: Identify the risk factors](https://www.hse.gov.uk/stress/standards/step1/index.htm)"
+          },
+          {
+            "t": "p",
+            "text": "HSE gives the reason: “If you fail to remove a stressor more people could be affected and those 'treated' for stress would be coming back to the same stressor on their return to work.” Only then does it turn to individuals: “Once you have put in place an organisational approach, you need to consider how to help those who may already be experiencing problems.” HSE's Indicator Tool manual makes the same split after a survey: “Issues of concern to small groups and individuals should also be noted and addressed separately”."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Assessment",
+              "Team or organisation",
+              "Individual"
+            ],
+            "rows": [
+              [
+                "Who it covers",
+                "Groups of employees, by department, role or site",
+                "One employee"
+              ],
+              [
+                "Starts from",
+                "A survey, sickness absence, turnover, team conversations",
+                "A conversation with the person"
+              ],
+              [
+                "What it changes",
+                "How work is designed and organised for everyone",
+                "This person's work – and any cause the team may share"
+              ],
+              [
+                "Written record",
+                "Significant findings and any group especially at risk, if you have five or more employees (MHSWR 1999 reg 3(6))",
+                "What you agreed; often includes health information"
+              ],
+              [
+                "Who sees it",
+                "Employees are told the risks found and the measures (MHSWR 1999 reg 10)",
+                "The person, and those who need to know"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "When you need one"
+          },
+          {
+            "t": "p",
+            "text": "Acas says: “Managers should carry out risk assessments on a regular basis.” And then:"
+          },
+          {
+            "t": "quote",
+            "text": "If an employee tells them they are experiencing work-related stress, they should do an individual risk assessment.",
+            "cite": "Acas, [Risk assessments](https://www.acas.org.uk/managing-work-related-stress/risk-assessments)"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**They tell you.** An employee says they are experiencing work-related stress.",
+              "**They come back.** Acas: “The employer should talk to the worker when they return to work after time off with work-related stress.” It lists what that meeting is a good opportunity for, including to “review or do a stress risk assessment” ([Time off with stress](https://www.acas.org.uk/managing-work-related-stress/time-off-with-stress)).",
+              "**You notice signs.** HSE lists signs such as taking more time off, arriving later for work, mood swings or being withdrawn ([Signs of stress](https://www.hse.gov.uk/stress/signs.htm)). Acas says a manager who becomes aware that someone is experiencing stress should “arrange an informal chat in private”. That conversation may show that an assessment is needed."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Running the conversation"
+          },
+          {
+            "t": "p",
+            "text": "Acas's advice on [supporting workers](https://www.acas.org.uk/managing-work-related-stress/supporting-employees-with-work-related-stress) describes the meeting. In its words, the manager should:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "make time for the meeting in the working day",
+              "be open minded about how the person might be feeling",
+              "ask open questions",
+              "listen to what they are being told",
+              "try to identify the cause of the stress",
+              "work together on possible solutions"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "HSE's [return-to-work discussion question template](https://www.hse.gov.uk/stress/assets/docs/returntowork.pdf) gives the conversation a structure. It works through HSE's six [Management Standards](/artikler/hse-management-standards) areas – demands, control, support from the manager and from colleagues, relationships, role and change – with questions such as “Did you have unachievable deadlines?” and “Were you clear about what was expected of you at work?”, and asks of each: “Was it a problem for you?” and “What can be done about it?” (Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence.) HSE's [Talking Toolkits](https://www.hse.gov.uk/stress/talking-toolkit.htm) can also be used in “return to work interviews, or one-to-one meetings”."
+          },
+          {
+            "t": "p",
+            "text": "The template ends with life outside work, noting that “there may be factors outside work, for example in your family life, which may have contributed to or added to the pressures at work.” Let the person decide what to share. Acas: “Workers do not have to tell their employer about their personal problems.”"
+          },
+          {
+            "t": "p",
+            "text": "Close with a plan. Acas suggests that employee and employer agree an action plan, which should include:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "what the problem is",
+              "the proposed solution",
+              "what actions to take to achieve the solution",
+              "the dates by which to achieve each action",
+              "a date to review the plan and see if it has achieved its aim"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What to record, and who sees it"
+          },
+          {
+            "t": "p",
+            "text": "An individual assessment often records health information: how the person has been affected, time off, perhaps a diagnosis. The Information Commission (ICO) lists “sickness absence forms” and “a questionnaire completed by workers to detect problems with their health” among the health information an employer may process, and explains:"
+          },
+          {
+            "t": "quote",
+            "text": "As this personal information reveals or concerns a person’s health, it is a type of special category data with certain extra rules that you must follow. These rules do not prevent the processing of health information, but limit the circumstances in which you can do it.",
+            "cite": "ICO, [Data protection and workers’ health information](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/employment/information-about-workers-health/data-protection-and-workers-health-information/)"
+          },
+          {
+            "t": "p",
+            "text": "That means a lawful basis and a special category condition, decided and documented before you start. The ICO calls the employment condition “particularly relevant for employers”, and relying on it means having “an appropriate policy document in place”. Consent is a weak foundation: “you may find it difficult to rely on consent to process health information about your workers”. And: “You should carry out a DPIA given the sensitive and potentially intrusive nature of processing workers’ health information.” The ICO notes that this guidance is under review after the Data (Use and Access) Act."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Record what the plan needs:** the causes at work, what was agreed, who does what by when, and the review date. The ICO: “You must not collect more health information than you really need for your stated purpose.”",
+              "**Tell the person** what you will write down and why. The ICO says you must let workers know “who will have access to it and in what circumstances”.",
+              "**Need to know.** Managers should have access only “where it is necessary for them to undertake their management responsibilities”, the ICO says, and it suggests keeping health information separate from the rest of the personnel file.",
+              "**Confidentiality.** Acas: an employer should reassure the worker “that they will not share anything they tell them with anyone else”, and where there is a good reason to, “be clear about who they'll share it with and why”.",
+              "**Delete when done.** The ICO advises that you “periodically review the health information you hold and erase or anonymise it when you no longer need it”."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Two other records stay separate. The written record of your organisation's risk assessment, required if you have five or more employees, holds “the significant findings of the assessment” and “any group of his employees identified by it as being especially at risk” (MHSWR 1999 reg 3(6)) – the regulation asks for findings and groups, not for one person's health details. And in Great Britain, union safety representatives may inspect the documents you must keep “except a document consisting of or relating to any health record of an identifiable individual” (SRSC 1977 reg 7(1)). Your duty to give representatives information does not cover information relating specifically to an individual, unless that person has consented (SRSC 1977 reg 7(2)(c); HSCER 1996 reg 5(3)(c), both Great Britain). See [safety representatives](/verneombud)."
+          },
+          {
+            "t": "h2",
+            "text": "Feed what you learn back into the team assessment"
+          },
+          {
+            "t": "p",
+            "text": "An individual case is evidence about the work. If one person's stress comes from unrealistic deadlines, an unclear role or a conflict nobody manages, others in the same team may be exposed to it too. A cause left in place is still there for the next person, and for this one when they return."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Take the cause, not the person.** Agree with the employee what you take forward, and in what words. A cause described in general terms, such as deadlines set without checking capacity, rarely points to anyone; a detailed account of one person's month can.",
+              "**Check whether it shows up elsewhere:** in the team's survey results, sickness absence and turnover, or a team conversation.",
+              "**Put it in the organisation's assessment** as a finding, with a measure, an owner and a date. If the case suggests the assessment no longer reflects the work, that can be a reason to suspect it is no longer valid, which makes a review due (MHSWR 1999 reg 3(3))."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "[How to do a stress risk assessment](/artikler/stress-risk-assessment-steps) and the [stress risk assessment template](/artikler/stress-risk-assessment-template) show where such findings go."
+          },
+          {
+            "t": "h2",
+            "text": "Why a staff survey cannot do this – and should not"
+          },
+          {
+            "t": "p",
+            "text": "A staff survey is the opposite instrument. It is built so that no single answer can be traced to a person: results are shown for groups, and only where enough people have answered. HSE's Indicator Tool manual tells employers to make sure demographic questions “are not sufficient to allow individuals to be identified”, and its model covering letter promises: “Your responses to this questionnaire will remain anonymous and only group data will be presented. It will not be used as an evaluation of your work or capabilities.”"
+          },
+          {
+            "t": "p",
+            "text": "So a survey can show that workload is a problem in one department; it cannot show who is struggling there, and it should not be pushed to. Narrowing filters until a group is down to two or three people, or reading comments for clues to who wrote them, breaks the promise every respondent relied on. The ICO warns: “A person can be identifiable even if you do not know their name.” HSE's survey planning guide adds: “People are less likely to complete the questionnaire if they believe their responses are identifiable.”"
+          },
+          {
+            "t": "p",
+            "text": "If a comment describes one person's situation, do not try to find them. When you share the results, tell everyone how to ask for a confidential conversation and with whom, and leave the first step to them. The survey shows where the team assessment should look; the individual assessment starts when a person comes forward or a manager notices. More in [anonymous staff surveys](/artikler/anonymous-staff-survey)."
+          },
+          {
+            "t": "h2",
+            "text": "When to point the person to their GP or occupational health"
+          },
+          {
+            "t": "p",
+            "text": "A manager's part is to change the work, not to diagnose. HSE advises: “If managers are worried that a worker is showing some of these signs, they should encourage them to see their GP. These signs can be symptoms of other conditions.” Its [advice for managers](https://www.hse.gov.uk/stress/mental-health-line-managers.htm) adds that if someone does not want to talk to you, “suggest they speak to someone else, for example someone from your employee assistance programme, occupational health team or their own GP”, and that if the problem carries on, “you should encourage them to seek help, for example from occupational health or their GP.”"
+          },
+          {
+            "t": "p",
+            "text": "Medical detail belongs with medical professionals. The ICO: “As far as possible, you should limit access to information on medical conditions to health professionals, such as doctors and nurses.” If you refer the person to a doctor or nurse, for example through occupational health, tell them first what you will receive back: “it is important that they know what sort of information you will receive as a result”."
+          },
+          {
+            "t": "box",
+            "title": "If someone needs help now",
+            "text": "If someone needs immediate medical help and will not accept it, HSE's advice for managers is to seek advice from your occupational health provider, the person's GP or the NHS on 111, or to call an ambulance. HSE's [stress resources page](https://www.hse.gov.uk/stress/resources.htm) lists organisations that offer advice and confidential support. For the legal duty behind all of this, see [what the law requires](/lovkrav)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "HSE: Step 1 – Identify the risk factors",
+            "url": "https://www.hse.gov.uk/stress/standards/step1/index.htm"
+          },
+          {
+            "label": "HSE: Return-to-work discussion question template (PDF)",
+            "url": "https://www.hse.gov.uk/stress/assets/docs/returntowork.pdf"
+          },
+          {
+            "label": "HSE: Signs of stress",
+            "url": "https://www.hse.gov.uk/stress/signs.htm"
+          },
+          {
+            "label": "Acas: Managing work-related stress – Risk assessments",
+            "url": "https://www.acas.org.uk/managing-work-related-stress/risk-assessments"
+          },
+          {
+            "label": "Acas: Managing work-related stress – Time off with stress",
+            "url": "https://www.acas.org.uk/managing-work-related-stress/time-off-with-stress"
+          },
+          {
+            "label": "Information Commission (ICO): Data protection and workers' health information",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/employment/information-about-workers-health/data-protection-and-workers-health-information/"
+          },
+          {
+            "label": "Management of Health and Safety at Work Regulations 1999, regulation 3 (legislation.gov.uk)",
+            "url": "https://www.legislation.gov.uk/uksi/1999/3242/regulation/3"
+          }
+        ]
       }
     }
   },

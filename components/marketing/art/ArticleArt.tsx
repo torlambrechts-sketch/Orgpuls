@@ -203,10 +203,10 @@ function AnonArt({ className }: { className: string }) {
   )
 }
 
-export function ArticleArt({ kind, className = '' }: { kind: ArtKind; className?: string }) {
+export function ArticleArt({ kind, className = '', seal }: { kind: ArtKind; className?: string; /** the law drawing's seal (LawArt): § where the law is cited by section, ✓ elsewhere */ seal?: string }) {
   switch (kind) {
     case 'law':
-      return <LawArt className={className} />
+      return <LawArt className={className} seal={seal} />
     case 'rep':
       return <SafetyRepArt className={className} />
     case 'risk':

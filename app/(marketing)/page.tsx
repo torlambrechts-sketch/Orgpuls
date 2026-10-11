@@ -26,7 +26,7 @@ import { ownSite, serves, siteArticles, siteShots, surveyPictureLocale } from '@
  *
  * Every card that shows example figures is a `<figure>` captioned «Tenkte eksempeldata.» (G3); the
  * screenshots are the design fixture's real screens (Nordvik Anlegg AS), the files in assets/produkt;
- * on Empvibe's site the same scenario's English screens (Northfield Civils Ltd, assets/produkt/empvibe, D-272).
+ * on Empvibe's site the same scenario's English screens (Brackenmoor Civils Ltd, assets/produkt/empvibe, D-272).
  */
 
 export async function generateMetadata(): Promise<Metadata> {
