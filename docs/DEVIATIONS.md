@@ -13901,3 +13901,71 @@ on Sweden's site they took a redirect. They are drawn at the site's own address 
 - **Local SQL suites:** one run of `npm run test:db`, the first after a reset, failed one suite. Its name was lost to
   a truncated log. Three later runs passed, one of them on a freshly reset database, and so did CI. It is not
   reproduced; if it comes back, the suite's name is the place to start.
+
+## D-277 — Empvibe's own articles: ten for the United Kingdom, at /articles (UK-H, 2026-10-11)
+
+Empvibe's site had pages and technical SEO but no articles: the article machinery served Norway's, which are
+written for Norwegian law, so a site of its own showed none (D-270). This gives each site its own set, and Empvibe
+ten articles written for UK search and UK law.
+
+**Articles per site** (`lib/marketing/site-articles.ts`, `lib/site/own.ts` `siteArticles()`).
+- Norway's hosts (and any host that is not a site) read Norway's registry (`lib/marketing/site.ts`), unchanged.
+  Empvibe's reads its own (`lib/marketing/articles-empvibe.ts`). Sweden's has none and serves no `/artikler`.
+- Every reader of articles takes the request's set: the index (sections and JSON-LD), the article page (another
+  site's slug is a 404), the cards, the start page's three newest and its survey link, Plattform's «Read more», the
+  landing pages' articles, the sitemap (each article's date, the index at the newest) and llms.txt (an «Articles»
+  section). The templates teaser on the index shows only where the site serves `/maler`.
+- **Addresses:** `/articles` and `/articles/<slug>` on Empvibe (`EMPVIBE_PAGES`/`EMPVIBE_PATHS` built from the
+  registry); the routes' Norwegian addresses give 308 to them. A Norwegian slug is a 404 on Empvibe's site, and a
+  UK slug a 404 on Norway's.
+- **Structured data and cards:** the Article, CollectionPage, BreadcrumbList and Organization objects name the site
+  that publishes the page (`siteLd`), in en-GB on Empvibe. A site of its own's article cards are under
+  `public/og/<key>/artikler/` (`lib/marketing/meta.ts` `cardUrl`, used by the link preview and the JSON-LD alike);
+  `og-images.mjs --brand empvibe` draws them from the UK registry.
+- **Menu and footer:** «All articles» joins Ressurser and the footer's resources column on a site of its own that
+  serves them (Empvibe's); the layout's filter leaves it out on Sweden's.
+- **The law drawing's seal** beside an article is ✓ on a site of its own, as the UK law page's is (D-271), not
+  Norway's §.
+- **Norway and Sweden unchanged,** checked against production: the article, the article index and the start page's
+  JSON-LD on www.orgpuls.com are byte-identical; the visible text of Norway's /, /artikler, /plattform, /lovkrav and
+  Sweden's /, /plattform and its law page is the same word for word.
+
+**The ten** (`docs/markets/uk-articles.md`): a keyword and competitor pass ranked UK topics on what competes, whether
+HSE or Acas own the answer, and how close the searcher is to buying. Sections: start here (how to do a stress risk
+assessment, a template with a worked example, the individual assessment), HSE's Management Standards and Indicator
+Tool, running a staff survey (questions, anonymity, how often), after the survey (sharing results, the action plan).
+Rejected: the legal duty (the law page owns it), safety representatives' rights, small-business surveys, statistics,
+mental health risk assessment and «psychosocial risk», for the reasons the plan gives.
+
+**Written to Norway's editorial rule** (D-235): informational, no product, price, trial or vendor, links only to
+other articles and to the law and safety-representative pages. British English, «staff survey» first.
+
+**Fact-checked.** Five writers drafted two articles each from `docs/markets/uk-legal.md`, a brief and the research,
+quoting every source verbatim and listing each quotation. Five independent fact-checkers then fetched every page
+again and checked every quotation, provision, number and URL. What they changed:
+- paraphrases presented as HSE's (an action plan's «named owner», «a few priorities»), HSE's Analysis Tool minimum of
+  10 presented as an anonymity rule, HSENI's demographic filter presented as a rule for employers, a statement that
+  the ICO has no guidance for staff surveys (it has answered one on diversity surveys), a consent quotation linked to
+  the wrong ICO page, and «Some survey tools set a lower threshold, such as 5» (unsourced, and the product's own);
+- the regulations' own terms where the drafts had glosses («preventive and protective measures», reg 3(3)'s two
+  triggers, «make arrangements to plan, monitor and review»), Northern Ireland named where Great Britain's law is
+  cited, and HSENI's enforcement statement quoted whole where only half was;
+- **a real company:** the template's worked example named «Northfield Civils Ltd», the UK example firm of the design
+  fixture since D-272. It is a real company on the Companies House register (15171746, dissolved 10 December 2024).
+  The article's example is now an unnamed, invented contractor, and the fixture's firm is **Brackenmoor Civils Ltd**,
+  a name not on the register on 11 October 2026 (`scripts/seed/design-fixture.gb.mjs`, the gb pack's four mentions,
+  `local_account.sql`); the one picture that shows the name, the survey on a phone, is retaken. Sweden's
+  «Norrvik Anläggning AB» could not be checked against Bolagsverket from here.
+- The guidance the articles quote beyond the legal record is added to `docs/markets/uk-legal.md` as an addendum,
+  with its date and URL. HSE's statistics (964,000 workers, 22.1 million days, 2024/25, published 20 November 2025)
+  date the steps article until HSE's next release.
+
+**Tests:**
+- `tests/unit/uk-articles.test.ts` (new): the registry (unique English slugs, no clash with Norway's, sections,
+  related and landing articles in the set, dates, drawings, no templates), the words (every field, title and
+  description lengths, blocks and sources parse), sources only from the law and public bodies, links only to
+  articles and the two law pages, nothing `uk-legal.md` records as misleading or unverified, no product or brand,
+  Northern Ireland named with Great Britain's law, a card for each, and each site's own set.
+- `tests/unit/markets.test.ts`: the articles' addresses both ways on Empvibe, Norway's slugs 404 there, llms.txt
+  lists the articles. `tests/unit/uk-site.test.ts`: the articles' words are held by its Norway and misleading-claim
+  checks through the gb pack; their routes are outside Norway's page map.
