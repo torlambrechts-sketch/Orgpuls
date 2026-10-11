@@ -13926,6 +13926,11 @@ ten articles written for UK search and UK law.
   serves them (Empvibe's); the layout's filter leaves it out on Sweden's.
 - **The law drawing's seal** beside an article is ✓ on a site of its own, as the UK law page's is (D-271), not
   Norway's §.
+- **Empvibe's two guides** (/work-related-stress-law, /safety-representatives) are filed under Articles now, as
+  Norway's are (D-236): their breadcrumb reads «Home / Articles / …» and their BreadcrumbList names /articles, and
+  each lists two of the UK articles at its foot (`EMPVIBE_LANDING_ARTICLES`); /small-businesses lists two as well.
+- The index's section anchors keep Norway's keys (#start, #lov, #gjennomforing, #etter): the sections are Norway's,
+  with the gb pack's headings. Cosmetic; nothing links to them on Empvibe's site.
 - **Norway and Sweden unchanged,** checked against production: the article, the article index and the start page's
   JSON-LD on www.orgpuls.com are byte-identical; the visible text of Norway's /, /artikler, /plattform, /lovkrav and
   Sweden's /, /plattform and its law page is the same word for word.
@@ -13954,13 +13959,19 @@ again and checked every quotation, provision, number and URL. What they changed:
   fixture since D-272. It is a real company on the Companies House register (15171746, dissolved 10 December 2024).
   The article's example is now an unnamed, invented contractor, and the fixture's firm is **Brackenmoor Civils Ltd**,
   a name not on the register on 11 October 2026 (`scripts/seed/design-fixture.gb.mjs`, the gb pack's four mentions,
-  `local_account.sql`); the one picture that shows the name, the survey on a phone, is retaken. Sweden's
+  `local_account.sql`, whose local account is now dev.empvibe@brackenmoor.example after a reset); the one picture
+  that shows the name, the survey on a phone, is retaken. Sweden's
   «Norrvik Anläggning AB» could not be checked against Bolagsverket from here.
 - The guidance the articles quote beyond the legal record is added to `docs/markets/uk-legal.md` as an addendum,
   with its date and URL. HSE's statistics (964,000 workers, 22.1 million days, 2024/25, published 20 November 2025)
   date the steps article until HSE's next release.
 
 **Tests:**
+- `tests/unit/site-articles.test.ts` (new), through the readers themselves with the host mocked: which set
+  `siteArticles()` returns on Norway's hosts, a host that is not a site, Empvibe's and Sweden's; that each site's
+  survey link names an article it publishes; the card URL on a site of its own and Norway's unchanged; the Article
+  object's exact values on Norway's site and Empvibe's on its own; the sitemap and llms.txt per host. Breaking
+  `siteArticles` or the card's `artikler/` path fails three of its six.
 - `tests/unit/uk-articles.test.ts` (new): the registry (unique English slugs, no clash with Norway's, sections,
   related and landing articles in the set, dates, drawings, no templates), the words (every field, title and
   description lengths, blocks and sources parse), sources only from the law and public bodies, links only to

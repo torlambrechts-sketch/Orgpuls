@@ -4,7 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { ArticleView } from '@/components/marketing/ArticleView'
 import { pageMeta } from '@/lib/marketing/meta'
 import { articleImage } from '@/lib/marketing/site'
-import { articleIn, articlesOf, NORWAY_ARTICLES } from '@/lib/marketing/site-articles'
+import { articleIn, NORWAY_ARTICLES } from '@/lib/marketing/site-articles'
 import { siteArticles } from '@/lib/site/own'
 
 /**
@@ -14,8 +14,9 @@ import { siteArticles } from '@/lib/site/own'
  */
 export const dynamicParams = true
 
+/** Norway's slugs, as before: the page reads its host, so it renders on request on every site */
 export function generateStaticParams() {
-  return [...NORWAY_ARTICLES.articles, ...articlesOf('empvibe').articles].map((a) => ({ slug: a.slug }))
+  return NORWAY_ARTICLES.articles.map((a) => ({ slug: a.slug }))
 }
 
 type Props = { params: Promise<{ slug: string }> }

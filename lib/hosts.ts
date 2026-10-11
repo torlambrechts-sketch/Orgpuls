@@ -129,7 +129,7 @@ export const EMPVIBE_URL = `https://${EMPVIBE_HOST}`
  * and since UK-H its own articles (D-277), written for the United Kingdom. Not the industries,
  * Norway's articles, the templates or the demo, which are written for Norway.
  */
-export const EMPVIBE_PAGES = [
+export const EMPVIBE_PAGES: readonly string[] = [
   '/',
   '/plattform',
   '/bruksomrader',
