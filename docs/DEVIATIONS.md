@@ -13715,3 +13715,27 @@ there», and «English-speaking firms in Norway keep the Norwegian site in Engli
   and language; the dispatcher's channels.
 - `tests/unit/billing-gb.test.ts`: the price page's list, pence, menu and JSON-LD.
 - `tests/unit/uk-site.test.ts`: allows £0 for the free plan.
+
+**Shipped (2026-10-11):**
+- **Hosted:** 0230 applied through `apply_migration`, verbatim and named after its file, once a SELECT had shown both
+  anchors present and no `market` yet. Proven by SELECT: `dispatch_test_claim` and `reply_notice_claim` hand over
+  `market`, and keep SECURITY DEFINER, `search_path=""` and no execute for anon or authenticated. `list_migrations`
+  ends at `0230_dispatch_claims_market`.
+- **`get_advisors security`:** the same four kinds as before (61 tables with RLS and no policy, the known definer
+  RPCs, leaked-password protection). Nothing names either patched function.
+- **Edge functions:** deployed from main by «Deploy the edge functions», green.
+- **CI:** the first push to main (46aa859) failed tsc. `market-links.test.ts` imported `messages.gen.ts`, which the
+  functions deploy writes and git ignores, so CI's tsc never sees it. The test now builds the catalogue from
+  `messages/*.json`, as `mail.test.ts` does. tsc, lint and all 867 tests were rerun with the generated file moved
+  away, then pushed (f459fed).
+- **Production:**
+  - en.orgpuls.com/ gives 308 to https://www.empvibe.com/;
+  - /priser on it gives 308 to www.orgpuls.com's `/api/sprak?l=en&til=%2Fpriser&profil=0`;
+  - /s/… on it gives 308 to the same path on www.orgpuls.com;
+  - empvibe.com gives 308 to www.empvibe.com;
+  - www.empvibe.com/pricing: 200, canonical on itself, £0/£25/£55 with £20.83 and £45.83 a month on the yearly
+    cards, five GBP offers, no kroner;
+  - www.empvibe.com's sitemap lists its twelve pages, /pricing among them, and robots allows them;
+  - /registrer gives 308 to /sign-up, which answers in English;
+  - www.orgpuls.com/priser: Norway's prices unchanged (0, 265, 565, 2650, 5650), no hreflang, and no en.orgpuls.com
+    in its sitemap.
