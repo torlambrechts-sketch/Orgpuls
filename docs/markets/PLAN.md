@@ -66,9 +66,9 @@ Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first E
 
 ### Phase 4 — Empvibe and the United Kingdom, step by step (X-111)
 
-Until UK-G, empvibe.com shows a holding page of its own, in English and under the Empvibe name, with no sign-up and no
-indexing (D-269, replacing D-258's redirect to en.orgpuls.com, since the Orgpuls name means nothing in English). Then
-empvibe.com opens, and en.orgpuls.com redirects to it.
+Until UK-G, empvibe.com showed a holding page of its own, in English and under the Empvibe name, with no sign-up and no
+indexing (D-269, replacing D-258's redirect to en.orgpuls.com, since the Orgpuls name means nothing in English). Since
+UK-G (D-275) empvibe.com is open, and en.orgpuls.com redirects to it.
 
 | Step | What | State |
 |---|---|---|
@@ -78,7 +78,7 @@ empvibe.com opens, and en.orgpuls.com redirects to it.
 | UK-D | HSE's Indicator Tool as a UK module (`module_markets` row `gb`), verbatim, attributed under the Open Government Licence | researched 2026-10-10 (below); decided X-112. D2 built (0223, D-266): reverse scoring and the module's own bands. D1/D3 built (0224, D-267): two scales, up to nine statements, the instrument's order and pages, no «not relevant», the text before item 1, the attribution stored. D4 built (0225, D-268): `modules/hse-indicator-tool`, HSE's English and Polish verbatim, machine drafts for uk/lt/sv/da, market `gb`, attribution and the module's own bands on the leader screens |
 | UK-E | The UK public site on empvibe.com: its own pages, Empvibe's name, UK search terms, hreflang and sitemap per host | E1 built (D-270): behind `EMPVIBE_SITE=open` until UK-G, its own page list and English addresses, links, canonical, schema.org, sitemap, robots and llms.txt per host, its own menu, the company number by market. E2 built (D-271): every served page in British English for UK law, the law, safety representatives and small businesses rewritten whole. E3 built (D-272): English screens of a British firm (design fixture `--market gb`), Empvibe's own share cards, the review's corrections; privacy and terms not served until UK-F. E4 verified (D-272): 390/1280, axe, Norway's pages unchanged, production on the holding page. British dates and the organisation's own clock in the app (D-273), the pictures retaken |
 | UK-F | Documents: a UK Article 28 agreement, privacy notice, B2B terms; GBP prices and reverse-charge invoicing | built (X-113, D-274): the UK's own DPA versioned per market (0226), `/privacy` and `/terms` served on Empvibe, £25/£55 with the reverse charge, a VAT number in place of EHF (0227), the market told to the platform where invoices are made (0228); found by the review, an invitation now says only whether its employee answered, never when (0229). Open for the lawyer: Art. 27, Art. 28(3) «domestic law», the ICO fee, invoice content |
-| UK-G | The move: empvibe.com and www.empvibe.com as a site row, en.orgpuls.com redirected there, Supabase Auth redirect URLs, Brevo sender domain | until then a holding page (D-269): the `HOLDING_HOSTS` row is removed when the site row is added; the privacy notice and terms are already in `EMPVIBE_PAGES` (D-274) |
+| UK-G | The move: empvibe.com and www.empvibe.com as a site row, en.orgpuls.com redirected there, Supabase Auth redirect URLs, Brevo sender domain | built (D-275): Empvibe open without a flag, the holding page gone; en.orgpuls.com 308s to Empvibe's page or to www.orgpuls.com in English; Norway's site without its English twin; `/pricing` in pounds; mail, SMS, Teams and Slack link to Empvibe and go under its name, the SMS from «Empvibe»; the Auth mail from the site it was asked on; 0230; Auth allow list on hosted. Tor's: Brevo domain and DNS, a mailbox, Slack and Entra redirect URLs, Sentral's site, Search Console |
 
 **UK-D, what the Indicator Tool needs from the module format** (research 2026-10-10, from HSE's OGL PDF and Analysis Tool):
 - **Wording.** 35 items in seven scales: demands 8, control 6, managers' support 5, peer support 4, relationships 4,

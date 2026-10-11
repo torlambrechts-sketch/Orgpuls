@@ -13570,3 +13570,105 @@ changed:
 - **CI:** «checks, security invariants and screens» and the functions deploy were green on the commit.
 - **Production:** www.orgpuls.com answers with Norway's prices unchanged. empvibe.com still shows the holding page
   (D-269) until UK-G, with `/privacy` and `/terms` in its page list.
+
+## D-275 — The move: Empvibe opens, en.orgpuls.com redirects, links and senders follow the market (UK-G, X-111, 2026-10-11)
+
+X-111 ordered it: build first, then «one change opens empvibe.com, and en.orgpuls.com redirects there». UK-A to UK-F
+built the brand, the market, its law, its module, its site and its documents. This is the change.
+
+**Empvibe's site is open.**
+- `lib/hosts.ts`: www.empvibe.com and empvibe.com are rows in `SITES` without a flag. `EMPVIBE_SITE` and the holding
+  page (D-269: `HOLDING_HOSTS`, `/venteside`, the `holding` messages) are gone. A sign-up on either host joins the
+  United Kingdom (market `gb`), which no host did before.
+- **Its pages** are D-270's list plus `/pricing` (below). The IndexNow key is served there too, and
+  `scripts/seo/indexnow.mjs` submits www.empvibe.com in place of en.orgpuls.com.
+
+**en.orgpuls.com redirects (308).** X-111 says where its readers go: English-speaking firms in Norway keep Norway's
+site in English, and the English site is Empvibe's. So, by address (`toEnglish`):
+- **A page Empvibe has** goes to the same page on Empvibe, at its English address, with its query.
+- **Norway's own pages** — the industries, the articles, the templates, the demo — and signing in, signing up and a
+  new password go to the same address on www.orgpuls.com in English, through the language switch's own route
+  (`/api/sprak?l=en&til=…`, D-109). Those pages exist only there.
+- **Everything else** goes to the same address on www.orgpuls.com, query kept: the product, a survey or entry link,
+  an invitation, the auth callbacks, the API and the files. A Norwegian organisation's screens, and a poster printed
+  on en.orgpuls.com, keep working in the language the person or the employee has.
+- **de.orgpuls.com** follows the same rule, temporarily (307), as D-258 had it go to the English site.
+
+**Norway's site has one address per page.**
+- The English twin each page named as its `hreflang` alternate redirects now, and an alternate that redirects is
+  an error to a search engine. Pages therefore name only their canonical on www.orgpuls.com.
+- The sitemap and llms.txt are Norway's, in Norwegian.
+- The language switch on the public site is a choice on the same address, as it is in the app.
+- The employees' page (`/r`) links to its host's own site under its brand's name: Empvibe's on Empvibe, and Norway's
+  elsewhere, in English through the switch for an English reader.
+
+**/pricing on Empvibe** (X-113: £25 and £55, the free plan and trial as Norway's).
+- **Page:** the same page as `/priser`, with the gb pack's words (`seo.pages.priser`, `site.pris`) and
+  `PLAN_PRICES.gb` in the slider, via `planSizes(market)`. Pounds are shown to the penny where a year is shown as a
+  month (£20.83, not £21) and per employee: a whole pound there would be another price. The same fix is made in
+  Oppsett › Betaling, which UK-F had rounding.
+- **Search data:** the JSON-LD offers are the site's prices in its currency, at its address, under its plans' names.
+  Norway's are byte for byte as before.
+- **Navigation:** Pricing is in Empvibe's menu and footer.
+- **Texts:** they say only what the UK terms say.
+  - They name no SMS, which the UK site does not offer.
+  - The anonymity limit is 5, raisable to 10.
+  - VAT is the reverse charge. The FAQ says «supplied from outside the United Kingdom», not «from Norway»: the
+    site names Norway only as the provider's home (`tests/unit/uk-site.test.ts`).
+
+**Links and senders follow the organisation's market** (`supabase/functions/_shared/mail.ts`).
+- **Links.** Mail, SMS, Teams and Slack to an organisation in the United Kingdom link to www.empvibe.com
+  (`appUrlOf`). A local or QA run keeps its own loopback base. Every channel takes the market's words
+  (`marketCatalogue`), not only the mail.
+- **SMS sender.** An SMS goes from «Empvibe» (`smsSenderOf`). Norway keeps `ORGPULS_SMS_SENDER`.
+- **Mail sender.** Mail goes under the brand's name, as since UK-A. It goes from empvibe.com itself once Brevo
+  reports the domain authenticated (`senderFor`, `MARKET_MAIL_DOMAIN`), which Brevo is asked once a run and only for
+  such a brand. Until then it goes from the product's address, as X-111 says. `?probe=1` shows the domain's state.
+- **0230.** «Send test til meg» and the reply notice did not carry the market: a UK leader's test read as Norway's.
+  Their claims now name it.
+  - The reply notice already handed over the organisation's name. The market (three values, the organisation's own
+    column) adds nothing that identifies anyone.
+  - The seal, `app.thread_recipients` and who reads it are unchanged (X-103).
+  - `send_test_invariants` and `reply_notice_invariants` assert the market.
+- **Reply-To.** The trial's mail is answered to the support inbox under the brand's name. The address stays
+  hjelp@orgpuls.no until Empvibe has a mailbox.
+
+**Auth mail follows the site it was asked on.**
+- **Before:** the send-email hook linked every mail to `ORGPULS_APP_URL`, in bokmål unless the account said English.
+  A UK sign-up would have been confirmed on www.orgpuls.com, in Norwegian, under Orgpuls's name, and the session set
+  on the wrong host.
+- **Now:** sign-up, an invitation's sign-up and «Glemt passord» pass the site and the page's language
+  (`lib/auth/return.ts`).
+  - The hook takes the link's base, the brand, the footer and, for an account that names none, the language from
+    `email_data.redirect_to`, which Auth has already held to its allow list (`authSite`).
+  - Only the sites in `MARKET_SITE_URL` are recognised. Anything else is the product's own.
+  - A sign-up on a Swedish page now asks for English, which the Auth mail has, never bokmål (D-255).
+- **Hosted:** the Auth allow list gained https://www.empvibe.com/** and https://empvibe.com/** (Management API).
+  en.orgpuls.com stays on it for links already in flight.
+
+**Not done here, and why** — each needs an account or a DNS change only Tor has:
+- **Brevo:** add empvibe.com as a sender domain and its DNS records (DKIM, the Brevo code, DMARC) at Spaceship, where
+  its DNS is. The code switches by itself once Brevo says authenticated.
+- **A mailbox for Empvibe:** empvibe.com has no MX. Until one exists, the UK texts and the Reply-To name
+  hjelp@orgpuls.no.
+- **Slack:** the app's redirect URLs need https://www.empvibe.com/integrasjoner/slack/callback, or a UK leader's
+  «Connect Slack» is refused by Slack.
+- **Entra:** the app registration's redirect URIs need https://www.empvibe.com/integrasjoner/entra/callback for the
+  import's admin consent. Sign-in with Microsoft needs nothing, since it returns through Supabase.
+- **Sentral:** web-collect has to know www.empvibe.com as a site, or Empvibe's visits are not counted. The beacon
+  sends them now that the host is in `PUBLIC_HOSTS`.
+- **Search Console:** add www.empvibe.com as a property and submit its sitemap. A change of address from
+  en.orgpuls.com is optional.
+
+**Known, for later:**
+- A signed-in user's organisation still decides the market of the texts (D-270).
+- A UK mobile number written as 07… is still not taken: only +44 works. The UK site does not offer SMS.
+- Companies House lookup (`REGISTRY_LOOKUP.gb`) is not wired.
+
+**Tests:**
+- `tests/unit/markets.test.ts`: the moved and reserved hosts, address by address; Empvibe open without a flag; no
+  holding page; only Empvibe's hosts sign up into the United Kingdom.
+- `tests/unit/market-links.test.ts`: each market's site, link base, SMS sender and mail sender; the Auth mail's site
+  and language; the dispatcher's channels.
+- `tests/unit/billing-gb.test.ts`: the price page's list, pence, menu and JSON-LD.
+- `tests/unit/uk-site.test.ts`: allows £0 for the free plan.
