@@ -1,6 +1,6 @@
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { ANNUAL_MONTHS, CANCEL_REASONS, fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
-import { planPrices } from '@/lib/site/pricing'
+import { planPrices, priceDigits, yearly as yearPrice } from '@/lib/site/pricing'
 import { requestMarket } from '@/lib/i18n/market'
 import { BillingForm, CancelSubscription, DowngradeToFree, ExtendTrialButton, WithdrawCancellation, WithdrawDowngrade } from './BillingForms'
 import { dateFormat } from '@/lib/i18n/dates'
@@ -124,7 +124,13 @@ export async function BillingTab({
         year: monthly === null ? plansT(`${planKey[p]}.price`) : kroner(monthly * ANNUAL_MONTHS),
       },
       unit: { month: monthly === null ? '' : t('perMonth'), year: monthly === null ? '' : t('perYear') },
-      perMonth: monthly === null ? null : t('yearPerMonth', { price: format.number(Math.round((monthly * ANNUAL_MONTHS) / 12)) }),
+      // whole kroner; pounds to the penny, where a whole pound would be a different price (D-275)
+      perMonth:
+        monthly === null
+          ? null
+          : t('yearPerMonth', {
+              price: format.number(yearPrice(monthly, priceDigits(market)).perMonth, { minimumFractionDigits: priceDigits(market), maximumFractionDigits: priceDigits(market) }),
+            }),
       fits: company.employees <= PLAN_MAX[p],
       suggested: p === suggested,
     }

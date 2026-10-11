@@ -186,6 +186,76 @@ export const MARKET_BRAND_NAME: Readonly<Record<string, string>> = { no: 'Orgpul
 export const brandNameOf = (market: string | null | undefined): string => MARKET_BRAND_NAME[market ?? ''] ?? 'Orgpuls'
 
 /**
+ * A market's own site, where the links in its organisations' mail, SMS, Teams and Slack lead since it
+ * opened (UK-G, D-275): Empvibe's for the United Kingdom (lib/hosts.ts EMPVIBE_URL; tests/unit/mail.test.ts
+ * holds the two equal). Any other market is reached through the product's own address, ORGPULS_APP_URL.
+ */
+export const MARKET_SITE_URL: Readonly<Record<string, string>> = { gb: 'https://www.empvibe.com' }
+
+const LOOPBACK = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?(\/|$)/
+
+/**
+ * The base of a link to an organisation in this market: its own site, except on a local or QA run,
+ * whose base is its own loopback address and where nothing leaves the machine.
+ */
+export function appUrlOf(appUrl: string, market: string | null | undefined): string {
+  const own = MARKET_SITE_URL[market ?? '']
+  return own && !LOOPBACK.test(appUrl) ? own : appUrl
+}
+
+/**
+ * The SMS sender an organisation's employees see (Brevo's alphanumeric sender, at most 11 characters):
+ * its brand's name. Orgpuls's own markets keep the configured sender (ORGPULS_SMS_SENDER).
+ */
+export function smsSenderOf(market: string | null | undefined, fallback: string): string {
+  const name = brandNameOf(market)
+  return name === 'Orgpuls' ? fallback : name
+}
+
+/**
+ * A brand's own mail domain (UK-G, D-275). Its organisations' mail is sent from it once Brevo reports
+ * it authenticated, under the product's own address's name before the @; until then, from the
+ * product's address under the brand's name (X-111).
+ */
+export const MARKET_MAIL_DOMAIN: Readonly<Record<string, string>> = { gb: 'empvibe.com' }
+
+/** The sender of a mail to an organisation in this market, given the domains Brevo has authenticated */
+export function senderFor(
+  base: { email: string; name: string },
+  market: string | null | undefined,
+  authenticated: ReadonlySet<string>,
+): { email: string; name: string } {
+  const name = brandNameOf(market)
+  if (name === 'Orgpuls') return base
+  const domain = MARKET_MAIL_DOMAIN[market ?? '']
+  const email = domain && authenticated.has(domain) ? `${base.email.split('@')[0]}@${domain}` : base.email
+  return { email, name }
+}
+
+/**
+ * The site an Auth mail's link leads back to (UK-G, D-275): the one the person signed up, was invited
+ * or asked for a new password on, read from the request's redirect_to, which Auth has already held to
+ * its allow list; else the product's own. With it, the market whose brand and language the mail takes.
+ */
+export function authSite(redirectTo: string | null | undefined, appUrl: string): { url: string; market: string | null } {
+  let origin = ''
+  try {
+    origin = new URL(redirectTo ?? '').origin
+  } catch {
+    return { url: appUrl, market: null }
+  }
+  for (const [market, url] of Object.entries(MARKET_SITE_URL)) {
+    const own = new URL(url)
+    // the bare domain is the site's alias (lib/hosts.ts)
+    if (origin === own.origin || origin === `${own.protocol}//${own.host.replace(/^www\./, '')}`) return { url: appUrlOf(appUrl, market), market }
+  }
+  return { url: appUrl, market: null }
+}
+
+/** The language of an Auth mail to a person whose sign-up named none: the market's (en), else bokmål */
+export const MARKET_AUTH_LANG: Readonly<Record<string, Lang>> = { gb: 'en' }
+
+/**
  * The texts under a brand's name, as lib/brand.ts `rebrand` does for the app: «Orgpuls» becomes the
  * brand's name, an address (orgpuls.com, hjelp@orgpuls.no) stays, and the possessive follows the
  * language. Orgpuls reads the catalogue as written.
@@ -677,7 +747,7 @@ export async function inTurns<T, R extends { ok: boolean }>(items: readonly T[],
 // Auth's own mails, through the send-email hook.
 // ---------------------------------------------------------------------------------------
 
-export function renderAuth(cat: MailCatalogue, action: AuthAction, lang: Lang, email: string, link: string): Rendered {
+export function renderAuth(cat: MailCatalogue, action: AuthAction, lang: Lang, email: string, link: string, footer = 'Orgpuls · orgpuls.com'): Rendered {
   const m = cat[lang]
   const p = `auth.${action}`
   return {
@@ -688,7 +758,7 @@ export function renderAuth(cat: MailCatalogue, action: AuthAction, lang: Lang, e
       paragraphs: [fill(pick(m, `${p}.lead`), { email })],
       cta: { label: pick(m, `${p}.cta`), url: link, plain: true },
       after: [pick(m, `${p}.ignore`)],
-      footer: 'Orgpuls · orgpuls.com',
+      footer,
     }),
   }
 }
@@ -733,6 +803,8 @@ export function authLink(appUrl: string, action: AuthAction, tokenHash: string):
 
 export interface ReplyNoticeJob {
   id: string
+  /** the organisation's market (0230): whose brand, site and SMS sender the notice has */
+  market?: string | null
   reason: 'svar' | 'kontakt'
   channel: 'email' | 'sms'
   email: string | null

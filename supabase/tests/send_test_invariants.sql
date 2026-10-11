@@ -117,6 +117,8 @@ begin
     v_json := (select e from jsonb_array_elements(public.dispatch_test_claim(50)) e where (e->>'round_id')::uuid = v_round);
     v_txt := concat_ws(',',
       v_json->>'to', v_json->>'name', v_json->'preview'->>'org', v_json->'preview'->'round'->>'kind',
+      -- the organisation's market, whose brand, words and site the test takes (0230)
+      v_json->>'market',
       (v_json ? 'token')::text, (v_json->'preview' ? 'token')::text,
       (select status from app.send_tests where id = (v_json->>'id')::uuid));
     perform public.dispatch_test_done((v_json->>'id')::uuid, false, 'HTTP 500: Something about a@b.no');
@@ -124,9 +126,9 @@ begin
     update app.send_tests set status = 'sending' where id = (v_json->>'id')::uuid;
     perform public.dispatch_test_done((v_json->>'id')::uuid, true, null);
     v_txt := v_txt || ',' || (select status || ':' || (sent_at is not null)::text || ':' || coalesce(error, '-') from app.send_tests where id = (v_json->>'id')::uuid);
-    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'the claim carries the facts and the address, no token; done records a code, never text',
-      'expected', 'leder@stt-probe.no,Dina Leder,Testsending AS,grunnlinje,false,false,sending,failed:http,sent:true:-', 'actual', v_txt,
-      'pass', v_txt = 'leder@stt-probe.no,Dina Leder,Testsending AS,grunnlinje,false,false,sending,failed:http,sent:true:-');
+    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'the claim carries the facts, the market and the address, no token; done records a code, never text',
+      'expected', 'leder@stt-probe.no,Dina Leder,Testsending AS,grunnlinje,no,false,false,sending,failed:http,sent:true:-', 'actual', v_txt,
+      'pass', v_txt = 'leder@stt-probe.no,Dina Leder,Testsending AS,grunnlinje,no,false,false,sending,failed:http,sent:true:-');
 
     -- 5 -------------------------------------------------------------- the preview as before
     perform set_config('request.jwt.claims', format(claims, v_vo), true);

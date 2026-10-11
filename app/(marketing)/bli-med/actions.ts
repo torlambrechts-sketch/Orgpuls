@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
+import { authReturn } from '@/lib/auth/return'
 import { callFailed } from '@/lib/supabase/read'
 import { getInvitePreview } from '@/lib/members/read'
 import { checkMicrosoftSignIn } from '@/lib/entra/read'
@@ -65,7 +66,13 @@ export async function joinWithPassword(_prev: JoinState, formData: FormData): Pr
   const supabase = await createClient()
   const signedIn = await supabase.auth.signInWithPassword({ email: preview.email, password: password.data })
   if (signedIn.error) {
-    const created = await supabase.auth.signUp({ email: preview.email, password: password.data })
+    // the confirmation comes from the site the invitation was opened on, in its language (D-275)
+    const back = await authReturn()
+    const created = await supabase.auth.signUp({
+      email: preview.email,
+      password: password.data,
+      options: { emailRedirectTo: back.redirectTo, data: { lang: back.lang } },
+    })
     // an existing address answers with an error, or — where confirmation is on — with a
     // user that has no identities; both mean the password above was wrong for it
     if (created.error || (created.data.user && created.data.user.identities?.length === 0)) {

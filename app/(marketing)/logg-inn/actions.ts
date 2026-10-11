@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { restoreLocale } from '@/lib/i18n/server'
 import type { Route } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { authReturn } from '@/lib/auth/return'
 import { completePendingSignup } from '@/lib/signup/pending'
 
 /**
@@ -56,6 +57,7 @@ export async function requestReset(_prev: ResetState, formData: FormData): Promi
   if (!parsed.success) return { status: 'invalid' }
 
   const supabase = await createClient()
-  await supabase.auth.resetPasswordForEmail(parsed.data)
+  // the link comes back to the site it was asked for on, under its name (D-275)
+  await supabase.auth.resetPasswordForEmail(parsed.data, { redirectTo: (await authReturn()).redirectTo })
   return { status: 'sent' }
 }

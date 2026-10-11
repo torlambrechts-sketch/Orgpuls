@@ -12,7 +12,7 @@ import { FaqItems } from '@/lib/marketing/blocks'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, faqPage, graph, ldLanguage, organization, siteLd, software } from '@/lib/marketing/schema'
 import { requestMarket } from '@/lib/i18n/market'
-import { planPrices, planSizes, yearly } from '@/lib/site/pricing'
+import { planSizes, priceDigits, yearly } from '@/lib/site/pricing'
 
 /**
  * Pris (D-190): design-reference/orgpuls/nettside-v3/Pris.dc.html. «Fra 265 kr i måneden. Alt
@@ -58,11 +58,14 @@ export default async function PrisPage() {
   // the market the page's words are in: its list, in its currency (lib/site/pricing, X-113)
   const market = await requestMarket()
   const fit = planSizes(market)
+  // whole kroner; pounds to the penny, where a whole pound would be a different price
+  const digits = priceDigits(market)
+  const pence = (n: number) => format.number(n, { minimumFractionDigits: digits, maximumFractionDigits: digits })
   const plans = z.array(Plan).length(fit.length).parse(t.raw('plans'))
   const free = Free.parse(t.raw('free'))
   // a year at ten months' price, and that as a month, in the page's language (0201, D-217)
   const kr = (n: number) => t('price.kr', { n: format.number(n) })
-  const years = fit.map((s) => (s.monthly === null ? null : yearly(s.monthly)))
+  const years = fit.map((s) => (s.monthly === null ? null : yearly(s.monthly, digits)))
   const sizes = z.array(Size).length(fit.length).parse(t.raw('included.sizes'))
   const groups = z.array(Group).length(GLYPHS.length).parse(t.raw('included.groups'))
   const faq = FaqItems.parse(seo.raw('pages.priser.faq'))
@@ -140,9 +143,8 @@ export default async function PrisPage() {
               unitOther: t('size.unitOther'),
               plans: plans.map((p) => p.name),
               monthly: fit.map((s) => s.monthly),
-              // whole kroner; pounds to the penny, where a whole pound per head would be a different price
-              perHeadDigits: planPrices(market).currency === 'NOK' ? 0 : 2,
-              yearPrices: years.map((y) => ({ year: y ? format.number(y.year) : '', perMonth: y ? format.number(y.perMonth) : '' })),
+              perHeadDigits: digits,
+              yearPrices: years.map((y) => ({ year: y ? format.number(y.year) : '', perMonth: y ? pence(y.perMonth) : '' })),
             }}
           />
 
@@ -189,7 +191,7 @@ export default async function PrisPage() {
                   month={{ price: p.price, unit: p.unit ?? '' }}
                   year={
                     years[i]
-                      ? { price: kr(years[i]!.year), unit: t('price.perYear'), note: t('price.yearPerMonth', { n: format.number(years[i]!.perMonth) }) }
+                      ? { price: kr(years[i]!.year), unit: t('price.perYear'), note: t('price.yearPerMonth', { n: pence(years[i]!.perMonth) }) }
                       : { price: p.price, unit: p.unit ?? '' }
                   }
                 />

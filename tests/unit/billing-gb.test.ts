@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import gb from '@/messages/market/gb/en.json'
 import { PLAN_MAX } from '@/lib/billing/read'
 import { MARKETS } from '@/lib/markets'
-import { ANNUAL_MONTHS, PLAN_PRICES, PLAN_SIZES, PRICE_MARKET, planPrices, planSizes } from '@/lib/site/pricing'
+import { ANNUAL_MONTHS, PLAN_PRICES, PLAN_SIZES, PRICE_MARKET, planPrices, planSizes, priceDigits, yearly } from '@/lib/site/pricing'
 import { EMPVIBE_PAGES } from '@/lib/hosts'
 import { OWN_FOOTERS, OWN_NAV } from '@/lib/site/nav'
 import { ORGPULS_LD, software } from '@/lib/marketing/schema'
@@ -86,6 +86,15 @@ describe('the price page on Empvibe’s site (UK-G, D-275)', () => {
     expect(pris.plans.map((p) => p.price)).toEqual([`£${PLAN_PRICES.gb.small}`, `£${PLAN_PRICES.gb.usual}`, 'By agreement'])
     expect(pris.included.sizes.map((s) => s.price)).toEqual([`£${PLAN_PRICES.gb.small} per month`, `£${PLAN_PRICES.gb.usual} per month`, 'By agreement'])
     expect(pris.free.price).toBe('£0')
+  })
+
+  it('says a year as a month to the penny in pounds, in whole kroner in Norway', () => {
+    expect(priceDigits('gb')).toBe(2)
+    expect(priceDigits('no')).toBe(0)
+    expect(yearly(PLAN_PRICES.gb.small, priceDigits('gb')).perMonth).toBe(20.83)
+    expect(yearly(PLAN_PRICES.gb.usual, priceDigits('gb')).perMonth).toBe(45.83)
+    expect(yearly(PLAN_PRICES.no.small).perMonth).toBe(221)
+    expect(yearly(PLAN_PRICES.no.usual).perMonth).toBe(471)
   })
 
   it('leaves Norway’s page on Norway’s list, size for size', () => {

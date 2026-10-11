@@ -115,3 +115,24 @@ export async function brevoSendSms(key: string, m: BrevoSms): Promise<SendResult
   if (res.status === 429 || res.status >= 500) return { ok: false, retryable: true, auth: false, code }
   return { ok: false, retryable: false, auth: false, code }
 }
+
+/**
+ * The sender domains Brevo reports authenticated (UK-G, D-275): a brand's mail goes from its own
+ * domain only once it is one. None when Brevo cannot be asked, so the product's own sender is used.
+ */
+export async function brevoAuthenticatedDomains(key: string): Promise<Set<string>> {
+  try {
+    const res = await fetch('https://api.brevo.com/v3/senders/domains', {
+      headers: { 'api-key': key, accept: 'application/json' },
+      signal: AbortSignal.timeout(5000),
+    })
+    if (!res.ok) {
+      await res.body?.cancel()
+      return new Set()
+    }
+    const body = (await res.json()) as { domains?: Array<{ domain_name?: string; authenticated?: boolean }> }
+    return new Set((body.domains ?? []).filter((d) => d.authenticated && d.domain_name).map((d) => d.domain_name!.toLowerCase()))
+  } catch {
+    return new Set()
+  }
+}

@@ -48,8 +48,17 @@ export type PlanSize = ReturnType<typeof planSizes>[number]
  */
 export const ANNUAL_MONTHS = 10
 
-/** A plan's yearly price, and that price as a month in whole kroner */
-export const yearly = (monthly: number) => ({ year: monthly * ANNUAL_MONTHS, perMonth: Math.round((monthly * ANNUAL_MONTHS) / 12) })
+/**
+ * A plan's yearly price, and that price as a month: in whole kroner, or to the penny (`digits` 2),
+ * where a whole pound would be a different price (£250 a year is £20.83 a month, not £21)
+ */
+export const yearly = (monthly: number, digits = 0) => {
+  const perMonth = (monthly * ANNUAL_MONTHS) / 12
+  return { year: monthly * ANNUAL_MONTHS, perMonth: digits ? Number(perMonth.toFixed(digits)) : Math.round(perMonth) }
+}
+
+/** The decimals a market's amounts per month and per head are shown with: none in kroner, pence in pounds */
+export const priceDigits = (market: Market) => (planPrices(market).currency === 'NOK' ? 0 : 2)
 
 /** The read-out's range (the design's slider) and where it starts */
 export const SIZE_RANGE = { min: 1, max: 150, start: 18 } as const

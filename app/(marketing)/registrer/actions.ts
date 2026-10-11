@@ -9,6 +9,7 @@ import { lookupAllowed, networkOf } from '@/lib/brreg/throttle'
 import { HEARD } from '@/lib/signup/heard'
 import { completePendingSignup, PENDING_KEY, type PendingOrg } from '@/lib/signup/pending'
 import { marketOfHost } from '@/lib/hosts'
+import { authReturn } from '@/lib/auth/return'
 import { orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
 import { normalizeOrgNumber, ORG_NUMBER_SHAPE, validOrgNumber } from '@/lib/org-number'
 
@@ -110,13 +111,17 @@ export async function createAccount(
   if (!validOrgNumber(market, parsed.data.orgNumber)) return { status: 'problem', problem: orgNumberProblem(market) }
 
   // the company goes with the account, so the organisation can be made by the first confirmed
-  // session when the project asks for e-mail confirmation (lib/signup/pending.ts, D-200)
+  // session when the project asks for e-mail confirmation (lib/signup/pending.ts, D-200); the site
+  // and language go with it, so the confirmation comes from that site, in that language (D-275)
+  const back = await authReturn()
   const { data: signUp, error: signUpError } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
+      emailRedirectTo: back.redirectTo,
       data: {
         full_name: parsed.data.fullName,
+        lang: back.lang,
         [PENDING_KEY]: {
           orgNumber: parsed.data.orgNumber,
           companyName: parsed.data.companyName,

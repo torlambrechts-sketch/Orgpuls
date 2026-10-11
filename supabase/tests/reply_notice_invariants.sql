@@ -180,12 +180,13 @@ begin
     update app.reply_notices set due_at = now() - interval '1 minute' where thread_id = v_thr;
     v_json := public.reply_notice_claim(10);
     select x into v_s from jsonb_array_elements(v_json) x where x->>'key' = v_key;
-    v_txt := coalesce(v_s->>'channel', '-') || ',' || coalesce(v_s->>'email', '-') || ',' || coalesce(v_s->>'reason', '-') || ','
+    -- the organisation's market (0230): whose brand, site and SMS sender the notice has
+    v_txt := coalesce(v_s->>'channel', '-') || ',' || coalesce(v_s->>'email', '-') || ',' || coalesce(v_s->>'reason', '-') || ',' || coalesce(v_s->>'market', '-') || ','
           || (select count(*) from jsonb_array_elements(public.reply_notice_claim(10)) x where x->>'key' = v_key);
     perform public.reply_notice_done((v_s->>'id')::uuid, true);
     v_txt := v_txt || ',' || (select (sent_at is not null)::text from app.reply_notices where id = (v_s->>'id')::uuid);
-    v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'claimed once, to the person''s address with the link''s key; done marks it sent',
-      'expected', 'email,p1@svar-test.example,kontakt,0,true', 'actual', v_txt, 'pass', v_txt = 'email,p1@svar-test.example,kontakt,0,true');
+    v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'claimed once, to the person''s address with the link''s key and the market; done marks it sent',
+      'expected', 'email,p1@svar-test.example,kontakt,no,0,true', 'actual', v_txt, 'pass', v_txt = 'email,p1@svar-test.example,kontakt,no,0,true');
 
     -- 9 -------------------------------------------------------------- turned off
     -- one call per statement: within one expression the order of evaluation is not fixed
