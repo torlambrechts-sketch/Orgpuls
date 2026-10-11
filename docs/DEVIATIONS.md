@@ -13877,3 +13877,27 @@ on Sweden's site they took a redirect. They are drawn at the site's own address 
 - `tests/unit/market-links.test.ts`: mail links and the Auth mail's site for Sweden.
 - `tests/unit/legal-pack.test.ts`: the reason `site.` is outside the legal pack names both sites' tests.
 - `tests/unit/site-words.test.ts`: whose words and which language, through the request config; the page-load rule.
+
+**Shipped (2026-10-11):** eedf1f6 and the review's fixes 6475293, fast-forwarded to main.
+- **CI:** «checks, security invariants and screens» green on 6475293, with the Swedish design fixture seeded
+  beside Norway's and the UK's. «Deploy the edge functions» green, so mail links to Swedish organisations go to
+  se.orgpuls.com.
+- **Hosted:** no migration. `list_migrations` still ends at `0230_dispatch_claims_market`. `get_advisors security`
+  shows the same four kinds as before (one table with RLS and no policy, the known definer RPCs for anon and for
+  authenticated, leaked-password protection).
+- **Auth:** the allow list already holds https://se.orgpuls.com/** (read through the Management API).
+- **Production, se.orgpuls.com:**
+  - **Pages:** the ten answer 200, `lang="sv"`, canonical and `hreflang` sv-SE on themselves, `og:locale` sv_SE and
+    their own cards (/og/se/…, 200). The only Norway in the visible text is the company's address.
+  - **Old addresses:** /lovkrav, /verneombud, /logg-inn and /registrer give 308 to their Swedish addresses.
+  - **Not served:** /priser, /vilkar, /artikler and /demo are 404.
+  - **robots.txt** allows the site and disallows /logga-in and /registrera. The sitemap lists the ten pages, and
+    llms.txt is served.
+- **Production, unchanged elsewhere:**
+  - **www.orgpuls.com:** `lang="nb"`, no hreflang; /priser has the same five offers (0, 265, 565, 2650, 5650);
+    /anvandningsomraden is a 404 there.
+  - **Empvibe:** www.empvibe.com and /pricing answer 200, and en.orgpuls.com still gives 308 to Empvibe.
+- **IndexNow:** se.orgpuls.com's ten URLs accepted (202), with www.orgpuls.com's and www.empvibe.com's.
+- **Local SQL suites:** one run of `npm run test:db`, the first after a reset, failed one suite. Its name was lost to
+  a truncated log. Three later runs passed, one of them on a freshly reset database, and so did CI. It is not
+  reproduced; if it comes back, the suite's name is the place to start.
