@@ -142,9 +142,8 @@ export async function updateSession(request: NextRequest) {
   const read = request.method === 'GET' || request.method === 'HEAD'
   const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path), request.nextUrl.search, read)
   // a site of its own's page is in its own language (D-276): the request config reads it from here.
-  // A public page never carries a value the visitor sent; the product's pages (guard) keep the
-  // request as it came, and the request config takes the value only where it names the site's own
-  // language, so a sent one can ask for nothing a page of that site is not anyway
+  // No request carries on a value the visitor sent, public or the product's (guard), and the request
+  // config takes the value only where it names the site's own language
   const headers = new Headers(request.headers)
   headers.delete(PAGE_LANG_HEADER)
   if (gate.lang) headers.set(PAGE_LANG_HEADER, gate.lang)
@@ -223,7 +222,14 @@ async function guard(request: NextRequest) {
   }
   for (const warning of env.warnings) console.warn(`[middleware] ${warning}`)
 
-  const pass = () => NextResponse.next({ request })
+  // the request as it came, with the session's cookies as refreshed below, and never a page language
+  // the visitor sent (D-276): only the gate names one, and only for a site's own page
+  const forwarded = () => {
+    const headers = new Headers(request.headers)
+    headers.delete(PAGE_LANG_HEADER)
+    return headers
+  }
+  const pass = () => NextResponse.next({ request: { headers: forwarded() } })
   let response = pass()
 
   const supabase = createServerClient(env.url, env.key, {

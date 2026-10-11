@@ -13758,9 +13758,22 @@ rule.
   Norwegian address on the host gives 308 to its Swedish one, query kept.
 - **Menu and footer** list only what the site serves (`app/(marketing)/layout.tsx`).
 - **No language switch on its pages.** They are Swedish whatever the reader chose. The middleware names the page's
-  language in `x-orgpuls-page-lang`, after removing any the client sent, and `lib/i18n/request.ts` honours it only
-  when it is the site's own language on a site of its own. Signing in, signing up and the product keep the
-  reader's choice, Swedish or English (D-252), and so does the chrome around them.
+  language in `x-orgpuls-page-lang`, after removing any the client sent, on every request, the product's
+  included. `lib/i18n/request.ts` honours it only when it is the site's own language on a site of its own.
+- **Signing in and up keep the reader's choice,** Swedish or English (D-252), and so do the product and the chrome
+  around them. The language switch is in the footer there, and only there.
+- **A link that changes the page's language is a page load** (`changesLanguage` in `lib/hosts.ts`, `SiteLink`,
+  `useSiteNavigate`). The layout around a page is not drawn again on a client-side navigation, so a reader with
+  English chosen who went from a Swedish page to signing in would have had Swedish chrome around an English form.
+  The organisation number forms on the pages go to the sign-up the same way.
+- **The site's words are the host's,** whoever is signed in (`SITE_WORDS` in `lib/i18n/request.ts`): `site`, `seo`
+  and `start` come from the host's market's pack and under its brand. Everything else still follows the reader's
+  organisation (D-257, D-270).
+  - On Sweden's site, a member of a Norwegian organisation reads Sweden's pages.
+  - On www.orgpuls.com, a member of a Swedish one reads Norway's.
+  - On Sweden's site, a member of a UK one is not told it is on Empvibe's.
+  - `tests/unit/site-words.test.ts` runs the request config itself for each case. Three of its cases fail without
+    the rule.
 - `publicSite` and D-256's branch in `hostGate` are gone: a host either has a site of its own or is Norway's.
 - **Retired with it:** D-256's redirect of public pages to the sign-up, and its `noindex`.
 
@@ -13826,6 +13839,32 @@ rule.
 - `supabase/tests/local_account.sql` adds a Swedish leader (dev.sverige@norrvik.example, local only).
 - Norway's and the UK's fixture output is byte for byte as before.
 
+**The review** (an independent pass over routing, i18n, security and the texts) found, and this fixes:
+- **The site's words followed the signed-in reader's organisation, not the host** (P1). A member of a Norwegian
+  organisation on se.orgpuls.com read Norway's English pages (prices in kroner, Arbeidstilsynet) under
+  `lang="sv"`. A member of a Swedish one on www.orgpuls.com read Sweden's texts on Norway's routes. They now follow
+  the host (above).
+- **A client could still send the page-language header to the product's pages.** The middleware now strips it on
+  every request. It could only ever ask for the site's own language.
+- **English sign-up was no longer reachable on se**, and a client-side navigation across the language boundary
+  mixed languages. The switch is back where the reader's choice applies, and such links load the page.
+- **The lawful basis was stated as fact.** The security page now says it is normally a legal obligation, can be the
+  public interest for a public employer (art. 6.1 e), and is the employer's to decide as controller, as the legal
+  pack and `docs/markets/se-legal.md` § 10 say.
+- **The privacy policy implied a demo, templates and SMS on the Swedish site.**
+  - The demo and template sections now say they are on www.orgpuls.com.
+  - SMS is named only as Brevo's task where an organisation has switched it on.
+  - `tests/unit/se-site.test.ts` now holds every other text to naming no SMS.
+- **«SAM · 4 av 4 på plats»** on the start page read as if the whole systematic work environment management were
+  complete. The card is titled «Kartläggning av OSA» now, which is what its four rows are.
+- **Tests that held source text, not behaviour:** the request-config test above replaces them where it matters.
+- **Accepted:**
+  - «Frågor med forskning bakom» on Varför Orgpuls shows three statements in Swedish. They are the instrument's
+    approved Swedish wording, which a Swedish leader reads in the results (D-253), and the page says nothing about
+    the language employees answer in.
+  - A link from the product to a public page is still a client-side navigation. The public client strings then stay
+    in the language the visit began in until the next page load. No such link leads to a Swedish page today.
+
 **Also fixed:** the «sign in» and «sign up» links between the two forms named the Norwegian routes. On Empvibe and
 on Sweden's site they took a redirect. They are drawn at the site's own address now (`SignUpFlow`, `SignInPanel`).
 
@@ -13837,3 +13876,4 @@ on Sweden's site they took a redirect. They are drawn at the site's own address 
   words for every menu and footer entry; array lengths; the pictures and cards.
 - `tests/unit/market-links.test.ts`: mail links and the Auth mail's site for Sweden.
 - `tests/unit/legal-pack.test.ts`: the reason `site.` is outside the legal pack names both sites' tests.
+- `tests/unit/site-words.test.ts`: whose words and which language, through the request config; the page-load rule.

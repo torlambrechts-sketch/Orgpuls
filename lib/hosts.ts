@@ -292,6 +292,19 @@ export function routeOf(paths: Readonly<Record<string, string>> | undefined, pat
   return path
 }
 
+/**
+ * Whether a link leaves the pages a site writes in its one language for a route in the reader's own
+ * choice, or the reverse (D-276): on Sweden's site, from a page to signing in or up, or back. The
+ * language then changes, and the layout around both is not drawn again on a client-side navigation,
+ * so such a link is a page load. `pages` are the routes in the site's language; none on a site whose
+ * every route is in one language (Empvibe's) or that has no pages of its own (Norway's).
+ */
+export function changesLanguage(pages: readonly string[] | undefined, from: string, href: string): boolean {
+  if (!pages || !href.startsWith('/')) return false
+  const to = href.split(/[?#]/)[0]!
+  return pages.includes(from) !== pages.includes(to)
+}
+
 /** a page of the public site that no route answers: a request for a page this site does not serve is shown it (D-270) */
 export const NOT_SERVED_PATH = '/_ikke/her'
 

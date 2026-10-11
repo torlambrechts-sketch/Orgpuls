@@ -133,6 +133,10 @@ describe('Sweden’s site in words (SE-F2, D-276)', () => {
     expect(texts().filter(([, v]) => PRICE.test(v)).map(([k, v]) => `${k}: ${v.match(PRICE)?.[0]}`)).toEqual([])
   })
 
+  it('offers no SMS: it names it only in its privacy policy, as what a processor does where it is switched on', () => {
+    expect(texts().filter(([k, v]) => !isPrivacy(k) && /(?<!\p{L})sms(?!\p{L})/iu.test(v)).map(([k]) => k)).toEqual([])
+  })
+
   it('offers no threshold under Sweden’s floor of five, and says the survey is in no particular language', () => {
     expect(texts().filter(([, v]) => UNDER_FLOOR.test(v)).map(([k, v]) => `${k}: ${v.match(UNDER_FLOOR)?.[0]}`)).toEqual([])
     expect(texts().filter(([, v]) => SURVEY_IN_SWEDISH.test(v)).map(([k]) => k)).toEqual([])

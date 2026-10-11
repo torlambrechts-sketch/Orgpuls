@@ -1,12 +1,10 @@
 'use client'
 
-import type { Route } from 'next'
-import { useRouter } from 'next/navigation'
 import { useEffect, useId, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/marketing/events'
 import { currentUtm } from '@/lib/marketing/utm'
 import { normalizeOrgNumber, orgNumberInput, validOrgNumber } from '@/lib/org-number'
-import { useSiteMarket, useSitePaths } from './SitePaths'
+import { useSiteMarket, useSiteNavigate, useSitePaths } from './SitePaths'
 
 /**
  * "Organisasjonsnummer" and "Prøv gratis" in the band at the foot of each page (D-88, D-190;
@@ -43,7 +41,7 @@ export function OrgStart({
   stacked?: boolean
 }) {
   const id = useId()
-  const router = useRouter()
+  const go = useSiteNavigate()
   // the number of the market this host signs up into, and the sign-up's address on this site (D-270)
   const market = useSiteMarket()
   const signUp = useSitePaths().address('/registrer')
@@ -88,7 +86,7 @@ export function OrgStart({
         setNote({ ok: true, text: fetching.replace('{orgnr}', digits.replace(/^(\d{3})(\d{3})(\d{3})$/, '$1 $2 $3')) })
         trackEvent('signup_started')
         // a moment for the live region to be read before the page changes
-        setTimeout(() => router.push(`${signUp}?${new URLSearchParams({ orgnr: digits, ...currentUtm() })}` as Route), 300)
+        setTimeout(() => go(`/registrer?${new URLSearchParams({ orgnr: digits, ...currentUtm() })}`), 300)
       }}
     >
       <div className="flex flex-wrap gap-[9px]">

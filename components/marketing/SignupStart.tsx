@@ -1,13 +1,11 @@
 'use client'
 
-import type { Route } from 'next'
-import { useRouter } from 'next/navigation'
 import { useId, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/marketing/events'
 import { currentUtm } from '@/lib/marketing/utm'
 import { hasValidCheckDigit } from '@/lib/brreg/orgnr'
 import { normalizeOrgNumber, orgNumberInput, validOrgNumber } from '@/lib/org-number'
-import { useSiteMarket, useSitePaths } from '@/components/site/SitePaths'
+import { useSiteMarket, useSiteNavigate, useSitePaths } from '@/components/site/SitePaths'
 
 /**
  * The first step of registering, on the page a visitor is already reading: their
@@ -32,7 +30,7 @@ export function SignupStart({
   /** on the dark closing block of the industry pages */
   tone?: 'light' | 'dark'
 }) {
-  const router = useRouter()
+  const go = useSiteNavigate()
   const id = useId()
   const input = useRef<HTMLInputElement>(null)
   const [error, setError] = useState<string | null>(null)
@@ -67,7 +65,7 @@ export function SignupStart({
         }
         trackEvent('signup_started')
         const query = new URLSearchParams({ orgnr, ...currentUtm() })
-        router.push(`${signUp}?${query}` as Route)
+        go(`/registrer?${query}`)
       }}
       className="w-full max-w-[460px]"
     >

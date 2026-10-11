@@ -29,7 +29,14 @@ const merge = (a: Tree, b: Tree): Tree =>
  * market's legal pack over the language's own legal texts (lib/i18n/market-overlay.ts), and the
  * product's name is its market's brand (lib/brand.ts, X-111): Orgpuls reads the catalogue as written.
  */
-async function loadMessages(locale: string, market: Market, brand: Brand = brandOf(market)): Promise<Tree> {
+/**
+ * The public site's own words: its pages, their search texts and its sign-up band. They are the
+ * host's site's, whoever reads them (D-276): a member of a Norwegian organisation on Sweden's site
+ * reads Sweden's pages, and a member of a Swedish one on www.orgpuls.com reads Norway's.
+ */
+const SITE_WORDS = ['site', 'seo', 'start'] as const
+
+async function loadMessages(locale: string, market: Market, brand: Brand = brandOf(market), siteMarket: Market = market): Promise<Tree> {
   const own = (await import(`../../messages/${locale}.json`)).default as Tree
   let out: Tree = {}
   for (const f of [...fallbackOf(locale)].reverse()) out = merge(out, (await import(`../../messages/${f}.json`)).default as Tree)
@@ -45,6 +52,16 @@ async function loadMessages(locale: string, market: Market, brand: Brand = brand
   // Norwegian legal text is still Norway's law (lib/i18n/market-overlay.ts, D-257)
   const law = await marketOverlay(market, locale)
   const shown = rebrand(law ? merge(replaced, law) : replaced, brand, locale)
+  // the site's words follow the host's site: its market's pack under its brand, not the reader's
+  // organisation's (D-276)
+  if (siteMarket !== market) {
+    const siteLaw = await marketOverlay(siteMarket, locale)
+    const site = rebrand(siteLaw ? merge(replaced, siteLaw) : replaced, brandOf(siteMarket), locale)
+    for (const ns of SITE_WORDS) {
+      if (site[ns] === undefined) delete shown[ns]
+      else shown[ns] = site[ns]
+    }
+  }
   // the QA stack's pseudo-locale (lib/i18n/pseudo.ts) and keys mode (lib/i18n/keyed.ts, which the
   // page map is crawled in); without ORGPULS_PSEUDO=1 / ORGPULS_I18N_KEYS=1 this is the catalogue itself
   return keyedMessages(locale, pseudoMessages(locale, shown))
@@ -68,9 +85,10 @@ export default getRequestConfig(async ({ locale: asked }) => {
   // a caller that names a locale gets it: the respondent page renders in the respondent's
   // language, whatever the host or the switch says (engagement P1, D-127)
   if (isLocale(asked)) {
+    const market = await requestMarket()
     return {
       locale: asked,
-      messages: await loadMessages(asked, await requestMarket()),
+      messages: await loadMessages(asked, market, brandOf(market), siteOf((await headers()).get('host'))?.market ?? market),
       getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
     }
   }
@@ -86,7 +104,8 @@ export default getRequestConfig(async ({ locale: asked }) => {
 
   return {
     locale,
-    messages: await loadMessages(locale, market, brandOf(market)),
+    // the site's words are the host's site's; a host that is not a site (a preview) follows the reader
+    messages: await loadMessages(locale, market, brandOf(market), site?.market ?? market),
     getMessageFallback: ({ namespace, key }) =>
       namespace ? `${namespace}.${key}` : key,
   }

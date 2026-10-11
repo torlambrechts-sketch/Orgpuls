@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from '@/components/site/SitePaths'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { marketOfHost, siteLangs } from '@/lib/hosts'
+import { marketOfHost, PAGE_LANG_HEADER, siteLangs } from '@/lib/hosts'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
@@ -37,8 +37,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('site.chrome')
   // the languages this host's switch offers; each is a choice on the same address (D-252, D-275). A site
-  // of its own has none: its pages are written in its one language (D-270, D-276)
-  const host = (await headers()).get('host')
+  // of its own's pages have none: they are written in its one language (D-270, D-276). On Sweden's,
+  // signing in and up keep the reader's choice, Swedish or English, and the switch is there
+  const head = await headers()
+  const host = head.get('host')
   // a site of its own (D-270): its menu, its footer, its addresses; no industries, no demo, one language.
   // Its menu and footer link only to the pages it serves: Sweden's has no prices or terms yet (D-276)
   const own = await ownSite()
@@ -52,6 +54,10 @@ export default async function MarketingLayout({ children }: { children: React.Re
   // industries with an English page have one, so a link to any other card would land nowhere
   const shown = new Set(industries.map((i) => INDUSTRY_META.find((m) => `/${m.slug}` === i.href)?.anchor))
   const langs = siteLangs(host)
+  // the routes in the site's one language, where others are in the reader's choice (Sweden's, D-276)
+  const pinnedPages = own && !own.site.pinned ? own.site.own.pages : undefined
+  const ownPage = !!own && head.get(PAGE_LANG_HEADER) === own.site.lang
+  const offersSwitch = langs.length > 1 && (!own || (!own.site.pinned && !ownPage))
   const columns = Object.fromEntries(
     (Object.keys(footers) as FooterId[]).map((id) => [
       id,
@@ -69,7 +75,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
   const notice = await siteNotice(contentLang(await getLocale()))
 
   return (
-    <SitePathsProvider paths={own?.site.own.paths} market={marketOfHost(host)}>
+    <SitePathsProvider paths={own?.site.own.paths} market={marketOfHost(host)} pages={pinnedPages}>
       <div className="min-h-screen bg-bg font-site text-[14px] text-ink">
         {/* the site's own visit counting, in Sentral (D-248): renders nothing */}
         <SiteBeacon />
@@ -107,7 +113,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           columns={columns}
           label={t('footerNav')}
           about={t('footer.about')}
-          language={!own && langs.length > 1 ? <LanguageSwitch label={t('language')} size="text" langs={langs} /> : null}
+          language={offersSwitch ? <LanguageSwitch label={t('language')} size="text" langs={langs} /> : null}
           bottom={t.rich('footer.bottom', {
             year: new Date().getFullYear(),
             // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)

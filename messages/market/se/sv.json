@@ -493,7 +493,7 @@
         }
       ],
       "law": {
-        "title": "SAM · Norrvik Anläggning AB",
+        "title": "Kartläggning av OSA · Norrvik Anläggning AB",
         "pill": "4 av 4 på plats",
         "rows": [
           {
@@ -2020,11 +2020,11 @@
           },
           {
             "t": "h2",
-            "text": "Grunden är rättslig förpliktelse, inte samtycke"
+            "text": "Grunden är normalt rättslig förpliktelse, inte samtycke"
           },
           {
             "t": "p",
-            "text": "Behandlingen bygger på rättslig förpliktelse: GDPR artikel 6.1 c och dataskyddslagen 2 kap. 1 §, med arbetsmiljölagen (AML) 3 kap. 2 a § och AFS 2023:1 11 § som skyldigheten. Enligt IMY kan en arbetsgivare normalt inte använda samtycke, eftersom anställda är i beroendeställning, så samtycke används inte. Frågorna är utformade för att inte samla in hälsouppgifter, som är känsliga personuppgifter (GDPR artikel 9), och svar om våld, hot och kränkande särbehandling visas bara som antal."
+            "text": "Behandlingen bygger normalt på rättslig förpliktelse: GDPR artikel 6.1 c och dataskyddslagen 2 kap. 1 §, med arbetsmiljölagen (AML) 3 kap. 2 a § och AFS 2023:1 11 § som skyldigheten. För en offentlig arbetsgivare kan grunden i stället vara allmänt intresse (artikel 6.1 e). Det är arbetsgivaren, som personuppgiftsansvarig, som bestämmer grunden. Enligt IMY kan en arbetsgivare normalt inte använda samtycke, eftersom anställda är i beroendeställning, så samtycke används inte. Frågorna är utformade för att inte samla in hälsouppgifter, som är känsliga personuppgifter (GDPR artikel 9), och svar om våld, hot och kränkande särbehandling visas bara som antal."
           },
           {
             "t": "h2",
@@ -2090,7 +2090,7 @@
           },
           {
             "q": "Varför används inte samtycke?",
-            "a": "Eftersom anställda är i beroendeställning till sin arbetsgivare och därför som regel inte kan lämna ett frivilligt samtycke, som IMY påpekar. Behandlingen bygger på rättslig förpliktelse, GDPR artikel 6.1 c och dataskyddslagen 2 kap. 1 §, med AML 3 kap. 2 a § och AFS 2023:1 11 § som skyldigheten."
+            "a": "Eftersom anställda är i beroendeställning till sin arbetsgivare och därför som regel inte kan lämna ett frivilligt samtycke, som IMY påpekar. Behandlingen bygger normalt på rättslig förpliktelse, GDPR artikel 6.1 c och dataskyddslagen 2 kap. 1 §, med AML 3 kap. 2 a § och AFS 2023:1 11 § som skyldigheten; för en offentlig arbetsgivare kan grunden i stället vara allmänt intresse (artikel 6.1 e). Arbetsgivaren, som är personuppgiftsansvarig, bestämmer grunden."
           },
           {
             "q": "Används svaren för att träna AI?",
@@ -2148,7 +2148,7 @@
           {
             "t": "box",
             "title": "Svar på medarbetarundersökningar",
-            "text": "När en organisation använder Orgpuls för att kartlägga arbetsmiljön är organisationen personuppgiftsansvarig och Orgpuls personuppgiftsbiträde enligt ett personuppgiftsbiträdesavtal. Svaren lagras utan koppling till den som svarade, och resultaten för en grupp visas bara när minst fem har svarat; för en svensk organisation går gränsen aldrig under fem. Det enda undantaget är en kommentar vars skribent ber att få veta när ledningen svarar på den: då lagras vem som skrev den, krypterat och bara för att skicka det beskedet, och uppgiften raderas när samtalet avslutas, när beskedet stängs av och senast efter ett år. Hämtar organisationen de anställda från Microsoft Entra ID gör vi det för organisationens räkning och bara för de grupper den väljer: namn, e-postadress, språk, gruppmedlemskap och objekt-ID i katalogen, och mobilnummer bara om organisationen slår på det. Använder din arbetsgivare Slack för att skicka länken till dig hittar Orgpuls dig i arbetsytan via din e-postadress på jobbet och lagrar ditt medlems-ID där, för arbetsgivarens räkning. Meddelandet är en kort text och den personliga länken, utan läskvitto och utan registrering av klick. Slack är arbetsgivarens eget verktyg: Slack-administratören där kan läsa meddelandena, på samma sätt som en e-postadministratör kan läsa e-post, och en påminnelse visar att du inte hade svarat när den skickades. Ditt svar lagras utan koppling till meddelandet. Hur det är byggt står under [Säkerhet och integritet](/sikkerhet). Frågor om en kartläggning som du deltar i riktar du till din arbetsgivare."
+            "text": "När en organisation använder Orgpuls för att kartlägga arbetsmiljön är organisationen personuppgiftsansvarig och Orgpuls personuppgiftsbiträde enligt ett personuppgiftsbiträdesavtal. Svaren lagras utan koppling till den som svarade, och resultaten för en grupp visas bara när minst fem har svarat; för en svensk organisation går gränsen aldrig under fem. Det enda undantaget är en kommentar vars skribent ber att få veta när ledningen svarar på den: då lagras vem som skrev den, krypterat och bara för att skicka det beskedet, och uppgiften raderas när samtalet avslutas, när beskedet stängs av och senast efter ett år. Hämtar organisationen de anställda från Microsoft Entra ID gör vi det för organisationens räkning och bara för de grupper den väljer: namn, e-postadress, språk, gruppmedlemskap och objekt-ID i katalogen, och mobilnummer bara om organisationen skickar länken som sms. Använder din arbetsgivare Slack för att skicka länken till dig hittar Orgpuls dig i arbetsytan via din e-postadress på jobbet och lagrar ditt medlems-ID där, för arbetsgivarens räkning. Meddelandet är en kort text och den personliga länken, utan läskvitto och utan registrering av klick. Slack är arbetsgivarens eget verktyg: Slack-administratören där kan läsa meddelandena, på samma sätt som en e-postadministratör kan läsa e-post, och en påminnelse visar att du inte hade svarat när den skickades. Ditt svar lagras utan koppling till meddelandet. Hur det är byggt står under [Säkerhet och integritet](/sikkerhet). Frågor om en kartläggning som du deltar i riktar du till din arbetsgivare."
           },
           {
             "t": "h2",
@@ -2180,11 +2180,11 @@
           },
           {
             "t": "h2",
-            "text": "När du provar demon"
+            "text": "När du provar demon på www.orgpuls.com"
           },
           {
             "t": "p",
-            "text": "Ber du om en demo lagrar vi ditt namn, din e-postadress, organisationen och rollen du uppger, om du kryssade i rutan för e-post från oss, och en besökskod för nätverket du kom från, skapad av IP-adressen med en nyckel som byts varje dygn. Själva IP-adressen lagras inte. Förfrågan raderas efter 30 dagar. Vi använder den för att skicka inloggningslänken och för att förhindra missbruk, som många länkar till samma adress. Den rättsliga grunden är att du har bett om demon, artikel 6.1 b, och vårt berättigade intresse av att stoppa missbruk, artikel 6.1 f."
+            "text": "Ber du om en demo på www.orgpuls.com lagrar vi ditt namn, din e-postadress, organisationen och rollen du uppger, om du kryssade i rutan för e-post från oss, och en besökskod för nätverket du kom från, skapad av IP-adressen med en nyckel som byts varje dygn. Själva IP-adressen lagras inte. Förfrågan raderas efter 30 dagar. Vi använder den för att skicka inloggningslänken och för att förhindra missbruk, som många länkar till samma adress. Den rättsliga grunden är att du har bett om demon, artikel 6.1 b, och vårt berättigade intresse av att stoppa missbruk, artikel 6.1 f."
           },
           {
             "t": "p",
@@ -2212,11 +2212,11 @@
           },
           {
             "t": "h2",
-            "text": "När du laddar ner en mall"
+            "text": "När du laddar ner en mall från www.orgpuls.com"
           },
           {
             "t": "p",
-            "text": "Laddar du ner en av mallarna lagrar vi ditt namn, din e-postadress, vilken mall du laddade ner, organisationen och rollen om du uppger dem, och om du kryssade i rutan för e-post från oss. Den rättsliga grunden är vårt berättigade intresse av att veta vem som använder mallarna, artikel 6.1 f. E-post om nya mallar och artiklar får du bara om du kryssade i rutan för det; då är den rättsliga grunden ditt samtycke, artikel 6.1 a, och du kan återkalla det med länken i varje e-postmeddelande. Webbläsaren får en kaka som kommer ihåg vilka mallar du har laddat ner, i ett år."
+            "text": "Laddar du ner en av mallarna på www.orgpuls.com lagrar vi ditt namn, din e-postadress, vilken mall du laddade ner, organisationen och rollen om du uppger dem, och om du kryssade i rutan för e-post från oss. Den rättsliga grunden är vårt berättigade intresse av att veta vem som använder mallarna, artikel 6.1 f. E-post om nya mallar och artiklar får du bara om du kryssade i rutan för det; då är den rättsliga grunden ditt samtycke, artikel 6.1 a, och du kan återkalla det med länken i varje e-postmeddelande. Webbläsaren får en kaka som kommer ihåg vilka mallar du har laddat ner, i ett år."
           },
           {
             "t": "h2",
@@ -2224,7 +2224,7 @@
           },
           {
             "t": "p",
-            "text": "Vi använder bara kakor som behövs för att tjänsten ska fungera: inloggning, ditt språkval, visningsval i appen och en kortlivad kaka som kommer ihåg organisationen medan du registrerar dig med Google. I demon kommer webbläsaren ihåg vilka ställen i demoguiden du har besökt; det lagras bara på din enhet. Laddar du ner en mall kommer en kaka ihåg vilka mallar det var, i ett år, så att du slipper fylla i formuläret igen. Ingen används för statistik eller annonser."
+            "text": "Vi använder bara kakor som behövs för att tjänsten ska fungera: inloggning, ditt språkval, visningsval i appen och en kortlivad kaka som kommer ihåg organisationen medan du registrerar dig med Google. I demon på www.orgpuls.com kommer webbläsaren ihåg vilka ställen i demoguiden du har besökt; det lagras bara på din enhet. Laddar du ner en mall där kommer en kaka ihåg vilka mallar det var, i ett år, så att du slipper fylla i formuläret igen. Ingen används för statistik eller annonser."
           },
           {
             "t": "h2",
@@ -2235,7 +2235,7 @@
             "items": [
               "Supabase Inc. (USA): databas, inloggning, bakgrundsjobb och vår egen besöksstatistik. Data lagras och behandlas i Frankfurt, Tyskland.",
               "Vercel Inc. (USA): drift av webbplatsen och applikationen, och den kakfria mätningen av sidvisningar. Serverfunktionerna körs i Frankfurt.",
-              "Brevo SAS (Frankrike): utskick av e-post och sms, och registrering av leverans, öppning och klick i e-post.",
+              "Brevo SAS (Frankrike): utskick av e-post, och av sms där en organisation har slagit på det, och registrering av leverans, öppning och klick i e-post.",
               "Google (Irland): inloggning med Google, bara om du väljer det.",
               "Microsoft (Irland): inloggning med Microsoft, bara om du väljer det.",
               "Microsoft Ireland Operations Ltd (Irland): Azure Bot Service förmedlar Teams-meddelandet med länken till undersökningen, för organisationer som har slagit på Teams. Tjänsten är konfigurerad i EU (Västeuropa)."
@@ -2254,10 +2254,10 @@
             "items": [
               "Besöksstatistik: 13 månader. Besökskoden byts varje dygn.",
               "Kontot och organisationens uppgifter: så länge kundförhållandet varar och därefter så länge den norska redovisningslagen (regnskapsloven) kräver för det som ingår i räkenskaperna.",
-              "Demo: förfrågan 30 dagar. Demon och inloggningen 14 dagar utan inloggning. Kontakten tills du ber oss radera den.",
+              "Demo på www.orgpuls.com: förfrågan 30 dagar. Demon och inloggningen 14 dagar utan inloggning. Kontakten tills du ber oss radera den.",
               "Nyhetsbrev: tills du avregistrerar dig. Därefter bara hashen som förhindrar nya utskick.",
               "Ärenden till kundsupporten: så länge det behövs för att följa upp ärendet och kundförhållandet.",
-              "Nedladdning av mallar: tills du ber oss radera uppgifterna. Samtycket till e-post: tills du återkallar det."
+              "Nedladdning av mallar på www.orgpuls.com: tills du ber oss radera uppgifterna. Samtycket till e-post: tills du återkallar det."
             ]
           },
           {
