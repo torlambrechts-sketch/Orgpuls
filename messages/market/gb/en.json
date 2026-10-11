@@ -3108,7 +3108,8 @@
     "common": {
       "priceLine": "Answers stored in the EU · No HR department or consultant needed",
       "anonymity": "No department is shown until at least 5 have answered.",
-      "priceFrom": "Results only for groups of at least 5"
+      "priceFrom": "Results only for groups of at least 5",
+      "disclaimer": "This is general information, not legal advice. We checked what the law says against legislation.gov.uk and the guidance of HSE, HSENI, Acas and the Information Commission (ICO) in October 2026."
     },
     "shots": {
       "sporsmal": {
@@ -3169,6 +3170,32 @@
         "Built on QPS Nordic",
         "For your stress risk assessment"
       ]
+    },
+    "index": {
+      "title": "Guides to work-related stress and staff surveys | Empvibe",
+      "description": "Guides for UK employers: the stress risk assessment, HSE’s Management Standards and Indicator Tool, staff survey questions, anonymity and acting on results.",
+      "crumb": "Articles",
+      "eyebrow": "Articles",
+      "h1": "Work-related stress and staff surveys, explained",
+      "lead": "What the law asks of an employer on work-related stress, what HSE’s Management Standards and Indicator Tool are, which questions to ask, and how to act on the answers. Written for managing directors, HR and health and safety representatives in UK organisations.",
+      "groups": {
+        "start": {
+          "title": "Start here: the stress risk assessment",
+          "text": "How to assess the risk of work-related stress step by step, what to write down, and when one person needs an assessment of their own."
+        },
+        "lov": {
+          "title": "HSE’s Management Standards and Indicator Tool",
+          "text": "The six areas HSE looks at, what the standards are and are not, and how HSE’s own questionnaire works."
+        },
+        "gjennomforing": {
+          "title": "Running a staff survey",
+          "text": "Which questions to ask, what anonymous really means, and how often to ask."
+        },
+        "etter": {
+          "title": "After the survey",
+          "text": "How to share the results with employees and turn them into an action plan."
+        }
+      }
     }
   },
   "start": {

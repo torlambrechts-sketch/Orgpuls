@@ -14,7 +14,8 @@ import { articleIn, articlesOf, NORWAY_ARTICLES } from '@/lib/marketing/site-art
  *  - an article listed, linked or put in the sitemap whose words are missing, or whose blocks fail to
  *    parse, which would fail that page's render;
  *  - a link to a page Empvibe's site does not serve (a Norwegian article, the templates), which is a
- *    404 there;
+ *    404 there, or to one that sells: an article is informational (D-235) and links only to other
+ *    articles and the two pages that explain the law;
  *  - a source that is not the law or a regulator's own page, or a claim docs/markets/uk-legal.md
  *    records as unverified or misleading (its § 9 and its UNVERIFIED list); the words Norway's law
  *    alone uses are held by tests/unit/uk-site.test.ts, which reads every text in the gb pack;
@@ -31,13 +32,14 @@ const words = (key: string) => at(gb, `seo.articles.${key}`) as Tree
 const SOURCE_HOSTS = new Set([
   'www.legislation.gov.uk',
   'www.hse.gov.uk',
+  'books.hse.gov.uk',
   'www.hseni.gov.uk',
   'ico.org.uk',
   'www.gov.uk',
   'assets.publishing.service.gov.uk',
   'www.acas.org.uk',
   'www.nationalarchives.gov.uk',
-  'www.equalityhumanrights.com',
+  'workright.campaign.gov.uk',
 ])
 /**
  * What docs/markets/uk-legal.md records as not said by its source, or as not the law (its § 9 and its
@@ -46,7 +48,7 @@ const SOURCE_HOSTS = new Set([
  * survey as a duty, the regulator's old title, and the Norwegian section mark
  */
 const UNSUPPORTED =
-  /consent is rarely appropriate|five or more workers|(must|required to) (have|appoint) an? (health and )?safety representative|appoints? (a|the|its|their) (health and )?safety representative|(working environment|safety) committee (is )?required (from|for|once|when you have) \d|(law|legally) requires? (you |employers )?to (run|carry out|conduct) an? (staff |employee )?survey|Information Commissioner\b|§/i
+  /consent is rarely appropriate|five or more workers|more than (five|5) employees|(must|required to) (have|appoint) an? (health and )?safety representative|\bemployers? (must |should |will )?appoints? (a|the|its|their) (health and )?safety rep|(working environment|safety) committee (is )?required (from|for|once|when you have) \d|(law|legally) requires? (you |employers )?to (run|carry out|conduct) an? (staff |employee )?survey|Information Commissioner\b|HSE[- ](approved|endorsed|compliant|accredited)|statutory (report|survey|factors)|report(s|ed)? to HSE|§/i
 const ART_KINDS = new Set(['law', 'rep', 'risk', 'board', 'meeting', 'survey', 'wheel', 'anon'])
 
 /** every string a reader reads in an article's blocks */
@@ -87,7 +89,15 @@ const links = (blocks: Block[]): string[] => [
   ...blockText(blocks).flatMap((s) => [...s.matchAll(/\]\(([^)\s]+)\)/g)].map((m) => m[1]!)),
   ...blocks.flatMap((b) => (b.t === 'links' ? b.items.map((i) => i.href) : [])),
 ]
-const served = (href: string) => (EMPVIBE_PAGES as readonly string[]).includes(href.split(/[?#]/)[0]!)
+/**
+ * Where an article may send a reader (D-235): another of the site's articles, or one of the two pages
+ * that explain the law (the informational pages, D-236); never a page that sells
+ */
+const INFORMATIONAL = ['/lovkrav', '/verneombud']
+const linkable = (href: string) => {
+  const path = href.split(/[?#]/)[0]!
+  return (EMPVIBE_PAGES as readonly string[]).includes(path) && (path.startsWith('/artikler/') || INFORMATIONAL.includes(path))
+}
 
 describe('Empvibe’s articles: the registry (UK-H, D-277)', () => {
   const slugs = EMPVIBE_ARTICLES.map((a) => a.slug)
@@ -183,19 +193,26 @@ describe('Empvibe’s articles: the words (UK-H, D-277)', () => {
     }
   })
 
-  it('links only to pages Empvibe’s site serves', () => {
+  it('links only to its own articles and the pages that explain the law, all served on Empvibe’s site', () => {
     for (const a of EMPVIBE_ARTICLES) {
       const internal = links(Blocks.parse(words(a.key).blocks)).filter((h) => h.startsWith('/'))
-      for (const href of internal) expect(served(href), `${a.slug}: ${href}`).toBe(true)
+      for (const href of internal) expect(linkable(href), `${a.slug}: ${href}`).toBe(true)
     }
   })
 
-  it('makes no claim its legal source record does not support, and names its own brand', () => {
+  it('makes no claim its legal source record does not support', () => {
     for (const a of EMPVIBE_ARTICLES) {
       const w = words(a.key)
       const text = [w.title, w.description, w.h1, w.lead, ...blockText(Blocks.parse(w.blocks))].map((s) => plain(String(s)))
       expect(text.filter((s) => UNSUPPORTED.test(s)).map((s) => `${a.slug}: ${s.match(UNSUPPORTED)?.[0]}`)).toEqual([])
-      expect(text.filter((s) => /Orgpuls/.test(s)).map((s) => `${a.slug}: ${s.slice(0, 60)}`)).toEqual([])
+    }
+  })
+
+  it('sells nothing: no product, brand, price or trial in what a reader reads (D-235)', () => {
+    for (const a of EMPVIBE_ARTICLES) {
+      const w = words(a.key)
+      const text = [w.description, w.h1, w.lead, ...blockText(Blocks.parse(w.blocks))].map((s) => plain(String(s)))
+      expect(text.filter((s) => /Empvibe|Orgpuls|£|free trial|sign up|book a demo/i.test(s)).map((s) => `${a.slug}: ${s.slice(0, 60)}`)).toEqual([])
     }
   })
 
