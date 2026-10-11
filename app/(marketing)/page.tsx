@@ -75,11 +75,12 @@ const PILLARS = [
   { glyph: '✓', card: 'border-line bg-sf', tile: 'bg-track' },
 ] as const
 /** The role cards: fill, and where each goes (G8) */
+// persona: the code a press on the card is counted under in Sentral (D-277)
 const ROLES = [
-  { bg: 'bg-sbg', href: '/bruksomrader#uten-hr' },
-  { bg: 'bg-sf', href: '/plattform#resultater' },
-  { bg: 'bg-sf', href: '/bruksomrader#ett-team' },
-  { bg: 'bg-mint', href: '/verneombud' },
+  { bg: 'bg-sbg', href: '/bruksomrader#uten-hr', persona: 'daglig_leder' },
+  { bg: 'bg-sf', href: '/plattform#resultater', persona: 'hr' },
+  { bg: 'bg-sf', href: '/bruksomrader#ett-team', persona: 'avdelingsleder' },
+  { bg: 'bg-mint', href: '/verneombud', persona: 'verneombud' },
 ] as const
 
 /** A section in the page column: the design's `width:100%; max-width:1240px; align-self:center` */
@@ -535,6 +536,7 @@ export default async function StartPage() {
                 <Link
                   href={r.href as Route}
                   aria-describedby={`rolle-${i}`}
+                  data-persona={r.persona}
                   className="flex min-h-[42px] items-center justify-center rounded-btn border border-ink bg-sf text-[13.5px] font-bold text-ink no-underline after:absolute after:inset-0 after:rounded-card after:content-[''] hover:text-ink hover:no-underline focus-visible:outline-none"
                 >
                   {t('roles.cta')}

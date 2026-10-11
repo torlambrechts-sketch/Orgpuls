@@ -10200,7 +10200,7 @@
           },
           {
             "t": "p",
-            "text": "We keep our own statistics on the use of orgpuls.com, without cookies and without storing anything on your device. For each page view your browser sends which page it is, the site you came from (the domain only) and any campaign tags in the address (utm) to our own platform. If you press a button that leads to signing up, or start or complete a signup, that is sent too, with nothing of what you typed. The IP address and the browser's identification are not stored. They are used only to make a visit code with a key that changes every day, so we can count visits within a day without being able to follow you from one day to the next. In addition, Vercel, which hosts the website, measures page views and load times without cookies."
+            "text": "We keep our own statistics on the use of orgpuls.com, without cookies and without storing anything on your device. For each page view your browser sends which page it is, the site you came from (the domain only) and any campaign tags in the address (utm) to our own platform. If you press a button that leads to signing up, or start or complete a signup, that is sent too, together with which step of the signup you reach and a code for any error, with nothing of what you typed. The IP address and the browser's identification are not stored. They are used only to make a visit code with a key that changes every day, so we can count visits within a day without being able to follow you from one day to the next, and to see whether the visit comes from a phone, a tablet or a computer. In addition, Vercel, which hosts the website, measures page views and load times without cookies."
           },
           {
             "t": "p",

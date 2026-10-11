@@ -1,7 +1,7 @@
 import { PUBLIC_HOSTS, routeOf, siteOf } from '@/lib/hosts'
 import { COLLECT_OVERRIDE, COLLECT_URL } from './collect'
 import { currentUtm } from './utm'
-import type { SiteEvent } from './events'
+import type { FormEvent, SiteEvent } from './events'
 
 /**
  * The public site's own visit counting (D-248, after D-91 and D-230): a page view, a press on
@@ -11,7 +11,8 @@ import type { SiteEvent } from './events'
  * device (D-104).
  *
  * The body says which page, which campaign brought the visit, and the host that referred it, once per
- * page load; an event says which, and for a press which button. Never who: no organisation number, no
+ * page load; an event says which, and for a press which button. The signup form's steps and errors
+ * (D-277) carry a code the code itself chose, never what was typed. Never who: no organisation number, no
  * name, no address, no query string.
  *
  * Nothing is sent from a browser that asks not to be tracked (Global Privacy Control, Do Not Track),
@@ -22,7 +23,7 @@ import type { SiteEvent } from './events'
 export type BeaconBody =
   | { k: 'view'; p: string; r?: string; u?: Record<string, string> }
   | { k: 'cta'; p: string; l: string; u?: Record<string, string> }
-  | { k: 'event'; p: string; e: SiteEvent; u?: Record<string, string> }
+  | { k: 'event'; p: string; e: SiteEvent | FormEvent; l?: string; u?: Record<string, string> }
 
 /** the paths web-collect refuses too: a capability token in the path, sign-in, or not the site */
 const NEVER = /^\/(s|bli-med|r|inn|auth|admin|api|logg-inn|nytt-passord)(\/|$)/
@@ -42,13 +43,17 @@ export function mayCount(host: string, path: string, optedOut: boolean, override
   return !!override || PUBLIC_HOSTS.includes(host.toLowerCase())
 }
 
-type Kind = { k: 'view' } | { k: 'cta'; l: string } | { k: 'event'; e: SiteEvent }
+type Kind = { k: 'view' } | { k: 'cta'; l: string } | { k: 'event'; e: SiteEvent } | { k: 'form'; e: FormEvent; l: string }
+
+/** a step's or an error's code as Sentral takes it (a-z, 0-9, _ and -, at most 40); anything else is not one */
+export const formCode = (v: string): string | undefined => (/^[a-z0-9_-]{1,40}$/.test(v) ? v : undefined)
 
 export function beaconBody(kind: Kind, path: string, utm: Record<string, string>, referrer?: string): BeaconBody {
   const p = path.slice(0, 160)
   const u = Object.keys(utm).length ? { u: utm } : {}
   if (kind.k === 'cta') return { k: 'cta', p, l: kind.l, ...u }
   if (kind.k === 'event') return { k: 'event', p, e: kind.e, ...u }
+  if (kind.k === 'form') return { k: 'event', p, e: kind.e, l: kind.l, ...u }
   return { k: 'view', p, ...(referrer ? { r: referrer } : {}), ...u }
 }
 
@@ -64,6 +69,7 @@ export function sendBeacon(kind: Kind): void {
   try {
     const { hostname, pathname } = window.location
     if (!mayCount(hostname, pathname, optedOut())) return
+    if (kind.k === 'form' && !formCode(kind.l)) return
     const referrer = kind.k === 'view' && !referrerSent ? referrerHost(document.referrer, hostname) : undefined
     if (kind.k === 'view') referrerSent = true
     const body = JSON.stringify(beaconBody(kind, pathname, currentUtm() as Record<string, string>, referrer))

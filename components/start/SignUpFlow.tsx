@@ -14,7 +14,7 @@ import {
 } from '@/app/(marketing)/registrer/actions'
 import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
 import { MicrosoftButton } from '@/components/start/MicrosoftButton'
-import { trackEvent } from '@/lib/marketing/events'
+import { trackEvent, trackForm } from '@/lib/marketing/events'
 import { HeardAbout } from '@/components/start/HeardAbout'
 
 /**
@@ -43,6 +43,10 @@ import { HeardAbout } from '@/components/start/HeardAbout'
  * **A market without a register to ask (`registry` false, Sweden until Bolagsverket, D-254):**
  * step 1 asks for the company's name beside its number, the number is held to the market's rule
  * on the server, and the confirmation shows what was typed. Norway's step 1 is unchanged.
+ *
+ * **Where the form is left (D-277):** each step as it is shown, the company found, the provider chosen
+ * and every error met go to Sentral as codes (`step2_shown`, `lookup_not_found`, `step2_signup_failed`),
+ * never what was typed.
  */
 
 
@@ -103,6 +107,19 @@ export function SignUpFlow({
   const [creating, setCreating] = useState(false)
 
   const found = lookup.status === 'found' ? lookup : null
+
+  // where the form was left (D-277): the step shown, the company found, the error met, as codes only
+  useEffect(() => {
+    if (step < 3) trackForm('signup_step', `step${step}_shown`)
+  }, [step])
+  useEffect(() => {
+    if (lookup.status === 'found') trackForm('signup_step', 'org_found')
+    else if (lookup.status === 'problem') trackForm('signup_error', lookup.problem)
+  }, [lookup])
+  useEffect(() => {
+    // a provider's sign-in came back with an error (?feil=)
+    if (problem) trackForm('signup_error', problem)
+  }, [problem])
   const registerCount = found?.employees ?? null
   // the register's headcount picks the band until the visitor picks one themselves
   useEffect(() => {
@@ -293,6 +310,7 @@ export function SignUpFlow({
                   const result = await createAccount({ status: 'idle' }, data)
                   setCreating(false)
                   setSignUp(result)
+                  if (result.status === 'problem') trackForm('signup_error', `step2_${result.problem}`)
                   if (result.status === 'idle') {
                     trackEvent('signup_completed')
                     setStep(3)
@@ -486,8 +504,8 @@ export function SignUpFlow({
                   <input type="hidden" name="companyName" value={company.name} />
                   <input type="hidden" name="employeeCount" value={String(countFor(size, registerCount))} />
                   <div className="flex flex-col gap-[9px]">
-                    {microsoft ? <MicrosoftButton inForm label={t('microsoft')} disabled={!consent} /> : null}
-                    {google ? <GoogleButton inForm label={t('google')} disabled={!consent} /> : null}
+                    {microsoft ? <MicrosoftButton inForm label={t('microsoft')} disabled={!consent} onClick={() => trackForm('signup_step', 'sso_microsoft')} /> : null}
+                    {google ? <GoogleButton inForm label={t('google')} disabled={!consent} onClick={() => trackForm('signup_step', 'sso_google')} /> : null}
                   </div>
                   <div className="mt-[9px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
                     {microsoft ? t('providerHint') : t('googleHint')}

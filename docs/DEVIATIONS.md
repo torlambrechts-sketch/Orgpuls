@@ -13901,3 +13901,23 @@ on Sweden's site they took a redirect. They are drawn at the site's own address 
 - **Local SQL suites:** one run of `npm run test:db`, the first after a reset, failed one suite. Its name was lost to
   a truncated log. Three later runs passed, one of them on a freshly reset database, and so did CI. It is not
   reproduced; if it comes back, the suite's name is the place to start.
+
+## D-277 — The signup form says where it was left, in Sentral (2026-10-11)
+
+Tor, 11 October 2026, in Sentral: four visitors «started signup» and stopped, and he wanted to know where. Each had only
+opened /registrer; nothing on the site said more. Sentral 0068 takes the events below and shows them in Vekst › Analytics
+(«Hvor registreringen stopper», the last attempts as journeys).
+
+- **What is sent** (`trackForm`, lib/marketing/events; Sentral only, not Vercel): `signup_step` with `step1_shown`,
+  `step2_shown`, `org_found`, `sso_google`, `sso_microsoft`; `signup_error` with the code the form already shows its
+  message by (the lookup's `lookup.problem`, step 2's `step2_<problem>`, a provider's `?feil=`); `persona_click` with
+  `daglig_leder`, `hr`, `avdelingsleder` or `verneombud` for a press on a «Hvem er du?» card (`data-persona`, read by
+  SiteBeacon). `signup_started` and `signup_completed` are unchanged.
+- **Codes only.** A value is sent only if it is a code (`formCode`: a-z, 0-9, `_`, `-`, at most 40), the same rule
+  Sentral's web-collect applies; nothing typed can be one (an organisation number has no letter prefix, an address has
+  `@`, a name has capitals or spaces). The other rules of D-248 hold: GPC/DNT, capability pages, production hosts only.
+- **Device class.** Sentral 0068 now keeps whether a visit came from a mobile, a tablet or a computer, read from the
+  browser string before it is hashed; D-248's «not restored: the device class» no longer holds for that one field.
+- **Privacy statement** (no, en, sv, gb): names the step reached, an error's code and the device class.
+- Tests: `tests/unit/site-beacon.test.ts`.
+
