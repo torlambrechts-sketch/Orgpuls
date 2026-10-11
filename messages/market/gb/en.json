@@ -3989,7 +3989,7 @@
         "title": "Stress risk assessment template, with a filled-in example | Empvibe",
         "description": "A stress risk assessment template with one row per HSE area, a filled-in example for a small firm, and what the law says the written record must hold.",
         "h1": "Stress risk assessment template, with a filled-in example for a small business",
-        "lead": "A stress risk assessment template can be a simple table with one row for each of HSE's six Management Standards areas – demands, control, support, relationships, role and change – and columns for what you found, who is affected, what you already do, what more you will do, who owns each action, by when, and how you will review it. Below is one such template, then a filled-in example for a fictional civil engineering contractor. The law prescribes no form: with five or more employees, you must record the significant findings, any group especially at risk and your arrangements for planning, organising, monitoring and reviewing the measures that follow. HSE also publishes a general template and three example stress assessments.",
+        "lead": "A stress risk assessment template can be a simple table with one row for each of HSE's six Management Standards areas – demands, control, support, relationships, role and change – recording what you found, who is affected, what you already do, what more you will do, who owns each action, by when, and how you will review it. Below is one such template, then a filled-in example for a fictional civil engineering contractor. The law prescribes no form: with five or more employees, you must record the significant findings, any group especially at risk and your arrangements for planning, organising, monitoring and reviewing the measures that follow. HSE also publishes a general template and three example stress assessments.",
         "blocks": [
           {
             "t": "h2",
@@ -4086,73 +4086,45 @@
             "t": "table",
             "head": [
               "HSE area",
-              "What we found",
-              "Who is affected",
+              "What we found, and who is affected",
               "What we already do",
-              "What more we will do",
-              "Owner",
-              "By when",
-              "Review"
+              "What more we will do: owner, by when, review"
             ],
             "rows": [
               [
                 "**Demands** – workload, work patterns, the work environment",
-                "Can people cope with their workload in their agreed hours? Where are the peaks?",
-                "Teams, roles or seasons with the heaviest load",
+                "Can people cope with their workload in their agreed hours? Where are the peaks? **Who:** Teams, roles or seasons with the heaviest load.",
                 "How work is planned, staffed and scheduled",
-                "–",
-                "–",
-                "–",
                 "–"
               ],
               [
                 "**Control** – how much say people have in their work",
-                "Do people have a say in how and at what pace they work?",
-                "Roles with little say",
+                "Do people have a say in how and at what pace they work? **Who:** Roles with little say.",
                 "How staff help plan their own work",
-                "–",
-                "–",
-                "–",
                 "–"
               ],
               [
                 "**Support** – from the organisation, line managers and colleagues",
-                "Do people get the help, information and feedback they need, and know where to find it?",
-                "New starters, people working away from a base, teams with a new manager",
+                "Do people get the help, information and feedback they need, and know where to find it? **Who:** New starters, people working away from a base, teams with a new manager.",
                 "One-to-ones, induction, who staff can talk to",
-                "–",
-                "–",
-                "–",
                 "–"
               ],
               [
                 "**Relationships** – positive working, unacceptable behaviour",
-                "Is there conflict or unacceptable behaviour? Can people report it, and does anything happen?",
-                "Teams where complaints or disputes cluster",
+                "Is there conflict or unacceptable behaviour? Can people report it, and does anything happen? **Who:** Teams where complaints or disputes cluster.",
                 "Policy on unacceptable behaviour, how reports are handled",
-                "–",
-                "–",
-                "–",
                 "–"
               ],
               [
                 "**Role** – clear roles that do not conflict",
-                "Do people know what is expected of them? Do demands from different managers clash?",
-                "Roles that answer to more than one manager",
+                "Do people know what is expected of them? Do demands from different managers clash? **Who:** Roles that answer to more than one manager.",
                 "Job descriptions, who settles clashes",
-                "–",
-                "–",
-                "–",
                 "–"
               ],
               [
                 "**Change** – how change is managed and communicated",
-                "Are people told about changes in time, and consulted before they are decided?",
-                "Teams going through change now or soon",
+                "Are people told about changes in time, and consulted before they are decided? **Who:** Teams going through change now or soon.",
                 "How changes are announced and discussed",
-                "–",
-                "–",
-                "–",
                 "–"
               ]
             ]
@@ -4212,74 +4184,46 @@
             "t": "table",
             "head": [
               "HSE area",
-              "What we found",
-              "Who is affected",
+              "What we found, and who is affected",
               "What we already do",
-              "What more we will do",
-              "Owner",
-              "By when",
-              "Review"
+              "What more we will do: owner, by when, review"
             ],
             "rows": [
               [
                 "**Demands**",
-                "Three projects run at once with no agreed order. Evening work most weeks in peak season; every deadline falls in the same week in November.",
-                "Projects – a group especially at risk",
+                "Three projects run at once with no agreed order. Evening work most weeks in peak season; every deadline falls in the same week in November. **Who:** Projects – a group especially at risk.",
                 "Two extra agency staff in peak season",
-                "A priorities meeting every Monday ending in one written list. Raise the November deadlines with clients before the next contracts.",
-                "Projects manager; managing director",
-                "Meeting from May; clients by September",
-                "Ask Projects staff in December; compare evening work with last year"
+                "A priorities meeting every Monday ending in one written list. Raise the November deadlines with clients before the next contracts. **Owner:** Projects manager; managing director. **By:** Meeting from May; clients by September. **Review:** Ask Projects staff in December; compare evening work with last year."
               ],
               [
                 "**Control**",
                 "No significant finding. Crews say they have a say in how they do their work.",
-                "–",
                 "Crews plan the day at the morning meeting",
-                "None needed now",
-                "–",
-                "–",
-                "At the next review"
+                "None needed now. **Review:** At the next review."
               ],
               [
                 "**Support**",
-                "New starters rate support from managers lowest. Crews at the second site rarely see their manager there.",
-                "First-year staff; crews at the second site",
+                "New starters rate support from managers lowest. Crews at the second site rarely see their manager there. **Who:** First-year staff; crews at the second site.",
                 "Friday reviews in the Workshop, which staff value",
-                "A buddy – a colleague, not a manager – for each new starter's first eight weeks. The operations manager at the second site every Tuesday.",
-                "Office manager; operations manager",
-                "June",
-                "Ask new starters at eight weeks; check visits monthly"
+                "A buddy – a colleague, not a manager – for each new starter's first eight weeks. The operations manager at the second site every Tuesday. **Owner:** Office manager; operations manager. **By:** June. **Review:** Ask new starters at eight weeks; check visits monthly."
               ],
               [
                 "**Relationships**",
-                "The Workshop reported four incidents in spring and heard nothing back. Some say people who raise problems at the morning meeting get labelled as difficult.",
-                "Workshop and Operations",
+                "The Workshop reported four incidents in spring and heard nothing back. Some say people who raise problems at the morning meeting get labelled as difficult. **Who:** Workshop and Operations.",
                 "Policy on unacceptable behaviour in the staff handbook",
-                "A named reply to every incident report within five working days. Managers ask for problems at the start of each morning meeting.",
-                "Workshop supervisor; managing director",
-                "May",
-                "Monthly count of replies on time; team briefings in September"
+                "A named reply to every incident report within five working days. Managers ask for problems at the start of each morning meeting. **Owner:** Workshop supervisor; managing director. **By:** May. **Review:** Monthly count of replies on time; team briefings in September."
               ],
               [
                 "**Role**",
-                "Two project managers sometimes ask for the same crew in the same week, giving crews conflicting instructions.",
-                "Operations crews",
+                "Two project managers sometimes ask for the same crew in the same week, giving crews conflicting instructions. **Who:** Operations crews.",
                 "Job descriptions for every role",
-                "Crews allocated once a week at the Monday meeting; the operations manager settles clashes.",
-                "Operations manager",
-                "May",
-                "Ask crew leaders in September whether clashes have stopped"
+                "Crews allocated once a week at the Monday meeting; the operations manager settles clashes. **Owner:** Operations manager. **By:** May. **Review:** Ask crew leaders in September whether clashes have stopped."
               ],
               [
                 "**Change**",
                 "No significant finding. Staff valued having a say in choosing the Workshop's new tools.",
-                "–",
                 "Changes discussed at team briefings before they are decided",
-                "Involve staff the same way in the next change",
-                "Managing director",
-                "Ongoing",
-                "At the next review"
+                "Involve staff the same way in the next change. **Owner:** Managing director. **By:** Ongoing. **Review:** At the next review."
               ]
             ]
           },
@@ -4973,43 +4917,33 @@
             "head": [
               "Priority",
               "What we found",
-              "Action",
-              "Owner and resources",
-              "Timescale",
-              "How we will check"
+              "Action, owner and resources",
+              "Timescale, and how we will check"
             ],
             "rows": [
               [
                 "1. Workload – site engineers",
                 "Design changes arrive late in the week for Monday; weekend work has become routine.",
-                "No design changes after Wednesday noon for the following week; a weekly design and site planning meeting.",
-                "Operations director; an hour a week of each site lead's time",
-                "From March; review end of May",
-                "Overtime records; a short check-in survey of site engineers in June"
+                "No design changes after Wednesday noon for the following week; a weekly design and site planning meeting. **Owner and resources:** Operations director; an hour a week of each site lead's time.",
+                "From March; review end of May. **Check:** Overtime records; a short check-in survey of site engineers in June."
               ],
               [
                 "2. Change – depot merger",
                 "Staff heard about a depot merger from customers first.",
-                "A monthly briefing by the managing director; the timetable on noticeboards; written answers within a week.",
-                "Managing director; an HR adviser's time",
-                "Monthly until the merger",
-                "Questions raised and answered; next year's survey"
+                "A monthly briefing by the managing director; the timetable on noticeboards; written answers within a week. **Owner and resources:** Managing director; an HR adviser's time.",
+                "Monthly until the merger. **Check:** Questions raised and answered; next year's survey."
               ],
               [
                 "3. Support – new supervisors",
                 "New supervisors had no preparation for managing people.",
-                "People-management training; monthly team conversations using HSE's Talking Toolkit.",
-                "HR manager; training budget for eight",
-                "Training by June; conversations from July",
-                "Feedback from supervisors and teams in September"
+                "People-management training; monthly team conversations using HSE's Talking Toolkit. **Owner and resources:** HR manager; training budget for eight.",
+                "Training by June; conversations from July. **Check:** Feedback from supervisors and teams in September."
               ],
               [
                 "Not this year: office space",
                 "Office staff raised noise and cramped desks.",
-                "Left out: the lease ends in 18 months. Staff told why; on next year's list.",
-                "Finance director",
-                "Revisit next spring",
-                "–"
+                "Left out: the lease ends in 18 months. Staff told why; on next year's list. **Owner and resources:** Finance director.",
+                "Revisit next spring."
               ]
             ]
           },
