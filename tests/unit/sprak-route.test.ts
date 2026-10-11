@@ -7,7 +7,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
  * an old en.orgpuls.com link is not choosing a language for an account.
  */
 const update = vi.fn(() => ({ eq: vi.fn(async () => ({ error: null })) }))
-const setLocaleCookie = vi.fn(async () => {})
+const setLocaleCookie = vi.fn(async (_l: string) => {})
 vi.mock('@/lib/i18n/server', () => ({ setLocaleCookie: (l: string) => setLocaleCookie(l) }))
 vi.mock('@/lib/supabase/server', () => ({
   createClient: async () => ({
