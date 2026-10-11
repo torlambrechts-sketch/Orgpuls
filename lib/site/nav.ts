@@ -164,9 +164,11 @@ export const footerFor = (pathname: string): FooterId =>
 /**
  * A site of its own (Empvibe's, D-270): the pages it serves (lib/hosts.ts `Site.own`) and no others.
  * Its menu is Plattform with Bruksområder and Hvorfor under it, as Norway's; Ressurser opens on the
- * law, with safety representatives, small businesses and security under it, since the site has no
- * articles; Pris since the move (UK-G, D-275), the United Kingdom's own (X-113); and Kontakt. No
- * Bransjer: the industry modules are Norway's. The words are the market's (messages/market/gb).
+ * law, with the site's own articles first under it where it publishes some (Empvibe's since UK-H,
+ * D-277; the layout leaves the link out on Sweden's, which serves no /artikler), then safety
+ * representatives, small businesses and security; Pris since the move (UK-G, D-275), the United
+ * Kingdom's own (X-113); and Kontakt. No Bransjer: the industry modules are Norway's. The words are
+ * the market's (messages/market/gb).
  */
 export const OWN_NAV: typeof SITE_NAV = [
   {
@@ -183,6 +185,7 @@ export const OWN_NAV: typeof SITE_NAV = [
     href: '/lovkrav',
     all: 'lovkrav',
     children: [
+      { key: 'alleArtikler', href: '/artikler' },
       { key: 'verneombud', href: '/verneombud' },
       { key: 'smaaBedrifter', href: '/smaa-bedrifter' },
       { key: 'sikkerhet', href: '/sikkerhet' },
@@ -220,6 +223,8 @@ const OWN_FOOTER: FooterColumn[] = [
   {
     head: 'ressurser',
     links: [
+      // the site's own articles (D-277), where it publishes some
+      { key: 'alleArtikler', href: '/artikler' },
       { key: 'lovenForklart', href: '/lovkrav' },
       { key: 'verneombud', href: '/verneombud' },
       { key: 'personvernAnonymitet', href: '/sikkerhet' },

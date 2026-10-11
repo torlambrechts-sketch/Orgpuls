@@ -50,6 +50,9 @@ export type Block = z.infer<typeof Block>
 
 export const Blocks = z.array(Block)
 
+/** An article's sources (its «Kilder»): each a label and the page it came from */
+export const Sources = z.array(z.object({ label: z.string(), url: z.string().url() }))
+
 export const FaqItems = z.array(z.object({ q: z.string(), a: z.string() }))
 export type FaqItem = z.infer<typeof FaqItems>[number]
 

@@ -157,25 +157,30 @@ export const article = (a: {
   published: string
   modified: string
   words: number
-  /** the page's own card (public/og/...); the site's otherwise */
-  image?: string
+  /** the page's card as an absolute URL, as its link preview names it (lib/marketing/meta.ts cardUrl) */
+  image: string
   locale?: string
   /** the sources the article cites (its «Kilder»), so a reader — or a model — can check the claim */
   sources?: { label: string; url: string }[]
-}) => ({
-  '@type': 'Article',
-  // a heading may carry soft hyphens for the page's line breaks; the schema carries the plain words
-  headline: a.headline.replace(/\u00ad/g, ''),
-  description: a.description,
-  inLanguage: ldLanguage(a.locale ?? 'no'),
-  datePublished: a.published,
-  dateModified: a.modified,
-  wordCount: a.words,
-  mainEntityOfPage: absolute(a.path),
-  image: absolute(a.image ?? '/og.png'),
-  author: { '@id': `${SITE_URL}/#organization` },
-  publisher: { '@id': `${SITE_URL}/#organization` },
-  ...(a.sources?.length ? { citation: a.sources.map((c) => ({ '@type': 'CreativeWork', name: c.label, url: c.url })) } : {}),
-})
+  /** the site that publishes it (D-277): its address, its name and its pages' language */
+  site?: SiteLd
+}) => {
+  const site = a.site ?? ORGPULS_LD
+  return {
+    '@type': 'Article',
+    // a heading may carry soft hyphens for the page's line breaks; the schema carries the plain words
+    headline: a.headline.replace(/\u00ad/g, ''),
+    description: a.description,
+    inLanguage: site.tag ?? ldLanguage(a.locale ?? 'no'),
+    datePublished: a.published,
+    dateModified: a.modified,
+    wordCount: a.words,
+    mainEntityOfPage: site.absolute(a.path),
+    image: a.image,
+    author: { '@id': `${site.url}/#organization` },
+    publisher: { '@id': `${site.url}/#organization` },
+    ...(a.sources?.length ? { citation: a.sources.map((c) => ({ '@type': 'CreativeWork', name: c.label, url: c.url })) } : {}),
+  }
+}
 
 export const graph = (...nodes: Record<string, unknown>[]) => ({ '@context': 'https://schema.org', '@graph': nodes })

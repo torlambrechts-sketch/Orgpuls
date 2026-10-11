@@ -16,8 +16,9 @@
  * page's first slide title). Run it when an H1, a picture or a pill (messages seo.og.pills) changes.
  *
  * `--brand empvibe` draws Empvibe's cards (UK-E3, D-272) into public/og/empvibe/: the pages its site
- * serves that have a card of their own, and default.png for the rest, under its name, in its British
- * English (messages/market/gb/en.json over en.json) and with its pictures (assets/produkt/empvibe).
+ * serves that have a card of their own, its articles into public/og/empvibe/artikler/ (UK-H, D-277),
+ * and default.png for the rest, under its name, in its British English (messages/market/gb/en.json
+ * over en.json) and with its pictures (assets/produkt/empvibe).
  *
  *   node scripts/marketing/og-images.mjs --brand empvibe --base http://localhost:3000
  *
@@ -95,13 +96,26 @@ if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1)) throw new Er
 // the start page's first slide title: its H1 is for screen readers and opens with the brand, which
 // the card already shows beside the logo (D-190)
 const DEFAULT_CARD = { slug: 'default', h1: no.site.home.slides[0].title, shot: 'rapport', file: '../og.png' }
+// Empvibe's own articles (UK-H, D-277), from their own registry (lib/marketing/articles-empvibe.ts):
+// each article's H1 under the brand and the word «Articles», as Norway's, into public/og/empvibe/artikler/
+const ukSrc = empvibe ? readFileSync('lib/marketing/articles-empvibe.ts', 'utf8') : ''
+const UK_ARTICLE_CARDS = [...ukSrc.matchAll(/slug: '([^']+)',\s*key: '([^']+)',/g)].map((m) => ({
+  slug: m[1],
+  h1: gb.seo.articles?.[m[2]]?.h1,
+  article: true,
+  kicker: gb.seo.index?.eyebrow,
+  file: `artikler/${m[1]}.png`,
+}))
+if (UK_ARTICLE_CARDS.some((a) => !a.h1 || !a.kicker)) throw new Error('an Empvibe article has no h1 in messages/market/gb/en.json, or the index no eyebrow')
 // a site of its own's: the pages it serves with a card of their own (lib/hosts.ts EMPVIBE_PAGES,
-// SE_PAGES), the two guides under their legal references, and its default card for every other page
+// SE_PAGES), the two guides under their legal references, its articles (Empvibe's), and its default
+// card for every other page
 const EMPVIBE_CARDS = own
   ? [
       { slug: 'lovkrav', h1: gb.seo.lp.lovkrav.h1, article: true, kicker: gb.seo.lp.lovkrav.kicker },
       { slug: 'verneombud', h1: gb.seo.lp.verneombud.h1, article: true, kicker: gb.seo.lp.verneombud.kicker },
       { slug: 'smaa-bedrifter', h1: gb.seo.lp.smaaBedrifter.h1, shot: 'oversikt' },
+      ...UK_ARTICLE_CARDS,
       { slug: 'default', h1: gb.site.home.slides[0].title, shot: 'rapport' },
     ]
   : null
@@ -156,7 +170,7 @@ const html = (p) => {
 </body></html>`
 }
 
-mkdirSync(own ? out : join(out, 'artikler'), { recursive: true })
+mkdirSync(own && !UK_ARTICLE_CARDS.length ? out : join(out, 'artikler'), { recursive: true })
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
 const page = await b.newPage({ viewport: { width: 1200, height: 630 } })
 // written into a page on the server's own origin, so its font files are same-origin

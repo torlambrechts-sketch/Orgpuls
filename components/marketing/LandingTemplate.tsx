@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import {
   INFORMATIONAL_PAGES,
-  LANDING_ARTICLES,
   LANDING_HERO,
   LANDING_RELATED,
   LANDING_TEMPLATE,
@@ -9,7 +8,7 @@ import {
   type LandingSlug,
 } from '@/lib/marketing/site'
 import { PageTemplate } from './PageTemplate'
-import { ownSite, serves } from '@/lib/site/own'
+import { ownSite, serves, siteArticles } from '@/lib/site/own'
 import { VoTip, type VoTipWords } from './VoTip'
 import { MAIN_URL } from '@/lib/hosts'
 import { LawArt } from './art/LawArt'
@@ -23,8 +22,10 @@ import { SmallBizArt } from './art/SmallBizArt'
  */
 export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; parent?: { name: string; path: string } }) {
   const t = await getTranslations()
-  // a site of its own (D-270) has no articles to file a page under, and serves only some neighbours
+  // a site of its own (D-270) serves only some neighbours, and files a page under its articles only
+  // where it publishes some (Empvibe's own since UK-H, D-277; none on Sweden's)
   const own = await ownSite()
+  const articles = (await siteArticles()).landing[slug]
   // an informational page (D-236): under Artikler, no product picture, no sales pages beside it
   if (INFORMATIONAL_PAGES.includes(slug))
     return (
@@ -32,7 +33,7 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
         k={`seo.lp.${landingKey(slug)}`}
         path={`/${slug}`}
         parent={serves(own, '/artikler') ? { name: t('seo.index.crumb'), path: '/artikler' } : undefined}
-        articles={LANDING_ARTICLES[slug]}
+        articles={articles}
         template={LANDING_TEMPLATE[slug]}
         // «Tips ledelsen»: a finished e-mail to the daglig leder, written in the browser (D-246)
         extra={
@@ -52,7 +53,7 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
       k={`seo.lp.${landingKey(slug)}`}
       path={`/${slug}`}
       parent={parent ?? { name: t('seo.pages.bruksomrader.crumb'), path: '/bruksomrader' }}
-      articles={LANDING_ARTICLES[slug]}
+      articles={articles}
       template={LANDING_TEMPLATE[slug]}
       heroShot={LANDING_HERO[slug]}
       heroArt={slug === 'smaa-bedrifter' ? <SmallBizArt className="h-auto w-full max-w-[440px]" /> : undefined}

@@ -5,7 +5,7 @@ import { TEMPLATES } from '@/lib/marketing/templates'
 import { getIndustry, INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 import { landingFor } from '@/content/industries/landing'
 import { siteIndexing } from '@/lib/site/indexing'
-import { ownSite, type OwnSite } from '@/lib/site/own'
+import { ownSite, siteArticles, type OwnSite } from '@/lib/site/own'
 
 /**
  * /llms.txt (llmstxt.org): the public site as a reading list for language models and AI search —
@@ -98,5 +98,26 @@ async function ownList(own: OwnSite): Promise<string> {
       : route === '/hvorfor'
         ? line(route, t('site.hvorfor.seoTitle'), t('site.hvorfor.seoDescription'))
         : line(route, t(`${PAGE_WORDS[route]}.title`), t(`${PAGE_WORDS[route]}.description`))
-  return [`# ${name}`, '', `> ${t('seo.home.description')}`, '', `## ${t('seo.llms.pages')}`, ...own.site.own.pages.map(page), ''].join('\n')
+  // its articles (Empvibe's, D-277) under their own heading, as Norway's list has them: the index and each article
+  const { articles } = await siteArticles()
+  const isArticle = (route: string) => route === '/artikler' || route.startsWith('/artikler/')
+  const served = articles.filter((a) => own.site.own.pages.includes(`/artikler/${a.slug}`))
+  const articleList = own.site.own.pages.includes('/artikler')
+    ? [
+        '',
+        `## ${t('seo.llms.articles')}`,
+        line('/artikler', t('seo.index.title'), t('seo.index.description')),
+        ...served.map((a) => line(`/artikler/${a.slug}`, t(`seo.articles.${a.key}.title`), t(`seo.articles.${a.key}.description`))),
+      ]
+    : []
+  return [
+    `# ${name}`,
+    '',
+    `> ${t('seo.home.description')}`,
+    '',
+    `## ${t('seo.llms.pages')}`,
+    ...own.site.own.pages.filter((r) => !isArticle(r)).map(page),
+    ...articleList,
+    '',
+  ].join('\n')
 }

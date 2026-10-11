@@ -4,7 +4,7 @@ import { ARTICLES, LANDING_PAGES, SITE_PAGES } from '@/lib/marketing/site'
 import { TEMPLATES } from '@/lib/marketing/templates'
 import { getIndustry, INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 import { siteIndexing } from '@/lib/site/indexing'
-import { ownSite } from '@/lib/site/own'
+import { ownSite, siteArticles } from '@/lib/site/own'
 
 /**
  * Every public page a search engine should know about, and nothing behind the sign-in: the
@@ -35,14 +35,21 @@ function industryPages(): MetadataRoute.Sitemap {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // «Allow search engines» off (0126): nothing to offer
   if (!(await siteIndexing())) return []
-  // a site of its own (D-270): the pages it serves, at its own addresses, and no twins on Orgpuls's hosts
+  // a site of its own (D-270): the pages it serves, at its own addresses, and no twins on Orgpuls's hosts;
+  // its articles (Empvibe's, D-277) with their own dates, and the index with the newest
   const own = await ownSite()
-  if (own)
-    return own.site.own.pages.map((route) => ({
-      url: own.absolute(route),
-      changeFrequency: 'monthly' as const,
-      priority: route === '/' ? 1 : 0.8,
-    }))
+  if (own) {
+    const { articles } = await siteArticles()
+    const dated = new Map(articles.map((a) => [`/artikler/${a.slug}`, a.modified]))
+    const latest = articles.map((a) => a.modified).sort().at(-1)
+    return own.site.own.pages.map((route) =>
+      route === '/artikler'
+        ? { url: own.absolute(route), lastModified: latest, changeFrequency: 'weekly' as const, priority: 0.7 }
+        : dated.has(route)
+          ? { url: own.absolute(route), lastModified: dated.get(route), changeFrequency: 'monthly' as const, priority: 0.6 }
+          : { url: own.absolute(route), changeFrequency: 'monthly' as const, priority: route === '/' ? 1 : 0.8 },
+    )
+  }
   const newest = ARTICLES.map((a) => a.modified)
     .sort()
     .at(-1)

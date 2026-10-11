@@ -93,7 +93,7 @@ export async function PageView({
   const { blocks, faq } = c
   const tip = informational ? undefined : c.tip
   const trail = [{ name: t('seo.common.home'), path: '/' }, ...(parent ? [parent] : []), { name: c.crumb, path }]
-  // the site the page is on (D-270): its addresses, and the pages it serves (no articles or templates on a site of its own)
+  // the site the page is on (D-270): its addresses, and the pages it serves (Empvibe's has its own articles, D-277; no templates on a site of its own)
   const ld = await siteLd()
   const own = await ownSite()
 

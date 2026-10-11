@@ -1,9 +1,10 @@
 import type { Route } from 'next'
 import Link from '@/components/site/SitePaths'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { z } from 'zod'
-import { Blocks as BlocksSchema, wordCount, type Block } from '@/lib/marketing/blocks'
-import { article as articleLd, breadcrumbs, graph, organization } from '@/lib/marketing/schema'
+import { Blocks as BlocksSchema, Sources, wordCount, type Block } from '@/lib/marketing/blocks'
+import { cardUrl } from '@/lib/marketing/meta'
+import { article as articleLd, breadcrumbs, graph, organization, siteLd } from '@/lib/marketing/schema'
+import { ownSite } from '@/lib/site/own'
 import { type Article, articleImage } from '@/lib/marketing/site'
 import { TemplateTeaser } from './TemplateTeaser'
 import { ArticleCards } from './ArticleCards'
@@ -12,8 +13,6 @@ import { JsonLd } from './JsonLd'
 import { WithAside } from './WithAside'
 import { ArticleArt, FactorArt, type ArtKind } from './art/ArticleArt'
 import { intlLocale } from '@/lib/i18n/dates'
-
-export const Sources = z.array(z.object({ label: z.string(), url: z.string().url() }))
 
 /** Words a minute for Norwegian non-fiction read on a screen; rounded up, never below 1. */
 const WPM = 200
@@ -93,6 +92,9 @@ export async function ArticleBody({
 }) {
   const t = await getTranslations()
   const locale = await getLocale()
+  // the site that publishes it (D-277): its address, its name, its language and its card
+  const ld = await siteLd()
+  const card = cardUrl(await ownSite(), image)
   const blocks = c.blocks
   const sources = c.sources
   const words = wordCount(blocks)
@@ -108,7 +110,7 @@ export async function ArticleBody({
     <article>
       <JsonLd
         data={graph(
-          organization(),
+          organization(ld),
           articleLd({
             path,
             headline: c.h1,
@@ -116,15 +118,19 @@ export async function ArticleBody({
             published,
             modified,
             words,
-            image,
+            image: card,
             locale,
             sources,
+            site: ld,
           }),
-          breadcrumbs([
-            { name: t('seo.common.home'), path: '/' },
-            { name: t('seo.index.crumb'), path: '/artikler' },
-            { name: c.h1, path },
-          ]),
+          breadcrumbs(
+            [
+              { name: t('seo.common.home'), path: '/' },
+              { name: t('seo.index.crumb'), path: '/artikler' },
+              { name: c.h1, path },
+            ],
+            ld,
+          ),
         )}
       />
 

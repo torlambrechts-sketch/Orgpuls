@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { EMPVIBE_PAGES, marketOfHost, outboundBase, PUBLIC_HOSTS, SITES, siteOf } from '@/lib/hosts'
+import { EMPVIBE_ARTICLES } from '@/lib/marketing/articles-empvibe'
 import { LOCALES } from '@/lib/i18n/locales'
 import { PACK_LANGS } from '@/lib/i18n/market-overlay'
 import { DEFAULT_MARKET, isMarket, LEGAL_PACK, MARKET_K_FLOOR, MARKET_LANGS, MARKET_TIME_ZONE, MARKETS, orgNumberProblem, REGISTRY_LOOKUP } from '@/lib/markets'
@@ -265,8 +266,11 @@ describe('each site of its own’s llms.txt', () => {
     // one entry per site, though Empvibe answers on two hosts
     const own = [...new Map(SITES.flatMap((s) => (s.own ? [[s.own.key, s.own] as const] : []))).values()]
     expect(own.map((o) => o.key).sort()).toEqual(['empvibe', 'se'])
+    // its articles (Empvibe's, D-277) are listed from the site's own registry, under their own heading
+    const isArticle = (p: string) => p === '/artikler' || p.startsWith('/artikler/')
     for (const { key, pages } of own)
-      for (const page of pages.filter((p) => p !== '/' && p !== '/hvorfor')) expect(route, `${key} ${page}`).toContain(`'${page}': 'seo.`)
+      for (const page of pages.filter((p) => p !== '/' && p !== '/hvorfor' && !isArticle(p))) expect(route, `${key} ${page}`).toContain(`'${page}': 'seo.`)
+    expect(route).toMatch(/const \{ articles \} = await siteArticles\(\)[\s\S]*line\('\/artikler', t\('seo\.index\.title'\)[\s\S]*seo\.articles\.\$\{a\.key\}\.title/)
   })
 })
 
@@ -360,6 +364,9 @@ describe('Empvibe’s site, open since the move (X-111, UK-E, UK-G, D-270, D-275
       ['/privacy', '/personvernerklaering'],
       ['/terms', '/vilkar'],
       ['/pricing', '/priser'],
+      // its own articles (UK-H, D-277): the index, and each article at /articles/<slug>
+      ['/articles', '/artikler'],
+      ...EMPVIBE_ARTICLES.map((a): [string, string] => [`/articles/${a.slug}`, `/artikler/${a.slug}`]),
       ['/sign-in', '/logg-inn'],
       ['/sign-up', '/registrer'],
     ]
@@ -376,8 +383,8 @@ describe('Empvibe’s site, open since the move (X-111, UK-E, UK-G, D-270, D-275
     const { hostGate, NOT_SERVED_PATH } = await open()
     const host = 'www.empvibe.com'
     const notServed = { noindex: true, redirect: null, rewrite: NOT_SERVED_PATH }
-    // the industries, the articles, the templates, the demo, at either address
-    for (const path of ['/bransjer', '/handel', '/bygg-og-anlegg/sporsmal', '/artikler', '/artikler/medarbeiderundersokelse', '/maler', '/demo', '/venteside'])
+    // the industries, Norway's articles, the templates, the demo, at either address
+    for (const path of ['/bransjer', '/handel', '/bygg-og-anlegg/sporsmal', '/artikler/medarbeiderundersokelse', '/articles/medarbeiderundersokelse', '/maler', '/demo', '/venteside'])
       expect(hostGate(host, path, true), path).toEqual(notServed)
     // the IndexNow key among the files the site answers for itself (scripts/seo/indexnow.mjs)
     const key = readdirSync('public').find((f) => /^[0-9a-f]{32}\.txt$/.test(f))!

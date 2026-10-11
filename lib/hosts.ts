@@ -1,6 +1,7 @@
 import type { Locale } from '@/lib/i18n/locales'
 import type { Brand } from '@/lib/brand'
 import { DEFAULT_MARKET, MARKET_LANGS, type Market } from '@/lib/markets'
+import { EMPVIBE_ARTICLES } from '@/lib/marketing/articles-empvibe'
 
 /**
  * The production hosts (D-90, D-98). Edge-safe: read by the middleware as well as the server.
@@ -124,8 +125,9 @@ export const EMPVIBE_URL = `https://${EMPVIBE_HOST}`
 
 /**
  * The pages Empvibe's site serves, by route (D-270): the product, the use cases, the argument, the
- * law, safety representatives, small businesses, security, contact, the prices and the documents.
- * Not the industries, the articles, the templates or the demo, which are written for Norway.
+ * law, safety representatives, small businesses, security, contact, the prices and the documents,
+ * and since UK-H its own articles (D-277), written for the United Kingdom. Not the industries,
+ * Norway's articles, the templates or the demo, which are written for Norway.
  */
 export const EMPVIBE_PAGES = [
   '/',
@@ -143,7 +145,10 @@ export const EMPVIBE_PAGES = [
   // its regulator, its prices and its register
   '/personvernerklaering',
   '/vilkar',
-] as const
+  // its own articles (UK-H, D-277): the index and each article (lib/marketing/articles-empvibe.ts)
+  '/artikler',
+  ...EMPVIBE_ARTICLES.map((a) => `/artikler/${a.slug}`),
+]
 
 /** Their addresses in English, and the sign-in's and sign-up's, which every page links to (D-270) */
 const EMPVIBE_PATHS: Readonly<Record<string, string>> = {
@@ -160,6 +165,8 @@ const EMPVIBE_PATHS: Readonly<Record<string, string>> = {
   '/priser': '/pricing',
   '/logg-inn': '/sign-in',
   '/registrer': '/sign-up',
+  '/artikler': '/articles',
+  ...Object.fromEntries(EMPVIBE_ARTICLES.map((a) => [`/artikler/${a.slug}`, `/articles/${a.slug}`])),
 }
 
 const EMPVIBE_SITES: readonly Site[] = [EMPVIBE_HOST, 'empvibe.com'].map((host) => ({

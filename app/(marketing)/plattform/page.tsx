@@ -8,7 +8,7 @@ import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization, siteLd } from '@/lib/marketing/schema'
-import { ownSite, serves, siteShots } from '@/lib/site/own'
+import { ownSite, serves, siteArticles, siteShots } from '@/lib/site/own'
 import { zip } from '@/lib/site/zip'
 
 /**
@@ -51,7 +51,8 @@ const ROLE: Ink = { bg: 'bg-ink', fg: 'text-bg' }
 /** Where each section's «Les mer» goes (decision sheet G8) */
 const USE: Record<CaseId, string> = {
   malinger: '/bruksomrader#kartlegging',
-  respondent: '/artikler/medarbeiderundersokelse-sporsmal',
+  // the site's article on a survey's questions where it has one (readMoreOf, D-277)
+  respondent: '/bruksomrader#kartlegging',
   resultater: '/bruksomrader#ett-team',
   kommentarer: '/bruksomrader#ny-leder',
   tiltak: '/bruksomrader#puls',
@@ -137,13 +138,14 @@ export default async function PlattformPage() {
   const measureRows = zip(MEASURE_ROWS, z.array(z.object({ title: Str, sub: Str })).parse(t.raw('tiltak.rows')))
   const reportRows = zip(REPORT_INK, z.array(z.object({ mark: Str, title: Str, sub: Str })).parse(t.raw('rapport.rows')))
   const roleRows = z.array(z.object({ mark: Str, title: Str, sub: Str, pill: Str })).length(3).parse(t.raw('roller.rows'))
-  // the site the page is on (D-270): its name, its addresses; a site of its own has no articles, so the
-  // survey's «Les mer» goes to the use case it serves there
+  // the site the page is on (D-270): its name, its addresses; the survey's «Les mer» goes to the site's
+  // article on a survey's questions (D-277), or to the use case where the site has none (Sweden's)
   const ld = await siteLd()
   // the site's own pictures: Empvibe's in English, Orgpuls's elsewhere (D-272)
   const { img: sporsmal } = (await siteShots()).sporsmal
   const own = await ownSite()
-  const readMoreOf = (id: CaseId) => (id === 'respondent' && !serves(own, '/artikler') ? '/bruksomrader#kartlegging' : USE[id])
+  const { questions } = await siteArticles()
+  const readMoreOf = (id: CaseId) => (id === 'respondent' && questions && serves(own, '/artikler') ? `/artikler/${questions}` : USE[id])
   // the first setup row is the register lookup in Norway (§); a site of its own looks nothing up (D-271)
   const setupRows = zip(
     SETUP_ROWS.map((r, i) => (i === 0 && own ? { ...r, glyph: '✓' } : r)),

@@ -1,15 +1,18 @@
 import type { Route } from 'next'
 import Link from '@/components/site/SitePaths'
 import { getTranslations } from 'next-intl/server'
-import { articleBySlug } from '@/lib/marketing/site'
+import { articleIn } from '@/lib/marketing/site-articles'
+import { siteArticles } from '@/lib/site/own'
 
 /**
- * Cards linking to articles, by slug: the article's title and lead, as the index shows them.
+ * Cards linking to articles, by slug: the article's title and lead, as the index shows them. Only the
+ * articles this site publishes (D-277): a slug of another site's is left out, never linked.
  */
 export async function ArticleCards({ slugs }: { slugs: string[] }) {
   const t = await getTranslations()
+  const set = await siteArticles()
   const items = slugs
-    .map(articleBySlug)
+    .map((slug) => articleIn(set, slug))
     .filter((a) => a !== null)
     .map((a) => ({ slug: a.slug, h1: t(`seo.articles.${a.key}.h1`), description: t(`seo.articles.${a.key}.description`) }))
   return (

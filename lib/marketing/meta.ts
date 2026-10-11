@@ -1,8 +1,20 @@
 import type { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
 import { MAIN_URL, siteTag } from '@/lib/hosts'
-import { ownSite } from '@/lib/site/own'
+import { ownSite, type OwnSite } from '@/lib/site/own'
 import { absolute } from './site'
+
+/**
+ * A page's card as an absolute URL, as its link preview and its schema.org image name it. On a site
+ * of its own, its own cards, in its words (public/og/<key>/, og-images.mjs --brand/--market, D-272,
+ * D-276): the page's where it has one (public/og/<slug>.png, an article's public/og/artikler/<slug>.png,
+ * D-277), the site's default card otherwise. On Norway's, the page's or the site's (public/og.png).
+ */
+export function cardUrl(own: OwnSite | null, image: string | undefined): string {
+  if (!own) return absolute(image ?? '/og.png')
+  const card = image?.match(/^\/og\/((?:artikler\/)?[a-z0-9-]+\.png)$/)?.[1] ?? 'default.png'
+  return `${own.site.url}/og/${own.site.own.key}/${card}`
+}
 
 /**
  * A public page's metadata: its title and description, the canonical URL (one address per page —
@@ -33,10 +45,7 @@ export async function pageMeta(m: {
   if (own) {
     const url = own.absolute(m.path || '/')
     const tag = siteTag(own.site)
-    // its own cards, in its words (public/og/<key>/, og-images.mjs --brand/--market, D-272, D-276):
-    // the page's where it has one, the site's otherwise
-    const card = m.image?.match(/^\/og\/([a-z0-9-]+\.png)$/)?.[1] ?? 'default.png'
-    const image = { url: `${own.site.url}/og/${own.site.own.key}/${card}`, width: 1200, height: 630, alt: m.title }
+    const image = { url: cardUrl(own, m.image), width: 1200, height: 630, alt: m.title }
     return {
       title: { absolute: m.title },
       description: m.description,
@@ -56,7 +65,7 @@ export async function pageMeta(m: {
   }
   const en = (await getLocale()) === 'en' && !m.norwegianOnly
   const url = `${MAIN_URL}${m.path || '/'}`
-  const image = { url: absolute(m.image ?? '/og.png'), width: 1200, height: 630, alt: m.title }
+  const image = { url: cardUrl(null, m.image), width: 1200, height: 630, alt: m.title }
   return {
     title: { absolute: m.title },
     description: m.description,

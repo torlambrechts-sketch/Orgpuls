@@ -9,11 +9,10 @@ import { HeroCarousel } from '@/components/site/v3/HeroCarousel'
 import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
-import { ARTICLES } from '@/lib/marketing/site'
 import { graph, organization, siteLd, software, website } from '@/lib/marketing/schema'
 import type { ShotId } from '@/lib/marketing/shot-ids'
 import { zip } from '@/lib/site/zip'
-import { ownSite, serves, siteShots, surveyPictureLocale } from '@/lib/site/own'
+import { ownSite, serves, siteArticles, siteShots, surveyPictureLocale } from '@/lib/site/own'
 
 /**
  * The front page for small and medium-sized businesses (D-190): design-reference/orgpuls/
@@ -113,6 +112,8 @@ export default async function StartPage() {
   // the site the page is on (D-270): its name, its addresses, its offers, the pages it serves
   const ld = await siteLd()
   const own = await ownSite()
+  // the articles this site publishes (D-277): Norway's, Empvibe's own, none on Sweden's
+  const articles = await siteArticles()
 
   const slides = z.array(Slide).length(3).parse(t.raw('slides'))
   const law = z.array(Row).length(4).parse(t.raw('law.rows'))
@@ -384,9 +385,9 @@ export default async function StartPage() {
                   </li>
                 ))}
               </ul>
-              {/* the questions article is Norway's: a site of its own has no articles (D-270) */}
-              {serves(own, '/artikler') ? (
-                <Link href="/artikler/medarbeiderundersokelse-sporsmal" className="mt-[24px] inline-block text-[14.5px] font-bold">
+              {/* the site's article on a survey's questions, where it has one (D-277) */}
+              {articles.questions && serves(own, '/artikler') ? (
+                <Link href={`/artikler/${articles.questions}` as Route} className="mt-[24px] inline-block text-[14.5px] font-bold">
                   {t('survey.link')} <span aria-hidden="true">→</span>
                 </Link>
               ) : null}
@@ -545,15 +546,15 @@ export default async function StartPage() {
         </section>
 
         {/* the three newest articles (D-232): the start page is where most visitors arrive, and the articles had no way in from it;
-            a site of its own has none (D-270) */}
-        {serves(own, '/artikler') ? (
+            the site's own (D-277), and none on a site that publishes none (D-270) */}
+        {articles.articles.length && serves(own, '/artikler') ? (
           <section id="artikler" data-screen-label="Artikler" className={`${COLUMN} px-[56px] pt-[56px] max-sm:px-[16px] max-sm:pt-[40px]`}>
             <div className={HEAD}>
               <span className={PILL}>{seo('home.articlesEyebrow')}</span>
               <h2 className={H2}>{seo('home.articlesTitle')}</h2>
             </div>
             <div className="mt-[26px]">
-              <ArticleCards slugs={ARTICLES.slice(0, 3).map((a) => a.slug)} />
+              <ArticleCards slugs={articles.articles.slice(0, 3).map((a) => a.slug)} />
             </div>
             <p className="m-0 mt-[20px] text-center">
               <Link href={'/artikler' as Route} className="text-[14.5px] font-bold text-link">
