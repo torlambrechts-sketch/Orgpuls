@@ -98,7 +98,7 @@ const texts = (): [string, string][] => {
 
 describe('Empvibe’s site in words (UK-E2, D-271)', () => {
   it('serves pages the page map knows, its own privacy notice and terms among them (UK-F)', () => {
-    // its own articles (UK-H, D-277) are the gb pack's alone, held by tests/unit/uk-articles.test.ts: the
+    // its own articles (UK-H, D-278) are the gb pack's alone, held by tests/unit/uk-articles.test.ts: the
     // page map is Norway's site's, crawled on Norway's routes
     for (const path of EMPVIBE_PAGES.filter((p) => !p.startsWith('/artikler/'))) expect(map.pages.some((p) => p.path === path), path).toBe(true)
     for (const path of DOCUMENTS) expect(EMPVIBE_PAGES as readonly string[], path).toContain(path)

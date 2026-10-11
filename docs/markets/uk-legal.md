@@ -958,7 +958,7 @@ distinctions». Inside the product, a wrong legal statement is also a documentat
 
 ## Addendum (UK-H, 11 October 2026): guidance Empvibe's articles quote
 
-Empvibe's articles (`docs/markets/uk-articles.md`, D-277) quote HSE, HSENI, Acas and ICO guidance beyond the sections
+Empvibe's articles (`docs/markets/uk-articles.md`, D-278) quote HSE, HSENI, Acas and ICO guidance beyond the sections
 above. Each quotation below was fetched live on **11 October 2026** by the article's writer and again by an independent
 fact-checker, and found verbatim on its page. Guidance, never law; the articles say so.
 
@@ -981,7 +981,7 @@ fact-checker, and found verbatim on its page. Guidance, never law; the articles 
 
 **Not a real example firm.** «Northfield Civils Ltd», the British example firm of Empvibe's product pictures and design
 fixture (D-272), is a real company on the Companies House register: NORTHFIELD CIVILS LTD, 15171746, dissolved
-10 December 2024 (read 11 October 2026). The articles name no firm; the pictures' firm is to be renamed (D-277).
+10 December 2024 (read 11 October 2026). The articles name no firm; the pictures' firm is to be renamed (D-278).
 
 ## Mapping for the product
 

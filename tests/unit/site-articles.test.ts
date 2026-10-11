@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 /**
- * Each site's articles, as a request on its host gets them (D-277), run through the readers themselves
+ * Each site's articles, as a request on its host gets them (D-278), run through the readers themselves
  * rather than read off their source: which set `siteArticles()` returns, the card a page names, the
  * Article object's values on Norway's site, the sitemap and llms.txt. What would go wrong silently: a
  * site showing another's articles, an Empvibe article's card falling back to the site's default, or

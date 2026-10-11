@@ -94,7 +94,7 @@ export async function ArticleBody({
 }) {
   const t = await getTranslations()
   const locale = await getLocale()
-  // the site that publishes it (D-277): its address, its name, its language and its card
+  // the site that publishes it (D-278): its address, its name, its language and its card
   const ld = await siteLd()
   const card = cardUrl(await ownSite(), image)
   const blocks = c.blocks

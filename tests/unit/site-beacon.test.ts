@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { beaconBody, mayCount, referrerHost } from '@/lib/marketing/beacon'
+import { beaconBody, formCode, mayCount, referrerHost } from '@/lib/marketing/beacon'
 import { COLLECT_ORIGIN, COLLECT_URL } from '@/lib/marketing/collect'
 import no from '@/messages/no.json'
 import en from '@/messages/en.json'
@@ -52,6 +52,18 @@ describe('what a beacon says', () => {
   it('a press and an event carry which, and no referrer', () => {
     expect(beaconBody({ k: 'cta', l: 'orgnr' }, '/', {}, 'x.no')).toEqual({ k: 'cta', p: '/', l: 'orgnr' })
     expect(beaconBody({ k: 'event', e: 'signup_started' }, '/registrer', {})).toEqual({ k: 'event', p: '/registrer', e: 'signup_started' })
+  })
+
+  it('a step, an error or a persona carries its code (D-277)', () => {
+    expect(beaconBody({ k: 'form', e: 'signup_step', l: 'step2_shown' }, '/registrer', {})).toEqual({ k: 'event', p: '/registrer', e: 'signup_step', l: 'step2_shown' })
+    expect(beaconBody({ k: 'form', e: 'signup_error', l: 'lookup_not_found' }, '/registrer', { utm_source: 'google-ads' }))
+      .toEqual({ k: 'event', p: '/registrer', e: 'signup_error', l: 'lookup_not_found', u: { utm_source: 'google-ads' } })
+  })
+
+  it('a code is a code: anything typed is not one (D-277)', () => {
+    expect(formCode('step2_signup_failed')).toBe('step2_signup_failed')
+    expect(formCode('sso-google')).toBe('sso-google')
+    for (const v of ['923456789x ', 'ola@firma.no', 'Kari Nordmann', '', 'a'.repeat(41), 'STEP2']) expect(formCode(v), v).toBeUndefined()
   })
 
   it('caps the path', () => {
@@ -125,6 +137,14 @@ describe('sending', () => {
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
+  it('sends a form code, and nothing when the value is not a code (D-277)', async () => {
+    const { sendBeacon } = await import('@/lib/marketing/beacon')
+    loc.pathname = '/registrer'
+    sendBeacon({ k: 'form', e: 'signup_error', l: 'lookup_not_found' })
+    sendBeacon({ k: 'form', e: 'signup_error', l: 'ola@firma.no' })
+    expect(sent().map((x) => x.body)).toEqual([{ k: 'event', p: '/registrer', e: 'signup_error', l: 'lookup_not_found', u: { utm_source: 'nyhetsbrev' } }])
+  })
+
   it('a failed post never breaks the page', async () => {
     const { sendBeacon } = await import('@/lib/marketing/beacon')
     fetchMock.mockImplementationOnce(() => Promise.reject(new Error('offline')))
@@ -150,6 +170,9 @@ describe('the collector', () => {
     const text = (m: typeof no) => JSON.stringify(m.seo.pages.personvernerklaering)
     expect(text(no)).toContain('Global Privacy Control')
     expect(text(no)).toContain('Besøksstatistikk: 13 måneder')
+    // D-277: the signup's step and error codes and the device class are named
+    expect(text(no)).toContain('hvilket steg i registreringen du kommer til og en kode for en eventuell feil')
+    expect(text(no)).toContain('en mobil, et nettbrett eller en datamaskin')
     expect(text(no)).not.toContain('Vi fører ingen egen statistikk')
     expect(text(en as typeof no)).toContain('Global Privacy Control')
     expect(text(en as typeof no)).toContain('Visit statistics: 13 months')

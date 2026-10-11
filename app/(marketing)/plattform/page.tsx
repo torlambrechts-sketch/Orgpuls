@@ -51,7 +51,7 @@ const ROLE: Ink = { bg: 'bg-ink', fg: 'text-bg' }
 /** Where each section's «Les mer» goes (decision sheet G8) */
 const USE: Record<CaseId, string> = {
   malinger: '/bruksomrader#kartlegging',
-  // the site's article on a survey's questions where it has one (readMoreOf, D-277)
+  // the site's article on a survey's questions where it has one (readMoreOf, D-278)
   respondent: '/bruksomrader#kartlegging',
   resultater: '/bruksomrader#ett-team',
   kommentarer: '/bruksomrader#ny-leder',
@@ -139,7 +139,7 @@ export default async function PlattformPage() {
   const reportRows = zip(REPORT_INK, z.array(z.object({ mark: Str, title: Str, sub: Str })).parse(t.raw('rapport.rows')))
   const roleRows = z.array(z.object({ mark: Str, title: Str, sub: Str, pill: Str })).length(3).parse(t.raw('roller.rows'))
   // the site the page is on (D-270): its name, its addresses; the survey's «Les mer» goes to the site's
-  // article on a survey's questions (D-277), or to the use case where the site has none (Sweden's)
+  // article on a survey's questions (D-278), or to the use case where the site has none (Sweden's)
   const ld = await siteLd()
   // the site's own pictures: Empvibe's in English, Orgpuls's elsewhere (D-272)
   const { img: sporsmal } = (await siteShots()).sporsmal

@@ -2,7 +2,7 @@ import { EMPVIBE_ARTICLE_GROUPS, EMPVIBE_ARTICLES, EMPVIBE_LANDING_ARTICLES, EMP
 import { ARTICLE_GROUPS, ARTICLES, LANDING_ARTICLES, type Article, type ArticleGroup, type LandingSlug } from './site'
 
 /**
- * The articles a site publishes (UK-H, D-277): Norway's on Norway's hosts (lib/marketing/site.ts),
+ * The articles a site publishes (UK-H, D-278): Norway's on Norway's hosts (lib/marketing/site.ts),
  * Empvibe's own on Empvibe's (lib/marketing/articles-empvibe.ts), none on Sweden's, which serves no
  * /artikler. Every page that lists, links or describes an article reads the request's set
  * (lib/site/own.ts siteArticles), so a site never links an article it does not serve.

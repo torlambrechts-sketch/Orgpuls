@@ -16,18 +16,20 @@ export function MicrosoftButton({
   fields = {},
   disabled = false,
   inForm = false,
+  onClick,
 }: {
   label: string
   fields?: Record<string, string>
   disabled?: boolean
   inForm?: boolean
+  onClick?: () => void
 }) {
   const button = (
     <button
       type="submit"
       disabled={disabled}
       className={PROVIDER_BUTTON}
-      {...(inForm ? { formAction: continueWithMicrosoft, formNoValidate: true } : {})}
+      {...(inForm ? { formAction: continueWithMicrosoft, formNoValidate: true, onClick } : { onClick })}
     >
       <MicrosoftLogo />
       {label}

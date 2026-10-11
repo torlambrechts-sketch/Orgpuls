@@ -39,7 +39,7 @@ export const ownSite = cache(async (): Promise<OwnSite | null> => {
 /** Whether this site serves the route (a site of its own serves its list; Norway's hosts every page) */
 export const serves = (own: OwnSite | null, route: string) => !own || (own.site.own.pages as readonly string[]).includes(route)
 
-/** The articles this site publishes (D-277): Norway's on Norway's hosts, Empvibe's own on Empvibe's, none on Sweden's */
+/** The articles this site publishes (D-278): Norway's on Norway's hosts, Empvibe's own on Empvibe's, none on Sweden's */
 export const siteArticles = async (): Promise<SiteArticles> => articlesOf((await ownSite())?.site.own.key)
 
 /** The product pictures this site shows: a site of its own's where it has them (D-272, D-276), Norway's elsewhere */

@@ -74,11 +74,12 @@ const PILLARS = [
   { glyph: '✓', card: 'border-line bg-sf', tile: 'bg-track' },
 ] as const
 /** The role cards: fill, and where each goes (G8) */
+// persona: the code a press on the card is counted under in Sentral (D-277)
 const ROLES = [
-  { bg: 'bg-sbg', href: '/bruksomrader#uten-hr' },
-  { bg: 'bg-sf', href: '/plattform#resultater' },
-  { bg: 'bg-sf', href: '/bruksomrader#ett-team' },
-  { bg: 'bg-mint', href: '/verneombud' },
+  { bg: 'bg-sbg', href: '/bruksomrader#uten-hr', persona: 'daglig_leder' },
+  { bg: 'bg-sf', href: '/plattform#resultater', persona: 'hr' },
+  { bg: 'bg-sf', href: '/bruksomrader#ett-team', persona: 'avdelingsleder' },
+  { bg: 'bg-mint', href: '/verneombud', persona: 'verneombud' },
 ] as const
 
 /** A section in the page column: the design's `width:100%; max-width:1240px; align-self:center` */
@@ -112,7 +113,7 @@ export default async function StartPage() {
   // the site the page is on (D-270): its name, its addresses, its offers, the pages it serves
   const ld = await siteLd()
   const own = await ownSite()
-  // the articles this site publishes (D-277): Norway's, Empvibe's own, none on Sweden's
+  // the articles this site publishes (D-278): Norway's, Empvibe's own, none on Sweden's
   const articles = await siteArticles()
 
   const slides = z.array(Slide).length(3).parse(t.raw('slides'))
@@ -385,7 +386,7 @@ export default async function StartPage() {
                   </li>
                 ))}
               </ul>
-              {/* the site's article on a survey's questions, where it has one (D-277) */}
+              {/* the site's article on a survey's questions, where it has one (D-278) */}
               {articles.questions && serves(own, '/artikler') ? (
                 <Link href={`/artikler/${articles.questions}` as Route} className="mt-[24px] inline-block text-[14.5px] font-bold">
                   {t('survey.link')} <span aria-hidden="true">→</span>
@@ -536,6 +537,7 @@ export default async function StartPage() {
                 <Link
                   href={r.href as Route}
                   aria-describedby={`rolle-${i}`}
+                  data-persona={r.persona}
                   className="flex min-h-[42px] items-center justify-center rounded-btn border border-ink bg-sf text-[13.5px] font-bold text-ink no-underline after:absolute after:inset-0 after:rounded-card after:content-[''] hover:text-ink hover:no-underline focus-visible:outline-none"
                 >
                   {t('roles.cta')}
@@ -546,7 +548,7 @@ export default async function StartPage() {
         </section>
 
         {/* the three newest articles (D-232): the start page is where most visitors arrive, and the articles had no way in from it;
-            the site's own (D-277), and none on a site that publishes none (D-270) */}
+            the site's own (D-278), and none on a site that publishes none (D-270) */}
         {articles.articles.length && serves(own, '/artikler') ? (
           <section id="artikler" data-screen-label="Artikler" className={`${COLUMN} px-[56px] pt-[56px] max-sm:px-[16px] max-sm:pt-[40px]`}>
             <div className={HEAD}>

@@ -6,7 +6,7 @@ import { siteArticles } from '@/lib/site/own'
 
 /**
  * Cards linking to articles, by slug: the article's title and lead, as the index shows them. Only the
- * articles this site publishes (D-277): a slug of another site's is left out, never linked.
+ * articles this site publishes (D-278): a slug of another site's is left out, never linked.
  */
 export async function ArticleCards({ slugs }: { slugs: string[] }) {
   const t = await getTranslations()

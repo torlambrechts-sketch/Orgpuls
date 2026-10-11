@@ -9,7 +9,7 @@ import { breadcrumbs, graph, ldLanguage, organization, siteLd } from '@/lib/mark
 import { ownSite, serves, siteArticles } from '@/lib/site/own'
 
 /**
- * The article index: every article this site publishes (lib/marketing/site-articles.ts, D-277), in its
+ * The article index: every article this site publishes (lib/marketing/site-articles.ts, D-278), in its
  * section (D-250) and newest first within it. Informational, no offer (D-235); under the articles, the
  * free templates (D-243), where the site serves them (Norway's).
  */

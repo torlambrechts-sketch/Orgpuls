@@ -36,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // «Allow search engines» off (0126): nothing to offer
   if (!(await siteIndexing())) return []
   // a site of its own (D-270): the pages it serves, at its own addresses, and no twins on Orgpuls's hosts;
-  // its articles (Empvibe's, D-277) with their own dates, and the index with the newest
+  // its articles (Empvibe's, D-278) with their own dates, and the index with the newest
   const own = await ownSite()
   if (own) {
     const { articles } = await siteArticles()

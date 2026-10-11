@@ -162,7 +162,7 @@ export const article = (a: {
   locale?: string
   /** the sources the article cites (its «Kilder»), so a reader — or a model — can check the claim */
   sources?: { label: string; url: string }[]
-  /** the site that publishes it (D-277): its address, its name and its pages' language */
+  /** the site that publishes it (D-278): its address, its name and its pages' language */
   site?: SiteLd
 }) => {
   const site = a.site ?? ORGPULS_LD

@@ -8,7 +8,7 @@ import { articleIn, NORWAY_ARTICLES } from '@/lib/marketing/site-articles'
 import { siteArticles } from '@/lib/site/own'
 
 /**
- * An article: one of the articles this site publishes (lib/marketing/site-articles.ts, D-277), else a
+ * An article: one of the articles this site publishes (lib/marketing/site-articles.ts, D-278), else a
  * 404: Norway's on Norway's hosts, Empvibe's own on Empvibe's. The CMS that could write one is gone
  * (D-230).
  */

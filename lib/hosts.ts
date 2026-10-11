@@ -126,7 +126,7 @@ export const EMPVIBE_URL = `https://${EMPVIBE_HOST}`
 /**
  * The pages Empvibe's site serves, by route (D-270): the product, the use cases, the argument, the
  * law, safety representatives, small businesses, security, contact, the prices and the documents,
- * and since UK-H its own articles (D-277), written for the United Kingdom. Not the industries,
+ * and since UK-H its own articles (D-278), written for the United Kingdom. Not the industries,
  * Norway's articles, the templates or the demo, which are written for Norway.
  */
 export const EMPVIBE_PAGES: readonly string[] = [
@@ -145,7 +145,7 @@ export const EMPVIBE_PAGES: readonly string[] = [
   // its regulator, its prices and its register
   '/personvernerklaering',
   '/vilkar',
-  // its own articles (UK-H, D-277): the index and each article (lib/marketing/articles-empvibe.ts)
+  // its own articles (UK-H, D-278): the index and each article (lib/marketing/articles-empvibe.ts)
   '/artikler',
   ...EMPVIBE_ARTICLES.map((a) => `/artikler/${a.slug}`),
 ]

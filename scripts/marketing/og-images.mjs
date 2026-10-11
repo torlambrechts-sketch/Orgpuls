@@ -16,7 +16,7 @@
  * page's first slide title). Run it when an H1, a picture or a pill (messages seo.og.pills) changes.
  *
  * `--brand empvibe` draws Empvibe's cards (UK-E3, D-272) into public/og/empvibe/: the pages its site
- * serves that have a card of their own, its articles into public/og/empvibe/artikler/ (UK-H, D-277),
+ * serves that have a card of their own, its articles into public/og/empvibe/artikler/ (UK-H, D-278),
  * and default.png for the rest, under its name, in its British English (messages/market/gb/en.json
  * over en.json) and with its pictures (assets/produkt/empvibe).
  *
@@ -96,7 +96,7 @@ if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1)) throw new Er
 // the start page's first slide title: its H1 is for screen readers and opens with the brand, which
 // the card already shows beside the logo (D-190)
 const DEFAULT_CARD = { slug: 'default', h1: no.site.home.slides[0].title, shot: 'rapport', file: '../og.png' }
-// Empvibe's own articles (UK-H, D-277), from their own registry (lib/marketing/articles-empvibe.ts):
+// Empvibe's own articles (UK-H, D-278), from their own registry (lib/marketing/articles-empvibe.ts):
 // each article's H1 under the brand and the word «Articles», as Norway's, into public/og/empvibe/artikler/
 const ukSrc = empvibe ? readFileSync('lib/marketing/articles-empvibe.ts', 'utf8') : ''
 const UK_ARTICLE_CARDS = [...ukSrc.matchAll(/slug: '([^']+)',\s*key: '([^']+)',/g)].map((m) => ({

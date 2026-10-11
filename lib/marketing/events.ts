@@ -19,3 +19,14 @@ export function trackEvent(name: SiteEvent): void {
   track(name, { page: window.location.pathname, ...currentUtm() })
   sendBeacon({ k: 'event', e: name })
 }
+
+/**
+ * Where the signup form was left (D-277): the step reached and the error met, as codes the form itself
+ * chooses (`step2_shown`, `lookup_not_found`). They go to Sentral only, which counts them per visit and shows
+ * each attempt's steps; a value that is not a code (anything typed) is never sent.
+ */
+export type FormEvent = 'signup_step' | 'signup_error' | 'persona_click'
+
+export function trackForm(name: FormEvent, code: string): void {
+  sendBeacon({ k: 'form', e: name, l: code.toLowerCase().slice(0, 40) })
+}

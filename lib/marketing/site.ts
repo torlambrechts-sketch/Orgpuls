@@ -280,7 +280,7 @@ export const ARTICLES: Article[] = [
 
 /**
  * Each article's own card (scripts/marketing/og-images.mjs, D-106): its H1 under the brand. A site of
- * its own keeps its cards under public/og/<key>/ (lib/marketing/meta.ts cardUrl, D-277).
+ * its own keeps its cards under public/og/<key>/ (lib/marketing/meta.ts cardUrl, D-278).
  */
 export const articleImage = (slug: string) => `/og/artikler/${slug}.png`
 

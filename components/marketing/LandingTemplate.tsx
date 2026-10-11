@@ -23,7 +23,7 @@ import { SmallBizArt } from './art/SmallBizArt'
 export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; parent?: { name: string; path: string } }) {
   const t = await getTranslations()
   // a site of its own (D-270) serves only some neighbours, and files a page under its articles only
-  // where it publishes some (Empvibe's own since UK-H, D-277; none on Sweden's)
+  // where it publishes some (Empvibe's own since UK-H, D-278; none on Sweden's)
   const own = await ownSite()
   const articles = (await siteArticles()).landing[slug]
   // an informational page (D-236): under Artikler, no product picture, no sales pages beside it

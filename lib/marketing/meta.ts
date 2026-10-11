@@ -8,7 +8,7 @@ import { absolute } from './site'
  * A page's card as an absolute URL, as its link preview and its schema.org image name it. On a site
  * of its own, its own cards, in its words (public/og/<key>/, og-images.mjs --brand/--market, D-272,
  * D-276): the page's where it has one (public/og/<slug>.png, an article's public/og/artikler/<slug>.png,
- * D-277), the site's default card otherwise. On Norway's, the page's or the site's (public/og.png).
+ * D-278), the site's default card otherwise. On Norway's, the page's or the site's (public/og.png).
  */
 export function cardUrl(own: OwnSite | null, image: string | undefined): string {
   if (!own) return absolute(image ?? '/og.png')

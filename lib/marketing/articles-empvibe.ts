@@ -1,7 +1,7 @@
 import type { Article, ArticleGroup, LandingSlug } from './site'
 
 /**
- * Empvibe's articles (UK-H, D-277): written for the United Kingdom, in British English, on UK law
+ * Empvibe's articles (UK-H, D-278): written for the United Kingdom, in British English, on UK law
  * as docs/markets/uk-legal.md sets it out, for the searches a UK employer makes (the topic plan in
  * docs/markets/uk-articles.md). Their words are the gb pack's (messages/market/gb/en.json
  * `seo.articles.<key>`), so none of Norway's articles is shown on Empvibe's site, and none of these

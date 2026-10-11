@@ -98,7 +98,7 @@ async function ownList(own: OwnSite): Promise<string> {
       : route === '/hvorfor'
         ? line(route, t('site.hvorfor.seoTitle'), t('site.hvorfor.seoDescription'))
         : line(route, t(`${PAGE_WORDS[route]}.title`), t(`${PAGE_WORDS[route]}.description`))
-  // its articles (Empvibe's, D-277) under their own heading, as Norway's list has them: the index and each article
+  // its articles (Empvibe's, D-278) under their own heading, as Norway's list has them: the index and each article
   const { articles } = await siteArticles()
   const isArticle = (route: string) => route === '/artikler' || route.startsWith('/artikler/')
   const served = articles.filter((a) => own.site.own.pages.includes(`/artikler/${a.slug}`))

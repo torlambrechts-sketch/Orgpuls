@@ -7,7 +7,7 @@ import { ARTICLES } from '@/lib/marketing/site'
 import { articleIn, articlesOf, NORWAY_ARTICLES } from '@/lib/marketing/site-articles'
 
 /**
- * Empvibe's articles (UK-H, D-277): written for the United Kingdom, in its words (messages/market/gb),
+ * Empvibe's articles (UK-H, D-278): written for the United Kingdom, in its words (messages/market/gb),
  * served only on its site, and held to what the UK's law and HSE's licence allow. What would go wrong
  * silently, and is held here:
  *
@@ -99,7 +99,7 @@ const linkable = (href: string) => {
   return (EMPVIBE_PAGES as readonly string[]).includes(path) && (path.startsWith('/artikler/') || INFORMATIONAL.includes(path))
 }
 
-describe('Empvibe’s articles: the registry (UK-H, D-277)', () => {
+describe('Empvibe’s articles: the registry (UK-H, D-278)', () => {
   const slugs = EMPVIBE_ARTICLES.map((a) => a.slug)
 
   it('publishes its own set, each once, at an English address of its own', () => {
@@ -162,7 +162,7 @@ describe('Empvibe’s articles: the registry (UK-H, D-277)', () => {
   })
 })
 
-describe('Empvibe’s articles: the words (UK-H, D-277)', () => {
+describe('Empvibe’s articles: the words (UK-H, D-278)', () => {
   it('has every word each article and the index draw', () => {
     for (const a of EMPVIBE_ARTICLES) {
       const w = words(a.key)
@@ -225,7 +225,7 @@ describe('Empvibe’s articles: the words (UK-H, D-277)', () => {
   })
 })
 
-describe('Empvibe’s articles: their cards (UK-H, D-277)', () => {
+describe('Empvibe’s articles: their cards (UK-H, D-278)', () => {
   it('has a share card of its own for every article', () => {
     for (const a of EMPVIBE_ARTICLES) expect(existsSync(`public/og/empvibe/artikler/${a.slug}.png`), a.slug).toBe(true)
   })

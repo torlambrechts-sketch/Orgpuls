@@ -266,7 +266,7 @@ describe('each site of its own’s llms.txt', () => {
     // one entry per site, though Empvibe answers on two hosts
     const own = [...new Map(SITES.flatMap((s) => (s.own ? [[s.own.key, s.own] as const] : []))).values()]
     expect(own.map((o) => o.key).sort()).toEqual(['empvibe', 'se'])
-    // its articles (Empvibe's, D-277) are listed from the site's own registry, under their own heading
+    // its articles (Empvibe's, D-278) are listed from the site's own registry, under their own heading
     const isArticle = (p: string) => p === '/artikler' || p.startsWith('/artikler/')
     for (const { key, pages } of own)
       for (const page of pages.filter((p) => p !== '/' && p !== '/hvorfor' && !isArticle(p))) expect(route, `${key} ${page}`).toContain(`'${page}': 'seo.`)
@@ -364,7 +364,7 @@ describe('Empvibe’s site, open since the move (X-111, UK-E, UK-G, D-270, D-275
       ['/privacy', '/personvernerklaering'],
       ['/terms', '/vilkar'],
       ['/pricing', '/priser'],
-      // its own articles (UK-H, D-277): the index, and each article at /articles/<slug>
+      // its own articles (UK-H, D-278): the index, and each article at /articles/<slug>
       ['/articles', '/artikler'],
       ...EMPVIBE_ARTICLES.map((a): [string, string] => [`/articles/${a.slug}`, `/artikler/${a.slug}`]),
       ['/sign-in', '/logg-inn'],

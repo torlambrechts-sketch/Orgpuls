@@ -1,4 +1,4 @@
-# Empvibe's articles — the UK topic plan (UK-H, D-277)
+# Empvibe's articles — the UK topic plan (UK-H, D-278)
 
 Research 11 October 2026, for Empvibe's site (www.empvibe.com/articles). No tool gave search volumes, so each topic was
 ranked on evidence: how many pages compete and of what kind, whether HSE or Acas already own the answer, and how close
