@@ -14087,7 +14087,8 @@ and how they were recognised, and lets them in with a role (and a department for
 (`public.decide_join_request`: an invitation's rules). A request from somebody who has since become a member changes
 nothing and is withdrawn. Let in anywhere, by a request, an invitation or the daglig leder's own hand, every request of
 theirs is withdrawn (`memberships_withdraw_join_requests`). Every request is forgotten after thirty days by a daily job
-(`orgpuls-join-requests-purge`), declined ones included, which is how long a declined person cannot simply ask again.
+(`orgpuls-join-requests-purge`, which calls `app.join_requests_purge()` as every other job here calls a function),
+declined ones included, which is how long a declined person cannot simply ask again.
 
 **Concurrency.** The sign-up, the confirmation, «another company» and the decision take a per-account advisory lock, so
 two tabs make one organisation, not two.
@@ -14131,6 +14132,16 @@ site-v3 pixel run cannot isolate it: the front page already differs from that ba
 Tests: `supabase/tests/join_request_invariants.sql` (58 assertions: the surface, RLS, name keys, the check digit, every
 match and refusal including the squatted name and the consultant's domain, nothing read or sent before confirming, one
 open request, the dispatcher's payload and recipients, the notice pace, the membership trigger, a member's stale request,
-«another company», the rename under the name index, the purge job, cleanup); `tests/unit/mail.test.ts` (the `tilgang`
+«another company», the rename under the name index, the purge job forgetting a 31-day-old request and keeping today's, cleanup); `tests/unit/mail.test.ts` (the `tilgang`
 notice and what survives of a typed name); `tests/unit/org-number.test.ts` (`signupOrgNumber`);
 `tests/unit/legal-pack.test.ts` (the optional number's register hint is Norway's only).
+
+**Hosted, 2026-10-12.** 0231 is applied (`0231_outbox_kind_tilgang`). 0232 is not. The Supabase connector returned
+«cancelled» on the first `apply_migration` and timed out after 60 seconds on the second, which waits on a confirmation
+nobody in this session can give; nothing of 0232 reached the hosted database either time (no `app.join_requests`, no
+`signup_organisation`, the outbox constraint unchanged). Before the second attempt the purge job's own `delete` was moved
+into `app.join_requests_purge()`, the only statement in 0232 earlier applies had not carried; the remaining candidate is
+`alter table app.outbox drop constraint outbox_round_or_measure`, which 0215, 0218, 0222 and 0226 carried without a hold.
+The code needs 0232 (database first, code second), so it waits on the branch and nothing ships to main until the
+migration is applied: by Tor approving the connector's confirmation while this session applies the committed file, or
+from the SQL editor with the file verbatim, recorded under its name.

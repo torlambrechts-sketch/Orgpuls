@@ -164,9 +164,20 @@ create or replace trigger memberships_withdraw_join_requests
   after insert or update of active on app.memberships
   for each row execute function app.join_requests_withdraw();
 
--- held thirty days at most, whether or not anybody signs up meanwhile
-select cron.schedule('orgpuls-join-requests-purge', '23 3 * * *',
-  $c$ delete from app.join_requests where created_at < now() - interval '30 days' $c$);
+-- held thirty days at most, whether or not anybody signs up meanwhile: a daily job forgets the rest,
+-- through a function as every other job here does (0202), so the schedule names no statement of its own
+create or replace function app.join_requests_purge() returns integer
+  language sql set search_path = ''
+as $fn$
+  with gone as (
+    delete from app.join_requests where created_at < now() - interval '30 days' returning 1
+  )
+  select count(*)::int from gone
+$fn$;
+
+revoke all on function app.join_requests_purge() from public, anon, authenticated;
+
+select cron.schedule('orgpuls-join-requests-purge', '23 3 * * *', $cron$select app.join_requests_purge()$cron$);
 
 -- the notice that tells the daglig leder (0231)
 alter table app.outbox add column if not exists join_request_id uuid references app.join_requests(id) on delete cascade;

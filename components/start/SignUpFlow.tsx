@@ -144,7 +144,11 @@ export function SignUpFlow({
     password.length >= 8 &&
     consent
 
-  const steps = [t('stepAccount'), t(phase === 'waiting' ? 'stepWaiting' : 'step3')]
+  // found and not yet confirmed, nothing has been sent: the step says what is asked, not «sent»
+  const steps = [
+    t('stepAccount'),
+    t(phase !== 'waiting' ? 'step3' : request?.status === 'unconfirmed' ? 'stepFound' : 'stepWaiting'),
+  ]
   const reached = phase === 'form' ? 1 : 2
   const inputClass = 'h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none'
 

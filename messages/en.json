@@ -3077,6 +3077,7 @@
     "companyNamePlaceholder": "As registered",
     "stepAccount": "Company and account",
     "stepWaiting": "Request sent",
+    "stepFound": "Confirm the company",
     "formTitle": "Get started with Orgpuls",
     "formLead": "If the company is new to us, you become the first administrator and can invite the rest afterwards. Employees who only answer need no account – they use the link they are sent.",
     "companyHint": "If we find the company here already, we ask you whether it is yours before doing anything else. Then we ask the administrator there to give you access instead of creating a new one.",

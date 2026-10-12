@@ -3077,6 +3077,7 @@
     "companyNamePlaceholder": "Slik det er registrert",
     "stepAccount": "Virksomhet og konto",
     "stepWaiting": "Forespørsel sendt",
+    "stepFound": "Bekreft virksomheten",
     "formTitle": "Kom i gang med Orgpuls",
     "formLead": "Er virksomheten ny hos oss, blir du første administrator og kan invitere resten etterpå. De ansatte som bare skal svare, trenger ingen konto – de bruker lenken de får tilsendt.",
     "companyHint": "Finner vi virksomheten hos oss fra før, spør vi deg om det er dere før vi gjør noe mer. Da ber vi administratoren der om å gi deg tilgang i stedet for å lage en ny.",

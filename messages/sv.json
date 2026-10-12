@@ -2885,6 +2885,7 @@
     "companyNamePlaceholder": "Som det är registrerat",
     "stepAccount": "Organisation och konto",
     "stepWaiting": "Förfrågan skickad",
+    "stepFound": "Bekräfta organisationen",
     "formTitle": "Kom igång med Orgpuls",
     "formLead": "Är organisationen ny hos oss blir du första administratör och kan bjuda in resten efteråt. Anställda som bara ska svara behöver inget konto – de använder länken de får.",
     "companyHint": "Hittar vi organisationen hos oss redan frågar vi dig om det är ni innan vi gör något mer. Då ber vi administratören där att ge dig åtkomst i stället för att skapa en ny.",

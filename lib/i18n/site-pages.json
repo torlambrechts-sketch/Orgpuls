@@ -5563,6 +5563,7 @@
     "registrer.heard.option.other",
     "registrer.orgNumberPlaceholderManual",
     "registrer.stepWaiting",
+    "registrer.stepFound",
     "registrer.orgNumberOptionalHintManual",
     "registrer.waitingTitle",
     "registrer.waitingTitleGeneric",
@@ -5573,7 +5574,13 @@
     "registrer.separateTitle",
     "registrer.separateLead",
     "registrer.separateButton",
-    "registrer.waitingSignIn"
+    "registrer.waitingSignIn",
+    "registrer.foundTitle",
+    "registrer.foundLead",
+    "registrer.foundNumberNote",
+    "registrer.confirmButton",
+    "registrer.confirming",
+    "registrer.waitingLeadGeneric"
    ]
   },
   {

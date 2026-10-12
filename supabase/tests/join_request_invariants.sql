@@ -525,10 +525,24 @@ begin
   end;
   perform set_config('request.jwt.claims', '', true);
 
-  insert into public._jr values (56, 'requests are forgotten after thirty days by a daily job', 'scheduled',
+  -- a request thirty-one days old and one made today: the daily job forgets the first and keeps the second
+  insert into app.join_requests (org_id, user_id, email, matched_by, company_name, market, status, created_at)
+  values (v_org, u_cons, 'konsulent@invariant-sammen.orgpuls.com', 'name', 'Gammel', 'no', 'dismissed', now() - interval '31 days')
+  returning id into v_req;
+  insert into app.join_requests (org_id, user_id, email, matched_by, company_name, market, status)
+  values (v_org, u_lead, 'leder@invariant-sammen.orgpuls.com', 'name', 'Fersk', 'no', 'dismissed')
+  returning id into v_mine;
+  v_n := app.join_requests_purge();
+  insert into public._jr values (56, 'requests are forgotten after thirty days by a daily job', 'scheduled|gone|kept',
     case when exists (select 1 from cron.job where jobname = 'orgpuls-join-requests-purge'
-                        and command like '%join_requests%30 days%') then 'scheduled' else 'MISSING' end,
-    exists (select 1 from cron.job where jobname = 'orgpuls-join-requests-purge' and command like '%join_requests%30 days%'));
+                        and command like '%app.join_requests_purge()%') then 'scheduled' else 'MISSING' end || '|' ||
+      case when exists (select 1 from app.join_requests where id = v_req) then 'KEPT' else 'gone' end || '|' ||
+      case when exists (select 1 from app.join_requests where id = v_mine) then 'kept' else 'GONE' end,
+    exists (select 1 from cron.job where jobname = 'orgpuls-join-requests-purge' and command like '%app.join_requests_purge()%')
+      and v_n >= 1
+      and not exists (select 1 from app.join_requests where id = v_req)
+      and exists (select 1 from app.join_requests where id = v_mine));
+  delete from app.join_requests where id = v_mine;
 
   insert into public._jr values (57, 'an organisation made without a number carries none', '0',
     (select count(*) from app.organizations o where o.id = any(v_new) and o.org_number is not null
