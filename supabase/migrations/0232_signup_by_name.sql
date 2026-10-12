@@ -179,13 +179,10 @@ revoke all on function app.join_requests_purge() from public, anon, authenticate
 
 select cron.schedule('orgpuls-join-requests-purge', '23 3 * * *', $cron$select app.join_requests_purge()$cron$);
 
--- the notice that tells the daglig leder (0231)
+-- the notice that tells the daglig leder (0231); that it belongs to no round is 0233's
 alter table app.outbox add column if not exists join_request_id uuid references app.join_requests(id) on delete cascade;
 create index if not exists outbox_join_request_idx on app.outbox (join_request_id) where join_request_id is not null;
 
-alter table app.outbox drop constraint outbox_round_or_measure;
-alter table app.outbox add constraint outbox_round_or_measure
-  check (round_id is not null or kind in ('tiltak_forfalt', 'evaluering', 'tilgang'));
 alter table app.outbox add constraint outbox_tilgang_request
   check (kind <> 'tilgang' or (join_request_id is not null and audience = 'daglig_leder'));
 

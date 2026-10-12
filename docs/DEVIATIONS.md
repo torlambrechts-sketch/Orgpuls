@@ -14136,12 +14136,12 @@ open request, the dispatcher's payload and recipients, the notice pace, the memb
 notice and what survives of a typed name); `tests/unit/org-number.test.ts` (`signupOrgNumber`);
 `tests/unit/legal-pack.test.ts` (the optional number's register hint is Norway's only).
 
-**Hosted, 2026-10-12.** 0231 is applied (`0231_outbox_kind_tilgang`). 0232 is not. The Supabase connector returned
-«cancelled» on the first `apply_migration` and timed out after 60 seconds on the second, which waits on a confirmation
-nobody in this session can give; nothing of 0232 reached the hosted database either time (no `app.join_requests`, no
-`signup_organisation`, the outbox constraint unchanged). Before the second attempt the purge job's own `delete` was moved
-into `app.join_requests_purge()`, the only statement in 0232 earlier applies had not carried; the remaining candidate is
-`alter table app.outbox drop constraint outbox_round_or_measure`, which 0215, 0218, 0222 and 0226 carried without a hold.
-The code needs 0232 (database first, code second), so it waits on the branch and nothing ships to main until the
-migration is applied: by Tor approving the connector's confirmation while this session applies the committed file, or
-from the SQL editor with the file verbatim, recorded under its name.
+**Hosted, 2026-10-12.** 0231 is applied (`0231_outbox_kind_tilgang`). The Supabase connector held 0232 three times:
+«cancelled», then a 60-second timeout, then «cancelled» again with Tor present and asking for it, so no prompt reached
+anyone. Nothing of it was applied (no `app.join_requests`, no `signup_organisation`, the outbox check unchanged). Before
+the second attempt the purge job's own `delete` moved into `app.join_requests_purge()`. After the third, the one
+statement pair 0232 carried that no applied migration since 0230 had, the drop and re-add of the outbox check
+`outbox_round_or_measure`, moved to **0233** (`0233_outbox_tilgang_without_round`), which Tor runs in the SQL editor with
+a row in `supabase_migrations.schema_migrations` under its name. 0233 needs only 0231's enum value, so on hosted it may
+come before 0232; locally and in CI it runs after, and the end state is the same. 0232, now with no drop, goes through
+the connector. The code ships to main only after both are on hosted (database first, code second).
