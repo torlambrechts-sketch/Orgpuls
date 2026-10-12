@@ -75,6 +75,7 @@ export async function AnsatteTab({
         <ImportForm
           canWrite={view.canWrite}
           groups={view.groups}
+          market={view.company.market}
           labels={{
             sourceManual: t('oppsett.ansatte.sourceManual'),
             sourceManualNote: t('oppsett.ansatte.sourceManualNote'),

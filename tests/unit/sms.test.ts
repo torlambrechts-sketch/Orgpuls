@@ -21,6 +21,36 @@ describe('normalizePhone', () => {
     expect(normalizePhone('0046701234567')).toBe('+46701234567')
   })
 
+  it('never reads a North American number typed without +1 as Norwegian (D-280)', () => {
+    // Arkansas (479) and Saskatchewan (474), grouped as an area code: refused, not sent to +47
+    for (const input of ['479 555 1234', '479-555-1234', '(479) 555-1234', '474.555.1234']) {
+      expect(normalizePhone(input), input).toBeNull()
+    }
+    expect(normalizePhone('+1 479 555 1234')).toBe('+14795551234')
+    // a Norwegian number whose plus a spreadsheet dropped still reads as Norwegian
+    expect(normalizePhone('4791234567')).toBe('+4791234567')
+  })
+
+  it('reads a number without its country code by the organisation’s market (D-280)', () => {
+    // the United Kingdom: a mobile in its national form; Norway's forms are not read there
+    expect(normalizePhone('07700 900123', 'gb')).toBe('+447700900123')
+    expect(normalizePhone('07624 123456', 'gb')).toBe('+447624123456')
+    for (const input of ['020 7946 0000', '91234567', '47 91 23 45 67', '07700 900123 4']) {
+      expect(normalizePhone(input, 'gb'), input).toBeNull()
+    }
+    // Sweden: a mobile in its national form
+    expect(normalizePhone('070-123 45 67', 'se')).toBe('+46701234567')
+    for (const input of ['08-123 456 78', '91234567']) expect(normalizePhone(input, 'se'), input).toBeNull()
+    // a UK number in a Norwegian organisation needs its +44, as before
+    expect(normalizePhone('07700 900123', 'no')).toBeNull()
+    // with its country code, a number reads the same in every market
+    for (const m of ['no', 'se', 'gb']) {
+      expect(normalizePhone('+47 912 34 567', m), m).toBe('+4791234567')
+      expect(normalizePhone('+44 7700 900123', m), m).toBe('+447700900123')
+      expect(normalizePhone('+4722000000', m), m).toBeNull()
+    }
+  })
+
   it('shows a Norwegian number the way Norwegians write it', () => {
     expect(displayPhone('+4791234567')).toBe('912 34 567')
     expect(displayPhone('+46701234567')).toBe('+46701234567')

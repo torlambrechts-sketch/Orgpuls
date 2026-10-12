@@ -1,6 +1,6 @@
 import { createTranslator, NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages, getTranslations } from 'next-intl/server'
-import { LOCALE_NAMES, chooseLocale, offeredLocales, surveyMessages } from '@/lib/i18n/offered'
+import { LOCALE_NAMES, chooseLocale, offeredLocales, surveyBaseOf, surveyMessages } from '@/lib/i18n/offered'
 import { logoPath } from '@/lib/org/logo'
 import { RESPONDENT_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
 import { getRespondForm, getRespondLocales } from '@/lib/respond/read'
@@ -70,7 +70,8 @@ export default async function RespondPage({
    * page is in the host's or the switch's language, as before.
    */
   const locales = await getRespondLocales(token)
-  const offered = offeredLocales(locales?.locales ?? null, locales?.ui)
+  // the survey's own language is its market's (D-280): the link is on the market's own site (D-275)
+  const offered = offeredLocales(locales?.locales ?? null, locales?.ui, surveyBaseOf(await requestMarket()))
   const lang = offered ? chooseLocale(offered, Array.isArray(asked) ? asked[0] : asked, locales?.employee_lang, locales?.org_lang) : await getLocale()
   // bokmål and English have their page strings in messages/; every other survey language (D-133,
   // Swedish too, D-252) has them in the registry, laid over bokmål's, and offeredLocales has found every one approved

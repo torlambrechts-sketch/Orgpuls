@@ -4,6 +4,7 @@ import no from '@/messages/no.json'
 import hashes from '@/lib/i18n/respondent-ui.json'
 import {
   groupsOf,
+  MARKET_SURVEY_BASE,
   offeredFor,
   personalLang,
   personalLink,
@@ -14,7 +15,8 @@ import {
   type NoticeJob,
 } from '@/supabase/functions/_shared/mail'
 import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
-import { chooseLocale, offeredLocales } from '@/lib/i18n/offered'
+import { chooseLocale, offeredLocales, surveyBaseOf } from '@/lib/i18n/offered'
+import { MARKETS } from '@/lib/markets'
 
 /**
  * Engagement P1.3 (D-127): a personal message in the employee's language where the survey is
@@ -122,6 +124,33 @@ describe('the organisation’s language comes before bokmål (D-127 addendum)', 
     expect(chooseLocale(['no', 'en'], 'no', 'en', 'en')).toBe('no')
     expect(chooseLocale(['no'], undefined, null, 'en')).toBe('no')
     expect(chooseLocale(['no', 'en'], undefined, 'pl', null)).toBe('no')
+  })
+})
+
+describe('the survey’s own language is its market’s (D-280)', () => {
+  it('is the same on the survey page and in the dispatcher', () => {
+    for (const m of MARKETS) expect(MARKET_SURVEY_BASE[m], m).toBe(surveyBaseOf(m))
+    expect(surveyBaseOf('no')).toBe('no')
+    expect(surveyBaseOf('gb')).toBe('en')
+  })
+
+  it('offers no bokmål in a British survey once English is offered, and English first', () => {
+    expect(offeredLocales(ready, {}, 'en')).toEqual(['en'])
+    expect(offeredFor(cat, job({ market: 'gb', lang: 'en' }), all)).toEqual(['en'])
+    // where the market's language is not offered, bokmål stays the survey's language, as before
+    expect(offeredLocales(ready, {}, 'sv')).toEqual(['no', 'en'])
+    expect(offeredFor(cat, job({ market: 'se', lang: 'sv' }), all)).toEqual(['no', 'en'])
+    // Norway's survey is unchanged
+    expect(offeredLocales(ready, {}, 'no')).toEqual(['no', 'en'])
+    expect(offeredFor(cat, job({ market: 'no' }), all)).toEqual(['no', 'en'])
+  })
+
+  it('falls back to the survey’s own language, never to bokmål it does not offer', () => {
+    // an employee marked Norwegian in a British organisation reads English, on the page and in the mail
+    expect(chooseLocale(['en'], undefined, 'no', 'en')).toBe('en')
+    expect(chooseLocale(['en', 'pl'], undefined, 'lt', null)).toBe('en')
+    const j = job({ market: 'gb', lang: 'en', recipients: [{ email: 'x@firm.co.uk', phone: null, name: 'X', lang: 'no', member: false }] })
+    expect(personalLang(j, j.recipients[0]!, offeredFor(cat, j, all))).toBe('en')
   })
 })
 

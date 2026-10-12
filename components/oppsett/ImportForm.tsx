@@ -53,10 +53,13 @@ interface Labels {
 export function ImportForm({
   canWrite,
   groups,
+  market,
   labels,
 }: {
   canWrite: boolean
   groups: Group[]
+  /** the organisation's market: how a number typed without its country code is read (D-280) */
+  market: string
   labels: Labels
 }) {
   /**
@@ -83,7 +86,7 @@ export function ImportForm({
   const badEmail = rows.filter((r) => (r[1] ?? '') !== '' && !(r[1] ?? '').includes('@')).length
   const noGroup = rows.filter((r) => (r[2] ?? '') === '').length
   // column E: a number that cannot be used is imported without it, and said so here first
-  const badPhone = rows.filter((r) => (r[4] ?? '') !== '' && !normalizePhone(r[4])).length
+  const badPhone = rows.filter((r) => (r[4] ?? '') !== '' && !normalizePhone(r[4], market)).length
 
   return (
     <>
@@ -209,7 +212,7 @@ export function ImportForm({
                         </span>
                         <span>{r[2] || '—'}</span>
                         <span className="text-mut">{r[3] || '—'}</span>
-                        <span style={{ color: (r[4] ?? '') !== '' && !normalizePhone(r[4]) ? '#A33A16' : '#191510' }}>
+                        <span style={{ color: (r[4] ?? '') !== '' && !normalizePhone(r[4], market) ? '#A33A16' : '#191510' }}>
                           {r[4] || '—'}
                         </span>
                       </div>

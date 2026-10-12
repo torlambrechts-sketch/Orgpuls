@@ -10,6 +10,8 @@ import { writeFailed } from '@/lib/supabase/write'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { DUTY_ROLES } from '@/lib/settings/read'
 import { normalizePhone } from '@/supabase/functions/_shared/sms'
+import { getOrgMarket } from '@/lib/org/market'
+import { DEFAULT_MARKET } from '@/lib/markets'
 import { parseCsv } from '@/lib/csv/parse'
 import { INDUSTRY_SLUGS, industryForNace } from '@/content/industries/meta'
 
@@ -291,7 +293,8 @@ export async function addEmployee(formData: FormData): Promise<SettingsResult> {
     phone: String(formData.get('phone') ?? ''),
   })
   if (!parsed.success) return { ok: false, problem: 'invalid' }
-  const phone = parsed.data.phone === '' ? null : normalizePhone(parsed.data.phone)
+  // a number without its country code is read by the organisation's market (D-280)
+  const phone = parsed.data.phone === '' ? null : normalizePhone(parsed.data.phone, (await getOrgMarket()) ?? DEFAULT_MARKET)
   if (parsed.data.phone !== '' && !phone) return { ok: false, problem: 'phone' }
 
   const id = await orgId()
@@ -348,6 +351,8 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
 
   const id = await orgId()
   if (!id) return { ok: false, problem: 'denied' }
+  // a number without its country code is read by the organisation's market (D-280)
+  const market = (await getOrgMarket()) ?? DEFAULT_MARKET
 
   const supabase = await createClient()
   const { data: groupRows } = await supabase.schema('app').from('groups').select('id, name')
@@ -387,7 +392,7 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
     }
     const email = cells[1] ?? ''
     const group = cells[2] ?? ''
-    const phone = normalizePhone(cells[4] ?? '')
+    const phone = normalizePhone(cells[4] ?? '', market)
     // column F, the employee's language (engagement P1.2, D-127): a default for their survey
     // and invitation where that language is offered, never a filter
     const language = languageOf(cells[5] ?? '')

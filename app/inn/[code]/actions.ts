@@ -4,6 +4,7 @@ import { headers } from 'next/headers'
 import { z } from 'zod'
 import { networkOf } from '@/lib/brreg/throttle'
 import { contactOf } from '@/lib/entry/contact'
+import { requestMarket } from '@/lib/i18n/market'
 import { entryAllowed } from '@/lib/entry/throttle'
 import { callFailed } from '@/lib/supabase/read'
 import { createClient } from '@/lib/supabase/server'
@@ -25,7 +26,7 @@ const Answer = z.union([z.object({ ok: z.literal(true) }), z.object({ error: z.e
 export async function requestLink(code: string, _prev: EntryState, form: FormData): Promise<EntryState> {
   const c = Code.safeParse(code)
   const raw = form.get('contact')
-  const contact = typeof raw === 'string' ? contactOf(raw) : null
+  const contact = typeof raw === 'string' ? contactOf(raw, await requestMarket()) : null
   if (!c.success) return { status: 'failed' }
   if (!contact) return { status: 'invalid' }
 

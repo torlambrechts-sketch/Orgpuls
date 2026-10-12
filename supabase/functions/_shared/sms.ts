@@ -13,20 +13,30 @@
 /**
  * A mobile number as the register stores it: E.164, "+4791234567".
  *
- * Norwegian numbers are what people type: "912 34 567", "+47 912 34 567", "0047 91234567".
- * An eight-digit number is taken as Norwegian only if it starts with 4 or 9, the mobile
- * ranges; a landline cannot receive an SMS, and guessing a country for anything else would
- * send a survey link to a stranger. Returns null for anything that is not a usable number.
+ * A number with its country code ("+44 7700 900123", "0046 70 123 45 67") is kept as it is,
+ * in any market. A number without one is read by the organisation's market (D-280), because
+ * guessing a country for it would send a survey link to a stranger:
+ *   - Norway: "912 34 567", an eight-digit number starting with 4 or 9, the mobile ranges (a
+ *     landline cannot receive an SMS), or "47 912 34 567", the plus lost as a spreadsheet loses
+ *     it — but not grouped as a North American area code («479 555 1234»: 474 and 479 are
+ *     Canada's and Arkansas's), which is a US or Canadian number typed without +1;
+ *   - the United Kingdom: "07700 900123", a UK mobile (07 then 1–5 or 7–9, or the Isle of Man's 07624);
+ *   - Sweden: "070-123 45 67", a Swedish mobile (070, 072, 073, 076, 079).
+ * Norway's forms are never read in another market. Returns null for anything that is not a
+ * usable number.
  */
-export function normalizePhone(input: string | null | undefined): string | null {
+export function normalizePhone(input: string | null | undefined, market: string = 'no'): string | null {
   if (!input) return null
-  let s = input.trim().replace(/[\s\-().]/g, '')
+  const raw = input.trim()
+  let s = raw.replace(/[\s\-().]/g, '')
   if (s === '') return null
   if (s.startsWith('00')) s = `+${s.slice(2)}`
-  if (/^[49]\d{7}$/.test(s)) return `+47${s}`
-  if (/^47[49]\d{7}$/.test(s)) return `+${s}`
   if (/^\+47\d{8}$/.test(s)) return /^\+47[49]/.test(s) ? s : null
   if (/^\+[1-9]\d{7,14}$/.test(s)) return s
+  if (market === 'gb') return /^07([1-57-9]\d{8}|624\d{6})$/.test(s) ? `+44${s.slice(1)}` : null
+  if (market === 'se') return /^07[02369]\d{7}$/.test(s) ? `+46${s.slice(1)}` : null
+  if (/^[49]\d{7}$/.test(s)) return `+47${s}`
+  if (/^47[49]\d{7}$/.test(s) && !/^\(?47[49]\)?[\s\-.]/.test(raw)) return `+${s}`
   return null
 }
 

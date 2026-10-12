@@ -14158,3 +14158,46 @@ SECURITY DEFINER function» warning, as every RPC here does by design, each chec
 screens» green, «Security invariants» and «Smoke every screen» included (run 38217326345); «Deploy the edge functions»
 green, so the dispatcher carries the `tilgang` notice. Production serves the one form with the optional number on
 www.orgpuls.com/registrer and www.empvibe.com/sign-up.
+
+## D-280 — Phone numbers, survey language and notice dates follow the organisation's market (2026-10-12)
+
+Found by the US board review's engineering seat (docs/markets/PLAN.md, the US Entry Review), fixed on Tor's word the
+same day.
+
+**Phone numbers** (`supabase/functions/_shared/sms.ts` `normalizePhone(input, market)`). The rule read every number
+without a country code as Norwegian, in every market. A UK firm's "07700 900123" was refused, an eight-digit number
+typed in a British or Swedish organisation was sent to Norway, and in any organisation "479 555 1234" (Arkansas; 474
+is Saskatchewan) became +47 95551234, a stranger's Norwegian mobile. Now:
+- a number with its country code (`+`, `00`) reads the same everywhere, `+47` still only for the mobile ranges;
+- without one, by the organisation's market: the United Kingdom's mobiles in their national form (07, then 1–5 or 7–9,
+  or the Isle of Man's 07624) to `+44`; Sweden's (070, 072, 073, 076, 079) to `+46`; Norway's forms only in Norway;
+- in Norway, "47 912 34 567" and a run-together "4791234567" (the plus a spreadsheet drops) still read as Norwegian, but
+  a number grouped as a North American area code («479 555 1234», «(474) 555-1234») is refused. A run-together
+  "4795551234" stays ambiguous and reads as Norwegian: in a Norwegian organisation's spreadsheet it is far more likely a
+  +47 number than an Arkansas one typed without +1.
+
+The market comes from the organisation (`getOrgMarket`) in Oppsett's form and import, from `view.company.market` in the
+import preview, and from the page's market (`requestMarket`, the market's own site since D-275) on the QR page. **Not
+changed:** the Entra sync reads Graph's `mobilePhone` by Norway's rule, since the sync does not know the market; Entra
+holds numbers in E.164 as Microsoft recommends, and a national UK number there is refused, not misrouted. The platform's
+SMS probe keeps Norway's rule.
+
+**Survey language** (`lib/i18n/offered.ts`, `mail.ts` `offeredFor`, `personalLang`). The survey always offered bokmål
+and fell back to it. The survey's own language is now its market's (`surveyBaseOf`: the first of `MARKET_LANGS`): where
+it is offered it comes first and bokmål is not offered beside it, so a British survey offers English and the survey
+languages, not Norsk; where it is not (Swedish before `locale_sv`), bokmål stays the survey's language as before. The
+fallback is the first offered language, on the page (`chooseLocale`) and in the mail (`personalLang`), so an employee
+marked Norwegian in a British organisation reads English in both. The page takes the market from its host, the market's
+own site the link was sent from (D-275); the dispatcher from the job's market (`MARKET_SURVEY_BASE`, held equal to
+`surveyBaseOf`). Norway's survey is unchanged.
+
+**Notice dates** (`mail.ts` `dateOf(…, timeZone)`, `MARKET_TIME_ZONE`, `timeZoneOf`). Every date in a notice, an SMS
+lead and a lifecycle mail was written on Oslo's clock; a deadline at 23:30 in London read as the next day. Each is now
+written on the market's zone, the zone an organisation takes at sign-up and keeps (`MARKET_TIME_ZONE`, held equal to
+lib/markets.ts).
+
+Tests: `tests/unit/sms.test.ts` (North American numbers refused, the run-together Norwegian kept, each market's national
+form, the same number with its code in every market); `tests/unit/p1-language.test.ts` (the base per market equal on
+page and in mail, no bokmål in a British survey once English is offered, bokmål kept where the market's language is not
+offered, the fallback); `tests/unit/mail.test.ts` (the zones equal to the app's, a London deadline at 23:30 written as
+London's day in the notice and the SMS, a Norwegian organisation's on Oslo's).

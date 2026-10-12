@@ -352,13 +352,21 @@ export function escapeHtml(s: string): string {
 /** "12. oktober" / "12 October", in the organisation's own zone. */
 const DATE_LOCALE: Record<Lang, string> = { no: 'nb-NO', en: 'en-GB', pl: 'pl-PL', uk: 'uk-UA', lt: 'lt-LT', sv: 'sv-SE', da: 'da-DK' }
 
-export function dateOf(iso: string | null, lang: Lang, withYear = false): string {
+/**
+ * Each market's time zone (lib/markets.ts MARKET_TIME_ZONE; tests/unit/mail.test.ts holds the two
+ * equal), the zone an organisation there takes at sign-up and keeps: the clock its notices' dates are
+ * on (D-280), so a deadline at midnight in London is not the next day's in a British inbox.
+ */
+export const MARKET_TIME_ZONE: Readonly<Record<string, string>> = { no: 'Europe/Oslo', se: 'Europe/Stockholm', gb: 'Europe/London' }
+export const timeZoneOf = (market: string | null | undefined): string => MARKET_TIME_ZONE[market ?? ''] ?? 'Europe/Oslo'
+
+export function dateOf(iso: string | null, lang: Lang, withYear = false, timeZone = 'Europe/Oslo'): string {
   if (!iso) return ''
   return new Intl.DateTimeFormat(DATE_LOCALE[lang] ?? 'nb-NO', {
     day: 'numeric',
     month: 'long',
     ...(withYear ? { year: 'numeric' as const } : {}),
-    timeZone: 'Europe/Oslo',
+    timeZone,
   }).format(new Date(iso))
 }
 
@@ -453,6 +461,13 @@ export type LanguageOffer = {
   uiReady?: Record<string, boolean>
 }
 
+/**
+ * Each market's survey language (lib/i18n/offered.ts surveyBaseOf; tests/unit/mail.test.ts holds the
+ * two equal): where it is offered it comes first and bokmål is not offered beside it (D-280), so an
+ * invitation and the survey page it links to agree on the languages.
+ */
+export const MARKET_SURVEY_BASE: Readonly<Record<string, Lang>> = { no: 'no', se: 'sv', gb: 'en' }
+
 export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOffer | null): Lang[] | null {
   if (!offer) return null
   const on = (l: string) => offer.flags === '*' || offer.flags.has(`locale_${l}`) || job.locales?.[l]?.pilot === true
@@ -466,13 +481,15 @@ export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOf
     const ui = (hash !== undefined && (s?.auto === true || s?.ui.includes(hash))) || offer.uiReady?.[l] === true
     return on(l) && l in cat && s !== undefined && s.missing === 0 && ui
   })
-  return ['no', ...(ready as Lang[])]
+  const offered: Lang[] = ['no', ...(ready as Lang[])]
+  const base = MARKET_SURVEY_BASE[job.market ?? ''] ?? 'no'
+  return base !== 'no' && offered.includes(base) ? [base, ...offered.filter((l) => l !== base && l !== 'no')] : offered
 }
 
 /**
  * The language one person reads their own message in. Without a language flag, the
  * organisation's, as before. With one: theirs where offered, then the organisation's where
- * offered, then bokmål — the order the survey page opens in (lib/i18n/offered.ts chooseLocale),
+ * offered, then the survey's own (bokmål, or the market's language, D-280) — the order the survey page opens in (lib/i18n/offered.ts chooseLocale),
  * so an English organisation's employee with no language set keeps English mail.
  */
 export function personalLang(job: NoticeJob, r: Recipient, offered: Lang[] | null): Lang {
@@ -485,7 +502,8 @@ export function personalLang(job: NoticeJob, r: Recipient, offered: Lang[] | nul
   if (own && offered.includes(own)) return own
   // the organisation's own survey language where it is offered: Swedish for a Swedish organisation
   if (isLang(job.lang) && offered.includes(job.lang)) return job.lang
-  return offered.includes(org) ? org : 'no'
+  // then the survey's own: bokmål, or the market's language where it is offered (D-280)
+  return offered.includes(org) ? org : (offered[0] ?? 'no')
 }
 
 /**
@@ -562,7 +580,7 @@ export function renderNotice(
   // a measure past its date (0099, P1-5): to its owner, or to the verneombud as a copy
   if (job.kind === 'tiltak_forfalt') {
     const items = (job.measures ?? []).map((x) =>
-      x.due ? fill(pick(m, 'tiltak.item'), { title: x.title, date: dateOf(x.due, group.lang) }) : fill(pick(m, 'tiltak.itemNoDate'), { title: x.title }),
+      x.due ? fill(pick(m, 'tiltak.item'), { title: x.title, date: dateOf(x.due, group.lang, false, timeZoneOf(job.market)) }) : fill(pick(m, 'tiltak.itemNoDate'), { title: x.title }),
     )
     const lead = job.audience === 'verneombud' ? fill(pick(m, 'tiltak.verneombud'), { org }) : pick(m, 'tiltak.owner')
     const subject = fill(pick(m, 'tiltak.subject'), { org })
@@ -579,8 +597,8 @@ export function renderNotice(
     const subject = fill(pick(m, 'evaluering.subject'), { org })
     const paragraphs = [
       // a yearly cadence: the year is the point (audit AUD-21)
-      ev?.due_on ? fill(pick(m, 'evaluering.lead'), { date: dateOf(ev.due_on, group.lang, true) }) : pick(m, 'evaluering.leadNoDate'),
-      ev?.last_on ? fill(pick(m, 'evaluering.last'), { date: dateOf(ev.last_on, group.lang, true) }) : pick(m, 'evaluering.none'),
+      ev?.due_on ? fill(pick(m, 'evaluering.lead'), { date: dateOf(ev.due_on, group.lang, true, timeZoneOf(job.market)) }) : pick(m, 'evaluering.leadNoDate'),
+      ev?.last_on ? fill(pick(m, 'evaluering.last'), { date: dateOf(ev.last_on, group.lang, true, timeZoneOf(job.market)) }) : pick(m, 'evaluering.none'),
       pick(m, 'evaluering.what'),
     ]
     const cta = group.member ? { label: pick(m, 'evaluering.cta'), url: `${base}/rapport` } : null
@@ -639,13 +657,13 @@ export function renderNotice(
       fill(pick(m, 'invitasjon.anonymous'), { k: job.k }),
       ...(invite && job.channel === 'email' ? sinceBlock(m, job.since) : []),
       ...(invite && job.results_shared
-        ? [job.publish_on ? fill(pick(m, 'invitasjon.resultsOn'), { date: dateOf(job.publish_on, group.lang) }) : pick(m, 'invitasjon.results')]
+        ? [job.publish_on ? fill(pick(m, 'invitasjon.resultsOn'), { date: dateOf(job.publish_on, group.lang, false, timeZoneOf(job.market)) }) : pick(m, 'invitasjon.results')]
         : []),
       // 0100 (P1-3): what the last round showed and what is being done, before this one is asked
       ...(invite && job.results_page ? [`${pick(m, 'invitasjon.lastPage')} ${pageLink(base, job.results_page)}`] : []),
     ]
     const after = [
-      ...(job.round.closes_at ? [fill(pick(m, 'invitasjon.deadline'), { date: dateOf(job.round.closes_at, group.lang) })] : []),
+      ...(job.round.closes_at ? [fill(pick(m, 'invitasjon.deadline'), { date: dateOf(job.round.closes_at, group.lang, false, timeZoneOf(job.market)) })] : []),
       ...(reminder || job.kind === 'lenke' ? [pick(m, 'paminnelse.replaces')] : []),
       pick(m, 'invitasjon.personal'),
     ]
@@ -668,7 +686,7 @@ export function renderNotice(
   }
 
   if (job.kind === 'forvarsel') {
-    const date = dateOf(job.round.opens_at, group.lang)
+    const date = dateOf(job.round.opens_at, group.lang, false, timeZoneOf(job.market))
     const audience = job.audience ?? 'alle_ansatte'
     const paragraphs = [cap(fill(pick(m, 'forvarsel.lead'), { org, round, date })), pick(m, `forvarsel.${audience}`)]
     const cta = group.member ? { label: pick(m, 'forvarsel.cta'), url: `${base}/malinger` } : null
@@ -819,7 +837,7 @@ export function smsLead(cat: MailCatalogue, job: NoticeJob, lang: Lang): string 
   const round = roundName(m, job.round)
   if (job.kind === 'paminnelse' || job.kind === 'siste_paminnelse') {
     const key = job.kind === 'paminnelse' ? 'sms.reminder' : 'sms.lastReminder'
-    return fill(pick(m, key), { org: job.org, round, date: dateOf(job.round.closes_at, lang) })
+    return fill(pick(m, key), { org: job.org, round, date: dateOf(job.round.closes_at, lang, false, timeZoneOf(job.market)) })
   }
   if (job.kind === 'lenke') return fill(pick(m, 'sms.link'), { org: job.org })
   // the organisation's own text goes to those who read the organisation's language: Swedish in a Swedish one
@@ -947,10 +965,10 @@ export function renderLifecycle(cat: MailCatalogue, job: LifecycleJob, appUrl: s
   // for a cancellation, the day it ends and the day everything is deleted
   const cancel = job.step === 'cancelled' || job.step === 'deletion_soon'
   if (cancel && (!job.cancel_effective_at || !job.deletion_due_at)) throw new Error(`${job.step} without its dates`)
-  const date = dateOf(job.step === 'trial_ended' || job.step === 'read_only_soon' ? job.read_only_from : job.trial_ends_at, lang)
+  const date = dateOf(job.step === 'trial_ended' || job.step === 'read_only_soon' ? job.read_only_from : job.trial_ends_at, lang, false, timeZoneOf(job.market))
   // the agreement's last day is the day before it ends at midnight
-  const ends = cancel ? dateOf(new Date(new Date(job.cancel_effective_at!).getTime() - 1000).toISOString(), lang) : ''
-  const deleted = cancel ? dateOf(job.deletion_due_at!, lang) : ''
+  const ends = cancel ? dateOf(new Date(new Date(job.cancel_effective_at!).getTime() - 1000).toISOString(), lang, false, timeZoneOf(job.market)) : ''
+  const deleted = cancel ? dateOf(job.deletion_due_at!, lang, false, timeZoneOf(job.market)) : ''
   const vars = { org: job.org, k: job.k, date, grace: graceDays, ends, deleted }
   const greeting = job.name ? fill(pick(m, 'greeting'), { name: job.name }) : pick(m, 'greetingPlain')
   const url = `${appUrl.replace(/\/+$/, '')}${LIFECYCLE_PATH[job.step]}`

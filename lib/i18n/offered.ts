@@ -1,6 +1,7 @@
 import 'server-only'
 import { flag, type FlagName } from '@/lib/flags'
 import { LOCALE_REGISTRY } from './locales'
+import { MARKET_LANGS, type Market } from '@/lib/markets'
 import hashes from './respondent-ui.json'
 import SOURCE from './survey-source.json'
 import { complete, nest, uiPlace, type Approved } from '@/supabase/functions/_shared/survey-texts'
@@ -45,12 +46,21 @@ export function isRespondentLocale(v: unknown): v is RespondentLocale {
  * `ui`: a survey language's approved page strings (respond_locales, 0086). Bokmål and English keep
  * their strings in messages/ and are approved by hash; the survey-only languages' strings come
  * from the registry, and count only when every one is approved from the current bokmål (D-133).
+ *
+ * `base` is the survey's own language, the market's (D-280): bokmål in Norway, English in the
+ * United Kingdom, Swedish in Sweden. Where it is offered it comes first and bokmål is not offered
+ * beside it, so a British employee is not shown Norsk; where it is not (Swedish before
+ * `locale_sv`), bokmål stays the survey's language, as before.
  */
-export function offeredLocales(state: LocaleState | null, ui: Record<string, Approved> = {}): RespondentLocale[] | null {
+export function offeredLocales(
+  state: LocaleState | null,
+  ui: Record<string, Approved> = {},
+  base: RespondentLocale = 'no',
+): RespondentLocale[] | null {
   const others = RESPONDENT_LOCALES.filter((l) => l !== 'no')
   const on = (l: RespondentLocale) => flag(`locale_${l}` as FlagName) || state?.[l]?.pilot === true
   if (!others.some(on)) return null
-  return [
+  const offered: RespondentLocale[] = [
     'no',
     ...others.filter((l) => {
       const s = state?.[l]
@@ -61,6 +71,13 @@ export function offeredLocales(state: LocaleState | null, ui: Record<string, App
       return on(l) && s !== undefined && s.missing === 0 && pages
     }),
   ]
+  return base !== 'no' && offered.includes(base) ? [base, ...offered.filter((l) => l !== base && l !== 'no')] : offered
+}
+
+/** The survey's own language in a market (D-280): the first of its platform languages, where the survey has it */
+export function surveyBaseOf(market: Market): RespondentLocale {
+  const first = MARKET_LANGS[market][0]
+  return isRespondentLocale(first) ? first : 'no'
 }
 
 /**
@@ -81,11 +98,11 @@ export function surveyMessages(no: Record<string, unknown>, approved: Approved):
 }
 
 /**
- * The language to show: `?lang=`, then the employee's own, then the organisation's, then bokmål —
- * each only if offered. The organisation's comes before bokmål because its invitations were
- * written in it (the dispatcher's personalLang follows the same order), so an English
- * organisation's employee with no language of their own opens the survey in the language
- * their invitation was in.
+ * The language to show: `?lang=`, then the employee's own, then the organisation's, then the
+ * survey's own (the first offered: bokmål, or the market's language, D-280) — each only if offered.
+ * The organisation's comes before the survey's own because its invitations were written in it (the
+ * dispatcher's personalLang follows the same order), so an English organisation's employee with no
+ * language of their own opens the survey in the language their invitation was in.
  */
 export function chooseLocale(
   offered: readonly RespondentLocale[],
@@ -94,5 +111,5 @@ export function chooseLocale(
   organisation?: unknown,
 ): RespondentLocale {
   for (const l of [asked, employee, organisation]) if (isRespondentLocale(l) && offered.includes(l)) return l
-  return 'no'
+  return offered[0] ?? 'no'
 }

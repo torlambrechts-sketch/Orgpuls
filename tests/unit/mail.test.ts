@@ -5,14 +5,17 @@ import no from '@/messages/no.json'
 import seEn from '@/messages/market/se/en.json'
 import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
 import { BRANDS, MARKET_BRAND } from '@/lib/brand'
-import { MARKETS } from '@/lib/markets'
+import { MARKETS, MARKET_TIME_ZONE as APP_TIME_ZONE } from '@/lib/markets'
 import {
   AUTH_ACTIONS,
   authLink,
   addressKey,
   brandedCatalogue,
   brandNameOf,
+  dateOf,
   MARKET_BRAND_NAME,
+  MARKET_TIME_ZONE,
+  timeZoneOf,
   groupLang,
   groupsOf,
   inTurns,
@@ -512,6 +515,26 @@ describe('a notice states its organisation’s market’s law (0219, D-257)', ()
     expect((se.no as { forvarsel: { verneombud: string } }).forvarsel.verneombud).toContain('AFS 2023:1')
     // the rest of the bokmål mail is untouched
     expect((se.no as { forvarsel: { subject: string } }).forvarsel.subject).toBe((no.mail as { forvarsel: { subject: string } }).forvarsel.subject)
+  })
+})
+
+describe('the clock a notice’s dates are on (D-280)', () => {
+  it('is each market’s zone, as the app holds it', () => {
+    for (const m of MARKETS) expect(MARKET_TIME_ZONE[m], m).toBe(APP_TIME_ZONE[m])
+    expect(timeZoneOf(null)).toBe('Europe/Oslo')
+    expect(timeZoneOf('xx')).toBe('Europe/Oslo')
+  })
+
+  it('writes a deadline just before midnight in London as London’s day, not Oslo’s', () => {
+    // 22:30 UTC on 12 October: 23:30 in London, 00:30 on the 13th in Oslo
+    const iso = '2026-10-12T22:30:00Z'
+    expect(dateOf(iso, 'en', false, timeZoneOf('gb'))).toBe('12 October')
+    expect(dateOf(iso, 'en', false, timeZoneOf('no'))).toBe('13 October')
+    const reminder = job({ kind: 'paminnelse', market: 'gb', lang: 'en', round: { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: '2026-10-06T07:00:00Z', closes_at: iso } })
+    expect(renderNotice(cat, reminder, { lang: 'en', member: false, name: 'Amy' }, APP).text).toContain('12 October')
+    expect(smsLead(cat, { ...reminder, channel: 'sms' }, 'en')).toContain('12 October')
+    // a Norwegian organisation's notice keeps Oslo's day
+    expect(renderNotice(cat, { ...reminder, market: 'no' }, { lang: 'en', member: false, name: 'Amy' }, APP).text).toContain('13 October')
   })
 })
 
