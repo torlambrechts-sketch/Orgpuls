@@ -11,7 +11,7 @@ export const SITE_URL = 'https://www.orgpuls.com'
 export const absolute = (path: string) => `${SITE_URL}${path === '/' ? '' : path}`
 
 /** Landing pages, one per search intent. The slug is the route and the message key. */
-export const LANDING_PAGES = ['lovkrav', 'verneombud', 'smaa-bedrifter', 'bygg-og-anlegg', 'helse-og-omsorg'] as const
+export const LANDING_PAGES = ['lovkrav', 'verneombud', 'smaa-bedrifter', 'verktoy-for-medarbeiderundersokelse', 'bygg-og-anlegg', 'helse-og-omsorg'] as const
 export type LandingSlug = (typeof LANDING_PAGES)[number]
 
 /** A landing page's message key: slugs with hyphens are camel-cased in the messages. */
@@ -45,13 +45,34 @@ export type Article = {
 
 /** Newest first: the order the index lists them in within each section. */
 export const ARTICLES: Article[] = [
+  // two searches Search Console showed with no page to answer them (D-281)
+  {
+    slug: 'er-medarbeiderundersokelse-lovpalagt',
+    key: 'lovpalagt',
+    group: 'lov',
+    published: '2026-10-12',
+    modified: '2026-10-12',
+    related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'medarbeiderundersokelse'],
+    art: 'law',
+    template: 'kartleggingspakken',
+  },
+  {
+    slug: 'arbeidsmiljokartlegging',
+    key: 'arbeidsmiljokartlegging',
+    group: 'start',
+    published: '2026-10-12',
+    modified: '2026-10-12',
+    related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'risikovurdering-av-psykososialt-arbeidsmiljo'],
+    art: 'risk',
+    template: 'kartleggingspakken',
+  },
   // the three words people search that the site had no page for (D-249)
   {
     slug: 'medarbeiderundersokelse',
     key: 'medarbeiderundersokelse',
     group: 'start',
     published: '2026-10-08',
-    modified: '2026-10-08',
+    modified: '2026-10-12',
     related: ['medarbeiderundersokelse-sporsmal', 'anonym-medarbeiderundersokelse'],
     art: 'survey',
     template: 'kartleggingspakken',
@@ -61,7 +82,7 @@ export const ARTICLES: Article[] = [
     key: 'trivselsundersokelse',
     group: 'start',
     published: '2026-10-08',
-    modified: '2026-10-08',
+    modified: '2026-10-12',
     related: ['medarbeiderundersokelse', 'slik-gar-dere-gjennom-resultatene-med-de-ansatte'],
     art: 'meeting',
     template: 'informasjonsskriv-og-sjekkliste',
@@ -231,7 +252,7 @@ export const ARTICLES: Article[] = [
     key: 'kravKartlegging',
     group: 'lov',
     published: '2026-09-25',
-    modified: '2026-10-09',
+    modified: '2026-10-12',
     related: ['nye-regler-psykososialt-arbeidsmiljo-2026', 'verneombudets-rolle-i-kartleggingen'],
     art: 'law',
     template: 'kartleggingspakken',
@@ -261,7 +282,7 @@ export const ARTICLES: Article[] = [
     key: 'anonym',
     group: 'gjennomforing',
     published: '2026-09-25',
-    modified: '2026-10-09',
+    modified: '2026-10-12',
     related: ['medarbeiderundersokelse-sporsmal', 'verneombudets-rolle-i-kartleggingen'],
     art: 'anon',
     template: 'informasjonsskriv-og-sjekkliste',
@@ -271,7 +292,7 @@ export const ARTICLES: Article[] = [
     key: 'verneombud',
     group: 'lov',
     published: '2026-09-25',
-    modified: '2026-10-09',
+    modified: '2026-10-12',
     related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
     art: 'rep',
     template: 'informasjonsskriv-og-sjekkliste',
@@ -289,6 +310,8 @@ export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
   lovkrav: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'nye-regler-psykososialt-arbeidsmiljo-2026'],
   verneombud: ['verneombudets-rolle-i-kartleggingen', 'anonym-medarbeiderundersokelse'],
   'smaa-bedrifter': ['anonym-medarbeiderundersokelse', 'medarbeiderundersokelse-sporsmal'],
+  // the «which tool» page (D-281): what anonymity means, and whether a survey is required at all
+  'verktoy-for-medarbeiderundersokelse': ['anonym-medarbeiderundersokelse', 'er-medarbeiderundersokelse-lovpalagt'],
   'bygg-og-anlegg': ['hvor-ofte-bor-dere-male-arbeidsmiljoet', 'medarbeiderundersokelse-sporsmal'],
   'helse-og-omsorg': ['medarbeiderundersokelse-sporsmal', 'anonym-medarbeiderundersokelse'],
 }
@@ -317,15 +340,22 @@ export const LANDING_HERO: Record<LandingSlug, ShotId> = {
   lovkrav: 'rapport',
   verneombud: 'varmekart',
   'smaa-bedrifter': 'oversikt',
+  // the heatmap: results per group, a group under the threshold shown as a dash
+  'verktoy-for-medarbeiderundersokelse': 'varmekart',
   'bygg-og-anlegg': 'sporsmal',
   'helse-og-omsorg': 'samtaler',
 }
 
-/** Two other landing pages each one points to, for the reader whose case is next door. */
-export const LANDING_RELATED: Record<LandingSlug, [LandingSlug, LandingSlug]> = {
+/**
+ * The other landing pages each one points to, for the reader whose case is next door, in order of preference: a
+ * page shows the first two its site serves (D-281), so a page Norway's site has and a site of its own does not
+ * (the «which tool» page) gives way there to the next.
+ */
+export const LANDING_RELATED: Record<LandingSlug, readonly LandingSlug[]> = {
   lovkrav: ['verneombud', 'smaa-bedrifter'],
   verneombud: ['lovkrav', 'bygg-og-anlegg'],
-  'smaa-bedrifter': ['lovkrav', 'verneombud'],
+  'smaa-bedrifter': ['lovkrav', 'verktoy-for-medarbeiderundersokelse', 'verneombud'],
+  'verktoy-for-medarbeiderundersokelse': ['smaa-bedrifter', 'lovkrav'],
   'bygg-og-anlegg': ['helse-og-omsorg', 'smaa-bedrifter'],
   'helse-og-omsorg': ['bygg-og-anlegg', 'verneombud'],
 }

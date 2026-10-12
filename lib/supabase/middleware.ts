@@ -73,6 +73,7 @@ const PUBLIC_PATHS = [
   '/lovkrav',
   '/verneombud',
   '/smaa-bedrifter',
+  '/verktoy-for-medarbeiderundersokelse',
   '/bygg-og-anlegg',
   '/helse-og-omsorg',
   '/barnehage-og-skole',

@@ -4926,7 +4926,7 @@
         ]
       },
       "verneombud": {
-        "title": "Verneombudet og kartleggingen av arbeidsmiljøet | Orgpuls",
+        "title": "Verneombudets rettigheter og plikter i kartleggingen | Orgpuls",
         "description": "Verneombudets rettigheter og plikter når det psykososiale arbeidsmiljøet kartlegges: hva loven sier, rollen i hvert steg og hva du gjør når ingen svarer.",
         "crumb": "For verneombud",
         "card": {
@@ -5505,6 +5505,146 @@
         ],
         "finalTitle": "Prøv det på deres egen virksomhet",
         "finalBody": "Skriv inn navnet på virksomheten og e-postadressen din. Dere er i gang på 3 minutter, uten kortopplysninger."
+      },
+      "verktoyForMedarbeiderundersokelse": {
+        "title": "Verktøy for anonym medarbeiderundersøkelse | Orgpuls",
+        "description": "Hva et verktøy for anonym medarbeiderundersøkelse bør klare – anonymitet, lovens faktorer, tiltak og dokumentasjon – og hvordan Orgpuls gjør det.",
+        "crumb": "Velge verktøy",
+        "card": {
+          "title": "Velge verktøy",
+          "text": "Åtte ting å sjekke i et verktøy for anonym medarbeiderundersøkelse, og hvordan Orgpuls gjør det."
+        },
+        "kicker": "For dere som skal velge verktøy",
+        "h1": "Verktøy for anonym medarbeider­undersøkelse: dette bør det klare",
+        "lead": "Orgpuls er et norsk verktøy for anonym medarbeiderundersøkelse og pulsmåling, laget for kartleggingen av det psykososiale arbeidsmiljøet som arbeidsmiljøloven krever. Et godt verktøy gjør tre ting: holder svarene anonyme på en måte som ikke kan skrus av, måler faktorene regelverket peker på, og gjør funnene om til tiltak og dokumentasjon. Her er hva dere bør sjekke, og hvordan Orgpuls gjør det.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Åtte ting å sjekke før dere velger"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Sjekk",
+              "Hvorfor",
+              "Slik gjør Orgpuls det"
+            ],
+            "rows": [
+              [
+                "Svaret kan ikke kobles til personen",
+                "Er folk i tvil om anonymiteten, svarer de pent – eller ikke i det hele tatt.",
+                "Svaret lagres uten navn, e-postadresse eller IP-adresse, og ingen kolonne kan holde en kobling til en person."
+              ],
+              [
+                "Små grupper skjules",
+                "En avdeling på tre er gjenkjennelig selv om ingen navn står noe sted.",
+                "Som standard vises ingen gruppe før minst 5 har svart. Grensen ligger i databasen og kan aldri settes under 3."
+              ],
+              [
+                "En skjult gruppe kan ikke regnes ut",
+                "Med tallet for helheten og alle grupper unntatt én kan den siste regnes ut.",
+                "Der regnestykket ellers ville gått opp, holdes også en annen gruppe tilbake."
+              ],
+              [
+                "Spørsmålene dekker lovens faktorer",
+                "Forskriften kapittel 1A krever at de psykososiale arbeidsmiljøfaktorene kartlegges, ikke bare trivsel.",
+                "Elleve faktorer med tre påstander hver, formulert etter QPS Nordic og besvart på en skala fra 1 til 5."
+              ],
+              [
+                "Funnene blir til tiltak",
+                "En undersøkelse uten oppfølging gjør lite.",
+                "Tiltak med eier og frist, og korte pulsmålinger som viser om de virket."
+              ],
+              [
+                "Verneombudet er med",
+                "Kartleggingen skal gjøres i samarbeid med de ansatte og deres representanter.",
+                "Daglig leder og verneombud ser de samme tallene samtidig."
+              ],
+              [
+                "Dokumentasjonen er klar",
+                "Kartlegging, risikovurdering og tiltak skal dokumenteres.",
+                "Rapporten til Arbeidstilsynet samler kartleggingen, vurderingene og tiltakene."
+              ],
+              [
+                "Dere vet hvor dataene er",
+                "Dere skal kunne svare de ansatte på hvor svarene ligger og hvem som behandler dem.",
+                "Data lagres i EU, og databehandleravtalen signeres under Oppsett."
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Spørsmål å stille leverandøren"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Hva lagres sammen med svaret – navn, e-post, IP-adresse, nøyaktig tidspunkt?",
+              "Hva er minste gruppestørrelse, og kan noen senke den etter at undersøkelsen er sendt ut?",
+              "Når én gruppe er skjult, kan den regnes ut fra de andre?",
+              "Hvem kan lese fritekstsvar, og hva hindrer at de avslører hvem som skrev dem?",
+              "Dekker spørsmålene faktorene i forskriften kapittel 1A?",
+              "Hvor lagres dataene, og finnes det en databehandleravtale?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Slik svarer Orgpuls på dem: [sikkerhet og anonymitet](/sikkerhet). Hva kartleggingen skal dekke, står i [lovkravene](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "Når et vanlig skjemaverktøy ikke holder"
+          },
+          {
+            "t": "p",
+            "text": "Et generelt skjemaverktøy er laget for å samle svar, ikke for å holde dem anonyme i små grupper. Bruker dere et slikt, må dere selv sørge for grensen for små grupper, at en skjult gruppe ikke kan regnes ut, at spørsmålene dekker lovens faktorer, og at funnene blir til tiltak og dokumentasjon."
+          },
+          {
+            "t": "h2",
+            "text": "Slik kommer dere i gang"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Registrer virksomheten. Det tar rundt 3 minutter.",
+              "Legg inn de ansatte fra et regneark, eller hent dem fra Microsoft Entra ID.",
+              "Velg når undersøkelsen skal gå. Invitasjonen sendes på e-post, SMS, Teams eller Slack.",
+              "Se resultatene per avdeling når nok har svart, og sett tiltak med eier og frist."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Se [prisene](/priser): de første 15 dagene har dere alt, og etterpå kan dere fortsette gratis."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Hvilket verktøy passer for en anonym medarbeiderundersøkelse?",
+            "a": "Et verktøy der anonymiteten er bygget inn og ikke kan skrus av: svaret lagres uten noe som kan identifisere den som svarte, små grupper skjules, og en skjult gruppe kan ikke regnes ut. Orgpuls er laget slik. Som standard vises ingen gruppe før 5 har svart, og grensen kan aldri settes under 3."
+          },
+          {
+            "q": "Finnes det et gratis verktøy for medarbeiderundersøkelse?",
+            "a": "Orgpuls har en gratisplan: den årlige hovedkartleggingen med standard spørsmål, resultater per avdeling og team fra 5 svar, og tiltak med eier og frist – uten kort og uten tidsgrense. Puls, bransjemoduler, egne spørsmål og rapporten til Arbeidstilsynet følger med Liten og Vanlig."
+          },
+          {
+            "q": "Kan vi bruke et vanlig skjemaverktøy?",
+            "a": "Det kan dere, men da må dere selv sørge for at små grupper ikke vises, at en skjult gruppe ikke kan regnes ut, at spørsmålene dekker faktorene i forskriften, og at funnene blir til tiltak og dokumentasjon."
+          },
+          {
+            "q": "Er det lovpålagt å ha en medarbeiderundersøkelse?",
+            "a": "Nei, ikke som egen plikt. Det som er lovpålagt, er å kartlegge arbeidsmiljøet, også det psykososiale, vurdere risikoen og sette i verk tiltak, i samarbeid med de ansatte. En anonym undersøkelse er en vanlig måte å gjøre kartleggingen på."
+          },
+          {
+            "q": "Hvilke språk kan de ansatte svare på?",
+            "a": "Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Er språket registrert på den ansatte, kommer invitasjonen og skjemaet på det språket, og alle kan bytte språk selv i skjemaet. Den polske og litauiske teksten er maskinoversatt."
+          },
+          {
+            "q": "Hvor lang tid tar det?",
+            "a": "Registreringen tar rundt 3 minutter og oppsettet under en time første gang. De ansatte bruker 4 minutter på den årlige kartleggingen og et par minutter på en puls."
+          }
+        ],
+        "finalTitle": "Se om det passer dere",
+        "finalBody": "Skriv inn navnet på virksomheten og e-postadressen din. De første 15 dagene har dere alt, uten kort, og etterpå kan dere fortsette gratis."
       }
     },
     "articles": {
@@ -5565,7 +5705,7 @@
           },
           {
             "t": "p",
-            "text": "Regelverket sier ikke at kartleggingen skal gjøres med en spørreundersøkelse. Arbeidstilsynet skriver at «omfanget, metodene og innholdet i kartleggingen og risikovurderingen skal tilpasses virksomhetens art, aktiviteter og størrelse». En anonym undersøkelse er en praktisk måte å få svar fra alle på samtidig, men den bør suppleres med samtaler. Les mer om [kravene til kartlegging](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+            "text": "Regelverket sier ikke at kartleggingen skal gjøres med en spørreundersøkelse. Arbeidstilsynet skriver at «omfanget, metodene og innholdet i kartleggingen og risikovurderingen skal tilpasses virksomhetens art, aktiviteter og størrelse». En anonym undersøkelse er en praktisk måte å få svar fra alle på samtidig, men den bør suppleres med samtaler. Les mer om [kravene til kartlegging](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) og om [medarbeiderundersøkelse er lovpålagt](/artikler/er-medarbeiderundersokelse-lovpalagt)."
           },
           {
             "t": "h2",
@@ -5723,9 +5863,9 @@
       },
       "trivselsundersokelse": {
         "title": "Trivselsundersøkelse og arbeidsmiljø: hva bør måles? | Orgpuls",
-        "description": "Hva en trivselsundersøkelse måler, hvorfor trivsel er et resultat og ikke en årsak, og hva som må med for å kartlegge det psykososiale arbeidsmiljøet.",
+        "description": "Trivselsundersøkelse og medarbeidertilfredshetsundersøkelse (MTU): hva de måler, hvorfor trivsel er et resultat, og hva kartleggingen krever.",
         "h1": "Hva er en trivsels­undersøkelse, og er den nok for å kartlegge arbeidsmiljøet?",
-        "lead": "En trivselsundersøkelse måler hvor fornøyde de ansatte er med jobben. Alene er den ikke nok til å kartlegge det psykososiale arbeidsmiljøet: trivsel er et resultat av hvordan arbeidet er organisert, og regelverket krever at virksomheten kartlegger og vurderer selve arbeidsmiljøfaktorene – det som belaster og det som beskytter – slik at tiltakene kan rettes mot årsakene.",
+        "lead": "En trivselsundersøkelse, også kalt medarbeidertilfredshetsundersøkelse eller MTU, måler hvor fornøyde de ansatte er med jobben. Alene er den ikke nok til å kartlegge det psykososiale arbeidsmiljøet: trivsel er et resultat av hvordan arbeidet er organisert, og regelverket krever at virksomheten kartlegger og vurderer selve arbeidsmiljøfaktorene – det som belaster og det som beskytter – slik at tiltakene kan rettes mot årsakene.",
         "blocks": [
           {
             "t": "h2",
@@ -8829,7 +8969,7 @@
           },
           {
             "t": "p",
-            "text": "Forskriften sier ikke hvilken metode som skal brukes. En anonym [spørreundersøkelse](/artikler/medarbeiderundersokelse) er det vanligste, og den kan gjøres på papir, i et regneark eller med et digitalt verktøy. Vernerunder og medarbeidersamtaler kan gi kunnskap som en undersøkelse ikke fanger opp. Arbeidstilsynet påpeker at den enkelte arbeidstakers erfaringer og belastninger kan være relevante som indikatorer på forhold ved organisering, ledelse eller styring."
+            "text": "Forskriften sier ikke hvilken metode som skal brukes. En anonym [spørreundersøkelse](/artikler/medarbeiderundersokelse) er det vanligste, og den kan gjøres på papir, i et regneark eller med et digitalt verktøy. Vernerunder og medarbeidersamtaler kan gi kunnskap som en undersøkelse ikke fanger opp. Arbeidstilsynet påpeker at den enkelte arbeidstakers erfaringer og belastninger kan være relevante som indikatorer på forhold ved organisering, ledelse eller styring. Se [arbeidsmiljøkartlegging steg for steg](/artikler/arbeidsmiljokartlegging) for metodene og hva de er gode til."
           },
           {
             "t": "h2",
@@ -9366,8 +9506,8 @@
         ]
       },
       "anonym": {
-        "title": "Hva betyr anonym medarbeiderundersøkelse? | Orgpuls",
-        "description": "Når er en medarbeiderundersøkelse virkelig anonym? Hvorfor navnet ikke er nok, hvorfor små grupper må skjules, og hvilke spørsmål du bør stille.",
+        "title": "Anonym medarbeiderundersøkelse: når er den anonym? | Orgpuls",
+        "description": "Anonymitet i medarbeiderundersøkelsen: hvorfor navnet ikke er nok, hvorfor grupper under fem svar skjules, og hvordan en skjult gruppe kan regnes ut.",
         "h1": "Anonym medarbeider­undersøkelse: hva betyr anonymt?",
         "lead": "At navnet ikke lagres, er ikke nok. En undersøkelse er først anonym når ingen kan finne ut hvem som svarte hva – verken fra dataene, fra små grupper, ved å regne seg fram til en skjult gruppe eller fra det som står i en kommentar. Det krever en nedre grense for hvor små grupper som vises, og at svarene ikke lagres sammen med noe som kan identifisere den som svarte.",
         "blocks": [
@@ -9377,7 +9517,7 @@
           },
           {
             "t": "p",
-            "text": "Folk svarer ærlig når de er trygge på at svaret ikke kan spores tilbake. Er de i tvil, svarer de pent – eller ikke i det hele tatt. En [medarbeiderundersøkelse](/artikler/medarbeiderundersokelse) med tvilsom anonymitet gir tall som ser bra ut, men som ikke stemmer. Da blir også kartleggingen av det psykososiale arbeidsmiljøet, som arbeidsgiveren skal gjøre etter forskrift om utførelse av arbeid § 1A-2, bygd på et svakt grunnlag."
+            "text": "Folk svarer ærlig når de er trygge på at svaret ikke kan spores tilbake. Er de i tvil, svarer de pent – eller ikke i det hele tatt. En [medarbeiderundersøkelse](/artikler/medarbeiderundersokelse) med tvilsom anonymitet gir tall som ser bra ut, men som ikke stemmer. Da blir også kartleggingen av det psykososiale arbeidsmiljøet, som arbeidsgiveren skal gjøre etter forskrift om utførelse av arbeid § 1A-2, bygd på et svakt grunnlag. Selve undersøkelsen er ikke lovpålagt, men kartleggingen er det. Se [er medarbeiderundersøkelse lovpålagt?](/artikler/er-medarbeiderundersokelse-lovpalagt)"
           },
           {
             "t": "h2",
@@ -9514,9 +9654,9 @@
         ]
       },
       "verneombud": {
-        "title": "Verneombudets rolle i kartleggingen | Orgpuls",
-        "description": "Verneombudet skal påse at det psykososiale arbeidsmiljøet er ivaretatt og tas med på råd om tiltak. Hva det betyr når arbeidsmiljøet kartlegges.",
-        "h1": "Hvilken rolle har verneombudet når arbeidsmiljøet kartlegges?",
+        "title": "Verneombudets rolle i det psykososiale arbeidsmiljøet | Orgpuls",
+        "description": "Verneombudet skal påse at det psykososiale arbeidsmiljøet er ivaretatt og tas med på råd om tiltak. Rollen i kartlegging, risikovurdering og oppfølging.",
+        "h1": "Hvilken rolle har verneombudet når det psykososiale arbeidsmiljøet kartlegges?",
         "lead": "Verneombudet skal ivareta de ansattes interesser i saker som angår arbeidsmiljøet, påse at det psykososiale arbeidsmiljøet er ivaretatt, og tas med på råd når tiltak planlegges og gjennomføres. Når det psykososiale arbeidsmiljøet kartlegges og risikovurderes, er verneombudet en av representantene arbeidsgiveren skal samarbeide med. Ansvaret for at kartleggingen blir gjort, ligger likevel hos arbeidsgiveren.",
         "blocks": [
           {
@@ -9706,6 +9846,339 @@
           {
             "label": "Forskrift om utførelse av arbeid, kapittel 1A (Arbeidstilsynet)",
             "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ]
+      },
+      "lovpalagt": {
+        "title": "Er medarbeiderundersøkelse lovpålagt? | Orgpuls",
+        "description": "Nei, ikke som egen plikt – men arbeidsgiver skal kartlegge arbeidsmiljøet, vurdere risiko og sette tiltak. Hva loven krever, og hvor undersøkelsen passer.",
+        "h1": "Er medarbeider­undersøkelse lovpålagt?",
+        "lead": "Nei, ikke som egen plikt. Arbeidsmiljøloven og forskriftene til den sier ikke at en virksomhet må gjennomføre en medarbeiderundersøkelse. Det som er lovpålagt, er å kartlegge arbeidsmiljøet, vurdere risikoen og sette i verk tiltak – og fra 1. januar 2026 sier forskrift om utførelse av arbeid uttrykkelig at det gjelder de psykososiale arbeidsmiljøfaktorene. En anonym medarbeiderundersøkelse er en vanlig måte å gjøre kartleggingen på, men den er et verktøy, ikke selve kravet.",
+        "blocks": [
+          {
+            "t": "box",
+            "title": "Kort fortalt",
+            "text": "**Lovpålagt:** å kartlegge arbeidsmiljøet, vurdere risikoen, sette i verk tiltak og dokumentere det – i samarbeid med de ansatte og verneombudet. **Ikke lovpålagt:** å gjøre det med en spørreundersøkelse. Metoden velger virksomheten selv, tilpasset art, aktiviteter og størrelse."
+          },
+          {
+            "t": "h2",
+            "text": "Hva loven faktisk krever"
+          },
+          {
+            "t": "p",
+            "text": "Plikten står i bestemmelsen om systematisk helse-, miljø- og sikkerhetsarbeid, og den gjelder alle virksomheter med ansatte: loven «gjelder for virksomhet som sysselsetter arbeidstaker» (arbeidsmiljøloven § 1-2). Arbeidsgiveren skal blant annet:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Arbeidsmiljøloven § 3-1 andre ledd bokstav c",
+                "text": "kartlegge farer og problemer og på denne bakgrunn vurdere risikoforholdene i virksomheten, utarbeide planer og iverksette tiltak for å redusere risikoen"
+              },
+              {
+                "ref": "Forskrift om utførelse av arbeid § 1A-2 første ledd",
+                "text": "Arbeidsgiveren skal kartlegge psykososiale arbeidsmiljøfaktorer som kan påvirke arbeidstakernes helse, sikkerhet eller velferd."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Kapittel 1A kom inn i forskriften 1. januar 2026. Plikten til å kartlegge er ikke ny, men nå står det uttrykkelig at den gjelder de psykososiale faktorene – blant annet arbeidsmengde og tidspress, uklare eller motstridende krav, støtte og hjelp i arbeidet og innflytelse over eget arbeid. Les mer om [de nye reglene fra 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
+          },
+          {
+            "t": "h2",
+            "text": "Slik skal kartleggingen gjøres"
+          },
+          {
+            "t": "p",
+            "text": "Forskriften sier hvordan kartleggingen skal gjøres, men ikke med hvilket verktøy:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Forskrift om utførelse av arbeid § 1A-2 fjerde ledd",
+                "text": "Kartleggingen og risikovurderingen skal a. foretas i samarbeid med arbeidstakerne og deres representanter b. tilpasses virksomhetens art, aktiviteter og størrelse c. gjentas regelmessig og ved endringer som kan ha betydning for risikoforholdene i virksomheten d. dokumenteres og inngå i virksomhetens systematiske helse-, miljø- og sikkerhetsarbeid."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Metoden velger dere selv"
+          },
+          {
+            "t": "p",
+            "text": "Regelverket nevner ikke spørreundersøkelser. Arbeidstilsynet skriver at «omfanget, metodene og innholdet i kartleggingen og risikovurderingen skal tilpasses virksomhetens art, aktiviteter og størrelse», og anbefaler å bruke flere kilder:"
+          },
+          {
+            "t": "quote",
+            "text": "For å få et godt bilde av det psykososiale arbeidsmiljøet, bør virksomheten bruke flere kilder i kartleggingen, som for eksempel arbeidsmiljøundersøkelser, vernerunder, avviksmeldinger, medarbeidersamtaler eller uformelle samtaler.",
+            "cite": "Arbeidstilsynet, Psykososialt arbeidsmiljø"
+          },
+          {
+            "t": "p",
+            "text": "En liten virksomhet kan derfor velge enklere metoder enn en stor. Det som ikke er valgfritt, er at kartleggingen blir gjort, at de ansatte er med, og at den dokumenteres. Se [hva en arbeidsmiljøkartlegging er](/artikler/arbeidsmiljokartlegging) og [kravene til kartlegging av det psykososiale arbeidsmiljøet](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Hvorfor mange likevel velger en undersøkelse"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Alle får en stemme samtidig.** En undersøkelse når også dem som ikke sier noe i et møte.",
+              "**Den kan være anonym.** Datatilsynet skriver at «Formålet med en arbeidsmiljøundersøkelse vil normalt kunne oppnås ved innsamling av anonyme opplysninger».",
+              "**Den måler det samme hver gang.** Med de samme spørsmålene kan dere se om tiltakene virket.",
+              "**Den gir et skriftlig grunnlag.** Resultatene kan brukes direkte i risikovurderingen og dokumentasjonen."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Den forklarer derimot sjelden hvorfor. Det får dere fram i gjennomgangen med de ansatte og verneombudet etterpå. Se [hva en medarbeiderundersøkelse er](/artikler/medarbeiderundersokelse), [hvilke spørsmål som bør være med](/artikler/medarbeiderundersokelse-sporsmal) og [når den er anonym](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "De ansatte og verneombudet skal være med"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet skriver at arbeidsgiveren «ikke kan gjøre dette arbeidet alene, men må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». Verneombudet skal etter arbeidsmiljøloven § 6-2 «ivareta arbeidstakernes interesser i saker som angår arbeidsmiljøet». Les mer om [verneombudets rolle](/artikler/verneombudets-rolle-i-kartleggingen)."
+          },
+          {
+            "t": "h2",
+            "text": "Hva skjer hvis dere ikke kartlegger?"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven kapittel 18 gir Arbeidstilsynet flere virkemidler når kravene ikke følges:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Pålegg** om å rette forholdet (§ 18-6).",
+              "**Tvangsmulkt**, en løpende mulkt fra fristen i pålegget går ut og til pålegget er oppfylt (§ 18-7).",
+              "**Stansing** av virksomhetens aktiviteter, helt eller delvis, når et pålegg ikke er oppfylt innen fristen (§ 18-8).",
+              "**Overtredelsesgebyr** når noen som har handlet på vegne av virksomheten, uaktsomt eller forsettlig har brutt bestemmelsene (§ 18-10)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Kort sjekkliste"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Kartlegg arbeidsmiljøet, også de psykososiale faktorene, med metoder som passer virksomheten.",
+              "Gjør det sammen med de ansatte og verneombudet.",
+              "Vurder risikoen ut fra det dere fant, og lag en plan med tiltak.",
+              "Dokumenter kartleggingen, vurderingen og tiltakene.",
+              "Gjenta regelmessig og når noe endrer seg. Se [hvor ofte dere bør måle](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven § 1-2 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A71-2"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 3-1 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Arbeidsmiljøloven §§ 18-6 til 18-10 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A718-6"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Ansattundersøkelser (Datatilsynet)",
+            "url": "https://www.datatilsynet.no/personvern-pa-ulike-omrader/personvern-pa-arbeidsplassen/ansattundersokelser/"
+          }
+        ]
+      },
+      "arbeidsmiljokartlegging": {
+        "title": "Arbeidsmiljøkartlegging: slik gjør dere det | Orgpuls",
+        "description": "Hva en arbeidsmiljøkartlegging er, hva loven krever, hvilke metoder dere kan bruke og hvordan dere går fram, fra plan til tiltak og dokumentasjon.",
+        "h1": "Arbeidsmiljø­kartlegging: hvordan kartlegger man arbeidsmiljøet?",
+        "lead": "En arbeidsmiljøkartlegging er en systematisk gjennomgang av forholdene i arbeidet som kan påvirke de ansattes helse, sikkerhet og velferd – fysiske, organisatoriske og psykososiale. Den er første steg i det systematiske HMS-arbeidet loven krever: kartlegge farer og problemer, vurdere risikoen, lage planer og sette i verk tiltak. Kartleggingen gjøres sammen med de ansatte og verneombudet, med mer enn én kilde, og den dokumenteres og gjentas.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva loven krever"
+          },
+          {
+            "t": "p",
+            "text": "Plikten står både i arbeidsmiljølovens bestemmelse om systematisk HMS-arbeid og i internkontrollforskriften, med nesten de samme ordene:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Arbeidsmiljøloven § 3-1 andre ledd bokstav c",
+                "text": "kartlegge farer og problemer og på denne bakgrunn vurdere risikoforholdene i virksomheten, utarbeide planer og iverksette tiltak for å redusere risikoen"
+              },
+              {
+                "ref": "Internkontrollforskriften § 5 andre ledd nr. 6",
+                "text": "kartlegge farer og problemer og på denne bakgrunn vurdere risiko, samt utarbeide tilhørende planer og tiltak for å redusere risikoforholdene"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Dette punktet skal dokumenteres skriftlig. Internkontrollforskriften § 5 sier: «Skriftlig dokumentasjon etter denne forskrift skal minst omfatte annet ledd nr. 4) til og med nr. 8) i denne paragraf.» For det psykososiale arbeidsmiljøet sier forskrift om utførelse av arbeid § 1A-2 i tillegg at kartleggingen skal gjøres i samarbeid med de ansatte og deres representanter, tilpasses virksomheten, gjentas regelmessig og dokumenteres. Se [kravene til kartlegging av det psykososiale arbeidsmiljøet](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) og [om medarbeiderundersøkelse er lovpålagt](/artikler/er-medarbeiderundersokelse-lovpalagt)."
+          },
+          {
+            "t": "h2",
+            "text": "Hva skal kartlegges?"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven § 4-1 setter rammen: «Arbeidsmiljøet i virksomheten skal være fullt forsvarlig ut fra en enkeltvis og samlet vurdering av faktorer i arbeidsmiljøet som kan innvirke på arbeidstakernes fysiske og psykiske helse og velferd.» Kartleggingen dekker derfor mer enn ett område:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Det fysiske arbeidsmiljøet** (§ 4-4): forhold som støy, inneklima, lys, kjemikalier og ergonomi.",
+              "**Organiseringen av arbeidet** (§ 4-2, om tilrettelegging, medvirkning og utvikling): arbeidstid, bemanning, endringer og hvordan de ansatte er med.",
+              "**Det psykososiale arbeidsmiljøet** (§ 4-3 og forskriften kapittel 1A): blant annet arbeidsmengde og tidspress, uklare eller motstridende krav, emosjonelle belastninger, støtte og hjelp, kontakt med andre og innflytelse over eget arbeid. Trakassering og vold og trusler har egne kapitler i forskriften, 2A og 3A.",
+              "**Det som er særlig for virksomheten:** arbeidsoppgaver, utstyr og situasjoner som bare finnes hos dere."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Metodene: bruk mer enn én kilde"
+          },
+          {
+            "t": "p",
+            "text": "Ingen metode fanger alt. Arbeidstilsynet skriver om det psykososiale arbeidsmiljøet:"
+          },
+          {
+            "t": "quote",
+            "text": "For å få et godt bilde av det psykososiale arbeidsmiljøet, bør virksomheten bruke flere kilder i kartleggingen, som for eksempel arbeidsmiljøundersøkelser, vernerunder, avviksmeldinger, medarbeidersamtaler eller uformelle samtaler.",
+            "cite": "Arbeidstilsynet, Psykososialt arbeidsmiljø"
+          },
+          {
+            "t": "p",
+            "text": "Og om risikovurdering generelt: «Bruk også dokumentasjon og erfaringer fra tidligere uønskede hendelser og avvik, vernerunder, arbeidsmiljøundersøkelser og lignende i kartleggingen.» Metodene utfyller hverandre:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Metode",
+              "Godt til",
+              "Mindre godt til"
+            ],
+            "rows": [
+              [
+                "Vernerunde",
+                "Fysiske forhold, utstyr og rutiner, sett på stedet",
+                "Det folk ikke sier høyt"
+              ],
+              [
+                "[Arbeidsmiljøundersøkelse](/artikler/medarbeiderundersokelse)",
+                "Å høre fra alle samtidig, anonymt, og måle det samme over tid",
+                "Å forklare hvorfor"
+              ],
+              [
+                "Medarbeidersamtaler og møter",
+                "Årsaker og forslag til tiltak",
+                "Det som er vanskelig å si til sin egen leder"
+              ],
+              [
+                "Avviksmeldinger og hendelser",
+                "Det som faktisk har skjedd",
+                "Det som ennå ikke har skjedd"
+              ],
+              [
+                "Sykefravær og turnover",
+                "Å se at noe endrer seg over tid",
+                "Hva endringen skyldes"
+              ],
+              [
+                "Målinger av støy, inneklima og lignende",
+                "Fysiske forhold som må tallfestes",
+                "Psykososiale forhold"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Slik gjør dere det, steg for steg"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Planlegg sammen med verneombudet.** Bli enige om hva som skal kartlegges, hvilke metoder dere bruker, hvem som er med og når.",
+              "**Samle informasjon fra flere kilder.** For eksempel en vernerunde, en anonym arbeidsmiljøundersøkelse og det dere vet fra avvik og sykefravær.",
+              "**Gå gjennom funnene med de ansatte.** Spør hva som ligger bak tallene og observasjonene. Se [slik går dere gjennom resultatene](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte).",
+              "**Vurder risikoen.** Hva kan skade helse, sikkerhet eller velferd, hvor alvorlig er det, og hva haster? Se [risikovurdering av det psykososiale arbeidsmiljøet](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo).",
+              "**Lag en plan med tiltak.** Hvert tiltak trenger et mål, en ansvarlig og en frist. Se [fra resultater til tiltak](/artikler/fra-resultater-til-tiltak).",
+              "**Følg opp, dokumenter og gjenta.** Sjekk om tiltakene virket, skriv ned hva dere fant og gjorde, og kartlegg igjen ved neste runde eller når noe endrer seg."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hvem skal være med?"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsgiveren har ansvaret, men kan ikke gjøre det alene. Arbeidstilsynet skriver at arbeidsgiveren «må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». Verneombudet skal etter arbeidsmiljøloven § 6-2 «ivareta arbeidstakernes interesser i saker som angår arbeidsmiljøet». Har virksomheten et arbeidsmiljøutvalg eller en bedriftshelsetjeneste, er det naturlig å trekke dem inn. Se [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+          },
+          {
+            "t": "h2",
+            "text": "Hvor ofte?"
+          },
+          {
+            "t": "p",
+            "text": "Forskrift om utførelse av arbeid § 1A-2 sier at kartleggingen og risikovurderingen skal «gjentas regelmessig og ved endringer som kan ha betydning for risikoforholdene i virksomheten». Den sier ikke hvor ofte. Mange gjør en grundig kartlegging én gang i året og korte målinger imellom. Se [hvor ofte dere bør måle arbeidsmiljøet](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Sjekkliste"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Planen er avtalt med verneombudet.",
+              "Fysiske, organisatoriske og psykososiale forhold er med.",
+              "Dere har brukt mer enn én kilde.",
+              "Funnene er gått gjennom med de ansatte.",
+              "Risikoen er vurdert, og hvert tiltak har mål, ansvarlig og frist.",
+              "Kartlegging, vurdering og tiltak er dokumentert skriftlig."
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidsmiljøloven § 3-1 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 4-1 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-1"
+          },
+          {
+            "label": "Internkontrollforskriften (Lovdata)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/1996-12-06-1127"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Risikovurdering (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/hms/risikovurdering/"
           }
         ]
       }

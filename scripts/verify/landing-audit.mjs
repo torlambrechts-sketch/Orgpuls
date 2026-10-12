@@ -32,6 +32,7 @@ const PAGES = [
   { path: '/lovkrav', keyword: 'kartlegging psykososialt arbeidsmiljø' },
   { path: '/verneombud', keyword: 'verneombud kartlegging' },
   { path: '/smaa-bedrifter', keyword: 'medarbeiderundersøkelse små bedrifter' },
+  { path: '/verktoy-for-medarbeiderundersokelse', keyword: 'verktøy for medarbeiderundersøkelse' },
   { path: '/bygg-og-anlegg', keyword: 'arbeidsmiljøundersøkelse bygg og anlegg' },
 ]
 const VALUED = ['--base', '--label']

@@ -4926,7 +4926,7 @@
         ]
       },
       "verneombud": {
-        "title": "The safety representative and the survey | Orgpuls",
+        "title": "The safety representative's rights and duties in the survey | Orgpuls",
         "description": "The safety representative's rights and duties when the psychosocial working environment is surveyed: the law, the role at each step, and what to do.",
         "crumb": "For safety representatives",
         "card": {
@@ -5505,6 +5505,146 @@
         ],
         "finalTitle": "Try it on your own organisation",
         "finalBody": "Enter the company name and your e-mail address. You are up and running in 3 minutes, without card details."
+      },
+      "verktoyForMedarbeiderundersokelse": {
+        "title": "Tools for an anonymous employee survey | Orgpuls",
+        "description": "What a tool for an anonymous employee survey should do – anonymity, the factors the law names, measures and documentation – and how Orgpuls does it.",
+        "crumb": "Choosing a tool",
+        "card": {
+          "title": "Choosing a tool",
+          "text": "Eight things to check in a tool for an anonymous employee survey, and how Orgpuls does it."
+        },
+        "kicker": "For those choosing a tool",
+        "h1": "Tools for an anonymous employee survey: what they should do",
+        "lead": "Orgpuls is a Norwegian tool for anonymous employee and pulse surveys, made for the mapping of the psychosocial working environment that the Working Environment Act requires. A good tool does three things: keeps answers anonymous in a way that cannot be switched off, measures the factors the rules point to, and turns the findings into measures and documentation. Here is what to check, and how Orgpuls does it.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Eight things to check before you choose"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Check",
+              "Why",
+              "How Orgpuls does it"
+            ],
+            "rows": [
+              [
+                "An answer cannot be linked to the person",
+                "When people doubt the anonymity, they answer politely – or not at all.",
+                "The answer is stored without name, e-mail address or IP address, and no column can hold a link to a person."
+              ],
+              [
+                "Small groups are hidden",
+                "A department of three is recognisable even with no names anywhere.",
+                "By default no group is shown until at least 5 have answered. The threshold sits in the database and can never be set below 3."
+              ],
+              [
+                "A hidden group cannot be worked out",
+                "With the figure for the whole and for every group but one, the last can be calculated.",
+                "Where the sum would otherwise add up, another group is held back as well."
+              ],
+              [
+                "The questions cover the factors the law names",
+                "Chapter 1A of the regulation requires the psychosocial working environment factors to be mapped, not just satisfaction.",
+                "Eleven factors with three statements each, worded after QPS Nordic and answered on a scale from 1 to 5."
+              ],
+              [
+                "Findings become measures",
+                "A survey without follow-up achieves little.",
+                "Measures with an owner and a deadline, and short pulse surveys that show whether they worked."
+              ],
+              [
+                "The safety representative takes part",
+                "The mapping is to be done in cooperation with the employees and their representatives.",
+                "The general manager and the safety representative see the same figures at the same time."
+              ],
+              [
+                "The documentation is ready",
+                "The mapping, the risk assessment and the measures must be documented.",
+                "The report for the Labour Inspection Authority brings together the mapping, the assessments and the measures."
+              ],
+              [
+                "You know where the data is",
+                "You should be able to tell employees where the answers are kept and who processes them.",
+                "Data is stored in the EU, and the data processing agreement is signed under Settings."
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Questions to ask the vendor"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "What is stored with the answer – name, e-mail, IP address, the exact time?",
+              "What is the minimum group size, and can anyone lower it after the survey has gone out?",
+              "When one group is hidden, can it be worked out from the others?",
+              "Who can read free-text answers, and what stops them revealing who wrote them?",
+              "Do the questions cover the factors in chapter 1A of the regulation?",
+              "Where is the data stored, and is there a data processing agreement?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "How Orgpuls answers them: [security and anonymity](/sikkerhet). What the mapping must cover is in [the legal requirements](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "When an ordinary form tool is not enough"
+          },
+          {
+            "t": "p",
+            "text": "A general form tool is made to collect answers, not to keep them anonymous in small groups. If you use one, you must yourselves make sure of the threshold for small groups, that a hidden group cannot be worked out, that the questions cover the factors the law names, and that the findings become measures and documentation."
+          },
+          {
+            "t": "h2",
+            "text": "How to get started"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Register your organisation. It takes about 3 minutes.",
+              "Add the employees from a spreadsheet, or fetch them from Microsoft Entra ID.",
+              "Choose when the survey goes out. The invitation is sent by e-mail, SMS, Teams or Slack.",
+              "See the results per department once enough have answered, and set measures with an owner and a deadline."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "See [the prices](/priser): for the first 15 days you have everything, and afterwards you can carry on for free."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Which tool suits an anonymous employee survey?",
+            "a": "A tool where anonymity is built in and cannot be switched off: the answer is stored without anything that could identify the person who gave it, small groups are hidden, and a hidden group cannot be worked out. Orgpuls is made that way. By default no group is shown until 5 have answered, and the threshold can never be set below 3."
+          },
+          {
+            "q": "Is there a free tool for employee surveys?",
+            "a": "Orgpuls has a free plan: the yearly main survey with the standard questions, results per department and team from 5 answers, and measures with an owner and a deadline – no card and no time limit. Pulse surveys, industry modules, your own questions and the report for the Labour Inspection Authority come with Small and Usual."
+          },
+          {
+            "q": "Can we use an ordinary form tool?",
+            "a": "You can, but then you must yourselves make sure that small groups are not shown, that a hidden group cannot be worked out, that the questions cover the factors in the regulation, and that the findings become measures and documentation."
+          },
+          {
+            "q": "Is an employee survey required by law?",
+            "a": "No, not as a duty of its own. What the law requires is to map the working environment, including the psychosocial one, assess the risk and put measures in place, together with the employees. An anonymous survey is a common way to do the mapping."
+          },
+          {
+            "q": "Which languages can employees answer in?",
+            "a": "The questionnaire is available in Norwegian, English, Polish and Lithuanian. If the language is registered for the employee, the invitation and the questionnaire come in that language, and anyone can switch language in the questionnaire. The Polish and Lithuanian text is machine-translated."
+          },
+          {
+            "q": "How long does it take?",
+            "a": "Registering takes about 3 minutes and the setup under an hour the first time. Employees spend 4 minutes on the yearly survey and a couple of minutes on a pulse."
+          }
+        ],
+        "finalTitle": "See whether it suits you",
+        "finalBody": "Enter your organisation’s name and your e-mail address. For the first 15 days you have everything, with no card, and afterwards you can carry on for free."
       }
     },
     "articles": {
@@ -5565,7 +5705,7 @@
           },
           {
             "t": "p",
-            "text": "The rules do not say that the mapping must be done with a questionnaire. Arbeidstilsynet writes that the scope, methods and content of the mapping and risk assessment are to be adapted to the nature, activities and size of the undertaking. An anonymous survey is a practical way to hear from everyone at once, but it should be supplemented with conversations. Read more about [the requirements for mapping](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+            "text": "The rules do not say that the mapping must be done with a questionnaire. Arbeidstilsynet writes that the scope, methods and content of the mapping and risk assessment are to be adapted to the nature, activities and size of the undertaking. An anonymous survey is a practical way to hear from everyone at once, but it should be supplemented with conversations. Read more about [the requirements for mapping](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) and [whether an employee survey is required by law](/artikler/er-medarbeiderundersokelse-lovpalagt)."
           },
           {
             "t": "h2",
@@ -5723,9 +5863,9 @@
       },
       "trivselsundersokelse": {
         "title": "Job satisfaction surveys and the working environment | Orgpuls",
-        "description": "What a job satisfaction survey measures, why satisfaction is an outcome rather than a cause, and what mapping the psychosocial working environment takes.",
+        "description": "Job and employee satisfaction surveys: what they measure, why satisfaction is an outcome, not a cause, and what mapping the working environment takes.",
         "h1": "What is a job satisfaction survey, and is it enough to map the working environment?",
-        "lead": "A job satisfaction survey measures how content employees are with their jobs. On its own it is not enough to map the psychosocial working environment: satisfaction is an outcome of how the work is organised, and the rules require the organisation to map and assess the working environment factors themselves – what strains and what protects – so that measures can address the causes.",
+        "lead": "A job satisfaction survey, also called an employee satisfaction survey, measures how content employees are with their jobs. On its own it is not enough to map the psychosocial working environment: satisfaction is an outcome of how the work is organised, and the rules require the organisation to map and assess the working environment factors themselves – what strains and what protects – so that measures can address the causes.",
         "blocks": [
           {
             "t": "h2",
@@ -8829,7 +8969,7 @@
           },
           {
             "t": "p",
-            "text": "The regulation does not prescribe a method. An anonymous [questionnaire](/artikler/medarbeiderundersokelse) is the most common, and it can be run on paper, in a spreadsheet or with a digital tool. Safety inspections and appraisal conversations can provide knowledge a questionnaire does not capture. Arbeidstilsynet notes that individual employees' experiences and strain may be relevant as indicators of conditions in organisation, management or governance."
+            "text": "The regulation does not prescribe a method. An anonymous [questionnaire](/artikler/medarbeiderundersokelse) is the most common, and it can be run on paper, in a spreadsheet or with a digital tool. Safety inspections and appraisal conversations can provide knowledge a questionnaire does not capture. Arbeidstilsynet notes that individual employees' experiences and strain may be relevant as indicators of conditions in organisation, management or governance. See [working environment mapping, step by step](/artikler/arbeidsmiljokartlegging) for the methods and what each is good for."
           },
           {
             "t": "h2",
@@ -9366,8 +9506,8 @@
         ]
       },
       "anonym": {
-        "title": "What does an anonymous employee survey mean? | Orgpuls",
-        "description": "When is an employee survey truly anonymous? Why removing names is not enough, why small groups must be hidden, and which questions to ask about the setup.",
+        "title": "Anonymous employee survey: when is it anonymous? | Orgpuls",
+        "description": "Anonymity in an employee survey: why removing names is not enough, why groups under five answers are hidden, and how a hidden group can be worked out.",
         "h1": "Anonymous employee survey: what does anonymous mean?",
         "lead": "Not storing names is not enough. A survey is only anonymous when nobody can work out who answered what – not from the data, not from small groups, not by calculating a hidden group, and not from what is written in a comment. That takes a lower limit on how small a group may be shown, and answers that are never stored with anything that could identify the respondent.",
         "blocks": [
@@ -9377,7 +9517,7 @@
           },
           {
             "t": "p",
-            "text": "People answer honestly when they are confident the answer cannot be traced back. If in doubt, they answer politely – or not at all. An [employee survey](/artikler/medarbeiderundersokelse) with doubtful anonymity produces figures that look good but are not true. The mapping of the psychosocial working environment that employers must carry out under section 1A-2 of the regulation on the performance of work then rests on weak ground."
+            "text": "People answer honestly when they are confident the answer cannot be traced back. If in doubt, they answer politely – or not at all. An [employee survey](/artikler/medarbeiderundersokelse) with doubtful anonymity produces figures that look good but are not true. The mapping of the psychosocial working environment that employers must carry out under section 1A-2 of the regulation on the performance of work then rests on weak ground. The survey itself is not required by law, but the mapping is. See [is an employee survey required by law?](/artikler/er-medarbeiderundersokelse-lovpalagt)"
           },
           {
             "t": "h2",
@@ -9514,9 +9654,9 @@
         ]
       },
       "verneombud": {
-        "title": "The safety representative's role in mapping | Orgpuls",
-        "description": "The safety representative must ensure the psychosocial working environment is looked after and be consulted on measures. What it means in a mapping.",
-        "h1": "What role does the safety representative play when the working environment is mapped?",
+        "title": "The safety representative and the psychosocial working environment | Orgpuls",
+        "description": "The safety representative must see that the psychosocial working environment is looked after and be consulted on measures. The role in the mapping.",
+        "h1": "What role does the safety representative play when the psychosocial working environment is mapped?",
         "lead": "The safety representative (verneombud) looks after employees' interests in working environment matters, must ensure that the psychosocial working environment is taken care of, and must be consulted when measures are planned and carried out. When the psychosocial working environment is mapped and risk-assessed, the safety representative is one of the representatives the employer must work with. Responsibility for making sure the mapping happens, however, lies with the employer.",
         "blocks": [
           {
@@ -9706,6 +9846,339 @@
           {
             "label": "Regulation on the performance of work, chapter 1A (Arbeidstilsynet, Norwegian)",
             "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ]
+      },
+      "lovpalagt": {
+        "title": "Is an employee survey required by law? | Orgpuls",
+        "description": "No, not as a duty of its own – but the employer must map the working environment, assess risk and act on it. What the law requires, and where surveys fit.",
+        "h1": "Is an employee survey required by law?",
+        "lead": "No, not as a duty of its own. The Working Environment Act and its regulations do not say that an organisation must run an employee survey. What the law requires is to map the working environment, assess the risk and put measures in place – and from 1 January 2026 the regulation on the performance of work says expressly that this covers the psychosocial working environment factors. An anonymous employee survey is a common way to do the mapping, but it is a tool, not the requirement itself.",
+        "blocks": [
+          {
+            "t": "box",
+            "title": "In short",
+            "text": "**Required:** mapping the working environment, assessing the risk, putting measures in place and documenting it – together with the employees and the safety representative. **Not required:** doing it with a questionnaire. The organisation chooses the method, adapted to its nature, activities and size."
+          },
+          {
+            "t": "h2",
+            "text": "What the law actually requires"
+          },
+          {
+            "t": "p",
+            "text": "The duty is part of the provision on systematic health, environment and safety work, and it applies to every organisation with employees: the Act applies to any undertaking that employs workers (Working Environment Act § 1-2). Among other things, the employer must:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Working Environment Act § 3-1(2)(c) (our translation)",
+                "text": "map hazards and problems and on that basis assess the risk factors in the undertaking, prepare plans and implement measures to reduce the risk"
+              },
+              {
+                "ref": "Regulation on the performance of work § 1A-2(1) (our translation)",
+                "text": "The employer shall map psychosocial working environment factors that may affect the employees’ health, safety or welfare."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Chapter 1A was added to the regulation on 1 January 2026. The duty to map is not new, but it now says expressly that it covers the psychosocial factors – among them workload and time pressure, unclear or conflicting demands, support and help in the work, and influence over one’s own work. Read more about [the new rules from 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
+          },
+          {
+            "t": "h2",
+            "text": "How the mapping must be done"
+          },
+          {
+            "t": "p",
+            "text": "The regulation says how the mapping is to be done, but not with which tool:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Regulation on the performance of work § 1A-2(4) (our translation)",
+                "text": "The mapping and the risk assessment shall a. be carried out in cooperation with the employees and their representatives b. be adapted to the nature, activities and size of the undertaking c. be repeated regularly and upon changes that may affect the risk conditions in the undertaking d. be documented and form part of the undertaking’s systematic health, environment and safety work."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "You choose the method"
+          },
+          {
+            "t": "p",
+            "text": "The rules do not mention questionnaires. The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that the scope, methods and content of the mapping and risk assessment are to be adapted to the nature, activities and size of the undertaking, and recommends using several sources:"
+          },
+          {
+            "t": "quote",
+            "text": "To get a good picture of the psychosocial working environment, the organisation should use several sources in the mapping, such as working environment surveys, safety inspections, incident reports, appraisal conversations or informal conversations.",
+            "cite": "Arbeidstilsynet, Psychosocial working environment (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "A small organisation can therefore choose simpler methods than a large one. What is not optional is that the mapping is done, that the employees take part, and that it is documented. See [what a working environment mapping is](/artikler/arbeidsmiljokartlegging) and [the requirements for mapping the psychosocial working environment](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Why many choose a survey anyway"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Everyone gets a voice at once.** A survey also reaches those who say nothing in a meeting.",
+              "**It can be anonymous.** The Norwegian Data Protection Authority (Datatilsynet) writes that the purpose of a working environment survey can normally be achieved by collecting anonymous information.",
+              "**It measures the same thing each time.** With the same questions you can see whether the measures worked.",
+              "**It gives a written basis.** The results can be used directly in the risk assessment and the documentation."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "It rarely explains why, though. That comes out in the review with the employees and the safety representative afterwards. See [what an employee survey is](/artikler/medarbeiderundersokelse), [which questions to include](/artikler/medarbeiderundersokelse-sporsmal) and [when it is anonymous](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "The employees and the safety representative take part"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet writes that the employer cannot do this work alone, but must actively involve employees and the safety representative in the mapping, the risk assessment and the planning and follow-up of measures. Under Working Environment Act § 6-2, the safety representative looks after the employees’ interests in matters concerning the working environment. Read more about [the safety representative’s role](/artikler/verneombudets-rolle-i-kartleggingen)."
+          },
+          {
+            "t": "h2",
+            "text": "What happens if you do not map?"
+          },
+          {
+            "t": "p",
+            "text": "Chapter 18 of the Working Environment Act gives Arbeidstilsynet several means when the requirements are not met:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**An order** to put the matter right (§ 18-6).",
+              "**A coercive fine**, running from the deadline in the order until the order is complied with (§ 18-7).",
+              "**Suspension** of the organisation’s activities, in whole or in part, when an order is not complied with by the deadline (§ 18-8).",
+              "**An infringement fine** when someone acting on behalf of the organisation has negligently or wilfully breached the provisions (§ 18-10)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "A short checklist"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Map the working environment, including the psychosocial factors, with methods that suit your organisation.",
+              "Do it together with the employees and the safety representative.",
+              "Assess the risk from what you found, and make a plan with measures.",
+              "Document the mapping, the assessment and the measures.",
+              "Repeat regularly and whenever something changes. See [how often to measure](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 1-2 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A71-2"
+          },
+          {
+            "label": "Working Environment Act § 3-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Working Environment Act §§ 18-6 to 18-10 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A718-6"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet’s comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Employee surveys (Datatilsynet, Norwegian)",
+            "url": "https://www.datatilsynet.no/personvern-pa-ulike-omrader/personvern-pa-arbeidsplassen/ansattundersokelser/"
+          }
+        ]
+      },
+      "arbeidsmiljokartlegging": {
+        "title": "Working environment mapping: how to do it | Orgpuls",
+        "description": "What a working environment mapping is, what the law requires, which methods to use and how to go about it, from plan to measures and documentation.",
+        "h1": "Working environment mapping: how do you map the working environment?",
+        "lead": "A working environment mapping is a systematic review of the conditions at work that can affect employees’ health, safety and welfare – physical, organisational and psychosocial. It is the first step in the systematic health and safety work the law requires: map hazards and problems, assess the risk, make plans and put measures in place. The mapping is done together with the employees and the safety representative, with more than one source, and it is documented and repeated.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law requires"
+          },
+          {
+            "t": "p",
+            "text": "The duty appears both in the Working Environment Act’s provision on systematic health, environment and safety work and in the internal control regulation, in almost the same words:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Working Environment Act § 3-1(2)(c) (our translation)",
+                "text": "map hazards and problems and on that basis assess the risk factors in the undertaking, prepare plans and implement measures to reduce the risk"
+              },
+              {
+                "ref": "Internal control regulation § 5(2) no. 6 (our translation)",
+                "text": "map hazards and problems and on that basis assess risk, and prepare associated plans and measures to reduce the risk factors"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "This point must be documented in writing: the internal control regulation § 5 says that written documentation must at least cover numbers 4 to 8 of its second paragraph. For the psychosocial working environment, the regulation on the performance of work § 1A-2 adds that the mapping is to be done in cooperation with the employees and their representatives, adapted to the organisation, repeated regularly and documented. See [the requirements for mapping the psychosocial working environment](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) and [whether an employee survey is required by law](/artikler/er-medarbeiderundersokelse-lovpalagt)."
+          },
+          {
+            "t": "h2",
+            "text": "What should be mapped?"
+          },
+          {
+            "t": "p",
+            "text": "Working Environment Act § 4-1 sets the frame: the working environment in the undertaking must be fully satisfactory, judged from an individual and overall assessment of the factors in the working environment that may affect the employees’ physical and mental health and welfare. The mapping therefore covers more than one area:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**The physical working environment** (§ 4-4): conditions such as noise, indoor climate, lighting, chemicals and ergonomics.",
+              "**How the work is organised** (§ 4-2, on arrangement, participation and development): working hours, staffing, changes and how employees are involved.",
+              "**The psychosocial working environment** (§ 4-3 and chapter 1A of the regulation): among other things workload and time pressure, unclear or conflicting demands, emotional strain, support and help, contact with others and influence over one’s own work. Harassment, and violence and threats, have chapters of their own in the regulation, 2A and 3A.",
+              "**What is particular to your organisation:** tasks, equipment and situations that only exist where you work."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "The methods: use more than one source"
+          },
+          {
+            "t": "p",
+            "text": "No method catches everything. Arbeidstilsynet writes about the psychosocial working environment:"
+          },
+          {
+            "t": "quote",
+            "text": "To get a good picture of the psychosocial working environment, the organisation should use several sources in the mapping, such as working environment surveys, safety inspections, incident reports, appraisal conversations or informal conversations.",
+            "cite": "Arbeidstilsynet, Psychosocial working environment (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "And on risk assessment in general, it advises also using documentation and experience from earlier unwanted incidents and deviations, safety inspections, working environment surveys and the like in the mapping. The methods complement each other:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Method",
+              "Good for",
+              "Less good for"
+            ],
+            "rows": [
+              [
+                "Safety inspection",
+                "Physical conditions, equipment and routines, seen on site",
+                "What people do not say out loud"
+              ],
+              [
+                "[Working environment survey](/artikler/medarbeiderundersokelse)",
+                "Hearing from everyone at once, anonymously, and measuring the same thing over time",
+                "Explaining why"
+              ],
+              [
+                "Appraisal conversations and meetings",
+                "Causes and ideas for measures",
+                "What is hard to say to your own manager"
+              ],
+              [
+                "Incident and deviation reports",
+                "What has actually happened",
+                "What has not happened yet"
+              ],
+              [
+                "Sickness absence and turnover",
+                "Seeing that something changes over time",
+                "What the change is due to"
+              ],
+              [
+                "Measurements of noise, indoor climate and the like",
+                "Physical conditions that must be quantified",
+                "Psychosocial conditions"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "How to do it, step by step"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Plan it with the safety representative.** Agree what to map, which methods to use, who takes part and when.",
+              "**Gather information from several sources.** For example a safety inspection, an anonymous working environment survey and what you know from incident reports and sickness absence.",
+              "**Review the findings with the employees.** Ask what lies behind the figures and observations. See [how to review the results](/artikler/slik-gar-dere-gjennom-resultatene-med-de-ansatte).",
+              "**Assess the risk.** What can harm health, safety or welfare, how serious is it, and what is urgent? See [risk assessment of the psychosocial working environment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo).",
+              "**Make a plan with measures.** Every measure needs a goal, an owner and a deadline. See [from results to measures](/artikler/fra-resultater-til-tiltak).",
+              "**Follow up, document and repeat.** Check whether the measures worked, write down what you found and did, and map again at the next round or when something changes."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Who should take part?"
+          },
+          {
+            "t": "p",
+            "text": "The employer is responsible but cannot do it alone. Arbeidstilsynet writes that the employer must actively involve employees and the safety representative in the mapping, the risk assessment and the planning and follow-up of measures. Under Working Environment Act § 6-2, the safety representative looks after the employees’ interests in matters concerning the working environment. If the organisation has a working environment committee or an occupational health service, it is natural to involve them. See [the safety representative’s role in the mapping](/artikler/verneombudets-rolle-i-kartleggingen)."
+          },
+          {
+            "t": "h2",
+            "text": "How often?"
+          },
+          {
+            "t": "p",
+            "text": "The regulation on the performance of work § 1A-2 says that the mapping and risk assessment are to be repeated regularly and upon changes that may affect the risk conditions in the undertaking. It does not say how often. Many do a thorough mapping once a year and short measurements in between. See [how often to measure the working environment](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)."
+          },
+          {
+            "t": "h2",
+            "text": "Checklist"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "The plan is agreed with the safety representative.",
+              "Physical, organisational and psychosocial conditions are included.",
+              "You have used more than one source.",
+              "The findings have been reviewed with the employees.",
+              "The risk is assessed, and every measure has a goal, an owner and a deadline.",
+              "The mapping, assessment and measures are documented in writing."
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 3-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Working Environment Act § 4-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-1"
+          },
+          {
+            "label": "Internal control regulation (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/1996-12-06-1127"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with Arbeidstilsynet’s comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Risk assessment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/hms/risikovurdering/"
           }
         ]
       }

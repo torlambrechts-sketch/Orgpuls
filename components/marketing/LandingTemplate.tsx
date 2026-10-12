@@ -57,11 +57,14 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
       template={LANDING_TEMPLATE[slug]}
       heroShot={LANDING_HERO[slug]}
       heroArt={slug === 'smaa-bedrifter' ? <SmallBizArt className="h-auto w-full max-w-[440px]" /> : undefined}
-      related={LANDING_RELATED[slug].filter((r) => serves(own, `/${r}`)).map((r) => ({
-        href: `/${r}`,
-        title: t(`seo.lp.${landingKey(r)}.card.title`),
-        text: t(`seo.lp.${landingKey(r)}.card.text`),
-      }))}
+      related={LANDING_RELATED[slug]
+        .filter((r) => serves(own, `/${r}`))
+        .slice(0, 2)
+        .map((r) => ({
+          href: `/${r}`,
+          title: t(`seo.lp.${landingKey(r)}.card.title`),
+          text: t(`seo.lp.${landingKey(r)}.card.text`),
+        }))}
     />
   )
 }

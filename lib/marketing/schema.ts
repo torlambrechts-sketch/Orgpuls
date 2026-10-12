@@ -59,6 +59,9 @@ export async function siteLd(): Promise<SiteLd> {
 /** the page's language as schema.org wants it: nb-NO on the Norwegian site, en on the English one */
 export const ldLanguage = (locale: string) => (locale === 'en' ? 'en' : 'nb-NO')
 
+/** Pundit Invest AS's organisation number in the Brønnøysund register */
+export const ORGNR = '922698422'
+
 /**
  * schema.org objects for the public pages. Every value is copy the page itself shows —
  * the prices are the plans on the start page, the questions are the FAQ a reader can open —
@@ -70,6 +73,10 @@ export const organization = (site: SiteLd = ORGPULS_LD) => ({
   name: site.name,
   // the company that provides Orgpuls, as the site footer and /vilkar name it (D-197)
   legalName: 'Pundit Invest AS',
+  // its organisation number and its entry in the Brønnøysund register, so a search engine or an AI answer can tell
+  // which company this is (D-281); the number is the one the footer and /vilkar print
+  identifier: { '@type': 'PropertyValue', propertyID: 'NO:ORGNR', value: ORGNR },
+  sameAs: [`https://virksomhet.brreg.no/nb/oppslag/enheter/${ORGNR}`],
   url: site.url,
   logo: site.absolute('/apple-icon.png'),
   email: 'hjelp@orgpuls.no',

@@ -14201,3 +14201,84 @@ form, the same number with its code in every market); `tests/unit/p1-language.te
 page and in mail, no bokmål in a British survey once English is offered, bokmål kept where the market's language is not
 offered, the fallback); `tests/unit/mail.test.ts` (the zones equal to the app's, a London deadline at 23:30 written as
 London's day in the notice and the SMS, a Norwegian organisation's on Oslo's).
+
+## D-281 — Search and AI answers: the keyword map, two articles, a «which tool» page, the company as an entity (2026-10-12)
+
+Tor, 12 October 2026, over Sentral › SEO › Keywords (7 days: 78 impressions, 1 click, nothing in the top 3): «How can we
+improve? Make a strategy that improves this, list the strategy and your plan», then «make sure we also include AI
+optimization, GEO and SEO». The strategy, the 30-day Search Console reading behind it and the phases are
+`docs/marketing/seo-geo-strategy.md`. Its keyword → page map (§ 4) is the ledger. This entry is phase 1, what the site
+can do by itself.
+
+- **Retargeted, no and en.** Each page now carries the words Google already shows it for:
+  - The anonymity article's title opens with «Anonym medarbeiderundersøkelse» (positions 13–16).
+  - The safety representative's article takes «psykososiale arbeidsmiljøet» into its title and H1 («verneombud
+    psykososialt arbeidsmiljø», position 60, the largest query).
+  - /verneombud takes «rettigheter og plikter» into its title, so the two pages stop competing for the same words.
+  - The trivsel article names «medarbeidertilfredshetsundersøkelse (MTU)» in its description and lead (positions
+    72–85, no page had the word).
+  - Their `modified` is 2026-10-12. The risk assessment article is not changed: ten pages already link to it with its
+    words, and it is a week old.
+- **Two articles under D-235's rules,** no and en:
+  - `/artikler/er-medarbeiderundersokelse-lovpalagt`: 14 impressions in 30 days for «medarbeiderundersøkelse
+    lovpålagt», with no page of its own. Its lead answers «Nei, ikke som egen plikt».
+  - `/artikler/arbeidsmiljokartlegging`: the term Sentral flagged with «create a dedicated landing page». This reverses
+    D-227's «arbeidsmiljøkartlegging leaves the titles» for this one page. D-227 rested on Google's suggestions with no
+    Search Console data, and the data now shows the searches.
+
+  Every legal sentence in them is quoted from text checked on 2026-10-12 against Lovdata and Arbeidstilsynet:
+  - aml. §§ 1-2, 3-1 (2) c, 4-1 (1), 6-2 (1), 18-6, 18-7, 18-8 and 18-10, and the titles of §§ 4-2 to 4-4;
+  - internkontrollforskriften § 5 (2) nr. 6 and its documentation sentence;
+  - forskrift om utførelse av arbeid § 1A-2 and the titles of chapters 2A and 3A;
+  - Arbeidstilsynet's «Psykososialt arbeidsmiljø» and «Risikovurdering» pages;
+  - Datatilsynet's page on employee surveys.
+
+  Arbeidstilsynet's wording is «arbeidsmiljøundersøkelser», not «spørreundersøkelser», and the articles keep it.
+  The articles are linked from the text of the employee survey, anonymity and «Krav til kartlegging» articles, whose
+  `modified` is 2026-10-12.
+- **A product page for the «which tool» searches:** `/verktoy-for-medarbeiderundersokelse`
+  (`seo.lp.verktoyForMedarbeiderundersokelse`, LandingTemplate, under Bruksområder, the heatmap as its picture).
+  - «hvilken plattform tilbyr anonym medarbeiderfeedback?» (6.5) and «beste plattform for anonyme pulsundersøkelser»
+    (9) land on the anonymity article, which by D-235 never names the product. They are the conversational queries AI
+    search sends.
+  - The page's first sentence says what Orgpuls is. It has eight checks with how Orgpuls meets each, questions to ask a
+    vendor, a paragraph on general form tools (no product named), getting started, and an FAQ that the FAQPage data
+    repeats.
+  - Every claim is one the site already makes and the product enforces:
+    - k 5 by default and never under 3, which `tests/unit/seo-geo.test.ts` holds equal to `K_DEFAULT` and `K_FLOOR`;
+    - no linkage column, complementary suppression, and the eleven QPS Nordic factors;
+    - measures with owner and deadline, the same figures for the general manager and the safety representative, the
+      report, data in the EU and the DPA in Oppsett;
+    - the survey languages, the free plan, and the times from Pris.
+  - It is in the middleware's public paths, the legal review (`lp.verktoyForMedarbeiderundersokelse`), the landing
+    audit and the share cards.
+  - /smaa-bedrifter's neighbours become Lovkrav and this page. `LANDING_RELATED` is now an ordered preference, and a
+    page shows the first two its site serves (`LandingTemplate`). Sweden's and Empvibe's small-business pages, which do
+    not serve this page, keep Lovkrav and Verneombud. The test holds both sites.
+  - The header and footer are the design's and are not changed.
+- **The company as an entity.** The Organization JSON-LD on every page names Pundit Invest AS by its organisation
+  number (`identifier`, `NO:ORGNR` 922698422, checked in the Enhetsregisteret API) and its Brønnøysund entry (`sameAs`).
+  This lets a search engine or an AI answer tell which company publishes the site. The test holds the number equal to
+  the one the footer prints. The LinkedIn page joins `sameAs` when Tor gives its address.
+- **The start page's articles** are the three newest (D-232), so they are now the two new articles and «Medarbeiderundersøkelse»,
+  in place of «Trivselsundersøkelse» and «Pulsundersøkelse». That gives the new pages a link from the page most visitors
+  arrive on. The block is the same three cards. It is not part of the v3 design, which predates it.
+- **Measured, not guessed.** 7 days in Sentral showed 61 direct sessions and the first from Google, on 2026-10-12. AI
+  crawlers (GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, bingbot) all got 200 from a live article.
+  robots.txt and `/llms.txt` already let them in, and llms.txt and the sitemap take the new pages from the registries.
+
+Not here, and why:
+- Sentral's tracked keywords, its «AI» channel row and the funnel's step-4 label are in `Owntheagenda_Admin`, where this
+  session has read access only.
+- The off-site work in the strategy's § 6 is a person's.
+- FAQ data on articles is not added. Google shows FAQ results only for authoritative government and health sites since
+  2023, and the articles already lead with the answer.
+
+`tests/unit/seo-geo.test.ts` holds the keyword map:
+- each cluster's words in its target page's title;
+- the new articles in the registry and both languages, each answering in its lead and linked from the text of its
+  neighbours;
+- the product page wired in, with the threshold it states equal to the database's;
+- the Organization's identifier and `sameAs`.
+
+`tests/unit/seo-descriptions.test.ts` (≤ 155 characters) covers the new descriptions too. The page map is re-crawled.
