@@ -14136,12 +14136,12 @@ open request, the dispatcher's payload and recipients, the notice pace, the memb
 notice and what survives of a typed name); `tests/unit/org-number.test.ts` (`signupOrgNumber`);
 `tests/unit/legal-pack.test.ts` (the optional number's register hint is Norway's only).
 
-**Hosted, 2026-10-12.** 0231 is applied (`0231_outbox_kind_tilgang`). The Supabase connector held 0232 three times:
-«cancelled», then a 60-second timeout, then «cancelled» again with Tor present and asking for it, so no prompt reached
-anyone. Nothing of it was applied (no `app.join_requests`, no `signup_organisation`, the outbox check unchanged). Before
-the second attempt the purge job's own `delete` moved into `app.join_requests_purge()`. After the third, the one
-statement pair 0232 carried that no applied migration since 0230 had, the drop and re-add of the outbox check
-`outbox_round_or_measure`, moved to **0233** (`0233_outbox_tilgang_without_round`), which Tor runs in the SQL editor with
-a row in `supabase_migrations.schema_migrations` under its name. 0233 needs only 0231's enum value, so on hosted it may
-come before 0232; locally and in CI it runs after, and the end state is the same. 0232, now with no drop, goes through
-the connector. The code ships to main only after both are on hosted (database first, code second).
+**Hosted, 2026-10-12.** 0231 is applied (`0231_outbox_kind_tilgang`). The Supabase connector held 0232 four times, each
+answered «cancelled» (once a 60-second timeout) with no prompt reaching anyone, the third and fourth with Tor present
+and asking for it. Nothing of it was applied. Two changes were tried, each a real improvement kept on its merits: the
+purge job's own `delete` moved into `app.join_requests_purge()`, and the drop and re-add of the outbox check
+`outbox_round_or_measure` moved to **0233** (`0233_outbox_tilgang_without_round`), so 0232 carries no destructive
+statement. The connector held 0232 all the same, so it holds the migration as a whole and is not tried again. Both go
+through the SQL editor, by Tor, each with a row in `supabase_migrations.schema_migrations` under its name. 0233 needs
+only 0231's enum value, so on hosted the order does not matter; locally and in CI it runs after 0232, and the end state
+is the same. The code ships to main only after both are on hosted (database first, code second).
