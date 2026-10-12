@@ -14019,6 +14019,9 @@ fast-forwarded to main.
   - re-running the job returns 403 to this session, and the workflow has no manual trigger, so it was not retried.
   The next push to main that touches code re-runs the job. If /rapport fails again there, it is real and is this
   page's to root-cause.
+  **Followed up, 2026-10-12:** the next code commit on main, acd4d14 (X-114, D-279), ran «checks, security invariants
+  and screens» green, «Smoke every screen» included (run 38217326345). The #418 on /rapport did not recur; it stays
+  recorded here and in D-215 as the same intermittent, unreproduced hydration mismatch.
 - **Hosted:** no migration. `list_migrations` still ends at `0230_dispatch_claims_market`. `get_advisors security`
   shows the same four kinds as before (one table with RLS and no policy, the known definer RPCs for anon and for
   authenticated, leaked-password protection).
@@ -14150,3 +14153,8 @@ Verified on hosted: `app.join_requests` with RLS and its one policy; the ten fun
 admitting `tilgang`; `outbox_tilgang_request`; the membership trigger; the migration list ending 0231, 0232, 0233. The
 security advisor shows no new kind of finding: the new RPCs fall under the existing «authenticated may execute a
 SECURITY DEFINER function» warning, as every RPC here does by design, each checking its caller.
+
+**Shipped (2026-10-12):** acd4d14 fast-forwarded to main after the migrations. CI «checks, security invariants and
+screens» green, «Security invariants» and «Smoke every screen» included (run 38217326345); «Deploy the edge functions»
+green, so the dispatcher carries the `tilgang` notice. Production serves the one form with the optional number on
+www.orgpuls.com/registrer and www.empvibe.com/sign-up.
