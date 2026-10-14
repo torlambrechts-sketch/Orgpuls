@@ -11,6 +11,7 @@ import { PageTemplate } from './PageTemplate'
 import { ownSite, serves, siteArticles } from '@/lib/site/own'
 import { VoTip, type VoTipWords } from './VoTip'
 import { MAIN_URL } from '@/lib/hosts'
+import { ArticleArt } from './art/ArticleArt'
 import { LawArt } from './art/LawArt'
 import { SafetyRepArt } from './art/SafetyRepArt'
 import { SmallBizArt } from './art/SmallBizArt'
@@ -45,7 +46,16 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
           ) : undefined
         }
         informational
-        heroArt={slug === 'lovkrav' ? <LawArt className="h-auto w-full max-w-[440px]" seal={own ? '✓' : '§'} /> : <SafetyRepArt className="h-auto w-full max-w-[440px]" />}
+        heroArt={
+          slug === 'lovkrav' ? (
+            <LawArt className="h-auto w-full max-w-[440px]" seal={own ? '✓' : '§'} />
+          ) : slug === 'verneombud' ? (
+            <SafetyRepArt className="h-auto w-full max-w-[440px]" />
+          ) : (
+            // the hub (D-284): people at work, the drawing the meeting articles carry
+            <ArticleArt kind="meeting" className="h-auto w-full max-w-[440px]" />
+          )
+        }
       />
     )
   return (

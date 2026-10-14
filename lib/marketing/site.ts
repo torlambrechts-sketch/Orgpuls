@@ -11,7 +11,7 @@ export const SITE_URL = 'https://www.orgpuls.com'
 export const absolute = (path: string) => `${SITE_URL}${path === '/' ? '' : path}`
 
 /** Landing pages, one per search intent. The slug is the route and the message key. */
-export const LANDING_PAGES = ['lovkrav', 'verneombud', 'smaa-bedrifter', 'verktoy-for-medarbeiderundersokelse', 'bygg-og-anlegg', 'helse-og-omsorg'] as const
+export const LANDING_PAGES = ['lovkrav', 'verneombud', 'psykososialt-arbeidsmiljo', 'smaa-bedrifter', 'verktoy-for-medarbeiderundersokelse', 'bygg-og-anlegg', 'helse-og-omsorg'] as const
 export type LandingSlug = (typeof LANDING_PAGES)[number]
 
 /** A landing page's message key: slugs with hyphens are camel-cased in the messages. */
@@ -257,6 +257,17 @@ export const ARTICLES: Article[] = [
     art: 'law',
     template: 'kartleggingspakken',
   },
+  // the vernerunde, the second page for the «verneombud psykososialt arbeidsmiljø» cluster (D-284)
+  {
+    slug: 'vernerunde-psykososialt-arbeidsmiljo',
+    key: 'vernerunde',
+    group: 'gjennomforing',
+    published: '2026-10-14',
+    modified: '2026-10-14',
+    related: ['verneombudets-rolle-i-kartleggingen', 'arbeidsmiljokartlegging'],
+    art: 'rep',
+    template: 'vernerunde-sjekkliste',
+  },
   {
     slug: 'medarbeiderundersokelse-sporsmal',
     key: 'sporsmal',
@@ -293,7 +304,7 @@ export const ARTICLES: Article[] = [
     group: 'lov',
     published: '2026-09-25',
     modified: '2026-10-14',
-    related: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    related: ['vernerunde-psykososialt-arbeidsmiljo', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
     art: 'rep',
     template: 'informasjonsskriv-og-sjekkliste',
   },
@@ -309,6 +320,8 @@ export const articleImage = (slug: string) => `/og/artikler/${slug}.png`
 export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
   lovkrav: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'nye-regler-psykososialt-arbeidsmiljo-2026'],
   verneombud: ['verneombudets-rolle-i-kartleggingen', 'anonym-medarbeiderundersokelse'],
+  // the hub (D-284): what the law requires of the survey, and how a survey is carried out
+  'psykososialt-arbeidsmiljo': ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'arbeidsmiljokartlegging'],
   'smaa-bedrifter': ['anonym-medarbeiderundersokelse', 'medarbeiderundersokelse-sporsmal'],
   // the «which tool» page (D-281): what anonymity means, and whether a survey is required at all
   'verktoy-for-medarbeiderundersokelse': ['anonym-medarbeiderundersokelse', 'er-medarbeiderundersokelse-lovpalagt'],
@@ -321,12 +334,13 @@ export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
  * law to whoever asks, so they carry no signup, no product picture, no offer and no «how Orgpuls does
  * it». They sit under Artikler in the breadcrumb, with the articles.
  */
-export const INFORMATIONAL_PAGES: readonly LandingSlug[] = ['lovkrav', 'verneombud']
+export const INFORMATIONAL_PAGES: readonly LandingSlug[] = ['lovkrav', 'verneombud', 'psykososialt-arbeidsmiljo']
 
 /** the free template under a landing page's blocks (lib/marketing/templates, D-243) */
 export const LANDING_TEMPLATE: Partial<Record<LandingSlug, string>> = {
   lovkrav: 'kartleggingspakken',
   verneombud: 'informasjonsskriv-og-sjekkliste',
+  'psykososialt-arbeidsmiljo': 'kartleggingspakken',
   'smaa-bedrifter': 'kartleggingspakken',
 }
 
@@ -339,6 +353,8 @@ export const LANDING_TEMPLATE: Partial<Record<LandingSlug, string>> = {
 export const LANDING_HERO: Record<LandingSlug, ShotId> = {
   lovkrav: 'rapport',
   verneombud: 'varmekart',
+  // the hub (D-284) is informational: its card is the article card (scripts/marketing/og-images.mjs); this entry only completes the record
+  'psykososialt-arbeidsmiljo': 'oversikt',
   'smaa-bedrifter': 'oversikt',
   // the heatmap: results per group, a group under the threshold shown as a dash
   'verktoy-for-medarbeiderundersokelse': 'varmekart',
@@ -354,6 +370,7 @@ export const LANDING_HERO: Record<LandingSlug, ShotId> = {
 export const LANDING_RELATED: Record<LandingSlug, readonly LandingSlug[]> = {
   lovkrav: ['verneombud', 'smaa-bedrifter'],
   verneombud: ['lovkrav', 'bygg-og-anlegg'],
+  'psykososialt-arbeidsmiljo': ['lovkrav', 'verneombud'],
   'smaa-bedrifter': ['lovkrav', 'verktoy-for-medarbeiderundersokelse', 'verneombud'],
   'verktoy-for-medarbeiderundersokelse': ['smaa-bedrifter', 'lovkrav'],
   'bygg-og-anlegg': ['helse-og-omsorg', 'smaa-bedrifter'],

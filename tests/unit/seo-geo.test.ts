@@ -1,6 +1,8 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { ARTICLES, LANDING_ARTICLES, LANDING_PAGES, LANDING_RELATED } from '@/lib/marketing/site'
+import { Blocks, FaqItems } from '@/lib/marketing/blocks'
+import { ARTICLES, INFORMATIONAL_PAGES, LANDING_ARTICLES, LANDING_PAGES, LANDING_RELATED } from '@/lib/marketing/site'
+import { TEMPLATES } from '@/lib/marketing/templates'
 import { ORGNR, organization } from '@/lib/marketing/schema'
 import { INDUSTRIES, pageIn } from '@/content/industries'
 import { LANDINGS } from '@/content/industries/landing'
@@ -194,5 +196,91 @@ describe('the «which tool» page is reached from the pages whose readers choose
     expect(o.foundingDate).toBe('2019-04-03')
     expect(o.address).toEqual({ '@type': 'PostalAddress', streetAddress: 'Øvre Prinsdals vei 36L', postalCode: '1266', addressLocality: 'Oslo', addressCountry: 'NO' })
     expect(JSON.stringify(no)).toContain('Øvre Prinsdals vei 36L')
+  })
+})
+
+/**
+ * The vernerunde article and its checklist, the «psykososialt arbeidsmiljø» hub, and the two sections the data asked
+ * for (D-284): each page is in its registry with its route and card, says what it must in both languages, and is
+ * reached from the text of the pages whose readers need it.
+ */
+describe('the vernerunde article, its checklist and the hub (D-284)', () => {
+  type Page = { h1: string; lead: string; blocks: unknown; faq?: unknown }
+  const page = (lang: typeof no | typeof en, ns: 'articles' | 'lp', key: string) => (lang.seo[ns] as unknown as Record<string, Page>)[key]!
+  const blocksOf = (lang: typeof no | typeof en, ns: 'articles' | 'lp', key: string) => Blocks.parse(page(lang, ns, key).blocks)
+  const HUB = 'psykososialt-arbeidsmiljo'
+  const VR = 'vernerunde-psykososialt-arbeidsmiljo'
+  const factors = ARTICLES.filter((a) => a.group === 'faktorer')
+
+  it('the hub is an informational landing page with its route, public path, card, two articles and two neighbours', () => {
+    expect(LANDING_PAGES).toContain(HUB)
+    expect(INFORMATIONAL_PAGES).toContain(HUB)
+    expect(LANDING_ARTICLES[HUB]).toEqual(['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'arbeidsmiljokartlegging'])
+    expect(LANDING_RELATED[HUB]).toEqual(['lovkrav', 'verneombud'])
+    expect(readFileSync(`app/(marketing)/${HUB}/page.tsx`, 'utf8')).toContain(`slug="${HUB}"`)
+    expect(readFileSync('lib/supabase/middleware.ts', 'utf8')).toContain(`'/${HUB}',`)
+    expect(existsSync(`public/og/${HUB}.png`)).toBe(true)
+  })
+
+  it('the hub asks in its H1, defines in its first words, lists the eleven factor articles and chapter 1A, and carries FAQ data', () => {
+    expect(page(no, 'lp', 'psykososialtArbeidsmiljo').lead).toMatch(/^Psykososialt arbeidsmiljø er /)
+    expect(page(en, 'lp', 'psykososialtArbeidsmiljo').lead).toMatch(/^The psychosocial working environment is /)
+    for (const lang of [no, en]) {
+      expect(page(lang, 'lp', 'psykososialtArbeidsmiljo').h1).toMatch(/\?$/)
+      const blocks = blocksOf(lang, 'lp', 'psykososialtArbeidsmiljo')
+      const links = blocks.find((b) => b.t === 'links')
+      expect(links?.items.map((i) => i.href).sort()).toEqual(factors.map((a) => `/artikler/${a.slug}`).sort())
+      // the regulation's chapter, paragraph by paragraph: the same block /lovkrav carries
+      const law = blocks.find((b) => b.t === 'law')
+      const lovkrav = blocksOf(lang, 'lp', 'lovkrav').find((b) => b.t === 'law' && /1A-1/.test(b.items[0]!.ref))
+      expect(law).toEqual(lovkrav)
+      expect(FaqItems.parse(page(lang, 'lp', 'psykososialtArbeidsmiljo').faq).length).toBeGreaterThanOrEqual(5)
+      for (const b of blocks) if (b.t === 'h2' && !/^(Kilder|Sources)$/.test(b.text)) expect(b.text).toMatch(/\?$/)
+    }
+  })
+
+  it('the hub is linked from the text of every factor article, /lovkrav and the kartlegging article, in both languages', () => {
+    for (const lang of [no, en]) {
+      for (const a of factors) expect(JSON.stringify(page(lang, 'articles', a.key).blocks), a.slug).toContain(`](/${HUB})`)
+      expect(JSON.stringify(page(lang, 'lp', 'lovkrav').blocks)).toContain(`](/${HUB})`)
+      expect(JSON.stringify(page(lang, 'articles', 'arbeidsmiljokartlegging').blocks)).toContain(`](/${HUB})`)
+    }
+  })
+
+  it('the vernerunde article is in the registry with its checklist template, asks, and is linked from its neighbours and the hub', () => {
+    const a = ARTICLES.find((x) => x.slug === VR)
+    expect(a?.template).toBe('vernerunde-sjekkliste')
+    expect(a?.related).toContain('verneombudets-rolle-i-kartleggingen')
+    expect(ARTICLES.find((x) => x.key === 'verneombud')?.related).toContain(VR)
+    expect(TEMPLATES.map((t) => t.slug)).toContain('vernerunde-sjekkliste')
+    expect(existsSync(`public/og/artikler/${VR}.png`)).toBe(true)
+    for (const lang of [no, en]) {
+      expect(page(lang, 'articles', 'vernerunde').h1).toMatch(/\?$/)
+      for (const key of ['verneombud', 'arbeidsmiljokartlegging']) expect(JSON.stringify(page(lang, 'articles', key).blocks), key).toContain(`](/artikler/${VR})`)
+      expect(JSON.stringify(page(lang, 'lp', 'verneombud').blocks)).toContain(`](/artikler/${VR})`)
+      expect(JSON.stringify(page(lang, 'lp', 'psykososialtArbeidsmiljo').blocks)).toContain(`](/artikler/${VR})`)
+      // the checklist the Word file is built from (scripts/maler/build.py): three parts under the «Sjekkliste» heading
+      const blocks = blocksOf(lang, 'articles', 'vernerunde')
+      const at = blocks.findIndex((b) => b.t === 'h2' && /^(Sjekkliste|Checklist)/.test(b.text))
+      expect(at).toBeGreaterThan(0)
+      expect(blocks.slice(at + 1).filter((b) => b.t === 'h3')).toHaveLength(3)
+      expect(blocks.slice(at + 1).filter((b) => b.t === 'ul')).toHaveLength(3)
+    }
+  })
+
+  it('/lovkrav answers whether there is a deadline, right after what changed in 2026', () => {
+    const q = lp(no, 'lovkrav').faq.map((f) => f.q)
+    expect(q[q.indexOf('Hva endret seg 1. januar 2026?') + 1]).toBe('Er det en frist for å kartlegge etter de nye reglene?')
+    expect(lp(en, 'lovkrav').faq).toHaveLength(lp(no, 'lovkrav').faq.length)
+  })
+
+  it('the bygg question page answers the language requirement in a section of its own, with an anchor, in both languages', () => {
+    const bygg = INDUSTRIES.find((i) => i.slug === 'bygg-og-anlegg')!
+    for (const lang of ['no', 'en'] as const) {
+      const s = pageIn(bygg, lang)?.questionPage?.sections?.find((x) => x.id === 'sprakkrav')
+      expect(s?.title, lang).toMatch(/\?$/)
+      expect(s?.paragraphs.join(' '), lang).toMatch(/19a/)
+      expect(s?.source?.url, lang).toContain('lovdata.no')
+    }
   })
 })

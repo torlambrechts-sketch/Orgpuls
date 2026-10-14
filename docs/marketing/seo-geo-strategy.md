@@ -116,15 +116,17 @@ reviews, lists or figures (CLAUDE.md: never fabricate), and no bought placements
 | medarbeiderundersøkelse lovpålagt, hvorfor medarbeiderundersøkelse | **/artikler/er-medarbeiderundersokelse-lovpalagt** (new) | pos 41–64, no page; new (D-281) |
 | arbeidsmiljøkartlegging, kartlegging av arbeidsmiljø | **/artikler/arbeidsmiljokartlegging** (new) | pos 38–79; new (D-281). Replaces D-227's «out of titles», which rested on no data |
 | kartlegging av psykososialt arbeidsmiljø, psykososialt arbeidsmiljø undersøkelse | /lovkrav | keep |
+| psykososialt arbeidsmiljø (the term, in five of 34 queries as a modifier) | **/psykososialt-arbeidsmiljo** (new hub) | no page had the term as its subject; the hub defines it, lists the factors and the chapter, and is linked from the eleven factor articles (D-284) |
+| fristaml | /lovkrav | pos 10 on four impressions; the FAQ now answers whether there is a deadline (D-284) |
 | krav til kartlegging (av psykososialt arbeidsmiljø) | /artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo | keep |
 | risikovurdering psykososialt arbeidsmiljø | /artikler/risikovurdering-av-psykososialt-arbeidsmiljo | pos 80 on the wrong pages. Ten pages already link it with these words, and it is a week old: wait for authority, check again in phase 2 |
-| verneombud psykososialt arbeidsmiljø, vernerunde psykososialt arbeidsmiljø | /artikler/verneombudets-rolle-i-kartleggingen | pos 60; title and H1 carry the query (D-281) |
+| verneombud psykososialt arbeidsmiljø, vernerunde psykososialt arbeidsmiljø, vernerunde byggeplass | /artikler/verneombudets-rolle-i-kartleggingen, **/artikler/vernerunde-psykososialt-arbeidsmiljo** (new) | pos 60; title and H1 carry the query (D-281); the vernerunde has its own article and checklist, linked from the verneombud pages (D-284) |
 | verneombud rettigheter og plikter, valg av verneombud | /verneombud | title says «rettigheter og plikter» (D-281) |
 | medarbeiderundersøkelse spørsmål, medarbeiderundersøkelse mal | /artikler/medarbeiderundersokelse-sporsmal (+ /maler/qpsnordic-sporreskjema) | pos 44–53; the template's title now says «gratis mal for medarbeiderundersøkelse» and its page holds the 37 items and answers the questions around them (D-283); the article in phase 2 |
 | medarbeidertilfredshetsundersøkelse, medarbeidertilfredshet, MTU | /artikler/trivselsundersokelse | pos 72–85; the term added to its description and lead (D-281) |
 | medarbeiderundersøkelse (head term) | /artikler/medarbeiderundersokelse | keep (D-249, D-250) |
 | medarbeiderundersøkelse små bedrifter | /smaa-bedrifter | keep |
-| språkkrav byggherreforskriften, vernerunde byggeplass, psi byggeplass | /bygg-og-anlegg, /bygg-og-anlegg/sporsmal | pos 11–82; phase 2 |
+| språkkrav byggherreforskriften, vernerunde byggeplass, psi byggeplass | /bygg-og-anlegg, /bygg-og-anlegg/sporsmal | pos 11–82; the question page answers the language requirement in its own anchored section, and the vernerunde article has a building-site section (D-284) |
 | hvordan øker man svarprosenten i pulsundersøkelser? | /artikler/pulsundersokelse | pos 2; the section now asks it and answers first (D-282) |
 | minimum antall svar for anonym rapportering i medarbeiderundersøkelse | /artikler/anonym-medarbeiderundersokelse | pos 6; «hvor mange svar må til?» answers first (D-282) |
 | hva er den beste plattformen for pulsundersøkelser? | /plattform (Google's choice) | pos 6; its description names pulsundersøkelser (D-282). /verktoy-for-medarbeiderundersokelse stays the page for «verktøy/plattform for anonym …»; watch which Google keeps |
@@ -169,6 +171,15 @@ used freely, and how far it covers chapter 1A. Six FAQ items carry FAQPage data;
 serves «medarbeiderundersøkelse mal» besides the instrument's name. Every fact is from STAMI's publication page, the
 SND catalogue entry or the manual Tor holds (X-107); nothing is from memory.
 
+### Phase 1d: the pages the data asked for, shipped 2026-10-14 (D-284)
+
+Three additions from the suggestions after D-283: an article on the vernerunde and the psychosocial working
+environment with a free checklist template built from it (the «verneombud psykososialt arbeidsmiljø» cluster was the
+site's biggest term and its weakest position); a hub page, «Hva er psykososialt arbeidsmiljø?», that defines the term,
+lists the factors and the chapter, and is linked from every factor article; and two sections — the deadline FAQ on
+/lovkrav («fristaml», position 10) and the language-requirement section on the bygg question page («språkkrav
+byggherreforskriften», position 11).
+
 ### Phase 2: next 2–6 weeks
 
 0. **Run the audit weekly** with the Search Console export (`--sc`), and act on its flags before adding pages.
@@ -181,7 +192,7 @@ SND catalogue entry or the manual Tor holds (X-107); nothing is from memory.
    - more example statements per factor, as a list;
    - a clearer link to the free questionnaire template;
    - a short answer to «hvor mange spørsmål».
-3. **Bygg:** «språkkrav byggherreforskriften» is already at 11 on the question page. Give it its own
+3. **Bygg:** «språkkrav byggherreforskriften» is already at 11 on the question page. Done in D-284: its own
    section and anchor.
 4. **The monthly AI prompt panel** (§ 7), first run when phase 1 has been indexed (about 2 weeks).
 5. **Read the data again.** At about 300 impressions a week, decide per page: rewrite, merge or leave.

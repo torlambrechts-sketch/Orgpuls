@@ -4732,7 +4732,7 @@
           },
           {
             "t": "p",
-            "text": "Trakassering og vold og trusler har i tillegg egne kapitler i forskrift om utførelse av arbeid: kapittel 2A om trakassering og annen utilbørlig opptreden, og kapittel 3A om vold og trusler. Begge har egne bestemmelser om kartlegging og vurdering av risiko og om tiltak."
+            "text": "Trakassering og vold og trusler har i tillegg egne kapitler i forskrift om utførelse av arbeid: kapittel 2A om trakassering og annen utilbørlig opptreden, og kapittel 3A om vold og trusler. Begge har egne bestemmelser om kartlegging og vurdering av risiko og om tiltak. Hva begrepet psykososialt arbeidsmiljø dekker, og hver faktor forklart, står på [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -4904,6 +4904,10 @@
             "a": "Forskrift om utførelse av arbeid fikk et nytt kapittel 1A om psykososialt arbeidsmiljø. Arbeidstilsynet skriver at bestemmelsene konkretiserer arbeidsmiljøloven §§ 4-1 og 4-3 og arbeidsgiverens plikt til systematisk HMS-arbeid etter § 3-1."
           },
           {
+            "q": "Er det en frist for å kartlegge etter de nye reglene?",
+            "a": "Forskriftens kapittel 1A trådte i kraft 1. januar 2026 uten overgangsregler, så plikten gjelder fra den dagen. Noen egen frist for den første kartleggingen finnes ikke, og heller ikke et fast intervall: kartleggingen skal gjøres regelmessig og ved endringer (§ 1A-2). Ved tilsyn kan Arbeidstilsynet be om dokumentasjon på at den er gjort. Selve plikten til å kartlegge arbeidsmiljøet er eldre – den har stått i arbeidsmiljøloven § 3-1 hele tiden."
+          },
+          {
             "q": "Hvor ofte må vi kartlegge?",
             "a": "Forskriften sier at kartleggingen skal gjentas regelmessig og ved endringer som kan ha betydning for risikoforholdene. Den setter ikke et fast intervall. Arbeidstilsynet nevner endringer i organisering, bemanning, arbeidsoppgaver, ledelse, teknologi, arbeidstid eller rammebetingelser som eksempler."
           },
@@ -5027,7 +5031,7 @@
           },
           {
             "t": "p",
-            "text": "Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen) og om [risikovurderingen](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+            "text": "Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen) og om [risikovurderingen](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo). Og om [vernerunden](/artikler/vernerunde-psykososialt-arbeidsmiljo): hva dere ser etter når temaet er psykososialt."
           },
           {
             "t": "h2",
@@ -5645,6 +5649,218 @@
         ],
         "finalTitle": "Se om det passer dere",
         "finalBody": "Skriv inn navnet på virksomheten og e-postadressen din. De første 15 dagene har dere alt, uten kort, og etterpå kan dere fortsette gratis."
+      },
+      "psykososialtArbeidsmiljo": {
+        "title": "Hva er psykososialt arbeidsmiljø? Faktorene og loven | Orgpuls",
+        "description": "Psykososialt arbeidsmiljø er hvordan arbeidet oppleves, og hvordan folk har det med hverandre på jobb. Faktorene loven nevner, og kravene fra 2026.",
+        "crumb": "Psykososialt arbeidsmiljø",
+        "card": {
+          "title": "Psykososialt arbeidsmiljø",
+          "text": "Hva begrepet betyr, hvilke faktorer loven nevner, og hvordan det kartlegges."
+        },
+        "kicker": "Begrepet forklart",
+        "h1": "Hva er psykososialt arbeidsmiljø?",
+        "lead": "Psykososialt arbeidsmiljø er de psykologiske og sosiale forholdene i arbeidet: hvordan folk opplever arbeidet sitt, og hvordan de har det med hverandre. Det handler om krav, kontroll, forutsigbarhet og mening – og om støtte, ledelse, konflikter og krenkelser. Arbeidsmiljøloven § 4-3 krever at det er fullt forsvarlig, og fra 1. januar 2026 sier forskriften hvilke faktorer som skal kartlegges og vurderes. Her er begrepet, faktorene, loven og hvordan det måles.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva betyr psykososialt arbeidsmiljø?"
+          },
+          {
+            "t": "p",
+            "text": "Ordet er satt sammen av to deler. STAMI skiller dem slik: «Psykologiske arbeidsfaktorer handler om opplevelse av arbeidssituasjon og arbeidsinnhold. Sosiale arbeidsfaktorer handler om det mellommenneskelige samspillet på jobb.» Arbeidstilsynet sier det kortere: psykososialt arbeidsmiljø «handler om hvordan arbeidstakerne opplever arbeidet og arbeidssituasjonen sin». Det er altså ikke én ting, men summen av hvordan arbeidet er lagt opp og hvordan folk behandler hverandre – og det måles ved å spørre dem det gjelder."
+          },
+          {
+            "t": "p",
+            "text": "Begrepet forveksles ofte med trivsel. Trivsel er en følge; det psykososiale arbeidsmiljøet er forholdene som gir den. Verken arbeidsmiljøloven § 4-3 eller forskriftens kapittel 1A bruker ordet trivsel: de krever at forholdene er forsvarlige, uansett hvor fornøyde folk sier de er. Les mer om [forskjellen på en trivselsundersøkelse og en arbeidsmiljøundersøkelse](/artikler/trivselsundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "Hvilke faktorer regnes som psykososialt arbeidsmiljø?"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven § 4-3 nevner i andre ledd fire faktorer – uklare eller motstridende krav og forventninger, emosjonelle krav og belastninger i arbeid med mennesker, arbeidsmengde og tidspress, og støtte og hjelp i arbeidet – og stiller i de neste leddene krav om integritet og verdighet, mulighet for kontakt og kommunikasjon, vern mot trakassering og vern mot vold og trusler. Forskrift om utførelse av arbeid § 1A-1 samler dem i én liste, som gjelder «blant annet»:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "uklare eller motstridende krav og forventninger i arbeidet",
+              "emosjonelle krav og belastninger i arbeid med mennesker",
+              "arbeidsmengde og tidspress som innebærer ubalanse mellom arbeidet som skal utføres, og den tiden som er til rådighet",
+              "støtte og hjelp i arbeidet",
+              "mulighet for kontakt og kommunikasjon med andre arbeidstakere i virksomheten",
+              "trakassering, herunder seksuell trakassering",
+              "vold og trusler",
+              "selvbestemmelse og innflytelse i arbeidet"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Listen er ikke uttømmende. Arbeidstilsynet nevner selvbestemmelse og innflytelse som egen faktor på sine sider (den står i lovens § 4-2), og ledelse, rolleklarhet, forutsigbarhet og mening går igjen i forskningen. Artiklene her forklarer elleve faktorer, én om gangen: hva en lav score betyr, og hva arbeidsgiveren kan gjøre."
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Arbeidsmengde og tidspress",
+                "text": "Ubalanse mellom det som skal gjøres og tiden som er til rådighet.",
+                "href": "/artikler/arbeidsmengde-og-tidspress"
+              },
+              {
+                "title": "Rolleklarhet",
+                "text": "Om folk vet hva som forventes av dem, og hvem som bestemmer hva.",
+                "href": "/artikler/rolleklarhet"
+              },
+              {
+                "title": "Motstridende krav",
+                "text": "Når to krav ikke kan oppfylles samtidig – fra kunder, ledere eller systemer.",
+                "href": "/artikler/motstridende-krav"
+              },
+              {
+                "title": "Emosjonelle krav",
+                "text": "Belastningen i arbeid med mennesker: å møte andres følelser og holde egne tilbake.",
+                "href": "/artikler/emosjonelle-krav"
+              },
+              {
+                "title": "Støtte fra leder",
+                "text": "Om lederen er tilgjengelig, hjelper og gir tilbakemelding.",
+                "href": "/artikler/stotte-fra-leder"
+              },
+              {
+                "title": "Støtte fra kollegaer",
+                "text": "Om folk stiller opp for hverandre når det trengs.",
+                "href": "/artikler/stotte-fra-kollegaer"
+              },
+              {
+                "title": "Kontakt og kommunikasjon",
+                "text": "Mulighet til å snakke med og nå andre i arbeidet – også for dem som jobber alene.",
+                "href": "/artikler/kontakt-og-kommunikasjon"
+              },
+              {
+                "title": "Medvirkning og kontroll",
+                "text": "Selvbestemmelse og innflytelse over eget arbeid og beslutningene som angår det.",
+                "href": "/artikler/medvirkning-og-kontroll"
+              },
+              {
+                "title": "Ytringsklima",
+                "text": "Om det er trygt å si fra om feil, uenighet og kritikkverdige forhold.",
+                "href": "/artikler/ytringsklima"
+              },
+              {
+                "title": "Integritet og verdighet",
+                "text": "Vern mot trakassering og annen krenkende atferd.",
+                "href": "/artikler/integritet-og-verdighet"
+              },
+              {
+                "title": "Anerkjennelse og mening",
+                "text": "Om arbeidet oppleves meningsfullt, og om innsatsen blir sett.",
+                "href": "/artikler/anerkjennelse-og-mening"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva krever loven av arbeidsgiveren?"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsmiljøloven § 4-3 første ledd begynner med at arbeidet skal «organiseres, planlegges og gjennomføres slik at» de psykososiale forholdene er fullt forsvarlige ut fra hensynet til helse, sikkerhet og velferd. Hvordan det skal gjøres, står i forskrift om utførelse av arbeid kapittel 1A, som gjelder fra 1. januar 2026:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Forskriften § 1A-1",
+                "text": "Arbeidet skal organiseres, planlegges og gjennomføres slik at det psykososiale arbeidsmiljøet er fullt forsvarlig. Arbeidstilsynet skriver at det ikke er forbudt å ha det travelt eller krevende, men at belastningene ikke må bli for store – og at vurderingen som hovedregel gjelder organisering og styring, ikke enkeltpersoner."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "text": "Kartlegg faktorene, og vurder risikoen på kort og lang sikt: hver faktor for seg, hvordan de påvirker hverandre, og samlet. I samarbeid med de ansatte, tilpasset virksomheten, gjentatt regelmessig og ved endringer, og dokumentert."
+              },
+              {
+                "ref": "Forskriften § 1A-3",
+                "text": "Lag nødvendige planer og sett i verk nødvendige tiltak for å fjerne eller redusere risikoen, sammen med de ansatte. Tiltakene bør så langt som mulig rette seg mot årsakene."
+              },
+              {
+                "ref": "Forskriften § 1A-4",
+                "text": "De ansatte og representantene deres skal få nødvendig informasjon om risikofaktorene og om tiltakene, og nødvendig opplæring."
+              },
+              {
+                "ref": "Forskriften § 1A-5",
+                "text": "Arbeidstakerne skal medvirke i arbeidet, jf. arbeidsmiljøloven § 2-3. Arbeidstilsynet presiserer at det ikke betyr at den enkelte har ansvar for å løse utfordringene alene."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Hele kravet, steg for steg, står på [Lovkrav](/lovkrav). Hva som ble nytt i 2026, står i [artikkelen om de nye reglene](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026), og [kravene til kartleggingen](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) har sin egen."
+          },
+          {
+            "t": "h2",
+            "text": "Hvordan kartlegges det psykososiale arbeidsmiljøet?"
+          },
+          {
+            "t": "p",
+            "text": "Ved å spørre dem det gjelder – anonymt, så svarene blir ærlige – og ved å bruke det dere allerede vet. Arbeidstilsynet anbefaler flere kilder: «arbeidsmiljøundersøkelser, vernerunder, avviksmeldinger, medarbeidersamtaler eller uformelle samtaler». En anonym undersøkelse gir tall per faktor og per gruppe som kan følges over tid; [vernerunden](/artikler/vernerunde-psykososialt-arbeidsmiljo) og samtalene viser hva som ligger bak. Les [hvordan dere gjennomfører en arbeidsmiljøkartlegging](/artikler/arbeidsmiljokartlegging), [hvilke spørsmål som bør være med](/artikler/medarbeiderundersokelse-sporsmal) og [hvordan risikoen vurderes](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Hvorfor betyr det noe for helse og sykefravær?"
+          },
+          {
+            "t": "p",
+            "text": "STAMI skriver at «en betydelig andel av sykefraværet kan knyttes til psykososiale risikofaktorer i arbeidet». Instituttets kunnskapsoppsummeringer finner at høye krav kombinert med lav kontroll, og mobbing og trakassering, øker risikoen for sykefravær, mens kontroll over eget arbeid og egen arbeidstid og et godt sosialt klima reduserer den; mulighet til å påvirke egen arbeidssituasjon reduserer også risikoen for uførepensjon. Som beskyttende faktorer nevner STAMI støttende og rettferdig ledelse, balanse mellom krav og kontroll, godt arbeidsklima og positive utfordringer."
+          },
+          {
+            "t": "h2",
+            "text": "Hvem har ansvaret?"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidsgiveren. Verneombudet skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (arbeidsmiljøloven § 6-2) og tas med på råd, og de ansatte har plikt til å medvirke (§ 2-3 og forskriften § 1A-5). Les om [verneombudets rettigheter og plikter](/verneombud)."
+          },
+          {
+            "t": "h2",
+            "text": "Kilder"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "[Arbeidsmiljøloven § 4-3 (Lovdata)](https://lovdata.no/lov/2005-06-17-62/%C2%A74-3)",
+              "[Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer](https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/)",
+              "[Arbeidstilsynet: Psykososialt arbeidsmiljø](https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/)",
+              "[STAMI: Psykososialt arbeidsmiljø](https://stami.no/tema/psykososialt-arbeidsmiljo/)",
+              "[Arbeidsmiljøloven § 6-2 (Lovdata)](https://lovdata.no/lov/2005-06-17-62/%C2%A76-2)"
+            ]
+          }
+        ],
+        "faq": [
+          {
+            "q": "Hva er psykososialt arbeidsmiljø, kort forklart?",
+            "a": "De psykologiske og sosiale forholdene i arbeidet: hvordan arbeidet oppleves – krav, kontroll, forutsigbarhet, mening – og hvordan folk har det med hverandre – støtte, ledelse, konflikter, krenkelser. Arbeidsmiljøloven § 4-3 krever at det er fullt forsvarlig."
+          },
+          {
+            "q": "Hva er forskjellen på psykososialt og organisatorisk arbeidsmiljø?",
+            "a": "De henger sammen. Organisatorisk arbeidsmiljø er hvordan arbeidet er organisert – arbeidstid, bemanning, roller, styring. Psykososialt arbeidsmiljø er hvordan dette og samspillet mellom folk oppleves. Arbeidstilsynet skriver at vurderingen etter forskriften som hovedregel gjelder organisering og styring, ikke enkeltpersoner."
+          },
+          {
+            "q": "Hvilke faktorer nevner loven?",
+            "a": "Arbeidsmiljøloven § 4-3: uklare eller motstridende krav, emosjonelle krav, arbeidsmengde og tidspress, støtte og hjelp, integritet og verdighet, kontakt og kommunikasjon, vern mot trakassering og mot vold og trusler. Forskriften § 1A-1 samler dem i én liste og legger til selvbestemmelse og innflytelse. Listen gjelder «blant annet» og er ikke uttømmende."
+          },
+          {
+            "q": "Er psykososialt arbeidsmiljø det samme som trivsel?",
+            "a": "Nei. Trivsel er en følge av forholdene; det psykososiale arbeidsmiljøet er forholdene selv. Verken § 4-3 eller forskriftens kapittel 1A bruker ordet trivsel. En trivselsundersøkelse kan være et nyttig supplement, men den oppfyller ikke kravet om kartlegging alene."
+          },
+          {
+            "q": "Hvordan måles psykososialt arbeidsmiljø?",
+            "a": "Med en anonym undersøkelse der de ansatte tar stilling til påstander om hver faktor, slik at dere får tall per faktor og per gruppe som kan følges over tid, og med andre kilder ved siden av: vernerunder, avvik, medarbeidersamtaler og sykefravær. Arbeidstilsynet anbefaler å bruke flere kilder."
+          },
+          {
+            "q": "Hva skjer hvis det psykososiale arbeidsmiljøet ikke er forsvarlig?",
+            "a": "Arbeidstilsynet fører tilsyn og kan gi pålegg med en frist for å rette opp (aml § 18-6), eventuelt med tvangsmulkt til det er gjort (§ 18-7). Ved uaktsomme eller forsettlige brudd kan virksomheten få overtredelsesgebyr (§ 18-10)."
+          }
+        ]
       }
     },
     "articles": {
@@ -6241,7 +6457,7 @@
           },
           {
             "t": "p",
-            "text": "Ytringsklima er ikke nevnt med det ordet i listen over psykososiale faktorer i arbeidsmiljøloven § 4-3. Det henger likevel tett sammen med flere plikter og rettigheter i loven, og det avgjør i praksis om disse blir brukt."
+            "text": "Ytringsklima er ikke nevnt med det ordet i listen over psykososiale faktorer i arbeidsmiljøloven § 4-3. Det henger likevel tett sammen med flere plikter og rettigheter i loven, og det avgjør i praksis om disse blir brukt. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -6420,7 +6636,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidsmiljøloven § 4-3 andre ledd nevner uklare krav og forventninger som en psykososial arbeidsmiljøfaktor. Den samme faktoren står i forskrift om utførelse av arbeid § 1A-1, som trådte i kraft 1. januar 2026."
+            "text": "Arbeidsmiljøloven § 4-3 andre ledd nevner uklare krav og forventninger som en psykososial arbeidsmiljøfaktor. Den samme faktoren står i forskrift om utførelse av arbeid § 1A-1, som trådte i kraft 1. januar 2026. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "law",
@@ -6614,7 +6830,7 @@
           },
           {
             "t": "p",
-            "text": "I den samme kommentaren lister Arbeidstilsynet opp organisatoriske forhold som kan ha stor betydning for det psykososiale arbeidsmiljøet, blant dem «prioriteringer, ansvar og myndighet». Det er de samme forholdene som avgjør om motstridende krav blir avklart, eller om de blir liggende hos den enkelte."
+            "text": "I den samme kommentaren lister Arbeidstilsynet opp organisatoriske forhold som kan ha stor betydning for det psykososiale arbeidsmiljøet, blant dem «prioriteringer, ansvar og myndighet». Det er de samme forholdene som avgjør om motstridende krav blir avklart, eller om de blir liggende hos den enkelte. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -6789,7 +7005,7 @@
           },
           {
             "t": "p",
-            "text": "Faktoren står også i forskrift om utførelse av arbeid § 1A-1 andre ledd bokstav e, som har gjeldt siden 1. januar 2026. Forskriften § 1A-2 krever at arbeidsgiveren kartlegger psykososiale faktorer som kan påvirke arbeidstakernes helse, sikkerhet eller velferd, og vurderer risikoen på grunnlag av kartleggingen. Har virksomheten alenearbeid, følger det i tillegg av aml. § 4-1 at det skal vurderes om dette innebærer særlig risiko, og at nødvendige tiltak skal iverksettes."
+            "text": "Faktoren står også i forskrift om utførelse av arbeid § 1A-1 andre ledd bokstav e, som har gjeldt siden 1. januar 2026. Forskriften § 1A-2 krever at arbeidsgiveren kartlegger psykososiale faktorer som kan påvirke arbeidstakernes helse, sikkerhet eller velferd, og vurderer risikoen på grunnlag av kartleggingen. Har virksomheten alenearbeid, følger det i tillegg av aml. § 4-1 at det skal vurderes om dette innebærer særlig risiko, og at nødvendige tiltak skal iverksettes. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -6975,7 +7191,7 @@
           },
           {
             "t": "p",
-            "text": "Faktoren står også i forskrift om utførelse av arbeid § 1A-1 andre ledd bokstav b, som gjelder fra 1. januar 2026. Forskriften § 1A-4 andre ledd krever i tillegg at arbeidsgiveren sørger for at arbeidstakerne får «den opplæring, øvelse og instruksjon som er nødvendig for et fullt forsvarlig psykososialt arbeidsmiljø». Arbeidstilsynet skriver at opplæring kan være nødvendig der det er risiko for psykososiale belastninger, «eller der forebygging og håndtering forutsetter bestemte ferdigheter eller kunnskap». I yrker med krevende møter med mennesker er det et krav som bør vurderes konkret."
+            "text": "Faktoren står også i forskrift om utførelse av arbeid § 1A-1 andre ledd bokstav b, som gjelder fra 1. januar 2026. Forskriften § 1A-4 andre ledd krever i tillegg at arbeidsgiveren sørger for at arbeidstakerne får «den opplæring, øvelse og instruksjon som er nødvendig for et fullt forsvarlig psykososialt arbeidsmiljø». Arbeidstilsynet skriver at opplæring kan være nødvendig der det er risiko for psykososiale belastninger, «eller der forebygging og håndtering forutsetter bestemte ferdigheter eller kunnskap». I yrker med krevende møter med mennesker er det et krav som bør vurderes konkret. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -7158,7 +7374,7 @@
           },
           {
             "t": "p",
-            "text": "Støtte og hjelp i arbeidet er også nevnt i forskrift om utførelse av arbeid § 1A-1 andre ledd bokstav d, som gjelder fra 1. januar 2026. I kommentaren skriver Arbeidstilsynet at organisatoriske forhold, blant annet «bemanning, ledelsesstruktur, styring», kan ha stor betydning for det psykososiale arbeidsmiljøet. Det er et nyttig utgangspunkt: Et lavt tall er ikke nødvendigvis en dom over én person, men kan være et resultat av hvordan ledelsen er organisert."
+            "text": "Støtte og hjelp i arbeidet er også nevnt i forskrift om utførelse av arbeid § 1A-1 andre ledd bokstav d, som gjelder fra 1. januar 2026. I kommentaren skriver Arbeidstilsynet at organisatoriske forhold, blant annet «bemanning, ledelsesstruktur, styring», kan ha stor betydning for det psykososiale arbeidsmiljøet. Det er et nyttig utgangspunkt: Et lavt tall er ikke nødvendigvis en dom over én person, men kan være et resultat av hvordan ledelsen er organisert. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -7290,7 +7506,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet beskriver faktoren nettopp slik i kommentaren til forskrift om utførelse av arbeid § 1A-1, der «selvbestemmelse og innflytelse i arbeidet» står som en av de psykososiale arbeidsmiljøfaktorene:"
+            "text": "Arbeidstilsynet beskriver faktoren nettopp slik i kommentaren til forskrift om utførelse av arbeid § 1A-1, der «selvbestemmelse og innflytelse i arbeidet» står som en av de psykososiale arbeidsmiljøfaktorene: Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "quote",
@@ -7490,7 +7706,7 @@
           },
           {
             "t": "p",
-            "text": "Forskrift om utførelse av arbeid § 1A-1 nevner «trakassering, herunder seksuell trakassering» blant de psykososiale arbeidsmiljøfaktorene. Integritet og verdighet står ikke som eget punkt i forskriftens liste, men Arbeidstilsynet presiserer at listen ikke er uttømmende: formuleringen «blant annet» viser at også andre faktorer kan være relevante. Kravet i aml. § 4-3 tredje ledd gjelder uansett."
+            "text": "Forskrift om utførelse av arbeid § 1A-1 nevner «trakassering, herunder seksuell trakassering» blant de psykososiale arbeidsmiljøfaktorene. Integritet og verdighet står ikke som eget punkt i forskriftens liste, men Arbeidstilsynet presiserer at listen ikke er uttømmende: formuleringen «blant annet» viser at også andre faktorer kan være relevante. Kravet i aml. § 4-3 tredje ledd gjelder uansett. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -7640,7 +7856,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidsmiljøloven § 4-3 andre ledd regner opp psykososiale arbeidsmiljøfaktorer, og bokstav d er «støtte og hjelp i arbeidet». Den samme faktoren står i forskriften § 1A-1 andre ledd bokstav d. Arbeidstilsynet skriver at den handler om at arbeidstakerne «har mulighet til å få den støtten de trenger fra for eksempel leder og kollegaer»."
+            "text": "Arbeidsmiljøloven § 4-3 andre ledd regner opp psykososiale arbeidsmiljøfaktorer, og bokstav d er «støtte og hjelp i arbeidet». Den samme faktoren står i forskriften § 1A-1 andre ledd bokstav d. Arbeidstilsynet skriver at den handler om at arbeidstakerne «har mulighet til å få den støtten de trenger fra for eksempel leder og kollegaer». Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "p",
@@ -7787,7 +8003,7 @@
           },
           {
             "t": "p",
-            "text": "Forskrift om utførelse av arbeid § 1A-1 nevner åtte eksempler på psykososiale arbeidsmiljøfaktorer. Mening og anerkjennelse står ikke blant dem som egne punkter. Det betyr ikke at faktoren er uten betydning for arbeidsgiverens plikter. Arbeidstilsynet skriver i kommentaren til bestemmelsen:"
+            "text": "Forskrift om utførelse av arbeid § 1A-1 nevner åtte eksempler på psykososiale arbeidsmiljøfaktorer. Mening og anerkjennelse står ikke blant dem som egne punkter. Det betyr ikke at faktoren er uten betydning for arbeidsgiverens plikter. Arbeidstilsynet skriver i kommentaren til bestemmelsen: Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "quote",
@@ -8528,7 +8744,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidsmengde og tidspress er en av de psykososiale arbeidsmiljøfaktorene som er nevnt i arbeidsmiljøloven § 4-3 andre ledd. Fra 2026 står den også i forskrift om utførelse av arbeid § 1A-1. Ordlyden er presis: Det er ikke mengden i seg selv som er faktoren, men ubalansen mellom arbeidet og tiden."
+            "text": "Arbeidsmengde og tidspress er en av de psykososiale arbeidsmiljøfaktorene som er nevnt i arbeidsmiljøloven § 4-3 andre ledd. Fra 2026 står den også i forskrift om utførelse av arbeid § 1A-1. Ordlyden er presis: Det er ikke mengden i seg selv som er faktoren, men ubalansen mellom arbeidet og tiden. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "law",
@@ -9772,6 +9988,10 @@
             ]
           },
           {
+            "t": "p",
+            "text": "Vernerunden er en av kildene inn i kartleggingen. Les [hvordan dere tar det psykososiale arbeidsmiljøet med på vernerunden](/artikler/vernerunde-psykososialt-arbeidsmiljo) – og hva runden ikke kan erstatte."
+          },
+          {
             "t": "h2",
             "text": "Hvilket innsyn bør verneombudet ha?"
           },
@@ -10072,7 +10292,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidsmiljøloven § 4-1 setter rammen: «Arbeidsmiljøet i virksomheten skal være fullt forsvarlig ut fra en enkeltvis og samlet vurdering av faktorer i arbeidsmiljøet som kan innvirke på arbeidstakernes fysiske og psykiske helse og velferd.» Kartleggingen dekker derfor mer enn ett område:"
+            "text": "Arbeidsmiljøloven § 4-1 setter rammen: «Arbeidsmiljøet i virksomheten skal være fullt forsvarlig ut fra en enkeltvis og samlet vurdering av faktorer i arbeidsmiljøet som kan innvirke på arbeidstakernes fysiske og psykiske helse og velferd.» Kartleggingen dekker derfor mer enn ett område: Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "ul",
@@ -10089,7 +10309,7 @@
           },
           {
             "t": "p",
-            "text": "Ingen metode fanger alt. Arbeidstilsynet skriver om det psykososiale arbeidsmiljøet:"
+            "text": "Ingen metode fanger alt. Arbeidstilsynet skriver om det psykososiale arbeidsmiljøet: Hvordan vernerunden kan ta med det psykososiale, står i [en egen artikkel](/artikler/vernerunde-psykososialt-arbeidsmiljo)."
           },
           {
             "t": "quote",
@@ -10211,6 +10431,189 @@
           {
             "label": "Risikovurdering (Arbeidstilsynet)",
             "url": "https://www.arbeidstilsynet.no/hms/risikovurdering/"
+          }
+        ]
+      },
+      "vernerunde": {
+        "title": "Vernerunde og psykososialt arbeidsmiljø | Orgpuls",
+        "description": "Det psykososiale må spørres etter på vernerunden. Hva dere ser etter, spør om og noterer, hva runden ikke erstatter – og en gratis sjekkliste.",
+        "h1": "Hvordan tar dere det psykososiale arbeidsmiljøet med på vernerunden?",
+        "lead": "En vernerunde er en planlagt gjennomgang av arbeidsplassen der leder og verneombud ser etter risiko sammen, og den kan ta med det psykososiale arbeidsmiljøet hvis dere spør etter det. Arbeidstilsynet nevner vernerunder som én av flere kilder i kartleggingen av de psykososiale forholdene. Runden erstatter ikke en anonym undersøkelse, men den fanger det undersøkelsen ikke ser: hvordan arbeidet faktisk går for seg, og hva folk sier når noen spør.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva er en vernerunde?"
+          },
+          {
+            "t": "p",
+            "text": "En vernerunde er en planlagt runde gjennom arbeidsplassen der leder og verneombud ser etter forhold som kan skade helse eller sikkerhet, snakker med dem som arbeider der, og noterer det som må følges opp. Ordet står ikke i arbeidsmiljøloven. Runden er likevel en etablert måte å oppfylle lovens krav på: arbeidsgiveren skal «kartlegge farer og problemer» og vurdere risikoen (arbeidsmiljøloven § 3-1 andre ledd bokstav c og internkontrollforskriften § 5), og verneombudet skal påse at arbeidsmiljøet er forsvarlig og kan, med Arbeidstilsynets ord, «på eget initiativ foreta jevnlige systematiske inspeksjoner innen sitt verneområde»."
+          },
+          {
+            "t": "quote",
+            "text": "Vernerunder er en etablert metode for å identifisere risikofaktorer og sikre at arbeidsmiljøet følges opp systematisk.",
+            "cite": "Arbeidstilsynet, «Verneombud»"
+          },
+          {
+            "t": "p",
+            "text": "Arbeidstilsynet anbefaler at arbeidsgiveren, eller en annen som representerer arbeidsgiveren, er med på runden. Hvor ofte dere går, sier ikke regelverket med et tall; Arbeidstilsynet skriver «jevnlige», og risikoen i arbeidet avgjør hva det betyr hos dere."
+          },
+          {
+            "t": "h2",
+            "text": "Dekker vernerunden det psykososiale arbeidsmiljøet?"
+          },
+          {
+            "t": "p",
+            "text": "Bare hvis dere legger det inn. En tradisjonell vernerunde ser etter det som kan ses: rømningsveier, verneutstyr, ergonomi, kjemikalier, orden. Arbeidsmengde, uklare krav, støtte fra lederen og konflikter mellom kollegaer ses ikke – de må spørres etter. Arbeidsmiljøloven § 6-2 sier at verneombudet særlig skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt», og Arbeidstilsynet skriver at verneombudets del i HMS-arbeidet «inkluderer også arbeidstakernes psykososiale miljø». Det gjør runden til et naturlig sted å spørre."
+          },
+          {
+            "t": "p",
+            "text": "Men runden har en grense som undersøkelsen ikke har: ingen er anonyme. Den som sier til verneombudet, med lederen ved siden av, at arbeidsmengden er uforsvarlig, har sagt det med navn. Derfor er runden best til å se, og til å stille åpne spørsmål, mens tallene på hvordan folk har det, bør komme fra en anonym undersøkelse. Arbeidstilsynet sier det samme på sin måte:"
+          },
+          {
+            "t": "quote",
+            "text": "For å få et godt bilde av det psykososiale arbeidsmiljøet, bør virksomheten bruke flere kilder i kartleggingen, som for eksempel arbeidsmiljøundersøkelser, vernerunder, avviksmeldinger, medarbeidersamtaler eller uformelle samtaler.",
+            "cite": "Arbeidstilsynet, «Psykososialt arbeidsmiljø»"
+          },
+          {
+            "t": "h2",
+            "text": "Hva ser dere etter når temaet er psykososialt?"
+          },
+          {
+            "t": "p",
+            "text": "Det psykososiale viser seg i det fysiske og det organisatoriske, hvis man vet hva man skal se etter:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Tempoet.** Står oppgavene i kø, ringer telefoner uten at noen tar dem, spises lunsjen ved skjermen? Det er arbeidsmengde og tidspress i praksis.",
+              "**Hvem som er alene.** Arbeid uten kollega i nærheten over lang tid, nattevakter, utekontorer. Mulighet for kontakt og kommunikasjon er en faktor loven nevner.",
+              "**Beskjedene.** Henger det instrukser som motsier hverandre, kommer meldinger fra flere kanaler og flere sjefer? Det er uklare eller motstridende krav.",
+              "**Tonen.** Snakker folk med hverandre eller forbi hverandre? Blir den som spør, møtt med hjelp eller med sukk?",
+              "**Sporene etter vold og trusler.** Alarmknapper som ikke virker, mottak uten skjerming, enearbeid med publikum, pasienter eller kunder.",
+              "**Det nye.** Omorganisering, ny leder, nye systemer, mange nyansatte eller mange som har sluttet. Forskriften § 1A-2 krever at kartleggingen gjentas ved endringer."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva spør dere om?"
+          },
+          {
+            "t": "p",
+            "text": "Spør åpent, i små grupper eller én og én, og noter mønstre, ikke navn. Fem spørsmål rekker langt:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Hva stjeler mest tid i en vanlig uke?",
+              "Når visste du sist ikke hva som var forventet av deg?",
+              "Hvem spør du når du står fast, og får du svar?",
+              "Har det skjedd noe det siste halvåret som gjorde deg utrygg på jobb?",
+              "Hva skjedde med det dere sa fra om sist?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Det siste spørsmålet er det viktigste. En vernerunde som ikke følges opp, lærer folk at det ikke nytter å si fra – og det er i seg selv et dårlig [ytringsklima](/artikler/ytringsklima)."
+          },
+          {
+            "t": "h2",
+            "text": "Hvordan noterer dere funnene uten å peke på personer?"
+          },
+          {
+            "t": "p",
+            "text": "Rapporten fra vernerunden er et dokument flere skal lese. Skriv funn som forhold, ikke som utsagn fra navngitte personer: «Avdelingen melder om beskjeder fra tre ledd som ikke stemmer overens», ikke «NN sier at sjefen …». Det som gjelder én person, hører hjemme i en samtale, ikke i rapporten. Og det som er alvorlig – trakassering, vold, trusler – skal ikke vente på neste runde: det meldes med en gang og håndteres etter virksomhetens rutiner."
+          },
+          {
+            "t": "h2",
+            "text": "Hva kan vernerunden ikke erstatte?"
+          },
+          {
+            "t": "p",
+            "text": "En anonym arbeidsmiljøundersøkelse. Forskrift om utførelse av arbeid § 1A-2 krever at de psykososiale faktorene kartlegges og risikovurderes systematisk, hver for seg og samlet, i samarbeid med de ansatte, og at det dokumenteres. Runden gir observasjoner og samtaler; den gir ikke tall per faktor og per gruppe som kan sammenlignes over tid, og den gir ikke den som svarer, anonymitet. De to utfyller hverandre: undersøkelsen sier hvor det er lavt, runden viser hvorfor. Les om [hva en arbeidsmiljøkartlegging er](/artikler/arbeidsmiljokartlegging) og om [kravene til kartleggingen](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Hva er spesielt med vernerunde på en byggeplass?"
+          },
+          {
+            "t": "p",
+            "text": "På en bygge- eller anleggsplass er det ofte flere arbeidsgivere, skiftende lag og korte frister, og vernerunden henger gjerne sammen med SHA-planen og de sikre jobb-analysene. Det psykososiale er like konkret der: tidspress mot milepæler, samordning mellom firmaer, beskjeder som ikke når fram, og språk. Byggherreforskriften § 19a krever at arbeidsgiveren sørger for at arbeidstakerne kan kommunisere slik at det ikke oppstår sikkerhetsrisiko, og at minst én på hvert arbeidslag, der sikkerheten krever det, kan forstå og gjøre seg forstått på et språk resten av laget forstår. Spør på runden om beskjedene faktisk blir forstått, og om det er greit å spørre igjen. Når flere arbeidsgivere er på samme plass, har hovedbedriften ansvaret for å samordne HMS-arbeidet (arbeidsmiljøloven § 2-2)."
+          },
+          {
+            "t": "h2",
+            "text": "Sjekkliste: det psykososiale arbeidsmiljøet på vernerunden"
+          },
+          {
+            "t": "h3",
+            "text": "Før runden"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Avtal at det psykososiale er med på denne runden, og hvem som spør.",
+              "Se på forrige rapport: hva ble lovet, og hva skjedde?",
+              "Se på det dere allerede vet: resultatene fra siste undersøkelse, avvik, sykefravær og turnover for området.",
+              "Gi beskjed på forhånd om at dere kommer, og hva dere vil snakke om."
+            ]
+          },
+          {
+            "t": "h3",
+            "text": "Under runden"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Tempo og køer av oppgaver; pauser som tas eller ikke tas.",
+              "Hvem som arbeider alene, og hvor lenge.",
+              "Instrukser og beskjeder: motsier de hverandre, og forstås de av alle?",
+              "Tonen mellom kollegaer, og mellom leder og ansatte.",
+              "Sikring mot vold og trusler der det er kontakt med publikum, pasienter eller kunder.",
+              "Endringer siden sist: ny leder, omorganisering, nye systemer, mange nye.",
+              "Spør: Hva stjeler tid? Hva er uklart? Hvem hjelper? Hva skjedde med det dere sa fra om sist?"
+            ]
+          },
+          {
+            "t": "h3",
+            "text": "Etter runden"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Skriv funn som forhold, uten navn; alvorlige saker meldes med en gang.",
+              "Gi hvert funn en ansvarlig og en frist, og legg det inn i handlingsplanen.",
+              "Fortell dem som var med, hva som skjer videre – også når svaret er at noe ikke kan gjøres nå.",
+              "Ta funnene med inn i risikovurderingen av det psykososiale arbeidsmiljøet (forskriften § 1A-2)."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Sjekklisten finnes som gratis Word-mal nederst på siden. Les også om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidstilsynet: Verneombud",
+            "url": "https://www.arbeidstilsynet.no/hms/roller-i-hms-arbeidet/verneombud/"
+          },
+          {
+            "label": "Arbeidstilsynet: Psykososialt arbeidsmiljø",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Arbeidsmiljøloven § 6-2 (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A76-2"
+          },
+          {
+            "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Internkontrollforskriften § 5 (Lovdata)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/1996-12-06-1127"
+          },
+          {
+            "label": "Byggherreforskriften § 19a (Lovdata)",
+            "url": "https://lovdata.no/forskrift/2009-08-03-1028/%C2%A719a"
           }
         ]
       }
@@ -11133,7 +11536,7 @@
             "items": [
               {
                 "title": "Kartleggingspakken",
-                "text": "Alle seks malene i én fil: fra planlegging og spørreskjema til risikovurdering, tiltak og årshjul.",
+                "text": "Alle sju malene i én fil: fra planlegging og spørreskjema til risikovurdering, tiltak, årshjul og vernerunde.",
                 "href": "/maler/kartleggingspakken"
               }
             ]
@@ -11169,6 +11572,11 @@
                 "title": "Informasjonsskriv og sjekkliste",
                 "text": "Et skriv til de ansatte før undersøkelsen, og en sjekkliste for dem som planlegger den.",
                 "href": "/maler/informasjonsskriv-og-sjekkliste"
+              },
+              {
+                "title": "Sjekkliste for vernerunden",
+                "text": "Det psykososiale arbeidsmiljøet på vernerunden: hva dere ser etter, spør om og noterer. Word.",
+                "href": "/maler/vernerunde-sjekkliste"
               }
             ]
           },
@@ -11212,13 +11620,13 @@
       },
       "pakke": {
         "title": "Kartleggingspakken: gratis maler for arbeidsmiljøet | Orgpuls",
-        "description": "Seks gratis maler i én pakke: sjekkliste, informasjonsskriv, QPSNordic-spørreskjema, risikovurdering, tiltaksbank og årshjul. Excel og Word.",
+        "description": "Sju gratis maler i én pakke: sjekkliste, informasjonsskriv, QPSNordic-spørreskjema, risikovurdering, tiltaksbank, årshjul og vernerunde. Excel og Word.",
         "crumb": "Kartleggingspakken",
         "kicker": "Gratis maler",
-        "h1": "Kartleggingspakken: seks maler for hele arbeidet med det psykososiale arbeidsmiljøet",
-        "lead": "Fra planleggingen til oppfølgingen: en sjekkliste og et skriv til de ansatte, et spørreskjema med svarregistrering, en mal for risikovurderingen, en tiltaksbank og et årshjul. Alt i én nedlasting.",
+        "h1": "Kartleggingspakken: sju maler for hele arbeidet med det psykososiale arbeidsmiljøet",
+        "lead": "Fra planleggingen til oppfølgingen: en sjekkliste og et skriv til de ansatte, et spørreskjema med svarregistrering, en mal for risikovurderingen, en tiltaksbank, et årshjul og en sjekkliste for vernerunden. Alt i én nedlasting.",
         "files": {
-          "orgpuls-kartleggingspakken.zip": "Hele pakken (zip, seks filer)"
+          "orgpuls-kartleggingspakken.zip": "Hele pakken (zip, sju filer)"
         },
         "blocks": [
           {
@@ -11266,15 +11674,16 @@
               "**QPSNordic 34+** – spørreskjemaet (Word) og svarregistreringen (Excel)",
               "**Risikovurdering** med risikomatrise og tiltaksplan (Excel)",
               "**Tiltaksbank** med 33 tiltak (Excel)",
-              "**Årshjul** med eksempel og liste over endringer som bør utløse ny kartlegging (Excel)"
+              "**Årshjul** med eksempel og liste over endringer som bør utløse ny kartlegging (Excel)",
+              "**Sjekkliste for vernerunden** – det psykososiale arbeidsmiljøet på runden (Word)"
             ]
           },
           {
             "t": "p",
-            "text": "Hver mal har en side som forklarer den nærmere: [risikovurdering](/maler/risikovurdering-psykososialt-arbeidsmiljo), [tiltaksbank](/maler/tiltaksbank), [årshjul](/maler/arshjul-arbeidsmiljo), [QPSNordic 34+](/maler/qpsnordic-sporreskjema) og [informasjonsskriv og sjekkliste](/maler/informasjonsskriv-og-sjekkliste)."
+            "text": "Hver mal har en side som forklarer den nærmere: [risikovurdering](/maler/risikovurdering-psykososialt-arbeidsmiljo), [tiltaksbank](/maler/tiltaksbank), [årshjul](/maler/arshjul-arbeidsmiljo), [QPSNordic 34+](/maler/qpsnordic-sporreskjema), [informasjonsskriv og sjekkliste](/maler/informasjonsskriv-og-sjekkliste) og [sjekkliste for vernerunden](/maler/vernerunde-sjekkliste)."
           }
         ],
-        "teaser": "Seks maler i én pakke: sjekkliste, informasjonsskriv, spørreskjema, risikovurdering, tiltaksbank og årshjul, i Excel og Word."
+        "teaser": "Sju maler i én pakke: sjekkliste, informasjonsskriv, spørreskjema, risikovurdering, tiltaksbank, årshjul og vernerunde, i Excel og Word."
       },
       "risikovurdering": {
         "title": "Mal for risikovurdering av psykososialt arbeidsmiljø | Orgpuls",
@@ -11676,6 +12085,52 @@
           }
         ],
         "teaser": "Et skriv til de ansatte før undersøkelsen, og en sjekkliste for dem som planlegger den."
+      },
+      "vernerunde": {
+        "title": "Sjekkliste for vernerunden: psykososialt arbeidsmiljø | Orgpuls",
+        "description": "Gratis sjekkliste i Word for å ta det psykososiale arbeidsmiljøet med på vernerunden: hva dere ser etter, spør om og noterer – før, under og etter runden.",
+        "crumb": "Sjekkliste for vernerunden",
+        "kicker": "Gratis mal",
+        "h1": "Sjekkliste: det psykososiale arbeidsmiljøet på vernerunden",
+        "lead": "Vernerunden ser det som kan ses. Det psykososiale må spørres etter – og det må gjøres uten at noen pekes ut. Sjekklisten tar leder og verneombud gjennom det dere bør se etter, spørre om og notere, før, under og etter runden.",
+        "files": {
+          "orgpuls-vernerunde-sjekkliste.docx": "Sjekkliste for vernerunden (Word)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva inneholder sjekklisten?"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Før runden:** hva dere avtaler, og hva dere ser på fra forrige runde og fra siste undersøkelse",
+              "**Under runden:** sju forhold å se etter – tempo, enearbeid, beskjeder, tonen, sikring mot vold og trusler, endringer – og fem spørsmål å stille",
+              "**Etter runden:** hvordan funn skrives uten navn, får ansvarlig og frist, og tas inn i risikovurderingen"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Når bør dere bruke den?"
+          },
+          {
+            "t": "p",
+            "text": "Hver gang dere går vernerunde og vil ha det psykososiale med, og særlig etter en arbeidsmiljøundersøkelse: der undersøkelsen viser et lavt tall, kan runden vise hvorfor. Den passer også når noe har endret seg – ny leder, omorganisering, mange nye – siden forskriften krever at kartleggingen gjentas ved endringer (forskrift om utførelse av arbeid § 1A-2)."
+          },
+          {
+            "t": "h2",
+            "text": "Hva erstatter den ikke?"
+          },
+          {
+            "t": "p",
+            "text": "En anonym arbeidsmiljøundersøkelse. Runden gir observasjoner og samtaler, ikke tall per faktor og gruppe, og ingen er anonyme på en vernerunde. Forskriften § 1A-2 krever at de psykososiale faktorene kartlegges og risikovurderes systematisk og dokumenteres; runden er én av kildene. Verneombudet skal etter arbeidsmiljøloven § 6-2 påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt», og sjekklisten er skrevet for den oppgaven."
+          },
+          {
+            "t": "p",
+            "text": "Hele begrunnelsen står i artikkelen [Hvordan tar dere det psykososiale arbeidsmiljøet med på vernerunden?](/artikler/vernerunde-psykososialt-arbeidsmiljo). Sjekklisten i filen er den samme som i artikkelen, så de to kan ikke si forskjellige ting."
+          }
+        ],
+        "teaser": "En sjekkliste i Word for å ta det psykososiale arbeidsmiljøet med på vernerunden: før, under og etter."
       }
     },
     "shots": {

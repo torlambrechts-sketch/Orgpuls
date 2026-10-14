@@ -72,6 +72,7 @@ const PAGES = [
   // informational pages (D-236): the article card, no product picture and no claims
   { slug: 'lovkrav', h1: no.seo.lp.lovkrav.h1, article: true },
   { slug: 'verneombud', h1: no.seo.lp.verneombud.h1, article: true },
+  { slug: 'psykososialt-arbeidsmiljo', h1: no.seo.lp.psykososialtArbeidsmiljo.h1, article: true },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
   { slug: 'verktoy-for-medarbeiderundersokelse', key: 'verktoyForMedarbeiderundersokelse', shot: 'varmekart' },
   // the industry pages, written as articles (D-240): the article card, under the industry's name

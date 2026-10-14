@@ -4732,7 +4732,7 @@
           },
           {
             "t": "p",
-            "text": "Harassment and violence and threats also have their own chapters in the regulation on the performance of work: chapter 2A on harassment and other improper conduct, and chapter 3A on violence and threats. Both have their own provisions on surveying and assessing the risk, and on measures."
+            "text": "Harassment and violence and threats also have their own chapters in the regulation on the performance of work: chapter 2A on harassment and other improper conduct, and chapter 3A on violence and threats. Both have their own provisions on surveying and assessing the risk, and on measures. What the term psychosocial working environment covers, with each factor explained, is on [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -4904,6 +4904,10 @@
             "a": "The regulation on the performance of work gained a new chapter 1A on the psychosocial working environment. Arbeidstilsynet writes that the provisions spell out sections 4-1 and 4-3 of the Act and the employer's duty to systematic health and safety work under section 3-1."
           },
           {
+            "q": "Is there a deadline for the survey under the new rules?",
+            "a": "Chapter 1A of the regulation entered into force on 1 January 2026 without transitional rules, so the duty applies from that day. There is no separate deadline for the first survey, and no fixed interval: the survey is to be carried out regularly and when conditions change (section 1A-2). At an inspection, the Labour Inspection Authority can ask for documentation that it has been done. The duty to survey the working environment itself is older – it has been in section 3-1 of the Working Environment Act all along."
+          },
+          {
             "q": "How often must we map?",
             "a": "The regulation says the survey must be repeated regularly and when changes may affect the risk. It sets no fixed interval. Arbeidstilsynet gives changes in organisation, staffing, tasks, management, technology, working hours or operating conditions as examples."
           },
@@ -5027,7 +5031,7 @@
           },
           {
             "t": "p",
-            "text": "Read more about [the safety representative's role in the survey](/artikler/verneombudets-rolle-i-kartleggingen) and about [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+            "text": "Read more about [the safety representative's role in the survey](/artikler/verneombudets-rolle-i-kartleggingen) and about [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo). And about [the safety round](/artikler/vernerunde-psykososialt-arbeidsmiljo): what to look for when the topic is psychosocial."
           },
           {
             "t": "h2",
@@ -5645,6 +5649,218 @@
         ],
         "finalTitle": "See whether it suits you",
         "finalBody": "Enter your organisation’s name and your e-mail address. For the first 15 days you have everything, with no card, and afterwards you can carry on for free."
+      },
+      "psykososialtArbeidsmiljo": {
+        "title": "What is the psychosocial working environment? | Orgpuls",
+        "description": "How work is experienced, and how people get on with each other at work: the factors the law names, the 2026 rules, and how it is measured.",
+        "crumb": "Psychosocial working environment",
+        "card": {
+          "title": "Psychosocial working environment",
+          "text": "What the term means, which factors the law names, and how it is surveyed."
+        },
+        "kicker": "The term explained",
+        "h1": "What is the psychosocial working environment?",
+        "lead": "The psychosocial working environment is the psychological and social conditions at work: how people experience their work, and how they get on with each other. It is about demands, control, predictability and meaning – and about support, leadership, conflicts and offensive behaviour. Section 4-3 of the Norwegian Working Environment Act requires it to be fully sound, and from 1 January 2026 the regulation says which factors are to be surveyed and assessed. Here are the term, the factors, the law and how it is measured.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What does psychosocial working environment mean?"
+          },
+          {
+            "t": "p",
+            "text": "The word has two parts. STAMI, the National Institute of Occupational Health, separates them: «Psykologiske arbeidsfaktorer handler om opplevelse av arbeidssituasjon og arbeidsinnhold. Sosiale arbeidsfaktorer handler om det mellommenneskelige samspillet på jobb.» (Psychological work factors are about how the work situation and the content of the work are experienced. Social work factors are about the interaction between people at work.) The Labour Inspection Authority puts it more briefly: the psychosocial working environment «handler om hvordan arbeidstakerne opplever arbeidet og arbeidssituasjonen sin» (is about how employees experience their work and their work situation). So it is not one thing but the sum of how the work is arranged and how people treat each other – and it is measured by asking the people concerned."
+          },
+          {
+            "t": "p",
+            "text": "The term is often confused with job satisfaction (trivsel). Satisfaction is a consequence; the psychosocial working environment is the conditions that produce it. Neither § 4-3 of the Act nor chapter 1A of the regulation uses the word trivsel: they require the conditions to be sound, however content people say they are. Read more about [the difference between a satisfaction survey and a working-environment survey](/artikler/trivselsundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "Which factors count as the psychosocial working environment?"
+          },
+          {
+            "t": "p",
+            "text": "Section 4-3 of the Working Environment Act names four factors in its second paragraph – unclear or conflicting demands and expectations, emotional demands and strain in work with people, workload and time pressure, and support and help at work – and in the following paragraphs requires integrity and dignity, the possibility of contact and communication, protection against harassment and protection against violence and threats. Section 1A-1 of the regulation on the performance of work gathers them in one list, which applies «blant annet» (among others):"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "unclear or conflicting demands and expectations in the work",
+              "emotional demands and strain in work with people",
+              "workload and time pressure that involve an imbalance between the work to be done and the time available",
+              "support and help in the work",
+              "the opportunity for contact and communication with other employees in the undertaking",
+              "harassment, including sexual harassment",
+              "violence and threats",
+              "autonomy and influence in the work"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The list is not exhaustive. On its pages the Authority names autonomy and influence as a factor of its own (it is in § 4-2 of the Act), and leadership, role clarity, predictability and meaning recur in the research. The articles here explain eleven factors, one at a time: what a low score means, and what the employer can do."
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Workload and time pressure",
+                "text": "An imbalance between what has to be done and the time available.",
+                "href": "/artikler/arbeidsmengde-og-tidspress"
+              },
+              {
+                "title": "Role clarity",
+                "text": "Whether people know what is expected of them, and who decides what.",
+                "href": "/artikler/rolleklarhet"
+              },
+              {
+                "title": "Conflicting demands",
+                "text": "When two demands cannot both be met – from customers, managers or systems.",
+                "href": "/artikler/motstridende-krav"
+              },
+              {
+                "title": "Emotional demands",
+                "text": "The strain of working with people: meeting others’ feelings and holding back one’s own.",
+                "href": "/artikler/emosjonelle-krav"
+              },
+              {
+                "title": "Support from the manager",
+                "text": "Whether the manager is available, helps and gives feedback.",
+                "href": "/artikler/stotte-fra-leder"
+              },
+              {
+                "title": "Support from colleagues",
+                "text": "Whether people step up for each other when needed.",
+                "href": "/artikler/stotte-fra-kollegaer"
+              },
+              {
+                "title": "Contact and communication",
+                "text": "The possibility of talking to and reaching others at work – also for those who work alone.",
+                "href": "/artikler/kontakt-og-kommunikasjon"
+              },
+              {
+                "title": "Participation and control",
+                "text": "Autonomy and influence over one’s own work and the decisions that concern it.",
+                "href": "/artikler/medvirkning-og-kontroll"
+              },
+              {
+                "title": "Speak-up climate",
+                "text": "Whether it is safe to speak up about mistakes, disagreement and wrongdoing.",
+                "href": "/artikler/ytringsklima"
+              },
+              {
+                "title": "Integrity and dignity",
+                "text": "Protection against harassment and other offensive behaviour.",
+                "href": "/artikler/integritet-og-verdighet"
+              },
+              {
+                "title": "Recognition and meaning",
+                "text": "Whether the work feels meaningful, and whether the effort is seen.",
+                "href": "/artikler/anerkjennelse-og-mening"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What does the law require of the employer?"
+          },
+          {
+            "t": "p",
+            "text": "The first paragraph of § 4-3 opens with the work being «organiseres, planlegges og gjennomføres slik at» (organised, planned and carried out so that) the psychosocial conditions are fully sound with regard to health, safety and welfare. How that is to be done is set out in chapter 1A of the regulation on the performance of work, in force from 1 January 2026:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Regulation § 1A-1",
+                "text": "Work must be organised, planned and carried out so that the psychosocial working environment is fully sound. Arbeidstilsynet writes that being busy or having a demanding job is not forbidden, but the strain must not become too great – and that the assessment as a rule concerns organisation and management, not individuals."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "text": "Survey the factors, and assess the risk in the short and long term: each factor separately, how they affect each other, and together. In cooperation with employees, adapted to the business, repeated regularly and when things change, and documented."
+              },
+              {
+                "ref": "Regulation § 1A-3",
+                "text": "Draw up the necessary plans and put the necessary measures in place to eliminate or reduce the risk, together with employees. Measures should as far as possible address the causes."
+              },
+              {
+                "ref": "Regulation § 1A-4",
+                "text": "Employees and their representatives must get the information they need about the risk factors and the measures, and the training they need."
+              },
+              {
+                "ref": "Regulation § 1A-5",
+                "text": "Employees must take part in the work, cf. Working Environment Act § 2-3. Arbeidstilsynet stresses that this does not make the individual responsible for solving the problems alone."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The whole requirement, step by step, is on [Legal requirements](/lovkrav). What became new in 2026 is in [the article on the new rules](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026), and [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo) have their own."
+          },
+          {
+            "t": "h2",
+            "text": "How is the psychosocial working environment surveyed?"
+          },
+          {
+            "t": "p",
+            "text": "By asking the people concerned – anonymously, so the answers are honest – and by using what you already know. The Authority recommends several sources: «arbeidsmiljøundersøkelser, vernerunder, avviksmeldinger, medarbeidersamtaler eller uformelle samtaler» (working-environment surveys, safety rounds, deviation reports, appraisal talks or informal conversations). An anonymous survey gives figures per factor and per group that can be followed over time; [the safety round](/artikler/vernerunde-psykososialt-arbeidsmiljo) and the conversations show what lies behind them. Read [how to carry out a working-environment survey](/artikler/arbeidsmiljokartlegging), [which questions belong in it](/artikler/medarbeiderundersokelse-sporsmal) and [how the risk is assessed](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Why does it matter for health and sickness absence?"
+          },
+          {
+            "t": "p",
+            "text": "STAMI writes that «en betydelig andel av sykefraværet kan knyttes til psykososiale risikofaktorer i arbeidet» (a considerable share of sickness absence can be linked to psychosocial risk factors at work). The institute’s systematic reviews find that high demands combined with low control, and bullying and harassment, increase the risk of sickness absence, while control over one’s own work and working hours and a good social climate reduce it; being able to influence one’s own work situation also reduces the risk of disability pension. As protective factors STAMI names supportive and fair leadership, a balance between demands and control, a good working climate and positive challenges."
+          },
+          {
+            "t": "h2",
+            "text": "Who is responsible?"
+          },
+          {
+            "t": "p",
+            "text": "The employer. The safety representative must see to it that «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (the employees’ psychosocial working environment is taken care of, Working Environment Act § 6-2) and be consulted, and employees have a duty to take part (§ 2-3 and section 1A-5 of the regulation). Read about [the safety representative’s rights and duties](/verneombud)."
+          },
+          {
+            "t": "h2",
+            "text": "Sources"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "[Working Environment Act § 4-3 (Lovdata, Norwegian)](https://lovdata.no/lov/2005-06-17-62/%C2%A74-3)",
+              "[Regulation on the performance of work, chapter 1A, with the Authority’s comments (Norwegian)](https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/)",
+              "[Arbeidstilsynet: Psykososialt arbeidsmiljø (Norwegian)](https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/)",
+              "[STAMI: Psykososialt arbeidsmiljø (Norwegian)](https://stami.no/tema/psykososialt-arbeidsmiljo/)",
+              "[Working Environment Act § 6-2 (Lovdata, Norwegian)](https://lovdata.no/lov/2005-06-17-62/%C2%A76-2)"
+            ]
+          }
+        ],
+        "faq": [
+          {
+            "q": "What is the psychosocial working environment, in brief?",
+            "a": "The psychological and social conditions at work: how the work is experienced – demands, control, predictability, meaning – and how people get on with each other – support, leadership, conflicts, offensive behaviour. Section 4-3 of the Working Environment Act requires it to be fully sound."
+          },
+          {
+            "q": "What is the difference between the psychosocial and the organisational working environment?",
+            "a": "They are connected. The organisational working environment is how the work is organised – working hours, staffing, roles, management. The psychosocial working environment is how this, and the interaction between people, is experienced. The Authority writes that the assessment under the regulation as a rule concerns organisation and management, not individuals."
+          },
+          {
+            "q": "Which factors does the law name?",
+            "a": "Section 4-3: unclear or conflicting demands, emotional demands, workload and time pressure, support and help, integrity and dignity, contact and communication, protection against harassment and against violence and threats. Section 1A-1 of the regulation gathers them in one list and adds autonomy and influence. The list applies «among others» and is not exhaustive."
+          },
+          {
+            "q": "Is the psychosocial working environment the same as job satisfaction?",
+            "a": "No. Satisfaction is a consequence of the conditions; the psychosocial working environment is the conditions themselves. Neither § 4-3 nor chapter 1A of the regulation uses the word trivsel. A satisfaction survey can be a useful supplement, but it does not meet the survey requirement on its own."
+          },
+          {
+            "q": "How is the psychosocial working environment measured?",
+            "a": "With an anonymous survey in which employees respond to statements on each factor, so that you get figures per factor and per group that can be followed over time, and with other sources beside it: safety rounds, deviations, appraisal talks and sickness absence. The Authority recommends using several sources."
+          },
+          {
+            "q": "What happens if the psychosocial working environment is not sound?",
+            "a": "The Labour Inspection Authority inspects and can issue an order with a deadline to put things right (Working Environment Act § 18-6), with a coercive fine until it is done (§ 18-7). Negligent or wilful breaches can lead to an infringement fee (§ 18-10)."
+          }
+        ]
       }
     },
     "articles": {
@@ -6241,7 +6457,7 @@
           },
           {
             "t": "p",
-            "text": "The term itself does not appear in the list of psychosocial factors in section 4-3 of the Working Environment Act (arbeidsmiljøloven). It is nonetheless closely tied to several rights and duties in the Act, and in practice it decides whether they are used."
+            "text": "The term itself does not appear in the list of psychosocial factors in section 4-3 of the Working Environment Act (arbeidsmiljøloven). It is nonetheless closely tied to several rights and duties in the Act, and in practice it decides whether they are used. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -6420,7 +6636,7 @@
           },
           {
             "t": "p",
-            "text": "Section 4-3(2) of the Working Environment Act (arbeidsmiljøloven) names unclear demands and expectations as a psychosocial factor. The same factor appears in section 1A-1 of the regulation on the performance of work, in force since 1 January 2026."
+            "text": "Section 4-3(2) of the Working Environment Act (arbeidsmiljøloven) names unclear demands and expectations as a psychosocial factor. The same factor appears in section 1A-1 of the regulation on the performance of work, in force since 1 January 2026. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "law",
@@ -6614,7 +6830,7 @@
           },
           {
             "t": "p",
-            "text": "In the same commentary Arbeidstilsynet lists organisational conditions that can have a major bearing on the psychosocial working environment, among them «priorities, responsibility and authority». These are the very conditions that decide whether conflicting demands get resolved or are left with the individual."
+            "text": "In the same commentary Arbeidstilsynet lists organisational conditions that can have a major bearing on the psychosocial working environment, among them «priorities, responsibility and authority». These are the very conditions that decide whether conflicting demands get resolved or are left with the individual. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -6789,7 +7005,7 @@
           },
           {
             "t": "p",
-            "text": "The factor is also named in § 1A-1(2)(e) of the regulation on the performance of work, in force since 1 January 2026. § 1A-2 of the regulation requires the employer to survey psychosocial factors that may affect employees' health, safety or welfare, and to assess the risk on the basis of that survey. Where an organisation has lone work, § 4-1 of the Act also requires an assessment of whether it carries particular risk, and the implementation of the necessary measures."
+            "text": "The factor is also named in § 1A-1(2)(e) of the regulation on the performance of work, in force since 1 January 2026. § 1A-2 of the regulation requires the employer to survey psychosocial factors that may affect employees' health, safety or welfare, and to assess the risk on the basis of that survey. Where an organisation has lone work, § 4-1 of the Act also requires an assessment of whether it carries particular risk, and the implementation of the necessary measures. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -6975,7 +7191,7 @@
           },
           {
             "t": "p",
-            "text": "The factor is also named in § 1A-1(2)(b) of the regulation on the performance of work, which applies from 1 January 2026. § 1A-4(2) of the regulation further requires the employer to ensure that employees receive «the training, practice and instruction necessary for a fully satisfactory psychosocial working environment» (our translation). Arbeidstilsynet writes that training may be necessary where there is a risk of psychosocial strain, «or where prevention and handling require particular skills or knowledge». In occupations with demanding encounters with people, it is a requirement that should be assessed specifically."
+            "text": "The factor is also named in § 1A-1(2)(b) of the regulation on the performance of work, which applies from 1 January 2026. § 1A-4(2) of the regulation further requires the employer to ensure that employees receive «the training, practice and instruction necessary for a fully satisfactory psychosocial working environment» (our translation). Arbeidstilsynet writes that training may be necessary where there is a risk of psychosocial strain, «or where prevention and handling require particular skills or knowledge». In occupations with demanding encounters with people, it is a requirement that should be assessed specifically. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -7158,7 +7374,7 @@
           },
           {
             "t": "p",
-            "text": "Support and help at work is also named in § 1A-1(2)(d) of the regulation on the performance of work, which applies from 1 January 2026. In its commentary Arbeidstilsynet writes that organisational conditions, including «staffing, management structure, governance» (our translation), can have a major bearing on the psychosocial working environment. That is a useful starting point: a low score is not necessarily a verdict on one person, but may reflect how management is organised."
+            "text": "Support and help at work is also named in § 1A-1(2)(d) of the regulation on the performance of work, which applies from 1 January 2026. In its commentary Arbeidstilsynet writes that organisational conditions, including «staffing, management structure, governance» (our translation), can have a major bearing on the psychosocial working environment. That is a useful starting point: a low score is not necessarily a verdict on one person, but may reflect how management is organised. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -7290,7 +7506,7 @@
           },
           {
             "t": "p",
-            "text": "The Norwegian Labour Inspection Authority (Arbeidstilsynet) describes the factor in exactly these terms in its commentary on section 1A-1 of the regulation on the performance of work, which lists «self-determination and influence in the work» as one of the psychosocial working environment factors:"
+            "text": "The Norwegian Labour Inspection Authority (Arbeidstilsynet) describes the factor in exactly these terms in its commentary on section 1A-1 of the regulation on the performance of work, which lists «self-determination and influence in the work» as one of the psychosocial working environment factors: What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "quote",
@@ -7490,7 +7706,7 @@
           },
           {
             "t": "p",
-            "text": "Section 1A-1 of the regulation on the performance of work lists «harassment, including sexual harassment» among the psychosocial working environment factors. Integrity and dignity is not a separate item on the regulation's list, but the Norwegian Labour Inspection Authority (Arbeidstilsynet) makes clear that the list is not exhaustive: the words «among other things» show that other factors may also be relevant. The requirement in section 4-3 third paragraph of the Act applies in any case."
+            "text": "Section 1A-1 of the regulation on the performance of work lists «harassment, including sexual harassment» among the psychosocial working environment factors. Integrity and dignity is not a separate item on the regulation's list, but the Norwegian Labour Inspection Authority (Arbeidstilsynet) makes clear that the list is not exhaustive: the words «among other things» show that other factors may also be relevant. The requirement in section 4-3 third paragraph of the Act applies in any case. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -7640,7 +7856,7 @@
           },
           {
             "t": "p",
-            "text": "Section 4-3 second paragraph of the Working Environment Act (arbeidsmiljøloven) lists psychosocial working environment factors, and letter d is «support and help in the work». The same factor appears in section 1A-1 second paragraph letter d of the regulation. Arbeidstilsynet writes that it concerns employees «having the opportunity to get the support they need from, for example, managers and colleagues» (our translation)."
+            "text": "Section 4-3 second paragraph of the Working Environment Act (arbeidsmiljøloven) lists psychosocial working environment factors, and letter d is «support and help in the work». The same factor appears in section 1A-1 second paragraph letter d of the regulation. Arbeidstilsynet writes that it concerns employees «having the opportunity to get the support they need from, for example, managers and colleagues» (our translation). What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "p",
@@ -7787,7 +8003,7 @@
           },
           {
             "t": "p",
-            "text": "Section 1A-1 of the regulation on the performance of work gives eight examples of psychosocial working environment factors. Meaning and recognition are not among them as separate items. That does not make the factor irrelevant to the employer's duties. The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes in its commentary on the provision:"
+            "text": "Section 1A-1 of the regulation on the performance of work gives eight examples of psychosocial working environment factors. Meaning and recognition are not among them as separate items. That does not make the factor irrelevant to the employer's duties. The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes in its commentary on the provision: What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "quote",
@@ -8528,7 +8744,7 @@
           },
           {
             "t": "p",
-            "text": "Workload and time pressure is one of the psychosocial factors named in section 4-3(2) of the Working Environment Act (arbeidsmiljøloven). Since 2026 it has also appeared in section 1A-1 of the regulation on the performance of work. The wording is precise: the factor is not the amount of work as such, but the imbalance between the work and the time."
+            "text": "Workload and time pressure is one of the psychosocial factors named in section 4-3(2) of the Working Environment Act (arbeidsmiljøloven). Since 2026 it has also appeared in section 1A-1 of the regulation on the performance of work. The wording is precise: the factor is not the amount of work as such, but the imbalance between the work and the time. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "law",
@@ -9772,6 +9988,10 @@
             ]
           },
           {
+            "t": "p",
+            "text": "The safety round is one of the sources for the survey. Read [how to bring the psychosocial working environment into the safety round](/artikler/vernerunde-psykososialt-arbeidsmiljo) – and what the round cannot replace."
+          },
+          {
             "t": "h2",
             "text": "What access should the safety representative have?"
           },
@@ -10072,7 +10292,7 @@
           },
           {
             "t": "p",
-            "text": "Working Environment Act § 4-1 sets the frame: the working environment in the undertaking must be fully satisfactory, judged from an individual and overall assessment of the factors in the working environment that may affect the employees’ physical and mental health and welfare. The mapping therefore covers more than one area:"
+            "text": "Working Environment Act § 4-1 sets the frame: the working environment in the undertaking must be fully satisfactory, judged from an individual and overall assessment of the factors in the working environment that may affect the employees’ physical and mental health and welfare. The mapping therefore covers more than one area: What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "ul",
@@ -10089,7 +10309,7 @@
           },
           {
             "t": "p",
-            "text": "No method catches everything. Arbeidstilsynet writes about the psychosocial working environment:"
+            "text": "No method catches everything. Arbeidstilsynet writes about the psychosocial working environment: How the safety round can take in the psychosocial is in [an article of its own](/artikler/vernerunde-psykososialt-arbeidsmiljo)."
           },
           {
             "t": "quote",
@@ -10211,6 +10431,189 @@
           {
             "label": "Risk assessment (Arbeidstilsynet, Norwegian)",
             "url": "https://www.arbeidstilsynet.no/hms/risikovurdering/"
+          }
+        ]
+      },
+      "vernerunde": {
+        "title": "The safety round and the psychosocial environment | Orgpuls",
+        "description": "On a safety round the psychosocial must be asked about: what to look for, ask and note, what the round cannot replace, and a free checklist.",
+        "h1": "How do you bring the psychosocial working environment into the safety round (vernerunde)?",
+        "lead": "A vernerunde is a planned walk through the workplace where the manager and the safety representative look for risk together, and it can take in the psychosocial working environment if you ask for it. The Labour Inspection Authority names safety rounds as one of several sources for the survey of psychosocial conditions. The round does not replace an anonymous survey, but it catches what the survey cannot see: how the work actually goes, and what people say when someone asks.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What is a vernerunde?"
+          },
+          {
+            "t": "p",
+            "text": "A vernerunde (safety round) is a planned walk through the workplace where the manager and the safety representative look for conditions that could harm health or safety, talk with the people who work there, and note what must be followed up. The word is not in the Working Environment Act. The round is nevertheless an established way of meeting the Act’s requirements: the employer must «kartlegge farer og problemer» (map hazards and problems) and assess the risk (Working Environment Act § 3-1 second paragraph c and the internal control regulation § 5), and the safety representative must see to it that the working environment is sound and may, in the Authority’s words, «på eget initiativ foreta jevnlige systematiske inspeksjoner innen sitt verneområde» (on their own initiative carry out regular, systematic inspections within their area)."
+          },
+          {
+            "t": "quote",
+            "text": "Vernerunder er en etablert metode for å identifisere risikofaktorer og sikre at arbeidsmiljøet følges opp systematisk. (Safety rounds are an established method for identifying risk factors and making sure the working environment is followed up systematically.)",
+            "cite": "Arbeidstilsynet, «Verneombud»"
+          },
+          {
+            "t": "p",
+            "text": "The Authority recommends that the employer, or someone representing the employer, takes part in the round. How often you go is not set as a number; the Authority writes «jevnlige» (regular), and the risk in the work decides what that means for you."
+          },
+          {
+            "t": "h2",
+            "text": "Does the safety round cover the psychosocial working environment?"
+          },
+          {
+            "t": "p",
+            "text": "Only if you put it in. A traditional safety round looks for what can be seen: escape routes, protective equipment, ergonomics, chemicals, order. Workload, unclear demands, support from the manager and conflicts between colleagues cannot be seen – they must be asked about. Working Environment Act § 6-2 says the safety representative must particularly see to it that «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (the employees’ psychosocial working environment is taken care of), and the Authority writes that the representative’s part in the HSE work «inkluderer også arbeidstakernes psykososiale miljø» (also includes the employees’ psychosocial environment). That makes the round a natural place to ask."
+          },
+          {
+            "t": "p",
+            "text": "But the round has a limit the survey does not have: nobody is anonymous. Whoever tells the safety representative, with the manager standing beside them, that the workload is unsound has said it with their name. So the round is best for seeing, and for asking open questions, while the figures on how people are doing should come from an anonymous survey. The Authority says the same in its own way:"
+          },
+          {
+            "t": "quote",
+            "text": "To get a good picture of the psychosocial working environment, the organisation should use several sources in the mapping, such as working environment surveys, safety inspections, incident reports, appraisal conversations or informal conversations.",
+            "cite": "Arbeidstilsynet, «Psykososialt arbeidsmiljø»"
+          },
+          {
+            "t": "h2",
+            "text": "What do you look for when the topic is psychosocial?"
+          },
+          {
+            "t": "p",
+            "text": "The psychosocial shows itself in the physical and the organisational, if you know what to look for:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**The pace.** Are tasks queueing up, phones ringing with nobody answering, lunch eaten at the screen? That is workload and time pressure in practice.",
+              "**Who is alone.** Work without a colleague nearby for long stretches, night shifts, field offices. The possibility of contact and communication is a factor the law names.",
+              "**The messages.** Are there instructions on the wall that contradict each other, messages from several channels and several bosses? That is unclear or conflicting demands.",
+              "**The tone.** Do people talk with each other or past each other? Is the one who asks met with help or with sighs?",
+              "**The traces of violence and threats.** Alarm buttons that do not work, reception desks without shielding, lone work with the public, patients or customers.",
+              "**What is new.** Reorganisation, a new manager, new systems, many new hires or many who have left. Section 1A-2 of the regulation requires the survey to be repeated when conditions change."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What do you ask about?"
+          },
+          {
+            "t": "p",
+            "text": "Ask openly, in small groups or one to one, and note patterns, not names. Five questions go a long way:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "What steals the most time in an ordinary week?",
+              "When did you last not know what was expected of you?",
+              "Who do you ask when you are stuck, and do you get an answer?",
+              "Has anything happened in the last six months that made you feel unsafe at work?",
+              "What happened to what you raised last time?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The last question is the most important. A safety round that is not followed up teaches people that speaking up is pointless – and that is in itself a poor [speak-up climate](/artikler/ytringsklima)."
+          },
+          {
+            "t": "h2",
+            "text": "How do you note the findings without pointing at people?"
+          },
+          {
+            "t": "p",
+            "text": "The report from the round is a document several people will read. Write findings as conditions, not as statements from named people: «The department reports messages from three levels that do not agree», not «NN says the boss …». What concerns one person belongs in a conversation, not in the report. And what is serious – harassment, violence, threats – must not wait for the next round: it is reported at once and handled under the organisation’s procedures."
+          },
+          {
+            "t": "h2",
+            "text": "What can the safety round not replace?"
+          },
+          {
+            "t": "p",
+            "text": "An anonymous working-environment survey. Section 1A-2 of the regulation on the performance of work requires the psychosocial factors to be surveyed and risk-assessed systematically, each on its own and together, in cooperation with the employees, and documented. The round gives observations and conversations; it does not give figures per factor and per group that can be compared over time, and it gives the person answering no anonymity. The two complete each other: the survey says where the figures are low, the round shows why. Read about [what a working-environment survey is](/artikler/arbeidsmiljokartlegging) and about [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "What is special about a safety round on a building site?"
+          },
+          {
+            "t": "p",
+            "text": "On a building or civil-engineering site there are often several employers, changing crews and short deadlines, and the safety round usually goes with the SHA plan and the safe-job analyses. The psychosocial is just as concrete there: time pressure against milestones, coordination between firms, messages that do not get through, and language. Section 19a of the building-site regulation (byggherreforskriften) requires the employer to ensure that the workers can communicate without creating a safety risk, and that at least one person on each work team, where safety requires it, can understand and make themselves understood in a language the rest of the team understands. Ask on the round whether messages are actually understood, and whether it is all right to ask again. When several employers share a site, the main contractor is responsible for coordinating the HSE work (Working Environment Act § 2-2)."
+          },
+          {
+            "t": "h2",
+            "text": "Checklist: the psychosocial working environment on the safety round"
+          },
+          {
+            "t": "h3",
+            "text": "Before the round"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Agree that the psychosocial is part of this round, and who asks.",
+              "Look at the previous report: what was promised, and what happened?",
+              "Look at what you already know: the results of the last survey, deviations, sickness absence and turnover for the area.",
+              "Say in advance that you are coming, and what you want to talk about."
+            ]
+          },
+          {
+            "t": "h3",
+            "text": "During the round"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Pace and queues of tasks; breaks that are taken or not taken.",
+              "Who works alone, and for how long.",
+              "Instructions and messages: do they contradict each other, and does everyone understand them?",
+              "The tone between colleagues, and between manager and employees.",
+              "Protection against violence and threats where there is contact with the public, patients or customers.",
+              "Changes since last time: a new manager, reorganisation, new systems, many new people.",
+              "Ask: What steals time? What is unclear? Who helps? What happened to what you raised last time?"
+            ]
+          },
+          {
+            "t": "h3",
+            "text": "After the round"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Write findings as conditions, without names; serious matters are reported at once.",
+              "Give every finding an owner and a deadline, and put it in the action plan.",
+              "Tell those who took part what happens next – also when the answer is that something cannot be done now.",
+              "Take the findings into the risk assessment of the psychosocial working environment (section 1A-2 of the regulation)."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The checklist is a free Word template at the foot of this page (in Norwegian). Read also about [the safety representative’s role in the survey](/artikler/verneombudets-rolle-i-kartleggingen)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arbeidstilsynet (Labour Inspection Authority): Verneombud (safety representative)",
+            "url": "https://www.arbeidstilsynet.no/hms/roller-i-hms-arbeidet/verneombud/"
+          },
+          {
+            "label": "Arbeidstilsynet: Psykososialt arbeidsmiljø (psychosocial working environment)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Working Environment Act § 6-2 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A76-2"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A, with the Authority’s comments (Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Internal control regulation § 5 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/1996-12-06-1127"
+          },
+          {
+            "label": "Building-site regulation (byggherreforskriften) § 19a (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/forskrift/2009-08-03-1028/%C2%A719a"
           }
         ]
       }
@@ -11133,7 +11536,7 @@
             "items": [
               {
                 "title": "The survey pack",
-                "text": "All six templates in one file: from planning and the questionnaire to the risk assessment, measures and the annual cycle.",
+                "text": "All seven templates in one file: from planning and the questionnaire to the risk assessment, measures and the annual cycle and the safety round.",
                 "href": "/maler/kartleggingspakken"
               }
             ]
@@ -11169,6 +11572,11 @@
                 "title": "Information letter and checklist",
                 "text": "A letter to employees before the survey, and a checklist for those who plan it.",
                 "href": "/maler/informasjonsskriv-og-sjekkliste"
+              },
+              {
+                "title": "Safety-round checklist",
+                "text": "The psychosocial working environment on the safety round: what to look for, ask and note. Word, in Norwegian.",
+                "href": "/maler/vernerunde-sjekkliste"
               }
             ]
           },
@@ -11212,13 +11620,13 @@
       },
       "pakke": {
         "title": "The survey pack: free work environment templates | Orgpuls",
-        "description": "Six free templates in one pack: checklist, information letter, QPSNordic questionnaire, risk assessment, measures bank and annual cycle. In Norwegian.",
+        "description": "Seven free templates in one pack: checklist, information letter, QPSNordic questionnaire, risk assessment, measures bank, annual cycle, safety round.",
         "crumb": "The survey pack",
         "kicker": "Free templates",
-        "h1": "The survey pack: six templates for the whole of your work on the psychosocial work environment",
-        "lead": "From planning to follow-up: a checklist and a letter to employees, a questionnaire with an answer register, a risk assessment template, a measures bank and an annual cycle. All in one download, in Norwegian.",
+        "h1": "The survey pack: seven templates for the whole of your work on the psychosocial work environment",
+        "lead": "From planning to follow-up: a checklist and a letter to employees, a questionnaire with an answer register, a risk assessment template, a measures bank, an annual cycle and a safety-round checklist. All in one download, in Norwegian.",
         "files": {
-          "orgpuls-kartleggingspakken.zip": "The whole pack (zip, six files)"
+          "orgpuls-kartleggingspakken.zip": "The whole pack (zip, seven files)"
         },
         "blocks": [
           {
@@ -11266,15 +11674,16 @@
               "**QPSNordic 34+** – the questionnaire (Word) and the answer register (Excel)",
               "**Risk assessment** with risk matrix and action plan (Excel)",
               "**Measures bank** with 33 measures (Excel)",
-              "**Annual cycle** with an example and a list of changes that should trigger a new survey (Excel)"
+              "**Annual cycle** with an example and a list of changes that should trigger a new survey (Excel)",
+              "**Safety-round checklist** – the psychosocial working environment on the round (Word)"
             ]
           },
           {
             "t": "p",
-            "text": "Each template has its own page explaining it: [risk assessment](/maler/risikovurdering-psykososialt-arbeidsmiljo), [measures bank](/maler/tiltaksbank), [annual cycle](/maler/arshjul-arbeidsmiljo), [QPSNordic 34+](/maler/qpsnordic-sporreskjema) and [information letter and checklist](/maler/informasjonsskriv-og-sjekkliste)."
+            "text": "Each template has its own page explaining it: [risk assessment](/maler/risikovurdering-psykososialt-arbeidsmiljo), [measures bank](/maler/tiltaksbank), [annual cycle](/maler/arshjul-arbeidsmiljo), [QPSNordic 34+](/maler/qpsnordic-sporreskjema), [information letter and checklist](/maler/informasjonsskriv-og-sjekkliste) and [safety-round checklist](/maler/vernerunde-sjekkliste)."
           }
         ],
-        "teaser": "Six templates in one pack: checklist, information letter, questionnaire, risk assessment, measures bank and annual cycle, in Excel and Word."
+        "teaser": "Seven templates in one pack: checklist, information letter, questionnaire, risk assessment, measures bank, annual cycle and safety round, in Excel and Word."
       },
       "risikovurdering": {
         "title": "Risk assessment template: psychosocial work environment | Orgpuls",
@@ -11676,6 +12085,52 @@
           }
         ],
         "teaser": "A letter to employees before the survey, and a checklist for those who plan it."
+      },
+      "vernerunde": {
+        "title": "Safety-round checklist: the psychosocial environment | Orgpuls",
+        "description": "Free Word checklist for bringing the psychosocial working environment into the safety round: what to look for, ask and note, before, during and after.",
+        "crumb": "Safety-round checklist",
+        "kicker": "Free template",
+        "h1": "Checklist: the psychosocial working environment on the safety round",
+        "lead": "The safety round sees what can be seen. The psychosocial must be asked about – and without anyone being singled out. The checklist takes manager and safety representative through what to look for, ask and note, before, during and after the round. In Norwegian.",
+        "files": {
+          "orgpuls-vernerunde-sjekkliste.docx": "Safety-round checklist (Word)"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What does the checklist hold?"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Before the round:** what you agree, and what you look at from the previous round and the last survey",
+              "**During the round:** seven things to look for – pace, lone work, messages, the tone, protection against violence and threats, changes – and five questions to ask",
+              "**After the round:** how findings are written without names, given an owner and a deadline, and taken into the risk assessment"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "When should you use it?"
+          },
+          {
+            "t": "p",
+            "text": "Every time you walk a safety round and want the psychosocial included, and especially after a working-environment survey: where the survey shows a low figure, the round can show why. It also fits when something has changed – a new manager, a reorganisation, many new people – since the regulation requires the survey to be repeated when conditions change (regulation on the performance of work, section 1A-2)."
+          },
+          {
+            "t": "h2",
+            "text": "What does it not replace?"
+          },
+          {
+            "t": "p",
+            "text": "An anonymous working-environment survey. The round gives observations and conversations, not figures per factor and group, and nobody is anonymous on a safety round. Section 1A-2 of the regulation requires the psychosocial factors to be surveyed and risk-assessed systematically and documented; the round is one of the sources. Under Working Environment Act § 6-2 the safety representative must see to it that «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (the employees’ psychosocial working environment is taken care of), and the checklist is written for that task."
+          },
+          {
+            "t": "p",
+            "text": "The full reasoning is in the article [How do you bring the psychosocial working environment into the safety round?](/artikler/vernerunde-psykososialt-arbeidsmiljo). The checklist in the file is the same as in the article, so the two cannot say different things."
+          }
+        ],
+        "teaser": "A Word checklist for bringing the psychosocial working environment into the safety round: before, during and after."
       }
     },
     "shots": {

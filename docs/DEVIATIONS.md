@@ -14391,3 +14391,60 @@ Proved by `tests/unit/templates.test.ts`: the file's shape (37 items in order, s
 options per scale, 34 numbered, six groups of 21, 5, 4, 4, 2 and 1), the claims about the items, every section but
 the last asks in both languages, one `qps` block, the FAQ parses and asks, the labels exist, and both languages
 alike. `wordCount` and `uk-articles.test.ts` know the new kind. The page map is re-crawled.
+
+## D-284 — The vernerunde article and checklist, the «psykososialt arbeidsmiljø» hub, and two sections the data asked for (2026-10-14)
+
+Tor, 14 October 2026, on the page suggestions that followed D-283: «go, build 1 and 2 with 3 in the same push».
+
+**Why these three.** Over 35 days the biggest query the site was shown for, «verneombud psykososialt arbeidsmiljø»
+(17 impressions), sat at position 59 on the verneombud article; «vernerunde psykososialt arbeidsmiljø» and «vernerunde
+byggeplass» landed there too, and no page was about the vernerunde. «psykososialt arbeidsmiljø» was in five of the 34
+queries, always as a modifier, and no page had the term itself as its subject. «fristaml» had four impressions at
+position 10 on /lovkrav, and «språkkrav byggherreforskriften» one at 11 on the bygg question page, which had no section
+answering it.
+
+1. **The article** `/artikler/vernerunde-psykososialt-arbeidsmiljo` (`seo.articles.vernerunde`, group gjennomføring,
+   the verneombud drawing): what a vernerunde is and where it stands in the law (aml § 3-1, internkontrollforskriften
+   § 5, the verneombud's § 6-2), whether it covers the psychosocial (only if asked for, and nobody is anonymous on a
+   round), what to look for and ask, how to note findings without naming people, what it cannot replace (§ 1A-2's
+   systematic, documented survey), what is special on a building site (byggherreforskriften § 19a), and a three-part
+   checklist. Every quotation is Arbeidstilsynet's or the law's; six sources. Seven of its eight sections ask. Linked
+   from the verneombud article and page, the kartlegging article and the hub; the verneombud article's related list
+   carries it.
+2. **The template** `/maler/vernerunde-sjekkliste` (`seo.maler.vernerunde`, `orgpuls-vernerunde-sjekkliste.docx`):
+   `scripts/maler/build.py` builds the Word file from the article's own checklist — the blocks after its «Sjekkliste»
+   heading — so file and page cannot disagree. The seventh template: in Kartleggingspakken's zip, on the index, and in
+   the pack's texts («sju»). The other six files are not rebuilt.
+3. **The hub** `/psykososialt-arbeidsmiljo` (`seo.lp.psykososialtArbeidsmiljo`), an informational page (D-236) like
+   /lovkrav: STAMI's and Arbeidstilsynet's definitions quoted; the § 4-3 factors and the § 1A-1 list (the list block
+   the medarbeiderundersøkelse article carries); link cards to the eleven factor articles; chapter 1A paragraph by
+   paragraph (the same law block as /lovkrav, held equal by a test); how it is surveyed; STAMI on sickness absence;
+   who is responsible; sources; six FAQ items with FAQPage data. Drawn with the meeting picture; its card the article card, as /lovkrav's.
+   Linked from the text of the eleven factor articles, /lovkrav and the kartlegging article — thirteen inbound links —
+   so a search or an AI answer reaches the term's page from every factor. `LandingTemplate` now picks an informational
+   page's drawing by slug.
+4. **The sections.** /lovkrav's FAQ answers «Er det en frist for å kartlegge etter de nye reglene?» right after «Hva
+   endret seg 1. januar 2026?»: FOR-2025-12-16-2615 enters into force 1 January 2026 and has no transitional rules; no
+   deadline for a first survey and no interval, «regelmessig og ved endringer» (§ 1A-2). Sweden's /lovkrav, which counts
+   the same arrays, gets the matching question under Swedish law (AFS 2023:1 11 §, in force 1 January 2025, AML 7 kap.
+   3 §). The bygg question page has a
+   section of its own, `#sprakkrav`, «Hva er språkkravet i byggherreforskriften?»: `questionPage.sections` (the type,
+   `QuestionView`, the contents list, and the legal review's claims), stating § 19a's actual rule — a language the rest
+   of the team understands; the regulation names none — with Arbeidstilsynet's «norsk eller engelsk er utgangspunktet»
+   as the Authority's reading.
+
+**Checked against the sources.** § 19a (Lovdata, and the amending regulation FOR-2023-08-29-1367) does not say «norsk
+eller engelsk»; Arbeidstilsynet's press release of 14 December 2023 does. The bygg module's rationale for «Språk og
+beskjeder» says «på norsk eller engelsk»; it is a published module and is left as it is, to be made precise in its next
+version. Arbeidstilsynet's verneombud page is the source for «jevnlige systematiske inspeksjoner», the sentence on
+vernerunder and the advice that the employer takes part; its psykososialt page for the «flere kilder» sentence (already
+on the site) and the definition; STAMI's page for the two-part definition and the sickness-absence sentence; Lovdata
+for § 4-3's structure (four factors in the second paragraph, the rest in the following ones).
+
+Tests: `tests/unit/seo-geo.test.ts` — the hub's registry entries, route, public path and card; its H1 and sections
+ask, its lead defines, its link cards are the eleven factor articles, its law block is /lovkrav's, its FAQ parses; the
+inbound links in both languages; the article's registry entry, template, related lists, card and neighbours' links; the
+checklist's three parts; /lovkrav's FAQ order; the bygg section in both languages. `templates.test.ts` covers the
+seventh template (words, file, index); `legal-registry.test.ts` the new units `lp.psykososialtArbeidsmiljo` and
+`maler.vernerunde` and the question page's sections among the claims. Cards drawn for the article and the hub; the
+page map re-crawled.

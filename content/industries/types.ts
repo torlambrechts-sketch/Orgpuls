@@ -32,6 +32,11 @@ export type IndustryPage = {
     segmentsIntro: string
     rulesTitle: string
     rules: { title: string; text: string; featureFlag?: string }[]
+    /**
+     * sections of the page's own after the factors (D-284): a question a factor raises that the module file
+     * does not answer – the language requirement on building sites – with an anchor a search can land on
+     */
+    sections?: { id: string; title: string; paragraphs: string[]; source?: { label: string; url: string } }[]
     coreNote: string
     cta: { title: string; text: string }
   }

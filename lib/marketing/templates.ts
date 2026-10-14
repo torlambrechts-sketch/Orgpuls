@@ -32,6 +32,8 @@ export const TEMPLATES: Template[] = [
   { slug: 'arshjul-arbeidsmiljo', key: 'arshjul', files: [xlsx('orgpuls-arshjul-arbeidsmiljo.xlsx')] },
   { slug: 'qpsnordic-sporreskjema', key: 'qps', files: [docx('qpsnordic-34-sporreskjema.docx'), xlsx('qpsnordic-34-svarregistrering.xlsx')] },
   { slug: 'informasjonsskriv-og-sjekkliste', key: 'informasjon', files: [docx('orgpuls-informasjonsskriv-og-sjekkliste.docx')] },
+  // the vernerunde checklist (D-284), built from the vernerunde article's own checklist
+  { slug: 'vernerunde-sjekkliste', key: 'vernerunde', files: [docx('orgpuls-vernerunde-sjekkliste.docx')] },
 ]
 
 export const templateBySlug = (slug: string) => TEMPLATES.find((t) => t.slug === slug) ?? null

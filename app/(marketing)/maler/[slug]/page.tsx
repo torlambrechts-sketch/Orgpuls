@@ -23,6 +23,7 @@ const READ_ON: Record<string, string[]> = {
   arshjul: ['hvor-ofte-bor-dere-male-arbeidsmiljoet', 'krav-til-kartlegging-av-psykososialt-arbeidsmiljo'],
   qps: ['medarbeiderundersokelse-sporsmal', 'anonym-medarbeiderundersokelse'],
   informasjon: ['anonym-medarbeiderundersokelse', 'verneombudets-rolle-i-kartleggingen'],
+  vernerunde: ['vernerunde-psykososialt-arbeidsmiljo', 'verneombudets-rolle-i-kartleggingen'],
 }
 
 const Words = z.object({

@@ -75,6 +75,17 @@ export const byggOgAnleggEn: IndustryPage = {
         featureFlag: 'module_factor_toggles',
       },
     ],
+    sections: [
+      {
+        id: 'sprakkrav',
+        title: 'What is the language requirement in the building-site regulation?',
+        paragraphs: [
+          'Section 19a of byggherreforskriften (the regulation on safety, health and the working environment on construction sites), in force since 1 January 2024, requires the employer to ensure that employees and hired workers can communicate in a way that does not create a safety risk. Where safety requires it, at least one of the workers on each work team must be able to understand, and make themselves understood in, a language the others on the team also understand. The regulation names no particular language; in its account of the rule, the Labour Inspection Authority writes that Norwegian or English is the starting point.',
+          'Under section 19, third paragraph, written documentation relevant to the individual worker must be understandable to them – not everything has to be translated, but what each person needs. The main responsibility is the employer’s. The client (byggherre) is responsible for the SHA plan, and the main contractor for coordinating the HSE work of the businesses on site. Statements BA-SP-1 to BA-SP-3 measure whether this actually works on the team: whether safety information is understood, whether someone can relay messages between languages, and whether it is all right to ask again.',
+        ],
+        source: { label: 'Byggherreforskriften § 19a (Lovdata)', url: 'https://lovdata.no/forskrift/2009-08-03-1028/%C2%A719a' },
+      },
+    ],
     coreNote: 'The construction module does not repeat these.',
     cta: { title: 'Add the construction module to the next survey', text: 'Enter the organisation number. You are up and running in 3 minutes, with no card details.' },
   },

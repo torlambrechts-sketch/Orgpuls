@@ -66,6 +66,17 @@ export const byggOgAnlegg: IndustryPage = {
         featureFlag: 'module_factor_toggles',
       },
     ],
+    sections: [
+      {
+        id: 'sprakkrav',
+        title: 'Hva er språkkravet i byggherreforskriften?',
+        paragraphs: [
+          'Byggherreforskriften § 19a, som gjelder fra 1. januar 2024, krever at arbeidsgiveren sørger for at arbeidstakerne og innleide kan kommunisere på en slik måte at kommunikasjonen ikke utgjør en sikkerhetsrisiko. Der det er nødvendig av hensyn til sikkerheten, skal minst én av de utførende på hvert arbeidslag kunne forstå og gjøre seg forstått på et språk de andre på laget også forstår og kan gjøre seg forstått på. Forskriften nevner ikke noe bestemt språk; Arbeidstilsynet skriver i sin omtale av regelen at norsk eller engelsk er utgangspunktet.',
+          'Etter § 19 tredje ledd skal skriftlig dokumentasjon som er relevant for den enkelte, være forståelig for vedkommende – ikke alt må oversettes, men det den enkelte trenger. Hovedansvaret ligger hos arbeidsgiveren. Byggherren har ansvaret for SHA-planen, og hovedbedriften for samordningen av HMS-arbeidet mellom virksomhetene på plassen. Påstandene BA-SP-1 til BA-SP-3 måler om dette faktisk virker på laget: om sikkerhetsinformasjon forstås, om noen kan formidle mellom språkene, og om det er greit å spørre igjen.',
+        ],
+        source: { label: 'Byggherreforskriften § 19a (Lovdata)', url: 'https://lovdata.no/forskrift/2009-08-03-1028/%C2%A719a' },
+      },
+    ],
     coreNote: 'Bygg-modulen gjentar ikke disse.',
     cta: { title: 'Legg bygg-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på 3 minutter, uten kortopplysninger.' },
   },

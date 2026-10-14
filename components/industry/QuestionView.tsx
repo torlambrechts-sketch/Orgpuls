@@ -59,6 +59,7 @@ export async function QuestionView({
     <ul className="m-0 flex list-none flex-wrap gap-[8px] p-0">
       {[
         ...list.map((f) => ({ id: f.id, label: <Worded text={f.name} variants={f.name_variants} /> })),
+        ...(q.sections ?? []).map((s) => ({ id: s.id, label: s.title })),
         { id: 'ja-nei', label: t('tocCount') },
         { id: 'rapportering', label: t('tocReporting') },
       ].map((x) => (
@@ -222,6 +223,27 @@ export async function QuestionView({
             )),
           ]
         : mod.factors.map((f) => factorSection(f))}
+
+      {/* the page's own sections (D-284): a question a factor raises, answered in the page's words, with an anchor */}
+      {(q.sections ?? []).map((s) => (
+        <section key={s.id} id={s.id} className={`${WRAP} ${SEC} scroll-mt-[90px]`} aria-labelledby={`${s.id}-h`}>
+          <h2 id={`${s.id}-h`} className={H2}>
+            {s.title}
+          </h2>
+          {s.paragraphs.map((p, i) => (
+            <p key={i} className="mb-0 mt-[12px] max-w-[62ch] text-[16px] leading-[1.6] text-body">
+              {p}
+            </p>
+          ))}
+          {s.source ? (
+            <p className="mb-0 mt-[12px] text-[13.5px] text-mut">
+              <a href={s.source.url} target="_blank" rel="noopener noreferrer" className="underline decoration-[1px] underline-offset-[3px]">
+                {s.source.label}
+              </a>
+            </p>
+          ) : null}
+        </section>
+      ))}
 
       <section id="ja-nei" className={`${WRAP} ${SEC} scroll-mt-[90px]`} aria-labelledby="ja-nei-h">
         <h2 id="ja-nei-h" className={H2}>

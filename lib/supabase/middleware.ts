@@ -74,6 +74,7 @@ const PUBLIC_PATHS = [
   '/verneombud',
   '/smaa-bedrifter',
   '/verktoy-for-medarbeiderundersokelse',
+  '/psykososialt-arbeidsmiljo',
   '/bygg-og-anlegg',
   '/helse-og-omsorg',
   '/barnehage-og-skole',

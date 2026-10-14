@@ -623,6 +623,36 @@ def informasjonsskriv(path: Path):
     d.save(path)
 
 
+# --------------------------------------------------------------------------- 6 · sjekkliste for vernerunden (D-284)
+def vernerunde(path: Path):
+    """The checklist of the vernerunde article, under its own headings: every block after the article's
+    «Sjekkliste» heading, so the Word file and the page cannot say different things."""
+    blocks = NO['seo']['articles']['vernerunde']['blocks']
+    start = next(i for i, b in enumerate(blocks) if b['t'] == 'h2' and b['text'].startswith('Sjekkliste'))
+    d = doc_base('Sjekkliste for vernerunden')
+    p = d.add_paragraph('Det psykososiale arbeidsmiljøet på vernerunden')
+    p.runs[0].bold = True
+    for t in [
+        'Vernerunden ser det som kan ses. Det psykososiale må spørres etter – og det må gjøres uten at noen pekes ut. '
+        'Bruk listen før, under og etter runden, og skriv funn som forhold, ikke som utsagn fra navngitte personer.',
+        'Runden erstatter ikke en anonym arbeidsmiljøundersøkelse: forskrift om utførelse av arbeid § 1A-2 krever at de '
+        'psykososiale faktorene kartlegges og risikovurderes systematisk og dokumenteres. Runden og undersøkelsen utfyller hverandre.',
+    ]:
+        d.add_paragraph(t)
+    for b in blocks[start + 1:]:
+        if b['t'] == 'h2':
+            break
+        if b['t'] == 'h3':
+            h(d, plain(b['text']), 2)
+        elif b['t'] == 'ul':
+            for item in b['items']:
+                d.add_paragraph('☐  ' + plain(item))
+    d.add_paragraph()
+    small(d, 'Kilder: arbeidsmiljøloven § 6-2, forskrift om utførelse av arbeid kapittel 1A, og Arbeidstilsynets sider om verneombud '
+             'og psykososialt arbeidsmiljø. Hele begrunnelsen: orgpuls.no/artikler/vernerunde-psykososialt-arbeidsmiljo')
+    d.save(path)
+
+
 FILES = {
     'orgpuls-risikovurdering-psykososialt-arbeidsmiljo.xlsx': risikovurdering,
     'orgpuls-tiltaksbank.xlsx': tiltaksbank,
@@ -630,6 +660,7 @@ FILES = {
     'qpsnordic-34-sporreskjema.docx': qps_docx,
     'qpsnordic-34-svarregistrering.xlsx': qps_xlsx,
     'orgpuls-informasjonsskriv-og-sjekkliste.docx': informasjonsskriv,
+    'orgpuls-vernerunde-sjekkliste.docx': vernerunde,
 }
 
 def printable(path: Path):
