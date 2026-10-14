@@ -77,6 +77,10 @@ export const organization = (site: SiteLd = ORGPULS_LD) => ({
   // which company this is (D-281); the number is the one the footer and /vilkar print
   identifier: { '@type': 'PropertyValue', propertyID: 'NO:ORGNR', value: ORGNR },
   sameAs: [`https://virksomhet.brreg.no/nb/oppslag/enheter/${ORGNR}`],
+  // the register's founding date and the address the footer prints (D-282): the facts a search engine or an AI
+  // answer resolves an entity by
+  foundingDate: '2019-04-03',
+  address: { '@type': 'PostalAddress', streetAddress: 'Øvre Prinsdals vei 36L', postalCode: '1266', addressLocality: 'Oslo', addressCountry: 'NO' },
   url: site.url,
   logo: site.absolute('/apple-icon.png'),
   email: 'hjelp@orgpuls.no',

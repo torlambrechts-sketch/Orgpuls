@@ -14282,3 +14282,63 @@ Not here, and why:
 - the Organization's identifier and `sameAs`.
 
 `tests/unit/seo-descriptions.test.ts` (≤ 155 characters) covers the new descriptions too. The page map is re-crawled.
+
+## D-282 — The content audit, and sections that ask what readers ask (2026-10-14)
+
+Tor, 14 October 2026, over Sentral › Growth › Keywords (7 days: 19 queries, one in the top 3): «Evaluate our current
+articles, platform pages and external facing pages. How can we optimize for SEO and GEO based on this results?»
+
+**The audit.** `scripts/seo/content-audit.ts` (`npm run seo:audit`) reads every public page from the registries and
+`messages/no.json` — 58 pages: the start page, the site's pages, the landing and industry pages, the question pages,
+the indexes, 25 articles and six templates — and measures each the way a search engine and an AI answer read it: title
+and description length, whether the H1 asks and the lead answers, words, how many sections are questions, the pages
+that link it and the pages it links (the header and footer apart), sources, FAQ and age. `--sc` joins Search Console
+rows exported from Sentral. The report is `docs/marketing/content-audit-2026-10-14.md`; the rules it holds are in its
+header, and `tests/unit/seo-geo.test.ts` now holds the ones that can regress.
+
+**What the data said.** Over 28 days the queries that reach positions 2–11 are questions — «hvordan øker man
+svarprosenten i pulsundersøkelser?» (2), «hva er den beste plattformen for pulsundersøkelser?» (6, on /plattform),
+«minimum antall svar for anonym rapportering i medarbeiderundersøkelse» (6), «hvilken plattform tilbyr anonym
+medarbeiderfeedback?» (7), «hva betyr motstridende» (11) — while the head terms sit at 40–80. The pages rank where a
+section answers the question asked. The audit found the opposite shape in most of the site: 16 of 25 articles had
+fewer than half their sections phrased as questions, eight factor articles cited two sources, five titles ran past 65
+characters, two H1s did not ask, one description passed 155, and the «which tool» page (D-281) had one inbound link.
+
+**What changed, in Norwegian and English:**
+1. **Sections ask.** In 24 articles the headings that answered a question now put the question — «Hva betyr en lav
+   score på …?», «Hvordan måles … i en undersøkelse?», «Hvilke tiltak …?», «Hvordan ser dere om tiltakene virker?».
+   Checklists and the few genuinely declarative sections stay. Every article now has at least half its sections as
+   questions; the test holds it in both languages.
+2. **Answer capsules for the queries seen.** The pulse article's section is «Hvordan øker man svarprosenten i en
+   pulsundersøkelse?» and opens with the answer (use the answers, keep it short, measure no more often than you follow
+   up). The anonymity article's «2. Gruppen er for liten: hvor mange svar må til?» opens with «Minst fem svar …».
+   «Hva betyr motstridende krav?» opens the conflicting-demands article.
+3. **A third source** in the eight factor articles that cited two and name QPS Nordic in the text: STAMI's QPSNordic
+   user guide, the instrument the statements follow.
+4. **Two H1s now ask:** the emotional-demands article and /verneombud («Hvilke rettigheter og plikter har
+   verneombudet når arbeidsmiljøet kartlegges?»). Their cards are regenerated.
+5. **Titles within 65** on handel, kunnskap og kontor, barnehage og skole, Bransjer and the barnehage question page
+   («risiko, tall og lovkrav» → «risiko og lovkrav»; the H1s keep «tall»). /demo's description within 155. /plattform's
+   description names «pulsundersøkelser», the query it ranks sixth for.
+6. **Links.** The «which tool» page is in every industry page's «Les videre» (`content/industries/landing.ts` related
+   and `site.bransje.<msg>.related.verktoy`) and in /sikkerhet's text, and links /plattform itself: one inbound link
+   became seven. The header and footer are the design's and unchanged; putting it in the Bruksområder panel is a
+   menu decision for Tor (D-243 made the menu shorter).
+7. **The entity.** The Organization data carries the register's founding date (2019-04-03, Enhetsregisteret) and the
+   address the footer prints.
+8. Two leads whose first sentence ran past 200 characters are split. `modified` is 2026-10-14 on the 24 articles.
+
+**Not changed, and why.** FAQ data on articles: Google shows it only for government and health sites since 2023,
+and the articles' sections now ask and answer. The English industry titles, which run to 87 characters: English on
+www is a language choice on the same address, not indexed apart (D-275). The /artikler index ranking eighth for
+«medarbeiderundersøkelse anonymitet» beside the article: two impressions, watch. «anonym medarbeiderundersøkelse» at
+38.8 in the 7-day view against 16 the week before: four impressions, two days after the title changed; nothing to
+read yet. The audit covers Norway's site; Empvibe's and Sweden's pages read their own registries and packs, a run of
+their own later.
+
+Tests (`tests/unit/seo-geo.test.ts`): at least half of every article's sections ask, in both languages; every
+article's H1 asks and it cites at least three sources; the pulse and anonymity sections answer in their first
+sentence; every page title on Norway's site is at most 65 characters, the question pages included; the «which tool»
+page is in every industry page's related list and in /sikkerhet's text and links /plattform; the Organization's
+founding date and address. `tests/unit/seo-descriptions.test.ts` covers the shortened descriptions. The page map is
+re-crawled (the industry pages gained a text).

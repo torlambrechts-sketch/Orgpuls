@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { ARTICLES, LANDING_ARTICLES, LANDING_PAGES, LANDING_RELATED } from '@/lib/marketing/site'
 import { ORGNR, organization } from '@/lib/marketing/schema'
+import { INDUSTRIES, pageIn } from '@/content/industries'
+import { LANDINGS } from '@/content/industries/landing'
 import { EMPVIBE_PAGES, SE_PAGES } from '@/lib/hosts'
 import { K_DEFAULT, K_FLOOR } from '@/lib/org/threshold'
 import en from '@/messages/en.json'
@@ -110,5 +112,87 @@ describe('the Organization entity', () => {
     // the footer and /vilkar group it in threes with no-break spaces
     const printed = ORGNR.replace(/(\d{3})(\d{3})(\d{3})/, '$1\u00a0$2\u00a0$3')
     expect(JSON.stringify(no)).toContain(`org.nr.\u00a0${printed}`)
+  })
+})
+
+/**
+ * The content audit's rules (scripts/seo/content-audit.ts, D-282): a section is a passage a search engine or an AI
+ * answer lifts on its own, so it asks what the reader asked and answers in its first sentence; a title fits a
+ * result page; an article cites its sources; the «which tool» page is reached from the pages whose readers choose.
+ */
+type Heading = { t: string; text?: string }
+const ASKS_NO = /\?$|^(hva|hvordan|hvilke[nt]?|når|er|hvor|hvem|hvorfor|må|kan|bør|trenger|finnes)\b/i
+const ASKS_EN = /\?$|^(what|how|when|is|are|where|who|why|must|can|should|do|does|which)\b/i
+const asks = (s: string, re: RegExp) => re.test(s.replace(/­/g, '').trim())
+const headings = (lang: typeof no | typeof en, key: string) =>
+  (lang.seo.articles as unknown as Record<string, { blocks: Heading[] }>)[key]!.blocks.filter((b) => b.t === 'h2' || b.t === 'h3').map((b) => b.text ?? '')
+
+describe('the sections ask what readers ask (D-282)', () => {
+  it('at least half of every article’s sections are questions, in both languages', () => {
+    for (const a of ARTICLES) {
+      for (const [lang, m, re] of [
+        ['no', no, ASKS_NO],
+        ['en', en, ASKS_EN],
+      ] as const) {
+        const hs = headings(m, a.key)
+        const q = hs.filter((h) => asks(h, re)).length
+        expect(q / hs.length, `${a.slug} ${lang}: ${q}/${hs.length}`).toBeGreaterThanOrEqual(0.5)
+      }
+    }
+  })
+
+  it('every article’s H1 asks, and every article cites at least three sources', () => {
+    for (const a of ARTICLES) {
+      expect(asks(article(no, a.key).h1, ASKS_NO), a.slug).toBe(true)
+      expect((article(no, a.key) as unknown as { sources: unknown[] }).sources.length, a.slug).toBeGreaterThanOrEqual(3)
+    }
+  })
+
+  it('answers the questions Search Console showed in the section’s first sentence', () => {
+    const pulse = no.seo.articles.pulsundersokelse.blocks as Heading[]
+    const i = pulse.findIndex((b) => b.text === 'Hvordan øker man svarprosenten i en pulsundersøkelse?')
+    expect(i).toBeGreaterThan(0)
+    expect(pulse[i + 1]!.text).toMatch(/^Svarprosenten holder seg oppe når de ansatte ser at svarene blir brukt/)
+    const anon = no.seo.articles.anonym.blocks as Heading[]
+    const j = anon.findIndex((b) => b.text === '2. Gruppen er for liten: hvor mange svar må til?')
+    expect(j).toBeGreaterThan(0)
+    expect(anon[j + 1]!.text).toMatch(/^Minst fem svar/)
+    expect((no.seo.articles.faktorMotstrid.blocks as Heading[])[0]!.text).toBe('Hva betyr motstridende krav?')
+  })
+})
+
+describe('every page title fits a result page (D-282)', () => {
+  it('is at most 65 characters on Norway’s site', () => {
+    const titles: [string, string][] = []
+    const walk = (v: unknown, path: string) => {
+      if (typeof v === 'string') {
+        if (/^seo\.(home|index|articles\.[^.]+|lp\.[^.]+|pages\.[^.]+|maler\.[^.]+)\.title$|^site\.hvorfor\.seoTitle$|^site\.bransje\.[^.]+\.seo\.title$|^demo\.metaTitle$/.test(path)) titles.push([path, v])
+      } else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) walk(x, path ? `${path}.${k}` : k)
+    }
+    walk(no, '')
+    for (const i of INDUSTRIES) {
+      const q = pageIn(i, 'no')?.questionPage
+      if (q) titles.push([`${i.slug}/sporsmal`, q.metaTitle])
+    }
+    expect(titles.length).toBeGreaterThan(50)
+    for (const [key, t] of titles) expect([...t].length, `${key}: ${t}`).toBeLessThanOrEqual(65)
+  })
+})
+
+describe('the «which tool» page is reached from the pages whose readers choose (D-282)', () => {
+  it('is in every industry page’s «Les videre» and in the security page’s text', () => {
+    for (const l of LANDINGS) {
+      expect(l.related.map((r) => r.href), l.slug).toContain('/verktoy-for-medarbeiderundersokelse')
+      expect((no.site.bransje as unknown as Record<string, { related: Record<string, string> }>)[l.msg]!.related.verktoy, l.msg).toBeTruthy()
+    }
+    expect(JSON.stringify(no.seo.pages.sikkerhet.blocks)).toContain('](/verktoy-for-medarbeiderundersokelse)')
+    expect(JSON.stringify(no.seo.lp.verktoyForMedarbeiderundersokelse.blocks)).toContain('](/plattform)')
+  })
+
+  it('the Organization carries the register’s founding date and the footer’s address', () => {
+    const o = organization() as Record<string, unknown>
+    expect(o.foundingDate).toBe('2019-04-03')
+    expect(o.address).toEqual({ '@type': 'PostalAddress', streetAddress: 'Øvre Prinsdals vei 36L', postalCode: '1266', addressLocality: 'Oslo', addressCountry: 'NO' })
+    expect(JSON.stringify(no)).toContain('Øvre Prinsdals vei 36L')
   })
 })

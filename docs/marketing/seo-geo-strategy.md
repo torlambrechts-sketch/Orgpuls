@@ -125,6 +125,10 @@ reviews, lists or figures (CLAUDE.md: never fabricate), and no bought placements
 | medarbeiderundersøkelse (head term) | /artikler/medarbeiderundersokelse | keep (D-249, D-250) |
 | medarbeiderundersøkelse små bedrifter | /smaa-bedrifter | keep |
 | språkkrav byggherreforskriften, vernerunde byggeplass, psi byggeplass | /bygg-og-anlegg, /bygg-og-anlegg/sporsmal | pos 11–82; phase 2 |
+| hvordan øker man svarprosenten i pulsundersøkelser? | /artikler/pulsundersokelse | pos 2; the section now asks it and answers first (D-282) |
+| minimum antall svar for anonym rapportering i medarbeiderundersøkelse | /artikler/anonym-medarbeiderundersokelse | pos 6; «hvor mange svar må til?» answers first (D-282) |
+| hva er den beste plattformen for pulsundersøkelser? | /plattform (Google's choice) | pos 6; its description names pulsundersøkelser (D-282). /verktoy-for-medarbeiderundersokelse stays the page for «verktøy/plattform for anonym …»; watch which Google keeps |
+| hva betyr motstridende | /artikler/motstridende-krav | pos 11; «Hva betyr motstridende krav?» opens it (D-282) |
 | personaloppfølging | none: not our intent | ignore |
 
 ## 5. Plan
@@ -146,8 +150,18 @@ reviews, lists or figures (CLAUDE.md: never fabricate), and no bought placements
    identifier.
 5. **Ship:** gates, push, IndexNow, and a live check of the pages, sitemap and llms.txt.
 
+### Phase 1b: the content audit, shipped 2026-10-14 (D-282)
+
+`npm run seo:audit` measures every public page the way a search engine and an AI answer read it, and
+`docs/marketing/content-audit-2026-10-14.md` is its first report. What the 28-day data showed: the queries that reach
+positions 2–11 are questions, and the pages rank where a section answers the question asked. So the sections now ask:
+in 24 articles the headings put the question they answer, the pulse and anonymity articles answer the two observed
+questions in their first sentence, eight factor articles cite a third source, five titles fit a result page, two H1s
+ask, and the «which tool» page is linked from the five industry pages and /sikkerhet. The rules are held by tests.
+
 ### Phase 2: next 2–6 weeks
 
+0. **Run the audit weekly** with the Search Console export (`--sc`), and act on its flags before adding pages.
 1. **Sentral measurement** (needs push access to `torlambrechts-sketch/Owntheagenda_Admin`):
    - a tracked keyword list with the § 4 map's target pages, showing position over time per target;
    - an «AI» row in Channels: chatgpt.com, perplexity.ai, gemini.google.com, copilot.microsoft.com,

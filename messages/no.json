@@ -4934,7 +4934,7 @@
           "text": "Verneombudets rettigheter og plikter når arbeidsmiljøet kartlegges, steg for steg."
         },
         "kicker": "Arbeidsmiljøloven § 6-2",
-        "h1": "Verneombudet og kartleggingen: rettigheter, plikter og arbeidsgang",
+        "h1": "Hvilke rettigheter og plikter har verneombudet når arbeidsmiljøet kartlegges?",
         "lead": "Verneombudet skal påse at det psykososiale arbeidsmiljøet er ivaretatt, og skal tas med på råd når tiltak planlegges og gjennomføres. Når arbeidsmiljøet kartlegges, er verneombudet en av representantene arbeidsgiveren skal samarbeide med – i kartleggingen, i risikovurderingen og når tiltakene velges. Ansvaret for at det blir gjort, ligger hos arbeidsgiveren.",
         "blocks": [
           {
@@ -5589,7 +5589,7 @@
           },
           {
             "t": "p",
-            "text": "Slik svarer Orgpuls på dem: [sikkerhet og anonymitet](/sikkerhet). Hva kartleggingen skal dekke, står i [lovkravene](/lovkrav)."
+            "text": "Slik svarer Orgpuls på dem: [sikkerhet og anonymitet](/sikkerhet). Hva kartleggingen skal dekke, står i [lovkravene](/lovkrav). Hva plattformen gjør, steg for steg: [Plattformen](/plattform)."
           },
           {
             "t": "h2",
@@ -5672,7 +5672,7 @@
           },
           {
             "t": "h2",
-            "text": "Én kilde blant flere"
+            "text": "Er en medarbeiderundersøkelse nok som kartlegging?"
           },
           {
             "t": "p",
@@ -5742,7 +5742,7 @@
           },
           {
             "t": "h2",
-            "text": "Anonymitet i praksis"
+            "text": "Hvordan sikres anonymiteten i praksis?"
           },
           {
             "t": "p",
@@ -5763,7 +5763,7 @@
           },
           {
             "t": "h2",
-            "text": "De ansatte og verneombudet er med fra start"
+            "text": "Hvem skal være med?"
           },
           {
             "t": "p",
@@ -5771,7 +5771,7 @@
           },
           {
             "t": "h2",
-            "text": "Fra resultater til tiltak"
+            "text": "Hvordan blir resultatene til tiltak?"
           },
           {
             "t": "p",
@@ -5796,7 +5796,7 @@
           },
           {
             "t": "h2",
-            "text": "Gjenta, dokumenter og evaluer"
+            "text": "Hvor ofte skal det gjentas, og hva skal dokumenteres?"
           },
           {
             "t": "p",
@@ -5885,7 +5885,7 @@
           },
           {
             "t": "h2",
-            "text": "Trivsel er et resultat, ikke en årsak"
+            "text": "Hvorfor er trivsel et resultat og ikke en årsak?"
           },
           {
             "t": "p",
@@ -5906,7 +5906,7 @@
           },
           {
             "t": "h2",
-            "text": "Krav og ressurser"
+            "text": "Hva er krav og ressurser i arbeidet?"
           },
           {
             "t": "p",
@@ -5948,7 +5948,7 @@
           },
           {
             "t": "h2",
-            "text": "Det som beskytter, hører med"
+            "text": "Hvorfor må det som beskytter, også måles?"
           },
           {
             "t": "p",
@@ -5956,7 +5956,7 @@
           },
           {
             "t": "h2",
-            "text": "Ett spørsmål gir ett tall"
+            "text": "Er ett spørsmål om trivsel nok?"
           },
           {
             "t": "p",
@@ -5964,7 +5964,7 @@
           },
           {
             "t": "h2",
-            "text": "Slik blir målingen nyttig"
+            "text": "Hvordan blir en trivselsundersøkelse nyttig?"
           },
           {
             "t": "ul",
@@ -6071,7 +6071,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva forskningen sier om målefeil"
+            "text": "Hva sier forskningen om målefeil i korte målinger?"
           },
           {
             "t": "p",
@@ -6095,7 +6095,7 @@
           },
           {
             "t": "h2",
-            "text": "Sammenlign likt med likt"
+            "text": "Hva bør en pulsmåling sammenlignes med?"
           },
           {
             "t": "p",
@@ -6103,11 +6103,11 @@
           },
           {
             "t": "h2",
-            "text": "Svarviljen faller når ingenting skjer"
+            "text": "Hvordan øker man svarprosenten i en pulsundersøkelse?"
           },
           {
             "t": "p",
-            "text": "Hyppige undersøkelser kan slite på svarviljen. En studie blant studenter fant at flere undersøkelser i løpet av ett studieår ga klart lavere svarprosent på de senere undersøkelsene. En arbeidsplass er ikke et studiested, men mekanismen er lett å kjenne igjen."
+            "text": "Svarprosenten holder seg oppe når de ansatte ser at svarene blir brukt: fortell hva som er gjort siden sist, hold målingen kort, og mål ikke oftere enn dere følger opp. Ellers kan hyppige undersøkelser slite på svarviljen. En studie blant studenter fant at flere undersøkelser i løpet av ett studieår ga klart lavere svarprosent på de senere undersøkelsene. En arbeidsplass er ikke et studiested, men mekanismen er lett å kjenne igjen."
           },
           {
             "t": "p",
@@ -6123,7 +6123,7 @@
           },
           {
             "t": "h2",
-            "text": "Anonymitet i små målinger"
+            "text": "Hvordan holder dere en pulsmåling anonym i små grupper?"
           },
           {
             "t": "p",
@@ -6135,7 +6135,7 @@
           },
           {
             "t": "h2",
-            "text": "Pulsmåling og hovedkartlegging"
+            "text": "Hva er forskjellen på en pulsmåling og hovedkartleggingen?"
           },
           {
             "t": "cards",
@@ -6233,7 +6233,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Et godt ytringsklima er ikke det samme som enighet"
+            "text": "Hva er et godt ytringsklima?"
           },
           {
             "t": "p",
@@ -6245,7 +6245,7 @@
           },
           {
             "t": "h2",
-            "text": "Retten til å si fra står i loven"
+            "text": "Hva sier loven om retten til å si fra?"
           },
           {
             "t": "p",
@@ -6278,7 +6278,7 @@
           },
           {
             "t": "h2",
-            "text": "Slik måles ytringsklima i en undersøkelse"
+            "text": "Hvordan måles ytringsklima i en undersøkelse?"
           },
           {
             "t": "p",
@@ -6298,7 +6298,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva det lave tallet kan fortelle"
+            "text": "Hva betyr en lav score på ytringsklima?"
           },
           {
             "t": "table",
@@ -6331,7 +6331,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvorfor folk lar være å si fra"
+            "text": "Hvorfor lar folk være å si fra?"
           },
           {
             "t": "p",
@@ -6354,7 +6354,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva forskningen på psykologisk trygghet peker på"
+            "text": "Hva peker forskningen på psykologisk trygghet på?"
           },
           {
             "t": "p",
@@ -6374,7 +6374,7 @@
           },
           {
             "t": "h2",
-            "text": "Oppfølging og ny måling"
+            "text": "Hvordan følger dere opp, og når måler dere på nytt?"
           },
           {
             "t": "p",
@@ -6404,7 +6404,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Tre spørsmål i ett begrep"
+            "text": "Hva er rolleklarhet?"
           },
           {
             "t": "p",
@@ -6416,7 +6416,7 @@
           },
           {
             "t": "h2",
-            "text": "Uklare forventninger i lov og forskrift"
+            "text": "Hva sier loven og forskriften om uklare forventninger?"
           },
           {
             "t": "p",
@@ -6450,7 +6450,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvordan rolleklarhet typisk måles"
+            "text": "Hvordan måles rolleklarhet i en undersøkelse?"
           },
           {
             "t": "p",
@@ -6490,7 +6490,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvor uklarheten kommer fra"
+            "text": "Hvor kommer uklarheten fra?"
           },
           {
             "t": "p",
@@ -6513,7 +6513,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre avklaringer som har støtte i forskning"
+            "text": "Hvilke tiltak gjør rollene tydeligere?"
           },
           {
             "t": "p",
@@ -6542,7 +6542,7 @@
           },
           {
             "t": "h2",
-            "text": "Følg opp der tallet var lavest"
+            "text": "Hvordan følger dere opp et lavt tall på rolleklarhet?"
           },
           {
             "t": "p",
@@ -6557,6 +6557,10 @@
           {
             "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
           }
         ]
       },
@@ -6568,7 +6572,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Hva som menes med motstridende krav"
+            "text": "Hva betyr motstridende krav?"
           },
           {
             "t": "p",
@@ -6589,7 +6593,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva arbeidsmiljøloven og forskriften sier"
+            "text": "Hva sier arbeidsmiljøloven og forskriften om motstridende krav?"
           },
           {
             "t": "law",
@@ -6614,7 +6618,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvordan faktoren måles"
+            "text": "Hvordan måles motstridende krav i en undersøkelse?"
           },
           {
             "t": "p",
@@ -6647,7 +6651,7 @@
           },
           {
             "t": "h2",
-            "text": "Slik leser du et lavt resultat"
+            "text": "Hva betyr en lav score på motstridende krav?"
           },
           {
             "t": "p",
@@ -6668,7 +6672,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvor kravene kan kollidere"
+            "text": "Hvor kolliderer kravene oftest?"
           },
           {
             "t": "p",
@@ -6690,7 +6694,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre tiltak rettet mot organiseringen"
+            "text": "Hvilke tiltak hjelper mot motstridende krav?"
           },
           {
             "t": "p",
@@ -6722,7 +6726,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvordan du ser om tiltakene virker"
+            "text": "Hvordan ser dere om tiltakene virker?"
           },
           {
             "t": "p",
@@ -6741,6 +6745,10 @@
           {
             "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
           }
         ]
       },
@@ -6752,7 +6760,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "To problemer under én faktor"
+            "text": "Hva måler faktoren kontakt og kommunikasjon?"
           },
           {
             "t": "p",
@@ -6764,7 +6772,7 @@
           },
           {
             "t": "h2",
-            "text": "Lovens krav"
+            "text": "Hva krever loven om kontakt og kommunikasjon?"
           },
           {
             "t": "law",
@@ -6785,7 +6793,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvor kontakten oftest blir begrenset"
+            "text": "Hvor blir kontakten oftest begrenset?"
           },
           {
             "t": "p",
@@ -6806,7 +6814,7 @@
           },
           {
             "t": "h2",
-            "text": "Påstander som skiller isolasjon fra sikkerhet"
+            "text": "Hvordan måles kontakt og kommunikasjon i en undersøkelse?"
           },
           {
             "t": "p",
@@ -6830,7 +6838,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre spørsmål til et lavt resultat"
+            "text": "Hva betyr en lav score på kontakt og kommunikasjon?"
           },
           {
             "t": "cards",
@@ -6855,7 +6863,7 @@
           },
           {
             "t": "h2",
-            "text": "Tiltak: fra varsling til faste møtepunkter"
+            "text": "Hvilke tiltak hjelper når kontakten er for liten?"
           },
           {
             "t": "p",
@@ -6887,7 +6895,7 @@
           },
           {
             "t": "h2",
-            "text": "Oppfølging og ny kartlegging"
+            "text": "Hvordan følger dere opp, og når kartlegger dere på nytt?"
           },
           {
             "t": "p",
@@ -6906,18 +6914,22 @@
           {
             "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
           }
         ]
       },
       "faktorEmosjon": {
         "title": "Emosjonelle krav: når arbeid med mennesker tærer | Orgpuls",
         "description": "Hva betyr en lav score på emosjonelle krav? Om lovens krav, belastningen i arbeid med mennesker, hvordan tallet leses og tiltak med støtte i forskning.",
-        "h1": "Emosjonelle krav: hva en lav score forteller, og hvordan belastningen kan reduseres",
+        "h1": "Emosjonelle krav: hva betyr en lav score, og hvordan kan belastningen reduseres?",
         "lead": "Påstandene som brukes til å måle emosjonelle krav, spør om støtten rundt det krevende. En lav score betyr derfor at de ansatte står for mye alene med tunge møter, at vanskelige hendelser ikke blir fulgt opp, eller at det ikke er rom for å reagere. Belastningen kan ikke fjernes fra arbeid med mennesker, men den kan deles og følges opp.",
         "blocks": [
           {
             "t": "h2",
-            "text": "En del av jobben – men innenfor grenser"
+            "text": "Hva er emosjonelle krav i arbeidet?"
           },
           {
             "t": "p",
@@ -6946,7 +6958,7 @@
           },
           {
             "t": "h2",
-            "text": "Det rettslige utgangspunktet"
+            "text": "Hva sier loven om emosjonelle krav?"
           },
           {
             "t": "law",
@@ -6967,7 +6979,7 @@
           },
           {
             "t": "h2",
-            "text": "Målingen ser på støtten, ikke bare belastningen"
+            "text": "Hvordan måles emosjonelle krav i en undersøkelse?"
           },
           {
             "t": "p",
@@ -6991,7 +7003,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre spørsmål når tallet er lavt"
+            "text": "Hva betyr en lav score på emosjonelle krav?"
           },
           {
             "t": "ol",
@@ -7016,7 +7028,7 @@
           },
           {
             "t": "h2",
-            "text": "Mulige årsaker å undersøke"
+            "text": "Hva kan årsakene være?"
           },
           {
             "t": "ul",
@@ -7029,7 +7041,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva som hjelper – og hva som ikke gjør det"
+            "text": "Hvilke tiltak hjelper – og hvilke gjør det ikke?"
           },
           {
             "t": "p",
@@ -7066,7 +7078,7 @@
           },
           {
             "t": "h2",
-            "text": "Oppfølging over tid"
+            "text": "Hvordan følger dere opp over tid?"
           },
           {
             "t": "p",
@@ -7085,6 +7097,10 @@
           {
             "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
           }
         ]
       },
@@ -7092,11 +7108,11 @@
         "title": "Støtte fra leder: hva en lav score betyr | Orgpuls",
         "description": "Lav score på støtte fra leder kan handle om tilgjengelighet, innsikt eller trygghet. Hva loven sier, hvordan resultatet leses og hvilke tiltak som virker.",
         "h1": "Støtte fra leder: hva forteller en lav score, og hva kan gjøres?",
-        "lead": "En lav score på støtte fra leder betyr at mange ansatte ikke opplever å få hjelp fra lederen når jobben blir krevende, at lederen ikke kjenner arbeidet godt nok, eller at det er vanskelig å ta opp problemer. Årsaken kan ligge like mye i lederens rammer – antall ansatte, egne oppgaver, avstand til arbeidet – som i lederen selv, og tiltakene bør treffe begge deler.",
+        "lead": "En lav score på støtte fra leder betyr at mange ansatte ikke får hjelp fra lederen når jobben blir krevende, at lederen ikke kjenner arbeidet godt nok, eller at det er vanskelig å ta opp problemer. Årsaken kan ligge like mye i lederens rammer – antall ansatte, egne oppgaver, avstand til arbeidet – som i lederen selv, og tiltakene bør treffe begge deler.",
         "blocks": [
           {
             "t": "h2",
-            "text": "Støtte er mer enn velvilje"
+            "text": "Hva er støtte fra leder?"
           },
           {
             "t": "p",
@@ -7125,7 +7141,7 @@
           },
           {
             "t": "h2",
-            "text": "Lederens plass i regelverket"
+            "text": "Hva sier regelverket om støtte fra leder?"
           },
           {
             "t": "law",
@@ -7146,7 +7162,7 @@
           },
           {
             "t": "h2",
-            "text": "Påstandene bak tallet"
+            "text": "Hvordan måles støtte fra leder i en undersøkelse?"
           },
           {
             "t": "p",
@@ -7166,7 +7182,7 @@
           },
           {
             "t": "h2",
-            "text": "Når resultatet gjelder én leder"
+            "text": "Hva gjør dere når resultatet gjelder én leder?"
           },
           {
             "t": "p",
@@ -7178,7 +7194,7 @@
           },
           {
             "t": "h2",
-            "text": "Se på rammene før atferden"
+            "text": "Hva betyr en lav score på støtte fra leder?"
           },
           {
             "t": "p",
@@ -7200,7 +7216,7 @@
           },
           {
             "t": "h2",
-            "text": "Tiltak med støtte i forskningen"
+            "text": "Hvilke tiltak styrker støtten fra leder?"
           },
           {
             "t": "p",
@@ -7251,6 +7267,10 @@
           {
             "label": "Arbeidsmiljøloven § 4-3 (Lovdata)",
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
           }
         ]
       },
@@ -7262,7 +7282,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "To sider av samme faktor"
+            "text": "Hva er medvirkning og kontroll i arbeidet?"
           },
           {
             "t": "p",
@@ -7279,7 +7299,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva arbeidsmiljøloven krever"
+            "text": "Hva krever arbeidsmiljøloven om medvirkning?"
           },
           {
             "t": "p",
@@ -7308,7 +7328,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvordan faktoren typisk måles"
+            "text": "Hvordan måles medvirkning og kontroll i en undersøkelse?"
           },
           {
             "t": "p",
@@ -7328,7 +7348,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre spørsmål når tallet er lavt"
+            "text": "Hva betyr en lav score på medvirkning og kontroll?"
           },
           {
             "t": "ol",
@@ -7352,7 +7372,7 @@
           },
           {
             "t": "h2",
-            "text": "Typiske forklaringer"
+            "text": "Hva er de vanlige årsakene?"
           },
           {
             "t": "p",
@@ -7374,7 +7394,7 @@
           },
           {
             "t": "h2",
-            "text": "Tiltak med støtte i forskningen"
+            "text": "Hvilke tiltak øker medvirkning og kontroll?"
           },
           {
             "t": "p",
@@ -7406,7 +7426,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvordan du ser om tiltaket virket"
+            "text": "Hvordan ser dere om tiltaket virket?"
           },
           {
             "t": "p",
@@ -7421,6 +7441,10 @@
           {
             "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
             "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
           }
         ]
       },
@@ -7432,7 +7456,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Et lovkrav med to sider"
+            "text": "Hva sier loven om integritet og verdighet?"
           },
           {
             "t": "p",
@@ -7470,7 +7494,7 @@
           },
           {
             "t": "h2",
-            "text": "Respekt, skjønn og grenser"
+            "text": "Hvordan måles integritet og verdighet i en undersøkelse?"
           },
           {
             "t": "p",
@@ -7508,7 +7532,7 @@
           },
           {
             "t": "h2",
-            "text": "Små grupper, store utslag"
+            "text": "Hva betyr et lavt tall i en liten gruppe?"
           },
           {
             "t": "p",
@@ -7537,7 +7561,7 @@
           },
           {
             "t": "h2",
-            "text": "Rutinene loven forutsetter"
+            "text": "Hvilke rutiner forutsetter loven?"
           },
           {
             "t": "p",
@@ -7549,7 +7573,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre grep med støtte i forskningen"
+            "text": "Hvilke tiltak har støtte i forskningen?"
           },
           {
             "t": "ol",
@@ -7565,7 +7589,7 @@
           },
           {
             "t": "h2",
-            "text": "Oppfølging over tid"
+            "text": "Hvordan følger dere opp over tid?"
           },
           {
             "t": "p",
@@ -7641,7 +7665,7 @@
           },
           {
             "t": "h2",
-            "text": "Hjelp, kunnskap og tilhørighet"
+            "text": "Hvordan måles kollegastøtte i en undersøkelse?"
           },
           {
             "t": "p",
@@ -7670,7 +7694,7 @@
           },
           {
             "t": "h2",
-            "text": "Slik bør resultatet leses"
+            "text": "Hva betyr en lav score på kollegastøtte?"
           },
           {
             "t": "ul",
@@ -7704,7 +7728,7 @@
           },
           {
             "t": "h2",
-            "text": "Støtte bygges i arbeidet"
+            "text": "Hvilke tiltak styrker kollegastøtten?"
           },
           {
             "t": "p",
@@ -7744,6 +7768,10 @@
           {
             "label": "Forskrift om utførelse av arbeid, kapittel 1A, med Arbeidstilsynets kommentarer",
             "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
           }
         ]
       },
@@ -7755,7 +7783,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Ikke i forskriftens liste, men forankret i loven"
+            "text": "Hva sier loven om anerkjennelse og mening?"
           },
           {
             "t": "p",
@@ -7789,7 +7817,7 @@
           },
           {
             "t": "h2",
-            "text": "En beskyttende faktor"
+            "text": "Hvorfor er anerkjennelse og mening en beskyttende faktor?"
           },
           {
             "t": "p",
@@ -7801,7 +7829,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre påstander som måler ulike ting"
+            "text": "Hvordan måles anerkjennelse og mening i en undersøkelse?"
           },
           {
             "t": "p",
@@ -7887,7 +7915,7 @@
           },
           {
             "t": "h2",
-            "text": "Følg med uten å vente et år"
+            "text": "Hvordan følger dere opp uten å vente et år?"
           },
           {
             "t": "p",
@@ -7967,7 +7995,7 @@
           },
           {
             "t": "h2",
-            "text": "Les resultatene i en fast rekkefølge"
+            "text": "Hvordan bør resultatene leses?"
           },
           {
             "t": "p",
@@ -8033,7 +8061,7 @@
           },
           {
             "t": "h2",
-            "text": "Finn årsaken sammen med dem det gjelder"
+            "text": "Hvordan finner dere årsaken?"
           },
           {
             "t": "p",
@@ -8053,7 +8081,7 @@
           },
           {
             "t": "h2",
-            "text": "Rett tiltaket mot årsaken, ikke symptomet"
+            "text": "Hva kjennetegner et godt tiltak?"
           },
           {
             "t": "p",
@@ -8061,7 +8089,7 @@
           },
           {
             "t": "h2",
-            "text": "Skriv tiltaket slik at det kan følges opp"
+            "text": "Hvordan skriver dere et tiltak som kan følges opp?"
           },
           {
             "t": "p",
@@ -8202,7 +8230,7 @@
           },
           {
             "t": "h2",
-            "text": "Et opplegg på en time"
+            "text": "Hvordan legger dere opp et møte på en time?"
           },
           {
             "t": "timeline",
@@ -8235,7 +8263,7 @@
           },
           {
             "t": "h2",
-            "text": "Spørsmål som åpner samtalen"
+            "text": "Hvilke spørsmål åpner samtalen?"
           },
           {
             "t": "ul",
@@ -8265,7 +8293,7 @@
           },
           {
             "t": "h2",
-            "text": "Fire ting å unngå"
+            "text": "Hva bør dere unngå?"
           },
           {
             "t": "cards",
@@ -8290,7 +8318,7 @@
           },
           {
             "t": "h2",
-            "text": "Etter møtet"
+            "text": "Hva skjer etter møtet?"
           },
           {
             "t": "p",
@@ -8399,7 +8427,7 @@
           },
           {
             "t": "h2",
-            "text": "En arbeidsmåte i fire steg"
+            "text": "Hvordan gjør dere risikovurderingen i praksis?"
           },
           {
             "t": "p",
@@ -8466,7 +8494,7 @@
           },
           {
             "t": "h2",
-            "text": "Fra vurdering til tiltak"
+            "text": "Hva skjer etter risikovurderingen?"
           },
           {
             "t": "p",
@@ -8496,7 +8524,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Travelt er lov – for stor belastning er det ikke"
+            "text": "Når blir arbeidsmengde og tidspress et arbeidsmiljøproblem?"
           },
           {
             "t": "p",
@@ -8530,7 +8558,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre spørsmål som fanger opp ubalansen"
+            "text": "Hvordan måles arbeidsmengde og tidspress i en undersøkelse?"
           },
           {
             "t": "p",
@@ -8550,7 +8578,7 @@
           },
           {
             "t": "h2",
-            "text": "Slik tolkes et lavt tall"
+            "text": "Hva betyr et lavt tall på arbeidsmengde og tidspress?"
           },
           {
             "t": "p",
@@ -8571,7 +8599,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvor belastningen vanligvis kommer fra"
+            "text": "Hvor kommer belastningen vanligvis fra?"
           },
           {
             "t": "p",
@@ -8590,7 +8618,7 @@
           },
           {
             "t": "h2",
-            "text": "Tiltak med støtte i forskning"
+            "text": "Hvilke tiltak mot arbeidsmengde og tidspress har støtte i forskning?"
           },
           {
             "t": "p",
@@ -8646,6 +8674,10 @@
           {
             "label": "Psykososialt arbeidsmiljø (Arbeidstilsynet)",
             "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Brukerveiledning QPSNordic (STAMI)",
+            "url": "https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/"
           }
         ]
       },
@@ -9040,7 +9072,7 @@
           },
           {
             "t": "h2",
-            "text": "Vanlige feil"
+            "text": "Hvilke feil er vanlige?"
           },
           {
             "t": "ul",
@@ -9108,7 +9140,7 @@
         "title": "Medarbeiderundersøkelse: hvilke spørsmål bør med? | Orgpuls",
         "description": "Hvilke spørsmål bør en medarbeiderundersøkelse ha? Faktorene regelverket peker på, eksempler på påstander, svarskalaen og hvorfor færre spørsmål er bedre.",
         "h1": "Hvilke spørsmål bør være med i en medarbeider­undersøkelse?",
-        "lead": "En medarbeiderundersøkelse som skal brukes til å kartlegge det psykososiale arbeidsmiljøet, bør dekke faktorene arbeidsmiljøloven og forskriften peker på: krav og forventninger, arbeidsmengde, emosjonelle belastninger, støtte, innflytelse, kontakt, respekt, trakassering og vold. Spørsmålene fungerer best som korte påstander om egen arbeidshverdag, besvart på en femdelt skala – og det bør ikke være flere av dem enn virksomheten er villig til å følge opp.",
+        "lead": "En medarbeiderundersøkelse som skal kartlegge det psykososiale arbeidsmiljøet, bør dekke faktorene arbeidsmiljøloven og forskriften peker på. Det er krav og forventninger, arbeidsmengde, emosjonelle belastninger, støtte, innflytelse, kontakt, respekt, trakassering og vold. Spørsmålene fungerer best som korte påstander om egen arbeidshverdag, besvart på en femdelt skala – og det bør ikke være flere av dem enn virksomheten er villig til å følge opp.",
         "blocks": [
           {
             "t": "h2",
@@ -9141,7 +9173,7 @@
           },
           {
             "t": "h2",
-            "text": "Temaene og eksempler på påstander"
+            "text": "Hvilke temaer bør med, og hvordan lyder påstandene?"
           },
           {
             "t": "p",
@@ -9223,7 +9255,7 @@
           },
           {
             "t": "h2",
-            "text": "Trakassering, vold og trusler"
+            "text": "Hvordan spør man om trakassering, vold og trusler?"
           },
           {
             "t": "p",
@@ -9239,7 +9271,7 @@
           },
           {
             "t": "h2",
-            "text": "Spørsmål utenfor temaene"
+            "text": "Hvilke spørsmål hører hjemme utenfor temaene?"
           },
           {
             "t": "ul",
@@ -9270,7 +9302,7 @@
           },
           {
             "t": "h2",
-            "text": "Anonymitet avgjør om svarene er ærlige"
+            "text": "Hvorfor avgjør anonymiteten om svarene er ærlige?"
           },
           {
             "t": "p",
@@ -9387,7 +9419,7 @@
           },
           {
             "t": "h2",
-            "text": "Hovedkartlegging og oppfølgingsmåling"
+            "text": "Hva er forskjellen på hovedkartlegging og oppfølgingsmåling?"
           },
           {
             "t": "p",
@@ -9412,7 +9444,7 @@
           },
           {
             "t": "h2",
-            "text": "Et eksempel på et årshjul"
+            "text": "Hvordan kan et årshjul se ut?"
           },
           {
             "t": "timeline",
@@ -9475,7 +9507,7 @@
           },
           {
             "t": "h2",
-            "text": "Små virksomheter"
+            "text": "Hva gjelder for små virksomheter?"
           },
           {
             "t": "p",
@@ -9521,7 +9553,7 @@
           },
           {
             "t": "h2",
-            "text": "Kartleggingen gjelder arbeidsmiljøet, ikke enkeltpersoner"
+            "text": "Gjelder kartleggingen enkeltpersoner eller arbeidsmiljøet?"
           },
           {
             "t": "p",
@@ -9538,7 +9570,7 @@
           },
           {
             "t": "h2",
-            "text": "Tre måter anonymiteten brytes på"
+            "text": "Hvordan brytes anonymiteten?"
           },
           {
             "t": "h3",
@@ -9550,11 +9582,11 @@
           },
           {
             "t": "h3",
-            "text": "2. Gruppen er for liten"
+            "text": "2. Gruppen er for liten: hvor mange svar må til?"
           },
           {
             "t": "p",
-            "text": "En avdeling på tre er gjenkjennelig selv om ingen navn står noe sted. Løsningen er en nedre grense: ingen gruppe vises før et minimum har svart. Fem er en vanlig grense. Et lite team kan ha grunn til å gå ned til tre, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            "text": "Minst fem svar før en gruppe vises er den vanlige nedre grensen. En avdeling på tre er gjenkjennelig selv om ingen navn står noe sted, så ingen gruppe bør vises før et minimum har svart. Et lite team kan ha grunn til å gå ned til tre, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
           },
           {
             "t": "p",
@@ -9575,7 +9607,7 @@
           },
           {
             "t": "h2",
-            "text": "Påminnelser uten å vite hvem som mangler"
+            "text": "Hvordan sender dere påminnelser uten å vite hvem som mangler?"
           },
           {
             "t": "p",
@@ -9583,7 +9615,7 @@
           },
           {
             "t": "h2",
-            "text": "Kommentarer er vanskeligst å holde anonyme"
+            "text": "Kan fritekstkommentarer være anonyme?"
           },
           {
             "t": "p",
@@ -9618,7 +9650,7 @@
           },
           {
             "t": "h2",
-            "text": "Slik forklarer du anonymiteten til de ansatte"
+            "text": "Hvordan forklarer du anonymiteten til de ansatte?"
           },
           {
             "t": "p",
@@ -9787,7 +9819,7 @@
           },
           {
             "t": "h2",
-            "text": "Arbeidsmiljøutvalget og de tillitsvalgte"
+            "text": "Hvilken rolle har arbeidsmiljøutvalget og de tillitsvalgte?"
           },
           {
             "t": "p",
@@ -9799,7 +9831,7 @@
           },
           {
             "t": "h2",
-            "text": "Situasjoner verneombudet kan møte"
+            "text": "Hvilke situasjoner kan verneombudet møte?"
           },
           {
             "t": "h3",
@@ -9887,7 +9919,7 @@
           },
           {
             "t": "h2",
-            "text": "Slik skal kartleggingen gjøres"
+            "text": "Hvordan skal kartleggingen gjøres?"
           },
           {
             "t": "p",
@@ -9904,7 +9936,7 @@
           },
           {
             "t": "h2",
-            "text": "Metoden velger dere selv"
+            "text": "Må kartleggingen gjøres med en spørreundersøkelse?"
           },
           {
             "t": "p",
@@ -9938,7 +9970,7 @@
           },
           {
             "t": "h2",
-            "text": "De ansatte og verneombudet skal være med"
+            "text": "Hvem skal være med?"
           },
           {
             "t": "p",
@@ -10053,7 +10085,7 @@
           },
           {
             "t": "h2",
-            "text": "Metodene: bruk mer enn én kilde"
+            "text": "Hvilke metoder kan dere bruke?"
           },
           {
             "t": "p",
@@ -10110,7 +10142,7 @@
           },
           {
             "t": "h2",
-            "text": "Slik gjør dere det, steg for steg"
+            "text": "Hvordan gjør dere en arbeidsmiljøkartlegging steg for steg?"
           },
           {
             "t": "ol",
@@ -10186,7 +10218,7 @@
     "pages": {
       "plattform": {
         "title": "Plattformen: kartlegging, tiltak og oppfølging | Orgpuls",
-        "description": "Anonym arbeidsmiljøundersøkelse med resultat per faktor og avdeling. Tiltak med eier og frist, puls som viser om de virket, og rapport til Arbeidstilsynet.",
+        "description": "Anonym arbeidsmiljøundersøkelse per faktor og avdeling, tiltak med eier og frist, pulsundersøkelser som viser om de virket, og rapport til Arbeidstilsynet.",
         "crumb": "Plattform",
         "kicker": "Plattformen",
         "h1": "Én plattform for hele runden: kartlegge, forstå, handle og se at det virket",
@@ -10604,7 +10636,7 @@
           },
           {
             "t": "p",
-            "text": "Les mer om [hva anonymt må bety i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
+            "text": "Les mer om [hva anonymt må bety i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse), og om [hva et verktøy for medarbeiderundersøkelse bør klare](/verktoy-for-medarbeiderundersokelse)."
           },
           {
             "t": "box",
@@ -11078,7 +11110,7 @@
         ]
       },
       "bransjer": {
-        "title": "Bransjer: arbeidsmiljøundersøkelse med egne bransjemoduler | Orgpuls",
+        "title": "Bransjer: arbeidsmiljøundersøkelse med bransjemoduler | Orgpuls",
         "description": "Egne spørsmål for bygg og anlegg, helse og omsorg, barnehage og skole, kunnskap og kontor og handel, i tillegg til hovedundersøkelsen. Anonymt, med tiltak.",
         "crumb": "Bransjer"
       }
@@ -13027,7 +13059,7 @@
       "handel": {
         "nav": "Handel",
         "seo": {
-          "title": "Arbeidsmiljø i butikk og varehandel: risiko, tall og lovkrav | Orgpuls",
+          "title": "Arbeidsmiljø i butikk og varehandel: risiko og lovkrav | Orgpuls",
           "description": "Vold og trusler, alenevakter, krevende kunder og bemanning i butikk: tall fra Fafo, STAMI og SSB, og hva arbeidsmiljøloven krever av arbeidsgiveren."
         },
         "hero": {
@@ -13366,7 +13398,8 @@
           "sporsmal": "Alle spørsmålene i handel-modulen",
           "lovkrav": "Lovkravet forklart",
           "priser": "Priser",
-          "smaa": "Arbeidsmiljøkartlegging for små bedrifter"
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
+          "verktoy": "Slik velger dere verktøy for medarbeiderundersøkelse"
         },
         "sources": {
           "fafo": "Fafo-notat 2024:17: Arbeid utenom ordinær dagtid – detaljhandel (Andersen og Nergaard), spørreundersøkelse blant 6 198 butikkansatte i Handel og Kontor og 700 virksomheter, høsten 2023",
@@ -13734,7 +13767,8 @@
           "lovkrav": "Lovkravet forklart",
           "verneombud": "Verneombudet og kartleggingen",
           "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
-          "priser": "Priser"
+          "priser": "Priser",
+          "verktoy": "Slik velger dere verktøy for medarbeiderundersøkelse"
         },
         "sources": {
           "at_kompass26": "Arbeidstilsynet og STAMI, Kompass nr. 1 2026: Ulykker i bygg og anlegg – rapport 2025",
@@ -13754,7 +13788,7 @@
       "kontor": {
         "nav": "Kunnskap og kontor",
         "seo": {
-          "title": "Arbeidsmiljø i kunnskap og kontor: risiko, tall og lovkrav | Orgpuls",
+          "title": "Arbeidsmiljø i kunnskap og kontor: risiko og lovkrav | Orgpuls",
           "description": "Tilgjengelighet, fokus, hjemmekontor og omstilling i kunnskaps- og kontorarbeid: tall fra STAMI, Fafo og SSB, og hva arbeidsmiljøloven krever."
         },
         "hero": {
@@ -14178,7 +14212,8 @@
           "lovkrav": "Lovkravet forklart",
           "verneombud": "Verneombudet og kartleggingen",
           "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
-          "priser": "Priser"
+          "priser": "Priser",
+          "verktoy": "Slik velger dere verktøy for medarbeiderundersøkelse"
         },
         "sources": {
           "ssb_aku": "SSB, tabell 07203: Sysselsatte (AKU) etter næring, 2025",
@@ -14571,7 +14606,8 @@
           "lovkrav": "Lovkravet forklart",
           "verneombud": "Verneombudet og kartleggingen",
           "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
-          "priser": "Priser"
+          "priser": "Priser",
+          "verktoy": "Slik velger dere verktøy for medarbeiderundersøkelse"
         },
         "sources": {
           "ssb_aku": "SSB, tabell 07203: Sysselsatte (AKU) etter næring og heltid/deltid, 2025",
@@ -14593,7 +14629,7 @@
       "barnehage": {
         "nav": "Barnehage og skole",
         "seo": {
-          "title": "Arbeidsmiljø i barnehage og skole: risiko, tall og lovkrav | Orgpuls",
+          "title": "Arbeidsmiljø i barnehage og skole: risiko og lovkrav | Orgpuls",
           "description": "Vold fra barn og elever, bemanning, dokumentasjon og tunge saker i barnehage og skole: tall fra STAMI, SSB, NIFU og Udir, og hva loven krever."
         },
         "hero": {
@@ -14976,7 +15012,8 @@
           "lovkrav": "Lovkravet forklart",
           "verneombud": "Verneombudet og kartleggingen",
           "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
-          "priser": "Priser"
+          "priser": "Priser",
+          "verktoy": "Slik velger dere verktøy for medarbeiderundersøkelse"
         },
         "sources": {
           "noa_bhg": "STAMI, NOA: Fakta om arbeidsmiljøet i barnehage og skolefritidsordning, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
@@ -15409,7 +15446,7 @@
   "demo": {
     "title": "Se hele Orgpuls – med en ferdig kartlagt virksomhet",
     "metaTitle": "Prøv Orgpuls-demoen",
-    "metaDescription": "Din egen kopi av en ferdig kartlagt virksomhet: tre år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Fiktive data, ingenting sendes.",
+    "metaDescription": "Din kopi av en ferdig kartlagt virksomhet: tre år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Fiktive data, ingenting sendes.",
     "badge": "Demo",
     "lead": "Du får din egen kopi av Demobedriften AS: 64 fiktive ansatte i 6 avdelinger, 3 år med kartlegginger, tiltak, samtaler og en ferdig rapport til Arbeidstilsynet. Klikk deg rundt som daglig leder, og se hva dere får ut av Orgpuls.",
     "points": [
