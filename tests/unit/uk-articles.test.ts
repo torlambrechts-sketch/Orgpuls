@@ -79,6 +79,7 @@ const blockText = (blocks: Block[]): string[] =>
         return b.items.flatMap((i) => [i.date, i.title, i.text ?? ''])
       case 'plans':
       case 'shot':
+      case 'qps':
         return []
       default:
         return [b.text]

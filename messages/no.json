@@ -11471,15 +11471,23 @@
         "teaser": "Et ferdig utfylt årshjul i Excel for kartlegging, vurdering og oppfølging gjennom året."
       },
       "qps": {
-        "title": "QPSNordic 34+: spørreskjema om arbeidsmiljø | Orgpuls",
-        "description": "Det nordiske spørreskjemaet QPSNordic 34+ ordrett, klart til utskrift i Word, med svarregistrering i Excel som regner ut resultatene. Gratis.",
+        "title": "QPSNordic 34+: gratis mal for medarbeiderundersøkelse | Orgpuls",
+        "description": "QPSNordic 34+ ordrett i Word, med svarregistrering i Excel. Alle 37 spørsmålene, hvordan dere skårer svarene, og hva veiledningen krever. Gratis.",
         "crumb": "QPSNordic 34+",
         "kicker": "Gratis mal",
         "h1": "QPSNordic 34+: det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeid",
-        "lead": "Kortversjonen av QPSNordic, ordrett som Statens arbeidsmiljøinstitutt har gitt den ut, satt opp for utskrift. Med et regneark der dere registrerer svarene og får antall svar, middelverdi og fordeling per spørsmål.",
+        "lead": "Kortversjonen av QPSNordic, ordrett som Statens arbeidsmiljøinstitutt har gitt den ut, satt opp for utskrift. Med et regneark der dere registrerer svarene og får antall svar, middelverdi og fordeling per spørsmål. På denne siden står også alle 37 spørsmålene, hvordan de skåres, og hva veiledningen krever av dere.",
         "files": {
           "qpsnordic-34-sporreskjema.docx": "Spørreskjema (Word)",
           "qpsnordic-34-svarregistrering.xlsx": "Svarregistrering (Excel)"
+        },
+        "table": {
+          "background": "Bakgrunnsspørsmål",
+          "answers": "Svaralternativer",
+          "n": "Nr.",
+          "text": "Spørsmål",
+          "qps": "Nr. i QPSNordic",
+          "none": "–"
         },
         "blocks": [
           {
@@ -11488,34 +11496,84 @@
           },
           {
             "t": "p",
-            "text": "QPSNordic er et spørreskjema for kartlegging av psykologiske, sosiale og organisatoriske faktorer i arbeid. Det ble utviklet av forskere fra Norge, Sverige, Danmark og Finland i et prosjekt Nordisk ministerråd startet i 1994, og prøvd ut i alle fire land. Statens arbeidsmiljøinstitutt (STAMI) ga ut brukerveiledningen i 2001."
+            "text": "QPSNordic – General Nordic Questionnaire for Psychological and Social Factors at Work – er et spørreskjema for kartlegging av psykologiske, sosiale og organisatoriske faktorer i arbeid. Det ble utviklet av forskere ved arbeidsmiljøinstituttene i Norge, Sverige, Danmark og Finland i et prosjekt Nordisk ministerråd startet i 1994 og finansierte, og prøvd ut i alle fire land. Statens arbeidsmiljøinstitutt (STAMI) ga ut den norske brukerveiledningen i 2001."
           },
           {
             "t": "p",
-            "text": "Brukerveiledningen sier at spørreskjemaet kan kopieres, og at man kan lage egne systemer for registrering, analyse og rapportering. Kortversjonen, QPSNordic 34+, har 37 spørsmål og sju bakgrunnsspørsmål."
+            "text": "Fullversjonen har 129 spørsmål. 80 av dem inngår i 26 skalaer som dekker krav og kontroll i arbeidet, forutsigbarhet og mestring, sosialt samspill, ledelse, organisasjonskultur og -klima, samspillet mellom arbeid og privatliv, hvor sentral jobben er i livet, tilknytning til organisasjonen og arbeidsmotivasjon. Skjemaet er laget for tre formål: utviklingsarbeid og tiltak i virksomheter, forskning på sammenhengen mellom arbeid og helse, og dokumentasjon av endringer i arbeidsforhold."
           },
           {
             "t": "h2",
-            "text": "Dette får du"
+            "text": "Hva er forskjellen på QPSNordic og QPSNordic 34+?"
+          },
+          {
+            "t": "p",
+            "text": "QPSNordic 34+ er kortversjonen som står i brukerveiledningen: 37 spørsmål og sju bakgrunnsspørsmål, uten skalaer. 34 av spørsmålene er hentet fra fullversjonen – nummeret i tabellen nedenfor er spørsmålets nummer der – og tre (35–37) står uten nummer derfra: to om hvor stor plass jobben har i livet, og ett om stress. Fordi kortversjonen ikke har skalaer, gjelder ikke testingen av validitet og reliabilitet som er gjort for QPSNordic, for den. Resultatene leses per spørsmål."
+          },
+          {
+            "t": "p",
+            "text": "Fullversjonen passer når dere vil bruke skalaene og sammenligne med de nordiske referansetallene; kortversjonen når dere vil ha en kort, gjennomprøvd ordlyd og lese svarene spørsmål for spørsmål."
+          },
+          {
+            "t": "h2",
+            "text": "Hva spør QPSNordic 34+ om?"
+          },
+          {
+            "t": "p",
+            "text": "Alle 37 spørsmålene, med svaralternativene veiledningen gir dem. Ordlyden er veiledningens egen (vedlegg 2, s. 36–38); vi har ikke endret et ord. Først sju bakgrunnsspørsmål, så de 37 spørsmålene i seks grupper etter svarskala."
+          },
+          {
+            "t": "qps"
+          },
+          {
+            "t": "p",
+            "text": "Bakgrunnsspørsmålene kan gjøre et svar gjenkjennelig i en liten gruppe: fødselsår, kjønn og avdeling er ofte nok til å peke ut én person. Ta bare med dem dere trenger for å dele opp resultatene, og aldri flere enn gruppene tåler. Les om [hvor mange svar som må til](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "Hvordan skårer dere svarene?"
+          },
+          {
+            "t": "p",
+            "text": "Hvert spørsmål besvares på en femdelt skala, og svarene registreres som tallene 1 til 5 – 1 for det første svaralternativet, 5 for det siste. Høy verdi betyr «ofte» eller «mye». Det er bra på noen spørsmål, som støtte fra kollegaer (nr. 17), og dårlig på andre, som for mye å gjøre (nr. 2). Les hvert spørsmål for seg."
           },
           {
             "t": "ul",
             "items": [
-              "**Spørreskjemaet** i Word, med veiledningens egen innledning, bakgrunnsspørsmålene og alle 37 spørsmålene med svarskalaene",
-              "**Svarregistreringen** i Excel: én rad per skjema, og en oppsummering med antall svar, middelverdi, median og fordeling per spørsmål"
+              "Veiledningen anbefaler ingen statistiske analyser for grupper under 10 personer. Svarregistreringen viser derfor ingenting for et spørsmål før minst 10 har svart på det.",
+              "For 10–20 personer anbefaler den middelverdi og median, og at svarene slås sammen til tre kategorier: 1–2, 3 og 4–5. Det er det oppsummeringen i regnearket viser.",
+              "For grupper over 20 anbefaler den fulle prosentfordelinger."
             ]
           },
           {
+            "t": "box",
+            "title": "Slik virker svarregistreringen",
+            "text": "Én rad per skjema på arket «Svar», ett tall fra 1 til 5 per spørsmål, tomt der spørsmålet ikke er besvart. Arket «Oppsummering» regner ut antall svar, middelverdi, median og andelene 1–2, 3 og 4–5 per spørsmål, og står tomt til minst 10 har svart. Ikke registrer navn eller noe annet som kan knytte et skjema til en person."
+          },
+          {
             "t": "h2",
-            "text": "Før dere bruker det"
+            "text": "Hva krever veiledningen av dere?"
           },
           {
             "t": "ul",
             "items": [
-              "Kortversjonen har ingen skalaer, og veiledningen sier at testingen av validitet og reliabilitet som er gjort for QPSNordic, ikke gjelder for den. Se på spørsmålene ett og ett.",
-              "Veiledningen anbefaler ikke statistiske analyser for grupper under 10 personer. Svarregistreringen viser derfor ingenting før minst 10 har svart.",
-              "De ansatte skal på forhånd få vite hva undersøkelsen skal brukes til, og hvordan anonymiteten sikres. Det skal være frivillig å delta, og ingen resultater om enkeltpersoner skal presenteres."
+              "De ansatte skal på forhånd få vite hva undersøkelsen skal brukes til, hvordan den gjennomføres, og hvordan anonymiteten sikres.",
+              "Det skal være frivillig å delta.",
+              "Alle som svarer, er sikret konfidensialitet, og ingen resultater om enkeltpersoner skal presenteres.",
+              "Resultatene skal tilbake til dem som svarte, og følges opp. Veiledningen beskriver en kartleggings- og tilbakemeldingsprosess med en styringsgruppe der ledelse og ansatte er med."
             ]
+          },
+          {
+            "t": "p",
+            "text": "[Informasjonsskrivet og sjekklisten](/maler/informasjonsskriv-og-sjekkliste) dekker punktene veiledningen stiller til informasjonen før en kartlegging."
+          },
+          {
+            "t": "h2",
+            "text": "Kan dere bruke QPSNordic fritt?"
+          },
+          {
+            "t": "p",
+            "text": "Ja. Brukerveiledningen har ingen lisenstekst og krever verken avgift, registrering eller avtale. Under «Krav til ressurser» sier den:"
           },
           {
             "t": "quote",
@@ -11524,7 +11582,53 @@
           },
           {
             "t": "p",
-            "text": "Kilde: Skogstad, A., Knardahl, S., Lindström, K., Elo, A.-L., Dallner, M., Gamberale, F., Hottinen, V. og Ørhede, E. (2001). Brukerveiledning QPSNordic. STAMI-rapport årg. 2, nr. 1. Statens arbeidsmiljøinstitutt."
+            "text": "Det er grunnlaget for denne malen: spørsmålene er gjengitt ordrett, med veiledningen som kilde. Bruker dere skjemaet selv, bør dere gjøre det samme – oppgi kilden, og la ordlyden stå. Det er den som er prøvd ut, og som gjør svarene sammenlignbare med andres."
+          },
+          {
+            "t": "h2",
+            "text": "Dekker QPSNordic 34+ kravene i forskriften kapittel 1A?"
+          },
+          {
+            "t": "p",
+            "text": "Delvis. Forskrift om utførelse av arbeid § 1A-1 nevner «blant annet» uklare eller motstridende krav, emosjonelle krav, arbeidsmengde og tidspress, støtte og hjelp, mulighet for kontakt og kommunikasjon med andre, trakassering, vold og trusler, og selvbestemmelse og innflytelse. QPSNordic 34+ spør om arbeidsmengde (nr. 1–2), klare mål og forventninger og motstridende forespørsler (7–9), innflytelse (10–13), støtte fra kollegaer og nærmeste sjef (17–18), kommunikasjon i avdelingen (29), konflikter og forskjellsbehandling (30–32). Det har ingen spørsmål om emosjonelle krav, trakassering eller vold og trusler – veiledningen er fra 2001, forskriftens kapittel fra 2026. Bruker dere kortversjonen som kartlegging etter forskriften, må de faktorene dekkes på annen måte. Hva loven krever av kartleggingen, står i [kravene til kartlegging](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Kilder"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "[Skogstad, A., Knardahl, S., Lindström, K., Elo, A.-L., Dallner, M., Gamberale, F., Hottinen, V. og Ørhede, E. (2001). Brukerveiledning QPSNordic. Generelt spørreskjema for psykologiske og sosiale faktorer i arbeid. STAMI-rapport årg. 2, nr. 1. Oslo: Statens arbeidsmiljøinstitutt.](https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/) Spørsmålene er fra vedlegg 2, s. 36–38; grensene for gruppestørrelse fra s. 14–15.",
+              "Dallner, M., Elo, A.-L., Gamberale, F., Hottinen, V., Knardahl, S., Lindström, K., Skogstad, A. og Ørhede, E. (2000). Validation of the General Nordic Questionnaire (QPSNordic) for Psychological and Social Factors at Work. Nord 2000:12. København: Nordisk ministerråd.",
+              "[QPSNordic i Svensk nationell datatjänst (SND)](https://researchdata.se/en/catalogue/dataset/snd0837-1): skjemaets omfang, områder, formål og publikasjoner."
+            ]
+          }
+        ],
+        "faq": [
+          {
+            "q": "Er QPSNordic gratis å bruke?",
+            "a": "Ja. Brukerveiledningen sier at spørreskjemaet kan kopieres, og at man kan lage egne systemer for registrering, analyse og rapportering. Den krever verken avgift, registrering eller avtale. Oppgi veiledningen som kilde, og la ordlyden stå."
+          },
+          {
+            "q": "Hvor mange spørsmål har QPSNordic 34+?",
+            "a": "37 spørsmål og sju bakgrunnsspørsmål. 34 av spørsmålene er hentet fra fullversjonen, som har 129 spørsmål, 80 av dem fordelt på 26 skalaer."
+          },
+          {
+            "q": "Hvor mange må svare før dere kan se resultater?",
+            "a": "Veiledningen anbefaler ingen statistiske analyser for grupper under 10 personer, og svarregistreringen i malen viser derfor ingenting for et spørsmål før minst 10 har svart på det. For 10–20 anbefaler den middelverdi, median og tre svarkategorier; for grupper over 20 fulle prosentfordelinger."
+          },
+          {
+            "q": "Finnes QPSNordic på andre språk enn norsk?",
+            "a": "Ja. Skjemaet ble utviklet og prøvd ut i Norge, Sverige, Danmark og Finland, og Nordisk ministerråd har gitt ut valideringsrapporten og en brukerveiledning på engelsk (Nord 2000:12 og TemaNord 2000:603). Malen her er den norske kortversjonen."
+          },
+          {
+            "q": "Kan vi endre spørsmålene eller legge til egne?",
+            "a": "La ordlyden i QPSNordic stå som den er; det er den som er prøvd ut, og som gjør svarene sammenlignbare. Egne spørsmål kan dere legge til etter de 37, tydelig skilt fra dem, så lenge de ikke kan knytte et svar til en person."
+          },
+          {
+            "q": "Hva er forskjellen på QPSNordic 34+ og spørreskjemaet i Orgpuls?",
+            "a": "Orgpuls bruker ikke QPSNordic ordrett. Påstandene er skrevet om fra QPSNordic-spørsmål til påstander de ansatte sier seg enige eller uenige i, ordnet etter de elleve faktorene arbeidsmiljøloven § 4-3 og forskriften kapittel 1A nevner – også emosjonelle krav, krenkende atferd og vold og trusler, som kortversjonen ikke spør om. QPSNordic 34+ er gratis og på papir; Orgpuls samler svarene anonymt og viser dem per gruppe."
           }
         ],
         "teaser": "Det nordiske spørreskjemaet QPSNordic 34+ klart til utskrift, med et regneark som regner ut svarene."

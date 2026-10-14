@@ -14342,3 +14342,52 @@ sentence; every page title on Norway's site is at most 65 characters, the questi
 page is in every industry page's related list and in /sikkerhet's text and links /plattform; the Organization's
 founding date and address. `tests/unit/seo-descriptions.test.ts` covers the shortened descriptions. The page map is
 re-crawled (the industry pages gained a text).
+
+## D-283 — The QPSNordic 34+ page: what the instrument is, the items themselves, and the questions around them (2026-10-14)
+
+Tor, 14 October 2026: «Enrich the QPSNordic template page and suggest pages to add if any.» The template's page was the
+first page Google sent a visitor to (Sentral, 13 October) and had 299 words: what QPSNordic is in two paragraphs, the
+two files, three cautions, the manual's permission to copy, and the source.
+
+**What the page holds now,** in Norwegian and English (`seo.maler.qps`), every fact from a source the page names:
+1. **What QPSNordic is.** The four Nordic working-environment institutes and the Nordic Council of Ministers; the full
+   version's 129 questions, 80 of them in 26 scales, and the areas they cover; its three purposes. From the SND
+   catalogue entry (researchdata.se, snd0837-1) and STAMI's publication page, which the page links.
+2. **The difference between QPSNordic and 34+.** 37 questions and seven background questions, without scales; 34 of
+   them numbered from the full version, three (35–37) without; the validity and reliability testing does not apply;
+   read per question (manual p. 2, X-107).
+3. **The items themselves.** A block kind `qps` (`lib/marketing/blocks.ts`, `components/marketing/QpsItems.tsx`)
+   draws them from `scripts/maler/qpsnordic34.json` through `lib/marketing/qpsnordic.ts` – the file the Word and
+   Excel are built from (D-241), parsed with zod – so the page cannot show a wording the files do not carry. Seven
+   background questions, then the 37 items in six groups by answer scale, each group under its five options as they
+   score 1–5, with the item's number in the full QPSNordic. Norwegian on both language versions, as the files are;
+   the column heads and labels are messages (`seo.maler.qps.table`). The `table` block's renderer moved to
+   `DataTable.tsx`, which both use.
+4. **How to score.** 1–5; a high value means often or much, good on some items and bad on others; the manual's group
+   sizes (no statistics under 10; mean, median and three categories for 10–20; full distributions over 20, pp. 14–15)
+   and what the Excel does with them.
+5. **What the manual requires.** Information beforehand, voluntary, confidentiality, no results about individuals,
+   feedback with a steering group (pp. 5, 6, 18, 19 per X-107), with a link to the information-letter template.
+6. **Whether it may be used freely** (X-107): yes, the quote, and the condition the page sets for itself and its
+   reader – verbatim, with the source.
+7. **Whether 34+ covers chapter 1A.** Partly: which § 1A-1 factors its items touch, by item number, and the three it
+   has no item for – emotional demands, harassment, violence and threats. A test holds that no item carries those
+   words, so the sentence cannot outlive the file.
+8. **Sources** with links, and **six FAQ items** with FAQPage data: free to use, how many questions, how many must
+   answer, other languages (Nord 2000:12, TemaNord 2000:603), changing or adding questions, and the difference from
+   Orgpuls' own questionnaire – which says plainly that Orgpuls does not use QPSNordic verbatim (X-107's rule on
+   the name).
+
+The title serves «medarbeiderundersøkelse mal» as well as the instrument's name («QPSNordic 34+: gratis mal for
+medarbeiderundersøkelse | Orgpuls», 63 characters); the H1 stays the instrument's name. Every section but «Kilder»
+asks (D-282's rule). About 1 260 words in Norwegian, up from 299, and the items besides.
+
+**Not done, and why.** The caution on background questions in small groups is the site's advice, written as such, not
+the manual's. The manual is not online; page references are from the copy Tor holds (X-107). The items are not
+rendered in English: STAMI published the instrument in Norwegian, and an English wording would be ours, not the
+manual's. A share card for the page is not generated; the template pages use the site's default card, as before.
+
+Proved by `tests/unit/templates.test.ts`: the file's shape (37 items in order, seven background questions, five
+options per scale, 34 numbered, six groups of 21, 5, 4, 4, 2 and 1), the claims about the items, every section but
+the last asks in both languages, one `qps` block, the FAQ parses and asks, the labels exist, and both languages
+alike. `wordCount` and `uk-articles.test.ts` know the new kind. The page map is re-crawled.

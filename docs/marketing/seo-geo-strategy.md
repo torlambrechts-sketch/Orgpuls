@@ -120,7 +120,7 @@ reviews, lists or figures (CLAUDE.md: never fabricate), and no bought placements
 | risikovurdering psykososialt arbeidsmiljø | /artikler/risikovurdering-av-psykososialt-arbeidsmiljo | pos 80 on the wrong pages. Ten pages already link it with these words, and it is a week old: wait for authority, check again in phase 2 |
 | verneombud psykososialt arbeidsmiljø, vernerunde psykososialt arbeidsmiljø | /artikler/verneombudets-rolle-i-kartleggingen | pos 60; title and H1 carry the query (D-281) |
 | verneombud rettigheter og plikter, valg av verneombud | /verneombud | title says «rettigheter og plikter» (D-281) |
-| medarbeiderundersøkelse spørsmål, medarbeiderundersøkelse mal | /artikler/medarbeiderundersokelse-sporsmal (+ /maler/qpsnordic-sporreskjema) | pos 44–53; phase 2 |
+| medarbeiderundersøkelse spørsmål, medarbeiderundersøkelse mal | /artikler/medarbeiderundersokelse-sporsmal (+ /maler/qpsnordic-sporreskjema) | pos 44–53; the template's title now says «gratis mal for medarbeiderundersøkelse» and its page holds the 37 items and answers the questions around them (D-283); the article in phase 2 |
 | medarbeidertilfredshetsundersøkelse, medarbeidertilfredshet, MTU | /artikler/trivselsundersokelse | pos 72–85; the term added to its description and lead (D-281) |
 | medarbeiderundersøkelse (head term) | /artikler/medarbeiderundersokelse | keep (D-249, D-250) |
 | medarbeiderundersøkelse små bedrifter | /smaa-bedrifter | keep |
@@ -158,6 +158,16 @@ positions 2–11 are questions, and the pages rank where a section answers the q
 in 24 articles the headings put the question they answer, the pulse and anonymity articles answer the two observed
 questions in their first sentence, eight factor articles cite a third source, five titles fit a result page, two H1s
 ask, and the «which tool» page is linked from the five industry pages and /sikkerhet. The rules are held by tests.
+
+### Phase 1c: the QPSNordic template page, shipped 2026-10-14 (D-283)
+
+The first page Google sent a visitor to was the QPSNordic 34+ template, at 299 words. It now says what the instrument
+is (129 questions, 26 scales, the four institutes, the Nordic Council of Ministers), what the short version is, shows
+the 37 items themselves under their answer scales – drawn from the file the Word and Excel are built from, so page and
+files cannot disagree – and answers, section by section, how to score, what the manual requires, whether it may be
+used freely, and how far it covers chapter 1A. Six FAQ items carry FAQPage data; the sources are linked. The title
+serves «medarbeiderundersøkelse mal» besides the instrument's name. Every fact is from STAMI's publication page, the
+SND catalogue entry or the manual Tor holds (X-107); nothing is from memory.
 
 ### Phase 2: next 2–6 weeks
 

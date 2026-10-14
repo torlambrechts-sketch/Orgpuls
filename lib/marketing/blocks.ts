@@ -36,6 +36,8 @@ export const Block = z.discriminatedUnion('t', [
   z.object({ t: z.literal('plans') }),
   /** a picture of the product, by id (lib/marketing/shot-ids); its words are `seo.shots.<id>` */
   z.object({ t: z.literal('shot'), id: z.enum(SHOT_IDS) }),
+  /** the QPSNordic 34+ items, verbatim from the file the template is built from (lib/marketing/qpsnordic, D-283) */
+  z.object({ t: z.literal('qps') }),
   // diagrams (D-237, components/marketing/Diagrams.tsx): the drawing is the renderer's, the words are here
   /** steps that lead back to the first, around what holds them together (drawn as a ring of four) */
   z.object({ t: z.literal('cycle'), center: z.string(), items: z.array(Step).length(4) }),
@@ -78,6 +80,7 @@ export function wordCount(blocks: Block[]): number {
           return b.items.map((i) => `${i.title} ${i.text}`)
         case 'plans':
         case 'shot':
+        case 'qps':
           return []
         case 'cycle':
           return [b.center, ...b.items.map((i) => `${i.title} ${i.ref ?? ''} ${i.text}`)]

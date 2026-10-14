@@ -11471,15 +11471,23 @@
         "teaser": "A filled-in annual cycle in Excel for surveying, assessing and following up through the year."
       },
       "qps": {
-        "title": "QPSNordic 34+: work environment questionnaire | Orgpuls",
-        "description": "The Nordic questionnaire QPSNordic 34+ verbatim, ready to print in Word, with an Excel answer register that calculates the results. Free, in Norwegian.",
+        "title": "QPSNordic 34+: free employee survey template | Orgpuls",
+        "description": "QPSNordic 34+ verbatim in Word, with an Excel answer register. All 37 questions, how to score them, and what the manual requires. Free, in Norwegian.",
         "crumb": "QPSNordic 34+",
         "kicker": "Free template",
         "h1": "QPSNordic 34+: the Nordic questionnaire on psychological and social factors at work",
-        "lead": "The short version of QPSNordic, verbatim as the National Institute of Occupational Health published it, set up for printing. With a spreadsheet where you register the answers and get the count, mean and distribution per question. In Norwegian.",
+        "lead": "The short version of QPSNordic, verbatim as the National Institute of Occupational Health published it, set up for printing. With a spreadsheet where you register the answers and get the count, mean and distribution per question. This page also holds all 37 questions, how they are scored, and what the manual requires of you. In Norwegian.",
         "files": {
           "qpsnordic-34-sporreskjema.docx": "Questionnaire (Word)",
           "qpsnordic-34-svarregistrering.xlsx": "Answer register (Excel)"
+        },
+        "table": {
+          "background": "Background questions",
+          "answers": "Answer options",
+          "n": "No.",
+          "text": "Question (Norwegian)",
+          "qps": "No. in QPSNordic",
+          "none": "–"
         },
         "blocks": [
           {
@@ -11488,34 +11496,84 @@
           },
           {
             "t": "p",
-            "text": "QPSNordic is a questionnaire for surveying psychological, social and organisational factors at work. It was developed by researchers from Norway, Sweden, Denmark and Finland in a project the Nordic Council of Ministers started in 1994, and tested in all four countries. The National Institute of Occupational Health (STAMI) published the user manual in 2001."
+            "text": "QPSNordic – the General Nordic Questionnaire for Psychological and Social Factors at Work – is a questionnaire for surveying psychological, social and organisational factors at work. It was developed by researchers at the working-environment institutes of Norway, Sweden, Denmark and Finland in a project the Nordic Council of Ministers started in 1994 and financed, and tested in all four countries. The Norwegian National Institute of Occupational Health (STAMI) published the Norwegian user manual in 2001."
           },
           {
             "t": "p",
-            "text": "The manual says the questionnaire may be copied, and that you may build your own systems for registering, analysing and reporting. The short version, QPSNordic 34+, has 37 questions and seven background questions."
+            "text": "The full version has 129 questions. 80 of them form 26 scales covering demands and control at work, predictability and mastery, social interaction, leadership, organisational culture and climate, the interaction between work and private life, how central work is in one’s life, commitment to the organisation and work motivation. It was made for three purposes: development work and interventions in organisations, research on the relationship between work and health, and documentation of changes in working conditions."
           },
           {
             "t": "h2",
-            "text": "What you get"
+            "text": "What is the difference between QPSNordic and QPSNordic 34+?"
+          },
+          {
+            "t": "p",
+            "text": "QPSNordic 34+ is the short version in the user manual: 37 questions and seven background questions, without scales. 34 of the questions are taken from the full version – the number in the table below is the question’s number there – and three (35–37) carry no number from it: two on how large a place work has in one’s life, and one on stress. Because the short version has no scales, the validity and reliability testing done for QPSNordic does not apply to it. The results are read question by question."
+          },
+          {
+            "t": "p",
+            "text": "The full version suits you when you want the scales and a comparison with the Nordic reference figures; the short version when you want a short, well-tried wording and to read the answers question by question."
+          },
+          {
+            "t": "h2",
+            "text": "What does QPSNordic 34+ ask about?"
+          },
+          {
+            "t": "p",
+            "text": "All 37 questions, with the answer options the manual gives them, in the manual’s own Norwegian wording (appendix 2, pp. 36–38) – the files are Norwegian too, and not a word is changed. First seven background questions, then the 37 questions in six groups by answer scale."
+          },
+          {
+            "t": "qps"
+          },
+          {
+            "t": "p",
+            "text": "The background questions can make an answer recognisable in a small group: year of birth, gender and department are often enough to single out one person. Include only the ones you need to split the results by, and never more than the groups can bear. Read about [how many answers it takes](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "h2",
+            "text": "How do you score the answers?"
+          },
+          {
+            "t": "p",
+            "text": "Each question is answered on a five-point scale, and the answers are registered as the numbers 1 to 5 – 1 for the first answer option, 5 for the last. A high value means «often» or «much». That is good on some questions, such as support from colleagues (no. 17), and bad on others, such as having too much to do (no. 2). Read each question on its own."
           },
           {
             "t": "ul",
             "items": [
-              "**The questionnaire** in Word, with the manual’s own introduction, the background questions and all 37 questions with their answer scales",
-              "**The answer register** in Excel: one row per form, and a summary with the count, mean, median and distribution per question"
+              "The manual advises against statistical analysis for groups of fewer than 10 people. The answer register therefore shows nothing for a question until at least 10 have answered it.",
+              "For 10–20 people it recommends the mean and the median, and merging the answers into three categories: 1–2, 3 and 4–5. That is what the spreadsheet’s summary shows.",
+              "For groups of more than 20 it recommends full percentage distributions."
             ]
           },
           {
+            "t": "box",
+            "title": "How the answer register works",
+            "text": "One row per form on the «Svar» sheet, one number from 1 to 5 per question, empty where the question was not answered. The «Oppsummering» sheet calculates the count, mean, median and the shares 1–2, 3 and 4–5 per question, and stays empty until at least 10 have answered. Do not register names or anything else that could tie a form to a person."
+          },
+          {
             "t": "h2",
-            "text": "Before you use it"
+            "text": "What does the manual require of you?"
           },
           {
             "t": "ul",
             "items": [
-              "The short version has no scales, and the manual says the validity and reliability testing done for QPSNordic does not apply to it. Look at the questions one by one.",
-              "The manual advises against statistical analysis for groups of fewer than 10 people. The answer register therefore shows nothing until at least 10 have answered.",
-              "Employees must be told beforehand what the survey is for and how anonymity is kept. Taking part must be voluntary, and no results about individuals may be presented."
+              "Employees must be told beforehand what the survey is for, how it is carried out, and how anonymity is kept.",
+              "Taking part must be voluntary.",
+              "Everyone who answers is assured confidentiality, and no results about individuals may be presented.",
+              "The results go back to those who answered, and are followed up. The manual describes a survey-and-feedback process with a steering group where management and employees take part."
             ]
+          },
+          {
+            "t": "p",
+            "text": "The [information letter and checklist](/maler/informasjonsskriv-og-sjekkliste) cover the points the manual sets for the information before a survey."
+          },
+          {
+            "t": "h2",
+            "text": "May you use QPSNordic freely?"
+          },
+          {
+            "t": "p",
+            "text": "Yes. The user manual has no licence text and requires no fee, registration or agreement. Under «Krav til ressurser» (resource requirements) it says:"
           },
           {
             "t": "quote",
@@ -11524,7 +11582,53 @@
           },
           {
             "t": "p",
-            "text": "Source: Skogstad, A., Knardahl, S., Lindström, K., Elo, A.-L., Dallner, M., Gamberale, F., Hottinen, V. and Ørhede, E. (2001). Brukerveiledning QPSNordic (user manual). STAMI report vol. 2, no. 1. National Institute of Occupational Health in Norway."
+            "text": "That is the basis of this template: the questions are reproduced verbatim, with the manual as the source. If you use the questionnaire yourself, do the same – name the source, and leave the wording as it is. It is the wording that was tested, and that makes the answers comparable with others’."
+          },
+          {
+            "t": "h2",
+            "text": "Does QPSNordic 34+ cover the requirements in chapter 1A of the regulation?"
+          },
+          {
+            "t": "p",
+            "text": "Partly. Section 1A-1 of the regulation on the performance of work (forskrift om utførelse av arbeid) names, «among others», unclear or conflicting demands, emotional demands, workload and time pressure, support and help, the possibility of contact and communication with others, harassment, violence and threats, and autonomy and influence. QPSNordic 34+ asks about workload (nos. 1–2), clear goals and expectations and conflicting requests (7–9), influence (10–13), support from colleagues and the immediate manager (17–18), communication in the department (29), conflicts and unequal treatment (30–32). It has no questions on emotional demands, harassment, or violence and threats – the manual is from 2001, the regulation’s chapter from 2026. If you use the short version as the survey the regulation requires, those factors must be covered another way. What the law requires of the survey is set out in [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "h2",
+            "text": "Sources"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "[Skogstad, A., Knardahl, S., Lindström, K., Elo, A.-L., Dallner, M., Gamberale, F., Hottinen, V. and Ørhede, E. (2001). Brukerveiledning QPSNordic. Generelt spørreskjema for psykologiske og sosiale faktorer i arbeid (user manual, Norwegian). STAMI report vol. 2, no. 1. Oslo: National Institute of Occupational Health.](https://stami.no/publikasjon/brukerveiledning-qpsnordic-generelt-sporreskjema-om-psykologiske-og-sosiale-faktorer-i-arbeidet/) The questions are from appendix 2, pp. 36–38; the group-size limits from pp. 14–15.",
+              "Dallner, M., Elo, A.-L., Gamberale, F., Hottinen, V., Knardahl, S., Lindström, K., Skogstad, A. and Ørhede, E. (2000). Validation of the General Nordic Questionnaire (QPSNordic) for Psychological and Social Factors at Work. Nord 2000:12. Copenhagen: Nordic Council of Ministers.",
+              "[QPSNordic in the Swedish National Data Service (SND)](https://researchdata.se/en/catalogue/dataset/snd0837-1): the questionnaire’s scope, areas, purposes and publications."
+            ]
+          }
+        ],
+        "faq": [
+          {
+            "q": "Is QPSNordic free to use?",
+            "a": "Yes. The user manual says the questionnaire may be copied, and that you may build your own systems for registering, analysing and reporting. It requires no fee, registration or agreement. Name the manual as the source, and leave the wording as it is."
+          },
+          {
+            "q": "How many questions does QPSNordic 34+ have?",
+            "a": "37 questions and seven background questions. 34 of the questions are taken from the full version, which has 129 questions, 80 of them in 26 scales."
+          },
+          {
+            "q": "How many must answer before you can see results?",
+            "a": "The manual advises against statistical analysis for groups of fewer than 10 people, and the template’s answer register therefore shows nothing for a question until at least 10 have answered it. For 10–20 it recommends the mean, the median and three answer categories; for groups of more than 20, full percentage distributions."
+          },
+          {
+            "q": "Is QPSNordic available in languages other than Norwegian?",
+            "a": "Yes. The questionnaire was developed and tested in Norway, Sweden, Denmark and Finland, and the Nordic Council of Ministers has published the validation report and a user’s guide in English (Nord 2000:12 and TemaNord 2000:603). The template here is the Norwegian short version."
+          },
+          {
+            "q": "Can we change the questions or add our own?",
+            "a": "Leave the QPSNordic wording as it is; it is the wording that was tested, and that makes the answers comparable. You can add your own questions after the 37, clearly set apart from them, as long as they cannot tie an answer to a person."
+          },
+          {
+            "q": "What is the difference between QPSNordic 34+ and the questionnaire in Orgpuls?",
+            "a": "Orgpuls does not use QPSNordic verbatim. The statements are rewritten from QPSNordic questions into statements employees agree or disagree with, arranged by the eleven factors the Working Environment Act § 4-3 and chapter 1A of the regulation name – including emotional demands, offensive behaviour, and violence and threats, which the short version does not ask about. QPSNordic 34+ is free and on paper; Orgpuls collects the answers anonymously and shows them per group."
           }
         ],
         "teaser": "The Nordic questionnaire QPSNordic 34+ ready to print, with a spreadsheet that calculates the answers."
