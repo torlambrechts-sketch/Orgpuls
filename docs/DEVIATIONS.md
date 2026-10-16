@@ -14541,3 +14541,63 @@ group under «Ressurser» began with «Gratis maler».
   the Swedish packs carry them too (`site.chrome` is mirrored there, though Sweden's own menu does not use them).
   The page map is re-crawled for the shared texts.
 
+
+## D-287 — The article standard: a diagram in every article, prose that reads, abbreviations spelled out, headings that ask (2026-10-16)
+
+Tor, 16 October 2026: «Gå gjennom artiklene, alle og sjekk at de oppfyller våre retningslinjer til artikler. Med
+illustrasjoner, inkluderende lesning, visuelle bilder der hvor vi kan og sterk SEO/GEO optimalisering.» The written
+rules so far were D-235 (inform, do not sell), D-282 (sections that ask, an H1 that asks, three sources, title 65,
+description 155, lead 520) and strategy § 8. Measured against them, and against what Tor asked for beyond them, the 26
+articles in both languages stood like this: every one had a picture of its own (`art`), but eight had no block that
+draws — no table, cards, timeline, cycle, hub or ladder — only paragraphs, lists and quotes (the two new answer pages,
+the broad survey article, the satisfaction article, four of the eleven factor articles and the safety-round article);
+our own prose ran to 13 Norwegian and 37 English sentences over 40 words; 20 Norwegian and 18 English articles used an
+abbreviation they never spelled out (HMS in nine, QPS Nordic in twelve, STAMI, SHA, HR, GDPR, HSE); four used «hun
+eller han» or «his or her»; one H1 did not end in a question mark; one English title ran to 76 characters; and 27
+section headings stated where they could have asked.
+
+**The standard, now held by `tests/unit/article-standard.test.ts` on every article in Norwegian and English:**
+1. **It draws as well as tells.** At least one diagram block — table, cards, timeline, cycle, hub or ladder — and a
+   picture of its own. The eight that had none got one that fits the text: the «is it required?» article a
+   requirement-by-requirement table (what the law requires, whether it is required, where it says so) and the
+   sanctions as a ladder (order, coercive fine, suspension, infringement fine — aml. §§ 18-6 to 18-10); the survey
+   article a five-step ladder from planning with the safety representative to measures, each step with its paragraph
+   in the regulation; the satisfaction article a table setting a satisfaction survey against a mapping of the factors
+   and a hub drawing the demands–resources model it describes; the four factor articles the table the other factor
+   articles already carried («lowest score on → often points to → a natural place to start»), built from their own
+   three statements and their own three measures; the safety-round article a table setting the round against an
+   anonymous survey, answering the section «what can the round not replace?».
+2. **It reads.** `lib/marketing/readability.ts` measures our own prose — lead, paragraphs, list items, boxes, cards,
+   not the law or the quotes — and the rule is LIX 50 or under in Norwegian (ordinary newspaper prose, not official
+   text; a list counts each item as a sentence) and no sentence over 40 words in either language. The 50 long
+   sentences are split; the hardest article (the 2026 rules) came from 52 to 49.
+3. **It spells its abbreviations out at first use** — «helse-, miljø- og sikkerhetsarbeid (HMS)», «QPS
+   Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet)», «Statens
+   arbeidsmiljøinstitutt (STAMI)», «SHA-planen (planen for sikkerhet, helse og arbeidsmiljø)», «personalavdelingen
+   (HR)», the General Data Protection Regulation, HSE — with the glosses registered per language, so a new
+   abbreviation needs a gloss before the test accepts it.
+4. **It addresses the reader without gendered pairs.** The four «hun eller han»/«his or her» are rewritten («hvem
+   som avgjør saken», «følger det med en beskjed», «vedkommende», «their»).
+5. **It asks.** Every H1 ends in a question mark in both languages (the peer-support article's is now «Støtte fra
+   kollegaer: hva betyr en lav score, og hva kan dere gjøre?», its card redrawn), and 27 headings that stated now ask
+   («Hva krever loven faktisk?», «Hvorfor betyr møtet mer enn rapporten?», «Hvorfor gir færre spørsmål bedre svar?»).
+   Checklists and the imperative headings («Fortell hva som skal skje», «Sammenlign likt med likt») stay as they are.
+6. **Its metadata fits in both languages**: title 65, description 155, lead 520 (D-282 held the Norwegian titles;
+   the English safety-representative title is cut from 76 to 61).
+7. **Its English mirrors its Norwegian block for block**, so a diagram is never missing from one language.
+8. Sources ≥ 3 with addresses, two related articles that exist, `modified` on or after `published` — D-282's rules
+   restated where they were not yet tested in English.
+
+**Also in this pass.** The «is it required?» article, the shortest at 686 words, gains a section «Hva må dere kunne
+dokumentere?» (the regulation's documentation duty and the four things to be able to show) and is now about 850
+words. The hub sentence D-284 appended to three factor articles landed after a colon that introduced a quote
+(«… arbeidsmiljøfaktorene: Hva som regnes som …»); it now stands before that sentence. The template builder
+(`scripts/maler/build.py`) looked for three headings D-282 had renamed; it reads the current ones. `modified` is
+2026-10-16 on all 26 articles. The content audit (`npm run seo:audit`) reports the new rules as flags (`LIX>50`,
+`SENT>40`, `NODIAGRAM`, `ABBR`) so the next audit sees a regression where the tests would. The English MUST gloss
+(«the Norwegian central government’s employee survey») is accepted as written.
+
+**Not changed, and why.** No FAQ data on articles (D-282: the sections ask). Word counts are reported, not ruled: the
+answer pages are short because the answer is. The illustrations stay decorative (`aria-hidden`), as the cards and the
+text carry the content; the diagrams are real HTML (tables with headers, lists), so a screen reader gets the same
+table a sighted reader sees.

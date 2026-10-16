@@ -287,3 +287,8 @@ A young domain moves in months. Judge phase 1 no earlier than 4–6 weeks after 
   and is Tor's decision.
 - Every new page ships in Norwegian and English with its share card, and in the sitemap, llms.txt and
   IndexNow.
+- The article standard (D-287, `tests/unit/article-standard.test.ts`): an article draws as well as tells (at least
+  one table, cards, timeline, cycle, hub or ladder, and a picture of its own), its own prose reads at LIX 50 or
+  under in Norwegian with no sentence over 40 words in either language, it spells every abbreviation out at first
+  use, it uses no gendered pair, its H1 and at least half its sections ask, its title, description and lead fit
+  (65 / 155 / 520) in both languages, and its English mirrors its Norwegian block for block.

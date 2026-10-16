@@ -5868,7 +5868,7 @@
         "title": "Employee surveys and the working environment | Orgpuls",
         "description": "What an employee survey is, what Norwegian law requires, what it should measure, how answers stay anonymous and how findings become measures.",
         "h1": "What is an employee survey, and how should it be used?",
-        "lead": "An employee survey is a questionnaire in which employees assess their own working environment, and where answers are shown only for groups in which no one can be recognised. Used well, it is part of the statutory mapping of the psychosocial working environment: it measures the factors the rules point to, the results are reviewed with employees and the safety representative, and the findings become measures that are followed up and evaluated.",
+        "lead": "An employee survey is a questionnaire in which employees assess their own working environment, and where answers are shown only for groups in which no one can be recognised. Used well, it is part of the statutory mapping of the psychosocial working environment. It measures the factors the rules point to, the results are reviewed with employees and the safety representative, and the findings become measures that are followed up and evaluated.",
         "blocks": [
           {
             "t": "h2",
@@ -5888,11 +5888,49 @@
           },
           {
             "t": "h2",
+            "text": "What does a good process look like, step by step?"
+          },
+          {
+            "t": "p",
+            "text": "The rules describe a chain from mapping to measures, and an employee survey is one link in it. The five steps below follow the regulation’s requirements:"
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Plan together with the safety representative",
+                "ref": "regulation § 1A-2(4)(a)",
+                "text": "Agree the purpose, topics, groups and timetable before anything is sent."
+              },
+              {
+                "title": "Measure the factors the rules point to",
+                "ref": "regulation § 1A-1",
+                "text": "Workload, demands, support, influence, contact and how people treat each other – and what protects."
+              },
+              {
+                "title": "Show only groups in which no one can be recognised",
+                "ref": "Datatilsynet",
+                "text": "No group with fewer than five answers, few background questions and care with free text."
+              },
+              {
+                "title": "Review the results with employees",
+                "ref": "regulation § 1A-4",
+                "text": "Ask what lies behind the figures. The survey shows where; the conversation explains why."
+              },
+              {
+                "title": "Put measures in place, measure again and document",
+                "ref": "regulation § 1A-3",
+                "text": "Every measure with a goal, an owner and a time frame. Evaluate, and write down the mapping, the assessment and the measures."
+              }
+            ]
+          },
+          {
+            "t": "h2",
             "text": "Is an employee survey enough as a mapping?"
           },
           {
             "t": "p",
-            "text": "The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that to get a good picture of the psychosocial working environment, an organisation should use several sources in the mapping, such as working environment surveys, safety inspections, incident reports, appraisal conversations or informal conversations."
+            "text": "The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that an organisation should use several sources to get a good picture of the psychosocial working environment. It names working environment surveys, safety inspections, incident reports, appraisal conversations or informal conversations."
           },
           {
             "t": "p",
@@ -5904,7 +5942,7 @@
           },
           {
             "t": "p",
-            "text": "The duty to map the working environment is not new. It is part of the provision on systematic health, environment and safety work in the Working Environment Act, and from 1 January 2026 it has been made explicit for the psychosocial working environment in a chapter of its own in the regulation on the performance of work."
+            "text": "The duty to map the working environment is not new. It is part of the provision on systematic health, environment and safety work in the Working Environment Act. From 1 January 2026 it has been made explicit for the psychosocial working environment, in a chapter of its own in the regulation on the performance of work."
           },
           {
             "t": "law",
@@ -6081,7 +6119,7 @@
         "title": "Job satisfaction surveys and the working environment | Orgpuls",
         "description": "Job and employee satisfaction surveys: what they measure, why satisfaction is an outcome, not a cause, and what mapping the working environment takes.",
         "h1": "What is a job satisfaction survey, and is it enough to map the working environment?",
-        "lead": "A job satisfaction survey, also called an employee satisfaction survey, measures how content employees are with their jobs. On its own it is not enough to map the psychosocial working environment: satisfaction is an outcome of how the work is organised, and the rules require the organisation to map and assess the working environment factors themselves – what strains and what protects – so that measures can address the causes.",
+        "lead": "A job satisfaction survey, also called an employee satisfaction survey, measures how content employees are with their jobs. On its own it is not enough to map the psychosocial working environment. Satisfaction is an outcome of how the work is organised. The rules require the organisation to map and assess the working environment factors themselves – what strains and what protects – so that measures can address the causes.",
         "blocks": [
           {
             "t": "h2",
@@ -6097,7 +6135,7 @@
           },
           {
             "t": "p",
-            "text": "According to the encyclopaedia, satisfaction is shaped by three kinds of conditions: characteristics of the person, such as personality and expectations; characteristics of the job, such as workload, variety and autonomy; and characteristics of the organisation, such as leadership, culture and participation. The last two are what the employer can do something about, and they are what the rules are about."
+            "text": "According to the encyclopaedia, satisfaction is shaped by three kinds of conditions. These are characteristics of the person, such as personality and expectations; characteristics of the job, such as workload, variety and autonomy; and characteristics of the organisation, such as leadership, culture and participation. The last two are what the employer can do something about, and they are what the rules are about."
           },
           {
             "t": "h2",
@@ -6134,12 +6172,29 @@
             "cite": "Arbeidstilsynet, consultation paper on the psychosocial working environment (2024, our translation)"
           },
           {
+            "t": "hub",
+            "center": {
+              "title": "Job satisfaction",
+              "text": "The outcome of two processes pulling in different directions"
+            },
+            "items": [
+              {
+                "title": "Demands",
+                "text": "Workload, time pressure and emotional strain. They set off a health-impairing process."
+              },
+              {
+                "title": "Resources",
+                "text": "Support, influence and feedback. They buffer the demands and drive a motivating process."
+              }
+            ]
+          },
+          {
             "t": "p",
             "text": "A satisfaction survey captures the sum of the two processes in a single number. The same middling satisfaction can hide high demands offset by good resources, and low demands in a job with little support and influence – two situations that call for entirely different measures."
           },
           {
             "t": "p",
-            "text": "The whole picture matters. A STAMI study of 6,175 employees in 62 Norwegian organisations found that high control over one’s own work did not appear to protect against pain complaints for those who at the same time had low or middling levels of other protective factors. The researchers concluded that high job control is not enough to protect employees against the adverse effects of other working environment factors, and that the whole picture must be considered when assessing the working environment."
+            "text": "The whole picture matters. A study from the Norwegian National Institute of Occupational Health (STAMI) of 6,175 employees in 62 Norwegian organisations found that high control over one’s own work did not appear to protect against pain complaints. That held for those who at the same time had low or middling levels of other protective factors. The researchers concluded that high job control is not enough to protect employees against the adverse effects of other working environment factors, and that the whole picture must be considered when assessing the working environment."
           },
           {
             "t": "h2",
@@ -6161,6 +6216,41 @@
           {
             "t": "p",
             "text": "The requirement concerns the factors in the work that can affect health, safety and welfare, and how they interact – not how content employees are. The word satisfaction («trivsel») appears neither in chapter 1A of the regulation nor in Arbeidstilsynet’s comments on it. A satisfaction survey can be a useful supplement, but it does not meet the requirement on its own. Read more about [the requirements for mapping](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Question",
+              "Job satisfaction survey",
+              "Mapping of the working environment factors"
+            ],
+            "rows": [
+              [
+                "What is measured?",
+                "How content employees are",
+                "Demands and resources at work: workload, roles, support, influence, emotional demands"
+              ],
+              [
+                "What does the figure say?",
+                "That something is good or wrong",
+                "What strains, what protects, and where"
+              ],
+              [
+                "Meets § 1A-2 of the regulation on its own?",
+                "No",
+                "Yes, when it is done together with employees, followed by a risk assessment and documented"
+              ],
+              [
+                "What kind of measures follow?",
+                "Often social and welfare measures",
+                "Measures aimed at the causes in the work"
+              ],
+              [
+                "Can it show whether measures worked?",
+                "Only as one overall figure",
+                "Yes, factor by factor and group by group"
+              ]
+            ]
           },
           {
             "t": "h2",
@@ -6343,7 +6433,7 @@
           },
           {
             "t": "p",
-            "text": "Short surveys are often sent to small groups, and anonymity is then more fragile. The authors of the interview study write that calculating a group average on single items for a small number of respondents is problematic for reliability and for detecting change, and that «reporting results on small groups of as few as 3–5 people is not an acceptable practice from an ethical or a methodological point of view»."
+            "text": "Short surveys are often sent to small groups, and anonymity is then more fragile. The authors of the interview study write that calculating a group average on single items for a small number of respondents is problematic for reliability and for detecting change. They add that «reporting results on small groups of as few as 3–5 people is not an acceptable practice from an ethical or a methodological point of view»."
           },
           {
             "t": "p",
@@ -6490,7 +6580,7 @@
           },
           {
             "t": "p",
-            "text": "Speaking up is nevertheless a wider idea than whistleblowing. The Act makes clear that statements about matters concerning only the employee’s own employment are, as a rule, not whistleblowing. Much of what shapes the climate – disagreement in a meeting, a suggestion for a better way of working, an objection to a deadline – falls outside chapter 2 A. It is still part of the working environment. In its commentary on section 1A-5 of the regulation on the performance of work, the Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that employees must, among other things, report harassment, discrimination or other conditions that may pose a risk to health, safety and welfare in the psychosocial working environment. Such a duty only works where people feel safe using it."
+            "text": "Speaking up is nevertheless a wider idea than whistleblowing. The Act makes clear that statements about matters concerning only the employee’s own employment are, as a rule, not whistleblowing. Much of what shapes the climate – disagreement in a meeting, a suggestion for a better way of working, an objection to a deadline – falls outside chapter 2 A. It is still part of the working environment. In its commentary on section 1A-5 of the regulation on the performance of work, the Norwegian Labour Inspection Authority (Arbeidstilsynet) describes the employees’ duty to report. Among other things, they must report harassment, discrimination or other conditions that may pose a risk to health, safety and welfare in the psychosocial working environment. Such a duty only works where people feel safe using it."
           },
           {
             "t": "h2",
@@ -6498,7 +6588,7 @@
           },
           {
             "t": "p",
-            "text": "In a survey built on the QPS Nordic tradition, the factor can be measured with statements that employees agree or disagree with. Examples:"
+            "text": "In a survey built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work), the factor can be measured with statements that employees agree or disagree with. Examples:"
           },
           {
             "t": "ol",
@@ -6647,7 +6737,7 @@
               },
               {
                 "ref": "Working Environment Act § 4-2(2)(e) (our translation)",
-                "text": "sufficient information and training is given so that the employee is able to carry out the work when changes occur that affect his or her working situation."
+                "text": "sufficient information and training is given so that the employee is able to carry out the work when changes occur that affect their working situation."
               }
             ]
           },
@@ -6670,7 +6760,7 @@
           },
           {
             "t": "p",
-            "text": "Surveys built on the QPS Nordic tradition measure role clarity with short statements about the employee’s own job. Examples of such statements:"
+            "text": "Surveys built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work) measure role clarity with short statements about the employee’s own job. Examples of such statements:"
           },
           {
             "t": "ul",
@@ -6838,7 +6928,7 @@
           },
           {
             "t": "p",
-            "text": "In a survey built on the QPS Nordic tradition the factor can be measured with a few statements that employees respond to, for example on a five-point scale from strongly disagree to strongly agree. Examples of statements:"
+            "text": "In a survey built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work) the factor can be measured with a few statements that employees respond to. They answer for example on a five-point scale from strongly disagree to strongly agree. Examples of statements:"
           },
           {
             "t": "table",
@@ -6980,7 +7070,7 @@
           },
           {
             "t": "p",
-            "text": "The factor covers both the social and the professional side of work. The Norwegian Labour Inspection Authority (Arbeidstilsynet) describes it as «the employee's access to social and professional interaction in everyday working life», and writes that this can be important for «information sharing, cooperation, support, belonging and the prevention of social isolation» (our translation)."
+            "text": "The factor covers both the social and the professional side of work. The Norwegian Labour Inspection Authority (Arbeidstilsynet) describes it as «the employee's access to social and professional interaction in everyday working life». It writes that this can be important for «information sharing, cooperation, support, belonging and the prevention of social isolation» (our translation)."
           },
           {
             "t": "p",
@@ -7034,7 +7124,7 @@
           },
           {
             "t": "p",
-            "text": "In a survey built on the QPS Nordic tradition the factor can be measured with statements such as these:"
+            "text": "In a survey built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work) the factor can be measured with statements such as these:"
           },
           {
             "t": "ul",
@@ -7199,7 +7289,7 @@
           },
           {
             "t": "p",
-            "text": "In a survey built on the QPS Nordic tradition the factor can be measured with statements such as these:"
+            "text": "In a survey built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work) the factor can be measured with statements such as these:"
           },
           {
             "t": "ul",
@@ -7227,6 +7317,31 @@
               "**Are people left alone?** The first statement says most about organisation: who is present, and how shifts and tasks are allocated.",
               "**Are incidents followed up?** Low agreement that difficult incidents are talked about afterwards points to the routines after an incident.",
               "**Is there room to react?** The third statement is about culture – whether being affected is seen as weakness."
+            ]
+          },
+          {
+            "t": "table",
+            "head": [
+              "Lowest score on",
+              "Often points to",
+              "A natural place to start"
+            ],
+            "rows": [
+              [
+                "«I am rarely left alone in emotionally demanding situations»",
+                "Organisation: who is present, shifts and tasks",
+                "Nobody alone in the hardest encounters"
+              ],
+              [
+                "«We talk about difficult incidents afterwards»",
+                "The routines after an incident",
+                "A short talk the same day, follow-up from the manager later"
+              ],
+              [
+                "«I am allowed to react as a human being at work»",
+                "The culture: whether being affected is seen as weakness",
+                "A working session on what drains people"
+              ]
             ]
           },
           {
@@ -7298,7 +7413,7 @@
           },
           {
             "t": "p",
-            "text": "Since what works is follow-up over time, the evaluation should also extend over time. Measure the same statements again after a few months, watching in particular the statement each measure was aimed at: two people present in the hardest meetings should show in the first, talks after incidents in the second and the working session in the third."
+            "text": "Since what works is follow-up over time, the evaluation should also extend over time. Measure the same statements again after a few months, watching in particular the statement each measure was aimed at. Two people present in the hardest meetings should show in the first, talks after incidents in the second and the working session in the third."
           },
           {
             "t": "p",
@@ -7324,7 +7439,7 @@
         "title": "Support from managers: what a low score means | Orgpuls",
         "description": "A low score on support from managers can be about availability, insight or trust. What the law says, how to read the result and which measures work.",
         "h1": "Support from managers: what does a low score tell you, and what can be done?",
-        "lead": "A low score on support from managers means that many employees do not feel they get help from their manager when the job gets demanding, that the manager does not know the work well enough, or that it is hard to raise problems. The cause may lie as much in the manager's circumstances – number of staff, their own workload, distance from the work – as in the manager, and measures should address both.",
+        "lead": "A low score on support from managers means that many employees do not feel they get help from their manager when the job gets demanding. It can also mean that the manager does not know the work well enough, or that it is hard to raise problems. The cause may lie as much in the manager's circumstances – number of staff, their own workload, distance from the work – as in the manager, and measures should address both.",
         "blocks": [
           {
             "t": "h2",
@@ -7382,7 +7497,7 @@
           },
           {
             "t": "p",
-            "text": "In a survey built on the QPS Nordic tradition the factor can be measured with statements such as these:"
+            "text": "In a survey built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work) the factor can be measured with statements such as these:"
           },
           {
             "t": "ul",
@@ -7506,7 +7621,7 @@
           },
           {
             "t": "p",
-            "text": "The Norwegian Labour Inspection Authority (Arbeidstilsynet) describes the factor in exactly these terms in its commentary on section 1A-1 of the regulation on the performance of work, which lists «self-determination and influence in the work» as one of the psychosocial working environment factors: What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
+            "text": "What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo). The Norwegian Labour Inspection Authority (Arbeidstilsynet) describes the factor in exactly these terms. Its commentary on section 1A-1 of the regulation on the performance of work lists «self-determination and influence in the work» as one of the psychosocial working environment factors:"
           },
           {
             "t": "quote",
@@ -7548,7 +7663,7 @@
           },
           {
             "t": "p",
-            "text": "In surveys built on the QPS Nordic tradition, the factor is measured with a small number of statements that employees rate on a response scale, for example from «strongly disagree» to «strongly agree». Examples of statements:"
+            "text": "In surveys built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work), the factor is measured with a small number of statements that employees rate on a response scale. The scale runs for example from «strongly disagree» to «strongly agree». Examples of statements:"
           },
           {
             "t": "ul",
@@ -7575,8 +7690,33 @@
             ]
           },
           {
+            "t": "table",
+            "head": [
+              "Lowest score on",
+              "Often points to",
+              "A natural place to start"
+            ],
+            "rows": [
+              [
+                "«I have influence over how I carry out my work»",
+                "Micromanagement of how tasks are done",
+                "Job crafting"
+              ],
+              [
+                "«I am heard when something is to be changed»",
+                "Changes decided before those affected are asked",
+                "Involving those affected before the decision"
+              ],
+              [
+                "«I can influence the pace of my own work»",
+                "Systems and routines that lock order and pace",
+                "The team plans its own week"
+              ]
+            ]
+          },
+          {
             "t": "h2",
-            "text": "Why control matters more when demands are high"
+            "text": "Why does control matter more when demands are high?"
           },
           {
             "t": "p",
@@ -7714,7 +7854,7 @@
           },
           {
             "t": "p",
-            "text": "In surveys built on the QPS Nordic tradition, the factor is usually measured with a small number of statements that employees rate on a response scale. The statements capture different aspects of the factor, and a low figure has to be read statement by statement:"
+            "text": "In surveys built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work), the factor is usually measured with a small number of statements that employees rate on a response scale. The statements capture different aspects of the factor, and a low figure has to be read statement by statement:"
           },
           {
             "t": "table",
@@ -7760,7 +7900,7 @@
           },
           {
             "t": "h2",
-            "text": "How offensive behaviour takes hold"
+            "text": "How does offensive behaviour take hold?"
           },
           {
             "t": "p",
@@ -7830,12 +7970,12 @@
       "faktorKollega": {
         "title": "Support from colleagues: causes and measures | Orgpuls",
         "description": "What does a low score on support from colleagues mean? What the law says about support and help, how to read the figure, common causes and measures.",
-        "h1": "When colleagues do not step up for one another: what a low score on peer support means",
+        "h1": "Support from colleagues: what does a low score mean, and what can you do?",
         "lead": "A low score on support from colleagues means that many people do not get help when they need it, that knowledge is held back, or that some do not feel part of the team. Support and help in the work is a psychosocial working environment factor under the Working Environment Act, and it protects against other strains. It is best built in the daily work, not at social events.",
         "blocks": [
           {
             "t": "h2",
-            "text": "What peer support involves"
+            "text": "What does peer support involve?"
           },
           {
             "t": "p",
@@ -7852,7 +7992,7 @@
           },
           {
             "t": "h2",
-            "text": "Where the factor sits in the law"
+            "text": "Where does the factor sit in the law?"
           },
           {
             "t": "p",
@@ -7864,7 +8004,7 @@
           },
           {
             "t": "h2",
-            "text": "Why support is more than job satisfaction"
+            "text": "Why is support more than job satisfaction?"
           },
           {
             "t": "p",
@@ -7885,7 +8025,7 @@
           },
           {
             "t": "p",
-            "text": "In surveys built on the QPS Nordic tradition, the factor is measured with a small number of statements that employees rate on a response scale. The statements cover three different aspects:"
+            "text": "In surveys built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work), the factor is measured with a small number of statements that employees rate on a response scale. The statements cover three different aspects:"
           },
           {
             "t": "cards",
@@ -7923,7 +8063,7 @@
           },
           {
             "t": "h2",
-            "text": "Why support is missing"
+            "text": "Why is support missing?"
           },
           {
             "t": "p",
@@ -8003,7 +8143,7 @@
           },
           {
             "t": "p",
-            "text": "Section 1A-1 of the regulation on the performance of work gives eight examples of psychosocial working environment factors. Meaning and recognition are not among them as separate items. That does not make the factor irrelevant to the employer's duties. The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes in its commentary on the provision: What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
+            "text": "Section 1A-1 of the regulation on the performance of work gives eight examples of psychosocial working environment factors. Meaning and recognition are not among them as separate items. That does not make the factor irrelevant to the employer's duties. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo). The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes in its commentary on the provision:"
           },
           {
             "t": "quote",
@@ -8049,7 +8189,7 @@
           },
           {
             "t": "p",
-            "text": "In surveys built on the QPS Nordic tradition, the factor is measured with a small number of statements that employees rate on a response scale. Examples:"
+            "text": "In surveys built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work), the factor is measured with a small number of statements that employees rate on a response scale. Examples:"
           },
           {
             "t": "ul",
@@ -8064,8 +8204,33 @@
             "text": "The first statement concerns the value of the work, the second recognition from others, and the third the relationship to the workplace as a whole. A low average may hide that only one of them is pulling the figure down. That is the statement the measures should target."
           },
           {
+            "t": "table",
+            "head": [
+              "Lowest score on",
+              "Often points to",
+              "A natural place to start"
+            ],
+            "rows": [
+              [
+                "«The work I do matters»",
+                "The value of the work: nobody sees who it makes a difference for",
+                "Show who the work makes a difference for"
+              ],
+              [
+                "«My effort is noticed»",
+                "Recognition that comes late or is too general",
+                "Specific recognition the same week"
+              ],
+              [
+                "«I am proud to work here»",
+                "The relationship to the workplace as a whole",
+                "A conversation about what the team is proud of"
+              ]
+            ]
+          },
+          {
             "t": "h2",
-            "text": "What the figure can tell you"
+            "text": "What can the figure tell you?"
           },
           {
             "t": "p",
@@ -8077,7 +8242,7 @@
           },
           {
             "t": "h2",
-            "text": "When the connection is lost"
+            "text": "When is the connection lost?"
           },
           {
             "t": "p",
@@ -8094,7 +8259,7 @@
           },
           {
             "t": "h2",
-            "text": "What the research points to"
+            "text": "What does the research point to?"
           },
           {
             "t": "p",
@@ -8161,15 +8326,15 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "What the rules require after the survey"
+            "text": "What do the rules require after the survey?"
           },
           {
             "t": "p",
-            "text": "Since 1 January 2026 the regulation on the performance of work has had its own chapter 1A on the psychosocial working environment. It sets out a single chain: the employer must survey and assess the risk (§ 1A-2), draw up plans and implement measures (§ 1A-3), and give employees and their representatives the information they need about the risk factors and the measures (§ 1A-4)."
+            "text": "Since 1 January 2026 the regulation on the performance of work has had its own chapter 1A on the psychosocial working environment. It sets out a single chain. The employer must survey and assess the risk (§ 1A-2), draw up plans and implement measures (§ 1A-3), and give employees and their representatives the information they need about the risk factors and the measures (§ 1A-4)."
           },
           {
             "t": "p",
-            "text": "The chain is not new. It rests on the systematic health and safety work required by section 3-1 of the Working Environment Act (arbeidsmiljøloven), which obliges the employer to identify hazards and problems, assess the risks on that basis, and draw up plans and implement measures to reduce them. What is new is that the duty now applies explicitly to the psychosocial working environment."
+            "text": "The chain is not new. It rests on the systematic health and safety work required by section 3-1 of the Working Environment Act (arbeidsmiljøloven). That section obliges the employer to identify hazards and problems, assess the risks on that basis, and draw up plans and implement measures to reduce them. What is new is that the duty now applies explicitly to the psychosocial working environment."
           },
           {
             "t": "quote",
@@ -8363,7 +8528,7 @@
           },
           {
             "t": "p",
-            "text": "The survey and the risk assessment must be documented and form part of the organisation’s systematic health and safety work (§ 1A-2 letter d). Arbeidstilsynet writes that the documentation must be set down in writing in a way that makes it possible to follow up the work on the psychosocial working environment, and that its scope and form should suit the organisation’s nature, size and risk profile. Paper, a spreadsheet or a digital tool will all do. What matters is being able to show what you found, how you assessed it, which measures you chose and what happened next. Read more about [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
+            "text": "The survey and the risk assessment must be documented and form part of the organisation’s systematic health and safety work (§ 1A-2 letter d). Arbeidstilsynet writes that the documentation must be set down in writing in a way that makes it possible to follow up the work on the psychosocial working environment. Its scope and form should suit the organisation’s nature, size and risk profile. Paper, a spreadsheet or a digital tool will all do. What matters is being able to show what you found, how you assessed it, which measures you chose and what happened next. Read more about [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo)."
           }
         ],
         "sources": [
@@ -8393,7 +8558,7 @@
           },
           {
             "t": "p",
-            "text": "Chapter 1A of the regulation on the performance of work, in force since 1 January 2026, requires the mapping, the risk assessment and the measures to be carried out in cooperation with employees and their representatives, and requires them to be informed about the risk factors and the measures. It does not say the results must be reviewed in a meeting, but a meeting is the most direct way to meet both requirements."
+            "text": "Chapter 1A of the regulation on the performance of work has been in force since 1 January 2026. It requires the mapping, the risk assessment and the measures to be carried out in cooperation with employees and their representatives, and requires them to be informed about the risk factors and the measures. It does not say the results must be reviewed in a meeting, but a meeting is the most direct way to meet both requirements."
           },
           {
             "t": "law",
@@ -8418,7 +8583,7 @@
           },
           {
             "t": "h2",
-            "text": "Why the meeting matters more than the report"
+            "text": "Why does the meeting matter more than the report?"
           },
           {
             "t": "p",
@@ -8577,7 +8742,7 @@
           },
           {
             "t": "p",
-            "text": "The mapping and risk assessment must also be carried out together with employees and their representatives, adapted to the organisation's nature, activities and size, repeated regularly and when things change, and documented as part of systematic health, safety and environment work (§ 1A-2, fourth paragraph)."
+            "text": "The mapping and risk assessment must also be carried out together with employees and their representatives, and adapted to the organisation's nature, activities and size. They must be repeated regularly and when things change, and documented as part of systematic health, safety and environment work (§ 1A-2, fourth paragraph)."
           },
           {
             "t": "p",
@@ -8778,7 +8943,7 @@
           },
           {
             "t": "p",
-            "text": "Surveys built on the QPS Nordic tradition usually measure the factor with a few statements that employees respond to. Examples of such statements:"
+            "text": "Surveys built on the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work) usually measure the factor with a few statements that employees respond to. Examples of such statements:"
           },
           {
             "t": "ul",
@@ -8807,6 +8972,31 @@
               "**Who does it affect?** A department that stands out often has a local cause – an unfilled post, a new task, a seasonal peak.",
               "**Has it changed?** A drop since the last survey means something has happened, and that is often easier to trace than the cause of a low level that has persisted for a long time.",
               "**What surrounds it?** Low support from the manager or unclear roles in the same group make the load harder to carry."
+            ]
+          },
+          {
+            "t": "table",
+            "head": [
+              "Lowest score on",
+              "Often points to",
+              "A natural place to start"
+            ],
+            "rows": [
+              [
+                "‘My workload is manageable over time’",
+                "Staffing and tasks that do not add up over time",
+                "A regular meeting on what has to give"
+              ],
+              [
+                "‘I have enough time to do the job well enough’",
+                "Unclear priorities and interruptions",
+                "Tracking down the time thieves"
+              ],
+              [
+                "‘I can switch off from work when the working day is over’",
+                "Expectations of being available after hours",
+                "Clear limits on availability"
+              ]
             ]
           },
           {
@@ -8913,7 +9103,7 @@
           },
           {
             "t": "p",
-            "text": "In its commentary, the Norwegian Labour Inspection Authority (Arbeidstilsynet) describes the chapter as giving concrete form to sections 4-1 and 4-3 of the Act, and to the employer's duty under section 3-1 to carry out systematic health, safety and environment work. The duty to map and assess risks in the working environment existed before, among other places in section 7-1 of the regulation on organisation, management and employee participation. The new chapter makes clear that the duty also covers the psychosocial working environment, and describes how the work is to be done."
+            "text": "In its commentary, the Norwegian Labour Inspection Authority (Arbeidstilsynet) describes the chapter as giving concrete form to sections 4-1 and 4-3 of the Act. It also gives form to the employer's duty under section 3-1 to carry out systematic health, safety and environment work. The duty to map and assess risks in the working environment existed before, among other places in section 7-1 of the regulation on organisation, management and employee participation. The new chapter makes clear that the duty also covers the psychosocial working environment, and describes how the work is to be done."
           },
           {
             "t": "timeline",
@@ -9176,7 +9366,7 @@
           },
           {
             "t": "p",
-            "text": "Section 1A-1 of the regulation names, among other things, unclear or conflicting demands and expectations, emotional demands and strain in work with people, workload and time pressure, support and help at work, the opportunity for contact and communication with others, harassment, violence and threats, and autonomy and influence. In addition, section 4-3(3) of the Act requires work to be arranged so that the employee's integrity and dignity are safeguarded."
+            "text": "Section 1A-1 of the regulation names, among other things, unclear or conflicting demands and expectations, emotional demands and strain in work with people, and workload and time pressure. It also names support and help at work, the opportunity for contact and communication with others, harassment, violence and threats, and autonomy and influence. In addition, section 4-3(3) of the Act requires work to be arranged so that the employee's integrity and dignity are safeguarded."
           },
           {
             "t": "p",
@@ -9210,7 +9400,7 @@
                 "Not a one-off exercise. Changes in organisation, staffing, tasks, management, technology, working hours or operating conditions may call for a new round."
               ],
               [
-                "Documented and part of HSE work",
+                "Documented and part of health, safety and environment (HSE) work",
                 "Set down in writing so that the work can be followed up, and the basis for measures under § 1A-3."
               ]
             ]
@@ -9381,7 +9571,7 @@
           },
           {
             "t": "p",
-            "text": "The list is not a minimum. In its commentary on the regulation, the Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that the provision does not set a minimum for which factors every organisation must map and assess, and that this depends on the nature, activities and risk profile of the organisation. At the same time, Arbeidstilsynet stresses that the factors will be relevant to a great many organisations."
+            "text": "The list is not a minimum. In its commentary on the regulation, the Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that the provision does not set a minimum for which factors every organisation must map and assess. That depends on the nature, activities and risk profile of the organisation. At the same time, Arbeidstilsynet stresses that the factors will be relevant to a great many organisations."
           },
           {
             "t": "p",
@@ -9393,7 +9583,7 @@
           },
           {
             "t": "p",
-            "text": "The table shows how the factors can be covered in eleven topics, with one example statement for each. The statements come from a survey built in the QPS Nordic tradition, where each topic is measured by several statements."
+            "text": "The table shows how the factors can be covered in eleven topics, with one example statement for each. The statements come from a survey built in the QPS Nordic tradition (the Nordic questionnaire on psychological and social factors at work), where each topic is measured by several statements."
           },
           {
             "t": "table",
@@ -9506,7 +9696,7 @@
           },
           {
             "t": "h2",
-            "text": "Why fewer questions give better answers"
+            "text": "Why do fewer questions give better answers?"
           },
           {
             "t": "p",
@@ -9526,7 +9716,7 @@
           },
           {
             "t": "h2",
-            "text": "How the answers should be read"
+            "text": "How should the answers be read?"
           },
           {
             "t": "p",
@@ -9623,7 +9813,7 @@
           },
           {
             "t": "h2",
-            "text": "Why one survey a year is not enough on its own"
+            "text": "Why is one survey a year not enough on its own?"
           },
           {
             "t": "p",
@@ -9698,7 +9888,7 @@
           },
           {
             "t": "h2",
-            "text": "How to keep people willing to answer"
+            "text": "How do you keep people willing to answer?"
           },
           {
             "t": "p",
@@ -9773,11 +9963,11 @@
           },
           {
             "t": "p",
-            "text": "The same pattern shows up at work. When Antonioni, in 1994, had employees of an insurance company rate their managers, those who had to give their names rated the manager higher than those who answered anonymously. The employees were most comfortable answering anonymously; the managers preferred to know who had said what. The researcher’s own reading was that the named ratings were probably inflated. A review of the research on sensitive questions (Tourangeau and Yan, 2007) points to why: people edit their answers to avoid embarrassment and to avoid consequences from others – and a manager who can read the answer is such a consequence."
+            "text": "The same pattern shows up at work. When Antonioni, in 1994, had employees of an insurance company rate their managers, those who had to give their names rated the manager higher than those who answered anonymously. The employees were most comfortable answering anonymously; the managers preferred to know who had said what. The researcher’s own reading was that the named ratings were probably inflated. A review of the research on sensitive questions (Tourangeau and Yan, 2007) points to why. People edit their answers to avoid embarrassment and to avoid consequences from others – and a manager who can read the answer is such a consequence."
           },
           {
             "t": "p",
-            "text": "Two caveats belong here. Anonymity does not automatically bring more answers: a 1995 review (Singer, Von Thurn and Miller) found that assurances of confidentiality raise the response rate a little, and only when the questions are sensitive, and a randomised trial from 2014 (Murdoch and colleagues) found no reliable difference in response rate between anonymous and confidential mailings – but those who answered anonymously were the most like those who did not answer, and so gave the most representative picture. And anonymity without meaning can breed carelessness: Lelkes and colleagues showed in 2012 that completely anonymous students more often admitted unpopular attitudes, but also answered less accurately. The lesson for an employee survey is not to weaken anonymity, but to make the survey worth answering carefully: a short form, questions people recognise themselves in, and a result they get to see again."
+            "text": "Two caveats belong here. Anonymity does not automatically bring more answers. A 1995 review (Singer, Von Thurn and Miller) found that assurances of confidentiality raise the response rate a little, and only when the questions are sensitive. A randomised trial from 2014 (Murdoch and colleagues) found no reliable difference in response rate between anonymous and confidential mailings. But those who answered anonymously were the most like those who did not answer, and so gave the most representative picture. And anonymity without meaning can breed carelessness: Lelkes and colleagues showed in 2012 that completely anonymous students more often admitted unpopular attitudes, but also answered less accurately. The lesson for an employee survey is not to weaken anonymity, but to make the survey worth answering carefully: a short form, questions people recognise themselves in, and a result they get to see again."
           },
           {
             "t": "h2",
@@ -9785,7 +9975,7 @@
           },
           {
             "t": "p",
-            "text": "Anonymity does not get in the way of what the mapping is for. In its commentary on section 1A-1, the Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that the assessment of what is fully satisfactory should, as a rule, relate to the psychosocial working environment as a whole and to the organisation's systems, structure and management. Individual experiences still matter, but as signals about the organisation:"
+            "text": "Anonymity does not get in the way of what the mapping is for. In its commentary on section 1A-1, the Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that the assessment of what is fully satisfactory should, as a rule, relate to the psychosocial working environment as a whole. It relates to the organisation's systems, structure and management. Individual experiences still matter, but as signals about the organisation:"
           },
           {
             "t": "quote",
@@ -9802,7 +9992,7 @@
           },
           {
             "t": "p",
-            "text": "Many surveys are «confidential» rather than anonymous: the vendor or HR knows who answered what, and promises not to pass it on. The difference is not a formality. The Norwegian Data Protection Authority (Datatilsynet) writes that the purpose of a working-environment survey can normally be achieved with anonymous data, and that processing personal data is then, in most cases, not even permitted. If the survey is not genuinely anonymous, the data protection rules apply in full: the employer needs a legal basis, employees must be told who has access – «for example the immediate manager or the HR department» – and each of them has a right of access to what is stored about them."
+            "text": "Many surveys are «confidential» rather than anonymous: the vendor or HR knows who answered what, and promises not to pass it on. The difference is not a formality. The Norwegian Data Protection Authority (Datatilsynet) writes that the purpose of a working-environment survey can normally be achieved with anonymous data, and that processing personal data is then, in most cases, not even permitted. If the survey is not genuinely anonymous, the data protection rules apply in full. The employer needs a legal basis, employees must be told who has access – «for example the immediate manager or the HR department» – and each of them has a right of access to what is stored about them."
           },
           {
             "t": "quote",
@@ -9823,7 +10013,7 @@
           },
           {
             "t": "p",
-            "text": "The law has its own route for such cases. Chapter 2 A of the Working Environment Act gives employees the right to report censurable conditions (varsling), obliges the employer to investigate a report within a reasonable time and to ensure that the person who reported has a fully satisfactory working environment, and prohibits retaliation. Businesses with at least five employees must have written procedures for internal reporting. A survey does not replace those procedures, and it should say so itself: if it is a specific case, use the reporting procedure."
+            "text": "The law has its own route for such cases. Chapter 2 A of the Working Environment Act gives employees the right to report censurable conditions (varsling). It obliges the employer to investigate a report within a reasonable time and to ensure that the person who reported has a fully satisfactory working environment, and it prohibits retaliation. Businesses with at least five employees must have written procedures for internal reporting. A survey does not replace those procedures, and it should say so itself: if it is a specific case, use the reporting procedure."
           },
           {
             "t": "law",
@@ -9844,7 +10034,7 @@
           },
           {
             "t": "p",
-            "text": "The fear of consequences is not imagined. In Fafo’s survey for the Labour Inspection Authority (2019), 19 per cent of those who had reported said they met negative reactions or sanctions – most often being stripped of tasks or reprimanded by a manager – and the report states that psychosocial conditions are the hardest to report. In 2022 the share meeting negative reactions was 21 per cent, against 13 per cent in 2010, and the risk was greatest precisely when the report concerned the psychosocial working environment and when the boss was the person responsible. That is the reality employees have in mind when they weigh whether they dare answer a question about their manager honestly."
+            "text": "The fear of consequences is not imagined. In Fafo’s survey for the Labour Inspection Authority (2019), 19 per cent of those who had reported said they met negative reactions or sanctions – most often being stripped of tasks or reprimanded by a manager. The report states that psychosocial conditions are the hardest to report. In 2022 the share meeting negative reactions was 21 per cent, against 13 per cent in 2010, and the risk was greatest precisely when the report concerned the psychosocial working environment and when the boss was the person responsible. That is the reality employees have in mind when they weigh whether they dare answer a question about their manager honestly."
           },
           {
             "t": "h2",
@@ -9909,7 +10099,7 @@
           },
           {
             "t": "p",
-            "text": "Comments can also contain personal data about others – a colleague mentioned by name, a place, an incident. Then it is not only the writer who needs shielding. Names of colleagues, departments and places should be taken out before anyone reads the text, and the comment should be shown without the group it came from: «someone in the workshop wrote this» is a small enough haystack for people to guess."
+            "text": "Comments can also contain personal data about others – a colleague mentioned by name, a place, an incident. Then it is not only the writer who needs shielding. Names of colleagues, departments and places should be taken out before anyone reads the text, and the comment should be shown without the group it came from. «Someone in the workshop wrote this» is a small enough haystack for people to guess."
           },
           {
             "t": "p",
@@ -9921,15 +10111,15 @@
           },
           {
             "t": "p",
-            "text": "Legally, the answer is the employer. It is the organisation that decides the purpose of the survey and how it is run, and that is therefore the data controller. A vendor that runs the survey is a processor acting on the employer’s instructions – Datatilsynet reminds employers that the requirements of Articles 28 and 29 of the GDPR must then be met, with a data processing agreement. The vendor does not own the answers and cannot use them for its own purposes, such as comparing customers or training models, unless the agreement says so."
+            "text": "Legally, the answer is the employer. It is the organisation that decides the purpose of the survey and how it is run, and that is therefore the data controller. A vendor that runs the survey is a processor acting on the employer’s instructions. Datatilsynet reminds employers that the requirements of Articles 28 and 29 of the General Data Protection Regulation (GDPR) must then be met, with a data processing agreement. The vendor does not own the answers and cannot use them for its own purposes, such as comparing customers or training models, unless the agreement says so."
           },
           {
             "t": "p",
-            "text": "If the survey is genuinely anonymous, the answers are not personal data, and employees have no right of access to them – there is no «my answer» to give access to. That is a benefit, not a loss: it is the reason the answers can be honest. But it also means the employer must settle some things in the agreement that the law would otherwise regulate: how long results are kept, what is deleted when the agreement ends, whether the data can be exported and in what form, and who in the organisation has access to what."
+            "text": "If the survey is genuinely anonymous, the answers are not personal data, and employees have no right of access to them – there is no «my answer» to give access to. That is a benefit, not a loss: it is the reason the answers can be honest. But it also means the employer must settle some things in the agreement that the law would otherwise regulate. These are how long results are kept, what is deleted when the agreement ends, whether the data can be exported and in what form, and who in the organisation has access to what."
           },
           {
             "t": "p",
-            "text": "A practical principle is that nobody should see more than they need. The general manager needs the figures for the organisation and for the departments above the limit; a department manager needs their own department; the safety representative needs the same figures as management to take part under section 6-2 of the Working Environment Act. None of them needs to know who answered what – and none of them should have the technical means to find out, including whoever administers the tool."
+            "text": "A practical principle is that nobody should see more than they need. The general manager needs the figures for the organisation and for the departments above the limit; a department manager needs their own department. The safety representative needs the same figures as management to take part under section 6-2 of the Working Environment Act. None of them needs to know who answered what – and none of them should have the technical means to find out, including whoever administers the tool."
           },
           {
             "t": "table",
@@ -10082,7 +10272,7 @@
         ]
       },
       "verneombud": {
-        "title": "The safety representative and the psychosocial working environment | Orgpuls",
+        "title": "Safety representative: role in psychosocial mapping | Orgpuls",
         "description": "The safety representative must see that the psychosocial working environment is looked after and be consulted on measures. The role in the mapping.",
         "h1": "What role does the safety representative play when the psychosocial working environment is mapped?",
         "lead": "The safety representative (verneombud) looks after employees' interests in working environment matters, must ensure that the psychosocial working environment is taken care of, and must be consulted when measures are planned and carried out. When the psychosocial working environment is mapped and risk-assessed, the safety representative is one of the representatives the employer must work with. Responsibility for making sure the mapping happens, however, lies with the employer.",
@@ -10098,7 +10288,7 @@
           },
           {
             "t": "p",
-            "text": "Section 6-2 of the Act lists what the safety representative must particularly ensure. One item concerns the psychosocial working environment directly, and the fourth paragraph ties the safety representative to systematic HSE work, where mapping belongs."
+            "text": "Section 6-2 of the Act lists what the safety representative must particularly ensure. One item concerns the psychosocial working environment directly, and the fourth paragraph ties the safety representative to systematic health, safety and environment (HSE) work, where mapping belongs."
           },
           {
             "t": "law",
@@ -10211,7 +10401,7 @@
           },
           {
             "t": "p",
-            "text": "If the safety representative becomes aware of conditions that may cause a risk of accident or ill health, they must alert the employees on the spot at once, and draw the employer's attention to it if they cannot avert the danger themselves. The employer must respond. If the report is not acted on within a reasonable time, the safety representative must notify Arbeidstilsynet or the working environment committee (section 6-2(3))."
+            "text": "If the safety representative becomes aware of conditions that may cause a risk of accident or ill health, they must alert the employees on the spot at once. If they cannot avert the danger themselves, they must draw the employer's attention to it. The employer must respond. If the report is not acted on within a reasonable time, the safety representative must notify Arbeidstilsynet or the working environment committee (section 6-2(3))."
           },
           {
             "t": "p",
@@ -10285,7 +10475,7 @@
         "title": "Is an employee survey required by law? | Orgpuls",
         "description": "No, not as a duty of its own – but the employer must map the working environment, assess risk and act on it. What the law requires, and where surveys fit.",
         "h1": "Is an employee survey required by law?",
-        "lead": "No, not as a duty of its own. The Working Environment Act and its regulations do not say that an organisation must run an employee survey. What the law requires is to map the working environment, assess the risk and put measures in place – and from 1 January 2026 the regulation on the performance of work says expressly that this covers the psychosocial working environment factors. An anonymous employee survey is a common way to do the mapping, but it is a tool, not the requirement itself.",
+        "lead": "No, not as a duty of its own. The Working Environment Act and its regulations do not say that an organisation must run an employee survey. What the law requires is to map the working environment, assess the risk and put measures in place. From 1 January 2026 the regulation on the performance of work says expressly that this covers the psychosocial working environment factors. An anonymous employee survey is a common way to do the mapping, but it is a tool, not the requirement itself.",
         "blocks": [
           {
             "t": "box",
@@ -10294,7 +10484,7 @@
           },
           {
             "t": "h2",
-            "text": "What the law actually requires"
+            "text": "What does the law actually require?"
           },
           {
             "t": "p",
@@ -10314,8 +10504,53 @@
             ]
           },
           {
+            "t": "table",
+            "head": [
+              "Requirement",
+              "Required by law?",
+              "Where it says so"
+            ],
+            "rows": [
+              [
+                "Map the working environment, the psychosocial factors included",
+                "Yes",
+                "Working Environment Act § 3-1(2)(c); regulation § 1A-2(1)"
+              ],
+              [
+                "Assess the risk, in the short and the long term",
+                "Yes",
+                "regulation § 1A-2(1)"
+              ],
+              [
+                "Put measures in place and follow them up",
+                "Yes",
+                "Working Environment Act § 3-1(2)(c); regulation § 1A-3"
+              ],
+              [
+                "Do it together with the employees and the safety representative",
+                "Yes",
+                "regulation § 1A-2(4)(a); Working Environment Act § 6-2"
+              ],
+              [
+                "Document the mapping, the assessment and the measures",
+                "Yes",
+                "regulation § 1A-2(4)(d)"
+              ],
+              [
+                "Repeat regularly and whenever something changes",
+                "Yes",
+                "regulation § 1A-2(4)(c)"
+              ],
+              [
+                "Use a questionnaire",
+                "No – the organisation chooses the method",
+                "regulation § 1A-2(4)(b): adapted to the organisation"
+              ]
+            ]
+          },
+          {
             "t": "p",
-            "text": "Chapter 1A was added to the regulation on 1 January 2026. The duty to map is not new, but it now says expressly that it covers the psychosocial factors – among them workload and time pressure, unclear or conflicting demands, support and help in the work, and influence over one’s own work. Read more about [the new rules from 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
+            "text": "Chapter 1A was added to the regulation on 1 January 2026. The duty to map is not new. What is new is that it now applies expressly to the psychosocial factors – among them workload and time pressure, unclear or conflicting demands, support and help in the work, and influence over one’s own work. Read more about [the new rules from 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
           },
           {
             "t": "h2",
@@ -10353,7 +10588,7 @@
           },
           {
             "t": "h2",
-            "text": "Why many choose a survey anyway"
+            "text": "Why do many choose a survey anyway?"
           },
           {
             "t": "ul",
@@ -10385,13 +10620,50 @@
             "text": "Chapter 18 of the Working Environment Act gives Arbeidstilsynet several means when the requirements are not met:"
           },
           {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Order",
+                "ref": "Working Environment Act § 18-6",
+                "text": "A written order to put the matter right, with a deadline."
+              },
+              {
+                "title": "Coercive fine",
+                "ref": "§ 18-7",
+                "text": "A running fine from the deadline in the order until the order is complied with."
+              },
+              {
+                "title": "Suspension",
+                "ref": "§ 18-8",
+                "text": "The organisation’s activities can be stopped, in whole or in part, when an order is not complied with by the deadline."
+              },
+              {
+                "title": "Infringement fine",
+                "ref": "§ 18-10",
+                "text": "When someone acting on behalf of the organisation has negligently or wilfully breached the provisions."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What must you be able to document?"
+          },
+          {
+            "t": "p",
+            "text": "The regulation requires the mapping and the risk assessment to be documented and to form part of the organisation’s systematic health, environment and safety work. The Norwegian Labour Inspection Authority (Arbeidstilsynet) writes that they must be set down in writing in a way that makes it possible to follow up the work. Their scope and form can suit the organisation’s nature, size and risk profile. In practice you should be able to show:"
+          },
+          {
             "t": "ul",
             "items": [
-              "**An order** to put the matter right (§ 18-6).",
-              "**A coercive fine**, running from the deadline in the order until the order is complied with (§ 18-7).",
-              "**Suspension** of the organisation’s activities, in whole or in part, when an order is not complied with by the deadline (§ 18-8).",
-              "**An infringement fine** when someone acting on behalf of the organisation has negligently or wilfully breached the provisions (§ 18-10)."
+              "when the mapping was done, how, and who took part",
+              "what came out of it, and how the risk was assessed",
+              "which measures were chosen, with an owner and a deadline",
+              "what the follow-up showed, and when you will map again"
             ]
+          },
+          {
+            "t": "p",
+            "text": "A survey gives you much of this in writing at once. Read more about [what the documentation should contain](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -10443,7 +10715,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "What the law requires"
+            "text": "What does the law require?"
           },
           {
             "t": "p",
@@ -10472,7 +10744,7 @@
           },
           {
             "t": "p",
-            "text": "Working Environment Act § 4-1 sets the frame: the working environment in the undertaking must be fully satisfactory, judged from an individual and overall assessment of the factors in the working environment that may affect the employees’ physical and mental health and welfare. The mapping therefore covers more than one area: What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
+            "text": "Working Environment Act § 4-1 sets the frame. The working environment in the undertaking must be fully satisfactory, judged from an individual and overall assessment of the factors that may affect the employees’ physical and mental health and welfare. What counts as the psychosocial working environment, and which factors the law names, is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo). The mapping therefore covers more than one area:"
           },
           {
             "t": "ul",
@@ -10626,7 +10898,7 @@
           },
           {
             "t": "p",
-            "text": "A vernerunde (safety round) is a planned walk through the workplace where the manager and the safety representative look for conditions that could harm health or safety, talk with the people who work there, and note what must be followed up. The word is not in the Working Environment Act. The round is nevertheless an established way of meeting the Act’s requirements: the employer must «kartlegge farer og problemer» (map hazards and problems) and assess the risk (Working Environment Act § 3-1 second paragraph c and the internal control regulation § 5), and the safety representative must see to it that the working environment is sound and may, in the Authority’s words, «på eget initiativ foreta jevnlige systematiske inspeksjoner innen sitt verneområde» (on their own initiative carry out regular, systematic inspections within their area)."
+            "text": "A vernerunde (safety round) is a planned walk through the workplace where the manager and the safety representative look for conditions that could harm health or safety. They talk with the people who work there, and note what must be followed up. The word is not in the Working Environment Act. The round is nevertheless an established way of meeting the Act’s requirements. The employer must «kartlegge farer og problemer» (map hazards and problems) and assess the risk (Working Environment Act § 3-1 second paragraph c and the internal control regulation § 5). The safety representative must see to it that the working environment is sound. In the Authority’s words, the representative may «på eget initiativ foreta jevnlige systematiske inspeksjoner innen sitt verneområde» (on their own initiative carry out regular, systematic inspections within their area)."
           },
           {
             "t": "quote",
@@ -10643,7 +10915,7 @@
           },
           {
             "t": "p",
-            "text": "Only if you put it in. A traditional safety round looks for what can be seen: escape routes, protective equipment, ergonomics, chemicals, order. Workload, unclear demands, support from the manager and conflicts between colleagues cannot be seen – they must be asked about. Working Environment Act § 6-2 says the safety representative must particularly see to it that «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (the employees’ psychosocial working environment is taken care of), and the Authority writes that the representative’s part in the HSE work «inkluderer også arbeidstakernes psykososiale miljø» (also includes the employees’ psychosocial environment). That makes the round a natural place to ask."
+            "text": "Only if you put it in. A traditional safety round looks for what can be seen: escape routes, protective equipment, ergonomics, chemicals, order. Workload, unclear demands, support from the manager and conflicts between colleagues cannot be seen – they must be asked about. Working Environment Act § 6-2 says the safety representative must particularly see to it that «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (the employees’ psychosocial working environment is taken care of). The Authority writes that the representative’s part in the health, safety and environment (HSE) work «inkluderer også arbeidstakernes psykososiale miljø» (also includes the employees’ psychosocial environment). That makes the round a natural place to ask."
           },
           {
             "t": "p",
@@ -10712,12 +10984,47 @@
             "text": "An anonymous working-environment survey. Section 1A-2 of the regulation on the performance of work requires the psychosocial factors to be surveyed and risk-assessed systematically, each on its own and together, in cooperation with the employees, and documented. The round gives observations and conversations; it does not give figures per factor and per group that can be compared over time, and it gives the person answering no anonymity. The two complete each other: the survey says where the figures are low, the round shows why. Read about [what a working-environment survey is](/artikler/arbeidsmiljokartlegging) and about [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
           },
           {
+            "t": "table",
+            "head": [
+              "Question",
+              "Safety round",
+              "Anonymous working environment survey"
+            ],
+            "rows": [
+              [
+                "Who gets a say?",
+                "Those present, by name",
+                "All employees, anonymously"
+              ],
+              [
+                "What does it capture?",
+                "What can be seen, and what people say when asked",
+                "Figures per factor and per group"
+              ],
+              [
+                "Can it be compared over time?",
+                "Only as notes from round to round",
+                "Yes, the same statements every time"
+              ],
+              [
+                "Does it tell you why?",
+                "Yes, in the conversation on the spot",
+                "Rarely – that takes the review afterwards"
+              ],
+              [
+                "Place in § 1A-2 of the regulation",
+                "One of several sources in the mapping",
+                "Systematic mapping of the factors, separately and together"
+              ]
+            ]
+          },
+          {
             "t": "h2",
             "text": "What is special about a safety round on a building site?"
           },
           {
             "t": "p",
-            "text": "On a building or civil-engineering site there are often several employers, changing crews and short deadlines, and the safety round usually goes with the SHA plan and the safe-job analyses. The psychosocial is just as concrete there: time pressure against milestones, coordination between firms, messages that do not get through, and language. Section 19a of the building-site regulation (byggherreforskriften) requires the employer to ensure that the workers can communicate without creating a safety risk, and that at least one person on each work team, where safety requires it, can understand and make themselves understood in a language the rest of the team understands. Ask on the round whether messages are actually understood, and whether it is all right to ask again. When several employers share a site, the main contractor is responsible for coordinating the HSE work (Working Environment Act § 2-2)."
+            "text": "On a building or civil-engineering site there are often several employers, changing crews and short deadlines, and the safety round usually goes with the SHA plan (the plan for safety, health and the working environment) and the safe-job analyses. The psychosocial is just as concrete there: time pressure against milestones, coordination between firms, messages that do not get through, and language. Section 19a of the building-site regulation (byggherreforskriften) requires the employer to ensure that the workers can communicate without creating a safety risk. Where safety requires it, at least one person on each work team must be able to understand and make themselves understood in a language the rest of the team understands. Ask on the round whether messages are actually understood, and whether it is all right to ask again. When several employers share a site, the main contractor is responsible for coordinating the HSE work (Working Environment Act § 2-2)."
           },
           {
             "t": "h2",

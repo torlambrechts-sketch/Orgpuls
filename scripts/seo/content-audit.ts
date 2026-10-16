@@ -14,7 +14,9 @@
  * The thresholds are the ones the tests hold (title ≤ 65, description ≤ 155) and the strategy's rules
  * (docs/marketing/seo-geo-strategy.md § 2–3): an article's H1 asks and its lead answers, at least half its sections
  * are questions, at least two other pages link it from their text or their registries (the header and footer do not
- * count), and it cites at least three sources.
+ * count), and it cites at least three sources. The article standard (D-287, lib/marketing/readability.ts) adds how
+ * an article reads: our own prose at LIX 50 or under with no sentence over 40 words, at least one diagram block, and
+ * every abbreviation spelled out at its first use.
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import no from '@/messages/no.json'
@@ -23,7 +25,8 @@ import { TEMPLATES } from '@/lib/marketing/templates'
 import { INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 import { LANDINGS } from '@/content/industries/landing'
 import { FOOTERS, SITE_NAV, V3_ROUTES } from '@/lib/site/nav'
-import { plain } from '@/lib/marketing/blocks'
+import { type Block as ZBlock, plain } from '@/lib/marketing/blocks'
+import { allText, DIAGRAM_KINDS, lix, longSentences, ownUnits, unexplainedAbbreviations } from '@/lib/marketing/readability'
 
 type Tree = { [k: string]: unknown }
 type Block = {
@@ -289,6 +292,17 @@ function measure(p: Page) {
   if (!['home', 'site', 'index', 'question'].includes(p.kind) && !chrome.has(p.path) && inb.length < 2) flags.push(`IN<2 (${inb.length})`)
   if (p.kind === 'article' && p.sources < 3) flags.push(`SRC<3 (${p.sources})`)
   if (p.kind === 'article' && wordsOn !== undefined && wordsOn < 700) flags.push(`W<700 (${wordsOn})`)
+  // how it reads (D-287): our own prose at LIX 50 or under, no sentence over 40 words, a diagram, abbreviations spelled out
+  let readability: { lix: number; long: number; diagram: boolean; abbr: string[] } | undefined
+  if (p.kind === 'article' && p.lead) {
+    const a = { title: p.title, description: p.description, h1: p.h1, lead: p.lead, blocks: p.blocks as unknown as ZBlock[] }
+    const own = ownUnits(a)
+    readability = { lix: lix(own).lix, long: longSentences(own).length, diagram: p.blocks.some((b) => DIAGRAM_KINDS.has(b.t)), abbr: unexplainedAbbreviations(allText(a), 'no') }
+    if (readability.lix > 50) flags.push(`LIX>50 (${readability.lix.toFixed(0)})`)
+    if (readability.long) flags.push(`SENT>40 (${readability.long})`)
+    if (!readability.diagram) flags.push('NODIAGRAM')
+    if (readability.abbr.length) flags.push(`ABBR (${readability.abbr.join('/')})`)
+  }
   const age = days(p.modified)
   if (age !== undefined && age > 45) flags.push(`AGE>45 (${age}d)`)
   if ((p.kind === 'landing' || p.kind === 'industry') && p.faq === 0) flags.push('NOFAQ')
@@ -312,6 +326,7 @@ function measure(p: Page) {
     chrome: chrome.has(p.path),
     outbound: [...p.links],
     sources: p.sources,
+    readability,
     faq: p.faq,
     modified: p.modified,
     age,

@@ -129,7 +129,7 @@ def risikovurdering(path: Path):
     wb = Workbook()
     law = next(b for b in NO['seo']['lp']['lovkrav']['blocks'] if b['t'] == 'table')
     quote = block('risikovurdering', 'quote')
-    steps = block('risikovurdering', 'timeline', 'En arbeidsmåte i fire steg')['items']
+    steps = block('risikovurdering', 'timeline', 'Hvordan gjør dere risikovurderingen i praksis?')['items']
     three = block('risikovurdering', 'cards', 'Hvilke tre forhold skal vurderes?')['items']
     document = block('risikovurdering', 'ul', 'Hva skal dokumenteres?')['items']
 
@@ -307,9 +307,9 @@ def tiltaksbank(path: Path):
 # --------------------------------------------------------------------------- 3 · årshjul
 def arshjul(path: Path):
     wb = Workbook()
-    wheel = block('hvorOfte', 'timeline', 'Et eksempel på et årshjul')['items']
+    wheel = block('hvorOfte', 'timeline', 'Hvordan kan et årshjul se ut?')['items']
     changes = block('hvorOfte', 'ul', 'Når utløser en endring ny kartlegging?')['items']
-    tips = block('hvorOfte', 'ul', 'Hvordan holde svarviljen oppe')['items']
+    tips = block('hvorOfte', 'ul', 'Hvordan holder dere svarviljen oppe?')['items']
     ws = wb.active
     ws.title = 'Slik bruker du malen'
     text_sheet(ws, 'Årshjul for arbeidet med det psykososiale arbeidsmiljøet', [

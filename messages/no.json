@@ -5868,7 +5868,7 @@
         "title": "Medarbeiderundersøkelse i arbeidsmiljøarbeidet | Orgpuls",
         "description": "Hva en medarbeiderundersøkelse er, hva arbeidsmiljøloven krever, hva den bør måle, hvordan svarene holdes anonyme og hvordan funnene blir til tiltak.",
         "h1": "Hva er en medarbeider­undersøkelse, og hvordan bør den brukes?",
-        "lead": "En medarbeiderundersøkelse er en spørreundersøkelse der de ansatte vurderer sitt eget arbeidsmiljø, og der svarene bare vises for grupper der ingen kan kjennes igjen. Brukt riktig er den en del av den lovpålagte kartleggingen av det psykososiale arbeidsmiljøet: den måler faktorene regelverket peker på, resultatene gås gjennom med de ansatte og verneombudet, og funnene blir til tiltak som følges opp og evalueres.",
+        "lead": "En medarbeiderundersøkelse er en spørreundersøkelse der de ansatte vurderer sitt eget arbeidsmiljø, og der svarene bare vises for grupper der ingen kan kjennes igjen. Brukt riktig er den en del av den lovpålagte kartleggingen av det psykososiale arbeidsmiljøet. Den måler faktorene regelverket peker på, resultatene gås gjennom med de ansatte og verneombudet, og funnene blir til tiltak som følges opp og evalueres.",
         "blocks": [
           {
             "t": "h2",
@@ -5888,6 +5888,44 @@
           },
           {
             "t": "h2",
+            "text": "Hvordan ser en god prosess ut, steg for steg?"
+          },
+          {
+            "t": "p",
+            "text": "Regelverket beskriver en kjede fra kartlegging til tiltak, og en medarbeiderundersøkelse er ett ledd i den. De fem stegene under følger forskriftens krav:"
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Planlegg sammen med verneombudet",
+                "ref": "forskriften § 1A-2 fjerde ledd bokstav a",
+                "text": "Avtal formål, temaer, grupper og tidsplan før noe sendes ut."
+              },
+              {
+                "title": "Mål faktorene regelverket peker på",
+                "ref": "forskriften § 1A-1",
+                "text": "Arbeidsmengde, krav, støtte, innflytelse, kontakt og hvordan folk behandler hverandre – og det som beskytter."
+              },
+              {
+                "title": "Vis bare grupper der ingen kan kjennes igjen",
+                "ref": "Datatilsynet",
+                "text": "Ingen gruppe med færre enn fem svar, få bakgrunnsspørsmål og varsomhet med fritekst."
+              },
+              {
+                "title": "Gå gjennom resultatene med de ansatte",
+                "ref": "forskriften § 1A-4",
+                "text": "Spør hva som ligger bak tallene. Undersøkelsen viser hvor; samtalen forklarer hvorfor."
+              },
+              {
+                "title": "Sett i verk tiltak, mål på nytt og dokumenter",
+                "ref": "forskriften § 1A-3",
+                "text": "Hvert tiltak med mål, ansvarlig og tidsramme. Evaluer, og skriv ned kartlegging, vurdering og tiltak."
+              }
+            ]
+          },
+          {
+            "t": "h2",
             "text": "Er en medarbeiderundersøkelse nok som kartlegging?"
           },
           {
@@ -5904,7 +5942,7 @@
           },
           {
             "t": "p",
-            "text": "Plikten til å kartlegge arbeidsmiljøet er ikke ny. Den står i bestemmelsen om systematisk HMS-arbeid i arbeidsmiljøloven, og fra 1. januar 2026 er den gjort tydelig for det psykososiale arbeidsmiljøet i et eget kapittel i forskrift om utførelse av arbeid."
+            "text": "Plikten til å kartlegge arbeidsmiljøet er ikke ny. Den står i bestemmelsen om systematisk helse-, miljø- og sikkerhetsarbeid (HMS) i arbeidsmiljøloven, og fra 1. januar 2026 er den gjort tydelig for det psykososiale arbeidsmiljøet i et eget kapittel i forskrift om utførelse av arbeid."
           },
           {
             "t": "law",
@@ -5954,7 +5992,7 @@
           },
           {
             "t": "p",
-            "text": "Et etablert utgangspunkt er spørreskjemaer i QPS Nordic-tradisjonen, et nordisk spørreskjema om psykologiske og sosiale faktorer i arbeidet. STAMI beskriver at det er utviklet «for kartlegging i forbindelse med utviklingsarbeid og tiltak og for forskning», og at det er ment brukt i en «kartleggings-tilbakemeldingsprosess»: resultatene skal tilbake til dem som svarte. Se [hvilke spørsmål som bør være med](/artikler/medarbeiderundersokelse-sporsmal)."
+            "text": "Et etablert utgangspunkt er spørreskjemaer i QPS Nordic-tradisjonen, et nordisk spørreskjema om psykologiske og sosiale faktorer i arbeidet. Statens arbeidsmiljøinstitutt (STAMI) beskriver at det er utviklet «for kartlegging i forbindelse med utviklingsarbeid og tiltak og for forskning», og at det er ment brukt i en «kartleggings-tilbakemeldingsprosess»: resultatene skal tilbake til dem som svarte. Se [hvilke spørsmål som bør være med](/artikler/medarbeiderundersokelse-sporsmal)."
           },
           {
             "t": "h2",
@@ -6081,7 +6119,7 @@
         "title": "Trivselsundersøkelse og arbeidsmiljø: hva bør måles? | Orgpuls",
         "description": "Trivselsundersøkelse og medarbeidertilfredshetsundersøkelse (MTU): hva de måler, hvorfor trivsel er et resultat, og hva kartleggingen krever.",
         "h1": "Hva er en trivsels­undersøkelse, og er den nok for å kartlegge arbeidsmiljøet?",
-        "lead": "En trivselsundersøkelse, også kalt medarbeidertilfredshetsundersøkelse eller MTU, måler hvor fornøyde de ansatte er med jobben. Alene er den ikke nok til å kartlegge det psykososiale arbeidsmiljøet: trivsel er et resultat av hvordan arbeidet er organisert, og regelverket krever at virksomheten kartlegger og vurderer selve arbeidsmiljøfaktorene – det som belaster og det som beskytter – slik at tiltakene kan rettes mot årsakene.",
+        "lead": "En trivselsundersøkelse, også kalt medarbeidertilfredshetsundersøkelse eller MTU, måler hvor fornøyde de ansatte er med jobben. Alene er den ikke nok til å kartlegge det psykososiale arbeidsmiljøet. Trivsel er et resultat av hvordan arbeidet er organisert. Regelverket krever at virksomheten kartlegger og vurderer selve arbeidsmiljøfaktorene – det som belaster og det som beskytter – slik at tiltakene kan rettes mot årsakene.",
         "blocks": [
           {
             "t": "h2",
@@ -6134,12 +6172,29 @@
             "cite": "Arbeidstilsynet, høringsnotat om psykososialt arbeidsmiljø (2024)"
           },
           {
+            "t": "hub",
+            "center": {
+              "title": "Trivsel",
+              "text": "Resultatet av to prosesser som trekker hver sin vei"
+            },
+            "items": [
+              {
+                "title": "Krav",
+                "text": "Arbeidsmengde, tidspress og emosjonelle belastninger. De setter i gang en helsereduserende prosess."
+              },
+              {
+                "title": "Ressurser",
+                "text": "Støtte, innflytelse og tilbakemelding. De demper kravene og driver en motiverende prosess."
+              }
+            ]
+          },
+          {
             "t": "p",
             "text": "En trivselsmåling fanger opp summen av de to prosessene i ett tall. Den samme middels trivselen kan skjule høye krav som veies opp av gode ressurser, og lave krav i en jobb med lite støtte og innflytelse – to situasjoner som krever helt ulike tiltak."
           },
           {
             "t": "p",
-            "text": "Helheten betyr noe. En STAMI-studie med 6175 arbeidstakere i 62 norske virksomheter fant at høy kontroll over eget arbeid ikke så ut til å beskytte mot smerteplager for dem som samtidig hadde lave eller middels nivåer av andre beskyttende faktorer. Forskerne konkluderte: «Dette tyder på at høy jobbkontroll ikke er tilstrekkelig til å beskytte ansatte mot uheldige effekter av andre arbeidsmiljøfaktorer, og understreker betydningen av å ta helheten i betraktning når man skal vurdere arbeidsmiljøet.»"
+            "text": "Helheten betyr noe. En studie fra Statens arbeidsmiljøinstitutt (STAMI) med 6175 arbeidstakere i 62 norske virksomheter fant at høy kontroll over eget arbeid ikke så ut til å beskytte mot smerteplager. Det gjaldt dem som samtidig hadde lave eller middels nivåer av andre beskyttende faktorer. Forskerne konkluderte: «Dette tyder på at høy jobbkontroll ikke er tilstrekkelig til å beskytte ansatte mot uheldige effekter av andre arbeidsmiljøfaktorer, og understreker betydningen av å ta helheten i betraktning når man skal vurdere arbeidsmiljøet.»"
           },
           {
             "t": "h2",
@@ -6161,6 +6216,41 @@
           {
             "t": "p",
             "text": "Kravet gjelder altså faktorene i arbeidet som kan påvirke helse, sikkerhet og velferd, og hvordan de virker sammen – ikke hvor fornøyde de ansatte er. Ordet trivsel står verken i forskriftens kapittel 1A eller i Arbeidstilsynets kommentarer til det. En trivselsundersøkelse kan være et nyttig supplement, men den oppfyller ikke kravet alene. Les mer om [kravene til kartlegging](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Spørsmål",
+              "Trivselsundersøkelse",
+              "Kartlegging av arbeidsmiljøfaktorene"
+            ],
+            "rows": [
+              [
+                "Hva måles?",
+                "Hvor fornøyde de ansatte er",
+                "Krav og ressurser i arbeidet: arbeidsmengde, roller, støtte, innflytelse, emosjonelle krav"
+              ],
+              [
+                "Hva sier tallet?",
+                "At noe er bra eller galt",
+                "Hva som belaster, hva som beskytter, og hvor"
+              ],
+              [
+                "Oppfyller forskriften § 1A-2 alene?",
+                "Nei",
+                "Ja, når den gjøres i samarbeid med de ansatte, følges av en risikovurdering og dokumenteres"
+              ],
+              [
+                "Hva slags tiltak følger?",
+                "Ofte trivsels- og velferdstiltak",
+                "Tiltak rettet mot årsakene i arbeidet"
+              ],
+              [
+                "Kan den vise om tiltakene virket?",
+                "Bare som ett samlet tall",
+                "Ja, faktor for faktor og gruppe for gruppe"
+              ]
+            ]
           },
           {
             "t": "h2",
@@ -6303,7 +6393,7 @@
           },
           {
             "t": "p",
-            "text": "En studie av pulsmålinger i én helseorganisasjon fant at målingene ga et pålitelig bilde av engasjementet samlet, men at tallene lå stabilt gjennom åtte måneder, og at det knapt var forskjeller mellom grupper eller over tid, til tross for høy deltakelse. Studien konkluderte med at pulsmålinger kan egne seg til å anslå den generelle stemningen, men ikke til å oppdage endring over tid eller forskjeller mellom grupper."
+            "text": "En studie av pulsmålinger i én helseorganisasjon fant at målingene ga et pålitelig bilde av engasjementet samlet, men at tallene lå stabilt gjennom åtte måneder. Det var knapt forskjeller mellom grupper eller over tid, til tross for høy deltakelse. Studien konkluderte med at pulsmålinger kan egne seg til å anslå den generelle stemningen, men ikke til å oppdage endring over tid eller forskjeller mellom grupper."
           },
           {
             "t": "p",
@@ -6343,7 +6433,7 @@
           },
           {
             "t": "p",
-            "text": "Korte målinger sendes ofte til små grupper, og da er anonymiteten mer sårbar. Forfatterne av intervjustudien skriver at gjennomsnitt av enkeltspørsmål for få personer er problematisk både for påliteligheten og for å oppdage endring, og at det verken er etisk eller metodisk akseptabelt å rapportere resultater for grupper helt ned i tre til fem personer."
+            "text": "Korte målinger sendes ofte til små grupper, og da er anonymiteten mer sårbar. Forfatterne av intervjustudien skriver at gjennomsnitt av enkeltspørsmål for få personer er problematisk både for påliteligheten og for å oppdage endring. De skriver også at det verken er etisk eller metodisk akseptabelt å rapportere resultater for grupper helt ned i tre til fem personer."
           },
           {
             "t": "p",
@@ -6498,7 +6588,7 @@
           },
           {
             "t": "p",
-            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen kan faktoren måles med påstander som de ansatte sier seg mer eller mindre enige i. Eksempler:"
+            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) kan faktoren måles med påstander som de ansatte sier seg mer eller mindre enige i. Eksempler:"
           },
           {
             "t": "ol",
@@ -6670,7 +6760,7 @@
           },
           {
             "t": "p",
-            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen måles rolleklarhet med korte påstander om den ansattes egen jobb. Eksempler på slike påstander:"
+            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) måles rolleklarhet med korte påstander om den ansattes egen jobb. Eksempler på slike påstander:"
           },
           {
             "t": "ul",
@@ -6838,7 +6928,7 @@
           },
           {
             "t": "p",
-            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen kan faktoren måles med noen få påstander som de ansatte tar stilling til, for eksempel på en femdelt skala fra helt uenig til helt enig. Eksempler på påstander:"
+            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) kan faktoren måles med noen få påstander som de ansatte tar stilling til. Svarene gis for eksempel på en femdelt skala fra helt uenig til helt enig. Eksempler på påstander:"
           },
           {
             "t": "table",
@@ -6922,7 +7012,7 @@
           },
           {
             "t": "p",
-            "text": "Bestem skriftlig hvem som avgjør når krav fra ulike hold ikke går sammen, og gjør det kjent for alle som berøres. Det er én beslutning, men den må etterleves: Når en kollisjon oppstår, skal den ansatte vite hvem hun eller han går til, og den personen må faktisk ta stilling."
+            "text": "Bestem skriftlig hvem som avgjør når krav fra ulike hold ikke går sammen, og gjør det kjent for alle som berøres. Det er én beslutning, men den må etterleves: Når en kollisjon oppstår, skal den ansatte vite hvem som avgjør saken, og den personen må faktisk ta stilling."
           },
           {
             "t": "h3",
@@ -6938,7 +7028,7 @@
           },
           {
             "t": "p",
-            "text": "Når lederen gir en ny oppgave, sier hun eller han samtidig hva som skal prioriteres ned. Regelen er løpende og koster lite, men den flytter prioriteringen fra den ansatte og tilbake til den som har myndigheten."
+            "text": "Når lederen gir en ny oppgave, følger det med en beskjed om hva som skal prioriteres ned. Regelen er løpende og koster lite, men den flytter prioriteringen fra den ansatte og tilbake til den som har myndigheten."
           },
           {
             "t": "h2",
@@ -7034,7 +7124,7 @@
           },
           {
             "t": "p",
-            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen kan faktoren måles med påstander som disse:"
+            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) kan faktoren måles med påstander som disse:"
           },
           {
             "t": "ul",
@@ -7170,7 +7260,7 @@
           },
           {
             "t": "p",
-            "text": "Det andre punktet er lett å overse. Belastningen ligger ikke bare i det den ansatte møter, men også i det hun eller han må holde tilbake."
+            "text": "Det andre punktet er lett å overse. Belastningen ligger ikke bare i det de ansatte møter, men også i det de må holde tilbake."
           },
           {
             "t": "h2",
@@ -7199,7 +7289,7 @@
           },
           {
             "t": "p",
-            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen kan faktoren måles med påstander som disse:"
+            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) kan faktoren måles med påstander som disse:"
           },
           {
             "t": "ul",
@@ -7227,6 +7317,31 @@
               "**Står folk alene?** Den første påstanden sier mest om organiseringen: hvem som er til stede, og hvordan vakter og oppgaver er fordelt.",
               "**Blir hendelser fulgt opp?** Lav enighet i at vanskelige hendelser blir snakket om etterpå, peker på rutinene etter en hendelse.",
               "**Er det rom for å reagere?** Den tredje påstanden handler om kultur – om det å bli berørt oppfattes som svakhet."
+            ]
+          },
+          {
+            "t": "table",
+            "head": [
+              "Lavest score på",
+              "Peker ofte mot",
+              "Naturlig sted å begynne"
+            ],
+            "rows": [
+              [
+                "«Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner»",
+                "Organiseringen: hvem som er til stede, vakter og oppgaver",
+                "Ingen alene i de tyngste møtene"
+              ],
+              [
+                "«Vi snakker om vanskelige hendelser etterpå»",
+                "Rutinene etter en hendelse",
+                "Kort samtale samme dag, oppfølging fra leder etterpå"
+              ],
+              [
+                "«Jeg får lov til å reagere som menneske på jobb»",
+                "Kulturen: om det å bli berørt oppfattes som svakhet",
+                "Et arbeidsmøte om det som tapper"
+              ]
             ]
           },
           {
@@ -7298,7 +7413,7 @@
           },
           {
             "t": "p",
-            "text": "Siden det som virker, er oppfølging over tid, bør også evalueringen strekke seg over tid. Mål de samme påstandene igjen etter noen måneder, og følg særlig med på påstanden tiltaket var rettet mot: To til stede i de tyngste møtene bør synes i den første, samtalene etter hendelser i den andre og arbeidsmøtet i den tredje."
+            "text": "Siden det som virker, er oppfølging over tid, bør også evalueringen strekke seg over tid. Mål de samme påstandene igjen etter noen måneder, og følg særlig med på påstanden tiltaket var rettet mot. To til stede i de tyngste møtene bør synes i den første, samtalene etter hendelser i den andre og arbeidsmøtet i den tredje."
           },
           {
             "t": "p",
@@ -7382,7 +7497,7 @@
           },
           {
             "t": "p",
-            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen kan faktoren måles med påstander som disse:"
+            "text": "I en undersøkelse bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) kan faktoren måles med påstander som disse:"
           },
           {
             "t": "ul",
@@ -7506,7 +7621,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet beskriver faktoren nettopp slik i kommentaren til forskrift om utførelse av arbeid § 1A-1, der «selvbestemmelse og innflytelse i arbeidet» står som en av de psykososiale arbeidsmiljøfaktorene: Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
+            "text": "Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo). Arbeidstilsynet beskriver faktoren nettopp slik i kommentaren til forskrift om utførelse av arbeid § 1A-1, der «selvbestemmelse og innflytelse i arbeidet» står som en av de psykososiale arbeidsmiljøfaktorene:"
           },
           {
             "t": "quote",
@@ -7548,7 +7663,7 @@
           },
           {
             "t": "p",
-            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen måles faktoren med noen få påstander som de ansatte tar stilling til på en svarskala, for eksempel fra «helt uenig» til «helt enig». Eksempler på påstander:"
+            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) måles faktoren med noen få påstander som de ansatte tar stilling til på en svarskala, for eksempel fra «helt uenig» til «helt enig». Eksempler på påstander:"
           },
           {
             "t": "ul",
@@ -7575,8 +7690,33 @@
             ]
           },
           {
+            "t": "table",
+            "head": [
+              "Lavest score på",
+              "Peker ofte mot",
+              "Naturlig sted å begynne"
+            ],
+            "rows": [
+              [
+                "«Jeg har innflytelse over hvordan jeg utfører arbeidet»",
+                "Detaljstyring av hvordan oppgavene løses",
+                "Jobbutforming"
+              ],
+              [
+                "«Jeg blir hørt når noe skal endres»",
+                "Endringer som besluttes før de berørte er spurt",
+                "De berørte med før beslutningen tas"
+              ],
+              [
+                "«Jeg kan påvirke tempoet i eget arbeid»",
+                "Systemer og rutiner som låser rekkefølge og tempo",
+                "Teamet planlegger egen uke"
+              ]
+            ]
+          },
+          {
             "t": "h2",
-            "text": "Hvorfor kontroll betyr mer når kravene er høye"
+            "text": "Hvorfor betyr kontroll mer når kravene er høye?"
           },
           {
             "t": "p",
@@ -7714,7 +7854,7 @@
           },
           {
             "t": "p",
-            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen måles faktoren gjerne med noen få påstander som de ansatte tar stilling til på en svarskala. Påstandene fanger opp ulike sider ved faktoren, og et lavt tall må leses påstand for påstand:"
+            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) måles faktoren gjerne med noen få påstander som de ansatte tar stilling til på en svarskala. Påstandene fanger opp ulike sider ved faktoren, og et lavt tall må leses påstand for påstand:"
           },
           {
             "t": "table",
@@ -7760,7 +7900,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvordan krenkelser får vokse"
+            "text": "Hvordan får krenkelser vokse?"
           },
           {
             "t": "p",
@@ -7830,12 +7970,12 @@
       "faktorKollega": {
         "title": "Støtte fra kollegaer: årsaker og tiltak | Orgpuls",
         "description": "Hva betyr det når støtte fra kollegaer får lav score? Hva loven sier om støtte og hjelp, hvordan tallet leses, årsaker og tiltak med støtte i forskning.",
-        "h1": "Når kollegaene ikke stiller opp for hverandre: hva lav score på kollegastøtte betyr",
+        "h1": "Støtte fra kollegaer: hva betyr en lav score, og hva kan dere gjøre?",
         "lead": "Lav score på støtte fra kollegaer betyr at mange ikke får hjelp når de trenger det, at kunnskap blir holdt tilbake, eller at noen ikke føler seg som en del av laget. Støtte og hjelp i arbeidet er en psykososial arbeidsmiljøfaktor etter arbeidsmiljøloven, og den beskytter mot andre belastninger. Den bygges best i det daglige arbeidet, ikke på sosiale arrangementer.",
         "blocks": [
           {
             "t": "h2",
-            "text": "Hva som ligger i kollegastøtte"
+            "text": "Hva ligger i kollegastøtte?"
           },
           {
             "t": "p",
@@ -7852,7 +7992,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvor faktoren står i loven"
+            "text": "Hvor står faktoren i loven?"
           },
           {
             "t": "p",
@@ -7864,7 +8004,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvorfor støtte er mer enn trivsel"
+            "text": "Hvorfor er støtte mer enn trivsel?"
           },
           {
             "t": "p",
@@ -7885,7 +8025,7 @@
           },
           {
             "t": "p",
-            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen måles faktoren med noen få påstander som de ansatte tar stilling til på en svarskala. Påstandene dekker tre ulike sider:"
+            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) måles faktoren med noen få påstander som de ansatte tar stilling til på en svarskala. Påstandene dekker tre ulike sider:"
           },
           {
             "t": "cards",
@@ -7923,7 +8063,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvorfor støtten uteblir"
+            "text": "Hvorfor uteblir støtten?"
           },
           {
             "t": "p",
@@ -7952,7 +8092,7 @@
           },
           {
             "t": "p",
-            "text": "**Faste læringsmøter.** En halvtime i måneden der en kollega deler noe hun eller han har lært eller løst. Over tid blir kunnskapsdeling en vane, ikke en tilfeldighet. Tiltaket treffer særlig påstanden om å dele kunnskap."
+            "text": "**Faste læringsmøter.** En halvtime i måneden der en kollega deler noe vedkommende har lært eller løst. Over tid blir kunnskapsdeling en vane, ikke en tilfeldighet. Tiltaket treffer særlig påstanden om å dele kunnskap."
           },
           {
             "t": "p",
@@ -8003,7 +8143,7 @@
           },
           {
             "t": "p",
-            "text": "Forskrift om utførelse av arbeid § 1A-1 nevner åtte eksempler på psykososiale arbeidsmiljøfaktorer. Mening og anerkjennelse står ikke blant dem som egne punkter. Det betyr ikke at faktoren er uten betydning for arbeidsgiverens plikter. Arbeidstilsynet skriver i kommentaren til bestemmelsen: Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
+            "text": "Forskrift om utførelse av arbeid § 1A-1 nevner åtte eksempler på psykososiale arbeidsmiljøfaktorer. Mening og anerkjennelse står ikke blant dem som egne punkter. Det betyr ikke at faktoren er uten betydning for arbeidsgiverens plikter. Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo). Arbeidstilsynet skriver i kommentaren til bestemmelsen:"
           },
           {
             "t": "quote",
@@ -8049,7 +8189,7 @@
           },
           {
             "t": "p",
-            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen måles faktoren med noen få påstander som de ansatte tar stilling til på en svarskala. Eksempler:"
+            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) måles faktoren med noen få påstander som de ansatte tar stilling til på en svarskala. Eksempler:"
           },
           {
             "t": "ul",
@@ -8064,8 +8204,33 @@
             "text": "Den første påstanden handler om arbeidets verdi, den andre om anerkjennelse fra andre, og den tredje om forholdet til arbeidsplassen som helhet. Et lavt gjennomsnitt kan skjule at bare én av dem trekker ned. Da er det den påstanden tiltakene bør rettes mot."
           },
           {
+            "t": "table",
+            "head": [
+              "Lavest score på",
+              "Peker ofte mot",
+              "Naturlig sted å begynne"
+            ],
+            "rows": [
+              [
+                "«Arbeidet jeg gjør betyr noe»",
+                "Arbeidets verdi: ingen ser hvem arbeidet kommer til gode",
+                "Vis hvem arbeidet gjør en forskjell for"
+              ],
+              [
+                "«Innsatsen min blir lagt merke til»",
+                "Anerkjennelse som kommer sent eller er for generell",
+                "Konkret anerkjennelse samme uke"
+              ],
+              [
+                "«Jeg er stolt av å jobbe her»",
+                "Forholdet til arbeidsplassen som helhet",
+                "En samtale om det teamet er stolt av"
+              ]
+            ]
+          },
+          {
             "t": "h2",
-            "text": "Hva tallet kan fortelle"
+            "text": "Hva kan tallet fortelle?"
           },
           {
             "t": "p",
@@ -8077,7 +8242,7 @@
           },
           {
             "t": "h2",
-            "text": "Når sammenhengen forsvinner"
+            "text": "Når forsvinner sammenhengen?"
           },
           {
             "t": "p",
@@ -8094,7 +8259,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva forskningen peker på"
+            "text": "Hva peker forskningen på?"
           },
           {
             "t": "p",
@@ -8161,7 +8326,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Hva regelverket krever etter kartleggingen"
+            "text": "Hva krever regelverket etter kartleggingen?"
           },
           {
             "t": "p",
@@ -8169,7 +8334,7 @@
           },
           {
             "t": "p",
-            "text": "Kjeden er ikke ny. Den bygger på det systematiske HMS-arbeidet i arbeidsmiljøloven § 3-1, som blant annet pålegger arbeidsgiveren å «kartlegge farer og problemer og på denne bakgrunn vurdere risikoforholdene i virksomheten, utarbeide planer og iverksette tiltak for å redusere risikoen». Det nye er at kravet uttrykkelig gjelder det psykososiale arbeidsmiljøet."
+            "text": "Kjeden er ikke ny. Den bygger på det systematiske helse-, miljø- og sikkerhetsarbeidet (HMS) i arbeidsmiljøloven § 3-1. Den paragrafen pålegger blant annet arbeidsgiveren å «kartlegge farer og problemer og på denne bakgrunn vurdere risikoforholdene i virksomheten, utarbeide planer og iverksette tiltak for å redusere risikoen». Det nye er at kravet uttrykkelig gjelder det psykososiale arbeidsmiljøet."
           },
           {
             "t": "quote",
@@ -8418,7 +8583,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvorfor møtet betyr mer enn rapporten"
+            "text": "Hvorfor betyr møtet mer enn rapporten?"
           },
           {
             "t": "p",
@@ -8577,7 +8742,7 @@
           },
           {
             "t": "p",
-            "text": "Kartleggingen og risikovurderingen skal også gjøres i samarbeid med arbeidstakerne og deres representanter, tilpasses virksomhetens art, aktiviteter og størrelse, gjentas regelmessig og ved endringer, og dokumenteres som en del av det systematiske HMS-arbeidet (forskriften § 1A-2 fjerde ledd)."
+            "text": "Kartleggingen og risikovurderingen skal også gjøres i samarbeid med arbeidstakerne og deres representanter, og tilpasses virksomhetens art, aktiviteter og størrelse. De skal gjentas regelmessig og ved endringer, og dokumenteres som en del av det systematiske helse-, miljø- og sikkerhetsarbeidet, HMS (forskriften § 1A-2 fjerde ledd)."
           },
           {
             "t": "p",
@@ -8778,7 +8943,7 @@
           },
           {
             "t": "p",
-            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen måles faktoren gjerne med noen få påstander som de ansatte tar stilling til. Eksempler på slike påstander:"
+            "text": "I undersøkelser bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet) måles faktoren gjerne med noen få påstander som de ansatte tar stilling til. Eksempler på slike påstander:"
           },
           {
             "t": "ul",
@@ -8807,6 +8972,31 @@
               "**Hvem gjelder det?** En avdeling som skiller seg ut, har ofte en lokal årsak – et ubesatt vikariat, en ny oppgave, en sesongtopp.",
               "**Har det endret seg?** Et fall siden forrige måling betyr at noe har skjedd, og det er ofte lettere å finne enn årsaken til et lavt nivå som har vart lenge.",
               "**Hva ligger rundt?** Lav støtte fra leder eller uklare roller i samme gruppe gjør belastningen tyngre å bære."
+            ]
+          },
+          {
+            "t": "table",
+            "head": [
+              "Lavest score på",
+              "Peker ofte mot",
+              "Naturlig sted å begynne"
+            ],
+            "rows": [
+              [
+                "«Arbeidsmengden min er til å håndtere over tid»",
+                "Bemanning og oppgaver som ikke henger sammen over tid",
+                "Et fast møte om hva som skal vike"
+              ],
+              [
+                "«Jeg har nok tid til å gjøre jobben godt nok»",
+                "Uklare prioriteringer og avbrytelser",
+                "En kartlegging av tidstyvene"
+              ],
+              [
+                "«Jeg kan koble av fra jobben når arbeidsdagen er over»",
+                "Forventninger om tilgjengelighet utenom arbeidstid",
+                "Tydelige grenser for tilgjengelighet"
+              ]
             ]
           },
           {
@@ -8901,7 +9091,7 @@
         "title": "Nye regler for psykososialt arbeidsmiljø fra 2026 | Orgpuls",
         "description": "Fra 1. januar 2026 har forskriften et eget kapittel om psykososialt arbeidsmiljø. Her er hva som er nytt, og hva det krever av arbeidsgiveren.",
         "h1": "Hva er nytt i reglene om psykososialt arbeidsmiljø fra 2026?",
-        "lead": "Fra 1. januar 2026 har forskrift om utførelse av arbeid et eget kapittel 1A om psykososialt arbeidsmiljø. Kapitlet konkretiserer plikter som allerede fulgte av arbeidsmiljøloven: Arbeidsgiveren skal kartlegge psykososiale faktorer, vurdere risikoen, sette i verk tiltak og informere de ansatte – i samarbeid med dem og deres representanter. Det nye er først og fremst at forskriften sier tydeligere hvordan.",
+        "lead": "Fra 1. januar 2026 har forskrift om utførelse av arbeid et eget kapittel 1A om psykososialt arbeidsmiljø. Kapitlet konkretiserer plikter som allerede fulgte av arbeidsmiljøloven. Arbeidsgiveren skal kartlegge psykososiale faktorer, vurdere risikoen, sette i verk tiltak og informere de ansatte – i samarbeid med dem og deres representanter. Det nye er først og fremst at forskriften sier tydeligere hvordan.",
         "blocks": [
           {
             "t": "h2",
@@ -9020,7 +9210,7 @@
           },
           {
             "t": "p",
-            "text": "På grunnlag av kartleggingen skal arbeidsgiveren vurdere risikoen for skadelig påvirkning, «både på kort og lang sikt». Risikovurderingen skal omfatte faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko. Arbeidstilsynet påpeker at faktorene kan virke både belastende og beskyttende, og at også beskyttende faktorer kan være relevante å ta med. Kravet gjelder altså faktorene i arbeidet, ikke hvor fornøyde de ansatte er – les mer om [trivselsundersøkelser](/artikler/trivselsundersokelse)."
+            "text": "På grunnlag av kartleggingen skal arbeidsgiveren vurdere risikoen for skadelig påvirkning, «både på kort og lang sikt». Risikovurderingen skal omfatte faktorene hver for seg, hvordan de påvirker hverandre, og om de samlet utgjør en risiko. Arbeidstilsynet påpeker at faktorene kan virke både belastende og beskyttende. Også beskyttende faktorer kan derfor være relevante å ta med. Kravet gjelder altså faktorene i arbeidet, ikke hvor fornøyde de ansatte er – les mer om [trivselsundersøkelser](/artikler/trivselsundersokelse)."
           },
           {
             "t": "p",
@@ -9057,7 +9247,7 @@
           },
           {
             "t": "p",
-            "text": "Forskriften § 1A-3 binder kartleggingen til handling: «På grunnlag av risikovurderingen skal arbeidsgiveren utarbeide nødvendige planer og iverksette nødvendige tiltak for å fjerne eller redusere risiko.» Også dette skal skje i samarbeid med arbeidstakerne og deres representanter. Arbeidstilsynet skriver at tiltakene så langt som mulig bør rette seg mot årsakene til risikoen, for eksempel organisatoriske eller arbeidsmessige forhold."
+            "text": "Forskriften § 1A-3 binder kartleggingen til handling: «På grunnlag av risikovurderingen skal arbeidsgiveren utarbeide nødvendige planer og iverksette nødvendige tiltak for å fjerne eller redusere risiko.» Også dette skal skje i samarbeid med arbeidstakerne og deres representanter. Arbeidstilsynet skriver at tiltakene så langt som mulig bør rette seg mot årsakene til risikoen. Eksempler er organisatoriske eller arbeidsmessige forhold."
           },
           {
             "t": "p",
@@ -9069,7 +9259,7 @@
           },
           {
             "t": "p",
-            "text": "Med arbeidstakernes representanter mener Arbeidstilsynet verneombud, der virksomheten har det, og eventuelle tillitsvalgte eller andre representanter. Etter arbeidsmiljøloven § 6-2 skal verneombudet påse at de ansattes psykososiale arbeidsmiljø er ivaretatt, og tas med på råd under planlegging og gjennomføring av tiltak. Samarbeid betyr derfor mer enn å legge fram resultatet i etterkant. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Med arbeidstakernes representanter mener Arbeidstilsynet verneombud, der virksomheten har det, og eventuelle tillitsvalgte eller andre representanter. Etter arbeidsmiljøloven § 6-2 skal verneombudet påse at de ansattes psykososiale arbeidsmiljø er ivaretatt. Verneombudet skal også tas med på råd under planlegging og gjennomføring av tiltak. Samarbeid betyr derfor mer enn å legge fram resultatet i etterkant. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
           },
           {
             "t": "h2",
@@ -9089,7 +9279,7 @@
           },
           {
             "t": "p",
-            "text": "Dokumentasjonskravet innebærer ifølge Arbeidstilsynet at kartleggingen, risikovurderingen og resultatene skal være skriftlig nedfelt på en måte som gjør det mulig å følge opp arbeidet. Omfang og form kan tilpasses virksomhetens art, størrelse og risikobilde. Det er ofte enklest å skrive ned underveis: hva som ble kartlagt, hva som ble vurdert, hvilke tiltak som ble valgt og hvem som har ansvaret for dem."
+            "text": "Dokumentasjonskravet innebærer ifølge Arbeidstilsynet at kartleggingen, risikovurderingen og resultatene skal være skriftlig nedfelt på en måte som gjør det mulig å følge opp arbeidet. Omfang og form kan tilpasses virksomhetens art, størrelse og risikobilde. Det er ofte enklest å skrive ned underveis. Noter hva som ble kartlagt, hva som ble vurdert, hvilke tiltak som ble valgt og hvem som har ansvaret for dem."
           },
           {
             "t": "h2",
@@ -9176,7 +9366,7 @@
           },
           {
             "t": "p",
-            "text": "Forskriften § 1A-1 nevner blant annet uklare eller motstridende krav og forventninger, emosjonelle krav og belastninger i arbeid med mennesker, arbeidsmengde og tidspress, støtte og hjelp i arbeidet, mulighet for kontakt og kommunikasjon med andre, trakassering, vold og trusler, og selvbestemmelse og innflytelse. I tillegg krever aml. § 4-3 tredje ledd at arbeidet legges til rette slik at arbeidstakers integritet og verdighet ivaretas."
+            "text": "Forskriften § 1A-1 nevner blant annet uklare eller motstridende krav og forventninger, emosjonelle krav og belastninger i arbeid med mennesker, og arbeidsmengde og tidspress. Den nevner også støtte og hjelp i arbeidet, mulighet for kontakt og kommunikasjon med andre, trakassering, vold og trusler, og selvbestemmelse og innflytelse. I tillegg krever aml. § 4-3 tredje ledd at arbeidet legges til rette slik at arbeidstakers integritet og verdighet ivaretas."
           },
           {
             "t": "p",
@@ -9393,7 +9583,7 @@
           },
           {
             "t": "p",
-            "text": "Tabellen viser hvordan faktorene kan dekkes i elleve temaer, med ett eksempel på en påstand per tema. Påstandene er hentet fra en undersøkelse bygd på QPS Nordic-tradisjonen, der hvert tema måles med flere påstander."
+            "text": "Tabellen viser hvordan faktorene kan dekkes i elleve temaer, med ett eksempel på en påstand per tema. Påstandene er hentet fra en undersøkelse bygd på QPS Nordic-tradisjonen (det nordiske spørreskjemaet om psykologiske og sosiale faktorer i arbeidet), der hvert tema måles med flere påstander."
           },
           {
             "t": "table",
@@ -9506,7 +9696,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvorfor færre spørsmål gir bedre svar"
+            "text": "Hvorfor gir færre spørsmål bedre svar?"
           },
           {
             "t": "p",
@@ -9526,7 +9716,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvordan svarene bør leses"
+            "text": "Hvordan bør svarene leses?"
           },
           {
             "t": "p",
@@ -9623,7 +9813,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvorfor én måling i året ikke er nok alene"
+            "text": "Hvorfor er ikke én måling i året nok alene?"
           },
           {
             "t": "p",
@@ -9698,7 +9888,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvordan holde svarviljen oppe"
+            "text": "Hvordan holder dere svarviljen oppe?"
           },
           {
             "t": "p",
@@ -9773,11 +9963,11 @@
           },
           {
             "t": "p",
-            "text": "Det samme mønsteret finnes på arbeidsplassen. Da Antonioni i 1994 lot ansatte i et forsikringsselskap vurdere lederne sine, ga de som måtte oppgi navn, høyere skår enn de som svarte anonymt. De ansatte var mest komfortable med å svare anonymt; lederne foretrakk å vite hvem som hadde sagt hva. Forskerens egen tolkning var at de navngitte vurderingene trolig var oppblåste. En gjennomgang av forskningen på følsomme spørsmål (Tourangeau og Yan, 2007) peker på hvorfor: folk redigerer svarene sine for å unngå å dumme seg ut og for å unngå konsekvenser fra andre – og en leder som kan lese svaret, er en slik konsekvens."
+            "text": "Det samme mønsteret finnes på arbeidsplassen. Da Antonioni i 1994 lot ansatte i et forsikringsselskap vurdere lederne sine, ga de som måtte oppgi navn, høyere skår enn de som svarte anonymt. De ansatte var mest komfortable med å svare anonymt; lederne foretrakk å vite hvem som hadde sagt hva. Forskerens egen tolkning var at de navngitte vurderingene trolig var oppblåste. En gjennomgang av forskningen på følsomme spørsmål (Tourangeau og Yan, 2007) peker på hvorfor. Folk redigerer svarene sine for å unngå å dumme seg ut og for å unngå konsekvenser fra andre – og en leder som kan lese svaret, er en slik konsekvens."
           },
           {
             "t": "p",
-            "text": "To forbehold hører med. Anonymitet gir ikke automatisk flere svar: en gjennomgang fra 1995 (Singer, Von Thurn og Miller) fant at løfter om konfidensialitet øker svarprosenten litt, og bare når spørsmålene er følsomme, og et randomisert forsøk fra 2014 (Murdoch og kolleger) fant ingen sikker forskjell i svarprosent mellom anonyme og konfidensielle utsendinger – men de som svarte anonymt, lignet mest på dem som ikke svarte, og ga dermed det mest representative bildet. Og anonymitet uten mening kan gi slurv: Lelkes og kolleger viste i 2012 at helt anonyme studenter oftere innrømmet upopulære holdninger, men også svarte mindre nøyaktig. Lærdommen for en medarbeiderundersøkelse er ikke å svekke anonymiteten, men å gjøre den verdt å svare nøye på: et kort skjema, spørsmål folk kjenner seg igjen i, og et resultat de får se igjen."
+            "text": "To forbehold hører med. Anonymitet gir ikke automatisk flere svar. En gjennomgang fra 1995 (Singer, Von Thurn og Miller) fant at løfter om konfidensialitet øker svarprosenten litt, og bare når spørsmålene er følsomme. Et randomisert forsøk fra 2014 (Murdoch og kolleger) fant ingen sikker forskjell i svarprosent mellom anonyme og konfidensielle utsendinger – men de som svarte anonymt, lignet mest på dem som ikke svarte, og ga dermed det mest representative bildet. Og anonymitet uten mening kan gi slurv: Lelkes og kolleger viste i 2012 at helt anonyme studenter oftere innrømmet upopulære holdninger, men også svarte mindre nøyaktig. Lærdommen for en medarbeiderundersøkelse er ikke å svekke anonymiteten, men å gjøre den verdt å svare nøye på: et kort skjema, spørsmål folk kjenner seg igjen i, og et resultat de får se igjen."
           },
           {
             "t": "h2",
@@ -9802,7 +9992,7 @@
           },
           {
             "t": "p",
-            "text": "Mange undersøkelser er «konfidensielle» heller enn anonyme: leverandøren eller HR vet hvem som svarte hva, og lover å ikke fortelle det videre. Forskjellen er ikke en formalitet. Datatilsynet skriver at formålet med en arbeidsmiljøundersøkelse normalt kan oppnås med anonyme opplysninger, og at det da i de fleste tilfeller heller ikke er tillatt å behandle personopplysninger. Er undersøkelsen ikke reelt anonym, gjelder personvernreglene fullt ut: arbeidsgiveren trenger et rettslig grunnlag, de ansatte skal vite hvem som har tilgang – «for eksempel nærmeste sjef eller HR-avdelingen» – og hver enkelt har rett til innsyn i det som er lagret om seg."
+            "text": "Mange undersøkelser er «konfidensielle» heller enn anonyme: leverandøren eller personalavdelingen (HR) vet hvem som svarte hva, og lover å ikke fortelle det videre. Forskjellen er ikke en formalitet. Datatilsynet skriver at formålet med en arbeidsmiljøundersøkelse normalt kan oppnås med anonyme opplysninger, og at det da i de fleste tilfeller heller ikke er tillatt å behandle personopplysninger. Er undersøkelsen ikke reelt anonym, gjelder personvernreglene fullt ut. Arbeidsgiveren trenger et rettslig grunnlag, de ansatte skal vite hvem som har tilgang – «for eksempel nærmeste sjef eller HR-avdelingen» – og hver enkelt har rett til innsyn i det som er lagret om seg."
           },
           {
             "t": "quote",
@@ -9844,7 +10034,7 @@
           },
           {
             "t": "p",
-            "text": "Frykten for konsekvenser er ikke innbilt. I Fafos undersøkelse for Arbeidstilsynet (2019) svarte 19 prosent av dem som hadde varslet, at de fikk negative reaksjoner eller sanksjoner – oftest å bli fratatt arbeidsoppgaver eller irettesatt av leder – og rapporten slår fast at det er vanskeligst å varsle om psykososiale forhold. I 2022 var andelen med negative reaksjoner 21 prosent, mot 13 prosent i 2010, og risikoen var størst nettopp når varselet gjaldt det psykososiale arbeidsmiljøet og når sjefen var den ansvarlige. Det er denne virkeligheten de ansatte har i bakhodet når de vurderer om de tør å svare ærlig på et spørsmål om lederen."
+            "text": "Frykten for konsekvenser er ikke innbilt. I Fafos undersøkelse for Arbeidstilsynet (2019) svarte 19 prosent av dem som hadde varslet, at de fikk negative reaksjoner eller sanksjoner – oftest å bli fratatt arbeidsoppgaver eller irettesatt av leder. Rapporten slår fast at det er vanskeligst å varsle om psykososiale forhold. I 2022 var andelen med negative reaksjoner 21 prosent, mot 13 prosent i 2010, og risikoen var størst nettopp når varselet gjaldt det psykososiale arbeidsmiljøet og når sjefen var den ansvarlige. Det er denne virkeligheten de ansatte har i bakhodet når de vurderer om de tør å svare ærlig på et spørsmål om lederen."
           },
           {
             "t": "h2",
@@ -9925,7 +10115,7 @@
           },
           {
             "t": "p",
-            "text": "Er undersøkelsen reelt anonym, er svarene ikke personopplysninger, og de ansatte har ikke innsynsrett i dem – det finnes ikke noe «mitt svar» å gi innsyn i. Det er et gode, ikke et tap: det er grunnen til at svarene kan være ærlige. Men det betyr også at arbeidsgiveren må avklare noen ting i avtalen som loven ellers ville regulert: hvor lenge resultatene lagres, hva som slettes når avtalen opphører, om dataene kan eksporteres og i hvilken form, og hvem i virksomheten som har tilgang til hva."
+            "text": "Er undersøkelsen reelt anonym, er svarene ikke personopplysninger, og de ansatte har ikke innsynsrett i dem – det finnes ikke noe «mitt svar» å gi innsyn i. Det er et gode, ikke et tap: det er grunnen til at svarene kan være ærlige. Men det betyr også at arbeidsgiveren må avklare noen ting i avtalen som loven ellers ville regulert. Det gjelder hvor lenge resultatene lagres, hva som slettes når avtalen opphører, om dataene kan eksporteres og i hvilken form, og hvem i virksomheten som har tilgang til hva."
           },
           {
             "t": "p",
@@ -10098,7 +10288,7 @@
           },
           {
             "t": "p",
-            "text": "Aml. § 6-2 lister opp hva verneombudet særlig skal påse. Ett av punktene gjelder direkte det psykososiale, og fjerde ledd knytter verneombudet til det systematiske HMS-arbeidet, der kartleggingen hører hjemme."
+            "text": "Aml. § 6-2 lister opp hva verneombudet særlig skal påse. Ett av punktene gjelder direkte det psykososiale, og fjerde ledd knytter verneombudet til det systematiske helse-, miljø- og sikkerhetsarbeidet (HMS), der kartleggingen hører hjemme."
           },
           {
             "t": "law",
@@ -10294,7 +10484,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva loven faktisk krever"
+            "text": "Hva krever loven faktisk?"
           },
           {
             "t": "p",
@@ -10314,8 +10504,53 @@
             ]
           },
           {
+            "t": "table",
+            "head": [
+              "Krav",
+              "Lovpålagt?",
+              "Hvor det står"
+            ],
+            "rows": [
+              [
+                "Kartlegge arbeidsmiljøet, også de psykososiale faktorene",
+                "Ja",
+                "aml. § 3-1 andre ledd bokstav c; forskriften § 1A-2 første ledd"
+              ],
+              [
+                "Vurdere risikoen, på kort og lang sikt",
+                "Ja",
+                "forskriften § 1A-2 første ledd"
+              ],
+              [
+                "Sette i verk tiltak og følge dem opp",
+                "Ja",
+                "aml. § 3-1 andre ledd bokstav c; forskriften § 1A-3"
+              ],
+              [
+                "Gjøre det sammen med de ansatte og verneombudet",
+                "Ja",
+                "forskriften § 1A-2 fjerde ledd bokstav a; aml. § 6-2"
+              ],
+              [
+                "Dokumentere kartlegging, vurdering og tiltak",
+                "Ja",
+                "forskriften § 1A-2 fjerde ledd bokstav d"
+              ],
+              [
+                "Gjenta regelmessig og ved endringer",
+                "Ja",
+                "forskriften § 1A-2 fjerde ledd bokstav c"
+              ],
+              [
+                "Bruke en spørreundersøkelse",
+                "Nei – metoden velger virksomheten",
+                "forskriften § 1A-2 fjerde ledd bokstav b: tilpasses virksomheten"
+              ]
+            ]
+          },
+          {
             "t": "p",
-            "text": "Kapittel 1A kom inn i forskriften 1. januar 2026. Plikten til å kartlegge er ikke ny, men nå står det uttrykkelig at den gjelder de psykososiale faktorene – blant annet arbeidsmengde og tidspress, uklare eller motstridende krav, støtte og hjelp i arbeidet og innflytelse over eget arbeid. Les mer om [de nye reglene fra 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
+            "text": "Kapittel 1A kom inn i forskriften 1. januar 2026. Plikten til å kartlegge er ikke ny. Det nye er at den nå står uttrykkelig for de psykososiale faktorene – blant annet arbeidsmengde og tidspress, uklare eller motstridende krav, støtte og hjelp i arbeidet og innflytelse over eget arbeid. Les mer om [de nye reglene fra 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
           },
           {
             "t": "h2",
@@ -10353,7 +10588,7 @@
           },
           {
             "t": "h2",
-            "text": "Hvorfor mange likevel velger en undersøkelse"
+            "text": "Hvorfor velger mange likevel en undersøkelse?"
           },
           {
             "t": "ul",
@@ -10385,13 +10620,50 @@
             "text": "Arbeidsmiljøloven kapittel 18 gir Arbeidstilsynet flere virkemidler når kravene ikke følges:"
           },
           {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Pålegg",
+                "ref": "aml. § 18-6",
+                "text": "Et skriftlig pålegg om å rette forholdet, med en frist."
+              },
+              {
+                "title": "Tvangsmulkt",
+                "ref": "aml. § 18-7",
+                "text": "En løpende mulkt fra fristen i pålegget går ut og til pålegget er oppfylt."
+              },
+              {
+                "title": "Stansing",
+                "ref": "aml. § 18-8",
+                "text": "Virksomhetens aktiviteter kan stanses helt eller delvis når et pålegg ikke er oppfylt innen fristen."
+              },
+              {
+                "title": "Overtredelsesgebyr",
+                "ref": "aml. § 18-10",
+                "text": "Når noen som har handlet på vegne av virksomheten, uaktsomt eller forsettlig har brutt bestemmelsene."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva må dere kunne dokumentere?"
+          },
+          {
+            "t": "p",
+            "text": "Forskriften krever at kartleggingen og risikovurderingen «dokumenteres og inngår i virksomhetens systematiske helse-, miljø- og sikkerhetsarbeid». Arbeidstilsynet skriver at de skal være skriftlig nedfelt på en måte som gjør det mulig å følge opp arbeidet, og at omfang og form kan tilpasses virksomhetens art, størrelse og risikobilde. I praksis bør dere kunne vise:"
+          },
+          {
             "t": "ul",
             "items": [
-              "**Pålegg** om å rette forholdet (§ 18-6).",
-              "**Tvangsmulkt**, en løpende mulkt fra fristen i pålegget går ut og til pålegget er oppfylt (§ 18-7).",
-              "**Stansing** av virksomhetens aktiviteter, helt eller delvis, når et pålegg ikke er oppfylt innen fristen (§ 18-8).",
-              "**Overtredelsesgebyr** når noen som har handlet på vegne av virksomheten, uaktsomt eller forsettlig har brutt bestemmelsene (§ 18-10)."
+              "når kartleggingen ble gjort, hvordan, og hvem som var med",
+              "hva som kom fram, og hvordan risikoen ble vurdert",
+              "hvilke tiltak som ble valgt, med ansvarlig og frist",
+              "hva oppfølgingen viste, og når dere skal kartlegge på nytt"
             ]
+          },
+          {
+            "t": "p",
+            "text": "En spørreundersøkelse gir mye av dette skriftlig med en gang. Les mer om [hva dokumentasjonen bør inneholde](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
           },
           {
             "t": "h2",
@@ -10439,11 +10711,11 @@
         "title": "Arbeidsmiljøkartlegging: slik gjør dere det | Orgpuls",
         "description": "Hva en arbeidsmiljøkartlegging er, hva loven krever, hvilke metoder dere kan bruke og hvordan dere går fram, fra plan til tiltak og dokumentasjon.",
         "h1": "Arbeidsmiljø­kartlegging: hvordan kartlegger man arbeidsmiljøet?",
-        "lead": "En arbeidsmiljøkartlegging er en systematisk gjennomgang av forholdene i arbeidet som kan påvirke de ansattes helse, sikkerhet og velferd – fysiske, organisatoriske og psykososiale. Den er første steg i det systematiske HMS-arbeidet loven krever: kartlegge farer og problemer, vurdere risikoen, lage planer og sette i verk tiltak. Kartleggingen gjøres sammen med de ansatte og verneombudet, med mer enn én kilde, og den dokumenteres og gjentas.",
+        "lead": "En arbeidsmiljøkartlegging er en systematisk gjennomgang av forholdene i arbeidet som kan påvirke de ansattes helse, sikkerhet og velferd – fysiske, organisatoriske og psykososiale. Den er første steg i det systematiske helse-, miljø- og sikkerhetsarbeidet (HMS) loven krever: kartlegge farer og problemer, vurdere risikoen, lage planer og sette i verk tiltak. Kartleggingen gjøres sammen med de ansatte og verneombudet, med mer enn én kilde, og den dokumenteres og gjentas.",
         "blocks": [
           {
             "t": "h2",
-            "text": "Hva loven krever"
+            "text": "Hva krever loven?"
           },
           {
             "t": "p",
@@ -10472,7 +10744,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidsmiljøloven § 4-1 setter rammen: «Arbeidsmiljøet i virksomheten skal være fullt forsvarlig ut fra en enkeltvis og samlet vurdering av faktorer i arbeidsmiljøet som kan innvirke på arbeidstakernes fysiske og psykiske helse og velferd.» Kartleggingen dekker derfor mer enn ett område: Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
+            "text": "Arbeidsmiljøloven § 4-1 setter rammen: «Arbeidsmiljøet i virksomheten skal være fullt forsvarlig ut fra en enkeltvis og samlet vurdering av faktorer i arbeidsmiljøet som kan innvirke på arbeidstakernes fysiske og psykiske helse og velferd.» Hva som regnes som psykososialt arbeidsmiljø, og hvilke faktorer loven nevner, står samlet i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo). Kartleggingen dekker derfor mer enn ett område:"
           },
           {
             "t": "ul",
@@ -10626,7 +10898,7 @@
           },
           {
             "t": "p",
-            "text": "En vernerunde er en planlagt runde gjennom arbeidsplassen der leder og verneombud ser etter forhold som kan skade helse eller sikkerhet, snakker med dem som arbeider der, og noterer det som må følges opp. Ordet står ikke i arbeidsmiljøloven. Runden er likevel en etablert måte å oppfylle lovens krav på: arbeidsgiveren skal «kartlegge farer og problemer» og vurdere risikoen (arbeidsmiljøloven § 3-1 andre ledd bokstav c og internkontrollforskriften § 5), og verneombudet skal påse at arbeidsmiljøet er forsvarlig og kan, med Arbeidstilsynets ord, «på eget initiativ foreta jevnlige systematiske inspeksjoner innen sitt verneområde»."
+            "text": "En vernerunde er en planlagt runde gjennom arbeidsplassen der leder og verneombud ser etter forhold som kan skade helse eller sikkerhet, snakker med dem som arbeider der, og noterer det som må følges opp. Ordet står ikke i arbeidsmiljøloven. Runden er likevel en etablert måte å oppfylle lovens krav på. Arbeidsgiveren skal «kartlegge farer og problemer» og vurdere risikoen (arbeidsmiljøloven § 3-1 andre ledd bokstav c og internkontrollforskriften § 5). Verneombudet skal påse at arbeidsmiljøet er forsvarlig og kan, med Arbeidstilsynets ord, «på eget initiativ foreta jevnlige systematiske inspeksjoner innen sitt verneområde»."
           },
           {
             "t": "quote",
@@ -10643,7 +10915,7 @@
           },
           {
             "t": "p",
-            "text": "Bare hvis dere legger det inn. En tradisjonell vernerunde ser etter det som kan ses: rømningsveier, verneutstyr, ergonomi, kjemikalier, orden. Arbeidsmengde, uklare krav, støtte fra lederen og konflikter mellom kollegaer ses ikke – de må spørres etter. Arbeidsmiljøloven § 6-2 sier at verneombudet særlig skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt», og Arbeidstilsynet skriver at verneombudets del i HMS-arbeidet «inkluderer også arbeidstakernes psykososiale miljø». Det gjør runden til et naturlig sted å spørre."
+            "text": "Bare hvis dere legger det inn. En tradisjonell vernerunde ser etter det som kan ses: rømningsveier, verneutstyr, ergonomi, kjemikalier, orden. Arbeidsmengde, uklare krav, støtte fra lederen og konflikter mellom kollegaer ses ikke – de må spørres etter. Arbeidsmiljøloven § 6-2 sier at verneombudet særlig skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt», og Arbeidstilsynet skriver at verneombudets del i helse-, miljø- og sikkerhetsarbeidet (HMS) «inkluderer også arbeidstakernes psykososiale miljø». Det gjør runden til et naturlig sted å spørre."
           },
           {
             "t": "p",
@@ -10712,12 +10984,47 @@
             "text": "En anonym arbeidsmiljøundersøkelse. Forskrift om utførelse av arbeid § 1A-2 krever at de psykososiale faktorene kartlegges og risikovurderes systematisk, hver for seg og samlet, i samarbeid med de ansatte, og at det dokumenteres. Runden gir observasjoner og samtaler; den gir ikke tall per faktor og per gruppe som kan sammenlignes over tid, og den gir ikke den som svarer, anonymitet. De to utfyller hverandre: undersøkelsen sier hvor det er lavt, runden viser hvorfor. Les om [hva en arbeidsmiljøkartlegging er](/artikler/arbeidsmiljokartlegging) og om [kravene til kartleggingen](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo)."
           },
           {
+            "t": "table",
+            "head": [
+              "Spørsmål",
+              "Vernerunde",
+              "Anonym arbeidsmiljøundersøkelse"
+            ],
+            "rows": [
+              [
+                "Hvem kommer til orde?",
+                "De som er til stede, med navn",
+                "Alle ansatte, anonymt"
+              ],
+              [
+                "Hva fanger den?",
+                "Det som kan ses, og det folk sier når noen spør",
+                "Tall per faktor og per gruppe"
+              ],
+              [
+                "Kan den sammenlignes over tid?",
+                "Bare som notater fra runde til runde",
+                "Ja, de samme påstandene hver gang"
+              ],
+              [
+                "Forteller den hvorfor?",
+                "Ja, i samtalen på stedet",
+                "Sjelden – det må gjennomgangen etterpå"
+              ],
+              [
+                "Plass i forskriften § 1A-2",
+                "Én av flere kilder i kartleggingen",
+                "Systematisk kartlegging av faktorene, hver for seg og samlet"
+              ]
+            ]
+          },
+          {
             "t": "h2",
             "text": "Hva er spesielt med vernerunde på en byggeplass?"
           },
           {
             "t": "p",
-            "text": "På en bygge- eller anleggsplass er det ofte flere arbeidsgivere, skiftende lag og korte frister, og vernerunden henger gjerne sammen med SHA-planen og de sikre jobb-analysene. Det psykososiale er like konkret der: tidspress mot milepæler, samordning mellom firmaer, beskjeder som ikke når fram, og språk. Byggherreforskriften § 19a krever at arbeidsgiveren sørger for at arbeidstakerne kan kommunisere slik at det ikke oppstår sikkerhetsrisiko, og at minst én på hvert arbeidslag, der sikkerheten krever det, kan forstå og gjøre seg forstått på et språk resten av laget forstår. Spør på runden om beskjedene faktisk blir forstått, og om det er greit å spørre igjen. Når flere arbeidsgivere er på samme plass, har hovedbedriften ansvaret for å samordne HMS-arbeidet (arbeidsmiljøloven § 2-2)."
+            "text": "På en bygge- eller anleggsplass er det ofte flere arbeidsgivere, skiftende lag og korte frister, og vernerunden henger gjerne sammen med SHA-planen (planen for sikkerhet, helse og arbeidsmiljø) og de sikre jobb-analysene. Det psykososiale er like konkret der: tidspress mot milepæler, samordning mellom firmaer, beskjeder som ikke når fram, og språk. Byggherreforskriften § 19a krever at arbeidsgiveren sørger for at arbeidstakerne kan kommunisere slik at det ikke oppstår sikkerhetsrisiko. Der sikkerheten krever det, skal minst én på hvert arbeidslag kunne forstå og gjøre seg forstått på et språk resten av laget forstår. Spør på runden om beskjedene faktisk blir forstått, og om det er greit å spørre igjen. Når flere arbeidsgivere er på samme plass, har hovedbedriften ansvaret for å samordne HMS-arbeidet (arbeidsmiljøloven § 2-2)."
           },
           {
             "t": "h2",
