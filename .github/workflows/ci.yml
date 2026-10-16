@@ -16,7 +16,10 @@ concurrency:
 jobs:
   invariants:
     name: checks, security invariants and screens
-    runs-on: ubuntu-latest
+    # Pinned to the image ubuntu-latest resolves to today. GitHub moves the alias to Ubuntu 26 from
+    # 19 October 2026; this job installs the Supabase stack, a pinned PostgREST and Chromium on the
+    # runner, so the upgrade is done on purpose, with those checked on the new image, not by an alias.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
