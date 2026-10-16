@@ -315,7 +315,6 @@
     "site.chrome.footer.head.hvorfor",
     "site.chrome.footer.link.faq",
     "site.chrome.footer.link.positivt",
-    "site.chrome.footer.link.anonymitet",
     "site.chrome.footer.link.forskning",
     "site.chrome.footer.link.sammenlignet",
     "site.home.carousel.announce"
@@ -6714,6 +6713,7 @@
   "site.chrome.footer.head.produkt",
   "site.chrome.footer.link.plattform",
   "site.chrome.footer.link.resultater",
+  "site.chrome.footer.link.anonymitet",
   "site.chrome.footer.link.pris",
   "site.chrome.footer.link.hvorfor",
   "site.chrome.footer.head.bruksomrader",

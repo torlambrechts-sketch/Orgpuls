@@ -62,7 +62,7 @@ export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?:
   { key: 'pris', href: '/priser' },
 ]
 
-/** Forside's footer: Produkt (7), Bruksområder (4), Ressurser (6, with the articles since D-232 and the templates since D-243), Om oss (3) */
+/** Forside's footer: Produkt (8, with Anonymitet since D-285), Bruksområder (4), Ressurser (6, with the articles since D-232 and the templates since D-243), Om oss (3) */
 const FOOTER_HOME: FooterColumn[] = [
   {
     head: 'produkt',
@@ -72,6 +72,8 @@ const FOOTER_HOME: FooterColumn[] = [
       { key: 'resultater', href: '/plattform#resultater' },
       { key: 'kommentarer', href: '/plattform#kommentarer' },
       { key: 'tiltak', href: '/plattform#tiltak' },
+      // anonymity, step by step (D-285): Tor asked for it in the footer too
+      { key: 'anonymitet', href: '/anonymitet' },
       { key: 'pris', href: '/priser' },
       // the argument for the product had no way in but one link in a page's text (D-238)
       { key: 'hvorfor', href: '/hvorfor' },
@@ -118,6 +120,8 @@ const subpageFooter = (long: boolean): FooterColumn[] => [
     links: [
       { key: 'plattform', href: '/plattform' },
       ...(long ? [{ key: 'resultater', href: '/plattform#resultater' }] : []),
+      // anonymity, step by step (D-285), in the short footer too
+      { key: 'anonymitet', href: '/anonymitet' },
       { key: 'pris', href: '/priser' },
       { key: 'hvorfor', href: '/hvorfor' },
     ],

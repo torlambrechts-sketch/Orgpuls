@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { Blocks, FaqItems } from '@/lib/marketing/blocks'
 import { ARTICLES, INFORMATIONAL_PAGES, LANDING_ARTICLES, LANDING_PAGES, LANDING_RELATED, SITE_PAGES } from '@/lib/marketing/site'
-import { SITE_NAV } from '@/lib/site/nav'
+import { FOOTERS, SITE_NAV } from '@/lib/site/nav'
 import { TEMPLATES } from '@/lib/marketing/templates'
 import { ORGNR, organization } from '@/lib/marketing/schema'
 import { INDUSTRIES, pageIn } from '@/content/industries'
@@ -297,6 +297,9 @@ describe('anonymity: the article at the standard and the Plattform page (D-285)'
     expect(existsSync('app/(marketing)/anonymitet/page.tsx')).toBe(true)
     expect(readFileSync('lib/supabase/middleware.ts', 'utf8')).toContain("'/anonymitet',")
     expect(SITE_NAV.find((i) => i.key === 'plattform')?.children?.map((c) => c.href)).toContain('/anonymitet')
+    // and under Produkt in every footer, as Tor asked
+    for (const id of ['home', 'long', 'short'] as const)
+      expect(FOOTERS[id].find((c) => c.head === 'produkt')?.links.map((l) => l.href), id).toContain('/anonymitet')
     expect(existsSync('public/og/anonymitet.png')).toBe(true)
     // the floor is 3 only in Norway (lib/markets MARKET_K_FLOOR): the page is served nowhere else
     expect(SE_PAGES as readonly string[]).not.toContain('/anonymitet')

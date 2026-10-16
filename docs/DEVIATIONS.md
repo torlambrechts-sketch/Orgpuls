@@ -14503,8 +14503,10 @@ neither SE_PAGES nor EMPVIBE_PAGES, and `serves()` keeps its menu entry off thos
 
 **Ways in (D-238).** The Plattform dropdown gets «Anonymitet» (`site.chrome.nav.anonymitet`, in both se packs too, where
 `serves()` filters it out). D-282 left menu changes to Tor; «utvid platform med en side» is that decision, for the
-Plattform panel. The footer is the design's and unchanged. /sikkerhet's closing links and the «which tool» page's «Slik
-svarer Orgpuls på dem» sentence link to the page — text edits inside existing blocks, so the sv and gb overlays, which
+Plattform panel. Tor then asked for the footer too, so «Anonymitet» sits under Produkt in all three footers (the start
+page's after the loop's four sections, the subpages' long and short ones before Pris), as D-238 added Hvorfor there;
+the design's footer baselines are not re-rendered for a link, as they were not then. /sikkerhet's closing links and the
+«which tool» page's «Slik svarer Orgpuls på dem» sentence link to the page — text edits inside existing blocks, so the sv and gb overlays, which
 carry those block arrays whole, are untouched and the array-length tests hold. The page links to the article, /sikkerhet
 and /verktoy-for-medarbeiderundersokelse. No article links to it.
 
