@@ -75,6 +75,8 @@ const PAGES = [
   { slug: 'psykososialt-arbeidsmiljo', h1: no.seo.lp.psykososialtArbeidsmiljo.h1, article: true },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
   { slug: 'verktoy-for-medarbeiderundersokelse', key: 'verktoyForMedarbeiderundersokelse', shot: 'varmekart' },
+  // anonymity, step by step (D-285): a seo.pages page, so its H1 is given, with the anonymous conversation
+  { slug: 'anonymitet', h1: no.seo.pages.anonymitet.h1, shot: 'samtaler' },
   // the industry pages, written as articles (D-240): the article card, under the industry's name
   { slug: 'handel', h1: no.site.bransje.handel.hero.h1, article: true, kicker: no.site.bransje.handel.nav },
   { slug: 'bygg-og-anlegg', h1: no.site.bransje.bygg.hero.h1, article: true, kicker: no.site.bransje.bygg.nav },

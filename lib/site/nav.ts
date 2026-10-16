@@ -38,6 +38,8 @@ export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?:
     children: [
       { key: 'bruksomrader', href: '/bruksomrader' },
       { key: 'hvorfor', href: '/hvorfor' },
+      // anonymity, step by step (D-285)
+      { key: 'anonymitet', href: '/anonymitet' },
     ],
   },
   { key: 'bransjer', href: '/bransjer', industries: true },

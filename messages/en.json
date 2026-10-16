@@ -5593,7 +5593,7 @@
           },
           {
             "t": "p",
-            "text": "How Orgpuls answers them: [security and anonymity](/sikkerhet). What the mapping must cover is in [the legal requirements](/lovkrav). What the platform does, step by step: [The platform](/plattform)."
+            "text": "How Orgpuls answers them: [anonymity, step by step](/anonymitet), and [security and privacy](/sikkerhet). What the mapping must cover is in [the legal requirements](/lovkrav). What the platform does, step by step: [The platform](/plattform)."
           },
           {
             "t": "h2",
@@ -9755,17 +9755,29 @@
       },
       "anonym": {
         "title": "Anonymous employee survey: when is it anonymous? | Orgpuls",
-        "description": "Anonymity in an employee survey: why removing names is not enough, why groups under five answers are hidden, and how a hidden group can be worked out.",
-        "h1": "Anonymous employee survey: what does anonymous mean?",
-        "lead": "Not storing names is not enough. A survey is only anonymous when nobody can work out who answered what – not from the data, not from small groups, not by calculating a hidden group, and not from what is written in a comment. That takes a lower limit on how small a group may be shown, and answers that are never stored with anything that could identify the respondent.",
+        "description": "What anonymity does to the answers, how many answers it takes, comments and personnel conflicts, and who owns the data from an employee survey.",
+        "h1": "Anonymous employee survey: what does anonymous mean, and what does it do to the answers?",
+        "lead": "Not storing names is not enough. A survey is only anonymous when nobody can work out who answered what – not from the data, not from small groups, not by calculating a hidden group, and not from what is written in a comment. That takes a lower limit on how small a group may be shown, and answers that are never stored with anything that could identify the respondent. Below: what the research says about anonymity and honest answers, what happens when a survey is not anonymous, how it breaks, and who owns the data.",
         "blocks": [
           {
             "t": "h2",
-            "text": "Why anonymity decides the quality"
+            "text": "What does anonymity do to the answers?"
           },
           {
             "t": "p",
             "text": "People answer honestly when they are confident the answer cannot be traced back. If in doubt, they answer politely – or not at all. An [employee survey](/artikler/medarbeiderundersokelse) with doubtful anonymity produces figures that look good but are not true. The mapping of the psychosocial working environment that employers must carry out under section 1A-2 of the regulation on the performance of work then rests on weak ground. The survey itself is not required by law, but the mapping is. See [is an employee survey required by law?](/artikler/er-medarbeiderundersokelse-lovpalagt)"
+          },
+          {
+            "t": "p",
+            "text": "This is not just a feeling; it has been measured. In a study from 2000, Ong and Weiss had students answer questions about, among other things, cheating, and for 79 of them the researchers knew the truth. Among those who had actually cheated, 25 per cent admitted it when the answer was confidential – and 74 per cent when it was anonymous. The question was the same. The only thing that changed was whether the answer could be traced back to the person."
+          },
+          {
+            "t": "p",
+            "text": "The same pattern shows up at work. When Antonioni, in 1994, had employees of an insurance company rate their managers, those who had to give their names rated the manager higher than those who answered anonymously. The employees were most comfortable answering anonymously; the managers preferred to know who had said what. The researcher’s own reading was that the named ratings were probably inflated. A review of the research on sensitive questions (Tourangeau and Yan, 2007) points to why: people edit their answers to avoid embarrassment and to avoid consequences from others – and a manager who can read the answer is such a consequence."
+          },
+          {
+            "t": "p",
+            "text": "Two caveats belong here. Anonymity does not automatically bring more answers: a 1995 review (Singer, Von Thurn and Miller) found that assurances of confidentiality raise the response rate a little, and only when the questions are sensitive, and a randomised trial from 2014 (Murdoch and colleagues) found no reliable difference in response rate between anonymous and confidential mailings – but those who answered anonymously were the most like those who did not answer, and so gave the most representative picture. And anonymity without meaning can breed carelessness: Lelkes and colleagues showed in 2012 that completely anonymous students more often admitted unpopular attitudes, but also answered less accurately. The lesson for an employee survey is not to weaken anonymity, but to make the survey worth answering carefully: a short form, questions people recognise themselves in, and a result they get to see again."
           },
           {
             "t": "h2",
@@ -9783,6 +9795,56 @@
           {
             "t": "p",
             "text": "What the employer needs to know, then, is how the work is experienced in a department or team – not who thinks what. Individual cases, such as a specific harassment complaint, belong in the whistleblowing routines, not in a survey."
+          },
+          {
+            "t": "h2",
+            "text": "What happens when the survey is not anonymous?"
+          },
+          {
+            "t": "p",
+            "text": "Many surveys are «confidential» rather than anonymous: the vendor or HR knows who answered what, and promises not to pass it on. The difference is not a formality. The Norwegian Data Protection Authority (Datatilsynet) writes that the purpose of a working-environment survey can normally be achieved with anonymous data, and that processing personal data is then, in most cases, not even permitted. If the survey is not genuinely anonymous, the data protection rules apply in full: the employer needs a legal basis, employees must be told who has access – «for example the immediate manager or the HR department» – and each of them has a right of access to what is stored about them."
+          },
+          {
+            "t": "quote",
+            "text": "The purpose of a working-environment survey can normally be achieved by collecting anonymous data, and in that case it will in most cases not be permitted to process personal data either.",
+            "cite": "Datatilsynet, «Arbeidsmiljøundersøkelser» (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "The right of access is where confidential surveys most often run into trouble. Datatilsynet notes that access requests tend to arise in surveys closely tied to individuals, where someone wants to see what other employees have said about them. A manager with a poor score can ask to see what was said; whoever wrote it can no longer count on being hidden. The survey has become a personnel case."
+          },
+          {
+            "t": "h3",
+            "text": "Personnel conflicts: when a comment is about one person"
+          },
+          {
+            "t": "p",
+            "text": "The hardest case is free text that points at a named person: «The department manager shouts at people.» In an anonymous survey the claim can neither be checked nor used against the person – whoever is named is entitled to know what the accusation is and to answer it, and that requires a sender. In a survey that is not anonymous, the comment instead becomes the start of a case with two parties, in which the writer may be called in. Both are reasons to keep individual cases out of the survey: it is there to measure what the working environment is like, not to decide who is right."
+          },
+          {
+            "t": "p",
+            "text": "The law has its own route for such cases. Chapter 2 A of the Working Environment Act gives employees the right to report censurable conditions (varsling), obliges the employer to investigate a report within a reasonable time and to ensure that the person who reported has a fully satisfactory working environment, and prohibits retaliation. Businesses with at least five employees must have written procedures for internal reporting. A survey does not replace those procedures, and it should say so itself: if it is a specific case, use the reporting procedure."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Working Environment Act section 2 A-3, first paragraph",
+                "text": "When censurable conditions in the undertaking have been reported, the employer shall ensure that the report is sufficiently investigated within a reasonable time."
+              },
+              {
+                "ref": "Working Environment Act section 2 A-4, first paragraph",
+                "text": "Retaliation against an employee who reports in accordance with sections 2 A-1 and 2 A-2 is prohibited."
+              },
+              {
+                "ref": "Working Environment Act section 2 A-6, first paragraph",
+                "text": "Undertakings that regularly employ at least five employees are obliged to have procedures for internal reporting."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The fear of consequences is not imagined. In Fafo’s survey for the Labour Inspection Authority (2019), 19 per cent of those who had reported said they met negative reactions or sanctions – most often being stripped of tasks or reprimanded by a manager – and the report states that psychosocial conditions are the hardest to report. In 2022 the share meeting negative reactions was 21 per cent, against 13 per cent in 2010, and the risk was greatest precisely when the report concerned the psychosocial working environment and when the boss was the person responsible. That is the reality employees have in mind when they weigh whether they dare answer a question about their manager honestly."
           },
           {
             "t": "h2",
@@ -9822,6 +9884,14 @@
             "text": "A dash instead of a number means the group had too few answers. The figure is not hidden from anyone in particular – it is not calculated for anyone. The answers still count in the figures for the whole."
           },
           {
+            "t": "h3",
+            "text": "4. A pseudonym is mistaken for anonymity"
+          },
+          {
+            "t": "p",
+            "text": "A form where the name has been replaced by a serial number is not anonymous as long as someone holds the list that links the number to the person. The EU data protection authorities (the Article 29 Working Party) stated in 2014 that pseudonymisation is not a method of anonymisation: it merely reduces the link to the identity and is a security measure, nothing more. So ask whether the key exists – with the vendor, with HR or in an e-mail log – not just whether it is shown."
+          },
+          {
             "t": "h2",
             "text": "How do you send reminders without knowing who is missing?"
           },
@@ -9839,11 +9909,71 @@
           },
           {
             "t": "p",
+            "text": "Comments can also contain personal data about others – a colleague mentioned by name, a place, an incident. Then it is not only the writer who needs shielding. Names of colleagues, departments and places should be taken out before anyone reads the text, and the comment should be shown without the group it came from: «someone in the workshop wrote this» is a small enough haystack for people to guess."
+          },
+          {
+            "t": "p",
             "text": "Anonymity need not mean one-way communication. It is possible to let management reply to a comment without learning who wrote it, for example by giving the writer a private link where the reply can be read. The condition is that the link between comment and person is not available to the organisation."
           },
           {
             "t": "h2",
-            "text": "Questions to ask before the survey goes out"
+            "text": "Who owns the data from the survey?"
+          },
+          {
+            "t": "p",
+            "text": "Legally, the answer is the employer. It is the organisation that decides the purpose of the survey and how it is run, and that is therefore the data controller. A vendor that runs the survey is a processor acting on the employer’s instructions – Datatilsynet reminds employers that the requirements of Articles 28 and 29 of the GDPR must then be met, with a data processing agreement. The vendor does not own the answers and cannot use them for its own purposes, such as comparing customers or training models, unless the agreement says so."
+          },
+          {
+            "t": "p",
+            "text": "If the survey is genuinely anonymous, the answers are not personal data, and employees have no right of access to them – there is no «my answer» to give access to. That is a benefit, not a loss: it is the reason the answers can be honest. But it also means the employer must settle some things in the agreement that the law would otherwise regulate: how long results are kept, what is deleted when the agreement ends, whether the data can be exported and in what form, and who in the organisation has access to what."
+          },
+          {
+            "t": "p",
+            "text": "A practical principle is that nobody should see more than they need. The general manager needs the figures for the organisation and for the departments above the limit; a department manager needs their own department; the safety representative needs the same figures as management to take part under section 6-2 of the Working Environment Act. None of them needs to know who answered what – and none of them should have the technical means to find out, including whoever administers the tool."
+          },
+          {
+            "t": "table",
+            "head": [
+              "",
+              "Anonymous survey",
+              "Confidential survey"
+            ],
+            "rows": [
+              [
+                "Who knows who answered what",
+                "Nobody – the link does not exist",
+                "The vendor, often HR as well"
+              ],
+              [
+                "Are the answers personal data",
+                "No, when the anonymity is real",
+                "Yes"
+              ],
+              [
+                "Legal basis and information under the GDPR",
+                "Not required for the answers",
+                "Required (Articles 6 and 13)"
+              ],
+              [
+                "Right of access for the individual",
+                "None – there is nothing to give access to",
+                "Yes (Article 15), including what others said about them"
+              ],
+              [
+                "Can be used in a personnel case",
+                "No",
+                "Yes – and the survey then becomes a case"
+              ],
+              [
+                "What the vendor agreement must say",
+                "Retention, deletion, export, own use",
+                "The same, plus a processing agreement under Article 28"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Which questions should you ask before the survey goes out?"
           },
           {
             "t": "p",
@@ -9857,7 +9987,9 @@
               "Is it prevented that someone calculates a hidden group, or narrows background data down to a few people?",
               "Who can see the list of who has answered, and who sends the reminders?",
               "How are comments from small groups handled, and who can read them?",
-              "Where is the data stored, who has access, and is it shared with anyone?"
+              "Where is the data stored, who has access, and is it shared with anyone?",
+              "Who is the controller and who is the processor – and what does the agreement say about deletion, export and the vendor’s own use of the data?",
+              "What happens to a comment about a named person, and where does the survey point someone who has a specific case?"
             ]
           },
           {
@@ -9898,6 +10030,54 @@
           {
             "label": "Regulation on the performance of work (Lovdata, Norwegian)",
             "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Datatilsynet: Arbeidsmiljøundersøkelser (privacy at the workplace, in Norwegian)",
+            "url": "https://www.datatilsynet.no/personvern-pa-ulike-omrader/personvern-pa-arbeidsplassen/ansattundersokelser/"
+          },
+          {
+            "label": "Article 29 Working Party: Opinion 05/2014 on Anonymisation Techniques (WP216)",
+            "url": "https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp216_en.pdf"
+          },
+          {
+            "label": "Working Environment Act chapter 2 A on whistleblowing (Lovdata, in Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A72a-4"
+          },
+          {
+            "label": "Whistleblowing (Arbeidstilsynet, in Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/tema/varsling/"
+          },
+          {
+            "label": "Trygstad and Ødegård: Varsling i norsk arbeidsliv 2018 (Fafo report 2019:14, in Norwegian)",
+            "url": "https://www.fafo.no/images/pub/2019/20711.pdf"
+          },
+          {
+            "label": "Trygstad and Ødegård: Ytringsfrihet og varsling fra et arbeidsgiverperspektiv (Fritt Ord, 2022, in Norwegian)",
+            "url": "https://frittord.no/attachments/8b87756df58d08fce356332bbfbd0cf755ed7b3a/209-20220901134854550051.pdf"
+          },
+          {
+            "label": "Ong and Weiss (2000): The impact of anonymity on responses to sensitive questions, Journal of Applied Social Psychology",
+            "url": "https://doi.org/10.1111/j.1559-1816.2000.tb02462.x"
+          },
+          {
+            "label": "Antonioni (1994): The effects of feedback accountability on upward appraisal ratings, Personnel Psychology",
+            "url": "https://doi.org/10.1111/j.1744-6570.1994.tb01728.x"
+          },
+          {
+            "label": "Tourangeau and Yan (2007): Sensitive questions in surveys, Psychological Bulletin",
+            "url": "https://doi.org/10.1037/0033-2909.133.5.859"
+          },
+          {
+            "label": "Singer, Von Thurn and Miller (1995): Confidentiality assurances and response, Public Opinion Quarterly",
+            "url": "https://doi.org/10.1086/269458"
+          },
+          {
+            "label": "Murdoch et al. (2014): Impact of different privacy conditions and incentives on survey response rate, participant representativeness, and disclosure of sensitive information, BMC Medical Research Methodology",
+            "url": "https://doi.org/10.1186/1471-2288-14-90"
+          },
+          {
+            "label": "Lelkes et al. (2012): Complete anonymity compromises the accuracy of self-reports, Journal of Experimental Social Psychology",
+            "url": "https://doi.org/10.1016/j.jesp.2012.07.002"
           }
         ]
       },
@@ -11039,7 +11219,7 @@
           },
           {
             "t": "p",
-            "text": "Read more about [what anonymous must mean in an employee survey](/artikler/anonym-medarbeiderundersokelse), and about [what a tool for an employee survey should do](/verktoy-for-medarbeiderundersokelse)."
+            "text": "Read more about [what anonymous must mean in an employee survey](/artikler/anonym-medarbeiderundersokelse), about [how anonymity is built into Orgpuls, step by step](/anonymitet), and about [what a tool for an employee survey should do](/verktoy-for-medarbeiderundersokelse)."
           },
           {
             "t": "box",
@@ -11516,6 +11696,244 @@
         "title": "Industries: work environment surveys with industry modules | Orgpuls",
         "description": "Question sets of their own for construction and for health and care, in addition to the main survey. Anonymous, with measures that follow up.",
         "crumb": "Industries"
+      },
+      "anonymitet": {
+        "title": "Anonymous feedback from employees: how it works | Orgpuls",
+        "description": "How Orgpuls keeps answers and comments anonymous: a threshold of 5 answers, never below 3, no link to a person, and managers who reply without knowing who.",
+        "crumb": "Anonymity",
+        "kicker": "Platform · Anonymity",
+        "h1": "How the employee survey stays anonymous – from invitation to report",
+        "lead": "Anonymity in Orgpuls is not a promise someone keeps but a property of how answers are stored and shown. No row in the database can be linked to a person, no group is shown before the threshold is reached, and management can reply to a comment without learning who wrote it. Here is the whole journey, step by step: what you can set yourselves, and what cannot be switched off.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What happens to an answer once it is submitted?"
+          },
+          {
+            "t": "p",
+            "text": "The invitation carries a personal link, but the link is stored only as a checksum. When the answer is submitted, it is written in one transaction to a table that has no column that could hold a link to a person: the row carries the round, the group the answer belongs to, and the hour it came in – not the minute, not the IP address, not which invitation was used. The submission does not even get back the id of the row that was written, so not even the respondent can later point at «their» answer."
+          },
+          {
+            "t": "p",
+            "text": "The order of the topics is random per person, so nobody can guess who answered what from when an answer came in. Results are never read straight from the answer table: they are computed by database functions that apply the threshold to every single cell before anything reaches the screen, the report or an export."
+          },
+          {
+            "t": "box",
+            "title": "Why there is no list to ask for",
+            "text": "When the link is not stored, there is nothing to give access to – not for the general manager, not for an administrator, and not for Orgpuls. That is the difference between a survey that is anonymous by structure and one that is anonymous because someone promises not to look."
+          },
+          {
+            "t": "h2",
+            "text": "How many answers does it take before a figure is shown?"
+          },
+          {
+            "t": "p",
+            "text": "Five answers is the default and strongly recommended: no group is shown on its own until at least five have answered. The limit lives in the database, not in a setting someone can override. A small team can lower it to four or three, and only after a warning about what that means; below three is not possible, because the database always counts with at least three whatever has been chosen. You can also raise it, up to ten. A round keeps the threshold it was opened with, so nobody can lower the limit afterwards to «see the figure anyway»."
+          },
+          {
+            "t": "p",
+            "text": "Below the threshold there is a dash. The figure is not hidden from anyone in particular – it is not calculated for anyone – and the answers still count in the whole. If a hidden group could be worked out by subtracting the others from the whole, one more group is withheld. The same goes for the number who answered: for a group below the threshold, participation is not shown either."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Threshold",
+              "What it means",
+              "Who chooses it"
+            ],
+            "rows": [
+              [
+                "3",
+                "The floor. The database never counts with fewer, whatever the settings.",
+                "Small teams, after a warning"
+              ],
+              [
+                "5",
+                "The default, and strongly recommended.",
+                "Everyone, without doing anything"
+              ],
+              [
+                "10",
+                "The highest limit you can set.",
+                "Organisations that want to be stricter"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "How can management reply to an anonymous comment?"
+          },
+          {
+            "t": "p",
+            "text": "Comments are optional, and they are never read raw. Names of colleagues, departments and places are removed automatically before anyone reads the text, and a comment is shown only once the group it came from has reached the threshold – and the group never travels with the comment. «Someone in the workshop wrote this» is too small a haystack."
+          },
+          {
+            "t": "p",
+            "text": "Still, it is not one-way communication. When someone writes a comment, they get a key in their browser; the database stores only a checksum of it. The manager replies to the comment and sees a conversation with no sender – «Employee · anonymous» and nothing else. The writer can come back with the key, read the reply and write on. If the manager wants to talk directly, the manager can ask, but only the employee can reveal who they are, by writing from their own e-mail."
+          },
+          {
+            "t": "ol",
+            "items": [
+              "The employee writes a comment and gets a private link. The link is the only way back to the conversation; Orgpuls cannot send it again.",
+              "The manager reads the comment without a name and without a group, and replies.",
+              "The employee opens the link, reads the reply and can answer back. The conversation lives in Conversations until it is closed."
+            ]
+          },
+          {
+            "t": "box",
+            "title": "The exception, and why it applies only to those who ask",
+            "text": "An employee who has written a comment can ask to be told when management replies. To be able to send that notice, Orgpuls stores, encrypted, who wrote the comment, and that link covers the whole response. It is never visible to the organisation, Orgpuls does not hand it over, and it is deleted when the conversation is closed, when the employee switches the notice off, and after a year at the latest. Nobody else is linked to anything."
+          },
+          {
+            "t": "h2",
+            "text": "What about reminders and participation?"
+          },
+          {
+            "t": "p",
+            "text": "Reminders go from Orgpuls to those who have not answered, on the schedule in the year wheel or when the manager asks – at most two per round. The manager sees how many are missing, never who, and even that number is withheld when fewer than the threshold were asked. Participation is shown per group only once the group has reached the threshold; small groups count only in the whole."
+          },
+          {
+            "t": "h2",
+            "text": "Who sees what?"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Role",
+              "Sees",
+              "Does not see"
+            ],
+            "rows": [
+              [
+                "General manager",
+                "The whole organisation, every factor, every anonymous conversation and the settings",
+                "Who answered what – the link does not exist"
+              ],
+              [
+                "Department manager",
+                "Their own department once the threshold is reached, and its conversations",
+                "Other departments – not hidden, but absent"
+              ],
+              [
+                "Safety representative",
+                "The same figures and the same risk assessment as management",
+                "Individual comments"
+              ],
+              [
+                "Orgpuls",
+                "What operations and support need: settings, rounds and that the mailings go out",
+                "Who answered what – there is no link to look up. The encrypted link for notices is read by the dispatcher, not by people"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What happens in the report and on the employees’ page?"
+          },
+          {
+            "t": "p",
+            "text": "The report to management, the board and, where relevant, the Labour Inspection Authority follows the same rules as the screen: no figures for groups below the threshold, one more group withheld where a subtraction would otherwise work, and no quotations that can be traced. The questions on harassment and violence are reported only as counts for the whole organisation."
+          },
+          {
+            "t": "p",
+            "text": "Employees get a page of their own after each round, «This is what you said, this is what we are doing», with the result in plain language and the measures that were decided. It follows the same limits, and it is on by default: the general manager can switch it off, but cannot lower the threshold for it."
+          },
+          {
+            "t": "h2",
+            "text": "What can you set yourselves, and what can you not?"
+          },
+          {
+            "t": "table",
+            "head": [
+              "",
+              "You decide",
+              "Cannot be changed"
+            ],
+            "rows": [
+              [
+                "The threshold",
+                "Between 3 and 10; 5 is the default",
+                "Lower than 3, or for a round that is already open"
+              ],
+              [
+                "Comments",
+                "Whether management can reply to comments (conversations)",
+                "That comments are read with a name or a group"
+              ],
+              [
+                "Notice on reply",
+                "Whether employees can ask to be told when management replies",
+                "Who asked for it – the organisation does not see that"
+              ],
+              [
+                "The employees’ page",
+                "On or off",
+                "The limits it follows"
+              ],
+              [
+                "Export",
+                "Figures and the report above the threshold",
+                "Individual answers – nobody can extract them"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What is stored, and where?"
+          },
+          {
+            "t": "p",
+            "text": "Of the answers, the group and the hour the answer came in; of the users, name, e-mail, role and department; passwords only as a hash. The questions are designed not to collect health data or other special categories of personal data. The data is kept in the EU, and it is not used to train models. The data processing agreement, the sub-processors and the legal basis are on [the security and privacy page](/sikkerhet)."
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Anonymous employee survey: when is it anonymous?",
+                "text": "The article on what anonymous must mean, what the research says about anonymity and honest answers, and who owns the data.",
+                "href": "/artikler/anonym-medarbeiderundersokelse"
+              },
+              {
+                "title": "Security and privacy",
+                "text": "Storage, the data processing agreement, sub-processors and the legal basis.",
+                "href": "/sikkerhet"
+              },
+              {
+                "title": "A tool for employee surveys",
+                "text": "Eight things to check in a tool for an anonymous employee survey, and how Orgpuls does them.",
+                "href": "/verktoy-for-medarbeiderundersokelse"
+              }
+            ]
+          }
+        ],
+        "faq": [
+          {
+            "q": "Can the general manager see who answered what?",
+            "a": "No. The answer is stored without name, e-mail, invitation or any other link to the person, so there is no list to look up – not for an administrator, and not for Orgpuls either."
+          },
+          {
+            "q": "Can we lower the threshold to three?",
+            "a": "Yes, for small teams, after a warning. Three is the floor: the database never counts with fewer, and a round keeps the threshold it was opened with. Five is the default and strongly recommended – below five it gets easier to recognise who said what, especially in comments."
+          },
+          {
+            "q": "What happens to a comment that names a colleague?",
+            "a": "Names of colleagues, departments and places are removed automatically before anyone reads the text. The comment is shown without its group, and only once the group it came from has reached the threshold."
+          },
+          {
+            "q": "Does the person who wrote a comment learn that management has replied?",
+            "a": "Only if the employee asks for it. Orgpuls then stores, encrypted, who wrote the comment, solely to send the notice; the organisation never sees it, and the link is deleted when the conversation is closed, when the notice is switched off, and after a year at the latest. Otherwise the employee reads the reply through their private link."
+          },
+          {
+            "q": "Does the manager see who has not answered?",
+            "a": "No. Reminders are sent by Orgpuls to those who are missing. The manager sees how many are missing in the round, never who, and the number is withheld when fewer than the threshold were asked."
+          },
+          {
+            "q": "Are the answers personal data?",
+            "a": "Not as they are stored: with no link to a person, and shown only above the threshold. If the threshold is set below five, Orgpuls warns that figures for such small groups can in practice be linked to individuals, and must then be treated as personal data."
+          }
+        ],
+        "finalTitle": "Try it with your own questions",
+        "finalBody": "Enter the name of your organisation and your e-mail address. For the first 15 days you have everything, no card needed, and afterwards you can carry on for free."
       }
     },
     "maler": {
@@ -12370,7 +12788,8 @@
         "fraResultater": "From results to measures",
         "maler": "Free templates",
         "sikkerhet": "Privacy and anonymity",
-        "medarbeiderundersokelse": "Employee survey"
+        "medarbeiderundersokelse": "Employee survey",
+        "anonymitet": "Anonymity"
       },
       "navLabel": "Main menu",
       "menu": "Menu",

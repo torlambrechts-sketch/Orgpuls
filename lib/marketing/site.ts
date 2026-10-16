@@ -293,7 +293,7 @@ export const ARTICLES: Article[] = [
     key: 'anonym',
     group: 'gjennomforing',
     published: '2026-09-25',
-    modified: '2026-10-14',
+    modified: '2026-10-16',
     related: ['medarbeiderundersokelse-sporsmal', 'verneombudets-rolle-i-kartleggingen'],
     art: 'anon',
     template: 'informasjonsskriv-og-sjekkliste',
@@ -388,6 +388,8 @@ export const SITE_PAGES = [
   { slug: 'hvorfor', key: 'hvorfor' },
   { slug: 'priser', key: 'priser' },
   { slug: 'sikkerhet', key: 'sikkerhet' },
+  // anonymity, step by step (D-285): a Plattform page
+  { slug: 'anonymitet', key: 'anonymitet' },
   { slug: 'kontakt', key: 'kontakt' },
   { slug: 'personvernerklaering', key: 'personvernerklaering' },
   { slug: 'vilkar', key: 'vilkar' },

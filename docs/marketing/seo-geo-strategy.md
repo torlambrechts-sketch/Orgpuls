@@ -111,7 +111,8 @@ reviews, lists or figures (CLAUDE.md: never fabricate), and no bought placements
 
 | Cluster (queries seen in Search Console) | Target page | Status 2026-10-12 |
 |---|---|---|
-| anonym medarbeiderundersøkelse, medarbeiderundersøkelse anonymitet | /artikler/anonym-medarbeiderundersokelse | pos 13–16; title and H1 now open with the query (D-281) |
+| anonym medarbeiderundersøkelse, medarbeiderundersøkelse anonymitet | /artikler/anonym-medarbeiderundersokelse | pos 13–16 (D-281); 34.9 on 7 impressions by 2026-10-16, «needs a better page»: rebuilt at the standard with the evidence, the non-anonymous case, personnel conflicts and data ownership, 15 sources (D-285) |
+| anonyme tilbakemeldinger fra ansatte, anonym tilbakemelding verktøy, anonymitet medarbeiderundersøkelse verktøy | **/anonymitet** (new Plattform page) | new (D-285): the product intent, answered with what the database enforces, the one exception (X-103) included. Watch which of /anonymitet, /verktoy-for-medarbeiderundersokelse and /sikkerhet Google keeps for it |
 | hvilken plattform tilbyr anonym medarbeiderfeedback?, beste plattform for anonyme pulsundersøkelser, pulsundersøkelse verktøy, verktøy/system for medarbeiderundersøkelse | **/verktoy-for-medarbeiderundersokelse** (new product page) | pos 6.5–9 on the article; new page (D-281) |
 | medarbeiderundersøkelse lovpålagt, hvorfor medarbeiderundersøkelse | **/artikler/er-medarbeiderundersokelse-lovpalagt** (new) | pos 41–64, no page; new (D-281) |
 | arbeidsmiljøkartlegging, kartlegging av arbeidsmiljø | **/artikler/arbeidsmiljokartlegging** (new) | pos 38–79; new (D-281). Replaces D-227's «out of titles», which rested on no data |
@@ -179,6 +180,14 @@ site's biggest term and its weakest position); a hub page, «Hva er psykososialt
 lists the factors and the chapter, and is linked from every factor article; and two sections — the deadline FAQ on
 /lovkrav («fristaml», position 10) and the language-requirement section on the bygg question page («språkkrav
 byggherreforskriften», position 11).
+
+### Phase 1e: anonymity, shipped 2026-10-16 (D-285)
+
+Tor's call on the keyword panel: the anonymity article rebuilt in place at the article standard — what anonymity does to
+the answers (six studies), what happens when a survey is not anonymous, personnel conflicts and the varsling route, who
+owns the data — and a Plattform page, /anonymitet, that says what the product does, step by step, from the submitted
+answer to the report, the one exception (X-103) stated in the survey's own words. Norway's site only; the floor is 5
+elsewhere.
 
 ### Phase 2: next 2–6 weeks
 

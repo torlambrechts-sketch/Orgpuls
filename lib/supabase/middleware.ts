@@ -86,6 +86,7 @@ const PUBLIC_PATHS = [
   '/bransjer',
   '/priser',
   '/sikkerhet',
+  '/anonymitet',
   '/kontakt',
   '/personvernerklaering',
   '/vilkar',

@@ -5593,7 +5593,7 @@
           },
           {
             "t": "p",
-            "text": "Slik svarer Orgpuls på dem: [sikkerhet og anonymitet](/sikkerhet). Hva kartleggingen skal dekke, står i [lovkravene](/lovkrav). Hva plattformen gjør, steg for steg: [Plattformen](/plattform)."
+            "text": "Slik svarer Orgpuls på dem: [anonymiteten, steg for steg](/anonymitet), og [sikkerhet og personvern](/sikkerhet). Hva kartleggingen skal dekke, står i [lovkravene](/lovkrav). Hva plattformen gjør, steg for steg: [Plattformen](/plattform)."
           },
           {
             "t": "h2",
@@ -9755,17 +9755,29 @@
       },
       "anonym": {
         "title": "Anonym medarbeiderundersøkelse: når er den anonym? | Orgpuls",
-        "description": "Anonymitet i medarbeiderundersøkelsen: hvorfor navnet ikke er nok, hvorfor grupper under fem svar skjules, og hvordan en skjult gruppe kan regnes ut.",
-        "h1": "Anonym medarbeider­undersøkelse: hva betyr anonymt?",
-        "lead": "At navnet ikke lagres, er ikke nok. En undersøkelse er først anonym når ingen kan finne ut hvem som svarte hva – verken fra dataene, fra små grupper, ved å regne seg fram til en skjult gruppe eller fra det som står i en kommentar. Det krever en nedre grense for hvor små grupper som vises, og at svarene ikke lagres sammen med noe som kan identifisere den som svarte.",
+        "description": "Hva anonymitet gjør med svarene, hvor mange svar som må til, kommentarer og personalkonflikter, og hvem som eier dataene i medarbeiderundersøkelsen.",
+        "h1": "Anonym medarbeider­undersøkelse: hva betyr anonymt, og hva gjør det med svarene?",
+        "lead": "At navnet ikke lagres, er ikke nok. En undersøkelse er først anonym når ingen kan finne ut hvem som svarte hva – verken fra dataene, fra små grupper, ved å regne seg fram til en skjult gruppe eller fra det som står i en kommentar. Det krever en nedre grense for hvor små grupper som vises, og at svarene ikke lagres sammen med noe som kan identifisere den som svarte. Under: hva forskningen sier om anonymitet og ærlige svar, hva som skjer når undersøkelsen ikke er anonym, hvordan den brytes, og hvem som eier dataene.",
         "blocks": [
           {
             "t": "h2",
-            "text": "Hvorfor anonymitet avgjør kvaliteten"
+            "text": "Hva gjør anonymitet med svarene?"
           },
           {
             "t": "p",
             "text": "Folk svarer ærlig når de er trygge på at svaret ikke kan spores tilbake. Er de i tvil, svarer de pent – eller ikke i det hele tatt. En [medarbeiderundersøkelse](/artikler/medarbeiderundersokelse) med tvilsom anonymitet gir tall som ser bra ut, men som ikke stemmer. Da blir også kartleggingen av det psykososiale arbeidsmiljøet, som arbeidsgiveren skal gjøre etter forskrift om utførelse av arbeid § 1A-2, bygd på et svakt grunnlag. Selve undersøkelsen er ikke lovpålagt, men kartleggingen er det. Se [er medarbeiderundersøkelse lovpålagt?](/artikler/er-medarbeiderundersokelse-lovpalagt)"
+          },
+          {
+            "t": "p",
+            "text": "Dette er ikke bare en følelse; det er målt. I en studie fra 2000 lot Ong og Weiss studenter svare på spørsmål om blant annet juks, og for 79 av dem visste forskerne fasiten. Blant dem som faktisk hadde jukset, innrømmet 25 prosent det når svaret var konfidensielt – og 74 prosent når det var anonymt. Spørsmålet var det samme. Det eneste som endret seg, var om svaret kunne føres tilbake til personen."
+          },
+          {
+            "t": "p",
+            "text": "Det samme mønsteret finnes på arbeidsplassen. Da Antonioni i 1994 lot ansatte i et forsikringsselskap vurdere lederne sine, ga de som måtte oppgi navn, høyere skår enn de som svarte anonymt. De ansatte var mest komfortable med å svare anonymt; lederne foretrakk å vite hvem som hadde sagt hva. Forskerens egen tolkning var at de navngitte vurderingene trolig var oppblåste. En gjennomgang av forskningen på følsomme spørsmål (Tourangeau og Yan, 2007) peker på hvorfor: folk redigerer svarene sine for å unngå å dumme seg ut og for å unngå konsekvenser fra andre – og en leder som kan lese svaret, er en slik konsekvens."
+          },
+          {
+            "t": "p",
+            "text": "To forbehold hører med. Anonymitet gir ikke automatisk flere svar: en gjennomgang fra 1995 (Singer, Von Thurn og Miller) fant at løfter om konfidensialitet øker svarprosenten litt, og bare når spørsmålene er følsomme, og et randomisert forsøk fra 2014 (Murdoch og kolleger) fant ingen sikker forskjell i svarprosent mellom anonyme og konfidensielle utsendinger – men de som svarte anonymt, lignet mest på dem som ikke svarte, og ga dermed det mest representative bildet. Og anonymitet uten mening kan gi slurv: Lelkes og kolleger viste i 2012 at helt anonyme studenter oftere innrømmet upopulære holdninger, men også svarte mindre nøyaktig. Lærdommen for en medarbeiderundersøkelse er ikke å svekke anonymiteten, men å gjøre den verdt å svare nøye på: et kort skjema, spørsmål folk kjenner seg igjen i, og et resultat de får se igjen."
           },
           {
             "t": "h2",
@@ -9783,6 +9795,56 @@
           {
             "t": "p",
             "text": "Det arbeidsgiveren trenger å vite, er altså hvordan arbeidet oppleves i en avdeling eller et team – ikke hvem som mener hva. Enkeltsaker, som en konkret sak om trakassering, hører hjemme i varslingsrutinene, ikke i en undersøkelse."
+          },
+          {
+            "t": "h2",
+            "text": "Hva skjer når undersøkelsen ikke er anonym?"
+          },
+          {
+            "t": "p",
+            "text": "Mange undersøkelser er «konfidensielle» heller enn anonyme: leverandøren eller HR vet hvem som svarte hva, og lover å ikke fortelle det videre. Forskjellen er ikke en formalitet. Datatilsynet skriver at formålet med en arbeidsmiljøundersøkelse normalt kan oppnås med anonyme opplysninger, og at det da i de fleste tilfeller heller ikke er tillatt å behandle personopplysninger. Er undersøkelsen ikke reelt anonym, gjelder personvernreglene fullt ut: arbeidsgiveren trenger et rettslig grunnlag, de ansatte skal vite hvem som har tilgang – «for eksempel nærmeste sjef eller HR-avdelingen» – og hver enkelt har rett til innsyn i det som er lagret om seg."
+          },
+          {
+            "t": "quote",
+            "text": "Formålet med en arbeidsmiljøundersøkelse vil normalt kunne oppnås ved innsamling av anonyme opplysninger, og i så fall vil det i de fleste tilfeller heller ikke være tillatt å behandle personopplysninger.",
+            "cite": "Datatilsynet, «Arbeidsmiljøundersøkelser»"
+          },
+          {
+            "t": "p",
+            "text": "Innsynsretten er der konfidensielle undersøkelser oftest kommer i vanskeligheter. Datatilsynet nevner at krav om innsyn gjerne dukker opp i undersøkelser som er nært knyttet til enkeltpersoner, der noen ønsker å se hva andre ansatte har opplyst om dem. En leder som får dårlig skår, kan be om innsyn i det som er sagt; den som skrev det, kan ikke lenger regne med å være skjult. Da har undersøkelsen blitt en personalsak."
+          },
+          {
+            "t": "h3",
+            "text": "Personalkonflikter: når en kommentar handler om én person"
+          },
+          {
+            "t": "p",
+            "text": "Det vanskeligste tilfellet er fritekst som peker på en navngitt person: «Avdelingslederen roper til folk.» I en anonym undersøkelse kan påstanden verken etterprøves eller brukes mot personen – den som er omtalt, har krav på å få vite hva anklagen går ut på og å svare på den, og det krever en avsender. I en undersøkelse som ikke er anonym, blir kommentaren i stedet starten på en sak med to parter, der den som skrev, kan bli kalt inn. Begge deler er grunner til å holde enkeltsaker utenfor undersøkelsen: den skal måle hvordan arbeidsmiljøet er, ikke avgjøre hvem som har rett."
+          },
+          {
+            "t": "p",
+            "text": "Loven har en egen vei for slike saker. Arbeidsmiljøloven kapittel 2 A gir arbeidstakere rett til å varsle om kritikkverdige forhold, pålegger arbeidsgiveren å undersøke varselet innen rimelig tid og å sørge for at den som varslet, har et fullt forsvarlig arbeidsmiljø, og forbyr gjengjeldelse. Virksomheter med minst fem ansatte skal ha skriftlige rutiner for intern varsling. En undersøkelse erstatter ikke disse rutinene, og den bør si det selv: gjelder det en konkret sak, bruk varslingsrutinen."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "Arbeidsmiljøloven § 2 A-3 første ledd",
+                "text": "Når det er varslet om kritikkverdige forhold i virksomheten, skal arbeidsgiver sørge for at varselet innen rimelig tid blir tilstrekkelig undersøkt."
+              },
+              {
+                "ref": "Arbeidsmiljøloven § 2 A-4 første ledd",
+                "text": "Gjengjeldelse mot arbeidstaker som varsler i samsvar med §§ 2 A-1 og 2 A-2, er forbudt."
+              },
+              {
+                "ref": "Arbeidsmiljøloven § 2 A-6 første ledd",
+                "text": "Virksomheter som jevnlig sysselsetter minst fem arbeidstakere, plikter å ha rutiner for intern varsling."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Frykten for konsekvenser er ikke innbilt. I Fafos undersøkelse for Arbeidstilsynet (2019) svarte 19 prosent av dem som hadde varslet, at de fikk negative reaksjoner eller sanksjoner – oftest å bli fratatt arbeidsoppgaver eller irettesatt av leder – og rapporten slår fast at det er vanskeligst å varsle om psykososiale forhold. I 2022 var andelen med negative reaksjoner 21 prosent, mot 13 prosent i 2010, og risikoen var størst nettopp når varselet gjaldt det psykososiale arbeidsmiljøet og når sjefen var den ansvarlige. Det er denne virkeligheten de ansatte har i bakhodet når de vurderer om de tør å svare ærlig på et spørsmål om lederen."
           },
           {
             "t": "h2",
@@ -9822,6 +9884,14 @@
             "text": "En strek i stedet for et tall betyr at gruppen hadde for få svar. Tallet er ikke skjult for noen spesielt – det er ikke regnet ut for noen. Svarene teller likevel med i tallene for helheten."
           },
           {
+            "t": "h3",
+            "text": "4. Et pseudonym forveksles med anonymitet"
+          },
+          {
+            "t": "p",
+            "text": "Et skjema der navnet er byttet ut med et løpenummer, er ikke anonymt så lenge noen har listen som kobler nummeret til personen. EUs personvernmyndigheter (Artikkel 29-gruppen) slo fast i 2014 at pseudonymisering ikke er en metode for anonymisering: den reduserer bare koblingen til identiteten og er et sikkerhetstiltak, ikke mer. Spør derfor om nøkkelen finnes – hos leverandøren, hos HR eller i en e-postlogg – ikke bare om den vises."
+          },
+          {
             "t": "h2",
             "text": "Hvordan sender dere påminnelser uten å vite hvem som mangler?"
           },
@@ -9839,11 +9909,71 @@
           },
           {
             "t": "p",
+            "text": "Kommentarer kan også inneholde personopplysninger om andre – en kollega som nevnes ved navn, et sted, en hendelse. Da er det ikke bare den som skrev, som skal skjermes. Navn på kolleger, avdelinger og steder bør tas ut før noen leser teksten, og kommentaren bør vises uten hvilken gruppe den kom fra: «noen på verkstedet skrev dette» er en liten nok høystakk til at folk gjetter."
+          },
+          {
+            "t": "p",
             "text": "Anonymitet trenger ikke bety enveiskommunikasjon. Det er mulig å legge opp til at ledelsen svarer på en kommentar uten å få vite hvem som skrev den, for eksempel ved at den som skrev, får en privat lenke der svaret kan leses. Forutsetningen er at koblingen mellom kommentar og person ikke er tilgjengelig for virksomheten."
           },
           {
             "t": "h2",
-            "text": "Spørsmål å stille før undersøkelsen sendes ut"
+            "text": "Hvem eier dataene fra undersøkelsen?"
+          },
+          {
+            "t": "p",
+            "text": "Juridisk er svaret arbeidsgiveren. Det er virksomheten som bestemmer formålet med undersøkelsen og hvordan den gjennomføres, og som dermed er behandlingsansvarlig. En leverandør som gjennomfører undersøkelsen, er databehandler og handler på arbeidsgiverens instruks – Datatilsynet minner om at kravene i personvernforordningen artikkel 28 og 29 da må være oppfylt, med en databehandleravtale. Leverandøren eier ikke svarene og kan ikke bruke dem til egne formål, for eksempel til å sammenligne kunder eller trene modeller, uten at avtalen sier det."
+          },
+          {
+            "t": "p",
+            "text": "Er undersøkelsen reelt anonym, er svarene ikke personopplysninger, og de ansatte har ikke innsynsrett i dem – det finnes ikke noe «mitt svar» å gi innsyn i. Det er et gode, ikke et tap: det er grunnen til at svarene kan være ærlige. Men det betyr også at arbeidsgiveren må avklare noen ting i avtalen som loven ellers ville regulert: hvor lenge resultatene lagres, hva som slettes når avtalen opphører, om dataene kan eksporteres og i hvilken form, og hvem i virksomheten som har tilgang til hva."
+          },
+          {
+            "t": "p",
+            "text": "Et praktisk prinsipp er at ingen skal se mer enn de trenger. Daglig leder trenger tallene for virksomheten og for avdelingene over grensen; en avdelingsleder trenger sin egen avdeling; verneombudet trenger de samme tallene som ledelsen for å kunne medvirke etter arbeidsmiljøloven § 6-2. Ingen av dem trenger å vite hvem som svarte hva – og ingen av dem bør ha teknisk mulighet til å finne det ut, heller ikke den som administrerer verktøyet."
+          },
+          {
+            "t": "table",
+            "head": [
+              "",
+              "Anonym undersøkelse",
+              "Konfidensiell undersøkelse"
+            ],
+            "rows": [
+              [
+                "Hvem vet hvem som svarte hva",
+                "Ingen – koblingen finnes ikke",
+                "Leverandøren, ofte også HR"
+              ],
+              [
+                "Er svarene personopplysninger",
+                "Nei, når anonymiteten er reell",
+                "Ja"
+              ],
+              [
+                "Rettslig grunnlag og informasjon etter GDPR",
+                "Kreves ikke for svarene",
+                "Kreves (artikkel 6 og 13)"
+              ],
+              [
+                "Innsynsrett for den enkelte",
+                "Ingen – det finnes ikke noe å gi innsyn i",
+                "Ja (artikkel 15), også i det andre har sagt om en"
+              ],
+              [
+                "Kan brukes i en personalsak",
+                "Nei",
+                "Ja – og da blir undersøkelsen en sak"
+              ],
+              [
+                "Hva avtalen med leverandøren må si",
+                "Lagring, sletting, eksport, egen bruk",
+                "Det samme, pluss databehandleravtale etter artikkel 28"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hvilke spørsmål bør dere stille før undersøkelsen sendes ut?"
           },
           {
             "t": "p",
@@ -9857,7 +9987,9 @@
               "Hindres det at man regner seg fram til en skjult gruppe, eller krysser bakgrunnsopplysninger ned til noen få personer?",
               "Hvem kan se listen over hvem som har svart, og hvem sender påminnelsene?",
               "Hvordan behandles kommentarer fra små grupper, og hvem kan lese dem?",
-              "Hvor lagres dataene, hvem har tilgang, og deles de med andre?"
+              "Hvor lagres dataene, hvem har tilgang, og deles de med andre?",
+              "Hvem er behandlingsansvarlig og hvem er databehandler – og hva sier avtalen om sletting, eksport og leverandørens egen bruk av dataene?",
+              "Hva skjer med en kommentar som handler om en navngitt person, og hvor henviser undersøkelsen den som har en konkret sak?"
             ]
           },
           {
@@ -9898,6 +10030,54 @@
           {
             "label": "Forskrift om utførelse av arbeid (Lovdata)",
             "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Datatilsynet: Arbeidsmiljøundersøkelser (personvern på arbeidsplassen)",
+            "url": "https://www.datatilsynet.no/personvern-pa-ulike-omrader/personvern-pa-arbeidsplassen/ansattundersokelser/"
+          },
+          {
+            "label": "Artikkel 29-gruppen: Opinion 05/2014 on Anonymisation Techniques (WP216)",
+            "url": "https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp216_en.pdf"
+          },
+          {
+            "label": "Arbeidsmiljøloven kapittel 2 A om varsling (Lovdata)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A72a-4"
+          },
+          {
+            "label": "Varsling (Arbeidstilsynet)",
+            "url": "https://www.arbeidstilsynet.no/tema/varsling/"
+          },
+          {
+            "label": "Trygstad og Ødegård: Varsling i norsk arbeidsliv 2018 (Fafo-rapport 2019:14)",
+            "url": "https://www.fafo.no/images/pub/2019/20711.pdf"
+          },
+          {
+            "label": "Trygstad og Ødegård: Ytringsfrihet og varsling fra et arbeidsgiverperspektiv (Fritt Ord, 2022)",
+            "url": "https://frittord.no/attachments/8b87756df58d08fce356332bbfbd0cf755ed7b3a/209-20220901134854550051.pdf"
+          },
+          {
+            "label": "Ong og Weiss (2000): The impact of anonymity on responses to sensitive questions, Journal of Applied Social Psychology",
+            "url": "https://doi.org/10.1111/j.1559-1816.2000.tb02462.x"
+          },
+          {
+            "label": "Antonioni (1994): The effects of feedback accountability on upward appraisal ratings, Personnel Psychology",
+            "url": "https://doi.org/10.1111/j.1744-6570.1994.tb01728.x"
+          },
+          {
+            "label": "Tourangeau og Yan (2007): Sensitive questions in surveys, Psychological Bulletin",
+            "url": "https://doi.org/10.1037/0033-2909.133.5.859"
+          },
+          {
+            "label": "Singer, Von Thurn og Miller (1995): Confidentiality assurances and response, Public Opinion Quarterly",
+            "url": "https://doi.org/10.1086/269458"
+          },
+          {
+            "label": "Murdoch m.fl. (2014): Impact of different privacy conditions and incentives on survey response rate, participant representativeness, and disclosure of sensitive information, BMC Medical Research Methodology",
+            "url": "https://doi.org/10.1186/1471-2288-14-90"
+          },
+          {
+            "label": "Lelkes m.fl. (2012): Complete anonymity compromises the accuracy of self-reports, Journal of Experimental Social Psychology",
+            "url": "https://doi.org/10.1016/j.jesp.2012.07.002"
           }
         ]
       },
@@ -11039,7 +11219,7 @@
           },
           {
             "t": "p",
-            "text": "Les mer om [hva anonymt må bety i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse), og om [hva et verktøy for medarbeiderundersøkelse bør klare](/verktoy-for-medarbeiderundersokelse)."
+            "text": "Les mer om [hva anonymt må bety i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse), om [hvordan anonymiteten er bygget inn i Orgpuls, steg for steg](/anonymitet), og om [hva et verktøy for medarbeiderundersøkelse bør klare](/verktoy-for-medarbeiderundersokelse)."
           },
           {
             "t": "box",
@@ -11516,6 +11696,244 @@
         "title": "Bransjer: arbeidsmiljøundersøkelse med bransjemoduler | Orgpuls",
         "description": "Egne spørsmål for bygg og anlegg, helse og omsorg, barnehage og skole, kunnskap og kontor og handel, i tillegg til hovedundersøkelsen. Anonymt, med tiltak.",
         "crumb": "Bransjer"
+      },
+      "anonymitet": {
+        "title": "Anonyme tilbakemeldinger fra ansatte: slik virker det | Orgpuls",
+        "description": "Slik holder Orgpuls svar og kommentarer anonyme: terskel på 5 svar, aldri under 3, ingen kobling til person, og ledere som svarer uten å vite hvem.",
+        "crumb": "Anonymitet",
+        "kicker": "Plattform · Anonymitet",
+        "h1": "Slik er medarbeider­undersøkelsen anonym – fra invitasjon til rapport",
+        "lead": "Anonymiteten i Orgpuls er ikke et løfte noen holder, men en egenskap ved hvordan svarene lagres og vises. Ingen rad i databasen kan kobles til en person, ingen gruppe vises før terskelen er nådd, og ledelsen kan svare på en kommentar uten å få vite hvem som skrev den. Her er hele løpet, steg for steg: det dere kan stille inn selv, og det som ikke kan skrus av.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva skjer med svaret fra det sendes inn?"
+          },
+          {
+            "t": "p",
+            "text": "Invitasjonen inneholder en personlig lenke, men lenken lagres bare som en sjekksum. Når svaret sendes inn, skrives det i én transaksjon til en tabell som ikke har noen kolonne som kunne holdt en kobling til en person: raden bærer runden, gruppen svaret gjelder, og timen det kom inn – ikke minuttet, ikke IP-adressen, ikke hvilken invitasjon som ble brukt. Innsendingen får ikke engang tilbake id-en til raden som ble skrevet, så heller ikke den som svarer kan senere peke på «sitt» svar."
+          },
+          {
+            "t": "p",
+            "text": "Rekkefølgen på temaene er tilfeldig per person, så ingen kan gjette hvem som svarte hva ut fra når et svar kom inn. Resultater leses aldri rett fra svartabellen: de regnes ut av databasefunksjoner som legger terskelen på hver eneste celle før noe sendes til skjermen, rapporten eller eksporten."
+          },
+          {
+            "t": "box",
+            "title": "Derfor finnes det ingen liste å be om",
+            "text": "Når koblingen ikke lagres, er det ingenting å gi innsyn i – ikke for daglig leder, ikke for en administrator, og ikke for Orgpuls. Det er forskjellen på en undersøkelse som er anonym av struktur, og en som er anonym fordi noen lover å ikke se etter."
+          },
+          {
+            "t": "h2",
+            "text": "Hvor mange svar må til før et tall vises?"
+          },
+          {
+            "t": "p",
+            "text": "Fem svar er standard og sterkt anbefalt: ingen gruppe vises for seg selv før minst fem har svart. Grensen ligger i databasen, ikke i et oppsett noen kan overstyre. Et lite team kan senke den til fire eller tre, og bare etter en advarsel om hva det betyr; lavere enn tre går det ikke, fordi databasen alltid regner med minst tre uansett hva som er valgt. Dere kan også heve den, opp til ti. En runde beholder terskelen den ble åpnet med, så ingen kan senke grensen etterpå for å «se tallet likevel»."
+          },
+          {
+            "t": "p",
+            "text": "Under terskelen står det en strek. Tallet er ikke skjult for noen spesielt – det er ikke regnet ut for noen – og svarene teller likevel med i helheten. Kan en skjult gruppe regnes ut ved å trekke de andre fra helheten, holdes én gruppe til tilbake. Det samme gjelder antallet som har svart: for en gruppe under terskelen vises ikke deltakelsen heller."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Terskel",
+              "Hva den betyr",
+              "Hvem velger den"
+            ],
+            "rows": [
+              [
+                "3",
+                "Gulvet. Databasen regner aldri med færre, uansett oppsett.",
+                "Små team, etter en advarsel"
+              ],
+              [
+                "5",
+                "Standard, og sterkt anbefalt.",
+                "Alle, uten å gjøre noe"
+              ],
+              [
+                "10",
+                "Den høyeste grensen dere kan sette.",
+                "Virksomheter som vil være strengere"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hvordan kan ledelsen svare på en anonym kommentar?"
+          },
+          {
+            "t": "p",
+            "text": "Kommentarer er frivillige, og de leses aldri rå. Navn på kolleger, avdelinger og steder fjernes automatisk før noen leser teksten, og en kommentar vises bare når gruppen den kom fra, har nådd terskelen – uten at gruppen noen gang følger med kommentaren. «Noen på verkstedet skrev dette» er en for liten høystakk."
+          },
+          {
+            "t": "p",
+            "text": "Likevel er det ikke enveiskommunikasjon. Når noen skriver en kommentar, får de en nøkkel i nettleseren sin; databasen lagrer bare en sjekksum av den. Lederen svarer på kommentaren og ser en samtale uten avsender – «Ansatt · anonym» og ingenting annet. Den som skrev, kan komme tilbake med nøkkelen, lese svaret og skrive videre. Vil lederen snakke direkte, kan lederen be om det, men bare den ansatte kan gi seg til kjenne, ved å skrive fra sin egen e-post."
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Den ansatte skriver en kommentar og får en privat lenke. Lenken er den eneste veien tilbake til samtalen; Orgpuls kan ikke sende den på nytt.",
+              "Lederen leser kommentaren uten navn og uten gruppe, og svarer.",
+              "Den ansatte åpner lenken, leser svaret og kan svare tilbake. Samtalen lever i Samtaler til den avsluttes."
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Unntaket, og hvorfor det bare gjelder den som ber om det",
+            "text": "En ansatt som har skrevet en kommentar, kan be om å få beskjed når ledelsen svarer. For å kunne sende beskjeden lagrer Orgpuls kryptert hvem som skrev kommentaren, og den koblingen gjelder hele besvarelsen. Den er aldri synlig for virksomheten, Orgpuls utleverer den ikke, og den slettes når samtalen avsluttes, når den ansatte skrur av beskjeden, og senest etter ett år. Ingen andre er knyttet til noe."
+          },
+          {
+            "t": "h2",
+            "text": "Hva med påminnelser og deltakelse?"
+          },
+          {
+            "t": "p",
+            "text": "Påminnelsene går fra Orgpuls til dem som ikke har svart, etter planen i årshjulet eller når lederen ber om det – maks to per runde. Lederen ser hvor mange som mangler, aldri hvem, og også det tallet holdes tilbake når færre enn terskelen er spurt. Deltakelsen vises per gruppe først når gruppen har nådd terskelen; små grupper teller bare med i helheten."
+          },
+          {
+            "t": "h2",
+            "text": "Hvem ser hva?"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Rolle",
+              "Ser",
+              "Ser ikke"
+            ],
+            "rows": [
+              [
+                "Daglig leder",
+                "Hele virksomheten, alle faktorer, alle anonyme samtaler og oppsettet",
+                "Hvem som har svart hva – koblingen finnes ikke"
+              ],
+              [
+                "Avdelingsleder",
+                "Egen avdeling når terskelen er nådd, og samtalene derfra",
+                "Andre avdelinger – de er ikke skjult, men fraværende"
+              ],
+              [
+                "Verneombud",
+                "De samme tallene og den samme risikovurderingen som ledelsen",
+                "Enkeltkommentarer"
+              ],
+              [
+                "Orgpuls",
+                "Det driften og supporten trenger: oppsett, runder og at utsendingene går",
+                "Hvem som svarte hva – det finnes ingen kobling å slå opp i. Den krypterte koblingen for beskjeder leses av utsendingen, ikke av folk"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva skjer i rapporten og på siden for de ansatte?"
+          },
+          {
+            "t": "p",
+            "text": "Rapporten til ledelse, styre og eventuelt Arbeidstilsynet følger samme regler som skjermen: ingen tall for grupper under terskelen, én gruppe til holdt tilbake der et regnestykke ellers ville gått opp, og ingen sitater som kan spores. Spørsmålene om krenkende atferd og vold rapporteres bare som antall for hele virksomheten."
+          },
+          {
+            "t": "p",
+            "text": "De ansatte får sin egen side etter hver runde, «Dette sa dere, dette gjør vi», med resultatet i klarspråk og tiltakene som ble bestemt. Den følger de samme grensene, og den er på som standard: daglig leder kan skru den av, men ikke senke terskelen for den."
+          },
+          {
+            "t": "h2",
+            "text": "Hva kan dere stille inn selv, og hva kan dere ikke?"
+          },
+          {
+            "t": "table",
+            "head": [
+              "",
+              "Dere bestemmer",
+              "Kan ikke endres"
+            ],
+            "rows": [
+              [
+                "Terskelen",
+                "Mellom 3 og 10; 5 er standard",
+                "Lavere enn 3, eller for en runde som allerede er åpnet"
+              ],
+              [
+                "Kommentarer",
+                "Om ledelsen kan svare på kommentarer (samtaler)",
+                "At kommentarer leses med navn eller gruppe"
+              ],
+              [
+                "Beskjed ved svar",
+                "Om ansatte kan be om beskjed når ledelsen svarer",
+                "Hvem som ba om det – det ser ikke virksomheten"
+              ],
+              [
+                "Siden for de ansatte",
+                "På eller av",
+                "Grensene den følger"
+              ],
+              [
+                "Eksport",
+                "Tall og rapport over terskelen",
+                "Enkeltsvar – de kan ikke hentes ut av noen"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva lagres, og hvor?"
+          },
+          {
+            "t": "p",
+            "text": "Om svarene lagres gruppen og timen svaret kom inn; om brukerne navn, e-post, rolle og avdeling; passord bare som hash. Spørsmålene er laget for ikke å samle helseopplysninger eller andre særlige kategorier av personopplysninger. Dataene ligger i EU, og de brukes ikke til å trene modeller. Databehandleravtalen, underleverandørene og det rettslige grunnlaget står på [siden om sikkerhet og personvern](/sikkerhet)."
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Anonym medarbeiderundersøkelse: når er den anonym?",
+                "text": "Artikkelen om hva anonymt må bety, hva forskningen sier om anonymitet og ærlige svar, og hvem som eier dataene.",
+                "href": "/artikler/anonym-medarbeiderundersokelse"
+              },
+              {
+                "title": "Sikkerhet og personvern",
+                "text": "Lagring, databehandleravtale, underleverandører og rettslig grunnlag.",
+                "href": "/sikkerhet"
+              },
+              {
+                "title": "Verktøy for medarbeiderundersøkelse",
+                "text": "Åtte ting å sjekke i et verktøy for anonym medarbeiderundersøkelse, og hvordan Orgpuls gjør det.",
+                "href": "/verktoy-for-medarbeiderundersokelse"
+              }
+            ]
+          }
+        ],
+        "faq": [
+          {
+            "q": "Kan daglig leder se hvem som har svart hva?",
+            "a": "Nei. Svaret lagres uten navn, e-post, invitasjon eller annen kobling til personen, så det finnes ingen liste å slå opp i – heller ikke for en administrator eller for Orgpuls."
+          },
+          {
+            "q": "Kan vi senke terskelen til tre?",
+            "a": "Ja, for små team, etter en advarsel. Tre er gulvet: databasen regner aldri med færre, og en runde beholder terskelen den ble åpnet med. Fem er standard og sterkt anbefalt – under fem blir det lettere å kjenne igjen hvem som sa hva, særlig i kommentarer."
+          },
+          {
+            "q": "Hva skjer med en kommentar som nevner en kollega ved navn?",
+            "a": "Navn på kolleger, avdelinger og steder fjernes automatisk før noen leser teksten. Kommentaren vises uten gruppe, og bare når gruppen den kom fra, har nådd terskelen."
+          },
+          {
+            "q": "Får den som skrev en kommentar vite at ledelsen har svart?",
+            "a": "Bare hvis den ansatte selv ber om det. Da lagrer Orgpuls kryptert hvem som skrev kommentaren, kun for å sende beskjeden; virksomheten ser det aldri, og koblingen slettes når samtalen avsluttes, når beskjeden skrus av, og senest etter ett år. Ellers leser den ansatte svaret via sin private lenke."
+          },
+          {
+            "q": "Ser lederen hvem som ikke har svart?",
+            "a": "Nei. Påminnelsene sendes av Orgpuls til dem som mangler. Lederen ser hvor mange som mangler i runden, aldri hvem, og tallet holdes tilbake når færre enn terskelen er spurt."
+          },
+          {
+            "q": "Er svarene personopplysninger?",
+            "a": "Ikke slik de lagres: uten kobling til person, og vist bare over terskelen. Settes terskelen under fem, varsler Orgpuls om at tall for så små grupper i praksis kan knyttes til enkeltpersoner, og at de da må behandles som personopplysninger."
+          }
+        ],
+        "finalTitle": "Prøv det med deres egne spørsmål",
+        "finalBody": "Skriv inn navnet på virksomheten og e-postadressen din. De første 15 dagene har dere alt, uten kort, og etterpå kan dere fortsette gratis."
       }
     },
     "maler": {
@@ -12370,7 +12788,8 @@
         "fraResultater": "Fra resultater til tiltak",
         "maler": "Gratis maler",
         "sikkerhet": "Personvern og anonymitet",
-        "medarbeiderundersokelse": "Medarbeiderundersøkelse"
+        "medarbeiderundersokelse": "Medarbeiderundersøkelse",
+        "anonymitet": "Anonymitet"
       },
       "navLabel": "Hovedmeny",
       "menu": "Meny",

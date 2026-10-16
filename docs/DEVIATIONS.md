@@ -14448,3 +14448,71 @@ checklist's three parts; /lovkrav's FAQ order; the bygg section in both language
 seventh template (words, file, index); `legal-registry.test.ts` the new units `lp.psykososialtArbeidsmiljo` and
 `maler.vernerunde` and the question page's sections among the claims. Cards drawn for the article and the hub; the
 page map re-crawled.
+
+## D-285 — Anonymity, step by step: a Plattform page, and the anonymity article rebuilt at the standard (2026-10-16)
+
+Tor, 16 October 2026: «Det ser ut som vi har en mulighet for å fokusere på anonymitet … Utvid platform med en side som
+forklarer hva vi gjør, og lag en artikkel med vår standard for artikler på anonymitet i medarbeiderundersøkelser med
+bevis for hva det har å si for svarene og utfordringer med ikke-anonyme undersøkelser og kommentarer som
+personalkonflikter, hvem som eier dataene osv.» Sentral's keyword panel showed «anonym medarbeiderundersøkelse» at
+position 34.9 on the article, marked «Low — needs a better page».
+
+**The article, rebuilt in place.** `/artikler/anonym-medarbeiderundersokelse` is the address Google already shows for
+the cluster, so it was rebuilt there, not beside itself: a second article on the same query would split the signal. It
+keeps the sections that rank (D-282's «hvor mange svar må til?», how anonymity breaks, reminders, comments, the questions
+to ask, the text to employees) and adds what Tor asked for:
+- **what anonymity does to the answers** — Ong & Weiss (2000): among students known to have cheated, 25 % admitted it
+  under confidentiality and 74 % under anonymity; Antonioni (1994): subordinates who had to give their names rated their
+  managers higher, and the author read the named ratings as inflated; Tourangeau & Yan (2007) on why people edit answers;
+  Singer, Von Thurn & Miller (1995) and Murdoch et al. (2014) as the caveat that anonymity does not by itself raise the
+  response rate (but gives the most representative sample); Lelkes et al. (2012) as the caveat that anonymity without
+  meaning breeds careless answers — so the lesson is a short, relevant survey whose result comes back, not weaker anonymity;
+- **what happens when the survey is not anonymous** — Datatilsynet's «Arbeidsmiljøundersøkelser» quoted (the purpose
+  can normally be met with anonymous data, and then processing personal data is mostly not even permitted; if not
+  genuinely anonymous, the data protection rules apply in full, with the right of access, which is where confidential
+  surveys run into trouble); **personnel conflicts**: a comment about a named person can neither be checked nor used in an
+  anonymous survey, and becomes a two-party case in a confidential one, so individual cases belong in the varsling route —
+  §§ 2 A-3, 2 A-4 and 2 A-6 verbatim (Lovdata), and the fear is real: Fafo 2019:14 (19 % met negative reactions, hardest
+  for psychosocial matters) and Fafo/Fritt Ord 2022 (21 %, against 13 % in 2010, riskiest when the matter is psychosocial
+  and the boss is responsible);
+- **a fourth way anonymity breaks**: a pseudonym mistaken for anonymity (Article 29 Working Party, WP216: «pseudonymisation
+  is not a method of anonymisation»);
+- **who owns the data** — the employer is the controller, a vendor the processor (art. 28, Datatilsynet); genuinely
+  anonymous answers are not personal data, so the contract must settle what the law otherwise would (retention, deletion,
+  export, the vendor's own use, who sees what); a comparison table anonymous/confidential; two more questions for the
+  vendor.
+49 blocks, about 2 500 words, 15 linked sources, every H2 asks; no FAQ (articles carry none) and no product link (D-235).
+English mirror. The registry row's `modified` is today's.
+
+**The page** `/anonymitet` (`seo.pages.anonymitet`), a Plattform page: PageTemplate with the anonymous-conversation shot,
+the Plattform crumb, the article and the results-review article as its two articles, the information-letter template as
+its teaser, and the signup hero and closing band of a product page (unlike /sikkerhet, which is informational, D-239).
+Its sections, every one a question: what happens to an answer once it is submitted (the table with no column that could
+hold a link, the hashed invitation, the hour, no id returned, random order per person, k on every cell); how many answers
+it takes (5 default, 3 the floor after a warning, up to 10, frozen per round, complementary suppression, participation
+withheld under k, D-123); how management replies to an anonymous comment (names and places removed before anyone reads,
+never the group, the browser key and its checksum, «Ansatt · anonym», direct contact only if the employee
+chooses) and **the one exception, in the survey's own words** (X-103: encrypted, the whole response, never visible to the
+organisation, deleted when the conversation closes, when the notice is switched off, after a year at the latest); reminders
+and participation (sent by Orgpuls; the leader sees how many are missing, never who; withheld under k); who sees what (the
+three roles and Orgpuls); the report and the employees' page (X-081); what can be set and what cannot; what is stored and
+where, pointing to /sikkerhet. Six FAQ items (FAQPage). Every claim is the DPA's appendix 1's, the help articles' (velg
+terskel, strek i stedet, svar på en anonym kommentar, roller og tilgang) or CLAUDE.md's invariants; nothing is promised the
+database does not enforce. **Norway's site only**: Sweden's and the UK's floor is 5 (`MARKET_K_FLOOR`), so the page is in
+neither SE_PAGES nor EMPVIBE_PAGES, and `serves()` keeps its menu entry off those sites.
+
+**Ways in (D-238).** The Plattform dropdown gets «Anonymitet» (`site.chrome.nav.anonymitet`, in both se packs too, where
+`serves()` filters it out). D-282 left menu changes to Tor; «utvid platform med en side» is that decision, for the
+Plattform panel. The footer is the design's and unchanged. /sikkerhet's closing links and the «which tool» page's «Slik
+svarer Orgpuls på dem» sentence link to the page — text edits inside existing blocks, so the sv and gb overlays, which
+carry those block arrays whole, are untouched and the array-length tests hold. The page links to the article, /sikkerhet
+and /verktoy-for-medarbeiderundersokelse. No article links to it.
+
+**Legal registry.** `doc.anonymity` beside `doc.security`, both in Sentral's review as a record (X-078); the security
+page's unit changes hash with its link sentence; the article's law block is covered by the articles' units.
+
+**Tests** (`tests/unit/seo-geo.test.ts`, D-285): the page's registry row, route, public path, menu entry and card, and
+its absence from the other sites; the 3/5/10 table equals `K_FLOOR`/`K_DEFAULT`/`K_MAX`; the X-103 words in both
+languages; the links in both directions; every H2 asks and the FAQ parses; the article's `modified`, sources (≥ 12, ≥ 5
+DOIs, Datatilsynet), the 25/74 figures, § 2 A-4, the comparison table, and that it still links to no product page.
+

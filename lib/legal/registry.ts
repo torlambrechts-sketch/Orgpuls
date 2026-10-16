@@ -248,6 +248,8 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   // the terms of use, published from docs/legal/vilkar-utkast.md (D-194)
   { id: 'doc.terms', section: 'documents', paths: ['seo.pages.vilkar'], where: onSite('/vilkar') },
   { id: 'doc.security', section: 'documents', paths: ['seo.pages.sikkerhet'], where: onSite('/sikkerhet') },
+  // anonymity, step by step (D-285): what the product promises about the threshold, comments and the one exception (X-103)
+  { id: 'doc.anonymity', section: 'documents', paths: ['seo.pages.anonymitet'], where: onSite('/anonymitet') },
   { id: 'doc.personvernTab', section: 'documents', paths: ['oppsett.personvern'], where: place('personvernTab') },
   // -------- in the product
   {

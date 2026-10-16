@@ -1,13 +1,14 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { Blocks, FaqItems } from '@/lib/marketing/blocks'
-import { ARTICLES, INFORMATIONAL_PAGES, LANDING_ARTICLES, LANDING_PAGES, LANDING_RELATED } from '@/lib/marketing/site'
+import { ARTICLES, INFORMATIONAL_PAGES, LANDING_ARTICLES, LANDING_PAGES, LANDING_RELATED, SITE_PAGES } from '@/lib/marketing/site'
+import { SITE_NAV } from '@/lib/site/nav'
 import { TEMPLATES } from '@/lib/marketing/templates'
 import { ORGNR, organization } from '@/lib/marketing/schema'
 import { INDUSTRIES, pageIn } from '@/content/industries'
 import { LANDINGS } from '@/content/industries/landing'
 import { EMPVIBE_PAGES, SE_PAGES } from '@/lib/hosts'
-import { K_DEFAULT, K_FLOOR } from '@/lib/org/threshold'
+import { K_DEFAULT, K_FLOOR, K_MAX } from '@/lib/org/threshold'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 
@@ -281,6 +282,90 @@ describe('the vernerunde article, its checklist and the hub (D-284)', () => {
       expect(s?.title, lang).toMatch(/\?$/)
       expect(s?.paragraphs.join(' '), lang).toMatch(/19a/)
       expect(s?.source?.url, lang).toContain('lovdata.no')
+    }
+  })
+})
+
+describe('anonymity: the article at the standard and the Plattform page (D-285)', () => {
+  type Block = { t: string; text?: string; title?: string; head?: string[]; rows?: string[][]; items?: unknown[] }
+  type Page = { title: string; h1: string; lead: string; blocks: Block[]; faq?: { q: string; a: string }[]; sources?: { label: string; url: string }[] }
+  const pageOf = (lang: typeof no | typeof en, ns: 'articles' | 'pages', key: string) => (lang.seo[ns] as unknown as Record<string, Page>)[key]!
+  const h2s = (p: Page) => p.blocks.filter((b) => b.t === 'h2').map((b) => b.text ?? '')
+
+  it('the page is a Plattform page on the Norwegian site: registry, route, public path, menu, card, and not on the other sites', () => {
+    expect(SITE_PAGES.map((p) => p.slug)).toContain('anonymitet')
+    expect(existsSync('app/(marketing)/anonymitet/page.tsx')).toBe(true)
+    expect(readFileSync('lib/supabase/middleware.ts', 'utf8')).toContain("'/anonymitet',")
+    expect(SITE_NAV.find((i) => i.key === 'plattform')?.children?.map((c) => c.href)).toContain('/anonymitet')
+    expect(existsSync('public/og/anonymitet.png')).toBe(true)
+    // the floor is 3 only in Norway (lib/markets MARKET_K_FLOOR): the page is served nowhere else
+    expect(SE_PAGES as readonly string[]).not.toContain('/anonymitet')
+    expect(EMPVIBE_PAGES as readonly string[]).not.toContain('/anonymitet')
+    for (const lang of [no, en]) {
+      expect(lang.site.chrome.nav.anonymitet).toEqual(expect.any(String))
+      expect(pageOf(lang, 'pages', 'anonymitet').title.length).toBeLessThanOrEqual(65)
+    }
+  })
+
+  it('the page states the thresholds the database enforces, asks in every section, and carries FAQ data', () => {
+    for (const lang of [no, en]) {
+      const p = pageOf(lang, 'pages', 'anonymitet')
+      Blocks.parse(p.blocks)
+      FaqItems.parse(p.faq)
+      expect(p.faq!.length).toBeGreaterThanOrEqual(5)
+      for (const h of h2s(p)) expect(h).toMatch(/\?$/)
+      // the ladder 3 / 5 / 10 is the product's: app.k_floor, app.k_min, and the highest a daglig leder may set
+      const ladder = p.blocks.find((b) => b.t === 'table' && b.rows?.[0]?.[0] === String(K_FLOOR))
+      expect(ladder?.rows?.map((r) => r[0])).toEqual([K_FLOOR, K_DEFAULT, K_MAX].map(String))
+      const text = JSON.stringify(p)
+      expect(text).toMatch(lang === no ? /lavere enn tre går det ikke/ : /below three is not possible/)
+      expect(text).toMatch(lang === no ? /opp til ti/ : /up to ten/)
+    }
+  })
+
+  it('the page says the one exception (X-103) the way the survey says it, and that nobody sees who answered what', () => {
+    const noText = JSON.stringify(pageOf(no, 'pages', 'anonymitet'))
+    const enText = JSON.stringify(pageOf(en, 'pages', 'anonymitet'))
+    // the survey's own words to the person who asks for a notice (respond.notice.point2): encrypted, the whole response, never the employer
+    expect(no.respond.notice.point2).toMatch(/kryptert/)
+    for (const [text, words] of [
+      [noText, [/kryptert/, /hele besvarelsen/, /senest etter ett år/, /aldri synlig for virksomheten/]],
+      [enText, [/encrypted/, /the whole response/, /after a year at the latest/, /never visible to the organisation/]],
+    ] as const)
+      for (const w of words) expect(text).toMatch(w)
+    expect(noText).toMatch(/Hvem som har svart hva – koblingen finnes ikke/)
+    expect(enText).toMatch(/Who answered what – the link does not exist/)
+  })
+
+  it('the page is reached from the security page and the «which tool» page, and leads to the article and the security page', () => {
+    for (const lang of [no, en]) {
+      expect(JSON.stringify(lang.seo.pages.sikkerhet.blocks)).toContain('](/anonymitet)')
+      expect(JSON.stringify(lp(lang, 'verktoyForMedarbeiderundersokelse'))).toContain('](/anonymitet)')
+      const own = JSON.stringify(pageOf(lang, 'pages', 'anonymitet').blocks)
+      expect(own).toContain('"/artikler/anonym-medarbeiderundersokelse"')
+      expect(own).toContain('"/sikkerhet"')
+    }
+  })
+
+  it('the article carries the evidence, the non-anonymous case and data ownership, asks in every section, cites its sources, and still sells nothing', () => {
+    expect(ARTICLES.find((a) => a.key === 'anonym')?.modified).toBe('2026-10-16')
+    for (const lang of [no, en]) {
+      const a = pageOf(lang, 'articles', 'anonym')
+      Blocks.parse(a.blocks)
+      for (const h of h2s(a)) expect(h).toMatch(/\?$/)
+      expect(h2s(a).length).toBeGreaterThanOrEqual(9)
+      expect(a.sources!.length).toBeGreaterThanOrEqual(12)
+      expect(a.sources!.filter((s) => s.url.startsWith('https://doi.org/')).length).toBeGreaterThanOrEqual(5)
+      expect(a.sources!.some((s) => s.url.includes('datatilsynet.no'))).toBe(true)
+      const text = JSON.stringify(a.blocks)
+      // Ong & Weiss (2000): 25 % admitted under confidentiality, 74 % under anonymity
+      expect(text).toMatch(/74/)
+      expect(text).toMatch(/25/)
+      // the law block on varsling, and the comparison table
+      expect(text).toContain('2 A-4')
+      expect(a.blocks.some((b) => b.t === 'table' && /(Anonym|Anonymous)/.test(b.head?.[1] ?? '') && /(Konfidensiell|Confidential)/.test(b.head?.[2] ?? ''))).toBe(true)
+      // an article informs and never links to a product page (D-235)
+      for (const href of ['](/anonymitet)', '](/sikkerhet)', '](/plattform)', '](/priser)', '](/verktoy-for-medarbeiderundersokelse)']) expect(text).not.toContain(href)
     }
   })
 })
