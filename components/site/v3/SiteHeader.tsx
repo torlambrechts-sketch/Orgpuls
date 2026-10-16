@@ -160,11 +160,14 @@ export function SiteHeader({
                     </Link>
                   )
                   if (!i.children) return row(i, false)
-                  // the indented pages are a group named by their parent, so the hierarchy is not only visual
+                  // the indented pages are a group named by their parent, so the hierarchy is not only visual;
+                  // the parent's own page heads the group under its panel name («Alle artikler»), as on a wide
+                  // screen, so a reader sees what the group holds (D-286)
                   return (
                     <Fragment key={i.href}>
                       {row(i, false)}
                       <div role="group" aria-label={i.label} className="flex flex-col gap-[2px]">
+                        {i.all ? <Fragment key={`${i.href}#all`}>{row({ href: i.href, label: i.all }, true)}</Fragment> : null}
                         {i.children.map((c) => row(c, true))}
                       </div>
                     </Fragment>

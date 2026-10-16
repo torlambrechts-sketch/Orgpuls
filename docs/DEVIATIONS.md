@@ -14518,3 +14518,26 @@ its absence from the other sites; the 3/5/10 table equals `K_FLOOR`/`K_DEFAULT`/
 languages; the links in both directions; every H2 asks and the FAQ parses; the article's `modified`, sources (≥ 12, ≥ 5
 DOIs, Datatilsynet), the 25/74 figures, § 2 A-4, the comparison table, and that it still links to no product page.
 
+## D-286 — Ressurser shows the article sections, and the folded menu shows the group's own page (2026-10-16)
+
+Tor, 16 October 2026: «Det er ikke gitt at det finnes artikler ved å klikke på ressurser, burde det ikke vært en
+artikkel kategori link under ressurser?» He was right twice over. On a wide screen the Ressurser panel opened with
+«Alle artikler», but under it came a flat row of two single articles and four pages, so nothing said which articles
+there are. On a phone the folded menu never showed the parent's own page at all (the panel's first link, `all`): the
+group under «Ressurser» began with «Gratis maler».
+
+- **The panel lists the index's five sections first**, in the index's order and under its own titles — Kom i gang,
+  Lovkravene, Gjennomføring, Etter resultatene, De elleve faktorene — each a link to that section of /artikler
+  (`/artikler#<group>`, the anchors the index already carries, D-250). They come from `ARTICLE_GROUPS`, so a new section
+  is a registry entry and a label (`ARTICLE_GROUP_NAV` in lib/site/nav.ts, `site.chrome.nav.artikler*`), not a menu
+  edit. After them: Gratis maler, Arbeidsmiljøloven forklart, Verneombudets rolle, Personvern og anonymitet. The two
+  single articles that stood in the panel (D-243, D-250) are the first cards of their sections and keep their other
+  ways in (the footers, the start page, the industry pages); their menu labels are removed from every pack.
+- **The folded menu shows the parent's own page first in its group**, under the panel's name for it: «Alle artikler»
+  under Ressurser, «Slik virker plattformen» under Plattform, «Alle bransjer» under Bransjer — the same list as the
+  panel, so the two menus say the same thing. The design has no panels or folded menu of its own (D-190), so this is a
+  change to our structure, not to the design's.
+- The labels are the index's section titles in both languages, held equal by `tests/unit/article-groups.test.ts`;
+  the Swedish packs carry them too (`site.chrome` is mirrored there, though Sweden's own menu does not use them).
+  The page map is re-crawled for the shared texts.
+

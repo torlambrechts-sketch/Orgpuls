@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { LANDINGS } from '@/content/industries/landing'
 import { ARTICLE_GROUPS, ARTICLES } from '@/lib/marketing/site'
-import { FOOTERS, SITE_NAV } from '@/lib/site/nav'
+import { ARTICLE_GROUP_NAV, FOOTERS, SITE_NAV } from '@/lib/site/nav'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 
@@ -25,10 +25,17 @@ describe('the article index sections', () => {
 })
 
 describe('the ways in', () => {
-  it('the header’s Ressurser panel opens the employee survey article', () => {
+  it('the header’s Ressurser panel lists the index’s sections first, in its order, under the index’s own titles (D-286)', () => {
     const ressurser = SITE_NAV.find((i) => i.key === 'ressurser')
-    expect(ressurser?.children?.map((c) => c.href)).toContain('/artikler/medarbeiderundersokelse')
-    expect(no.site.chrome.nav.medarbeiderundersokelse).toBe('Medarbeiderundersøkelse')
+    expect(ressurser?.href).toBe('/artikler')
+    expect(ressurser?.children?.slice(0, ARTICLE_GROUPS.length).map((c) => c.href)).toEqual(ARTICLE_GROUPS.map((g) => `/artikler#${g}`))
+    for (const g of ARTICLE_GROUPS) {
+      const key = ARTICLE_GROUP_NAV[g] as keyof typeof no.site.chrome.nav
+      expect(no.site.chrome.nav[key], g).toBe(no.seo.index.groups[g].title)
+      expect(en.site.chrome.nav[key], g).toBe(en.seo.index.groups[g].title)
+    }
+    // the employee survey article (D-250) is reached through its section
+    expect(ARTICLES.find((a) => a.slug === 'medarbeiderundersokelse')?.group).toBe('start')
   })
 
   it('every industry page shows it among its articles', () => {

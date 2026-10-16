@@ -8,6 +8,16 @@
  * (D-194).
  */
 import { LANDINGS } from '@/content/industries/landing'
+import { ARTICLE_GROUPS, type ArticleGroup } from '@/lib/marketing/site'
+
+/** The menu's label key for each article section (site.chrome.nav.*), the index's own titles (D-286). */
+export const ARTICLE_GROUP_NAV: Record<ArticleGroup, string> = {
+  start: 'artiklerStart',
+  lov: 'artiklerLov',
+  gjennomforing: 'artiklerGjennomforing',
+  etter: 'artiklerEtter',
+  faktorer: 'artiklerFaktorer',
+}
 
 export type SiteLink = { key: string; href?: string }
 export type FooterColumn = { head: string; links: SiteLink[] }
@@ -49,13 +59,13 @@ export const SITE_NAV: (SiteLink & { href: string; industries?: true; children?:
     href: '/artikler',
     all: 'alleArtikler',
     children: [
-      // the free templates (D-241), first after the articles (D-243)
+      // the index's five sections, in its order (D-286): the panel shows that Ressurser is articles, and which.
+      // The single articles that stood here (D-243, D-250) are the first cards of their sections.
+      ...ARTICLE_GROUPS.map((g) => ({ key: ARTICLE_GROUP_NAV[g], href: `/artikler#${g}` })),
+      // the free templates (D-241)
       { key: 'maler', href: '/maler' },
-      // the article for the word people search most (D-250); the questions article is linked from it, the start page and the footer
-      { key: 'medarbeiderundersokelse', href: '/artikler/medarbeiderundersokelse' },
       { key: 'lovkrav', href: '/lovkrav' },
       { key: 'verneombud', href: '/verneombud' },
-      { key: 'fraResultater', href: '/artikler/fra-resultater-til-tiltak' },
       { key: 'sikkerhet', href: '/sikkerhet' },
     ],
   },
