@@ -121,8 +121,9 @@ reviews, lists or figures (CLAUDE.md: never fabricate), and no bought placements
 | fristaml | /lovkrav | pos 10 on four impressions; the FAQ now answers whether there is a deadline (D-284) |
 | krav til kartlegging (av psykososialt arbeidsmiljø) | /artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo | keep |
 | risikovurdering psykososialt arbeidsmiljø | /artikler/risikovurdering-av-psykososialt-arbeidsmiljo | pos 80 on the wrong pages. Ten pages already link it with these words, and it is a week old: wait for authority, check again in phase 2 |
-| verneombud psykososialt arbeidsmiljø, vernerunde psykososialt arbeidsmiljø, vernerunde byggeplass | /artikler/verneombudets-rolle-i-kartleggingen, **/artikler/vernerunde-psykososialt-arbeidsmiljo** (new) | pos 60; title and H1 carry the query (D-281); the vernerunde has its own article and checklist, linked from the verneombud pages (D-284) |
-| verneombud rettigheter og plikter, valg av verneombud | /verneombud | title says «rettigheter og plikter» (D-281) |
+| verneombud psykososialt arbeidsmiljø, verneombudets rolle, verneombud oppgaver, verneombud rettigheter og plikter, valg av verneombud | **/verneombud** | pos 60 on 25 impressions, and Google shows /verneombud for the query, not the article that carried it in its title (D-281). The page is now the guide to the whole cluster: title, H1, lead, a duties section, a rights section, the 2024 and 2026 changes, a conflict section and a FAQ that answers the query in its first line, with nine inbound links carrying its words (D-288) |
+| verneombudets rolle i kartleggingen, verneombud risikovurdering | /artikler/verneombudets-rolle-i-kartleggingen | narrowed to the survey, step by step, so it no longer competes with /verneombud for the cluster above (D-288) |
+| vernerunde psykososialt arbeidsmiljø, vernerunde byggeplass | **/artikler/vernerunde-psykososialt-arbeidsmiljo** | the vernerunde has its own article and checklist, linked from the verneombud pages (D-284) |
 | medarbeiderundersøkelse spørsmål, medarbeiderundersøkelse mal | /artikler/medarbeiderundersokelse-sporsmal (+ /maler/qpsnordic-sporreskjema) | pos 44–53; the template's title now says «gratis mal for medarbeiderundersøkelse» and its page holds the 37 items and answers the questions around them (D-283); the article in phase 2 |
 | medarbeidertilfredshetsundersøkelse, medarbeidertilfredshet, MTU | /artikler/trivselsundersokelse | pos 72–85; the term added to its description and lead (D-281) |
 | medarbeiderundersøkelse (head term) | /artikler/medarbeiderundersokelse | keep (D-249, D-250) |
@@ -205,8 +206,8 @@ elsewhere.
    section and anchor.
 4. **The monthly AI prompt panel** (§ 7), first run when phase 1 has been indexed (about 2 weeks).
 5. **Read the data again.** At about 300 impressions a week, decide per page: rewrite, merge or leave.
-   Two candidates to merge if they keep competing: /lovkrav with «Krav til kartlegging», and /verneombud
-   with «Verneombudets rolle».
+   One candidate to merge if they keep competing: /lovkrav with «Krav til kartlegging». /verneombud and
+   «Verneombudets rolle» were separated instead (D-288): the page took the cluster, the article kept the survey.
 
 ### Phase 3: 1–6 months
 

@@ -4887,7 +4887,7 @@
           },
           {
             "t": "p",
-            "text": "Read more about [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo), [what is new from 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026), [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo) and [how results become measures](/artikler/fra-resultater-til-tiltak)."
+            "text": "Read more about [the requirements for the survey](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo), [what is new from 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026), [the risk assessment](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo) and [how results become measures](/artikler/fra-resultater-til-tiltak). The safety representative’s own page: [the safety representative and the psychosocial working environment](/verneombud)."
           }
         ],
         "faq": [
@@ -4930,24 +4930,24 @@
         ]
       },
       "verneombud": {
-        "title": "The safety representative's rights and duties in the survey | Orgpuls",
-        "description": "The safety representative's rights and duties when the psychosocial working environment is surveyed: the law, the role at each step, and what to do.",
+        "title": "Safety representatives and the psychosocial environment | Orgpuls",
+        "description": "The safety representative’s role in the psychosocial working environment: the law, duties, training, access, and what to do when management does not act.",
         "crumb": "For safety representatives",
         "card": {
           "title": "Safety representatives",
-          "text": "The safety representative's rights and duties when the working environment is surveyed, step by step."
+          "text": "The safety representative’s role, duties and rights in the psychosocial working environment – and what to do when management does not answer."
         },
         "kicker": "Working Environment Act § 6-2",
-        "h1": "What rights and duties does the safety representative have when the working environment is surveyed?",
-        "lead": "The safety representative must see that the psychosocial working environment is taken care of, and must be consulted when measures are planned and carried out. When the working environment is surveyed, the safety representative is one of the representatives the employer must cooperate with – in the survey, in the risk assessment and when measures are chosen. Responsibility for getting it done lies with the employer.",
+        "h1": "What is the safety representative’s role in the psychosocial working environment?",
+        "lead": "The safety representative looks after the employees’ interests and must in particular see to it that the psychosocial working environment is taken care of (Working Environment Act § 6-2). The role is to watch, raise and take part: the representative is consulted on measures, takes part when the environment is surveyed and the risk assessed, and goes to the working environment committee or Arbeidstilsynet when management does not answer. The responsibility rests with the employer.",
         "blocks": [
           {
             "t": "h2",
-            "text": "What you are entitled to"
+            "text": "What does the Working Environment Act say about the safety representative and the psychosocial working environment?"
           },
           {
             "t": "p",
-            "text": "Section 6-2 of the Working Environment Act says the safety representative shall see to it that the employees' psychosocial working environment is safeguarded. The safety representative shall also be consulted during the planning and implementation of measures that matter for the working environment. Section 1A-2 of the regulation on the performance of work also requires the mapping and risk assessment to be done together with the employees and their representatives."
+            "text": "Section 6-2 of the Working Environment Act says the safety representative shall see to it that the employees' psychosocial working environment is safeguarded. The safety representative shall also be consulted during the planning and implementation of measures that matter for the working environment. Section 1A-2 of the regulation on the performance of work also requires the mapping and risk assessment to be done together with the employees and their representatives. What counts as the psychosocial working environment is set out in [What is the psychosocial working environment?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "hub",
@@ -4992,12 +4992,95 @@
               {
                 "ref": "Regulation § 1A-2",
                 "text": "The survey and risk assessment must be done in cooperation with employees and their representatives. Arbeidstilsynet writes that this means the safety representative, where the business has one."
+              },
+              {
+                "ref": "AML § 6-5",
+                "text": "The employer must see to it that the safety representative gets the training and the time the office needs, covers the costs, and the office must not cause a loss of income."
               }
             ]
           },
           {
             "t": "h2",
-            "text": "Your role at each step"
+            "text": "What are the safety representative’s duties in the psychosocial working environment?"
+          },
+          {
+            "t": "p",
+            "text": "The Act says «påse» (see to it) and «tas med på råd» (be consulted). Arbeidstilsynet writes that the safety representative must take an active part in the organisation’s health and safety work, and that this «inkluderer også arbeidstakernes psykososiale miljø» (also includes the employees’ psychosocial environment). In practice that is six duties:"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Watch",
+                "text": "Look for the signs in the working day: the pace, the tone, who works alone, messages that contradict each other. [The safety round](/artikler/vernerunde-psykososialt-arbeidsmiljo) is a fixed place to do it."
+              },
+              {
+                "title": "Raise it",
+                "text": "Draw the employer’s attention to conditions that may harm health, and get an answer (aml § 6-2 third paragraph)."
+              },
+              {
+                "title": "Take part in the survey",
+                "text": "Help plan the survey, explain the anonymity to colleagues and see the same figures as management (regulation § 1A-2)."
+              },
+              {
+                "title": "Take part in the risk assessment",
+                "text": "Assess the factors together with management, one by one and together – not get a summary afterwards."
+              },
+              {
+                "title": "Be consulted on measures",
+                "text": "When measures are planned and carried out, and in the systematic health and safety work (aml § 6-2 fourth paragraph)."
+              },
+              {
+                "title": "Take it further when it stalls",
+                "text": "To the working environment committee or Arbeidstilsynet when a report is not followed up within a reasonable time (aml § 6-2 third paragraph)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What rights does the safety representative have?"
+          },
+          {
+            "t": "p",
+            "text": "The rights follow from chapter 6 of the Working Environment Act and chapter 3 of the regulation on organisation, management and participation:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Training.** The employer must provide the training needed to perform the office responsibly (aml § 6-5). The regulation requires at least 40 hours, and the training must enable the representative to recognise what furthers or hinders a good psychosocial and organisational working environment (regulation on organisation, management and participation §§ 3-18 and 3-19).",
+              "**Time.** The safety representative must get the time the work needs, as a rule within ordinary working hours, and the office must not cause a loss of income (aml § 6-5).",
+              "**Information.** The representative must be informed of occupational diseases, accidents and near misses, and of reports and measurements concerning the working environment (aml § 6-2 fifth paragraph). Arbeidstilsynet writes that the representative has a right of access to health and safety information.",
+              "**Being consulted.** The representative must be consulted when measures are planned and carried out, and in the systematic health and safety work (aml § 6-2 fourth paragraph).",
+              "**Stopping dangerous work.** In immediate danger to life or health, the representative can stop the work until Arbeidstilsynet has decided (aml § 6-3).",
+              "**Taking part in inspections.** When Arbeidstilsynet inspects, the safety representative takes part (aml § 6-2 seventh paragraph)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What is new for the safety representative from 2024 and 2026?"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "1 January 2024",
+                "title": "A safety representative from five employees, a committee from 30",
+                "text": "The threshold for having a safety representative went from ten to five employees, and the threshold for a working environment committee from 50 to 30 (aml §§ 6-1 and 7-1)."
+              },
+              {
+                "date": "1 January 2026",
+                "title": "Chapter 1A of the regulation: surveys in cooperation with the safety representative",
+                "text": "The employer must survey and assess the risk of the psychosocial factors in cooperation with employees and their representatives – the safety representative where there is one – and inform them of the risk factors and the measures (regulation on the performance of work §§ 1A-2 and 1A-4)."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The whole chapter, section by section, is on [Legal requirements](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "What does the safety representative do when the working environment is surveyed?"
           },
           {
             "t": "timeline",
@@ -5035,7 +5118,7 @@
           },
           {
             "t": "h2",
-            "text": "What the safety representative should have access to"
+            "text": "What should the safety representative have access to?"
           },
           {
             "t": "cards",
@@ -5060,7 +5143,7 @@
           },
           {
             "t": "h2",
-            "text": "When you want to raise it with management"
+            "text": "How do you raise it with management?"
           },
           {
             "t": "p",
@@ -5073,7 +5156,7 @@
           },
           {
             "t": "h2",
-            "text": "When management does not act"
+            "text": "What do you do when management does not act?"
           },
           {
             "t": "p",
@@ -5108,7 +5191,19 @@
           },
           {
             "t": "h2",
-            "text": "When a department is not shown"
+            "text": "What does the safety representative do about bullying, conflicts or harassment?"
+          },
+          {
+            "t": "p",
+            "text": "Harassment, violence and threats are among the psychosocial factors in § 4-3 of the Working Environment Act, and the employer must prevent and handle them. The safety representative’s task is not to resolve the conflict or investigate the case, but to see to it that the employer acts. That means there is a routine for reporting, that it is used, and that the person who reports meets no retaliation (aml § 2 A-4). Employees may report censurable conditions through the safety representative (aml § 2 A-2). A representative who receives such a report takes it to the employer – or to the working environment committee or Arbeidstilsynet when the matter concerns management itself."
+          },
+          {
+            "t": "p",
+            "text": "A low figure on [integrity and dignity](/artikler/integritet-og-verdighet) or [freedom to speak up](/artikler/ytringsklima) in an anonymous survey is a signal of the same, without anyone having had to speak up by name."
+          },
+          {
+            "t": "h2",
+            "text": "Why is a small department not shown in the results?"
           },
           {
             "t": "p",
@@ -5116,6 +5211,10 @@
           }
         ],
         "faq": [
+          {
+            "q": "What is the safety representative’s role in the psychosocial working environment?",
+            "a": "To see to it that it is taken care of, and to be consulted (Working Environment Act § 6-2). That means watching conditions such as workload, unclear demands, support and conflicts, raising them with the employer, taking part when the working environment is surveyed and the risk assessed, and going on to the working environment committee or Arbeidstilsynet when reports are not followed up. The responsibility for the working environment is the employer’s."
+          },
           {
             "q": "Must we have a safety representative?",
             "a": "The main rule in section 6-1 of the Working Environment Act is yes: a safety representative shall be elected in every organisation. Only organisations with fewer than five employees may agree in writing on another arrangement."
@@ -5139,6 +5238,18 @@
           {
             "q": "What do I do if the employer does not answer?",
             "a": "The employer must answer the safety representative. If the report has not been taken into account within a reasonable time, the safety representative must inform Arbeidstilsynet or the working environment committee (aml § 6-2 third paragraph)."
+          },
+          {
+            "q": "Must the safety representative be trained in the psychosocial working environment?",
+            "a": "Yes. The employer must provide the necessary training (aml § 6-5), the training normally lasts at least 40 hours, and it must among other things enable the representative to recognise what furthers or hinders a good psychosocial and organisational working environment (regulation on organisation, management and participation §§ 3-18 and 3-19)."
+          },
+          {
+            "q": "Can the safety representative demand that the psychosocial working environment be surveyed?",
+            "a": "The representative cannot order it, but the duty already rests with the employer: § 1A-2 of the regulation on the performance of work requires the psychosocial factors to be surveyed and the risk assessed in cooperation with the employees’ representatives. The representative can ask for it, point to the regulation, and inform the working environment committee or Arbeidstilsynet when the report is not followed up within a reasonable time (aml § 6-2 third paragraph)."
+          },
+          {
+            "q": "What is the difference between the safety representative and the union representative in working environment matters?",
+            "a": "The safety representative is elected by and among the employees, holds a statutory office and looks after all employees in matters concerning the working environment. The union representative represents the union’s members under the collective agreement. Both count as the employees’ representatives when the working environment is surveyed (regulation § 1A-2), and Arbeidstilsynet names both."
           }
         ]
       },
@@ -5818,7 +5929,7 @@
           },
           {
             "t": "p",
-            "text": "The employer. The safety representative must see to it that «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (the employees’ psychosocial working environment is taken care of, Working Environment Act § 6-2) and be consulted, and employees have a duty to take part (§ 2-3 and section 1A-5 of the regulation). Read about [the safety representative’s rights and duties](/verneombud)."
+            "text": "The employer. The safety representative must see to it that «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (the employees’ psychosocial working environment is taken care of, Working Environment Act § 6-2) and be consulted, and employees have a duty to take part (§ 2-3 and section 1A-5 of the regulation). Read about [the safety representative’s role in the psychosocial working environment](/verneombud)."
           },
           {
             "t": "h2",
@@ -6021,7 +6132,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet writes that the employer cannot do this work alone, but must actively involve employees and the safety representative in the mapping, the risk assessment, and the planning and follow-up of measures. For an employee survey, this means the safety representative helps choose topics and groups, knows the timetable and takes part when the results are reviewed. Read more about [the safety representative’s role in the mapping](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Arbeidstilsynet writes that the employer cannot do this work alone, but must actively involve employees and the safety representative in the mapping, the risk assessment, and the planning and follow-up of measures. For an employee survey, this means the safety representative helps choose topics and groups, knows the timetable and takes part when the results are reviewed. Read more about [the safety representative’s role in the mapping](/artikler/verneombudets-rolle-i-kartleggingen). The role beyond the survey is in [the safety representative’s role in the psychosocial working environment](/verneombud)."
           },
           {
             "t": "h2",
@@ -9259,7 +9370,7 @@
           },
           {
             "t": "p",
-            "text": "By employees' representatives, Arbeidstilsynet means the safety representative (verneombud), where the organisation has one, and any union or other employee representatives. Under section 6-2 of the Act, the safety representative must ensure that the psychosocial working environment is taken care of, and must be consulted when measures are planned and carried out. Cooperation therefore means more than presenting the results afterwards. Read more about [the safety representative's role in mapping](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "By employees' representatives, Arbeidstilsynet means the safety representative (verneombud), where the organisation has one, and any union or other employee representatives. Under section 6-2 of the Act, the safety representative must ensure that the psychosocial working environment is taken care of, and must be consulted when measures are planned and carried out. Cooperation therefore means more than presenting the results afterwards. Read more about [the safety representative's role in mapping](/artikler/verneombudets-rolle-i-kartleggingen). The duties and rights beyond the survey are in [the safety representative and the psychosocial working environment](/verneombud)."
           },
           {
             "t": "h2",
@@ -9446,7 +9557,7 @@
           },
           {
             "t": "p",
-            "text": "Mapping is the employer's responsibility, but it must be done together with employees and their representatives. In practice the safety representative and union representatives help plan the mapping, see the results and take part when measures are chosen."
+            "text": "Mapping is the employer's responsibility, but it must be done together with employees and their representatives. In practice the safety representative and union representatives help plan the mapping, see the results and take part when measures are chosen. What the role involves is in [the safety representative and the psychosocial working environment](/verneombud)."
           },
           {
             "t": "p",
@@ -10288,7 +10399,7 @@
           },
           {
             "t": "p",
-            "text": "Section 6-2 of the Act lists what the safety representative must particularly ensure. One item concerns the psychosocial working environment directly, and the fourth paragraph ties the safety representative to systematic health, safety and environment (HSE) work, where mapping belongs."
+            "text": "Section 6-2 of the Act lists what the safety representative must particularly ensure. One item concerns the psychosocial working environment directly, and the fourth paragraph ties the safety representative to systematic health, safety and environment (HSE) work, where mapping belongs. An overview of [the safety representative’s role in the psychosocial working environment](/verneombud) – the duties, the rights and what is new from 2024 and 2026 – is on a page of its own."
           },
           {
             "t": "law",
@@ -10609,7 +10720,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet writes that the employer cannot do this work alone, but must actively involve employees and the safety representative in the mapping, the risk assessment and the planning and follow-up of measures. Under Working Environment Act § 6-2, the safety representative looks after the employees’ interests in matters concerning the working environment. Read more about [the safety representative’s role](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Arbeidstilsynet writes that the employer cannot do this work alone, but must actively involve employees and the safety representative in the mapping, the risk assessment and the planning and follow-up of measures. Under Working Environment Act § 6-2, the safety representative looks after the employees’ interests in matters concerning the working environment. Read more about [the safety representative’s role](/artikler/verneombudets-rolle-i-kartleggingen) and about [the safety representative and the psychosocial working environment](/verneombud)."
           },
           {
             "t": "h2",
@@ -10833,7 +10944,7 @@
           },
           {
             "t": "p",
-            "text": "The employer is responsible but cannot do it alone. Arbeidstilsynet writes that the employer must actively involve employees and the safety representative in the mapping, the risk assessment and the planning and follow-up of measures. Under Working Environment Act § 6-2, the safety representative looks after the employees’ interests in matters concerning the working environment. If the organisation has a working environment committee or an occupational health service, it is natural to involve them. See [the safety representative’s role in the mapping](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "The employer is responsible but cannot do it alone. Arbeidstilsynet writes that the employer must actively involve employees and the safety representative in the mapping, the risk assessment and the planning and follow-up of measures. Under Working Environment Act § 6-2, the safety representative looks after the employees’ interests in matters concerning the working environment. If the organisation has a working environment committee or an occupational health service, it is natural to involve them. See [the safety representative’s role in the mapping](/artikler/verneombudets-rolle-i-kartleggingen). The duties and rights are gathered in [the safety representative and the psychosocial working environment](/verneombud)."
           },
           {
             "t": "h2",
@@ -11074,7 +11185,7 @@
           },
           {
             "t": "p",
-            "text": "The checklist is a free Word template at the foot of this page (in Norwegian). Read also about [the safety representative’s role in the survey](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "The checklist is a free Word template at the foot of this page (in Norwegian). Read also about [the safety representative’s role in the survey](/artikler/verneombudets-rolle-i-kartleggingen). The role as a whole – duties, training and rights – is in [the safety representative and the psychosocial working environment](/verneombud)."
           }
         ],
         "sources": [

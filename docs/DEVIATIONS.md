@@ -14601,3 +14601,57 @@ words. The hub sentence D-284 appended to three factor articles landed after a c
 answer pages are short because the answer is. The illustrations stay decorative (`aria-hidden`), as the cards and the
 text carry the content; the diagrams are real HTML (tables with headers, lists), so a screen reader gets the same
 table a sighted reader sees.
+
+## D-288 — /verneombud takes the cluster «verneombud psykososialt arbeidsmiljø»; the article keeps the survey (2026-10-28)
+
+Tor, 28 October 2026, with the Sentral keyword panel: «Can we improve this keyword and SEO?» The row was «verneombud
+psykososialt arbeidsmiljø» — 25 impressions, position 60.2, no clicks, mapped to /verneombud and flagged «needs a
+better page».
+
+**What the data said.** D-281 gave the query to the article «Verneombudets rolle i det psykososiale arbeidsmiljøet»
+(/artikler/verneombudets-rolle-i-kartleggingen): its title and H1 carried the words. Google shows /verneombud for the
+query anyway — the page every header and footer links, with a FAQ — so two of our pages competed and the one shown
+did not answer the question in its title, H1 or first line. The results page (OpenSEO, Norway, bokmål) is guides to
+the safety representative's role, duties and rights in the psychosocial environment — Arbeidstilsynet, NHO, the
+unions, two HSE portals — not survey pages. The demand is the role, not the mapping: «verneombud» about 3 600 searches
+a month, «verneombud oppgaver» 880, «verneombudets rolle» 170, the exact phrase about 50. A page at 60 on 25
+impressions is a page problem before it is an authority problem.
+
+**What changed.** The pages were separated rather than merged (the strategy's phase-2 note considered both):
+- **/verneombud is the guide to the cluster.** Title «Verneombud og psykososialt arbeidsmiljø: oppgaver | Orgpuls»,
+  H1 «Hva er verneombudets rolle i det psykososiale arbeidsmiljøet?», a lead that answers it in the first sentence
+  with aml § 6-2, and the card and description to match. New sections, every heading a question: what the law says
+  (the law block gains aml § 6-5 on training, time and pay); six duties as cards (follow, raise, take part in the
+  mapping, in the risk assessment, be consulted on measures, go further); six rights as a list (training of at least
+  40 hours that covers the psychosocial environment — forskrift om organisering, ledelse og medvirkning §§ 3-18 and
+  3-19; time; information, § 6-2 fifth paragraph; to be consulted; to stop dangerous work, § 6-3; to take part in an
+  inspection); what changed in 2024 (safety representative from five employees, committee from 30, aml §§ 6-1 and
+  7-1) and 2026 (chapter 1A: mapping with the representatives, §§ 1A-2 and 1A-4); bullying, conflict and harassment
+  (aml §§ 4-3, 2 A-2 and 2 A-4 — the representative sees that the employer acts, and does not investigate); and the
+  sections it had (the five steps, what to see, raising it, when management does not act, the small department).
+  FAQ from six to ten: the role first, then training, whether the representative can demand a mapping, and
+  representative versus union steward. The 2024 thresholds are confirmed on Arbeidstilsynet's pages; the year the
+  psychosocial duty entered § 6-2 is not, so the page does not date it.
+- **The article narrows to the survey.** Title «Verneombudets rolle når arbeidsmiljøet kartlegges | Orgpuls»; its
+  second paragraph points to /verneombud for the role as a whole. The English title already said «role in
+  psychosocial mapping».
+- **Nine inbound links carrying the page's words**: «verneombud og psykososialt arbeidsmiljø» from /lovkrav and the
+  articles on the mapping requirement, the 2026 rules, the safety round, the working-environment mapping and «is it
+  required?»; «verneombudets rolle i det psykososiale arbeidsmiljøet» from the hub /psykososialt-arbeidsmiljo (its
+  anchor relinked from «rettigheter og plikter»), the employee-survey article and the kartlegging article itself —
+  each a sentence in the paragraph where the representative is already named (D-235: articles link pages of the law
+  and the role, not the product's).
+- **Sweden's /skyddsombud** is extended to the same shape — the Swedish pack must match every array's length — under
+  Swedish law: AML 6 kap. 4 § (training as a joint duty, no hour count), 5 § (leave with benefits), 6 §, 6 a §, 7 §
+  (stopping work), 10 § (protection); AFS 2023:1 5, 6, 11 and 13 §§; AFS 2023:2 2 kap. 4, 10 and 11 §§;
+  diskrimineringslagen 2 kap. 3 §; MBL 11 §. Its timeline is 2016 (AFS 2015:4) and 2025 (AFS 2023:1 and 2023:2).
+  No article links: Sweden's site serves none. The United Kingdom's /safety-representatives is unchanged — its pack
+  holds its own page under its own law.
+- **The keyword map** (`tests/unit/seo-geo.test.ts`) pins the new split: the query and «verneombudets rolle» on
+  /verneombud's title and H1, «rettigheter og plikter» on its description, «verneombudets rolle i kartleggingen» on
+  the article. Strategy § 4 rows and the phase-2 note are rewritten accordingly.
+
+**Not done, and why.** OpenSEO's Search Console is not connected, so the only ranking data is Sentral's panel; the
+connection is a click in the project's search-performance page and would give query-level impressions per page. The
+Sentral mapping stays /verneombud. The effect is read in four to six weeks: the query's position, and whether
+/verneombud or the article is shown for it.

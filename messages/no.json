@@ -4887,7 +4887,7 @@
           },
           {
             "t": "p",
-            "text": "Les mer om [kravene til kartleggingen](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo), [hva som er nytt fra 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026), [risikovurderingen](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo) og [hvordan resultatene blir til tiltak](/artikler/fra-resultater-til-tiltak)."
+            "text": "Les mer om [kravene til kartleggingen](/artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo), [hva som er nytt fra 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026), [risikovurderingen](/artikler/risikovurdering-av-psykososialt-arbeidsmiljo) og [hvordan resultatene blir til tiltak](/artikler/fra-resultater-til-tiltak). Verneombudets egen side: [verneombud og psykososialt arbeidsmiljø](/verneombud)."
           }
         ],
         "faq": [
@@ -4930,24 +4930,24 @@
         ]
       },
       "verneombud": {
-        "title": "Verneombudets rettigheter og plikter i kartleggingen | Orgpuls",
-        "description": "Verneombudets rettigheter og plikter når det psykososiale arbeidsmiljøet kartlegges: hva loven sier, rollen i hvert steg og hva du gjør når ingen svarer.",
+        "title": "Verneombud og psykososialt arbeidsmiljø: oppgaver | Orgpuls",
+        "description": "Verneombudets rolle i det psykososiale arbeidsmiljøet: lovens krav (aml § 6-2), oppgavene, opplæring, innsyn og veien videre når ledelsen ikke svarer.",
         "crumb": "For verneombud",
         "card": {
           "title": "Verneombud",
-          "text": "Verneombudets rettigheter og plikter når arbeidsmiljøet kartlegges, steg for steg."
+          "text": "Verneombudets rolle, oppgaver og rettigheter i det psykososiale arbeidsmiljøet – og hva du gjør når ledelsen ikke svarer."
         },
         "kicker": "Arbeidsmiljøloven § 6-2",
-        "h1": "Hvilke rettigheter og plikter har verneombudet når arbeidsmiljøet kartlegges?",
-        "lead": "Verneombudet skal påse at det psykososiale arbeidsmiljøet er ivaretatt, og skal tas med på råd når tiltak planlegges og gjennomføres. Når arbeidsmiljøet kartlegges, er verneombudet en av representantene arbeidsgiveren skal samarbeide med – i kartleggingen, i risikovurderingen og når tiltakene velges. Ansvaret for at det blir gjort, ligger hos arbeidsgiveren.",
+        "h1": "Hva er verneombudets rolle i det psykososiale arbeidsmiljøet?",
+        "lead": "Verneombudet skal ivareta de ansattes interesser i saker som angår arbeidsmiljøet, og skal særlig påse at det psykososiale arbeidsmiljøet er ivaretatt (arbeidsmiljøloven § 6-2). Rollen er å følge med, ta opp og være med: verneombudet tas med på råd når tiltak planlegges, deltar når arbeidsmiljøet kartlegges og risikovurderes, og går videre til arbeidsmiljøutvalget eller Arbeidstilsynet når ledelsen ikke svarer. Ansvaret for arbeidsmiljøet ligger hos arbeidsgiveren.",
         "blocks": [
           {
             "t": "h2",
-            "text": "Det du har krav på"
+            "text": "Hva sier arbeidsmiljøloven om verneombudet og det psykososiale arbeidsmiljøet?"
           },
           {
             "t": "p",
-            "text": "Arbeidsmiljøloven § 6-2 sier at verneombudet skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt». Verneombudet skal også «tas med på råd under planlegging og gjennomføring av tiltak som har betydning for arbeidsmiljøet». Forskrift om utførelse av arbeid § 1A-2 krever i tillegg at kartleggingen og risikovurderingen gjøres i samarbeid med arbeidstakerne og deres representanter."
+            "text": "Arbeidsmiljøloven § 6-2 sier at verneombudet skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt». Verneombudet skal også «tas med på råd under planlegging og gjennomføring av tiltak som har betydning for arbeidsmiljøet». Forskrift om utførelse av arbeid § 1A-2 krever i tillegg at kartleggingen og risikovurderingen gjøres i samarbeid med arbeidstakerne og deres representanter. Hva som regnes som psykososialt arbeidsmiljø, står i [Hva er psykososialt arbeidsmiljø?](/psykososialt-arbeidsmiljo)."
           },
           {
             "t": "hub",
@@ -4992,12 +4992,95 @@
               {
                 "ref": "Forskriften § 1A-2",
                 "text": "Kartleggingen og risikovurderingen skal gjøres i samarbeid med arbeidstakerne og deres representanter. Arbeidstilsynet skriver at det betyr verneombudet, der virksomheten har ett."
+              },
+              {
+                "ref": "AML § 6-5",
+                "text": "Arbeidsgiveren skal sørge for at verneombudet får nødvendig opplæring og nødvendig tid til vervet, dekker utgiftene, og vervet skal ikke gi inntektstap."
               }
             ]
           },
           {
             "t": "h2",
-            "text": "Din rolle i hvert steg"
+            "text": "Hvilke oppgaver har verneombudet i det psykososiale arbeidsmiljøarbeidet?"
+          },
+          {
+            "t": "p",
+            "text": "Loven sier «påse» og «tas med på råd». Arbeidstilsynet skriver at verneombudet skal delta aktivt i virksomhetens HMS-arbeid, og at «dette inkluderer også arbeidstakernes psykososiale miljø». I praksis er det seks oppgaver:"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Følge med",
+                "text": "Se etter tegnene i hverdagen: tempoet, tonen, hvem som er alene, beskjeder som motsier hverandre. [Vernerunden](/artikler/vernerunde-psykososialt-arbeidsmiljo) er et fast sted å gjøre det."
+              },
+              {
+                "title": "Ta det opp",
+                "text": "Gjøre arbeidsgiveren oppmerksom på forhold som kan gi helsefare, og få svar (aml § 6-2 tredje ledd)."
+              },
+              {
+                "title": "Være med i kartleggingen",
+                "text": "Planlegge undersøkelsen, forklare anonymiteten til kollegene og se de samme tallene som ledelsen (forskriften § 1A-2)."
+              },
+              {
+                "title": "Delta i risikovurderingen",
+                "text": "Vurdere faktorene sammen med ledelsen, hver for seg og i sammenheng – ikke få et sammendrag etterpå."
+              },
+              {
+                "title": "Tas med på råd om tiltak",
+                "text": "Når tiltak planlegges og gjennomføres, og i det systematiske HMS-arbeidet (aml § 6-2 fjerde ledd)."
+              },
+              {
+                "title": "Gå videre når det stopper",
+                "text": "Til arbeidsmiljøutvalget eller Arbeidstilsynet når meldingen ikke følges opp innen rimelig tid (aml § 6-2 tredje ledd)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hvilke rettigheter har verneombudet?"
+          },
+          {
+            "t": "p",
+            "text": "Rettighetene følger av arbeidsmiljøloven kapittel 6 og forskrift om organisering, ledelse og medvirkning kapittel 3:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Opplæring.** Arbeidsgiveren skal sørge for den opplæringen som trengs for å utføre vervet forsvarlig (aml § 6-5). Forskriften krever minst 40 timer, og opplæringen skal gjøre verneombudet i stand til å gjenkjenne det som fremmer eller hemmer et godt psykososialt og organisatorisk arbeidsmiljø (forskrift om organisering, ledelse og medvirkning §§ 3-18 og 3-19).",
+              "**Tid.** Verneombudet skal få nødvendig tid til vernearbeidet, som hovedregel innenfor vanlig arbeidstid, og vervet skal ikke gi inntektstap (aml § 6-5).",
+              "**Informasjon.** Verneombudet skal gjøres kjent med yrkessykdommer, ulykker og tilløp, rapporter og målinger som gjelder arbeidsmiljøet (aml § 6-2 femte ledd). Arbeidstilsynet skriver at verneombudet har rett til innsyn i HMS-relatert informasjon.",
+              "**Å bli hørt.** Verneombudet skal tas med på råd når tiltak planlegges og gjennomføres, og i det systematiske HMS-arbeidet (aml § 6-2 fjerde ledd).",
+              "**Å stanse farlig arbeid.** Ved umiddelbar fare for liv eller helse kan verneombudet stanse arbeidet til Arbeidstilsynet har tatt stilling (aml § 6-3).",
+              "**Å delta i tilsyn.** Kommer Arbeidstilsynet på tilsyn, skal verneombudet delta (aml § 6-2 sjuende ledd)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva er nytt for verneombudet fra 2024 og 2026?"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "1. januar 2024",
+                "title": "Verneombud fra fem ansatte, arbeidsmiljøutvalg fra 30",
+                "text": "Grensen for når en virksomhet må ha verneombud gikk fra ti til fem arbeidstakere, og grensen for arbeidsmiljøutvalg fra 50 til 30 (aml §§ 6-1 og 7-1)."
+              },
+              {
+                "date": "1. januar 2026",
+                "title": "Forskriftens kapittel 1A: kartlegging i samarbeid med verneombudet",
+                "text": "Arbeidsgiveren skal kartlegge og risikovurdere de psykososiale faktorene i samarbeid med arbeidstakerne og deres representanter – verneombudet der virksomheten har det – og informere om risikofaktorene og tiltakene (forskrift om utførelse av arbeid §§ 1A-2 og 1A-4)."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Hele kapitlet, paragraf for paragraf, står på [Lovkrav](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "Hva gjør verneombudet når arbeidsmiljøet kartlegges?"
           },
           {
             "t": "timeline",
@@ -5035,7 +5118,7 @@
           },
           {
             "t": "h2",
-            "text": "Hva verneombudet bør ha innsyn i"
+            "text": "Hva bør verneombudet ha innsyn i?"
           },
           {
             "t": "cards",
@@ -5060,7 +5143,7 @@
           },
           {
             "t": "h2",
-            "text": "Når du vil ta det opp med ledelsen"
+            "text": "Hvordan tar du det opp med ledelsen?"
           },
           {
             "t": "p",
@@ -5073,7 +5156,7 @@
           },
           {
             "t": "h2",
-            "text": "Når ledelsen ikke tar tak i det"
+            "text": "Hva gjør du når ledelsen ikke tar tak i det?"
           },
           {
             "t": "p",
@@ -5108,7 +5191,19 @@
           },
           {
             "t": "h2",
-            "text": "Når en avdeling ikke vises"
+            "text": "Hva gjør verneombudet ved mobbing, konflikter eller trakassering?"
+          },
+          {
+            "t": "p",
+            "text": "Trakassering, vold og trusler står blant de psykososiale faktorene i arbeidsmiljøloven § 4-3, og arbeidsgiveren skal forebygge og håndtere dem. Verneombudets oppgave er ikke å løse konflikten eller etterforske saken, men å påse at arbeidsgiveren tar tak. Det betyr at det finnes en rutine for å melde fra, at den brukes, og at den som melder fra, ikke møter gjengjeldelse (aml § 2 A-4). Ansatte kan varsle om kritikkverdige forhold via verneombudet (aml § 2 A-2). Et verneombud som får et slikt varsel, tar det videre til arbeidsgiveren – eller til arbeidsmiljøutvalget eller Arbeidstilsynet når saken gjelder ledelsen selv."
+          },
+          {
+            "t": "p",
+            "text": "Et lavt tall på [integritet og verdighet](/artikler/integritet-og-verdighet) eller [ytringsklima](/artikler/ytringsklima) i en anonym undersøkelse er et signal om det samme, uten at noen har måttet si fra med navn."
+          },
+          {
+            "t": "h2",
+            "text": "Hvorfor vises ikke en liten avdeling i resultatene?"
           },
           {
             "t": "p",
@@ -5116,6 +5211,10 @@
           }
         ],
         "faq": [
+          {
+            "q": "Hva er verneombudets rolle i det psykososiale arbeidsmiljøet?",
+            "a": "Å påse at det er ivaretatt, og å bli tatt med på råd (arbeidsmiljøloven § 6-2). Det betyr å følge med på forhold som arbeidsmengde, uklare krav, støtte og konflikter, ta dem opp med arbeidsgiveren, være med når arbeidsmiljøet kartlegges og risikovurderes, og gå videre til arbeidsmiljøutvalget eller Arbeidstilsynet når meldinger ikke følges opp. Ansvaret for arbeidsmiljøet er arbeidsgiverens."
+          },
           {
             "q": "Må vi ha verneombud?",
             "a": "Hovedregelen i arbeidsmiljøloven § 6-1 er ja: det skal velges verneombud ved hver virksomhet. Bare virksomheter med færre enn fem arbeidstakere kan skriftlig avtale en annen ordning."
@@ -5139,6 +5238,18 @@
           {
             "q": "Hva gjør jeg hvis arbeidsgiver ikke svarer?",
             "a": "Arbeidsgiveren skal gi verneombudet svar på henvendelsen. Er det ikke tatt hensyn til meldingen innen rimelig tid, skal verneombudet underrette Arbeidstilsynet eller arbeidsmiljøutvalget (aml § 6-2 tredje ledd)."
+          },
+          {
+            "q": "Må verneombudet ha opplæring i psykososialt arbeidsmiljø?",
+            "a": "Ja. Arbeidsgiveren skal sørge for nødvendig opplæring (aml § 6-5), opplæringen skal normalt vare minst 40 timer, og den skal blant annet gjøre verneombudet i stand til å gjenkjenne det som fremmer eller hemmer et godt psykososialt og organisatorisk arbeidsmiljø (forskrift om organisering, ledelse og medvirkning §§ 3-18 og 3-19)."
+          },
+          {
+            "q": "Kan verneombudet kreve at det psykososiale arbeidsmiljøet kartlegges?",
+            "a": "Verneombudet kan ikke pålegge det, men plikten ligger allerede på arbeidsgiveren: forskrift om utførelse av arbeid § 1A-2 krever at de psykososiale faktorene kartlegges og risikovurderes i samarbeid med arbeidstakernes representanter. Verneombudet kan be om det, vise til forskriften, og underrette arbeidsmiljøutvalget eller Arbeidstilsynet når meldingen ikke følges opp innen rimelig tid (aml § 6-2 tredje ledd)."
+          },
+          {
+            "q": "Hva er forskjellen på verneombud og tillitsvalgt i arbeidsmiljøsaker?",
+            "a": "Verneombudet velges av og blant de ansatte, har et lovfestet verv og skal ivareta alle arbeidstakerne i saker som angår arbeidsmiljøet. Den tillitsvalgte representerer fagforeningens medlemmer etter tariffavtalen. Begge regnes som arbeidstakernes representanter når arbeidsmiljøet kartlegges (forskriften § 1A-2), og Arbeidstilsynet nevner begge."
           }
         ]
       },
@@ -5818,7 +5929,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidsgiveren. Verneombudet skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (arbeidsmiljøloven § 6-2) og tas med på råd, og de ansatte har plikt til å medvirke (§ 2-3 og forskriften § 1A-5). Les om [verneombudets rettigheter og plikter](/verneombud)."
+            "text": "Arbeidsgiveren. Verneombudet skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt» (arbeidsmiljøloven § 6-2) og tas med på råd, og de ansatte har plikt til å medvirke (§ 2-3 og forskriften § 1A-5). Les om [verneombudets rolle i det psykososiale arbeidsmiljøet](/verneombud)."
           },
           {
             "t": "h2",
@@ -6021,7 +6132,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet skriver at arbeidsgiveren «ikke kan gjøre dette arbeidet alene, men må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». For en medarbeiderundersøkelse betyr det at verneombudet er med på å velge tema og grupper, kjenner tidsplanen og deltar når resultatene gås gjennom. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Arbeidstilsynet skriver at arbeidsgiveren «ikke kan gjøre dette arbeidet alene, men må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». For en medarbeiderundersøkelse betyr det at verneombudet er med på å velge tema og grupper, kjenner tidsplanen og deltar når resultatene gås gjennom. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen). Rollen utenom undersøkelsen står i [verneombudets rolle i det psykososiale arbeidsmiljøet](/verneombud)."
           },
           {
             "t": "h2",
@@ -9259,7 +9370,7 @@
           },
           {
             "t": "p",
-            "text": "Med arbeidstakernes representanter mener Arbeidstilsynet verneombud, der virksomheten har det, og eventuelle tillitsvalgte eller andre representanter. Etter arbeidsmiljøloven § 6-2 skal verneombudet påse at de ansattes psykososiale arbeidsmiljø er ivaretatt. Verneombudet skal også tas med på råd under planlegging og gjennomføring av tiltak. Samarbeid betyr derfor mer enn å legge fram resultatet i etterkant. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Med arbeidstakernes representanter mener Arbeidstilsynet verneombud, der virksomheten har det, og eventuelle tillitsvalgte eller andre representanter. Etter arbeidsmiljøloven § 6-2 skal verneombudet påse at de ansattes psykososiale arbeidsmiljø er ivaretatt. Verneombudet skal også tas med på råd under planlegging og gjennomføring av tiltak. Samarbeid betyr derfor mer enn å legge fram resultatet i etterkant. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen). Oppgavene og rettighetene utenom kartleggingen står i [verneombud og psykososialt arbeidsmiljø](/verneombud)."
           },
           {
             "t": "h2",
@@ -9446,7 +9557,7 @@
           },
           {
             "t": "p",
-            "text": "Kartleggingen er arbeidsgiverens ansvar, men den skal gjøres i samarbeid med de ansatte og deres representanter. I praksis betyr det at verneombud og tillitsvalgte er med på å planlegge kartleggingen, ser resultatet og deltar når tiltakene velges."
+            "text": "Kartleggingen er arbeidsgiverens ansvar, men den skal gjøres i samarbeid med de ansatte og deres representanter. I praksis betyr det at verneombud og tillitsvalgte er med på å planlegge kartleggingen, ser resultatet og deltar når tiltakene velges. Hva rollen innebærer, står i [verneombud og psykososialt arbeidsmiljø](/verneombud)."
           },
           {
             "t": "p",
@@ -10272,7 +10383,7 @@
         ]
       },
       "verneombud": {
-        "title": "Verneombudets rolle i det psykososiale arbeidsmiljøet | Orgpuls",
+        "title": "Verneombudets rolle når arbeidsmiljøet kartlegges | Orgpuls",
         "description": "Verneombudet skal påse at det psykososiale arbeidsmiljøet er ivaretatt og tas med på råd om tiltak. Rollen i kartlegging, risikovurdering og oppfølging.",
         "h1": "Hvilken rolle har verneombudet når det psykososiale arbeidsmiljøet kartlegges?",
         "lead": "Verneombudet skal ivareta de ansattes interesser i saker som angår arbeidsmiljøet, påse at det psykososiale arbeidsmiljøet er ivaretatt, og tas med på råd når tiltak planlegges og gjennomføres. Når det psykososiale arbeidsmiljøet kartlegges og risikovurderes, er verneombudet en av representantene arbeidsgiveren skal samarbeide med. Ansvaret for at kartleggingen blir gjort, ligger likevel hos arbeidsgiveren.",
@@ -10288,7 +10399,7 @@
           },
           {
             "t": "p",
-            "text": "Aml. § 6-2 lister opp hva verneombudet særlig skal påse. Ett av punktene gjelder direkte det psykososiale, og fjerde ledd knytter verneombudet til det systematiske helse-, miljø- og sikkerhetsarbeidet (HMS), der kartleggingen hører hjemme."
+            "text": "Aml. § 6-2 lister opp hva verneombudet særlig skal påse. Ett av punktene gjelder direkte det psykososiale, og fjerde ledd knytter verneombudet til det systematiske helse-, miljø- og sikkerhetsarbeidet (HMS), der kartleggingen hører hjemme. En samlet oversikt over [verneombudets rolle i det psykososiale arbeidsmiljøet](/verneombud) – oppgavene, rettighetene og hva som er nytt fra 2024 og 2026 – står på egen side."
           },
           {
             "t": "law",
@@ -10609,7 +10720,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidstilsynet skriver at arbeidsgiveren «ikke kan gjøre dette arbeidet alene, men må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». Verneombudet skal etter arbeidsmiljøloven § 6-2 «ivareta arbeidstakernes interesser i saker som angår arbeidsmiljøet». Les mer om [verneombudets rolle](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Arbeidstilsynet skriver at arbeidsgiveren «ikke kan gjøre dette arbeidet alene, men må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». Verneombudet skal etter arbeidsmiljøloven § 6-2 «ivareta arbeidstakernes interesser i saker som angår arbeidsmiljøet». Les mer om [verneombudets rolle](/artikler/verneombudets-rolle-i-kartleggingen) og om [verneombud og psykososialt arbeidsmiljø](/verneombud)."
           },
           {
             "t": "h2",
@@ -10833,7 +10944,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidsgiveren har ansvaret, men kan ikke gjøre det alene. Arbeidstilsynet skriver at arbeidsgiveren «må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». Verneombudet skal etter arbeidsmiljøloven § 6-2 «ivareta arbeidstakernes interesser i saker som angår arbeidsmiljøet». Har virksomheten et arbeidsmiljøutvalg eller en bedriftshelsetjeneste, er det naturlig å trekke dem inn. Se [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Arbeidsgiveren har ansvaret, men kan ikke gjøre det alene. Arbeidstilsynet skriver at arbeidsgiveren «må involvere ansatte og verneombud aktivt i både kartlegging, risikovurdering samt planlegging og oppfølging av tiltak». Verneombudet skal etter arbeidsmiljøloven § 6-2 «ivareta arbeidstakernes interesser i saker som angår arbeidsmiljøet». Har virksomheten et arbeidsmiljøutvalg eller en bedriftshelsetjeneste, er det naturlig å trekke dem inn. Se [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen). Oppgavene og rettighetene står samlet i [verneombud og psykososialt arbeidsmiljø](/verneombud)."
           },
           {
             "t": "h2",
@@ -11074,7 +11185,7 @@
           },
           {
             "t": "p",
-            "text": "Sjekklisten finnes som gratis Word-mal nederst på siden. Les også om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Sjekklisten finnes som gratis Word-mal nederst på siden. Les også om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen). Rollen i det hele – oppgaver, opplæring og rettigheter – står i [verneombud og psykososialt arbeidsmiljø](/verneombud)."
           }
         ],
         "sources": [

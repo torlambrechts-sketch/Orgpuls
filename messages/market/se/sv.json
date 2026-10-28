@@ -2619,24 +2619,24 @@
         ]
       },
       "verneombud": {
-        "title": "Skyddsombudets uppgifter och rättigheter | Orgpuls",
-        "description": "Skyddsombudets uppgifter och rättigheter när arbetsmiljön kartläggs: vad arbetsmiljölagen säger, din roll i varje steg och vad du gör när ingen svarar.",
+        "title": "Skyddsombud och organisatorisk och social arbetsmiljö | Orgpuls",
+        "description": "Skyddsombudets roll i den organisatoriska och sociala arbetsmiljön: lagens krav, uppgifter, utbildning, insyn och vägen vidare när ledningen inte svarar.",
         "crumb": "För skyddsombud",
         "card": {
           "title": "Skyddsombud",
-          "text": "Skyddsombudets uppgifter och rättigheter när arbetsmiljön kartläggs, steg för steg."
+          "text": "Skyddsombudets roll, uppgifter och rättigheter i den organisatoriska och sociala arbetsmiljön – och vad du gör när ledningen inte svarar."
         },
         "kicker": "Arbetsmiljölagen 6 kap. 4 §",
-        "h1": "Skyddsombudet och kartläggningen: uppgifter, rättigheter och arbetsgång",
-        "lead": "Skyddsombudet företräder arbetstagarna i arbetsmiljöfrågor och ska vaka över att arbetsgivaren arbetar systematiskt med arbetsmiljön. När arbetsmiljön kartläggs ska arbetsgivaren ge skyddsombudet möjlighet att medverka – i undersökningen, i riskbedömningen och när handlingsplanen upprättas. Ansvaret för att det blir gjort ligger hos arbetsgivaren.",
+        "h1": "Vilken roll har skyddsombudet i den organisatoriska och sociala arbetsmiljön?",
+        "lead": "Skyddsombudet företräder arbetstagarna i arbetsmiljöfrågor och ska vaka över att arbetsgivaren arbetar systematiskt med arbetsmiljön, de organisatoriska och sociala förhållandena inräknade (arbetsmiljölagen 6 kap. 4 §; AFS 2023:1 5 §). Rollen är att följa med, ta upp och vara med: skyddsombudet deltar när arbetsmiljön undersöks och riskerna bedöms, är med när handlingsplanen upprättas, begär åtgärder när något behöver ändras och går vidare till Arbetsmiljöverket när arbetsgivaren inte svarar. Ansvaret för arbetsmiljön ligger hos arbetsgivaren.",
         "blocks": [
           {
             "t": "h2",
-            "text": "Det du har rätt till"
+            "text": "Vad säger arbetsmiljölagen om skyddsombudet och den organisatoriska och sociala arbetsmiljön?"
           },
           {
             "t": "p",
-            "text": "Arbetsmiljölagen 6 kap. 4 § säger att skyddsombudet företräder arbetstagarna och ska ”verka för en tillfredsställande arbetsmiljö”. Ombudet ska vaka över ”att arbetsgivaren uppfyller kraven i 3 kap. 2 a §”, alltså det systematiska arbetsmiljöarbetet, och ska ”delta vid upprättande av handlingsplaner”. Det arbetet omfattar även de organisatoriska och sociala förhållandena (AFS 2023:1 5 §), och arbetsgivaren ska ge skyddsombuden möjlighet att medverka i det (AFS 2023:1 6 §)."
+            "text": "Arbetsmiljölagen 6 kap. 4 § säger att skyddsombudet företräder arbetstagarna och ska ”verka för en tillfredsställande arbetsmiljö”. Ombudet ska vaka över ”att arbetsgivaren uppfyller kraven i 3 kap. 2 a §”, alltså det systematiska arbetsmiljöarbetet, och ska ”delta vid upprättande av handlingsplaner”. Det arbetet omfattar även de organisatoriska och sociala förhållandena (AFS 2023:1 5 §), och arbetsgivaren ska ge skyddsombuden möjlighet att medverka i det (AFS 2023:1 6 §). Vad som räknas till den organisatoriska och sociala arbetsmiljön står i AFS 2023:2 2 kap. och på [Organisatorisk och social arbetsmiljö](/lovkrav)."
           },
           {
             "t": "hub",
@@ -2681,12 +2681,95 @@
               {
                 "ref": "AFS 2023:1 6 §",
                 "text": "Arbetsgivaren ska ge arbetstagarna och skyddsombuden möjlighet att medverka i det systematiska arbetsmiljöarbetet, där undersökningen, riskbedömningen och handlingsplanen ingår (11 och 13 §§). Rutinerna ska säga vilka som ska medverka (8 §)."
+              },
+              {
+                "ref": "AML 6 kap. 4 och 5 §§",
+                "text": "Arbetsgivare och arbetstagare svarar gemensamt för att skyddsombudet får den utbildning som behövs för uppdraget, och skyddsombudet har rätt till den ledighet som uppdraget kräver med bibehållna anställningsförmåner."
               }
             ]
           },
           {
             "t": "h2",
-            "text": "Din roll i varje steg"
+            "text": "Vilka uppgifter har skyddsombudet i det organisatoriska och sociala arbetsmiljöarbetet?"
+          },
+          {
+            "t": "p",
+            "text": "Lagen säger ”vaka över”, ”delta” och ”begära”. Arbetsmiljöverkets föreskrifter lägger till att skyddsombuden ska få medverka i hela det systematiska arbetsmiljöarbetet, där undersökningen, riskbedömningen och handlingsplanen ingår (AFS 2023:1 6, 11 och 13 §§). I praktiken är det sex uppgifter:"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Följa med",
+                "text": "Se tecknen i vardagen: tempot, tonen, vem som är ensam, besked som motsäger varandra. Skyddsronden är ett fast tillfälle att göra det, också för de organisatoriska och sociala frågorna."
+              },
+              {
+                "title": "Ta upp det",
+                "text": "Vända sig till arbetsgivaren och begära åtgärder när något behöver ändras – och få besked utan dröjsmål (AML 6 kap. 6 a §)."
+              },
+              {
+                "title": "Vara med i undersökningen",
+                "text": "Planera undersökningen, förklara anonymiteten för kollegorna och se samma siffror som ledningen (AFS 2023:1 6 och 11 §§)."
+              },
+              {
+                "title": "Delta i riskbedömningen",
+                "text": "Bedöma faktorerna tillsammans med ledningen, var för sig och i sitt sammanhang – inte få en sammanfattning efteråt (AFS 2023:1 11 §)."
+              },
+              {
+                "title": "Delta när handlingsplanen upprättas",
+                "text": "Skyddsombudet ska delta när handlingsplaner upprättas och när arbetsorganisationen planeras (AML 6 kap. 4 §; AFS 2023:1 13 §)."
+              },
+              {
+                "title": "Gå vidare när det stannar",
+                "text": "Till Arbetsmiljöverket när arbetsgivaren inte lämnar besked eller inte beaktar begäran inom skälig tid (AML 6 kap. 6 a §)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vilka rättigheter har skyddsombudet?"
+          },
+          {
+            "t": "p",
+            "text": "Rättigheterna står i arbetsmiljölagens sjätte kapitel:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Utbildning.** Arbetsgivare och arbetstagare svarar gemensamt för att skyddsombudet får den utbildning som behövs (AML 6 kap. 4 §). Lagen anger inget antal timmar. Eftersom det systematiska arbetsmiljöarbetet omfattar de organisatoriska och sociala förhållandena (AFS 2023:1 5 §) hör de till det utbildningen behöver täcka.",
+              "**Ledighet.** Skyddsombudet har rätt till den ledighet som uppdraget kräver, med bibehållna anställningsförmåner (AML 6 kap. 5 §).",
+              "**Handlingar och upplysningar.** Skyddsombudet har rätt att ta del av de handlingar och få de upplysningar som behövs för uppdraget – resultat, riskbedömningar och handlingsplaner hör dit (AML 6 kap. 6 §).",
+              "**Att begära åtgärder.** Anser skyddsombudet att åtgärder behövs, begär ombudet dem av arbetsgivaren, som ska lämna besked utan dröjsmål (AML 6 kap. 6 a §).",
+              "**Att avbryta farligt arbete.** Vid omedelbar och allvarlig fara för liv eller hälsa kan skyddsombudet bestämma att arbetet avbryts i väntan på Arbetsmiljöverkets ställningstagande (AML 6 kap. 7 §). Det gäller sällan det organisatoriska och sociala, men visar hur stark rollen är.",
+              "**Skydd i uppdraget.** Skyddsombudet får inte hindras att fullgöra sina uppgifter, och får inte ges sämre arbetsförhållanden eller anställningsvillkor på grund av uppdraget (AML 6 kap. 10 §)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Vad har ändrats för skyddsombudet 2016 och 2025?"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "31 mars 2016",
+                "title": "Egna föreskrifter om organisatorisk och social arbetsmiljö",
+                "text": "AFS 2015:4 trädde i kraft och gjorde arbetsbelastning, arbetstid och kränkande särbehandling till en uttrycklig del av arbetsgivarens arbetsmiljöarbete – och därmed av det skyddsombudet vakar över."
+              },
+              {
+                "date": "1 januari 2025",
+                "title": "Reglerna flyttade in i AFS 2023:1 och AFS 2023:2",
+                "text": "Det systematiska arbetsmiljöarbetet, med skyddsombudens medverkan, står nu i AFS 2023:1, och reglerna om organisatorisk och social arbetsmiljö i AFS 2023:2 2 kap. Paragrafnumren är nya; kraven är i allt väsentligt desamma."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Hela regelverket, paragraf för paragraf, står på [Organisatorisk och social arbetsmiljö](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "Vad gör skyddsombudet när arbetsmiljön kartläggs?"
           },
           {
             "t": "timeline",
@@ -2724,7 +2807,7 @@
           },
           {
             "t": "h2",
-            "text": "Vad skyddsombudet bör få ta del av"
+            "text": "Vad bör skyddsombudet få ta del av?"
           },
           {
             "t": "cards",
@@ -2749,7 +2832,7 @@
           },
           {
             "t": "h2",
-            "text": "När du vill ta upp det med ledningen"
+            "text": "Hur tar du upp det med ledningen?"
           },
           {
             "t": "p",
@@ -2762,7 +2845,7 @@
           },
           {
             "t": "h2",
-            "text": "När ledningen inte tar tag i det"
+            "text": "Vad gör du när ledningen inte tar tag i det?"
           },
           {
             "t": "p",
@@ -2797,7 +2880,19 @@
           },
           {
             "t": "h2",
-            "text": "När en avdelning inte visas"
+            "text": "Vad gör skyddsombudet vid kränkande särbehandling eller konflikter?"
+          },
+          {
+            "t": "p",
+            "text": "Kränkande särbehandling står i AFS 2023:2 2 kap.: arbetsgivaren ska klargöra att den inte accepteras och ha rutiner för hur den hanteras (10 och 11 §§). Skyddsombudets uppgift är inte att lösa konflikten eller utreda saken, utan att vaka över att arbetsgivaren tar tag i den: att rutinen finns, att den är känd och används, och att den som berättar får hjälp. Räcker inte det, begär skyddsombudet åtgärder (AML 6 kap. 6 a §). Trakasserier som har samband med en diskrimineringsgrund ska arbetsgivaren utreda (diskrimineringslagen 2 kap. 3 §)."
+          },
+          {
+            "t": "p",
+            "text": "Ett lågt resultat på yttrandeklimatet i en anonym undersökning är en signal om samma sak – utan att någon har behövt säga ifrån med namn."
+          },
+          {
+            "t": "h2",
+            "text": "Varför visas inte en liten avdelning i resultaten?"
           },
           {
             "t": "p",
@@ -2805,6 +2900,10 @@
           }
         ],
         "faq": [
+          {
+            "q": "Vilken roll har skyddsombudet i den organisatoriska och sociala arbetsmiljön?",
+            "a": "Att vaka över att arbetsgivaren arbetar systematiskt med den, och att vara med (arbetsmiljölagen 6 kap. 4 §; AFS 2023:1 5 och 6 §§). Det betyder att följa med på sådant som arbetsbelastning, otydliga krav, stöd och konflikter, ta upp det med arbetsgivaren, vara med när arbetsmiljön undersöks och riskerna bedöms, delta när handlingsplanen upprättas, och gå vidare till Arbetsmiljöverket när arbetsgivaren inte svarar. Ansvaret för arbetsmiljön är arbetsgivarens."
+          },
           {
             "q": "Måste vi ha skyddsombud?",
             "a": "Ja, på ett arbetsställe där minst fem arbetstagare regelbundet arbetar ska ett eller flera skyddsombud utses (AML 6 kap. 2 §). På ett mindre arbetsställe ska skyddsombud utses om arbetsförhållandena kräver det. Skyddsombudet utses av den lokala fackliga organisation som har eller brukar ha kollektivavtal med arbetsgivaren, annars av arbetstagarna – aldrig av arbetsgivaren."
@@ -2828,6 +2927,18 @@
           {
             "q": "Vad gör jag om arbetsgivaren inte svarar?",
             "a": "Arbetsgivaren ska utan dröjsmål lämna besked på skyddsombudets begäran. Gör arbetsgivaren inte det, eller beaktas inte begäran inom skälig tid, prövar Arbetsmiljöverket efter skyddsombudets framställan om ett föreläggande eller förbud ska meddelas (AML 6 kap. 6 a §)."
+          },
+          {
+            "q": "Måste skyddsombudet ha utbildning i organisatorisk och social arbetsmiljö?",
+            "a": "Arbetsgivare och arbetstagare svarar gemensamt för att skyddsombudet får den utbildning som behövs för uppdraget (AML 6 kap. 4 §). Lagen anger inget innehåll och inget antal timmar, men eftersom det systematiska arbetsmiljöarbetet omfattar de organisatoriska och sociala förhållandena (AFS 2023:1 5 §) hör de till det skyddsombudet behöver kunna. Chefer och arbetsledare ska ha kunskaper om hur ohälsosam arbetsbelastning och kränkande särbehandling förebyggs och hanteras (AFS 2023:2 2 kap. 4 §)."
+          },
+          {
+            "q": "Kan skyddsombudet kräva att den organisatoriska och sociala arbetsmiljön undersöks?",
+            "a": "Skyddsombudet kan inte besluta om det, men skyldigheten ligger redan på arbetsgivaren: arbetsmiljön ska undersökas regelbundet och riskerna bedömas (AFS 2023:1 11 §), och det gäller även de organisatoriska och sociala förhållandena (5 §). Skyddsombudet kan begära det som en åtgärd. Arbetsgivaren ska då lämna besked utan dröjsmål, och annars prövar Arbetsmiljöverket frågan efter skyddsombudets framställan (AML 6 kap. 6 a §)."
+          },
+          {
+            "q": "Vad är skillnaden mellan skyddsombud och facklig förtroendevald i arbetsmiljöfrågor?",
+            "a": "Skyddsombudet har ett uppdrag i lag: det företräder alla arbetstagare inom sitt skyddsområde i arbetsmiljöfrågor (AML 6 kap. 4 §) och utses av den fackliga organisation som har kollektivavtal med arbetsgivaren, annars av arbetstagarna (6 kap. 2 §). Den fackliga förtroendevalda företräder medlemmarna enligt kollektivavtalet och förhandlar om förändringar (MBL 11 §). Ofta är det samma person, men rättigheterna i arbetsmiljölagens sjätte kapitel följer skyddsombudsuppdraget."
           }
         ]
       },
