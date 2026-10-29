@@ -15038,7 +15038,8 @@ Tor, 29 October 2026, in three lines after D-292: «YOU DO THE MIGRATION», «Tu
    Sicherheit». The H1s of the law pages keep the genitive, which is the law's own wording; the descriptions carry
    the citations the tests hold (§ 5, § 3, § 6 ArbSchG; § 87 BetrVG). The share cards print H1s, so none moved. The
    map is § 4b of `docs/marketing/seo-geo-strategy.md`, with phase 2 for Germany: two articles once the first queries
-   show. 331 OpenSEO credits remained before the metrics call.
+   show. 331 OpenSEO credits remained before the metrics call. A second audit of the ten pages, run against the
+   deployed words, found nothing.
 
 **Gates:** tsc 0, lint 0, verify:i18n PASS, `npx vitest run` 85 files / 1 060 tests, `npx next build` exit 0, CI green
 on the opening commit, the edge functions deployed.
