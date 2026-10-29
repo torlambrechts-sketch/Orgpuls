@@ -29,6 +29,45 @@ A host names a brand, a market and a default language. One codebase, one databas
 4. **Language is not market.** An organisation in Norway may read English; a language may serve several markets.
 5. **The host decides the market at sign-up, never a form field**, and only the platform moves an organisation later.
 
+## One source for every market (D-292)
+
+What keeps rule 3 true in the code, so a change made once reaches every site and only the language and
+the market's own facts differ:
+
+- **The market registry** (`lib/markets.ts` `MARKET_CONFIG`): brand, languages, floor, time zone, register
+  lookup, legal pack, price list, DPA, invoice form, own site and whether it is open, Auth mail language,
+  mail domain, phone rule, law seal, the safety representative's campaign tag. Every per-market map is read
+  from it; the edge functions read a copy `npm run markets:edge` writes (`supabase/functions/_shared/
+  markets.ts`, `brand-name.ts`), held equal by `tests/unit/market-registry.test.ts`. A component asks the
+  market for what it needs, never which market it is.
+- **Packs hold only what differs** (`lib/i18n/merge.ts`, `scripts/i18n/pack-delta.mjs`): a text a pack
+  holds word for word as its language does is left out, so an edit to the language reaches the market.
+  Kept whole: texts that state Norwegian law (a pack restates them to say they hold under its law), the
+  signed DPA, the privacy notice and the terms. A list item a pack leaves as `null` is the language's.
+- **Translations know their source** (`lib/i18n/translation-sources.json`, `scripts/i18n/stale.mjs`):
+  every translated text records the bokmål it was made from; when the bokmål changes, `npm run
+  verify:i18n` lists every language and pack that did not follow. After translating:
+  `npm run i18n:stale -- --accept <file> [--keys a,b]`.
+- **Every site is rendered in CI** (`scripts/verify/sites.ts`): a non-production server shows any
+  market's site on `?site=<market>` (`lib/hosts.ts` `effectiveHost`), and each page is checked for its
+  language, canonical host, hreflang, JSON-LD tag, message keys and brand name. Locally:
+  `DE_SITE=open npx tsx scripts/verify/sites.ts --base http://localhost:3000`.
+- **One brand rule** (`lib/brand-name.ts` `renameBrand`) for the app, the mail and the share cards, and the
+  support inbox as brand data (`lib/brand.ts` `BRANDS.support`): Empvibe's moves in one line once it has a
+  mailbox.
+
+**A new market** is: its row in `MARKET_CONFIG`; its migration (the `app.markets` row, the CHECK lists, its
+organisation number rule); its host row in `lib/hosts.ts` with its page list and addresses; its pack in
+`messages/market/<code>/`; its legal structure in `lib/legal/pack.ts`; then `npm run markets:edge`. Opening its
+site is `site.open: true` in the registry (`DE_SITE=open` still opens Germany's for one deployment, as CI does).
+
+**Not done on purpose: moving the Swedish and German site copy into sv.json and de.json.** Those pages were
+written for their market throughout, and an automatic split misplaces market facts that hide in ordinary
+sentences (the floor of five spelled as a word, «VD», «psychische Belastung»). The source tracking above already
+lists every site a change must reach, wherever the text lives. Make the split when a second market shares a
+language (Austria or Switzerland for German), page by page with a reader of the language, and keep in the pack
+whatever names the market's law, roles, figures or country.
+
 ## Phases
 
 | # | Phase | State |

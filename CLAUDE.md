@@ -91,6 +91,15 @@ to the registry as origin *machine*; Tor reviews them afterwards. A text is neve
 because a human translator has not seen it yet: an untranslated text takes the whole language out
 of the survey (D-133).
 
+## One source for every market (D-292)
+A market is data: `lib/markets.ts` `MARKET_CONFIG` holds everything the code knows about one, and a
+component asks it for a capability, never which market it is. Market packs hold only what differs from
+their language (`npm run verify:i18n` runs `scripts/i18n/pack-delta.mjs`). Every translation records the
+bokmål it was made from: after translating a changed text, `npm run i18n:stale -- --accept <file> [--keys a,b]`.
+After changing the registry or `lib/brand-name.ts`, `npm run markets:edge`. Every market's site is checked
+in CI by `scripts/verify/sites.ts`; locally, `?site=se|de|gb` shows a market's site on localhost.
+docs/markets/PLAN.md, «One source for every market», has the rules and a new market's checklist.
+
 ## Never fabricate data in the UI
 If a value does not exist in the schema, do not render a placeholder that looks like
 data — an invented count, a hard-coded version, a 0% over an unknown denominator. Render
