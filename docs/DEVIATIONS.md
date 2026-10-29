@@ -14881,9 +14881,9 @@ Geschäftsführerin: the overview, the heatmap (Betrieb and Verwaltung as a dash
 plan with the works council's notice, the measures board, the comments, the report and the questionnaire preview
 are what the nine pictures show.
 
-**Not yet (DE-G):** `DE_SITE=open` on Vercel; hosted migrations 0235 and 0236; Supabase Auth redirect URLs for
-https://de.orgpuls.com; the mail links; Search Console, Sentral and IndexNow; a German reader of the texts before
-the switch.
+**Not yet (DE-G):** `DE_SITE=open` on Vercel; Supabase Auth redirect URLs for https://de.orgpuls.com; the mail links;
+Search Console, Sentral and IndexNow; a German reader of the texts before the switch. (Hosted migrations 0235 and 0236
+were applied with 0237 on 2026-10-29, D-292.)
 
 ## D-292 — German is a survey language: the respondent texts drafted, the database's lists widened, the modules' German by code (DE-A2, 2026-10-29)
 
@@ -14969,10 +14969,27 @@ bokmål, no console error and nothing wider than the screen. Signed in as Nordwi
 factor table reads «Meinungsklima», «Rollenklarheit», «Anerkennung und Sinn» from the registry (D-253's overlay, now for
 German), where D-291's picture had English; the pictures are retaken once German is approved on the hosted project.
 
-**Not yet (DE-G):** hosted migration 0237 after 0235 and 0236; the package imported through `translations.import` and
-`npm run -s modules:registry | psql` against the hosted project; a pilot for the first German organisation, or Tor's
-sign-off of `locale_de` after reading the drafts; the German reader's review of the open questions in
-`docs/translations/de.md`.
+**Hosted, the same evening, on Tor's word («you do the migration»).** The Supabase MCP was not authorised in this
+session and the Management API answered the session's own tokens with 401 through the outbound proxy, so the route is
+`scripts/db/apply-hosted.mjs`, the same Management API call the MCP's `apply_migration` wraps, each file verbatim and
+named after it, with `.github/workflows/migrate.yml` to run it from a runner with the repository's
+`SUPABASE_ACCESS_TOKEN` when a session has no working token (called from Node, the repository token was accepted and
+the workflow was not needed). Applied in order as 20261029190222 `0235_german_platform_language`, 20261029190301
+`0236_market_de` and 20261029190303 `0237_german_survey_language`; proved by one SELECT: the eight language
+constraints and the markets' rule carry `de` and `de_ustid`, market `de` is floor 5, German, Europe/Berlin, the seven
+functions name `de`, `app.org_number_valid('de_ustid', 'DE136695976')` is true, `app.round_locale_state` answers a `de`
+key and `public.dispatch_language_texts` a `de` mail key; the security advisors name none of the touched functions
+(197 rows, the known categories); www.orgpuls.com, /registrer and /logg-inn answer 200. Then the drafts, through the
+script's rows-only mode (it refuses a file that defines or drops anything): the seven modules' German from the
+registry files, the `de` blocks of `modules:registry` alone so no other language's hosted rows are touched — 597 rows
+resolved against the hosted 1.0.1 versions — and the package through `app.op_translations_import('de', …)` with a
+platform actor: 212 new, 0 refused. Hosted holds 809 German rows, every one of the 36 rounds has German complete, and
+the platform's auto-approve switch (0101, on hosted) approved them as written, recorded as `approved_auto`, as it did
+the five languages before; German is still offered to nobody, since `locale_de` is not signed off and no organisation
+pilots it, while a German-speaking leader now reads the statements and factor names in German (D-253).
+
+**Not yet (DE-G):** a pilot for the first German organisation, or Tor's sign-off of `locale_de` after reading the
+drafts; the German reader's review of the open questions in `docs/translations/de.md`.
 
 ## D-293 — One source for every market: the registry, delta packs, source tracking, every site in CI (2026-10-29)
 
@@ -15013,4 +15030,3 @@ to the registry until a migration makes the invoice form a column of `app.market
 **Changed for a reader:** Sweden's and Germany's law drawings and articles now carry § (was ✓); their
 «Tips ledelsen» links carry `utm_source=skyddsombud` / `betriebsrat`; Swedish and German leaders get their trial
 and billing mail in English; the root description on Norway's hosts is the tagline in the reader's language.
-

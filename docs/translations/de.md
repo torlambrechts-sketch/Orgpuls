@@ -141,9 +141,10 @@ Every text a respondent can meet, drafted by machine, **817 texts** in two place
   `variants` and `factorVariants` for this (`lib/modules/registry-file.ts`). `tests/unit/german-survey.test.ts`
   holds each file to its module's definition.
 
-**Nothing in either is approved** — a German text reaches a respondent only once a person has approved it,
-and German is offered only by a pilot (`locales.pilot`) until Tor signs `locale_de` off, as English, Polish
-and Lithuanian were.
+Both reached the hosted registry on 2026-10-29 (D-292), where the platform's auto-approve switch (0101)
+approved them as written, marked `approved_auto`, as it did the five languages before. German is still offered
+only by a pilot (`locales.pilot`) until Tor signs `locale_de` off, as English, Polish and Lithuanian were;
+the open questions below are for the reader before that.
 
 ### Register
 

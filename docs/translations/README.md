@@ -5,9 +5,10 @@ Danish: the statements, the questions outside the index, the three published ind
 survey pages, and the invitation, reminder and SMS texts. Each language has 553 texts (348 from the
 first run, 205 from the second). The drafts are waiting for a human translator (X-071). German followed
 on 2026-10-29 (DE-A2, D-292): the product's 212 texts in `de.orgpuls-translations.json` in this folder, a
-package for the platform's `translations.import` (this repository cannot reach the hosted registry), and
-the seven published modules' 605 texts by code in `modules/<key>/registry/de.json`, which
-`npm run -s modules:registry` writes to any database (D-263).
+package in the platform's import format, and the seven published modules' 605 texts by code in
+`modules/<key>/registry/de.json`, which `npm run -s modules:registry` writes to any database (D-263). Both
+were written to the hosted registry the same evening (`scripts/db/apply-hosted.mjs`), where the auto-approve
+switch approved them as written; German is offered to nobody until a pilot or the sign-off of `locale_de`.
 
 **Translations ship with the text (X-089, 2026-09-29).** A respondent-facing text that is added or
 changed is drafted in all five languages in the same piece of work, never left for later: one
