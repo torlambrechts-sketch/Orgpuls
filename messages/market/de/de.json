@@ -512,8 +512,8 @@
       "related": "Verwandte Seiten"
     },
     "home": {
-      "title": "Mitarbeiterbefragung und Gefährdungsbeurteilung psychischer Belastung | Orgpuls",
-      "description": "Anonyme Mitarbeiterbefragung für die Gefährdungsbeurteilung psychischer Belastung nach § 5 ArbSchG, mit Beurteilung, Maßnahmenplan und der Dokumentation nach § 6 ArbSchG.",
+      "title": "Mitarbeiterbefragung zur psychischen Belastung | Orgpuls",
+      "description": "Anonyme Mitarbeiterbefragung für die psychische Gefährdungsbeurteilung nach § 5 ArbSchG: Beurteilung, Maßnahmenplan und Dokumentation nach § 6 ArbSchG.",
       "articlesEyebrow": "Artikel",
       "articlesTitle": "Lesen Sie nach, bevor Sie anfangen",
       "articlesAll": "Alle Artikel →",
@@ -550,8 +550,8 @@
     },
     "lp": {
       "lovkrav": {
-        "title": "Gefährdungsbeurteilung psychischer Belastung: Was das Gesetz verlangt | Orgpuls",
-        "description": "Was das Arbeitsschutzgesetz zur psychischen Belastung verlangt: Gefährdungen beurteilen (§ 5), Maßnahmen treffen und prüfen (§ 3), dokumentieren (§ 6), mit dem Betriebsrat vereinbaren – und was die Aufsicht tut.",
+        "title": "Psychische Gefährdungsbeurteilung nach ArbSchG | Orgpuls",
+        "description": "Gefährdungsbeurteilung psychischer Belastung nach ArbSchG: beurteilen (§ 5), Maßnahmen (§ 3), dokumentieren (§ 6), Betriebsrat beteiligen – und die Aufsicht.",
         "crumb": "Psychische Belastung im ArbSchG",
         "card": {
           "title": "Psychische Belastung im ArbSchG",
@@ -893,8 +893,8 @@
         ]
       },
       "verneombud": {
-        "title": "Betriebsrat und Gefährdungsbeurteilung psychischer Belastung | Orgpuls",
-        "description": "Die Rolle des Betriebsrats bei der Gefährdungsbeurteilung psychischer Belastung: Mitbestimmung, Unterrichtung, Schulung, Einsicht und der Weg weiter, wenn die Geschäftsführung nicht handelt.",
+        "title": "Betriebsrat und psychische Gefährdungsbeurteilung | Orgpuls",
+        "description": "Was der Betriebsrat bei der psychischen Gefährdungsbeurteilung mitbestimmt (§ 87 BetrVG), erfährt und einsieht – und was er tun kann, wenn nichts geschieht.",
         "crumb": "Für den Betriebsrat",
         "card": {
           "title": "Betriebsrat",
@@ -1217,8 +1217,8 @@
         ]
       },
       "smaaBedrifter": {
-        "title": "Psychische Belastung in kleinen Unternehmen – Mitarbeiterbefragung | Orgpuls",
-        "description": "Psychische Belastung in kleinen Unternehmen: was das Gesetz nach Zahl der Beschäftigten verlangt, und eine anonyme Mitarbeiterbefragung für kleine Betriebe mit Ergebnissen ab 5 Antworten.",
+        "title": "Psychische Gefährdungsbeurteilung im Kleinbetrieb | Orgpuls",
+        "description": "Was das Gesetz kleinen Unternehmen zur psychischen Belastung abverlangt – und eine anonyme Mitarbeiterbefragung, startklar in einer Stunde, ab 5 Antworten.",
         "crumb": "Kleine Unternehmen",
         "card": {
           "title": "Kleine Unternehmen",
@@ -1421,8 +1421,8 @@
     },
     "pages": {
       "plattform": {
-        "title": "Die Plattform: Befragung zur psychischen Belastung und Maßnahmenplan | Orgpuls",
-        "description": "Anonyme Befragung für die Gefährdungsbeurteilung psychischer Belastung: Ergebnisse je Faktor und Abteilung, Beurteilung, Maßnahmenplan mit Verantwortlichen und Frist, und ein Puls, der die Wirkung zeigt.",
+        "title": "Die Plattform: Befragung und Maßnahmenplan | Orgpuls",
+        "description": "Anonyme Mitarbeiterbefragung zur psychischen Belastung: Ergebnisse je Faktor und Abteilung, Beurteilung, Maßnahmenplan mit Frist und ein Puls zur Wirkung.",
         "crumb": "Plattform",
         "kicker": "Die Plattform",
         "h1": "Eine Plattform für die ganze Runde: erheben, verstehen, handeln und sehen, dass es gewirkt hat",
@@ -1579,8 +1579,8 @@
         "finalTitle": "Sehen Sie die Plattform in Ihrer eigenen Organisation"
       },
       "bruksomrader": {
-        "title": "Anwendungsfälle: die Befragung zur psychischen Belastung in der Praxis | Orgpuls",
-        "description": "Acht Situationen aus der Praxis: ohne Personalabteilung, jährliche Erhebung, Pulsbefragung, Besichtigung, ein Team, das heraussticht, Umstrukturierung, neue Führungskraft und Arbeitsschutzausschuss.",
+        "title": "Anwendungsfälle der Mitarbeiterbefragung | Orgpuls",
+        "description": "Acht Situationen aus der Praxis: ohne Personalabteilung, Jahresbefragung, Puls, Besichtigung, ein Team, das heraussticht, Umstrukturierung, neue Führungskraft.",
         "crumb": "Anwendungsfälle",
         "kicker": "Anwendungsfälle",
         "h1": "Dieselben Regeln, verschiedene Arbeitsplätze",
@@ -1655,8 +1655,8 @@
         ]
       },
       "sikkerhet": {
-        "title": "Sicherheit, Datenschutz und Anonymität | Orgpuls",
-        "description": "So hält Orgpuls die Antworten der Mitarbeiterbefragung anonym: keine Verbindung zur Person, mindestens 5 Antworten je Gruppe, Daten in der EU. Was wir speichern und was nicht.",
+        "title": "Anonyme Mitarbeiterbefragung: Sicherheit | Orgpuls",
+        "description": "So bleibt die Mitarbeiterbefragung anonym: keine Verbindung zur Person, mindestens 5 Antworten je Gruppe, Daten in der EU – und was wir speichern und was nicht.",
         "crumb": "Sicherheit und Datenschutz",
         "kicker": "Sicherheit und Datenschutz",
         "h1": "Anonymität, die nicht davon abhängt, dass jemand ein Versprechen hält",
@@ -1811,7 +1811,7 @@
         ]
       },
       "kontakt": {
-        "title": "Kontakt – Fragen zur Befragung und zur Gefährdungsbeurteilung | Orgpuls",
+        "title": "Kontakt zur Mitarbeiterbefragung | Orgpuls",
         "description": "Fragen zu Orgpuls, Hilfe beim Start oder Orgpuls in mehreren Gesellschaften? Schreiben Sie an hjelp@orgpuls.no.",
         "crumb": "Kontakt",
         "kicker": "Kontakt",
@@ -1843,7 +1843,7 @@
       },
       "personvernerklaering": {
         "title": "Datenschutzerklärung | Orgpuls",
-        "description": "Die personenbezogenen Daten, die Orgpuls verarbeitet, wenn Sie die Website besuchen, eine Organisation registrieren, den Newsletter erhalten oder uns kontaktieren – und Ihre Rechte.",
+        "description": "Die personenbezogenen Daten, die Orgpuls verarbeitet, wenn Sie die Website besuchen, eine Organisation registrieren oder uns kontaktieren – und Ihre Rechte.",
         "crumb": "Datenschutzerklärung",
         "kicker": "Datenschutz",
         "h1": "Datenschutzerklärung",
@@ -2739,10 +2739,10 @@
       }
     },
     "hvorfor": {
-      "seoTitle": "Warum Orgpuls – die psychische Belastung das ganze Jahr im Blick | Orgpuls",
-      "seoDescription": "Mitarbeiterbefragung zur psychischen Belastung bei der Arbeit: Stärken zuerst, Maßnahmen mit Verantwortlichen und Frist, Anonymität ab 5 Antworten und die Dokumentation nach § 6 ArbSchG.",
+      "seoTitle": "Psychische Belastung am Arbeitsplatz im Blick | Orgpuls",
+      "seoDescription": "Mitarbeiterbefragung zur psychischen Belastung am Arbeitsplatz: Stärken zuerst, Maßnahmen mit Frist, anonym ab 5 Antworten, Dokumentation nach § 6 ArbSchG.",
       "crumb": "Warum Orgpuls",
-      "h1": "Die psychische Belastung das ganze Jahr im Blick – und sehen, was wirkt",
+      "h1": "Die psychische Belastung am Arbeitsplatz das ganze Jahr im Blick – und sehen, was wirkt",
       "lead": "Eine Befragung im Jahr zeigt, wie es den Leuten im September ging – nicht, ob die Maßnahmen gewirkt haben. Mit Orgpuls bauen Führungskräfte und Betriebsrat auf dem auf, was trägt, geben jedem Befund eine verantwortliche Person und messen die Wirkung. Hier sind die Entscheidungen dahinter, und warum.",
       "next": "Die Anwendungsfälle ansehen →",
       "usesLabel": "In der Plattform ansehen",

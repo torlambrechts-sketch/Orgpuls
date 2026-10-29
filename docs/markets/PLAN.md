@@ -29,7 +29,7 @@ A host names a brand, a market and a default language. One codebase, one databas
 4. **Language is not market.** An organisation in Norway may read English; a language may serve several markets.
 5. **The host decides the market at sign-up, never a form field**, and only the platform moves an organisation later.
 
-## One source for every market (D-293)
+## One source for every market (D-294)
 
 What keeps rule 3 true in the code, so a change made once reaches every site and only the language and
 the market's own facts differ:
@@ -51,7 +51,7 @@ the market's own facts differ:
 - **Every site is rendered in CI** (`scripts/verify/sites.ts`): a non-production server shows any
   market's site on `?site=<market>` (`lib/hosts.ts` `effectiveHost`), and each page is checked for its
   language, canonical host, hreflang, JSON-LD tag, message keys and brand name. Locally:
-  `DE_SITE=open npx tsx scripts/verify/sites.ts --base http://localhost:3000`.
+  `npx tsx scripts/verify/sites.ts --base http://localhost:3000`.
 - **One brand rule** (`lib/brand-name.ts` `renameBrand`) for the app, the mail and the share cards, and the
   support inbox as brand data (`lib/brand.ts` `BRANDS.support`): Empvibe's moves in one line once it has a
   mailbox.
@@ -59,7 +59,8 @@ the market's own facts differ:
 **A new market** is: its row in `MARKET_CONFIG`; its migration (the `app.markets` row, the CHECK lists, its
 organisation number rule); its host row in `lib/hosts.ts` with its page list and addresses; its pack in
 `messages/market/<code>/`; its legal structure in `lib/legal/pack.ts`; then `npm run markets:edge`. Opening its
-site is `site.open: true` in the registry (`DE_SITE=open` still opens Germany's for one deployment, as CI does).
+site is `site.open: true` in the registry; until then its host is reserved (`lib/hosts.ts` `RESERVED_HOSTS`), as Germany's was
+until DE-G (D-293).
 
 **Not done on purpose: moving the Swedish and German site copy into sv.json and de.json.** Those pages were
 written for their market throughout, and an automatic split misplaces market facts that hide in ordinary
@@ -167,10 +168,10 @@ temporarily, nothing indexed.
 |---|---|---|
 | DE-L | The law read: ArbSchG §§ 3–6, 12–17, 21; BetrVG §§ 1, 80, 87, 89, 94; ASiG §§ 1, 2, 5, 9, 11; SGB VII §§ 21, 22; AGG §§ 1, 3, 7, 12, 13; ArbZG §§ 3, 5; BDSG § 26 — verbatim, with how a product text cites each; the GDA and DGUV texts not reachable, listed as unverified | written 2026-10-29: `docs/markets/de-legal.md` |
 | DE-A | German as a platform language: the app's chrome in German, English behind it (as D-252 for Swedish); the locale registry and the database's locale lists widened | done 2026-10-29: D-289, `messages/de.json` (3 278 strings, machine draft, `docs/translations/de.md`), 0235; hosted migration waits on the Supabase connector |
-| DE-A2 | German as a survey language: the statements, factors, extras, respondent pages and invitation texts drafted in German into the translation registry (X-089), offered once approved; the published modules' German | done 2026-10-29 as a draft (D-292): 0237 widens the database's survey-language lists, `de` is `survey: true` in the registry, `MARKET_SURVEY_BASE.de` is German; the product's 212 texts are machine drafts in `docs/translations/de.orgpuls-translations.json` for the platform's `translations.import`, the seven published modules' 605 texts by code in `modules/<key>/registry/de.json` for `modules:registry` (the format grew segments and wordings); `locale_de` exists and is not signed off, so German is offered by a pilot until Tor approves the texts; imported to the hosted registry the same evening, approved as written by the hosted auto-approve switch, offered to nobody until a pilot or the sign-off |
+| DE-A2 | German as a survey language: the statements, factors, extras, respondent pages and invitation texts drafted in German into the translation registry (X-089), offered once approved; the published modules' German | done 2026-10-29 as a draft (D-292): 0237 widens the database's survey-language lists, `de` is `survey: true` in the registry, `MARKET_SURVEY_BASE.de` is German; the product's 212 texts are machine drafts in `docs/translations/de.orgpuls-translations.json` for the platform's `translations.import`, the seven published modules' 605 texts by code in `modules/<key>/registry/de.json` for `modules:registry` (the format grew segments and wordings); `locale_de` exists and is not signed off, so German is offered by a pilot until Tor approves the texts; imported to the hosted registry the same evening, approved as written by the hosted auto-approve switch, and `locale_de` signed off by Tor (X-116) |
 | DE-B | Market `de`: floor 5, language de, Europe/Berlin, the USt-IdNr. as the optional organisation number (format DE + nine digits, unique per market), sign-up on de.orgpuls.com, mail language; `SITES` row behind a flag until DE-G | done 2026-10-29 for the market, the number rule, the languages, the mail and SMS tables: D-289, 0236; the `SITES` row and sign-up on the host are DE-F; hosted migration waits on the connector |
 | DE-C | Legal pack per market: report, help and in-app legal texts on §§ 3, 5 and 6 ArbSchG, the Betriebsrat's rights, the empty-role case, Sicherheitsbeauftragte and Arbeitsschutzausschuss; the eleven factors against the German duties; sources in de-legal.md. Open: a German lawyer's review | done 2026-10-29: D-290, `messages/market/de/{de,en}.json` (227 keys each), `lib/legal/pack.ts` GERMANY; the lawyer's review stays open |
 | DE-D | A German module for what the eleven factors leave out (Arbeitsumgebung, Arbeitszeit), offered in Germany only, as Sweden's working-time module (D-263) | later, after DE-F |
 | DE-E | EUR prices, reverse charge with the customer's USt-IdNr., German DPA and terms | waits on prices |
 | DE-F | The German site on de.orgpuls.com: ten pages in German for German law at German addresses (the law, the Betriebsrat, small businesses, security, the privacy notice), no prices, terms, industries, articles or demo; German screens of a German firm and German share cards; hreflang de-DE, sitemap, robots, llms.txt per host | done 2026-10-29 behind `DE_SITE` (D-291): the host row, the ten pages at German addresses, the pack (1 816 keys), German screens of Nordwind Tiefbau GmbH and German cards, sitemap, robots, llms.txt and hreflang de-DE per host; the switch and the mail links are DE-G |
-| DE-G | Open it: the hosted migration, the flag off, Supabase Auth redirect URLs, the mail and SMS senders, Search Console (the sitemap), Sentral's site, IndexNow; a German reader of the texts | hosted migrations 0235, 0236, 0237 applied and the German drafts imported 2026-10-29 (D-292, `scripts/db/apply-hosted.mjs`); the rest open |
+| DE-G | Open it: the hosted migration, the flag off, Supabase Auth redirect URLs, the mail and SMS senders, Search Console (the sitemap), Sentral's site, IndexNow; a German reader of the texts | done 2026-10-29 (X-116, D-293): hosted migrations 0235–0237 and the German drafts (D-292); the `DE_SITE` switch and the reserved host gone, the site served from `main`; Auth allow-list already held the host; mail links and IndexNow; Search Console and the audit in D-293. Open: prices (DE-E), Sentral, the German reader, the lawyer |

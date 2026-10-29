@@ -35,7 +35,7 @@ describe('the market registry', () => {
       const site = MARKET_CONFIG[m].site!
       expect(site, m).not.toBeNull()
       // the host registry serves an open market's site at the registry's address, and a closed one's not at all
-      expect(SITES.some((s) => s.market === m && s.url === site.url), m).toBe(site.open || (m === 'de' && process.env.DE_SITE === 'open'))
+      expect(SITES.some((s) => s.market === m && s.url === site.url), m).toBe(site.open)
     }
     expect(DE_SITE.url).toBe(MARKET_CONFIG.de.site!.url)
   })
@@ -107,7 +107,8 @@ describe('the visit counting, told its site by the server', () => {
     // a preview showing Empvibe's site (?site=gb) is not counted: the server says the real host is not production
     setBeaconSite({ counted: false, paths: { '/logg-inn': '/sign-in' } })
     expect(mayCount('www.empvibe.com', '/pricing', false, '')).toBe(false)
-    // Germany's site, once open, is counted although the browser's copy of the registry never sees DE_SITE
+    // Germany's site is counted from what the server says, not the browser's copy of the registry, whose
+    // environment (the *_HOST overrides) the browser never sees
     setBeaconSite({ counted: true, paths: DE_SITE.own!.paths })
     expect(mayCount(new URL(DE_SITE.url).host, '/', false, '')).toBe(true)
     expect(mayCount(new URL(DE_SITE.url).host, '/anmelden', false, '')).toBe(false)

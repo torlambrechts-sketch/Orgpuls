@@ -1,13 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { mergeMessages } from '@/lib/i18n/merge'
 import { OWN_FOOTERS, OWN_NAV } from '@/lib/site/nav'
 
-// the German site is behind DE_SITE until DE-G opens it (lib/hosts.ts DE_SITE_OPEN, read once when the
-// module loads), so the flag is set before lib/hosts is imported
-vi.hoisted(() => {
-  process.env.DE_SITE = 'open'
-})
+// the German site was behind DE_SITE until DE-G opened it (X-116, D-293); it is served with no switch now
 const { DE_PAGES, siteOf } = await import('@/lib/hosts')
 
 /**

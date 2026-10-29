@@ -56,9 +56,9 @@ describe('German is a survey language', () => {
     expect(MARKET_SURVEY_BASE.de).toBe('de')
   })
 
-  it('has its flag, which nobody has signed off: offered by a pilot until Tor approves the texts', () => {
+  it('has its flag, signed off by Tor on 2026-10-29 (X-116): offered wherever its texts are approved', () => {
     expect(FLAG_NAMES).toContain('locale_de')
-    expect(SIGNED_OFF).not.toContain('locale_de')
+    expect(SIGNED_OFF).toContain('locale_de')
   })
 })
 

@@ -89,8 +89,9 @@ export type MarketConfig = {
   /**
    * Its own site, where its organisations' mail, SMS, Teams and Slack lead once it is open (UK-G, D-275;
    * SE-F, D-276; DE-G): the address (lib/hosts.ts takes its host, which an environment variable may
-   * override) and whether it is served. Null for Norway, reached through the product's own address.
-   * Germany's is built and closed until DE-G; `DE_SITE=open` opens it for one deployment.
+   * override) and whether it is served: a market's site that is not open yet is reserved (lib/hosts.ts
+   * RESERVED_HOSTS), as Germany's was until DE-G (X-116). Null for Norway, reached through the product's
+   * own address.
    */
   site: { url: string; open: boolean } | null
   /**
@@ -186,7 +187,7 @@ export const MARKET_CONFIG: Readonly<Record<Market, MarketConfig>> = {
     prices: 'no',
     dpa: 'no',
     billing: { vatNumber: false, eInvoice: true },
-    site: { url: 'https://de.orgpuls.com', open: false },
+    site: { url: 'https://de.orgpuls.com', open: true },
     authLang: 'en',
     mailDomain: null,
     // DE-B: a mobile number begins 015, 016 or 017 and has eleven or twelve digits with its leading zero

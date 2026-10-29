@@ -15,7 +15,7 @@
  *
  *   npx tsx scripts/verify/sites.ts [--base http://localhost:3000] [--markets no,se,gb,de]
  *
- * Germany's site is checked where the server runs with DE_SITE=open (CI's does), else skipped.
+ * A market whose site the registry does not open yet (lib/markets.ts MarketConfig.site) is skipped.
  */
 import { addressOf, MAIN_URL, SITES, siteTag, type Site } from '@/lib/hosts'
 import { bcp47 } from '@/lib/i18n/locales'
@@ -104,7 +104,7 @@ async function main() {
     // a market's site as a reader reaches it: the first host the registry names for it
     const site = SITES.find((s) => s.market === market)
     if (!site) {
-      console.log(`${market}: no site served (Germany's needs DE_SITE=open on the server); skipped`)
+      console.log(`${market}: no site served (its site is not open in lib/markets.ts); skipped`)
       continue
     }
     const pages = site.own ? [...site.own.pages] : NORWAY_PAGES

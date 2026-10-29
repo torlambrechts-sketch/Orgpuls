@@ -135,6 +135,26 @@ reviews, lists or figures (CLAUDE.md: never fabricate), and no bought placements
 | hva betyr motstridende | /artikler/motstridende-krav | pos 11; «Hva betyr motstridende krav?» opens it (D-282) |
 | personaloppfølging | none: not our intent | ignore |
 
+### 4b. Germany: de.orgpuls.com (opened 2026-10-29, X-116, D-293)
+
+The German site has no Search Console history (the host redirected with `noindex` until it opened; Germany gave
+www.orgpuls.com 4 impressions and no click in the three months before). The map rests on keyword metrics for
+Germany (OpenSEO, 2026-10-29, monthly volume · difficulty), not on queries seen; the queries follow.
+
+| Keyword (Germany, monthly) | Target page | What changed 2026-10-29 |
+|---|---|---|
+| psychische gefährdungsbeurteilung (1 300 · KD 21), gefährdungsbeurteilung psychische belastung (590 · 0), gefährdungsbeurteilung psychischer belastung (140 · 21), gefährdungsbeurteilung psychische belastung fragebogen (40) | /gefaehrdungsbeurteilung-psychische-belastung | title «Psychische Gefährdungsbeurteilung nach ArbSchG», the H1 keeps the genitive the law pages use; description names both forms |
+| psychische belastung am arbeitsplatz (880 · KD 0) | /warum-orgpuls | title and H1 carry the phrase; the page is the argument, an article on the term is phase 2 |
+| mitarbeiterbefragung anonym (90), mitarbeiterbefragung tool (70) | / and /sicherheit | home title «Mitarbeiterbefragung zur psychischen Belastung», security title «Anonyme Mitarbeiterbefragung: Sicherheit» |
+| mitarbeiterbefragung betriebsrat (70), gefährdungsbeurteilung psychische belastung betriebsrat (10) | /betriebsrat | title «Betriebsrat und psychische Gefährdungsbeurteilung»; description names § 87 BetrVG |
+| small firms: no measurable volume (gefährdungsbeurteilung psychische belastung kleinbetrieb) | /kleine-unternehmen | title «Psychische Gefährdungsbeurteilung im Kleinbetrieb»: the head term with the segment |
+| mitarbeiterbefragung psychische belastung (10) | / | the home's title |
+
+Every title is now ≤ 60 characters and every description ≤ 160 (the audit's limits), where they were 70–80 and
+170–211. Phase 2 for Germany, when the first queries show: an article on «psychische Belastung am Arbeitsplatz»
+(880, KD 0) and one on the Fragebogen (the QPS Nordic statements in German, as the Norwegian template page), both
+at the article standard (D-287).
+
 ## 5. Plan
 
 ### Phase 1: on the site, shipped 2026-10-12 (D-281)

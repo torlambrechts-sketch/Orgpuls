@@ -3544,3 +3544,19 @@ organisation number is the USt-IdNr., optional and matched by format; the time z
 representative is appointed. Still Tor's: the German prices (DE-E), any German roles of their own (a Betriebsrat role
 beside the third, an external adviser), a German reader of the machine-drafted texts, a German lawyer's review of the
 pack, and the launch checklist (Supabase Auth redirect URLs, the mail and SMS senders, Search Console, Sentral).
+
+### X-116 — German is on in the survey, and de.orgpuls.com opens
+
+Tor, 2026-10-29, the same evening, after DE-A2 (D-292) and the hosted migrations: «YOU DO THE MIGRATION», then «Turn
+the flag on and open de.orgpuls.com», then «now SEO optimization and google search console check». Three decisions:
+
+- **`locale_de` is signed off** (`lib/flags.signed-off.json`): German is offered in a survey wherever every item it
+  asks and every page string are approved — on the hosted project, every round's German, approved as written by the
+  auto-approve switch (0101). The machine drafts stand until a German reader has been through the open questions in
+  `docs/translations/de.md`; a correction there is a new version, approved again.
+- **de.orgpuls.com is served** (D-293): the `DE_SITE` switch and the reserved host (D-258) go, the site is in `SITES`
+  like Sweden's, German organisations' mail links lead there, IndexNow submits it.
+- **Search and Google come next**: a technical audit of the German pages and the Search Console property, in the same
+  session, as the strategy (`docs/marketing/seo-geo-strategy.md`) does for the Norwegian site.
+
+Still Tor's: the German prices (DE-E), a German reader of the texts, a German lawyer's review of the pack, Sentral.

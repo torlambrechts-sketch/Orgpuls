@@ -5,7 +5,7 @@
 export const MARKET_BRAND_NAME: Readonly<Record<string, string>> = { no: 'Orgpuls', se: 'Orgpuls', gb: 'Empvibe', de: 'Orgpuls' }
 
 /** A market's own site, once it is open (MarketConfig.site): where its organisations' links lead in production */
-export const MARKET_SITE_URL: Readonly<Record<string, string>> = { se: 'https://se.orgpuls.com', gb: 'https://www.empvibe.com' }
+export const MARKET_SITE_URL: Readonly<Record<string, string>> = { se: 'https://se.orgpuls.com', gb: 'https://www.empvibe.com', de: 'https://de.orgpuls.com' }
 
 /** The language of an Auth mail asked for on a market's site by someone who named none (MarketConfig.authLang) */
 export const MARKET_AUTH_LANG: Readonly<Record<string, 'en'>> = { se: 'en', gb: 'en', de: 'en' }

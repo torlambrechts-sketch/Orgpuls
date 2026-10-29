@@ -14991,7 +14991,68 @@ pilots it, while a German-speaking leader now reads the statements and factor na
 **Not yet (DE-G):** a pilot for the first German organisation, or Tor's sign-off of `locale_de` after reading the
 drafts; the German reader's review of the open questions in `docs/translations/de.md`.
 
-## D-293 — One source for every market: the registry, delta packs, source tracking, every site in CI (2026-10-29)
+<<<<<<< HEAD
+## D-293 — de.orgpuls.com opens and German is on in the survey; the site's search words (DE-G, X-116, 2026-10-29)
+
+Tor, 29 October 2026, in three lines after D-292: «YOU DO THE MIGRATION», «Turn the flag on and open de.orgpuls.com»,
+«now SEO optimization and google search console check» (X-116). On Sweden's pattern (D-276) and Empvibe's (D-275).
+
+1. **The flag.** `locale_de` is in `lib/flags.signed-off.json`: German is offered in a survey wherever every item it
+   asks and every page string are approved, which on the hosted project is every round (D-292's drafts, approved as
+   written by the auto-approve switch). The dispatcher redeployed with it (`.github/workflows/functions.yml`), so an
+   invitation to a German-speaking employee goes out in German where the survey is offered in it; a German
+   organisation's survey opens in German (`surveyBaseOf`, D-280). The employee import stores «deutsch» now that the
+   flag is on (D-292 § 5). The machine drafts stand until a German reader has been through the open questions in
+   `docs/translations/de.md`; a correction is a new version.
+2. **The site.** The `DE_SITE` switch and the reserved host (D-258) are gone from `lib/hosts.ts`: Germany's row is in
+   `SITES` like Sweden's and the site is served from `main` with no environment variable, since this session holds
+   no Vercel token to set one and the switch had done its work. `RESERVED_HOSTS` is empty; the mechanism stays for the
+   next market. `MARKET_SITE_URL.de` is `https://de.orgpuls.com`, so a German organisation's mail links lead there
+   (`tests/unit/market-links.test.ts` holds it to `SITES`); `scripts/seo/indexnow.mjs` submits the host.
+3. **Hosted and external, read or done through the APIs this session holds:**
+   - **Auth:** the allow list already held https://de.orgpuls.com/** (Management API, as D-276 found for Sweden).
+   - **Senders:** market `de` mails under Orgpuls' own name and domain and sends SMS as «Orgpuls», as Norway and
+     Sweden do (`MARKET_MAIL_DOMAIN` has only Empvibe's); nothing to set up.
+   - **Production, de.orgpuls.com, 80 seconds after the push:** the ten pages answer 200 with `lang="de"`, canonical
+     on the German host, `hreflang` de-DE and x-default, and their own cards under /og/de/; /lovkrav, /verneombud,
+     /logg-inn and /registrer give 308 to their German addresses; /priser, /vilkar, /artikler, /demo and /skyddsombud
+     are 404; /anmelden and /registrieren answer 200; robots.txt allows the site, disallows the product and both
+     sign-in addresses, and names the sitemap; the sitemap lists exactly the ten pages; llms.txt is German; the
+     IndexNow key is served.
+   - **IndexNow:** de.orgpuls.com's ten URLs accepted (202), with the other three hosts' (200).
+   - **Search Console:** the domain property `sc-domain:orgpuls.com` (owner, bound to the OpenSEO project) covers the
+     host. Its performance rows for de.orgpuls.com are none, and Germany gave www.orgpuls.com 4 impressions and no
+     click in three months: the baseline. The URL inspection of all ten pages says «URL is unknown to Google», as it
+     must minutes after opening; the sitemap is named in robots.txt and the property is a domain one, so discovery
+     follows. Nothing to fix there; a sitemap entry for https://de.orgpuls.com/sitemap.xml in the Search Console UI
+     would only hurry it (no API for it here).
+4. **The search words** (`messages/market/de/de.json`, 19 strings). The technical audit (OpenSEO, 10 pages) found
+   nothing but two kinds of informational issue — eight titles over 60 characters (70–80) and nine descriptions over
+   160 (170–211) — and no broken link, duplicate, missing heading or canonical fault. The keyword metrics for Germany
+   say what Germans type: «psychische Gefährdungsbeurteilung» 1 300 a month, «psychische Belastung am Arbeitsplatz»
+   880, «Gefährdungsbeurteilung psychische Belastung» 590, against 140 for the genitive «psychischer Belastung» the
+   pages led with, and «Mitarbeiterbefragung anonym» 90, «… Betriebsrat» 70, «… Tool» 70. So every title is ≤ 60 and
+   every description ≤ 160 now, the searched forms first: the law page «Psychische Gefährdungsbeurteilung nach
+   ArbSchG», the Betriebsrat page «Betriebsrat und psychische Gefährdungsbeurteilung», small firms «Psychische
+   Gefährdungsbeurteilung im Kleinbetrieb», the home «Mitarbeiterbefragung zur psychischen Belastung», the argument
+   «Psychische Belastung am Arbeitsplatz im Blick» with the phrase in its H1, security «Anonyme Mitarbeiterbefragung:
+   Sicherheit». The H1s of the law pages keep the genitive, which is the law's own wording; the descriptions carry
+   the citations the tests hold (§ 5, § 3, § 6 ArbSchG; § 87 BetrVG). The share cards print H1s, so none moved. The
+   map is § 4b of `docs/marketing/seo-geo-strategy.md`, with phase 2 for Germany: two articles once the first queries
+   show. 331 OpenSEO credits remained before the metrics call. A second audit of the ten pages, run against the
+   deployed words, found nothing.
+
+**Gates:** tsc 0, lint 0, verify:i18n PASS, `npx vitest run` 85 files / 1 060 tests, `npx next build` exit 0, CI green
+on the opening commit, the edge functions deployed.
+
+**Tests:** `tests/unit/markets.test.ts`: no reserved host, Germany's row served with no switch, Germany among the sites
+with llms words; `de-site.test.ts` without the flag; `german-survey.test.ts`: the flag signed off.
+
+**Still Tor's:** the German prices and DPA (DE-E; the site shows none, by design), Sentral's site, a German reader of
+the texts, the lawyer's review of `docs/markets/de-legal.md` UNVERIFIED 1–10.
+>>>>>>> origin/main
+
+## D-294 — One source for every market: the registry, delta packs, source tracking, every site in CI (2026-10-29)
 
 The owner's question: can a change be made once and reach Sweden, Germany and the UK, so that only the language
 differs? The code paths were shared already; the text and the market facts were not. An architecture review
@@ -14999,7 +15060,7 @@ differs? The code paths were shared already; the text and the market facts were 
 
 1. **The market registry** (`lib/markets.ts` `MARKET_CONFIG`). The maps the code kept per market (brand, price
    list, DPA, pack languages, floors, time zones, register lookup, the hosts' brands and default addresses,
-   Germany's opening) are read from it; the edge functions' maps (brand name, site, Auth language, mail domain,
+   whether a market's site is open or reserved, Germany's since D-293) are read from it; the edge functions' maps (brand name, site, Auth language, mail domain,
    time zone, phone rule, support inbox) are generated from it (`npm run markets:edge`). Components ask it: the
    VAT number in Oppsett › Betaling (`billing.vatNumber`, held to `save_billing`, 0227), the law seal (§ in
    Sweden and Germany, whose law is cited by section; ✓ only in the UK, as D-271 decided for the UK), the
@@ -15017,8 +15078,8 @@ differs? The code paths were shared already; the text and the market facts were 
    a market holds whole. Every pack renders as before (`tests/unit/merge.test.ts`).
 5. **Source tracking** (`scripts/i18n/stale.mjs`): 21 689 translations record their bokmål; `verify:i18n` fails
    while one is behind. The weekly fold lists them in its pull request instead.
-6. **Every site in CI** (`scripts/verify/sites.ts`, the «Every site» step, Germany opened): 56 pages on four
-   sites, locally against a production build. ESLint refuses `next/link` in the public site's code.
+6. **Every site in CI** (`scripts/verify/sites.ts`, the «Every site» step): 56 pages on four sites, locally
+   against a production build and in CI. ESLint refuses `next/link` in the public site's code.
 7. **One brand rule** (`lib/brand-name.ts`) for the app, the mail and the share cards; the support inbox is
    `BRANDS.support`, still hjelp@orgpuls.no for Empvibe until it has a mailbox (Tor's, X-111).
 
@@ -15030,3 +15091,4 @@ to the registry until a migration makes the invoice form a column of `app.market
 **Changed for a reader:** Sweden's and Germany's law drawings and articles now carry § (was ✓); their
 «Tips ledelsen» links carry `utm_source=skyddsombud` / `betriebsrat`; Swedish and German leaders get their trial
 and billing mail in English; the root description on Norway's hosts is the tagline in the reader's language.
+=======

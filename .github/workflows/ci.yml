@@ -253,9 +253,6 @@ jobs:
         env:
           ORGPULS_DEV_EMAIL: dev.orgpuls@nordvik.example
           ORGPULS_DEV_PASSWORD: orgpuls-local-only
-          # Germany's site, built but closed in production (DE-F), is served here so the step below
-          # checks it with the others; localhost is no site, so nothing else changes for these screens
-          DE_SITE: open
         run: |
           npx playwright-core install chromium
           npx next start -p 3000 > smoke.log 2>&1 &
@@ -281,8 +278,6 @@ jobs:
       # its own hreflang and JSON-LD tag, no message key as text, and no «Orgpuls» on Empvibe's. Until
       # this, every screen check here ran on localhost, which is always Norway's site.
       - name: Every site
-        env:
-          DE_SITE: open
         run: |
           # the smoke step's server, or a new one on the same build if it is gone
           if ! curl -sf -o /dev/null http://localhost:3000/logg-inn; then

@@ -91,7 +91,7 @@ to the registry as origin *machine*; Tor reviews them afterwards. A text is neve
 because a human translator has not seen it yet: an untranslated text takes the whole language out
 of the survey (D-133).
 
-## One source for every market (D-293)
+## One source for every market (D-294)
 A market is data: `lib/markets.ts` `MARKET_CONFIG` holds everything the code knows about one, and a
 component asks it for a capability, never which market it is. Market packs hold only what differs from
 their language (`npm run verify:i18n` runs `scripts/i18n/pack-delta.mjs`). Every translation records the
