@@ -4,7 +4,8 @@
  * of whenever the crawler next comes by. Google does not take part; it reads the sitemap.
  *
  * It reads each host's own sitemap (www.orgpuls.com, Norway's; www.empvibe.com, Empvibe's; se.orgpuls.com,
- * Sweden's since SE-F, D-276: app/sitemap.ts; en.orgpuls.com moved at UK-G, D-275) and submits its
+ * Sweden's since SE-F, D-276; de.orgpuls.com, Germany's since DE-G, D-293: app/sitemap.ts; en.orgpuls.com
+ * moved at UK-G, D-275) and submits its
  * URLs under that host, with the key the site serves at /<key>.txt (public/, a public value by design:
  * the engines fetch it to check that the submission came from the site's owner).
  *
@@ -15,7 +16,7 @@
  */
 import { readdirSync } from 'node:fs'
 
-const HOSTS = ['www.orgpuls.com', 'www.empvibe.com', 'se.orgpuls.com']
+const HOSTS = ['www.orgpuls.com', 'www.empvibe.com', 'se.orgpuls.com', 'de.orgpuls.com']
 const ENDPOINT = 'https://api.indexnow.org/indexnow'
 const dry = process.argv.includes('--dry')
 

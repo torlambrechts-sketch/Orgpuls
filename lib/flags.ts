@@ -51,6 +51,9 @@ const isFlag = (s: string): s is FlagName => (FLAG_NAMES as readonly string[]).i
  *   - `locale_pl`, `locale_lt`: Tor approved Polish and Lithuanian in the survey on 2026-10-03
  *     (DECISION_LOG X-102). The same rule holds: offered only where every item the survey asks
  *     and every page string carry an approval made from the current bokmål (lib/i18n/offered.ts).
+ *   - `locale_de`: Tor switched German on in the survey on 2026-10-29 («Turn the flag on», X-116,
+ *     D-293), the drafts of D-292 standing until a German reader has been through them. The same
+ *     rule holds: offered only where every item and page string the survey asks is approved.
  *   - `home_industries_block`: on since all five industry pages launched, 2026-09-28 (X-078).
  *   - `engagement_since_last`, `engagement_thanks`, `engagement_pulse_reason`: engagement phase 2,
  *     approved by Tor on 2026-09-28 (X-086, D-156).

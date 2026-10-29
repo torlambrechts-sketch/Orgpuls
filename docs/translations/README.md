@@ -8,7 +8,8 @@ on 2026-10-29 (DE-A2, D-292): the product's 212 texts in `de.orgpuls-translation
 package in the platform's import format, and the seven published modules' 605 texts by code in
 `modules/<key>/registry/de.json`, which `npm run -s modules:registry` writes to any database (D-263). Both
 were written to the hosted registry the same evening (`scripts/db/apply-hosted.mjs`), where the auto-approve
-switch approved them as written; German is offered to nobody until a pilot or the sign-off of `locale_de`.
+switch approved them as written, and Tor signed `locale_de` off (X-116): German is offered wherever a survey's
+texts are approved.
 
 **Translations ship with the text (X-089, 2026-09-29).** A respondent-facing text that is added or
 changed is drafted in all five languages in the same piece of work, never left for later: one

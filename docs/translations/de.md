@@ -142,9 +142,9 @@ Every text a respondent can meet, drafted by machine, **817 texts** in two place
   holds each file to its module's definition.
 
 Both reached the hosted registry on 2026-10-29 (D-292), where the platform's auto-approve switch (0101)
-approved them as written, marked `approved_auto`, as it did the five languages before. German is still offered
-only by a pilot (`locales.pilot`) until Tor signs `locale_de` off, as English, Polish and Lithuanian were;
-the open questions below are for the reader before that.
+approved them as written, marked `approved_auto`, as it did the five languages before. Tor signed `locale_de`
+off the same evening (X-116), so German is offered wherever a survey's texts are approved; the open questions
+below are for the German reader, whose corrections become new versions.
 
 ### Register
 

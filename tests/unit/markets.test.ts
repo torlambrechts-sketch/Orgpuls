@@ -252,26 +252,22 @@ describe('the English host, moved (X-111, UK-G, D-275)', () => {
 })
 
 describe('a host reserved for a market not open yet (X-110, D-258)', () => {
-  it('sends every address on de.orgpuls.com where an English reader goes, for now, and indexes nothing', async () => {
+  it('is none today: de.orgpuls.com, the one such host, opened at DE-G (X-116, D-293) and is a site of its own', async () => {
     const { hostGate, RESERVED_HOSTS, siteOf, marketOfHost } = await import('@/lib/hosts')
-    expect(RESERVED_HOSTS).toEqual(['de.orgpuls.com'])
-    expect(hostGate('de.orgpuls.com', '/', true)).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/' })
-    expect(hostGate('DE.orgpuls.com:443', '/plattform', true)).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/platform' })
-    expect(hostGate('de.orgpuls.com', '/registrer', true).redirect).toBe(
-      `https://www.orgpuls.com/api/sprak?${new URLSearchParams({ l: 'en', til: '/registrer', profil: '0' })}`,
-    )
-    // no site, so no market to sign up into: a spoofed header still reads as Norway, and the gate stops it first
-    expect(siteOf('de.orgpuls.com')).toBeNull()
-    expect(marketOfHost('de.orgpuls.com')).toBe('no')
+    expect(RESERVED_HOSTS).toEqual([])
+    expect(hostGate('de.orgpuls.com', '/', true)).toEqual({ noindex: false, redirect: null, lang: 'de' })
+    expect(hostGate('DE.orgpuls.com:443', '/plattform', true)).toEqual({ noindex: false, redirect: null, lang: 'de' })
+    expect(siteOf('de.orgpuls.com')?.market).toBe('de')
+    expect(marketOfHost('de.orgpuls.com')).toBe('de')
   })
 })
 
 describe('each site of its own’s llms.txt', () => {
-  it('has the words for every page the site serves: Empvibe’s and Sweden’s (D-276)', () => {
+  it('has the words for every page the site serves: Empvibe’s, Sweden’s (D-276) and Germany’s (D-293)', () => {
     const route = readFileSync('app/llms.txt/route.ts', 'utf8')
     // one entry per site, though Empvibe answers on two hosts
     const own = [...new Map(SITES.flatMap((s) => (s.own ? [[s.own.key, s.own] as const] : []))).values()]
-    expect(own.map((o) => o.key).sort()).toEqual(['empvibe', 'se'])
+    expect(own.map((o) => o.key).sort()).toEqual(['de', 'empvibe', 'se'])
     // its articles (Empvibe's, D-278) are listed from the site's own registry, under their own heading
     const isArticle = (p: string) => p === '/artikler' || p.startsWith('/artikler/')
     for (const { key, pages } of own)
@@ -429,29 +425,24 @@ describe('the United Kingdom (X-111, D-264, D-275)', () => {
   })
 })
 
-describe('Germany’s site of its own, behind DE_SITE (DE-F, D-291)', () => {
+describe('Germany’s site of its own, open since DE-G (DE-F, D-291; X-116, D-293)', () => {
   afterEach(() => {
     vi.unstubAllEnvs()
     vi.resetModules()
   })
   const de = 'de.orgpuls.com'
 
-  it('stays reserved until DE_SITE=open: nothing served, every address sent where an English reader goes (D-258)', async () => {
-    vi.stubEnv('DE_SITE', '')
+  it('is served with no switch: no host is reserved any more, and the row is in SITES', async () => {
     vi.resetModules()
     const hosts = await import('@/lib/hosts')
-    expect(hosts.DE_SITE_OPEN).toBe(false)
-    expect(hosts.RESERVED_HOSTS).toEqual([de])
-    expect(hosts.siteOf(de)).toBeNull()
-    expect(hosts.SITES.some((s) => s.market === 'de')).toBe(false)
-    expect(hosts.hostGate(de, '/', true)).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/' })
-    // the row exists for the build, its tests and its pictures, whatever the flag says
+    expect(hosts.RESERVED_HOSTS).toEqual([])
+    expect(hosts.SITES.some((s) => s.market === 'de')).toBe(true)
     expect(hosts.DE_SITE).toMatchObject({ host: de, market: 'de', lang: 'de', brand: 'orgpuls', pinned: false })
     expect(hosts.DE_SITE.own?.key).toBe('de')
+    expect(hosts.hostGate(de, '/', true)).toEqual({ noindex: false, redirect: null, lang: 'de' })
   })
 
-  it('is de.orgpuls.com once open (X-115): a site of its own in German with English for the product, signing up into Germany', async () => {
-    vi.stubEnv('DE_SITE', 'open')
+  it('is de.orgpuls.com (X-115): a site of its own in German with English for the product, signing up into Germany', async () => {
     vi.resetModules()
     const hosts = await import('@/lib/hosts')
     expect(hosts.RESERVED_HOSTS).toEqual([])
@@ -468,7 +459,6 @@ describe('Germany’s site of its own, behind DE_SITE (DE-F, D-291)', () => {
   })
 
   it('moves with DE_HOST, as Sweden’s site moves with SE_HOST', async () => {
-    vi.stubEnv('DE_SITE', 'open')
     vi.stubEnv('DE_HOST', 'Orgpuls.DE')
     vi.resetModules()
     const hosts = await import('@/lib/hosts')
@@ -478,7 +468,6 @@ describe('Germany’s site of its own, behind DE_SITE (DE-F, D-291)', () => {
   })
 
   it('serves each of its pages at its German address, in German, and the Norwegian address goes there', async () => {
-    vi.stubEnv('DE_SITE', 'open')
     vi.resetModules()
     const { hostGate } = await import('@/lib/hosts')
     const pages: [string, string][] = [
@@ -502,7 +491,6 @@ describe('Germany’s site of its own, behind DE_SITE (DE-F, D-291)', () => {
   })
 
   it('answers 404 for the prices and terms it has none of yet, and for the pages written for Norway', async () => {
-    vi.stubEnv('DE_SITE', 'open')
     vi.resetModules()
     const { hostGate, NOT_SERVED_PATH } = await import('@/lib/hosts')
     const notServed = { noindex: true, redirect: null, rewrite: NOT_SERVED_PATH }
@@ -511,7 +499,6 @@ describe('Germany’s site of its own, behind DE_SITE (DE-F, D-291)', () => {
   })
 
   it('lets the product, the survey, the callbacks, the API and the site’s files through, in the visitor’s language', async () => {
-    vi.stubEnv('DE_SITE', 'open')
     vi.resetModules()
     const { hostGate } = await import('@/lib/hosts')
     const key = readdirSync('public').find((f) => /^[0-9a-f]{32}\.txt$/.test(f))!

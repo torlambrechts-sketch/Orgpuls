@@ -13,8 +13,7 @@ import { EMPVIBE_ARTICLES } from '@/lib/marketing/articles-empvibe'
  *   se.orgpuls.com     the Swedish market (X-109): the product in Swedish, and since SE-F a site of
  *                      its own, in Swedish, for Sweden's law (D-276). SE_HOST overrides it, like
  *                      EN_HOST
- *   de.orgpuls.com     reserved for Germany (X-110): every address goes where an English reader is
- *                      sent from en.orgpuls.com, until the market opens (RESERVED_HOSTS, D-258)
+ *   de.orgpuls.com     Germany's site of its own, in German (DE-F, D-291), open since DE-G (X-116, D-293)
  *   www.empvibe.com    Empvibe, the English-speaking brand, the United Kingdom's site (X-111, UK-E,
  *                      D-270), open since the move (UK-G, D-275). EMPVIBE_HOST overrides it, like
  *                      EN_HOST
@@ -121,13 +120,11 @@ const SE_PATHS: Readonly<Record<string, string>> = {
  * DE_HOST overrides it, as SE_HOST does Sweden's. The product opens in German and offers English
  * beside it; the site's own pages are Germany's, in German, for German law (docs/markets/de-legal.md).
  *
- * Until the market opens (DE-G) the host stays reserved (RESERVED_HOSTS, D-258) and the site is in
- * the build but not served, so its pack, pictures and cards ship before the switch. `DE_SITE=open`
- * turns the site on and takes the host off the reserved list in the same breath.
+ * Built behind `DE_SITE=open` with the host reserved (D-258, D-291) until Tor opened it on 2026-10-29
+ * («open de.orgpuls.com», X-116, D-293): served since, like Sweden's, with no switch.
  */
 export const DE_HOST = process.env.DE_HOST?.trim().toLowerCase() || 'de.orgpuls.com'
 export const DE_URL = `https://${DE_HOST}`
-export const DE_SITE_OPEN = process.env.DE_SITE?.trim().toLowerCase() === 'open'
 
 /**
  * The pages Germany's site serves, by route (DE-F, D-291): the same ten as Sweden's — the product, the
@@ -167,7 +164,7 @@ const DE_PATHS: Readonly<Record<string, string>> = {
   '/registrer': '/registrieren',
 }
 
-/** Germany's site row (D-291): in SITES only once DE_SITE=open; exported so its tests can read it before */
+/** Germany's site row (D-291, served since D-293); exported for its tests and its pictures */
 export const DE_SITE: Site = {
   host: DE_HOST,
   url: DE_URL,
@@ -257,8 +254,8 @@ export const SITES: readonly Site[] = [
     langs: MARKET_LANGS.se,
     own: { key: 'se', pages: SE_PAGES, paths: SE_PATHS },
   },
-  // Germany's site of its own (DE-F, D-291), once DE_SITE=open: its pages in German, the product in German or English
-  ...(DE_SITE_OPEN ? [DE_SITE] : []),
+  // Germany's site of its own (DE-F, D-291; open since D-293): its pages in German, the product in German or English
+  DE_SITE,
   ...EMPVIBE_SITES,
 ]
 
@@ -311,17 +308,13 @@ export const MOVED_HOSTS: readonly string[] = [EN_HOST]
 
 /**
  * Addresses registered for a market that is not open yet: routed to the app (DNS, the Vercel domain)
- * but no site of their own (X-110):
- *
- *   de.orgpuls.com              Germany, whose site is built (DE-F, D-291) and waits on DE-G to be
- *                               served: reserved until DE_SITE=open; DE_HOST overrides it
- *
- * Nothing is served there, not even the sign-up: no market exists to join, and the Norwegian site
- * would otherwise be indexed a second time under another name and sign a German firm up as a
- * Norwegian one. Every request goes where an English reader goes from en.orgpuls.com (`toEnglish`),
- * temporarily (307), so the day the market opens, its own site takes over (hostGate, D-258).
+ * but no site of their own (X-110). Nothing is served there, not even the sign-up: no market exists to
+ * join, and the Norwegian site would otherwise be indexed a second time under another name and sign a
+ * firm up as a Norwegian one. Every request goes where an English reader goes from en.orgpuls.com
+ * (`toEnglish`), temporarily (307), so the day the market opens, its own site takes over (hostGate,
+ * D-258). de.orgpuls.com was the one such host, from X-110 until DE-G opened it (D-293); none today.
  */
-export const RESERVED_HOSTS: readonly string[] = DE_SITE_OPEN ? [] : [DE_HOST]
+export const RESERVED_HOSTS: readonly string[] = []
 
 /** The production hosts of the product and the public site. */
 export const PUBLIC_HOSTS: readonly string[] = SITES.map((s) => s.host)
