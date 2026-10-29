@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { PageTemplate } from '@/components/marketing/PageTemplate'
 import { ContactBlock } from '@/components/site/ContactBlock'
 import { pageMeta } from '@/lib/marketing/meta'
-import { CONTACT_MAIL } from '@/lib/marketing/site'
+import { siteSupport } from '@/lib/site/own'
 
 /**
  * A page of the public site (seo.pages.kontakt, D-83); the words are messages, the shape is
@@ -25,7 +25,7 @@ export default async function Page() {
     <PageTemplate k="seo.pages.kontakt" path="/kontakt" schemaType="ContactPage">
       <section id="skriv" className="mx-auto max-w-[1120px] scroll-mt-[118px] px-[26px] pt-[40px]">
         <ContactBlock
-          to={CONTACT_MAIL}
+          to={await siteSupport()}
           words={{
             k: t('k'),
             t: t('t'),

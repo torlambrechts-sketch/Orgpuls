@@ -7,8 +7,9 @@ import { PACK_LANGS } from '@/lib/i18n/market-overlay'
 import { MARKET_CONFIG, MARKET_LANGS, MARKETS } from '@/lib/markets'
 import { beaconBody, mayCount, setBeaconSite } from '@/lib/marketing/beacon'
 import { PRICE_MARKET } from '@/lib/site/pricing'
-import { EDGE_MARKETS_PATH, edgeMarkets } from '@/scripts/markets/edge'
-import { MARKET_BRAND_NAME, MARKET_SITE_URL, MARKET_TIME_ZONE } from '@/supabase/functions/_shared/mail'
+import { PRODUCT_SUPPORT, renameBrand } from '@/lib/brand-name'
+import { EDGE_BRAND_NAME_PATH, EDGE_MARKETS_PATH, edgeBrandName, edgeMarkets } from '@/scripts/markets/edge'
+import { brandedCatalogue, MARKET_BRAND_NAME, MARKET_SITE_URL, MARKET_SUPPORT_MAIL, MARKET_TIME_ZONE, supportFor } from '@/supabase/functions/_shared/mail'
 import { normalizePhone } from '@/supabase/functions/_shared/sms'
 
 /**
@@ -52,8 +53,14 @@ describe('the market registry', () => {
 })
 
 describe('the edge functions’ copy of the registry', () => {
-  it(`is current: ${EDGE_MARKETS_PATH} is what npm run markets:edge writes`, () => {
+  it(`is current: ${EDGE_MARKETS_PATH} and ${EDGE_BRAND_NAME_PATH} are what npm run markets:edge writes`, () => {
     expect(readFileSync(EDGE_MARKETS_PATH, 'utf8')).toBe(edgeMarkets())
+    expect(readFileSync(EDGE_BRAND_NAME_PATH, 'utf8')).toBe(edgeBrandName())
+  })
+
+  it('gives each market its brand’s support inbox, and the configured one while the brand has none', () => {
+    for (const m of MARKETS) expect(MARKET_SUPPORT_MAIL[m], m).toBe(BRANDS[MARKET_CONFIG[m].brand].support)
+    expect(supportFor('gb', 'configured@orgpuls.no')).toBe(MARKET_SUPPORT_MAIL.gb === PRODUCT_SUPPORT ? 'configured@orgpuls.no' : MARKET_SUPPORT_MAIL.gb)
   })
 
   it('is what the mail reads: each market’s brand name, open site and clock', () => {
@@ -105,5 +112,22 @@ describe('the visit counting, told its site by the server', () => {
     expect(mayCount(new URL(DE_SITE.url).host, '/', false, '')).toBe(true)
     expect(mayCount(new URL(DE_SITE.url).host, '/anmelden', false, '')).toBe(false)
     expect(beaconBody({ k: 'view' }, '/', {}).k).toBe('view')
+  })
+})
+
+describe('a text under a brand’s name (lib/brand-name.ts)', () => {
+  it('is the same in the app and the mail: the name, its possessive, and an address left as it is', () => {
+    const text = 'Orgpuls’ rapport fra Orgpuls. Skriv til hjelp@orgpuls.no eller se orgpuls.com.'
+    expect(renameBrand(text, 'Empvibe', 'no')).toBe('Empvibes rapport fra Empvibe. Skriv til hjelp@orgpuls.no eller se orgpuls.com.')
+    expect(renameBrand("Orgpuls's report", 'Empvibe', 'en')).toBe("Empvibe's report")
+    expect(renameBrand(text, 'Orgpuls', 'no')).toBe(text)
+    const mail = brandedCatalogue({ no: { a: text }, en: { a: "Orgpuls's report" } }, 'Empvibe')
+    expect(mail.no.a).toBe(renameBrand(text, 'Empvibe', 'no'))
+    expect(mail.en.a).toBe("Empvibe's report")
+  })
+
+  it('moves the support address to the brand’s own, the day it has one', () => {
+    expect(renameBrand('Write to hjelp@orgpuls.no', 'Empvibe', 'en', 'support@empvibe.com')).toBe('Write to support@empvibe.com')
+    expect(brandedCatalogue({ no: { a: '' }, en: { a: 'Write to hjelp@orgpuls.no' } }, 'Empvibe', 'support@empvibe.com').en.a).toBe('Write to support@empvibe.com')
   })
 })

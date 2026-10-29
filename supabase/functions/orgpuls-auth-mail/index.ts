@@ -26,8 +26,10 @@ import {
   orgLangOf,
   MARKET_AUTH_LANG,
   MARKET_MAIL_DOMAIN,
+  MARKET_SUPPORT_MAIL,
   mailFrom,
   renderAuth,
+  supportFor,
   withMailOverrides,
   type AuthAction,
   type MailCatalogue,
@@ -110,11 +112,11 @@ Deno.serve(async (req) => {
     site.market && MARKET_MAIL_DOMAIN[site.market] ? brevoAuthenticatedDomains(key, 1000) : Promise.resolve(new Set<string>()),
   ])
   const footer = site.market ? `${brand} · ${new URL(site.url).host.replace(/^www\./, '')}` : undefined
-  const r = renderAuth(brandedCatalogue(cat, brand), action, lang, email, link, footer)
+  const r = renderAuth(brandedCatalogue(cat, brand, site.market ? MARKET_SUPPORT_MAIL[site.market] : undefined), action, lang, email, link, footer)
 
   const base = { email: Deno.env.get('ORGPULS_MAIL_FROM') ?? '', name: Deno.env.get('ORGPULS_MAIL_FROM_NAME') ?? 'Orgpuls' }
   const res = await brevoSend(key, {
-    ...mailFrom(base, site.market, domains, Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no'),
+    ...mailFrom(base, site.market, domains, supportFor(site.market, Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no')),
     to: [{ email }],
     subject: r.subject,
     html: r.html,

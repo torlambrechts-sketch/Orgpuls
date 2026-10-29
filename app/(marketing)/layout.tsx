@@ -9,10 +9,9 @@ import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
 import { SiteHeader } from '@/components/site/v3/SiteHeader'
 import { FOOTERS, OWN_FOOTERS, OWN_NAV, SITE_NAV, type FooterId } from '@/lib/site/nav'
 import { SitePathsProvider } from '@/components/site/SitePaths'
-import { ownSite, serves } from '@/lib/site/own'
+import { ownSite, serves, siteSupport } from '@/lib/site/own'
 import { industryLinks } from '@/lib/site/industries'
 import { INDUSTRY_META } from '@/content/industries/meta'
-import { CONTACT_MAIL } from '@/lib/marketing/site'
 import { siteIndexing } from '@/lib/site/indexing'
 import { siteNotice } from '@/lib/site/notice'
 import { contentLang } from '@/lib/i18n/locales'
@@ -74,6 +73,8 @@ export default async function MarketingLayout({ children }: { children: React.Re
     ]),
   ) as FooterData
 
+  // the address the site's readers write to: its brand's (lib/brand.ts BRANDS `support`)
+  const support = await siteSupport()
   // the site notice (0123): only while it is switched on (the platform's settings.set_notice)
   const notice = await siteNotice(contentLang(await getLocale()))
 
@@ -122,7 +123,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
             year: new Date().getFullYear(),
             // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)
             mail: (chunks) => (
-              <a href={`mailto:${CONTACT_MAIL}`} className="text-inherit underline underline-offset-2 hover:text-ink">
+              <a href={`mailto:${support}`} className="text-inherit underline underline-offset-2 hover:text-ink">
                 {chunks}
               </a>
             ),

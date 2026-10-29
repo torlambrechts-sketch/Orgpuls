@@ -39,6 +39,7 @@ import { mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright-core'
 import { mergeMessages } from '../lib/merge.mjs'
+import { renameBrand } from '../../lib/brand-name.ts'
 
 const arg = (name, fallback) => {
   const i = process.argv.indexOf(`--${name}`)
@@ -69,7 +70,8 @@ const gb = empvibe
     : brand === 'de'
       ? merge(merge(read('messages/en.json'), read('messages/de.json')), read('messages/market/de/de.json'))
       : null
-const named = (t) => (empvibe ? t.replace(/Orgpuls(?:'s|’s|'|’)(?![\p{L}\p{N}])/gu, 'Empvibe’s').replace(/Orgpuls/g, 'Empvibe') : t)
+// the brand's name where a text says Orgpuls, by the app's own rule (lib/brand-name.ts)
+const named = (t) => (empvibe ? renameBrand(t, 'Empvibe', 'en') : t)
 const NAME = empvibe ? 'Empvibe' : 'Orgpuls'
 const LANG = empvibe ? 'en-GB' : brand === 'se' ? 'sv-SE' : brand === 'de' ? 'de-DE' : 'nb'
 // the site's own @font-face rules; their /fonts/… URLs resolve against the running server

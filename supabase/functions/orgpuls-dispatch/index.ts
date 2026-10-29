@@ -68,6 +68,7 @@ import {
   mailFrom,
   smsSenderOf,
   renderLifecycle,
+  supportFor,
   renderNotice,
   renderReplyNotice,
   replyNoticeSms,
@@ -159,7 +160,7 @@ Deno.serve(async (req) => {
   let authenticated: Promise<Set<string>> | null = null
   const support = Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no'
   const fromOf = async (market: string | null | undefined) =>
-    mailFrom(sender, market, MARKET_MAIL_DOMAIN[market ?? ''] ? await (authenticated ??= brevoAuthenticatedDomains(key)) : new Set<string>(), support)
+    mailFrom(sender, market, MARKET_MAIL_DOMAIN[market ?? ''] ? await (authenticated ??= brevoAuthenticatedDomains(key)) : new Set<string>(), supportFor(market, support))
   const smsSender = Deno.env.get('ORGPULS_SMS_SENDER') ?? 'Orgpuls'
   const appUrl = env('ORGPULS_APP_URL')
   // a copy: the survey languages' texts are added per run, from the registry (below)
@@ -732,7 +733,7 @@ Deno.serve(async (req) => {
           text: r.text,
           tag: `orgpuls-life-${job.step}`,
           // the support inbox under the organisation's brand's name
-          replyTo: { ...replyTo, name: brandNameOf(job.market) },
+          replyTo: { email: supportFor(job.market, replyTo.email), name: brandNameOf(job.market) },
         })
       } catch (e) {
         console.error(`[dispatch] lifecycle ${job.id}: render failed: ${(e as Error).message}`)

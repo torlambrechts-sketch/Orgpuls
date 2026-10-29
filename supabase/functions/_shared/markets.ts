@@ -18,3 +18,6 @@ export const MARKET_TIME_ZONE: Readonly<Record<string, string>> = { no: 'Europe/
 
 /** A mobile number written a market's own way: its pattern and the prefix for its leading zero (MarketConfig.phone) */
 export const MARKET_PHONE: Readonly<Record<string, { mobile: string; prefix: string }>> = { se: { mobile: '^07[02369]\\d{7}$', prefix: '+46' }, gb: { mobile: '^07([1-57-9]\\d{8}|624\\d{6})$', prefix: '+44' }, de: { mobile: '^01[5-7]\\d{8,9}$', prefix: '+49' } }
+
+/** The address a market's organisations write to, its brand's (lib/brand.ts BRANDS support): its mail's Reply-To */
+export const MARKET_SUPPORT_MAIL: Readonly<Record<string, string>> = { no: 'hjelp@orgpuls.no', se: 'hjelp@orgpuls.no', gb: 'hjelp@orgpuls.no', de: 'hjelp@orgpuls.no' }

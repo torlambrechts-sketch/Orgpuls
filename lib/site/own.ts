@@ -1,6 +1,6 @@
 import 'server-only'
 import { cache } from 'react'
-import { BRANDS } from '@/lib/brand'
+import { BRANDS, DEFAULT_BRAND } from '@/lib/brand'
 import { flag, FLAG_NAMES, type FlagName } from '@/lib/flags'
 import { addressOf, type Site } from '@/lib/hosts'
 import { registryTexts, type Locale } from '@/lib/i18n/locales'
@@ -35,6 +35,9 @@ export const ownSite = cache(async (): Promise<OwnSite | null> => {
   const address = (href: string) => addressOf(own.own.paths, href)
   return { site: own, name: BRANDS[site.brand].name, address, absolute: (href) => `${site.url}${address(href)}` }
 })
+
+/** The address this site's readers write to: its brand's (lib/brand.ts BRANDS `support`) */
+export const siteSupport = async (): Promise<string> => BRANDS[(await ownSite())?.site.brand ?? DEFAULT_BRAND].support
 
 /** Whether this site serves the route (a site of its own serves its list; Norway's hosts every page) */
 export const serves = (own: OwnSite | null, route: string) => !own || (own.site.own.pages as readonly string[]).includes(route)

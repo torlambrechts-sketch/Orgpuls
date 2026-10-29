@@ -1,8 +1,10 @@
 /**
  * Writes supabase/functions/_shared/markets.ts, the edge functions' copy of the market registry
- * (lib/markets.ts MARKET_CONFIG, lib/brand.ts BRANDS). The functions are deployed without the rest of
- * the repository, so they cannot import it; this file is what they read instead, and
- * tests/unit/markets-edge.test.ts fails while it differs from what this would write.
+ * (lib/markets.ts MARKET_CONFIG, lib/brand.ts BRANDS), and supabase/functions/_shared/brand-name.ts,
+ * their copy of lib/brand-name.ts, the one rule for a text under a brand's name. The functions are
+ * deployed without the rest of the repository, so they cannot import either; these files are what
+ * they read instead, and tests/unit/market-registry.test.ts fails while one differs from what this
+ * would write.
  *
  *   npm run markets:edge            write it
  *   npm run markets:edge -- --check exit 1 if it is not current
@@ -14,6 +16,7 @@ import { BRANDS } from '../../lib/brand'
 import { MARKET_CONFIG, MARKETS, type MarketConfig } from '../../lib/markets'
 
 export const EDGE_MARKETS_PATH = 'supabase/functions/_shared/markets.ts'
+export const EDGE_BRAND_NAME_PATH = 'supabase/functions/_shared/brand-name.ts'
 
 const pick = <T>(f: (c: MarketConfig) => T | null): Record<string, T> =>
   Object.fromEntries(MARKETS.flatMap((m) => {
@@ -50,16 +53,27 @@ export const MARKET_TIME_ZONE: Readonly<Record<string, string>> = ${lit(pick((c)
 
 /** A mobile number written a market's own way: its pattern and the prefix for its leading zero (MarketConfig.phone) */
 export const MARKET_PHONE: Readonly<Record<string, { mobile: string; prefix: string }>> = ${lit(pick((c) => c.phone))}
+
+/** The address a market's organisations write to, its brand's (lib/brand.ts BRANDS support): its mail's Reply-To */
+export const MARKET_SUPPORT_MAIL: Readonly<Record<string, string>> = ${lit(pick((c) => BRANDS[c.brand].support))}
 `
 }
 
+/** lib/brand-name.ts as the functions read it: the file itself, under a line saying where it came from */
+export function edgeBrandName(): string {
+  return `// copied by \`npm run markets:edge\` (scripts/markets/edge.ts) from lib/brand-name.ts — do not edit.\n${readFileSync('lib/brand-name.ts', 'utf8')}`
+}
+
 if (process.argv[1]?.endsWith('edge.ts')) {
-  const text = edgeMarkets()
-  if (process.argv.includes('--check')) {
-    const current = readFileSync(EDGE_MARKETS_PATH, 'utf8')
-    if (current !== text) {
-      console.error(`${EDGE_MARKETS_PATH} is not current with lib/markets.ts: run npm run markets:edge`)
-      process.exit(1)
-    }
-  } else writeFileSync(EDGE_MARKETS_PATH, text)
+  for (const [path, text] of [
+    [EDGE_MARKETS_PATH, edgeMarkets()],
+    [EDGE_BRAND_NAME_PATH, edgeBrandName()],
+  ] as const) {
+    if (process.argv.includes('--check')) {
+      if (readFileSync(path, 'utf8') !== text) {
+        console.error(`${path} is not current with lib/: run npm run markets:edge`)
+        process.exit(1)
+      }
+    } else writeFileSync(path, text)
+  }
 }

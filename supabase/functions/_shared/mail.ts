@@ -1,8 +1,8 @@
 /**
  * The mails Orgpuls sends, rendered from the `mail.*` messages. D-65.
  *
- * Pure on purpose: no Deno or Node globals, and no import but the market registry's generated copy
- * (./markets.ts, itself pure data). The two edge functions import it,
+ * Pure on purpose: no Deno or Node globals, and no import but the market registry's and the brand
+ * rule's generated copies (./markets.ts, ./brand-name.ts, themselves pure). The two edge functions import it,
  * and `tests/unit/mail.test.ts` runs it under Vitest against messages/no.json and en.json,
  * so what the tests prove is what production sends.
  *
@@ -13,7 +13,8 @@
  * Every value that came from the database is HTML-escaped before it is placed in markup.
  */
 
-import { MARKET_AUTH_LANG, MARKET_BRAND_NAME, MARKET_MAIL_DOMAIN, MARKET_SITE_URL, MARKET_TIME_ZONE } from './markets.ts'
+import { PRODUCT_SUPPORT, renameBrand } from './brand-name.ts'
+import { MARKET_AUTH_LANG, MARKET_BRAND_NAME, MARKET_MAIL_DOMAIN, MARKET_SITE_URL, MARKET_SUPPORT_MAIL, MARKET_TIME_ZONE } from './markets.ts'
 
 /** Bokmål and English are the platform's; the rest are survey languages whose texts come from the registry (D-133) */
 export type Lang = 'no' | 'en' | 'pl' | 'uk' | 'lt' | 'sv' | 'da'
@@ -179,7 +180,7 @@ export const mergeTree = (a: Record<string, unknown>, b: Record<string, unknown>
  */
 export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: string | null | undefined): MailCatalogue {
   const pack = market ? packs[market] : undefined
-  if (!pack) return brandedCatalogue(cat, brandNameOf(market))
+  if (!pack) return brandedCatalogue(cat, brandNameOf(market), MARKET_SUPPORT_MAIL[market ?? ''])
   const fallback = pack.en ?? Object.values(pack)[0]
   const out = { ...cat } as MailCatalogue
   for (const lang of Object.keys(cat) as Lang[]) {
@@ -187,7 +188,7 @@ export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: st
     const own = out[lang]
     if (law && own) out[lang] = mergeTree(own, law)
   }
-  return brandedCatalogue(out, brandNameOf(market))
+  return brandedCatalogue(out, brandNameOf(market), MARKET_SUPPORT_MAIL[market ?? ''])
 }
 
 /**
@@ -195,7 +196,16 @@ export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: st
  * registry (lib/markets.ts MARKET_CONFIG) as the functions read it, generated into ./markets.ts by
  * `npm run markets:edge`. Germany's site joins MARKET_SITE_URL the day the registry opens it (DE-G).
  */
-export { MARKET_AUTH_LANG, MARKET_BRAND_NAME, MARKET_MAIL_DOMAIN, MARKET_SITE_URL, MARKET_TIME_ZONE }
+export { MARKET_AUTH_LANG, MARKET_BRAND_NAME, MARKET_MAIL_DOMAIN, MARKET_SITE_URL, MARKET_SUPPORT_MAIL, MARKET_TIME_ZONE }
+
+/**
+ * The inbox a market's organisations write to: its brand's own once it has one (lib/brand.ts BRANDS
+ * `support`), else the one this function is configured with (ORGPULS_SUPPORT_MAIL)
+ */
+export function supportFor(market: string | null | undefined, configured: string): string {
+  const own = MARKET_SUPPORT_MAIL[market ?? '']
+  return own && own !== PRODUCT_SUPPORT ? own : configured
+}
 
 export const brandNameOf = (market: string | null | undefined): string => MARKET_BRAND_NAME[market ?? ''] ?? 'Orgpuls'
 
@@ -272,15 +282,14 @@ export function authSite(redirectTo: string | null | undefined, appUrl: string):
 
 
 /**
- * The texts under a brand's name, as lib/brand.ts `rebrand` does for the app: «Orgpuls» becomes the
- * brand's name, an address (orgpuls.com, hjelp@orgpuls.no) stays, and the possessive follows the
- * language. Orgpuls reads the catalogue as written.
+ * The texts under a brand's name, by the rule the app uses (./brand-name.ts, lib/brand-name.ts):
+ * «Orgpuls» becomes the brand's name, the possessive follows the language, and the support address
+ * is the brand's once it has its own. Orgpuls reads the catalogue as written.
  */
-export function brandedCatalogue(cat: MailCatalogue, name: string): MailCatalogue {
-  if (name === 'Orgpuls') return cat
+export function brandedCatalogue(cat: MailCatalogue, name: string, support: string = PRODUCT_SUPPORT): MailCatalogue {
+  if (name === 'Orgpuls' && support === PRODUCT_SUPPORT) return cat
   const walk = (v: unknown, lang: string): unknown => {
-    if (typeof v === 'string')
-      return v.replace(/Orgpuls(?:'s|’s|'|’)(?![\p{L}\p{N}])/gu, lang === 'en' ? `${name}'s` : `${name}s`).replace(/Orgpuls/g, name)
+    if (typeof v === 'string') return renameBrand(v, name, lang, support)
     if (Array.isArray(v)) return v.map((x) => walk(x, lang))
     if (v && typeof v === 'object') return Object.fromEntries(Object.entries(v as Record<string, unknown>).map(([k, x]) => [k, walk(x, lang)]))
     return v
