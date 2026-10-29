@@ -3526,3 +3526,21 @@ he chose:
 Built as D-279, with the risks it carries. Two choices made in building it, within the decision: a person found by
 name or domain is asked «is this your company?» before their name and address go anywhere, and a typed number is
 matched by the number alone.
+
+### X-115 — Germany moves up: de.orgpuls.com, built now
+
+Tor, 2026-10-29, after asking why de.orgpuls.com showed no search numbers and being told that nothing is served
+there until the German market opens (X-110, D-258): «lives at de.orgpuls.com, start building it». Two decisions in
+that line:
+
+- **The address is de.orgpuls.com**, not orgpuls.de (D-258 had left it open).
+- **Germany moves from «waiting» to «started»**, on Sweden's pattern (phase 2): German as a platform and survey
+  language, market `de`, the legal pack, the site. PLAN.md phase 3 lists the steps as DE-A … DE-G.
+
+Carried as assumptions until Tor says otherwise (`docs/markets/de-legal.md`, «Assumptions carried into the build»):
+the instrument stays QPS Nordic, translated into German; the third role is labelled «Betriebsrat» in German, with an
+empty-role case for the many firms without one, and no new role is added; the anonymity floor is five; the
+organisation number is the USt-IdNr., optional and matched by format; the time zone is Europe/Berlin; no EU
+representative is appointed. Still Tor's: the German prices (DE-E), any German roles of their own (a Betriebsrat role
+beside the third, an external adviser), a German reader of the machine-drafted texts, a German lawyer's review of the
+pack, and the launch checklist (Supabase Auth redirect URLs, the mail and SMS senders, Search Console, Sentral).

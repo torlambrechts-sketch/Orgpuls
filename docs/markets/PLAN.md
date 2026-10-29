@@ -35,7 +35,7 @@ A host names a brand, a market and a default language. One codebase, one databas
 |---|---|---|
 | 1 | **Market foundation, Norway unchanged** | **started** — 1a built and live, hosted included (D-251) |
 | 2 | Sweden | **started** — SE-A, SE-A2, SE-B1–B3 and SE-C: the app and the instrument in Swedish, Sweden as a market, the Swedish address and Sweden's law (D-252–D-257); the rest below |
-| 3 | Germany | waiting on the instrument and roles decisions; address de.orgpuls.com registered, redirected to the English site until the market opens (X-110, D-258) |
+| 3 | Germany | **started (X-115)** — the address is de.orgpuls.com; the law read (`docs/markets/de-legal.md`); the steps DE-A … DE-G below. Until DE-G, de.orgpuls.com keeps redirecting to the English site (D-258) |
 | 4 | Empvibe, UK first | **decided (X-111)**: empvibe.com is the English site, brand Empvibe, market United Kingdom, floor 5, the 11 factors as core with HSE's Indicator Tool as a module; built first, then moved in one change. Steps below |
 | ∥ | Leadership 360 app, its own Supabase project | independent; shares packages, not the database |
 
@@ -59,9 +59,10 @@ Google and Microsoft paths; the locale rule reads the registry. `supabase/tests/
 
 ## Decisions only the owner can make
 
-Addresses (country domains or subdomains) · anonymity per market (Germany 5; Sweden 5 or 6) · new German roles
-(Betriebsrat, external adviser — changes the three-role invariant) · the German instrument · an EU legal representative
-· the leadership app's database (separate project recommended) · manager data from Entra · the brand split (Orgpuls
+Addresses (country domains or subdomains; Germany: de.orgpuls.com, X-115) · anonymity per market (Germany 5; Sweden 5 or 6) · new
+German roles (Betriebsrat, external adviser — changes the three-role invariant; until decided the third role is labelled
+«Betriebsrat», de-legal.md § 5) · the German instrument (assumed: QPS Nordic in German) · an EU legal representative
+(assumed not needed for an EEA provider, de-legal.md § 10) · German prices (DE-E) · the leadership app's database (separate project recommended) · manager data from Entra · the brand split (Orgpuls
 Nordic and German, Empvibe English-speaking, en.orgpuls.com kept) · the first English market (UK recommended).
 
 ### Phase 4 — Empvibe and the United Kingdom, step by step (X-111)
@@ -118,3 +119,19 @@ Decided: the address is se.orgpuls.com for now (X-109). Still open: the Swedish 
 (5 or 6; built at 5, which can only be raised), SEK prices, and whether a Swedish sole trader (whose organisation
 number is their personnummer) may sign up (built: no, D-254).
 
+### Phase 3 — Germany, step by step (X-115)
+
+The order is Sweden's. Until DE-G, de.orgpuls.com answers as D-258 says: every address goes to the English site,
+temporarily, nothing indexed.
+
+| Step | What | State |
+|---|---|---|
+| DE-L | The law read: ArbSchG §§ 3–6, 12–17, 21; BetrVG §§ 1, 80, 87, 89, 94; ASiG §§ 1, 2, 5, 9, 11; SGB VII §§ 21, 22; AGG §§ 1, 3, 7, 12, 13; ArbZG §§ 3, 5; BDSG § 26 — verbatim, with how a product text cites each; the GDA and DGUV texts not reachable, listed as unverified | written 2026-10-29: `docs/markets/de-legal.md` |
+| DE-A | German as a platform language: the app's chrome in German, English behind it (as D-252 for Swedish); the locale registry and the database's locale lists widened | — |
+| DE-A2 | German as a survey language: the statements, factors, extras, respondent pages and invitation texts drafted in German into the translation registry (X-089), offered once approved; the published modules' German | — |
+| DE-B | Market `de`: floor 5, language de, Europe/Berlin, the USt-IdNr. as the optional organisation number (format DE + nine digits, unique per market), sign-up on de.orgpuls.com, mail language; `SITES` row behind a flag until DE-G | — |
+| DE-C | Legal pack per market: report, help and in-app legal texts on §§ 3, 5 and 6 ArbSchG, the Betriebsrat's rights, the empty-role case, Sicherheitsbeauftragte and Arbeitsschutzausschuss; the eleven factors against the German duties; sources in de-legal.md. Open: a German lawyer's review | — |
+| DE-D | A German module for what the eleven factors leave out (Arbeitsumgebung, Arbeitszeit), offered in Germany only, as Sweden's working-time module (D-263) | later, after DE-F |
+| DE-E | EUR prices, reverse charge with the customer's USt-IdNr., German DPA and terms | waits on prices |
+| DE-F | The German site on de.orgpuls.com: ten pages in German for German law at German addresses (the law, the Betriebsrat, small businesses, security, the privacy notice), no prices, terms, industries, articles or demo; German screens of a German firm and German share cards; hreflang de-DE, sitemap, robots, llms.txt per host | — |
+| DE-G | Open it: the hosted migration, the flag off, Supabase Auth redirect URLs, the mail and SMS senders, Search Console (the sitemap), Sentral's site, IndexNow; a German reader of the texts | — |
