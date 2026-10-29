@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
+import { lowerInSentence } from '@/lib/i18n/locales'
 import type { Participation } from '@/lib/participation/read'
 import { ORG, type ResultaterModel, type RoundRef } from '@/lib/results/resultater'
 import { deltaColour, fmtDelta, heatTone } from '@/lib/results/tone'
@@ -37,6 +38,7 @@ export function PulseView({
   rateVs: { text: string; colour: string } | null
 }) {
   const t = useTranslations()
+  const locale = useLocale()
   const round = model.round
   const measured = model.factors
   const rows = model.rows.filter((r) => model.scores[round.id]?.[r.id])
@@ -66,7 +68,7 @@ export function PulseView({
     c.kind === 'grunnlinje'
       ? t('resultater.pulse.againstBaseline', { year: c.label })
       : t('resultater.pulse.againstPulse', {
-          title: c.title.toLocaleLowerCase(),
+          title: lowerInSentence(c.title, locale),
         })
 
   const card = 'rounded-note border border-line bg-sf'

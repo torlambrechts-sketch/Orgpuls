@@ -175,7 +175,7 @@ describe('Sweden’s site in words (SE-F2, D-276)', () => {
     // scripts/verify/i18n.mjs asks the pack's page words in the site's language alone: true only while
     // the site is Swedish and its pages are pinned to it (lib/i18n/request.ts, PAGE_LANG_HEADER)
     expect(siteOf('se.orgpuls.com')?.lang).toBe('sv')
-    expect(readFileSync('scripts/verify/i18n.mjs', 'utf8')).toContain("const PAGES_IN_SITE_LANG = { se: 'sv' }")
+    expect(readFileSync('scripts/verify/i18n.mjs', 'utf8')).toMatch(/const PAGES_IN_SITE_LANG = \{[^}]*\bse: 'sv'[^}]*\}/)
     expect(readFileSync('lib/i18n/request.ts', 'utf8')).toMatch(/head\.get\(PAGE_LANG_HEADER\) === site\.lang/)
   })
 

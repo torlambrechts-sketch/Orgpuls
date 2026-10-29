@@ -1,5 +1,6 @@
 import Link from '@/components/site/SitePaths'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
+import { lowerInSentence } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import { getInvitePreview } from '@/lib/members/read'
 import { AcceptInvite, JoinWithPassword } from '@/components/start/JoinInvite'
@@ -24,6 +25,7 @@ export const metadata = { robots: { index: false, follow: false } }
 export default async function BliMedPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
   const t = await getTranslations('bliMed')
+  const locale = await getLocale()
   const tr = await getTranslations('oppsett.roller')
 
   const valid = /^[0-9a-f]{64}$/.test(token)
@@ -60,8 +62,8 @@ export default async function BliMedPage({ params }: { params: Promise<{ token: 
         </h1>
         <p className="mt-[10px] text-[14px] leading-[1.6] text-mut [text-wrap:pretty]">
           {preview.group_name
-            ? t('leadGroup', { role: role.toLowerCase(), group: preview.group_name })
-            : t('lead', { role: role.toLowerCase() })}{' '}
+            ? t('leadGroup', { role: lowerInSentence(role, locale), group: preview.group_name })
+            : t('lead', { role: lowerInSentence(role, locale) })}{' '}
           {t('forEmail', { email: preview.email })}
         </p>
 

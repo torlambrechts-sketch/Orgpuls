@@ -39,7 +39,7 @@ import { getSlackSettings } from '@/lib/slack/read'
 import type { DefaultsValues } from '@/app/(app)/malinger/innstillinger-actions'
 import { EXTRA_KEYS, PRODUCT_DEFAULTS, SCREENING, getDefaultsLog, getEntryCode, getInviteGreeting, getReach, getSurveyDefaults } from '@/lib/settings/survey'
 import { GreetingCard } from '@/components/malinger/GreetingCard'
-import { contentLang } from '@/lib/i18n/locales'
+import { contentLang, lowerInSentence } from '@/lib/i18n/locales'
 import { dateFormat } from '@/lib/i18n/dates'
 import { getDates } from '@/lib/i18n/dates-server'
 
@@ -122,7 +122,7 @@ export default async function MalingerPage({
     return s?.status === 'ok' ? s.factors.map((f) => f.key) : []
   }
   const list = (keys: string[]) =>
-    new Intl.ListFormat(locale, { type: 'conjunction' }).format(keys.map((k) => t(`factor.${k}.short`).toLocaleLowerCase(locale)))
+    new Intl.ListFormat(locale, { type: 'conjunction' }).format(keys.map((k) => lowerInSentence(t(`factor.${k}.short`), locale)))
 
   // ------------------------------------------------------------------ history
   const history: HistoryRow[] = closed.map((r, i) => {

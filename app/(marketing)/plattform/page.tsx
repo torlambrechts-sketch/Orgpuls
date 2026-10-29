@@ -1,6 +1,6 @@
 import type { Metadata, Route } from 'next'
 import Link from '@/components/site/SitePaths'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Tick } from '@/components/site/parts'
@@ -10,6 +10,7 @@ import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization, siteLd } from '@/lib/marketing/schema'
 import { ownSite, serves, siteArticles, siteShots } from '@/lib/site/own'
 import { zip } from '@/lib/site/zip'
+import { lowerInSentence } from '@/lib/i18n/locales'
 
 /**
  * Plattform (D-190): design-reference/orgpuls/nettside-v3/Plattform.dc.html.
@@ -123,6 +124,7 @@ const CaseText = z.object({
 
 export default async function PlattformPage() {
   const t = await getTranslations('site.plattform')
+  const locale = await getLocale()
   const all = await getTranslations()
   const chrome = await getTranslations('site.chrome')
   const seo = await getTranslations('seo.pages.plattform')
@@ -257,7 +259,7 @@ export default async function PlattformPage() {
     ),
   }
   const cardTitle: Partial<Record<CaseId, string>> = {
-    tiltak: text.tiltak.card.title.replace('{factor}', factor('ytring').toLocaleLowerCase()),
+    tiltak: text.tiltak.card.title.replace('{factor}', lowerInSentence(factor('ytring'), locale)),
   }
 
 

@@ -195,6 +195,8 @@ export const brandNameOf = (market: string | null | undefined): string => MARKET
  * holds them to the host registry). Norway is reached through the product's own address,
  * ORGPULS_APP_URL.
  */
+// Germany's (de.orgpuls.com) joins when its site opens (DE-G), with DE_SITE=open in the app: a market's
+// links lead to its site only once the site serves them (tests/unit/market-links.test.ts holds the two)
 export const MARKET_SITE_URL: Readonly<Record<string, string>> = { gb: 'https://www.empvibe.com', se: 'https://se.orgpuls.com' }
 
 /** The product's own production address (lib/hosts.ts MAIN_URL), the only base a market's site replaces */

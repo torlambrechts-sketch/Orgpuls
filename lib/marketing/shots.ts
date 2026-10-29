@@ -1,5 +1,14 @@
 import type { StaticImageData } from 'next/image'
 import arshjul from '@/assets/produkt/arshjul.webp'
+import deArshjul from '@/assets/produkt/de/arshjul.webp'
+import deKommentarer from '@/assets/produkt/de/kommentarer.webp'
+import deOversikt from '@/assets/produkt/de/oversikt.webp'
+import deRapport from '@/assets/produkt/de/rapport.webp'
+import deResultater from '@/assets/produkt/de/resultater.webp'
+import deSamtaler from '@/assets/produkt/de/samtaler.webp'
+import deSporsmal from '@/assets/produkt/de/sporsmal.webp'
+import deTiltak from '@/assets/produkt/de/tiltak.webp'
+import deVarmekart from '@/assets/produkt/de/varmekart.webp'
 import empvibeArshjul from '@/assets/produkt/empvibe/arshjul.webp'
 import empvibeKommentarer from '@/assets/produkt/empvibe/kommentarer.webp'
 import empvibeOversikt from '@/assets/produkt/empvibe/oversikt.webp'
@@ -85,7 +94,27 @@ const SE_SHOTS: Shots = {
 }
 
 /**
- * Each site of its own's pictures, by its key (lib/hosts.ts `Site.own.key`, lib/site/own.ts
- * siteShots): Empvibe's English screens, Sweden's Swedish ones, and Norway's elsewhere.
+ * Germany's pictures (DE-F3, D-291): the leaders' screens in German, of the same scenario told by a German
+ * firm, Nordwind Tiefbau GmbH (design-fixture.mjs --market de). The factor names on the overview and the
+ * heatmap are the German catalogue's; the report's factor table names them from the translation registry,
+ * in English until German is approved as a survey language (DE-A2, the gap D-289 names). The questionnaire
+ * is in English, as a German employee meets it until German is switched on in the survey (`locale_de`):
+ * a picture shows the product as it is.
  */
-export const SITE_SHOTS: Readonly<Record<string, Shots>> = { empvibe: EMPVIBE_SHOTS, se: SE_SHOTS }
+const DE_SHOTS: Shots = {
+  oversikt: { img: deOversikt, frame: 'window' },
+  varmekart: { img: deVarmekart, frame: 'window' },
+  resultater: { img: deResultater, frame: 'window' },
+  kommentarer: { img: deKommentarer, frame: 'window' },
+  samtaler: { img: deSamtaler, frame: 'window' },
+  tiltak: { img: deTiltak, frame: 'window' },
+  arshjul: { img: deArshjul, frame: 'window' },
+  sporsmal: { img: deSporsmal, frame: 'phone' },
+  rapport: { img: deRapport, frame: 'window' },
+}
+
+/**
+ * Each site of its own's pictures, by its key (lib/hosts.ts `Site.own.key`, lib/site/own.ts
+ * siteShots): Empvibe's English screens, Sweden's Swedish ones, Germany's German ones, and Norway's elsewhere.
+ */
+export const SITE_SHOTS: Readonly<Record<string, Shots>> = { empvibe: EMPVIBE_SHOTS, se: SE_SHOTS, de: DE_SHOTS }

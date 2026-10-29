@@ -980,12 +980,13 @@ const FIRST_RUN = process.argv.includes('--first-run')
  * `--market gb` emits the same scenario as a British firm in English, for Empvibe's product
  * pictures (UK-E3, D-272): design-fixture.gb.mjs holds the English and the firm's UK facts.
  * `--market se` emits it as a Swedish firm in Swedish, for the Swedish site's (SE-F3, D-276):
- * design-fixture.se.mjs. The answers, and so every figure, are the ones solved above; the SQL is
+ * design-fixture.se.mjs. `--market de` emits it as a German firm in German, for the German site's
+ * (DE-F3, D-291): design-fixture.de.mjs. The answers, and so every figure, are the ones solved above; the SQL is
  * this file's own, with the fixture's ids moved to an id space of the market's own and each
  * Norwegian text replaced. Without the flag the output is exactly the Norwegian fixture.
  */
 const MARKET = process.argv.includes('--market') ? process.argv[process.argv.indexOf('--market') + 1] : null
-if (MARKET !== null && !['gb', 'se'].includes(MARKET)) throw new Error('--market takes gb or se (Norway is the fixture without it)')
+if (MARKET !== null && !['gb', 'se', 'de'].includes(MARKET)) throw new Error('--market takes gb, se or de (Norway is the fixture without it)')
 if (MARKET && FIRST_RUN) throw new Error('--first-run is the Norwegian fixture only')
 const emitted = []
 const emit = MARKET ? (sql) => emitted.push(sql) : (sql) => console.log(sql)

@@ -348,9 +348,10 @@
     }
   },
   "start": {
-    "ctaFree": "15 Tage kostenlos testen",
-    "finalTitle": "Probieren Sie es im eigenen Unternehmen",
-    "finalBody": "Geben Sie den Namen des Unternehmens und Ihre E-Mail-Adresse ein, dann sind Sie in 3 Minuten startklar und müssen keine Karte angeben, bevor Sie sich entschieden haben. Antworten werden in der EU gespeichert, und keine Gruppe wird gezeigt, bevor mindestens 5 geantwortet haben."
+    "ctaFree": "Loslegen",
+    "faqEyebrow": "Häufige Fragen",
+    "finalTitle": "Beginnen Sie mit dem eigenen Unternehmen",
+    "finalBody": "Geben Sie den Namen des Unternehmens und Ihre E-Mail-Adresse ein, dann sind Sie in 3 Minuten startklar. Die Antworten werden in der EU gespeichert, und keine Gruppe wird gezeigt, bevor mindestens 5 geantwortet haben."
   },
   "registrer": {
     "orgNumber": "USt-IdNr.",
@@ -485,6 +486,2836 @@
     },
     "done": {
       "vo": "Betriebsrat"
+    }
+  },
+  "seo": {
+    "llms": {
+      "pages": "Seiten",
+      "forWho": "Für wen es ist",
+      "industries": "Branchen",
+      "articles": "Artikel",
+      "templates": "Vorlagen"
+    },
+    "common": {
+      "home": "Startseite",
+      "onThisPage": "Auf dieser Seite",
+      "aside": "Inhalt und nächste Schritte",
+      "breadcrumb": "Brotkrumen",
+      "articles": "Artikel",
+      "priceLine": "Anonym ab 5 Antworten · Antworten in der EU gespeichert · Dokumentation nach § 6 ArbSchG",
+      "readMore": "Mehr lesen",
+      "readArticle": "Artikel lesen →",
+      "byline": "Aktualisiert {date} · {minutes} Min. Lesezeit",
+      "sources": "Quellen",
+      "disclaimer": "Das ist allgemeine Information, keine Rechtsberatung. Wir haben die Gesetzestexte im Oktober 2026 bei gesetze-im-internet.de, dem Angebot des Bundesministeriums der Justiz, geprüft.",
+      "priceFrom": "Ergebnisse nur für Gruppen mit mindestens 5 Antworten",
+      "anonymity": "Keine Abteilung wird gezeigt, bevor mindestens 5 geantwortet haben.",
+      "related": "Verwandte Seiten"
+    },
+    "home": {
+      "title": "Mitarbeiterbefragung und Gefährdungsbeurteilung psychischer Belastung | Orgpuls",
+      "description": "Anonyme Mitarbeiterbefragung für die Gefährdungsbeurteilung psychischer Belastung nach § 5 ArbSchG, mit Beurteilung, Maßnahmenplan und der Dokumentation nach § 6 ArbSchG.",
+      "articlesEyebrow": "Artikel",
+      "articlesTitle": "Lesen Sie nach, bevor Sie anfangen",
+      "articlesAll": "Alle Artikel →",
+      "showcase": {
+        "eyebrow": "So sieht es aus",
+        "title": "Von Antworten zu Maßnahmen, auf wenigen Bildschirmen",
+        "lead": "Die Bildschirmfotos stammen aus Orgpuls und zeigen das Beispielunternehmen Nordwind Tiefbau GmbH mit 34 Beschäftigten in 4 Abteilungen. 28 von ihnen haben auf die Basisbefragung geantwortet.",
+        "oversikt": {
+          "title": "Die Übersicht sagt es in Worten",
+          "body": "Die Führungskraft sieht zuerst einen Satz darüber, was hebt und was nach unten zieht, und dann alle 11 Faktoren auf einer Skala von 0 bis 100. Was unter 50 liegt, sollten Sie angehen."
+        },
+        "varmekart": {
+          "title": "Heatmap je Abteilung",
+          "body": "Die Faktoren gegen die Abteilungen. Tippen Sie auf eine Zelle, um die Aussagen dahinter und Maßnahmenvorschläge zu sehen. Eine Abteilung, die sich nicht zeigen lässt, ohne jemanden zu verraten, bekommt einen Strich."
+        },
+        "tiltak": {
+          "title": "Vom Befund zur Wirkung",
+          "body": "Die Maßnahmen liegen auf einem Board mit Verantwortlichen und Frist – das ist Ihr Maßnahmenplan. Eine Maßnahme wird nicht geschlossen, bevor eine neue Befragung gezeigt hat, ob sie gewirkt hat."
+        },
+        "sporsmal": {
+          "title": "Rund 4 Minuten auf dem Handy",
+          "body": "Die Beschäftigten antworten über den Link, den sie bekommen, ohne Anmeldung. Eine Aussage nach der anderen, auf einer fünfstufigen Skala, und ein freiwilliges Feld für alle, die mehr sagen möchten."
+        },
+        "arshjul": {
+          "title": "Der Jahresplan erledigt sich selbst",
+          "body": "Eine Basisbefragung im Jahr und kurze Pulsbefragungen dazwischen. Die Befragungen gehen an den Terminen hinaus, die Sie gesetzt haben, und der Betriebsrat erfährt es vor den Beschäftigten."
+        },
+        "more": "Die ganze Plattform ansehen",
+        "samtaler": {
+          "title": "Antworten, ohne zu wissen wem",
+          "body": "Die Kommentare werden je Thema gesammelt. Die Führungskraft antwortet im anonymen Gespräch und kann um direkten Kontakt bitten, aber nur die beschäftigte Person selbst kann entscheiden, sich zu erkennen zu geben."
+        }
+      }
+    },
+    "lp": {
+      "lovkrav": {
+        "title": "Gefährdungsbeurteilung psychischer Belastung: Was das Gesetz verlangt | Orgpuls",
+        "description": "Was das Arbeitsschutzgesetz zur psychischen Belastung verlangt: Gefährdungen beurteilen (§ 5), Maßnahmen treffen und prüfen (§ 3), dokumentieren (§ 6), mit dem Betriebsrat vereinbaren – und was die Aufsicht tut.",
+        "crumb": "Psychische Belastung im ArbSchG",
+        "card": {
+          "title": "Psychische Belastung im ArbSchG",
+          "text": "Was das Arbeitsschutzgesetz zur Gefährdungsbeurteilung psychischer Belastung verlangt, Paragraf für Paragraf."
+        },
+        "kicker": "§§ 3, 5 und 6 ArbSchG",
+        "h1": "Was verlangt das Gesetz bei der Gefährdungsbeurteilung psychischer Belastung?",
+        "lead": "Der Arbeitgeber hat durch eine Beurteilung der mit der Arbeit verbundenen Gefährdung zu ermitteln, welche Maßnahmen des Arbeitsschutzes erforderlich sind (§ 5 Abs. 1 ArbSchG). Zu den Gefährdungen gehören ausdrücklich die psychischen Belastungen bei der Arbeit (§ 5 Abs. 3 Nr. 6). Die Maßnahmen sind zu treffen, auf ihre Wirksamkeit zu prüfen und anzupassen (§ 3 Abs. 1), und das Ergebnis der Beurteilung, die Maßnahmen und das Ergebnis ihrer Überprüfung sind zu dokumentieren (§ 6) – von jedem Arbeitgeber, unabhängig von der Größe. Wo ein Betriebsrat besteht, bestimmt er bei der Methode mit (§ 87 Abs. 1 Nr. 7 BetrVG). Eine Befragung verlangt das Gesetz nicht; die Beurteilung und ihre Dokumentation verlangt es immer.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Was das Gesetz verlangt – vier Schritte"
+          },
+          {
+            "t": "p",
+            "text": "Die Grundlage steht in § 5 Abs. 1 ArbSchG: Der Arbeitgeber hat „durch eine Beurteilung der für die Beschäftigten mit ihrer Arbeit verbundenen Gefährdung zu ermitteln, welche Maßnahmen des Arbeitsschutzes erforderlich sind“. Eine Gefährdung kann sich nach § 5 Abs. 3 insbesondere ergeben durch die Arbeitsstätte, physikalische, chemische und biologische Einwirkungen, Arbeitsmittel, Arbeitsabläufe und Arbeitszeit, unzureichende Qualifikation und Unterweisung – und, seit 2013 ausdrücklich, durch „psychische Belastungen bei der Arbeit“ (Nr. 6). Was die Beurteilung ergibt, ist umzusetzen: Der Arbeitgeber hat die erforderlichen Maßnahmen zu treffen, „die Maßnahmen auf ihre Wirksamkeit zu überprüfen und erforderlichenfalls sich ändernden Gegebenheiten anzupassen“ (§ 3 Abs. 1). Das Gesetz gilt in allen Tätigkeitsbereichen (§ 1 Abs. 1)."
+          },
+          {
+            "t": "cycle",
+            "center": "Unter Beteiligung der Beschäftigten und, wo es einen gibt, des Betriebsrats",
+            "items": [
+              {
+                "title": "Ermitteln",
+                "ref": "§ 5 Abs. 1 und 3 ArbSchG",
+                "text": "Ermitteln Sie die Gefährdungen je nach Art der Tätigkeiten – auch die psychischen Belastungen bei der Arbeit – und bei Änderungen erneut."
+              },
+              {
+                "title": "Beurteilen",
+                "ref": "§ 5 Abs. 1 ArbSchG",
+                "text": "Beurteilen Sie, welche Maßnahmen des Arbeitsschutzes erforderlich sind. Halten Sie fest, was Sie gefunden haben und wie Sie es bewerten."
+              },
+              {
+                "title": "Maßnahmen treffen",
+                "ref": "§ 3 Abs. 1 Satz 1, § 4 ArbSchG",
+                "text": "Treffen Sie die erforderlichen Maßnahmen, nach den allgemeinen Grundsätzen: Gefahren an der Quelle bekämpfen, Arbeitsorganisation und soziale Beziehungen eingeschlossen."
+              },
+              {
+                "title": "Wirksamkeit prüfen",
+                "ref": "§ 3 Abs. 1 Satz 2 ArbSchG",
+                "text": "Prüfen Sie, ob die Maßnahmen wirken, und passen Sie sie an, wenn sich die Gegebenheiten ändern."
+              }
+            ]
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "§ 5 ArbSchG",
+                "text": "Durch eine Beurteilung der mit der Arbeit verbundenen Gefährdung ermitteln, welche Maßnahmen erforderlich sind – je nach Art der Tätigkeiten; bei gleichartigen Arbeitsbedingungen reicht die Beurteilung eines Arbeitsplatzes. Psychische Belastungen sind ausdrücklich genannt (Abs. 3 Nr. 6)."
+              },
+              {
+                "ref": "§ 3 Abs. 1 ArbSchG",
+                "text": "Die erforderlichen Maßnahmen treffen, ihre Wirksamkeit überprüfen und sie sich ändernden Gegebenheiten anpassen. Dabei eine Verbesserung von Sicherheit und Gesundheitsschutz anstreben."
+              },
+              {
+                "ref": "§ 6 ArbSchG",
+                "text": "Über Unterlagen verfügen, aus denen das Ergebnis der Gefährdungsbeurteilung, die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung ersichtlich sind – für jeden Arbeitgeber, nach Art der Tätigkeiten und Zahl der Beschäftigten bemessen."
+              },
+              {
+                "ref": "§ 87 Abs. 1 Nr. 7 BetrVG",
+                "text": "Wo ein Betriebsrat besteht, bestimmt er bei Regelungen über den Gesundheitsschutz mit – also auch bei der Methode, mit der die psychische Belastung beurteilt wird."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Die Beurteilung der psychischen Belastung ist ein Teil der Gefährdungsbeurteilung, kein eigenes Projekt. Dasselbe Gesetz verlangt auch eine geeignete Organisation und die erforderlichen Mittel (§ 3 Abs. 2), die Unterweisung der Beschäftigten bei Einstellung, bei Veränderungen und erforderlichenfalls wiederholt (§ 12), und es erlaubt, zuverlässige und fachkundige Personen schriftlich mit Aufgaben zu beauftragen (§ 13 Abs. 2). Daneben stehen das Arbeitssicherheitsgesetz mit Betriebsarzt und Fachkraft für Arbeitssicherheit (§§ 2, 5 ASiG) und dem Arbeitsschutzausschuss ab mehr als zwanzig Beschäftigten (§ 11 ASiG) und das Allgemeine Gleichbehandlungsgesetz mit der Schutzpflicht gegen Belästigung (§ 12 AGG). Die psychische Belastung gehört in dasselbe System."
+          },
+          {
+            "t": "h2",
+            "text": "Die Bereiche der psychischen Belastung"
+          },
+          {
+            "t": "p",
+            "text": "Das Arbeitsschutzgesetz zählt keine Faktoren auf, die zu messen wären. Es nennt die Kategorie – „psychische Belastungen bei der Arbeit“ (§ 5 Abs. 3 Nr. 6) – und sagt, worauf Maßnahmen zielen: Technik, Arbeitsorganisation, sonstige Arbeitsbedingungen, soziale Beziehungen und den Einfluss der Umwelt auf den Arbeitsplatz sachgerecht zu verknüpfen (§ 4 Nr. 4), die Arbeit so zu gestalten, dass eine Gefährdung der psychischen Gesundheit möglichst vermieden wird (§ 4 Nr. 1), und dabei den Stand von Technik, Arbeitsmedizin und Hygiene sowie gesicherte arbeitswissenschaftliche Erkenntnisse zu berücksichtigen (§ 4 Nr. 3). Gängige Begriffe aus Befragungen wie Rollenklarheit und Anerkennung stehen nicht mit diesen Worten im Gesetz. Die Beurteilung muss die Gefährdungen erfassen, die bei Ihren Tätigkeiten bestehen (§ 5 Abs. 2)."
+          },
+          {
+            "t": "table",
+            "head": [
+              "Bereich",
+              "Vorschrift",
+              "Was verlangt wird"
+            ],
+            "rows": [
+              [
+                "Arbeitsintensität und Erholung",
+                "§ 5 Abs. 3 Nr. 4 ArbSchG · §§ 3, 5 ArbZG",
+                "Arbeitsabläufe und Arbeitszeit und ihr Zusammenwirken sind zu beurteilen. Acht Stunden werktäglich, bis zu zehn mit Ausgleich, und elf Stunden ununterbrochene Ruhezeit."
+              ],
+              [
+                "Aufgaben, Verantwortung und Information",
+                "§ 12 Abs. 1 ArbSchG",
+                "Die Unterweisung ist eigens auf den Arbeitsplatz oder den Aufgabenbereich auszurichten – bei Einstellung, bei Veränderungen und erforderlichenfalls wiederholt."
+              ],
+              [
+                "Handlungsspielraum und Beteiligung",
+                "§ 17 Abs. 1 ArbSchG · § 80 Abs. 1 Nr. 3 BetrVG",
+                "Die Beschäftigten dürfen zu allen Fragen der Sicherheit und des Gesundheitsschutzes Vorschläge machen; der Betriebsrat nimmt Anregungen entgegen."
+              ],
+              [
+                "Soziale Beziehungen, Unterstützung und Kommunikation",
+                "§ 4 Nr. 4 ArbSchG",
+                "Maßnahmen sind so zu planen, dass Technik, Arbeitsorganisation, sonstige Arbeitsbedingungen, soziale Beziehungen und Umwelt sachgerecht verknüpft werden."
+              ],
+              [
+                "Führung",
+                "§ 3 Abs. 2 Nr. 2 ArbSchG",
+                "Die Maßnahmen sind bei allen Tätigkeiten und eingebunden in die betrieblichen Führungsstrukturen zu beachten."
+              ],
+              [
+                "Emotionale Anforderungen",
+                "§ 4 Nr. 1 ArbSchG",
+                "Die Arbeit ist so zu gestalten, dass eine Gefährdung der physischen und der psychischen Gesundheit möglichst vermieden und die verbleibende Gefährdung möglichst gering gehalten wird."
+              ],
+              [
+                "Belästigung und Benachteiligung",
+                "§§ 3, 7, 12, 13 AGG",
+                "Belästigung ist eine Benachteiligung und verboten. Der Arbeitgeber trifft die erforderlichen, auch vorbeugenden Schutzmaßnahmen und macht die Beschwerdestelle im Betrieb bekannt."
+              ],
+              [
+                "Mobbing ohne geschütztes Merkmal",
+                "§ 3 Abs. 1, § 4 Nr. 1 ArbSchG",
+                "Keine gesetzliche Definition. Die Pflicht, die psychische Gesundheit der Beschäftigten zu schützen, gilt trotzdem."
+              ],
+              [
+                "Gewalt und Übergriffe durch Dritte",
+                "§ 5 Abs. 3 Nr. 6 ArbSchG · § 12 Abs. 4 AGG",
+                "Belastung durch Kundinnen und Kunden, Patientinnen und Patienten oder Schülerinnen und Schüler gehört in die Beurteilung. Bei geschützten Merkmalen besteht die Schutzpflicht auch gegenüber Dritten."
+              ],
+              [
+                "Meinungsklima und Beschwerde",
+                "§ 17 ArbSchG · § 13 AGG",
+                "Vorschläge an den Arbeitgeber, Beschwerde bei der Beschwerdestelle und, wenn der Arbeitgeber nicht abhilft, bei der Behörde – ohne Nachteile."
+              ],
+              [
+                "Sinn und Anerkennung",
+                "§ 2 Abs. 1 ArbSchG",
+                "Maßnahmen des Arbeitsschutzes umfassen auch die menschengerechte Gestaltung der Arbeit."
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Gewalt und Drohungen gehören zur psychischen Belastung bei der Arbeit (§ 5 Abs. 3 Nr. 6 ArbSchG) und zur Pflicht, Gefährdungen der psychischen Gesundheit möglichst zu vermeiden (§ 4 Nr. 1); ein Unfall, der zu mehr als drei Tagen Arbeitsunfähigkeit führt, ist zu erfassen (§ 6 Abs. 2). Belästigung mit Bezug auf ein geschütztes Merkmal – ethnische Herkunft, Geschlecht, Religion oder Weltanschauung, Behinderung, Alter, sexuelle Identität – und sexuelle Belästigung regelt das Allgemeine Gleichbehandlungsgesetz: Der Arbeitgeber trifft die erforderlichen, auch vorbeugenden Schutzmaßnahmen (§ 12 Abs. 1 AGG), greift bei Verstößen zu Abmahnung, Umsetzung, Versetzung oder Kündigung (§ 12 Abs. 3) und schützt auch gegenüber Dritten (§ 12 Abs. 4). Die Beschäftigten haben ein Beschwerderecht, und die Beschwerde ist zu prüfen und ihr Ergebnis mitzuteilen (§ 13 AGG)."
+          },
+          {
+            "t": "h2",
+            "text": "Das Arbeitsschutzgesetz, Paragraf für Paragraf"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "1996",
+                "title": "Das Arbeitsschutzgesetz",
+                "text": "Das Gesetz vom 7. August 1996 setzt die europäische Rahmenrichtlinie zum Arbeitsschutz um. Seither gilt die Gefährdungsbeurteilung (§ 5) in allen Tätigkeitsbereichen (§ 1)."
+              },
+              {
+                "date": "2013",
+                "title": "Psychische Belastungen ausdrücklich im Gesetz",
+                "text": "§ 5 Abs. 3 Nr. 6 nennt die psychischen Belastungen bei der Arbeit seither ausdrücklich, und die Dokumentation nach § 6 gilt ohne Ausnahme auch für kleine Arbeitgeber."
+              },
+              {
+                "date": "2026",
+                "title": "Mindestbesichtigungsquote",
+                "text": "Beginnend mit dem Kalenderjahr 2026 sind in jedem Land mindestens 5 Prozent der Betriebe im Jahr zu besichtigen (§ 21 Abs. 1a)."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Die Pflichten des Arbeitgebers stehen in den §§ 3 bis 14, die Pflichten und Rechte der Beschäftigten in den §§ 15 bis 17, die Überwachung in den §§ 21 und 22 und die Bußgeld- und Strafvorschriften in den §§ 25 und 26. Für die psychische Belastung tragen diese Paragrafen:"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "§ 3 ArbSchG",
+                "text": "Die Grundpflicht: die erforderlichen Maßnahmen des Arbeitsschutzes treffen, ihre Wirksamkeit überprüfen und sie sich ändernden Gegebenheiten anpassen; für eine geeignete Organisation und die erforderlichen Mittel sorgen. Kosten dürfen den Beschäftigten nicht auferlegt werden."
+              },
+              {
+                "ref": "§ 4 ArbSchG",
+                "text": "Die allgemeinen Grundsätze: Gefährdungen der physischen und der psychischen Gesundheit möglichst vermeiden, Gefahren an ihrer Quelle bekämpfen, gesicherte arbeitswissenschaftliche Erkenntnisse berücksichtigen und Technik, Arbeitsorganisation, Arbeitsbedingungen, soziale Beziehungen und Umwelt sachgerecht verknüpfen."
+              },
+              {
+                "ref": "§ 5 ArbSchG",
+                "text": "Die Beurteilung der Arbeitsbedingungen: ermitteln, welche Maßnahmen erforderlich sind, je nach Art der Tätigkeiten. Eine Gefährdung kann sich insbesondere ergeben durch die Arbeitsstätte, Einwirkungen, Arbeitsmittel, Arbeitsabläufe und Arbeitszeit, unzureichende Qualifikation und Unterweisung sowie psychische Belastungen bei der Arbeit."
+              },
+              {
+                "ref": "§ 6 ArbSchG",
+                "text": "Die Dokumentation: Unterlagen, aus denen das Ergebnis der Gefährdungsbeurteilung, die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung ersichtlich sind; bei gleichartiger Gefährdungssituation reichen zusammengefasste Angaben. Unfälle mit mehr als drei Tagen Arbeitsunfähigkeit sind zu erfassen."
+              },
+              {
+                "ref": "§§ 12 und 17 ArbSchG",
+                "text": "Die Beschäftigten sind über Sicherheit und Gesundheitsschutz zu unterweisen, bei Einstellung, bei Veränderungen und erforderlichenfalls wiederholt. Sie dürfen Vorschläge machen und sich, wenn der Arbeitgeber einer Beschwerde nicht abhilft, ohne Nachteile an die zuständige Behörde wenden."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Das Gesetz im Wortlaut steht beim Bundesministerium der Justiz: [Arbeitsschutzgesetz](https://www.gesetze-im-internet.de/arbschg/BJNR124610996.html) und [Betriebsverfassungsgesetz](https://www.gesetze-im-internet.de/betrvg/BJNR000130972.html)."
+          },
+          {
+            "t": "h2",
+            "text": "Wer beteiligt ist"
+          },
+          {
+            "t": "hub",
+            "center": {
+              "title": "Der Arbeitgeber",
+              "text": "Trägt die Pflichten: beurteilen (§ 5), Maßnahmen treffen und prüfen (§ 3), dokumentieren (§ 6 ArbSchG). Er kann zuverlässige und fachkundige Personen schriftlich mit Aufgaben beauftragen (§ 13 Abs. 2); die Verantwortung bleibt bei ihm."
+            },
+            "items": [
+              {
+                "title": "Der Betriebsrat",
+                "text": "Wird von den Beschäftigten gewählt, in Betrieben mit in der Regel mindestens fünf ständigen wahlberechtigten Arbeitnehmern (§ 1 BetrVG) – eine Pflicht des Arbeitgebers, einen zu haben, besteht nicht. Wo es ihn gibt: rechtzeitig und umfassend unterrichten, Unterlagen vorlegen (§ 80 Abs. 2), bei der Methode mitbestimmen (§ 87 Abs. 1 Nr. 7) und bei allen Fragen des Arbeitsschutzes hinzuziehen (§ 89 Abs. 2)."
+              },
+              {
+                "title": "Betriebsarzt und Fachkraft für Arbeitssicherheit",
+                "text": "Vom Arbeitgeber schriftlich bestellt, soweit es nach Art des Betriebs, Zahl der Beschäftigten und Organisation erforderlich ist (§§ 2, 5 ASiG); sie unterstützen beim Arbeitsschutz. In Betrieben mit mehr als zwanzig Beschäftigten berät der Arbeitsschutzausschuss mindestens vierteljährlich (§ 11 ASiG)."
+              },
+              {
+                "title": "Die Beschäftigten",
+                "text": "Sind zu unterweisen (§ 12 ArbSchG), dürfen zu allen Fragen der Sicherheit und des Gesundheitsschutzes Vorschläge machen (§ 17 Abs. 1) und haben nach ihren Möglichkeiten für ihre Sicherheit und Gesundheit Sorge zu tragen und den Arbeitgeber zu unterstützen (§§ 15, 16)."
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Die Beschwerdestelle nach dem AGG gehört dazu",
+            "text": "Die Beschäftigten haben das Recht, sich bei den zuständigen Stellen des Betriebs zu beschweren, wenn sie sich benachteiligt oder belästigt fühlen; die Beschwerde ist zu prüfen und ihr Ergebnis mitzuteilen (§ 13 AGG). Das Gesetz und die Stelle, die Beschwerden behandelt, sind im Betrieb bekannt zu machen (§ 12 Abs. 5 AGG). Ob die Leute sich tatsächlich trauen, sie zu nutzen, ist eine Frage des Meinungsklimas."
+          },
+          {
+            "t": "h2",
+            "text": "Was zu dokumentieren ist"
+          },
+          {
+            "t": "p",
+            "text": "§ 6 Abs. 1 ArbSchG verlangt von jedem Arbeitgeber Unterlagen, „aus denen das Ergebnis der Gefährdungsbeurteilung, die von ihm festgelegten Maßnahmen des Arbeitsschutzes und das Ergebnis ihrer Überprüfung ersichtlich sind“. Ihr Umfang richtet sich nach der Art der Tätigkeiten und der Zahl der Beschäftigten, und bei gleichartiger Gefährdungssituation reichen zusammengefasste Angaben. Eine Ausnahme für kleine Arbeitgeber steht nicht mehr im Gesetz. Eine Form schreibt es nicht vor – Papier oder Datei, Vorlage oder Bericht. Insgesamt sollte die Dokumentation zeigen:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "was ermittelt wurde, wann und wie",
+              "dass die Beschäftigten und, wo es einen gibt, der Betriebsrat beteiligt waren",
+              "welche Gefährdungen bestehen und wie sie beurteilt wurden, je Bereich und Gruppe",
+              "welche Maßnahmen festgelegt wurden, bis wann sie umgesetzt sein sollen und wer dafür sorgt",
+              "das Ergebnis der Überprüfung: ob die Maßnahmen gewirkt haben"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Die Beurteilung ist mehr als eine Befragung",
+            "text": "Das Gesetz verlangt keine Befragung. Es verlangt, dass die Gefährdungen beurteilt und die erforderlichen Maßnahmen ermittelt werden. Eine anonyme, standardisierte Mitarbeiterbefragung ist ein guter Weg, einen Teil davon zu tun, und zeigt, wie die Beschäftigten selbst Arbeitsintensität, Unterstützung und Umgang erleben. Begehungen, Unfall- und Fehlzeitenzahlen und Gespräche mit den Beschäftigten können das Bild vervollständigen. Eine Befragung beurteilt keine Gefährdung und beschließt keine Maßnahme – das tut der Arbeitgeber, und das muss die Dokumentation zeigen."
+          },
+          {
+            "t": "h2",
+            "text": "Was geschieht, wenn die Pflichten nicht erfüllt werden"
+          },
+          {
+            "t": "p",
+            "text": "Die Überwachung des Arbeitsschutzes ist staatliche Aufgabe: Die zuständigen Behörden der Länder – Gewerbeaufsicht oder Ämter für Arbeitsschutz, je nach Land – überwachen die Einhaltung des Gesetzes und beraten die Arbeitgeber (§ 21 Abs. 1 ArbSchG). Beginnend mit 2026 sind in jedem Land mindestens 5 Prozent der Betriebe im Jahr zu besichtigen (§ 21 Abs. 1a). Die Behörde kann die zur Überwachung erforderlichen Auskünfte und Unterlagen verlangen, Betriebsstätten betreten und besichtigen und im Einzelfall anordnen, welche Maßnahmen der Arbeitgeber zu treffen hat (§ 22). Bei einer Besichtigung hält sie fest, ob Gefährdungen ermittelt und Maßnahmen festgelegt wurden, ob deren Umsetzung und Wirksamkeit geprüft wurde und ob Gefährdungen und Maßnahmen dokumentiert sind (§ 21 Abs. 3a Nr. 11)."
+          },
+          {
+            "t": "p",
+            "text": "So kann ein Mangel zu einem Bescheid führen, Schritt für Schritt:"
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Besichtigung und Beratung",
+                "ref": "§ 21 Abs. 1 und 1a ArbSchG",
+                "text": "Die Arbeitsschutzbehörde des Landes besichtigt den Betrieb – ab 2026 mindestens fünf Prozent der Betriebe im Jahr – und berät den Arbeitgeber bei der Erfüllung seiner Pflichten."
+              },
+              {
+                "title": "Auskunft und Unterlagen",
+                "ref": "§ 22 Abs. 1 und 2 ArbSchG",
+                "text": "Die Behörde kann die erforderlichen Auskünfte und Unterlagen verlangen, etwa die Gefährdungsbeurteilung und ihre Dokumentation, und den Betrieb betreten und besichtigen."
+              },
+              {
+                "title": "Anordnung",
+                "ref": "§ 22 Abs. 3 ArbSchG",
+                "text": "Die Behörde kann im Einzelfall anordnen, welche Maßnahmen der Arbeitgeber zu treffen hat, mit einer angemessenen Frist. Wird die Anordnung nicht ausgeführt, kann sie die betroffene Arbeit untersagen."
+              },
+              {
+                "title": "Bußgeld und Strafe",
+                "ref": "§§ 25, 26 ArbSchG",
+                "text": "Wer einer vollziehbaren Anordnung zuwiderhandelt, handelt ordnungswidrig; die Geldbuße kann bis zu 30.000 Euro betragen. Wer das beharrlich wiederholt oder dadurch Leben oder Gesundheit von Beschäftigten gefährdet, macht sich strafbar."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Bei einer Besichtigung ist es die Dokumentation, die zeigt, was Sie getan haben. Eine Beurteilung, die zu Maßnahmen geführt hat, deren Wirksamkeit geprüft wurde – und die mit den Maßnahmen und dem Ergebnis der Überprüfung in den Unterlagen steht – ist deshalb auch die beste Antwort, wenn die Behörde fragt."
+          },
+          {
+            "t": "p",
+            "text": "Lesen Sie mehr über [die Rolle des Betriebsrats](/verneombud) und darüber, [was für kleine Unternehmen gilt](/smaa-bedrifter). Den Gesetzestext finden Sie beim Bundesministerium der Justiz: [Arbeitsschutzgesetz](https://www.gesetze-im-internet.de/arbschg/BJNR124610996.html)."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Gelten die Pflichten für kleine Unternehmen?",
+            "a": "Ja. Die Pflicht zur Gefährdungsbeurteilung (§ 5 ArbSchG) trifft jeden Arbeitgeber, unabhängig von der Größe, und das Gesetz gilt in allen Tätigkeitsbereichen (§ 1 Abs. 1). Auch die Dokumentation (§ 6) gilt für jeden Arbeitgeber; ihr Umfang richtet sich nach der Art der Tätigkeiten und der Zahl der Beschäftigten, und bei gleichartigen Arbeitsbedingungen reicht die Beurteilung eines Arbeitsplatzes (§ 5 Abs. 2). Ein kleiner Betrieb kann es also einfacher machen als ein großer – aber nicht weglassen."
+          },
+          {
+            "q": "Verlangt das Gesetz eine Mitarbeiterbefragung?",
+            "a": "Nein. Weder das Arbeitsschutzgesetz noch die Verordnungen dazu verlangen eine Befragung. Sie verlangen, dass der Arbeitgeber die Gefährdungen beurteilt, auch die psychischen Belastungen (§ 5 Abs. 3 Nr. 6), Maßnahmen trifft und prüft (§ 3 Abs. 1) und das Ergebnis dokumentiert (§ 6). Eine anonyme, standardisierte Mitarbeiterbefragung ist ein guter Weg, die psychische Belastung zu erheben, aber sie ist eine Quelle, nicht die ganze Beurteilung."
+          },
+          {
+            "q": "Seit wann gehört die psychische Belastung zur Gefährdungsbeurteilung?",
+            "a": "Ausdrücklich seit 2013: Seither nennt § 5 Abs. 3 Nr. 6 ArbSchG die psychischen Belastungen bei der Arbeit als eine der Gefährdungen, die zu beurteilen sind. Schon vorher verlangte § 4 Nr. 1, die Arbeit so zu gestalten, dass eine Gefährdung der psychischen Gesundheit möglichst vermieden wird, und die Aufzählung in § 5 Abs. 3 war nie abschließend („insbesondere“). Eine Gefährdungsbeurteilung, die die psychische Belastung auslässt, ist unvollständig."
+          },
+          {
+            "q": "Gibt es eine Frist für die Beurteilung?",
+            "a": "Nein, keine besondere Frist: Die Pflicht besteht, sobald jemand beschäftigt wird, und sie ist nie abgeschlossen – die Maßnahmen sind auf ihre Wirksamkeit zu prüfen und sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 Satz 2 ArbSchG). Die Behörde kann die Unterlagen jederzeit verlangen (§ 22 Abs. 1), und ab 2026 sind in jedem Land mindestens fünf Prozent der Betriebe im Jahr zu besichtigen (§ 21 Abs. 1a)."
+          },
+          {
+            "q": "Wie oft müssen wir beurteilen?",
+            "a": "Das Gesetz nennt kein Intervall. Es verlangt, die Maßnahmen auf ihre Wirksamkeit zu überprüfen und erforderlichenfalls sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 Satz 2 ArbSchG), und die Unterweisung bei Veränderungen im Aufgabenbereich, bei neuen Arbeitsmitteln oder einer neuen Technologie zu wiederholen (§ 12 Abs. 1). In der Praxis heißt das: bei Änderungen – einer Umorganisation, neuen Aufgaben, einem Wechsel in der Führung – und sonst in angemessenen Abständen. Eine jährliche Basisbefragung mit kurzen Pulsbefragungen dazwischen ist ein Rhythmus, der die Wirksamkeitsprüfung gleich mitliefert."
+          },
+          {
+            "q": "Wer ist für die Beurteilung verantwortlich?",
+            "a": "Der Arbeitgeber. Er hat die Gefährdungen zu beurteilen (§ 5 Abs. 1 ArbSchG) und die Maßnahmen zu treffen (§ 3 Abs. 1); verantwortlich sind neben ihm die Personen, die ihn vertreten, die den Betrieb leiten oder die er schriftlich beauftragt hat (§ 13). Betriebsarzt und Fachkraft für Arbeitssicherheit unterstützen ihn (§§ 2, 5 ASiG), und der Betriebsrat bestimmt bei der Methode mit (§ 87 Abs. 1 Nr. 7 BetrVG) – aber es ist nicht ihre Aufgabe, die Beurteilung durchzuführen."
+          },
+          {
+            "q": "Müssen wir einen Betriebsrat haben?",
+            "a": "Nein. Das Betriebsverfassungsgesetz gibt den Beschäftigten das Recht, in Betrieben mit in der Regel mindestens fünf ständigen wahlberechtigten Arbeitnehmern, von denen drei wählbar sind, einen Betriebsrat zu wählen (§ 1 BetrVG); eine Pflicht des Arbeitgebers, einen zu haben, besteht nicht, und der Betriebsrat wird nie vom Arbeitgeber eingesetzt. Wo es einen gibt, ist er rechtzeitig und umfassend zu unterrichten (§ 80 Abs. 2), bestimmt er bei der Methode der Beurteilung mit (§ 87 Abs. 1 Nr. 7) und ist bei allen Fragen des Arbeitsschutzes hinzuzuziehen (§ 89 Abs. 2)."
+          },
+          {
+            "q": "Müssen wir alle Bereiche der psychischen Belastung beurteilen?",
+            "a": "Die Beurteilung muss alle Gefährdungen erfassen, die mit der Arbeit verbunden sind (§ 5 Abs. 1 ArbSchG), und § 5 Abs. 3 nennt die psychischen Belastungen als eine davon, ohne sie in Bereiche zu zerlegen. Welche Belastungen es bei Ihnen gibt, hängt von den Tätigkeiten ab (§ 5 Abs. 2). Eine Befragung deckt selten alles ab: Die Lage der Arbeitszeit sieht man oft besser in Dienstplänen und Überstunden, und Lärm, Klima und Beleuchtung gehören in die Beurteilung der Arbeitsstätte (§ 5 Abs. 3 Nr. 1 und 2)."
+          },
+          {
+            "q": "Was kann die Behörde tun, wenn wir nicht beurteilt haben?",
+            "a": "Die erforderlichen Auskünfte und Unterlagen verlangen (§ 22 Abs. 1 ArbSchG), den Betrieb betreten und besichtigen (Abs. 2) und im Einzelfall anordnen, welche Maßnahmen zu treffen sind (Abs. 3). Wer einer vollziehbaren Anordnung zuwiderhandelt, handelt ordnungswidrig, mit einer Geldbuße bis zu 30.000 Euro (§ 25); wer das beharrlich wiederholt oder dadurch Leben oder Gesundheit von Beschäftigten gefährdet, macht sich strafbar (§ 26). Beschäftigte, deren Beschwerde der Arbeitgeber nicht abhilft, können sich ohne Nachteile an die Behörde wenden (§ 17 Abs. 2)."
+          }
+        ]
+      },
+      "verneombud": {
+        "title": "Betriebsrat und Gefährdungsbeurteilung psychischer Belastung | Orgpuls",
+        "description": "Die Rolle des Betriebsrats bei der Gefährdungsbeurteilung psychischer Belastung: Mitbestimmung, Unterrichtung, Schulung, Einsicht und der Weg weiter, wenn die Geschäftsführung nicht handelt.",
+        "crumb": "Für den Betriebsrat",
+        "card": {
+          "title": "Betriebsrat",
+          "text": "Rolle, Aufgaben und Rechte des Betriebsrats bei der psychischen Belastung – und was Sie tun, wenn die Geschäftsführung nicht handelt."
+        },
+        "kicker": "§§ 80, 87 und 89 BetrVG",
+        "h1": "Welche Rolle hat der Betriebsrat bei der Gefährdungsbeurteilung psychischer Belastung?",
+        "lead": "Der Betriebsrat wacht darüber, dass die zugunsten der Arbeitnehmer geltenden Gesetze durchgeführt werden – das Arbeitsschutzgesetz eingeschlossen –, und fördert die Maßnahmen des Arbeitsschutzes (§ 80 Abs. 1 Nr. 1 und 9 BetrVG). Bei Regelungen über den Gesundheitsschutz bestimmt er mit (§ 87 Abs. 1 Nr. 7), also auch bei der Methode, mit der die psychische Belastung beurteilt wird. Der Arbeitgeber hat ihn rechtzeitig und umfassend zu unterrichten, ihm die Unterlagen vorzulegen (§ 80 Abs. 2) und ihn bei allen Fragen des Arbeitsschutzes hinzuzuziehen (§ 89 Abs. 2). Die Pflicht zur Beurteilung bleibt beim Arbeitgeber (§ 5 ArbSchG).",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Was sagt das Gesetz über den Betriebsrat und die psychische Belastung?"
+          },
+          {
+            "t": "p",
+            "text": "Das Betriebsverfassungsgesetz gibt dem Betriebsrat drei Hebel. Er hat darüber zu wachen, „dass die zugunsten der Arbeitnehmer geltenden Gesetze, Verordnungen, Unfallverhütungsvorschriften, Tarifverträge und Betriebsvereinbarungen durchgeführt werden“ (§ 80 Abs. 1 Nr. 1), und „Maßnahmen des Arbeitsschutzes und des betrieblichen Umweltschutzes zu fördern“ (Nr. 9). Er hat mitzubestimmen bei „Regelungen über die Verhütung von Arbeitsunfällen und Berufskrankheiten sowie über den Gesundheitsschutz im Rahmen der gesetzlichen Vorschriften“ (§ 87 Abs. 1 Nr. 7) – und die Gefährdungsbeurteilung nach § 5 ArbSchG ist eine solche Vorschrift. Und er ist „bei allen im Zusammenhang mit dem Arbeitsschutz oder der Unfallverhütung stehenden Besichtigungen und Fragen“ hinzuzuziehen (§ 89 Abs. 2). Was zur psychischen Belastung gehört, steht in § 5 Abs. 3 Nr. 6 ArbSchG und auf [Psychische Belastung im ArbSchG](/lovkrav)."
+          },
+          {
+            "t": "hub",
+            "center": {
+              "title": "Der Betriebsrat",
+              "text": "Vertritt die Beschäftigten des Betriebs und wacht darüber, dass die zu ihren Gunsten geltenden Gesetze durchgeführt werden (§ 80 Abs. 1 Nr. 1 BetrVG)."
+            },
+            "items": [
+              {
+                "title": "Wacht",
+                "text": "Über die Durchführung des Arbeitsschutzgesetzes im Betrieb und setzt sich dafür ein, dass seine Vorschriften eingehalten werden (§ 80 Abs. 1 Nr. 1, § 89 Abs. 1)."
+              },
+              {
+                "title": "Bestimmt mit",
+                "text": "Bei Regelungen über den Gesundheitsschutz, also bei der Methode der Gefährdungsbeurteilung; ohne Einigung entscheidet die Einigungsstelle (§ 87 Abs. 1 Nr. 7, Abs. 2)."
+              },
+              {
+                "title": "Erhält Unterlagen",
+                "text": "Ist rechtzeitig und umfassend zu unterrichten, und auf Verlangen sind ihm jederzeit die erforderlichen Unterlagen zur Verfügung zu stellen (§ 80 Abs. 2)."
+              },
+              {
+                "title": "Beantragt",
+                "text": "Maßnahmen, die dem Betrieb und der Belegschaft dienen, beim Arbeitgeber (§ 80 Abs. 1 Nr. 2) – und nimmt Anregungen der Beschäftigten entgegen (Nr. 3)."
+              }
+            ]
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "§ 1 BetrVG",
+                "text": "In Betrieben mit in der Regel mindestens fünf ständigen wahlberechtigten Arbeitnehmern, von denen drei wählbar sind, werden Betriebsräte gewählt. Das Gesetz gibt den Beschäftigten das Recht; eine Pflicht des Arbeitgebers, einen Betriebsrat zu haben, besteht nicht, und er wird nie vom Arbeitgeber eingesetzt."
+              },
+              {
+                "ref": "§ 80 BetrVG",
+                "text": "Der Betriebsrat wacht über die Durchführung der Gesetze, beantragt Maßnahmen, nimmt Anregungen entgegen und fördert den Arbeitsschutz (Abs. 1). Der Arbeitgeber hat ihn rechtzeitig und umfassend zu unterrichten und ihm die erforderlichen Unterlagen zur Verfügung zu stellen (Abs. 2)."
+              },
+              {
+                "ref": "§ 87 Abs. 1 Nr. 7 BetrVG",
+                "text": "Mitbestimmung bei Regelungen über den Gesundheitsschutz im Rahmen der gesetzlichen Vorschriften. Kommt eine Einigung nicht zustande, entscheidet die Einigungsstelle (Abs. 2)."
+              },
+              {
+                "ref": "§ 89 BetrVG",
+                "text": "Der Betriebsrat hat sich dafür einzusetzen, dass die Vorschriften über den Arbeitsschutz durchgeführt werden (Abs. 1). Der Arbeitgeber hat ihn bei allen Besichtigungen und Fragen des Arbeitsschutzes hinzuzuziehen (Abs. 2) und ihm die Niederschriften zu überlassen (Abs. 5)."
+              },
+              {
+                "ref": "§§ 37, 40 und 78 BetrVG",
+                "text": "Mitglieder des Betriebsrats sind für ihre Aufgaben und für Schulungen, die erforderliche Kenntnisse vermitteln, ohne Minderung des Entgelts freizustellen (§ 37 Abs. 2 und 6); die Kosten trägt der Arbeitgeber (§ 40 Abs. 1); sie dürfen in ihrer Tätigkeit nicht gestört oder behindert und wegen ihr nicht benachteiligt werden (§ 78)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Welche Aufgaben hat der Betriebsrat bei der psychischen Belastung?"
+          },
+          {
+            "t": "p",
+            "text": "Das Gesetz sagt „wachen“, „mitbestimmen“, „beantragen“ und „hinzuziehen“. Das Arbeitsschutzgesetz macht die Beurteilung der psychischen Belastung zur Pflicht des Arbeitgebers (§ 5 Abs. 3 Nr. 6 ArbSchG), und das Betriebsverfassungsgesetz gibt dem Betriebsrat die Mitbestimmung bei der Methode (§ 87 Abs. 1 Nr. 7 BetrVG). In der Praxis sind es sechs Aufgaben:"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Hinsehen",
+                "text": "Die Zeichen im Alltag sehen: das Tempo, den Ton, wer allein ist, Ansagen, die sich widersprechen. Die Begehung, zu der der Betriebsrat hinzuzuziehen ist (§ 89 Abs. 2 BetrVG), ist ein fester Anlass dafür, auch für die psychische Belastung."
+              },
+              {
+                "title": "Ansprechen",
+                "text": "Sich an den Arbeitgeber wenden und Maßnahmen beantragen, wenn etwas geändert werden muss (§ 80 Abs. 1 Nr. 2 BetrVG) – mit den Zahlen in der Hand."
+              },
+              {
+                "title": "Die Methode vereinbaren",
+                "text": "Mitbestimmen, wie die psychische Belastung beurteilt wird: Instrument, Gruppen, Anonymität, Umgang mit den Ergebnissen – in der Regel in einer Betriebsvereinbarung (§ 87 Abs. 1 Nr. 7 BetrVG)."
+              },
+              {
+                "title": "An der Beurteilung teilnehmen",
+                "text": "Die Faktoren gemeinsam mit der Geschäftsführung beurteilen, einzeln und im Zusammenhang – nicht hinterher eine Zusammenfassung bekommen (§ 80 Abs. 2, § 89 Abs. 2 BetrVG)."
+              },
+              {
+                "title": "Bei den Maßnahmen mitwirken",
+                "text": "Mitreden, welche Maßnahmen gewählt werden, und sehen, dass sie auf die Ursachen zielen (§ 87 Abs. 1 Nr. 7 BetrVG; § 3 Abs. 1 ArbSchG)."
+              },
+              {
+                "title": "Weitergehen, wenn es stockt",
+                "text": "Die Einigungsstelle anrufen, wenn keine Einigung über die Regelung zustande kommt (§ 87 Abs. 2 BetrVG), und bei groben Verstößen das Arbeitsgericht (§ 23 Abs. 3)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Welche Rechte hat der Betriebsrat?"
+          },
+          {
+            "t": "p",
+            "text": "Die Rechte stehen im Betriebsverfassungsgesetz:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Schulung.** Mitglieder des Betriebsrats sind für Schulungen freizustellen, die Kenntnisse vermitteln, die für die Arbeit des Betriebsrats erforderlich sind (§ 37 Abs. 6 BetrVG); die Kosten trägt der Arbeitgeber (§ 40 Abs. 1). Da der Betriebsrat über den Arbeitsschutz wacht und beim Gesundheitsschutz mitbestimmt, gehört die Gefährdungsbeurteilung psychischer Belastung zu dem, was eine Schulung abdecken darf.",
+              "**Freistellung.** Mitglieder des Betriebsrats sind von ihrer beruflichen Tätigkeit ohne Minderung des Arbeitsentgelts zu befreien, soweit es zur ordnungsgemäßen Durchführung ihrer Aufgaben erforderlich ist (§ 37 Abs. 2 BetrVG).",
+              "**Unterrichtung und Unterlagen.** Der Betriebsrat ist rechtzeitig und umfassend zu unterrichten, und ihm sind auf Verlangen jederzeit die erforderlichen Unterlagen zur Verfügung zu stellen – Ergebnisse, Beurteilungen und Maßnahmen gehören dazu (§ 80 Abs. 2 BetrVG).",
+              "**Mitbestimmung.** Bei Regelungen über den Gesundheitsschutz im Rahmen der gesetzlichen Vorschriften bestimmt der Betriebsrat mit; kommt keine Einigung zustande, entscheidet die Einigungsstelle (§ 87 Abs. 1 Nr. 7, Abs. 2 BetrVG).",
+              "**Hinzuziehung.** Der Arbeitgeber hat den Betriebsrat bei allen Besichtigungen und Fragen des Arbeitsschutzes und bei Unfalluntersuchungen hinzuzuziehen und ihm die Niederschriften zu überlassen (§ 89 Abs. 2 und 5 BetrVG). Auch die Arbeitsschutzbehörde hat ihn bei Besichtigungen hinzuzuziehen.",
+              "**Schutz im Amt.** Mitglieder des Betriebsrats dürfen in der Ausübung ihrer Tätigkeit nicht gestört oder behindert und wegen ihrer Tätigkeit nicht benachteiligt oder begünstigt werden, auch nicht in ihrer beruflichen Entwicklung (§ 78 BetrVG)."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Was hat sich 2013 und 2026 für den Betriebsrat geändert?"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "2013",
+                "title": "Psychische Belastungen ausdrücklich im Arbeitsschutzgesetz",
+                "text": "§ 5 Abs. 3 Nr. 6 ArbSchG nennt die psychischen Belastungen bei der Arbeit seither ausdrücklich als Gegenstand der Gefährdungsbeurteilung – und damit als Gegenstand dessen, worüber der Betriebsrat wacht und wobei er mitbestimmt."
+              },
+              {
+                "date": "2026",
+                "title": "Mindestbesichtigungsquote",
+                "text": "Beginnend mit 2026 besichtigen die Arbeitsschutzbehörden der Länder jedes Jahr mindestens fünf Prozent der Betriebe (§ 21 Abs. 1a ArbSchG). Bei jeder Besichtigung ist der Betriebsrat hinzuzuziehen (§ 89 Abs. 2 BetrVG), und festgehalten wird auch, ob Gefährdungen ermittelt, Maßnahmen geprüft und beides dokumentiert ist (§ 21 Abs. 3a Nr. 11 ArbSchG)."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Das ganze Regelwerk, Paragraf für Paragraf, steht auf [Psychische Belastung im ArbSchG](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "Was tut der Betriebsrat, wenn die psychische Belastung erhoben wird?"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Schritt 1 · Vereinbarung",
+                "title": "Die Methode mitbestimmen: Instrument, Gruppen, Grenze, Umgang mit den Ergebnissen.",
+                "text": "**Frage:** Steht die Befragung in einer Betriebsvereinbarung, und wer legt fest, wann sie läuft?"
+              },
+              {
+                "date": "Schritt 2 · Erhebung",
+                "title": "Die Kolleginnen und Kollegen zum Antworten ermutigen und erklären können, warum es sicher ist.",
+                "text": "**Frage:** Wie ist die Anonymität gesichert, und wie klein darf eine Gruppe sein, die gezeigt wird?"
+              },
+              {
+                "date": "Schritt 3 · Beurteilung",
+                "title": "Die Zahlen gemeinsam mit der Geschäftsführung beurteilen – nicht hinterher eine Zusammenfassung bekommen.",
+                "text": "**Frage:** Sehe ich dieselben Zahlen wie die Geschäftsführung, und bin ich dabei, wenn die Gefährdungen beurteilt werden?"
+              },
+              {
+                "date": "Schritt 4 · Maßnahmen",
+                "title": "Mitreden, welche Maßnahmen gewählt werden, und sehen, dass sie auf die Ursachen zielen.",
+                "text": "**Frage:** Hat jede Maßnahme eine verantwortliche Person und einen Termin, und zielt sie auf die Ursache?"
+              },
+              {
+                "date": "Schritt 5 · Wirksamkeit",
+                "title": "Sehen, dass die Maßnahmen umgesetzt werden und jemand prüft, ob sie gewirkt haben.",
+                "text": "**Frage:** Woran sehen wir, ob die Maßnahmen gewirkt haben, und wann?"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "In Orgpuls hat der Betriebsrat eine eigene Rolle, **Betriebsrat**. Sie sieht dieselben Ergebnisse und dieselbe Beurteilung wie die Geschäftsführung, aber nur auf Gruppenebene: nie eine einzelne Antwort und nie, wer geantwortet hat. Der Betriebsrat erfährt vor den Beschäftigten, wenn eine Befragung versendet wird. Lesen Sie mehr darüber, [was das Gesetz verlangt](/lovkrav) und [wie die Anonymität funktioniert](/sikkerhet)."
+          },
+          {
+            "t": "h2",
+            "text": "Was sollte der Betriebsrat einsehen können?"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Dieselben Unterlagen wie die Geschäftsführung",
+                "text": "Um bei der Beurteilung mitwirken zu können, braucht der Betriebsrat dieselben Ergebnisse wie die Geschäftsführung – nicht nur eine Zusammenfassung im Nachhinein (§ 80 Abs. 2 BetrVG)."
+              },
+              {
+                "title": "Die Maßnahmen",
+                "text": "Welche Maßnahmen festgelegt wurden, wer für ihre Umsetzung sorgt, bis wann sie umgesetzt sein sollen und wie ihre Wirksamkeit geprüft wird (§ 3 Abs. 1, § 6 ArbSchG)."
+              },
+              {
+                "title": "Wie die Anonymität gesichert ist",
+                "text": "Der Betriebsrat sollte den Kolleginnen und Kollegen erklären können, warum das Antworten sicher ist: was gespeichert wird, und wie klein eine Gruppe sein darf, die gezeigt wird."
+              },
+              {
+                "title": "Die Dokumentation",
+                "text": "Was ermittelt wurde, welche Gefährdungen bestehen und wie sie beurteilt wurden, und was getan wurde. Das Ergebnis der Gefährdungsbeurteilung ist immer zu dokumentieren (§ 6 ArbSchG)."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Wie sprechen Sie es bei der Geschäftsführung an?"
+          },
+          {
+            "t": "p",
+            "text": "Sie wissen, dass die psychische Belastung beurteilt werden müsste, aber nicht, wie Sie es ansprechen sollen? Beginnen Sie mit Fragen, nicht mit Forderungen: Wann wurde die psychische Belastung zuletzt beurteilt, was kam dabei heraus, und was ist danach geschehen? Verweisen Sie auf § 5 Abs. 3 Nr. 6 ArbSchG, der die psychischen Belastungen ausdrücklich zur Gefährdungsbeurteilung zählt, und auf § 87 Abs. 1 Nr. 7 BetrVG, der Ihnen die Mitbestimmung bei der Methode gibt. Lesen Sie mehr darüber, [was das Gesetz verlangt](/lovkrav)."
+          },
+          {
+            "t": "box",
+            "title": "Ein Rat aus der Praxis",
+            "text": "Sprechen Sie es als Frage des Rhythmus an, nicht des Werkzeugs: „Wann haben wir zuletzt beurteilt, und was ist aus dem geworden, was wir gefunden haben?“ Die Antwort sagt meist mehr als jede Befragung."
+          },
+          {
+            "t": "h2",
+            "text": "Was tun Sie, wenn die Geschäftsführung nicht handelt?"
+          },
+          {
+            "t": "p",
+            "text": "Das Gesetz gibt dem Betriebsrat einen festen Weg. Halten Sie Maßnahmen für nötig, beantragen Sie sie beim Arbeitgeber (§ 80 Abs. 1 Nr. 2 BetrVG) und verlangen Sie die Unterlagen (§ 80 Abs. 2). Geht es um die Regelung selbst – ob und wie die psychische Belastung beurteilt wird –, haben Sie die Mitbestimmung: Kommt keine Einigung zustande, entscheidet die Einigungsstelle (§ 87 Abs. 2). Bei groben Verstößen des Arbeitgebers gegen seine Pflichten aus dem Betriebsverfassungsgesetz kann der Betriebsrat beim Arbeitsgericht beantragen, ihm eine Handlung aufzugeben (§ 23 Abs. 3). Und die Arbeitsschutzbehörde des Landes überwacht die Einhaltung des Arbeitsschutzgesetzes und zieht den Betriebsrat bei Besichtigungen hinzu (§ 21 ArbSchG, § 89 Abs. 2 BetrVG)."
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Ansprechen",
+                "text": "Bei der Geschäftsführung, gern schriftlich, als Antrag des Betriebsrats (§ 80 Abs. 1 Nr. 2 BetrVG)."
+              },
+              {
+                "title": "Die Zahlen zeigen",
+                "text": "Welche Faktoren, welche Gruppen, und wie sie sich entwickelt haben. Die Unterlagen sind Ihnen auf Verlangen zur Verfügung zu stellen (§ 80 Abs. 2)."
+              },
+              {
+                "title": "Die Mitbestimmung nutzen",
+                "text": "Eine Regelung über die Beurteilung verlangen; ohne Einigung entscheidet die Einigungsstelle.",
+                "ref": "§ 87 Abs. 1 Nr. 7 und Abs. 2 BetrVG"
+              },
+              {
+                "title": "Weitergehen",
+                "text": "Bei groben Verstößen zum Arbeitsgericht; die Arbeitsschutzbehörde des Landes überwacht und berät, und Beschäftigte können sich ohne Nachteile an sie wenden.",
+                "ref": "§ 23 Abs. 3 BetrVG · § 21, § 17 Abs. 2 ArbSchG"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Belästigung hat einen eigenen Weg: Die Beschäftigten können sich bei der zuständigen Stelle des Betriebs beschweren, die Beschwerde ist zu prüfen und ihr Ergebnis mitzuteilen (§ 13 AGG). Der Betriebsrat nimmt Beschwerden entgegen und wirkt beim Arbeitgeber auf Abhilfe hin, wenn er sie für berechtigt hält (§ 85 BetrVG), und wer sich beschwert, darf deshalb keine Nachteile erleiden (§ 84 Abs. 3)."
+          },
+          {
+            "t": "h2",
+            "text": "Was tut der Betriebsrat bei Belästigung oder Konflikten?"
+          },
+          {
+            "t": "p",
+            "text": "Belästigung und sexuelle Belästigung regelt das Allgemeine Gleichbehandlungsgesetz: Der Arbeitgeber hat die erforderlichen, auch vorbeugenden Schutzmaßnahmen zu treffen (§ 12 AGG) und die Beschwerdestelle bekannt zu machen (§ 12 Abs. 5). Arbeitgeber und Betriebsrat haben gemeinsam darüber zu wachen, dass alle im Betrieb nach Recht und Billigkeit behandelt werden und jede Benachteiligung unterbleibt (§ 75 Abs. 1 BetrVG). Aufgabe des Betriebsrats ist nicht, den Konflikt zu lösen oder den Fall zu untersuchen, sondern darauf zu achten, dass der Arbeitgeber ihn anpackt: dass es die Beschwerdestelle gibt, dass sie bekannt ist und genutzt wird, und dass die Person, die sich meldet, Hilfe bekommt. Reicht das nicht, nimmt er die Beschwerde selbst entgegen und wirkt auf Abhilfe hin (§ 85 BetrVG)."
+          },
+          {
+            "t": "p",
+            "text": "Ein niedriger Wert beim Meinungsklima in einer anonymen Befragung ist ein Signal für dasselbe – ohne dass jemand mit Namen etwas sagen musste."
+          },
+          {
+            "t": "h2",
+            "text": "Warum wird eine kleine Abteilung in den Ergebnissen nicht gezeigt?"
+          },
+          {
+            "t": "p",
+            "text": "In Orgpuls werden Ergebnisse nur für Gruppen gezeigt, in denen mindestens fünf geantwortet haben. Eine Organisation kann die Grenze auf zehn anheben, aber nie unter fünf senken. Wenn eine kleine Abteilung nicht gezeigt wird, verbirgt niemand etwas vor Ihnen: Die Zahl wurde für niemanden errechnet, gerade damit niemand sehen kann, wer was geantwortet hat. Die Antworten zählen trotzdem in den Zahlen für das Ganze mit. Lesen Sie mehr darüber, [wie die Anonymität funktioniert](/sikkerhet)."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Welche Rolle hat der Betriebsrat bei der psychischen Belastung?",
+            "a": "Darüber zu wachen, dass der Arbeitgeber das Arbeitsschutzgesetz durchführt, und dabei mitzubestimmen (§ 80 Abs. 1 Nr. 1, § 87 Abs. 1 Nr. 7 BetrVG). Das heißt: auf Arbeitsintensität, unklare Anforderungen, Unterstützung und Konflikte achten, sie beim Arbeitgeber ansprechen, die Methode der Gefährdungsbeurteilung mitbestimmen, an der Beurteilung und den Maßnahmen mitwirken und weitergehen, wenn der Arbeitgeber nicht handelt. Die Verantwortung für die Beurteilung liegt beim Arbeitgeber (§ 5 ArbSchG)."
+          },
+          {
+            "q": "Müssen wir einen Betriebsrat haben?",
+            "a": "Nein. In Betrieben mit in der Regel mindestens fünf ständigen wahlberechtigten Arbeitnehmern, von denen drei wählbar sind, können die Beschäftigten einen Betriebsrat wählen (§ 1 BetrVG); eine Pflicht des Arbeitgebers besteht nicht. Der Betriebsrat wird von den Beschäftigten gewählt – nie vom Arbeitgeber eingesetzt. Gibt es keinen, bleiben die Pflichten des Arbeitgebers aus dem Arbeitsschutzgesetz unverändert, und die Beschäftigten behalten ihr Vorschlags- und Beschwerderecht (§ 17 ArbSchG)."
+          },
+          {
+            "q": "Kann die Geschäftsführung sehen, wer was geantwortet hat?",
+            "a": "Nein. In Orgpuls lässt sich keine einzelne Antwort auf eine Person zurückführen – das steckt in der Datenbank, nicht in einem Versprechen über Abläufe –, und Ergebnisse werden nur für Gruppen gezeigt, in denen mindestens fünf geantwortet haben. Die Rolle Betriebsrat sieht dieselben Zahlen wie die Geschäftsführung, auf Gruppenebene – nie eine einzelne Antwort."
+          },
+          {
+            "q": "Was passiert, wenn die Geschäftsführung nicht will?",
+            "a": "Die Pflicht, die psychische Belastung zu beurteilen, Maßnahmen zu treffen und zu dokumentieren, gilt trotzdem, und die Verantwortung liegt beim Arbeitgeber (§§ 3, 5, 6 ArbSchG). Als Betriebsrat können Sie Maßnahmen beantragen (§ 80 Abs. 1 Nr. 2 BetrVG) und bei der Regelung mitbestimmen; kommt keine Einigung zustande, entscheidet die Einigungsstelle (§ 87 Abs. 2). Bei groben Verstößen steht der Weg zum Arbeitsgericht offen (§ 23 Abs. 3), und die Arbeitsschutzbehörde des Landes überwacht die Einhaltung des Gesetzes (§ 21 ArbSchG)."
+          },
+          {
+            "q": "Brauchen wir einen Arbeitsschutzausschuss?",
+            "a": "In Betrieben mit mehr als zwanzig Beschäftigten hat der Arbeitgeber einen Arbeitsschutzausschuss zu bilden; Teilzeitbeschäftigte zählen mit 0,5 oder 0,75 (§ 11 ASiG). Ihm gehören der Arbeitgeber oder eine beauftragte Person, zwei vom Betriebsrat bestimmte Betriebsratsmitglieder, Betriebsärzte, Fachkräfte für Arbeitssicherheit und Sicherheitsbeauftragte an. Er berät Anliegen des Arbeitsschutzes und tritt mindestens einmal vierteljährlich zusammen – die Gefährdungsbeurteilung psychischer Belastung gehört auf seine Tagesordnung."
+          },
+          {
+            "q": "Muss der Betriebsrat an der Gefährdungsbeurteilung beteiligt werden?",
+            "a": "Ja, wo es einen gibt. Die Methode der Gefährdungsbeurteilung ist eine Regelung über den Gesundheitsschutz, bei der der Betriebsrat mitbestimmt (§ 87 Abs. 1 Nr. 7 BetrVG); der Arbeitgeber hat ihn rechtzeitig und umfassend zu unterrichten und ihm die Unterlagen vorzulegen (§ 80 Abs. 2) und ihn bei allen Fragen des Arbeitsschutzes hinzuzuziehen (§ 89 Abs. 2). In der Praxis wird das in einer Betriebsvereinbarung geregelt, die auch die Rechtsgrundlage für die Verarbeitung der Beschäftigtendaten sein kann (§ 26 Abs. 4 BDSG)."
+          },
+          {
+            "q": "Was tue ich, wenn der Arbeitgeber nicht antwortet?",
+            "a": "Verlangen Sie die Unterlagen – sie sind dem Betriebsrat auf Verlangen jederzeit zur Verfügung zu stellen (§ 80 Abs. 2 BetrVG). Geht es um die Regelung, rufen Sie die Einigungsstelle an; ihr Spruch ersetzt die Einigung (§ 87 Abs. 2). Verstößt der Arbeitgeber grob gegen seine Pflichten aus dem Betriebsverfassungsgesetz, kann der Betriebsrat beim Arbeitsgericht beantragen, ihm eine Handlung aufzugeben (§ 23 Abs. 3). Beschäftigte, deren Beschwerde nicht abgeholfen wird, können sich ohne Nachteile an die Arbeitsschutzbehörde wenden (§ 17 Abs. 2 ArbSchG)."
+          },
+          {
+            "q": "Muss der Betriebsrat zur psychischen Belastung geschult sein?",
+            "a": "Mitglieder des Betriebsrats sind für Schulungen freizustellen, die Kenntnisse vermitteln, die für die Arbeit des Betriebsrats erforderlich sind (§ 37 Abs. 6 BetrVG), und der Arbeitgeber trägt die Kosten (§ 40 Abs. 1). Das Gesetz nennt keinen Inhalt und keine Stundenzahl. Da der Betriebsrat über den Arbeitsschutz wacht und bei der Gefährdungsbeurteilung mitbestimmt, gehört die psychische Belastung zu dem, was er können muss."
+          },
+          {
+            "q": "Kann der Betriebsrat verlangen, dass die psychische Belastung beurteilt wird?",
+            "a": "Die Pflicht liegt bereits beim Arbeitgeber: Die psychischen Belastungen gehören zur Gefährdungsbeurteilung (§ 5 Abs. 3 Nr. 6 ArbSchG). Der Betriebsrat kann die Beurteilung als Maßnahme beantragen (§ 80 Abs. 1 Nr. 2 BetrVG) und bestimmt bei der Regelung mit, wie sie erfolgt; kommt keine Einigung zustande, entscheidet die Einigungsstelle (§ 87 Abs. 1 Nr. 7, Abs. 2)."
+          },
+          {
+            "q": "Was ist der Unterschied zwischen Betriebsrat und Sicherheitsbeauftragten?",
+            "a": "Der Betriebsrat ist die gewählte Vertretung der Beschäftigten mit Mitbestimmungs- und Unterrichtungsrechten (§§ 80, 87, 89 BetrVG). Sicherheitsbeauftragte bestellt der Arbeitgeber unter Beteiligung des Betriebsrats, in Unternehmen mit regelmäßig 50 oder mehr Beschäftigten, zwischen 20 und 50 nur bei besonderer Gefährdung (§ 22 SGB VII); sie unterstützen den Arbeitgeber, achten auf Schutzeinrichtungen und machen auf Unfall- und Gesundheitsgefahren aufmerksam – sie sind keine Vertretung der Beschäftigten. Oft sitzen beide im Arbeitsschutzausschuss (§ 11 ASiG)."
+          }
+        ]
+      },
+      "smaaBedrifter": {
+        "title": "Psychische Belastung in kleinen Unternehmen – Mitarbeiterbefragung | Orgpuls",
+        "description": "Psychische Belastung in kleinen Unternehmen: was das Gesetz nach Zahl der Beschäftigten verlangt, und eine anonyme Mitarbeiterbefragung für kleine Betriebe mit Ergebnissen ab 5 Antworten.",
+        "crumb": "Kleine Unternehmen",
+        "card": {
+          "title": "Kleine Unternehmen",
+          "text": "Keine Personalabteilung? Eine anonyme Mitarbeiterbefragung, die Teil Ihrer Gefährdungsbeurteilung werden kann."
+        },
+        "kicker": "Für kleine Unternehmen ohne Personalabteilung",
+        "h1": "Mitarbeiter­befragung für kleine Unternehmen – in unter einer Stunde startklar",
+        "lead": "Kleine Unternehmen haben selten eine Personalabteilung, aber die Gefährdungsbeurteilung gilt ab der ersten beschäftigten Person. Orgpuls ist eine Mitarbeiterbefragung, die Versand, Erinnerungen und Dokumentation übernimmt. Sie verwenden die Zeit auf das, was dabei herauskommt.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Wie steht es um die Anonymität, wenn wir wenige sind?"
+          },
+          {
+            "t": "p",
+            "text": "Das ist die erste Frage in einem kleinen Unternehmen, und sie ist richtig. Orgpuls zeigt keine Gruppe, bevor mindestens 5 Personen geantwortet haben. Sind Sie 12, sehen Sie Zahlen für das ganze Unternehmen, aber nicht für eine Abteilung mit 3: Deren Antworten zählen im Ganzen mit, nie für sich."
+          },
+          {
+            "t": "p",
+            "text": "In Deutschland liegt die Grenze bei 5, und sie lässt sich nicht senken. Sie können sie auf höchstens 10 anheben. Die Grenze liegt in der Datenbank, und eine Befragung behält die Grenze, mit der sie eröffnet wurde. Die Antwort wird ohne Name, E-Mail-Adresse oder IP-Adresse gespeichert, und keine Spalte kann eine Antwort mit einer Person verbinden."
+          },
+          {
+            "t": "h2",
+            "text": "Was das Gesetz verlangt – nach Zahl der Beschäftigten"
+          },
+          {
+            "t": "p",
+            "text": "Die Pflicht, die Gefährdungen zu beurteilen, Maßnahmen zu treffen und das Ergebnis zu dokumentieren, gilt ab der ersten beschäftigten Person. Die übrigen Schwellen zählen unterschiedlich: der Betriebsrat nach den wahlberechtigten Arbeitnehmern eines Betriebs, der Arbeitsschutzausschuss nach den Beschäftigten eines Betriebs mit Gewichtung der Teilzeit, die Sicherheitsbeauftragten nach den Beschäftigten des Unternehmens."
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Ab der ersten beschäftigten Person",
+                "title": "Beurteilen, Maßnahmen treffen, Wirksamkeit prüfen",
+                "text": "Die Gefährdungsbeurteilung, auch der psychischen Belastung, und die Maßnahmen samt Prüfung ihrer Wirksamkeit. §§ 3 und 5 ArbSchG."
+              },
+              {
+                "date": "Ab der ersten beschäftigten Person",
+                "title": "Dokumentation, Unterweisung, Betriebsarzt und Fachkraft",
+                "text": "Die Unterlagen nach § 6 ArbSchG, bemessen nach Art der Tätigkeiten und Zahl der Beschäftigten; die Unterweisung (§ 12); Betriebsarzt und Fachkraft für Arbeitssicherheit, soweit erforderlich (§§ 2, 5 ASiG)."
+              },
+              {
+                "date": "Ab 5 wahlberechtigten Beschäftigten im Betrieb",
+                "title": "Betriebsrat – kann gewählt werden",
+                "text": "Ein Recht der Beschäftigten, keine Pflicht des Arbeitgebers; nie vom Arbeitgeber eingesetzt. § 1 BetrVG."
+              },
+              {
+                "date": "Ab mehr als 20 Beschäftigten im Betrieb",
+                "title": "Arbeitsschutzausschuss",
+                "text": "Mindestens vierteljährlich; Teilzeitbeschäftigte zählen mit 0,5 oder 0,75. § 11 ASiG."
+              },
+              {
+                "date": "Ab 50 Beschäftigten im Unternehmen",
+                "title": "Sicherheitsbeauftragte",
+                "text": "Zwischen 20 und 50 nur bei besonderer Gefährdung für Leben und Gesundheit. § 22 SGB VII."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Lesen Sie mehr darüber, [was das Gesetz zur psychischen Belastung verlangt](/lovkrav)."
+          },
+          {
+            "t": "h2",
+            "text": "Einfacher – aber nicht freiwillig"
+          },
+          {
+            "t": "p",
+            "text": "Das Gesetz nimmt Rücksicht auf die Größe. Die Unterlagen richten sich nach der Art der Tätigkeiten und der Zahl der Beschäftigten (§ 6 Abs. 1 ArbSchG), bei gleichartigen Arbeitsbedingungen reicht die Beurteilung eines Arbeitsplatzes (§ 5 Abs. 2), und ob ein Betriebsarzt oder eine Fachkraft bestellt wird und in welchem Umfang, hängt von Betrieb und Zahl der Beschäftigten ab (§§ 2, 5 ASiG). Ein kleines Unternehmen kann es also einfacher machen als ein großes. Aber die frühere Ausnahme von der Dokumentation für Arbeitgeber mit zehn oder weniger Beschäftigten steht nicht mehr im Gesetz, und die Pflicht zu beurteilen, Maßnahmen zu treffen und zu prüfen gilt in vollem Umfang."
+          },
+          {
+            "t": "box",
+            "title": "In einem kleinen Unternehmen fällt alles auf",
+            "text": "Wenn eine Person krankgeschrieben wird oder kündigt, merken es alle. Deshalb lohnt sich ein einfacher, fester Rhythmus für ein kleines Unternehmen mehr als für ein großes – nicht weniger."
+          },
+          {
+            "t": "h2",
+            "text": "Die Zeit, die es braucht"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Was",
+              "Zeit"
+            ],
+            "rows": [
+              [
+                "Registrierung",
+                "Etwa 3 Minuten"
+              ],
+              [
+                "Einrichtung beim ersten Mal",
+                "Unter 1 Stunde"
+              ],
+              [
+                "Die Basisbefragung, je beschäftigte Person",
+                "Etwa 4 Minuten"
+              ],
+              [
+                "Eine Pulsbefragung, je beschäftigte Person",
+                "Unter 1 Minute"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Loslegen ohne Personalabteilung"
+          },
+          {
+            "t": "p",
+            "text": "Fügen Sie die Beschäftigten aus einer Tabelle ein oder tragen Sie sie einzeln ein – Sie brauchen kein Personalsystem. Nutzen Sie Microsoft Entra ID, lassen sie sich von dort holen. Versenden Sie die Befragung per E-Mail, in Microsoft Teams oder Slack, oder teilen Sie sie als Link oder QR-Code im Pausenraum für alle, die nicht am Computer sitzen. Alle können auf dem Handy antworten."
+          },
+          {
+            "t": "h2",
+            "text": "Ein Jahr in einem kleinen Unternehmen"
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Start",
+                "title": "Das Unternehmen registrieren",
+                "text": "Mit dem Namen des Unternehmens. Tragen Sie die Beschäftigten aus einer Tabelle ein."
+              },
+              {
+                "date": "Die Basisbefragung",
+                "title": "Die Basisbefragung versenden",
+                "text": "Etwa vier Minuten je beschäftigte Person, mit einer Erinnerung durch das System."
+              },
+              {
+                "date": "Innerhalb von zwei Wochen",
+                "title": "Die Ergebnisse durchgehen",
+                "text": "Mit den Beschäftigten und dem Betriebsrat, wenn Sie einen haben. Beurteilen Sie die Gefährdungen und halten Sie das Ergebnis fest: Es ist immer zu dokumentieren (§ 6 ArbSchG)."
+              },
+              {
+                "date": "Danach",
+                "title": "Zwei oder drei Maßnahmen wählen",
+                "text": "Jede mit verantwortlicher Person und Datum. Das sind Ihre Maßnahmen des Arbeitsschutzes (§ 3 Abs. 1 ArbSchG)."
+              },
+              {
+                "date": "Im Laufe des Jahres",
+                "title": "Erneut messen",
+                "text": "Eine kurze Pulsbefragung zu den Faktoren, an denen Maßnahmen laufen – die Prüfung der Wirksamkeit (§ 3 Abs. 1 Satz 2 ArbSchG) –, und die nächste Basisbefragung in einem Jahr."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Das bekommen Sie"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Eine jährliche Basisbefragung zu 11 Faktoren aus dem QPS Nordic, mit kurzen Pulsbefragungen dazwischen",
+              "Die Ergebnisse, die am meisten bedeuten, umgesetzt in Maßnahmen mit verantwortlicher Person und Datum",
+              "Einen Bericht mit der Erhebung, der Beurteilung, den Maßnahmen und dem Ergebnis ihrer Überprüfung – die Dokumentation nach § 6 ArbSchG für die psychische Belastung",
+              "Einen eigenen Zugang für den Betriebsrat, mit denselben Zahlen, die die Geschäftsführung sieht"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Das machen Sie selbst",
+            "text": "Orgpuls gibt Ihnen die Befragung, die Maßnahmen und den Bericht. Die übrigen Gefährdungen – Arbeitsstätte, Arbeitsmittel, Stoffe, Verfahren (§ 5 Abs. 3 Nr. 1 bis 5 ArbSchG) –, die Unterweisung (§ 12), Betriebsarzt und Fachkraft für Arbeitssicherheit (ASiG), die Beschwerdestelle nach dem AGG und, wo es einen Betriebsrat gibt, die Betriebsvereinbarung bleiben bei Ihnen. Das Gespräch mit den Beschäftigten über die Ergebnisse auch."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Müssen kleine Unternehmen die psychische Belastung beurteilen?",
+            "a": "Ja. Jeder Arbeitgeber hat durch eine Beurteilung der mit der Arbeit verbundenen Gefährdung zu ermitteln, welche Maßnahmen erforderlich sind (§ 5 Abs. 1 ArbSchG), und psychische Belastungen bei der Arbeit gehören ausdrücklich dazu (Abs. 3 Nr. 6). Das Ergebnis ist zu dokumentieren, wie wenige Sie auch sind (§ 6)."
+          },
+          {
+            "q": "Was passiert, wenn nur 4 antworten?",
+            "a": "Dann steht ein Strich statt einer Zahl. Die Zahl wird nicht vor Ihnen verborgen – sie wird für niemanden errechnet. In Deutschland liegt die Grenze bei 5 und lässt sich nicht senken, sodass ein Unternehmen, in dem weniger als fünf antworten, keine Ergebnisse aus der Befragung bekommt. Das ist nötig, damit niemand eine Antwort wiedererkennen kann."
+          },
+          {
+            "q": "Brauchen wir ein Personalsystem?",
+            "a": "Nein. Fügen Sie die Beschäftigten aus einer Tabelle ein oder tragen Sie sie einzeln ein. Eine E-Mail-Adresse ist freiwillig, wenn Sie die Befragung als Link oder QR-Code teilen."
+          },
+          {
+            "q": "Müssen wir eine Befragung machen?",
+            "a": "Nein. Das Gesetz verlangt keine Befragung – es verlangt, dass Sie die Gefährdungen beurteilen, auch die psychische Belastung (§ 5 ArbSchG). Eine Mitarbeiterbefragung ist ein guter Weg, einen Teil davon zu tun, besonders für die psychische Belastung. Was zählt, ist, dass Sie etwas gegen das tun, was Sie finden."
+          },
+          {
+            "q": "Müssen wir einen Betriebsrat haben, wenn wir wenige sind?",
+            "a": "Nein. In Betrieben mit in der Regel mindestens fünf ständigen wahlberechtigten Arbeitnehmern, von denen drei wählbar sind, können die Beschäftigten einen Betriebsrat wählen (§ 1 BetrVG) – es ist ihr Recht, keine Pflicht des Arbeitgebers, und er wird nie vom Arbeitgeber eingesetzt. Haben Sie einen, bestimmt er bei der Methode der Beurteilung mit (§ 87 Abs. 1 Nr. 7 BetrVG) und sieht in Orgpuls dieselben Zahlen wie die Geschäftsführung."
+          },
+          {
+            "q": "Brauchen wir eine Beschwerdestelle nach dem AGG?",
+            "a": "Ja, unabhängig von der Größe. Die Beschäftigten haben das Recht, sich bei den zuständigen Stellen des Betriebs zu beschweren, wenn sie sich benachteiligt oder belästigt fühlen, und die Beschwerde ist zu prüfen und ihr Ergebnis mitzuteilen (§ 13 AGG); das Gesetz und die Stelle sind im Betrieb bekannt zu machen (§ 12 Abs. 5 AGG). Ein anonymer Kommentar in Orgpuls ist keine solche Beschwerde."
+          },
+          {
+            "q": "Schicken wir etwas an die Behörde?",
+            "a": "Nein. Nichts wird eingereicht. Sie haben die Unterlagen selbst, und die Arbeitsschutzbehörde des Landes kann sie bei der Überwachung verlangen (§ 22 Abs. 1 ArbSchG); ab 2026 besichtigt sie jedes Jahr mindestens fünf Prozent der Betriebe (§ 21 Abs. 1a). Der Bericht in Orgpuls fasst Erhebung, Beurteilung und Maßnahmen an einem Ort zusammen."
+          }
+        ],
+        "finalTitle": "Beginnen Sie mit dem eigenen Unternehmen",
+        "finalBody": "Geben Sie den Namen des Unternehmens und Ihre E-Mail-Adresse ein. Die Registrierung dauert etwa drei Minuten, die Einrichtung unter einer Stunde."
+      }
+    },
+    "pages": {
+      "plattform": {
+        "title": "Die Plattform: Befragung zur psychischen Belastung und Maßnahmenplan | Orgpuls",
+        "description": "Anonyme Befragung für die Gefährdungsbeurteilung psychischer Belastung: Ergebnisse je Faktor und Abteilung, Beurteilung, Maßnahmenplan mit Verantwortlichen und Frist, und ein Puls, der die Wirkung zeigt.",
+        "crumb": "Plattform",
+        "kicker": "Die Plattform",
+        "h1": "Eine Plattform für die ganze Runde: erheben, verstehen, handeln und sehen, dass es gewirkt hat",
+        "lead": "Orgpuls fasst die Erhebung der psychischen Belastung bei der Arbeit, ihre Beurteilung und die Nachverfolgung der Maßnahmen in einem festen Rhythmus zusammen, als Teil Ihrer Gefährdungsbeurteilung (§ 5 ArbSchG). Jeder Teil lässt sich für sich nutzen, aber der Wert liegt im Zusammenhang: Die Befragung wird zu Maßnahmen, und die nächste Befragung zeigt, ob die Maßnahmen gewirkt haben.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Erhebung"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Basis",
+                "text": "Elf Faktoren der psychischen Belastung bei der Arbeit, mit je drei Aussagen, beantwortet auf einer fünfstufigen Skala. Die Formulierungen bauen auf dem QPS Nordic auf, dem nordischen Forschungsinstrument, und decken Arbeitsmenge, Anforderungen, Handlungsspielraum und soziale Unterstützung ab – die Felder, die § 4 Nr. 4 ArbSchG nennt. Rund vier Minuten je beschäftigter Person."
+              },
+              {
+                "title": "Puls",
+                "text": "Kurze Befragungen zwischen den Basisbefragungen, nur zu den Faktoren, zu denen eine Maßnahme läuft. Der Puls ist keine neue Erhebung, sondern ein Weg, die Wirksamkeit der Maßnahme zu überprüfen (§ 3 Abs. 1 ArbSchG). Unter einer Minute."
+              },
+              {
+                "title": "Eigene Fragen",
+                "text": "Bis zu fünf eigene Fragen je Befragung, für das, was bei Ihnen besonders ist. Sie werden getrennt ausgewiesen und nie in den Index gerechnet."
+              },
+              {
+                "title": "Außerhalb des Index",
+                "text": "Eine Empfehlungsfrage, ein Screening zu Belästigung und zu Gewalt und Drohungen – nur als Anzahl für das ganze Unternehmen – und ein offenes Feld."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Ein Modul zu Arbeitszeit und Erholung, zu § 5 Abs. 3 Nr. 4 ArbSchG und dem Arbeitszeitgesetz, ist als zusätzliches Fragenset geplant. Die Befragung wird per E-Mail, Microsoft Teams oder Slack versandt oder als Link und QR-Code geteilt. Eine Erinnerung geht an alle, die nicht geantwortet haben, vom System und nicht von der Führungskraft."
+          },
+          {
+            "t": "shot",
+            "id": "sporsmal"
+          },
+          {
+            "t": "h2",
+            "text": "Ergebnisse"
+          },
+          {
+            "t": "p",
+            "text": "Die Antworten werden zu einem Index von 0 bis 100 je Faktor, mit einem Risikoband: 65 oder mehr ist geringes Risiko, 50–64 mittleres und unter 50 hohes. Die Zahl ist die Grundlage – die Beurteilung nehmen Sie je Faktor vor, und sie wird schriftlich dokumentiert (§ 6 ArbSchG). Das Ergebnis lässt sich auf mehrere Arten lesen:"
+          },
+          {
+            "t": "shot",
+            "id": "oversikt"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Heatmap** – die Faktoren gegen die Abteilungen, mit den Aussagen hinter jeder Zahl",
+              "**Priorität** – welche Faktoren am meisten dafür zählen, ob die Leute den Arbeitsplatz empfehlen würden",
+              "**Gruppenprofil, Vergleichen und Entwicklung** – eine Abteilung, zwei Befragungen oder die Entwicklung über die Zeit"
+            ]
+          },
+          {
+            "t": "shot",
+            "id": "resultater"
+          },
+          {
+            "t": "p",
+            "text": "Eine Abteilung wird erst gezeigt, wenn mindestens fünf geantwortet haben. Sie können die Mindestgruppengröße auf zehn anheben, aber nie unter fünf senken. Ließe sich eine Abteilung aus den anderen errechnen, wird eine weitere zurückgehalten. Mehr dazu unter [Anonymität und Sicherheit](/sikkerhet)."
+          },
+          {
+            "t": "h2",
+            "text": "Kommentare und Gespräche"
+          },
+          {
+            "t": "p",
+            "text": "Die Beschäftigten können einen Kommentar zu einer Aussage schreiben. Die Leitung kann antworten, ohne zu wissen, wer geschrieben hat, und wer geschrieben hat, kann die Antwort über einen privaten Link lesen und zurückschreiben. Möchte eine Führungskraft direkt sprechen, kann sie darum bitten – und die beschäftigte Person entscheidet selbst, ob sie sich zu erkennen gibt, indem sie von ihrer eigenen E-Mail aus schreibt."
+          },
+          {
+            "t": "shot",
+            "id": "kommentarer"
+          },
+          {
+            "t": "h2",
+            "text": "Maßnahmen"
+          },
+          {
+            "t": "p",
+            "text": "Die Befunde werden zu Maßnahmen auf einem Board, vom Befund zur Wirkung. Jede Maßnahme hat eine verantwortliche Person, eine Frist und den Faktor, den sie bewegen soll – die Maßnahmen, die § 3 ArbSchG verlangt, mit Wann und Wer –, und fertige Vorschläge liegen zum Starten bereit. **Eine Maßnahme kann nicht geschlossen werden, bevor die Wirkung gemessen ist** – der nächste Puls muss zeigen, ob sich die Zahl bewegt hat."
+          },
+          {
+            "t": "shot",
+            "id": "tiltak"
+          },
+          {
+            "t": "h2",
+            "text": "Jahresplan und Dokumentation"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Der Jahresplan",
+                "text": "Sie wählen den Rhythmus einmal – von einer Basisbefragung im Jahr bis zu einem Puls jeden Monat – und der Jahresplan plant die Runden selbst. Der Betriebsrat und die Arbeitnehmervertretung werden zuerst benachrichtigt, vor den Beschäftigten, damit der Betriebsrat rechtzeitig hinzugezogen werden kann (§ 89 Abs. 2 BetrVG)."
+              },
+              {
+                "title": "Dokumentation",
+                "text": "Die Dokumentation folgt dem Arbeitsschutzgesetz: das Ergebnis der Beurteilung, die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung (§ 6 ArbSchG). Die Zahlen werden eingefroren, wenn die Runde schließt, und das Dokument lässt sich drucken oder als PDF speichern, für den Arbeitsschutzausschuss und die Geschäftsleitung. Sie behalten es – nichts wird eingereicht, aber die Arbeitsschutzbehörde des Landes kann es bei einer Besichtigung verlangen (§ 21 ArbSchG)."
+              }
+            ]
+          },
+          {
+            "t": "shot",
+            "id": "arshjul"
+          },
+          {
+            "t": "shot",
+            "id": "rapport"
+          },
+          {
+            "t": "h2",
+            "text": "Rollen und Zugriff"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Rolle",
+              "Sieht"
+            ],
+            "rows": [
+              [
+                "Geschäftsführung",
+                "Das ganze Unternehmen, alle Faktoren und die anonymen Gespräche"
+              ],
+              [
+                "Abteilungsleitung",
+                "Die eigene Abteilung, sobald die Mindestgruppengröße erreicht ist, und die Gespräche von dort"
+              ],
+              [
+                "Betriebsrat",
+                "Dieselben Zahlen und dieselbe Beurteilung wie die Leitung – die Unterlagen, die er für seine Aufgaben braucht (§ 80 Abs. 2 BetrVG)"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Keine Rolle sieht, wer was geantwortet hat. Diese Verbindung gibt es nicht."
+          },
+          {
+            "t": "h2",
+            "text": "Loslegen"
+          },
+          {
+            "t": "p",
+            "text": "Registrieren Sie sich mit dem Namen des Unternehmens; die USt-IdNr. ist optional. Tragen Sie die Beschäftigten aus einer Tabelle, einzeln oder aus Microsoft Entra ID ein, und folgen Sie dem Assistenten durch die Einrichtung. Unter [Anwendungsfälle](/bruksomrader) stehen die Situationen, für die Orgpuls gebaut ist."
+          }
+        ],
+        "finalTitle": "Sehen Sie die Plattform in Ihrer eigenen Organisation"
+      },
+      "bruksomrader": {
+        "title": "Anwendungsfälle: die Befragung zur psychischen Belastung in der Praxis | Orgpuls",
+        "description": "Acht Situationen aus der Praxis: ohne Personalabteilung, jährliche Erhebung, Pulsbefragung, Besichtigung, ein Team, das heraussticht, Umstrukturierung, neue Führungskraft und Arbeitsschutzausschuss.",
+        "crumb": "Anwendungsfälle",
+        "kicker": "Anwendungsfälle",
+        "h1": "Dieselben Regeln, verschiedene Arbeitsplätze",
+        "lead": "Jeder Arbeitgeber muss die Gefährdungen beurteilen, die psychischen Belastungen eingeschlossen (§ 5 Abs. 3 Nr. 6 ArbSchG). Aber was am meisten zählt, und wie man die Leute erreicht, ist verschieden. Hier sind die Seiten für die häufigsten Bedürfnisse.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Nach Bedarf"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Was das Gesetz verlangt",
+                "text": "Was das Arbeitsschutzgesetz an Beurteilung, Maßnahmen, Überprüfung und Dokumentation verlangt – und wie Sie es dokumentieren.",
+                "href": "/lovkrav"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Nach Rolle"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Für den Betriebsrat",
+                "text": "Dieselben Zahlen und dieselbe Beurteilung wie die Geschäftsführung – nie die einzelne Antwort einer Person.",
+                "href": "/verneombud"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Nach Größe"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Kleine Unternehmen",
+                "text": "Keine Personalabteilung: anonyme Mitarbeiterbefragung, Beurteilung und Maßnahmenplan an einem Ort.",
+                "href": "/smaa-bedrifter"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Nach Situation"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Beschäftigte ohne dienstliche E-Mail",
+                "text": "Teilen Sie einen Link oder hängen Sie ein QR-Plakat auf – alle antworten auf dem Handy, und niemand braucht eine E-Mail-Adresse der Arbeit.",
+                "href": "/plattform#respondent"
+              },
+              {
+                "title": "Schichten und Dienstpläne",
+                "text": "Die Hauptbefragung ist 14 Tage offen, damit alle Schichten antworten können, und die Erinnerungen gehen von selbst hinaus.",
+                "href": "/plattform#malinger"
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Finden Sie Ihre Situation nicht?",
+            "text": "Die Regeln sind für alle Arbeitgeber dieselben, und Orgpuls funktioniert überall gleich. Sehen Sie, [wie die Plattform zusammenhängt](/plattform), oder [schreiben Sie uns](/kontakt)."
+          }
+        ]
+      },
+      "sikkerhet": {
+        "title": "Sicherheit, Datenschutz und Anonymität | Orgpuls",
+        "description": "So hält Orgpuls die Antworten der Mitarbeiterbefragung anonym: keine Verbindung zur Person, mindestens 5 Antworten je Gruppe, Daten in der EU. Was wir speichern und was nicht.",
+        "crumb": "Sicherheit und Datenschutz",
+        "kicker": "Sicherheit und Datenschutz",
+        "h1": "Anonymität, die nicht davon abhängt, dass jemand ein Versprechen hält",
+        "lead": "Niemand kann sehen, wer was geantwortet hat – auch Sie nicht. Das liegt daran, wie die Antworten gespeichert werden, nicht an einer Regel, die jemand einhalten muss. Deshalb können die Beschäftigten ehrlich antworten.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Was wir speichern und was nicht"
+          },
+          {
+            "t": "p",
+            "text": "Im Beschäftigtenverzeichnis speichern wir Name, E-Mail-Adresse und Gruppe jeder beschäftigten Person. Holen Sie die Beschäftigten aus Microsoft Entra ID, wird auch die Objekt-ID der Person im Verzeichnis gespeichert. Die Antwort selbst landet in einer Tabelle, die **keine Spalte hat, die eine Verbindung zu einer Person halten könnte**. Die Zeile zeigt die Befragung, die Gruppe und die Stunde, in der die Antwort einging – nicht die Minute."
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls erkennt den Einladungslink an einer kryptografischen Prüfsumme. Die Einladung merkt sich, dass sie benutzt wurde, damit Sie keine Erinnerung bekommen – aber nie die Antwort. Geschäftsführung, Abteilungsleitung und Betriebsrat sehen jeweils, was ihre Rolle erlaubt, aber keine Ansicht, kein Export und keine Datenbankabfrage zeigt, was eine namentlich bekannte Person geantwortet hat, auch nicht für die Geschäftsführung oder Administratoren: Die Information existiert nicht."
+          },
+          {
+            "t": "timeline",
+            "items": [
+              {
+                "date": "Die Einladung",
+                "title": "Wird an einer Prüfsumme erkannt",
+                "text": "Der Link wird über eine kryptografische Prüfsumme nachgeschlagen. Die Einladung merkt sich nur, dass sie benutzt wurde, damit Sie keine Erinnerung bekommen."
+              },
+              {
+                "date": "Die Antwort",
+                "title": "Wird ohne Verbindung zu Ihnen gespeichert",
+                "text": "Die Zeile zeigt die Befragung, die Gruppe und die Stunde, in der die Antwort einging. Keine Spalte kann eine Verbindung zu einer Person halten."
+              },
+              {
+                "date": "Das Ergebnis",
+                "title": "Erscheint erst, wenn genug geantwortet haben",
+                "text": "Die Zahlen werden je Gruppe gezeigt, und nur, wenn die Gruppe mindestens so viele Antworten hat wie die Grenze."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Weniger als 5 Antworten ergeben einen Strich – immer"
+          },
+          {
+            "t": "p",
+            "text": "Keine Gruppe wird gezeigt, bevor mindestens 5 geantwortet haben. Die Datenbank setzt die Grenze durch: Sie können sie auf bis zu 10 anheben, aber niemand kann sie unter 5 senken. Je weniger Antworten, desto leichter lässt sich erkennen, wer was gesagt hat – und Daten, aus denen sich eine Person noch erkennen lässt, bleiben personenbezogen (Erwägungsgrund 26 DSGVO). Eine Befragung behält die Grenze, mit der sie begonnen hat, sodass eine niedrigere Grenze nie frühere Befragungen öffnet. Würden die Zahlen der anderen Gruppen eine verborgene Gruppe verraten, verbirgt Orgpuls eine weitere Gruppe, damit niemand nachrechnen kann."
+          },
+          {
+            "t": "ladder",
+            "items": [
+              {
+                "title": "Mindestens 5 Antworten",
+                "ref": "Untergrenze und Standard",
+                "text": "Keine Gruppe wird mit weniger Antworten gezeigt. Niemand kann die Grenze unter 5 senken."
+              },
+              {
+                "title": "6 bis 9 Antworten",
+                "ref": "Ihre Wahl",
+                "text": "Heben Sie die Grenze an, wenn Ihre Gruppen groß sind. Eine Befragung behält die Grenze, mit der sie begonnen hat."
+              },
+              {
+                "title": "Bis zu 10 Antworten",
+                "ref": "Höchste Grenze",
+                "text": "Sie können die Grenze anheben. Je mehr Antworten je Gruppe, desto schwerer ist zu erkennen, wer was gesagt hat."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Kommentare und Gespräche bleiben anonym"
+          },
+          {
+            "t": "p",
+            "text": "Ein Kommentar wird nur gezeigt, wenn die Gruppe, aus der er stammt, genug Antworten hat, und die Gruppe wandert nie mit dem Kommentar mit. Wer ihn geschrieben hat, bekommt einen privaten Schlüssel zum Gespräch; die Datenbank speichert davon nur eine Prüfsumme. Möchte eine Führungskraft direkt sprechen, kann sie darum bitten – aber nur die beschäftigte Person kann sich zu erkennen geben, indem sie von ihrer eigenen E-Mail-Adresse schreibt."
+          },
+          {
+            "t": "h2",
+            "text": "Grundlage ist in der Regel die gesetzliche Pflicht, nicht die Einwilligung"
+          },
+          {
+            "t": "p",
+            "text": "Die Verarbeitung stützt sich in der Regel auf eine rechtliche Verpflichtung: Art. 6 Abs. 1 lit. c DSGVO und § 26 Abs. 1 BDSG, mit der Gefährdungsbeurteilung nach § 5 ArbSchG als der Pflicht. Wo ein Betriebsrat besteht, kann auch eine Betriebsvereinbarung die Grundlage sein (§ 26 Abs. 4 BDSG); für einen öffentlichen Arbeitgeber kann es die Wahrnehmung einer Aufgabe im öffentlichen Interesse sein (Art. 6 Abs. 1 lit. e DSGVO). Der Arbeitgeber als Verantwortlicher legt die Grundlage fest. Eine Einwilligung wird nicht verwendet: Bei der Frage, ob sie freiwillig ist, ist die Abhängigkeit der Beschäftigten im Beschäftigungsverhältnis zu berücksichtigen (§ 26 Abs. 2 BDSG). Die Fragen sind so gestaltet, dass keine Gesundheitsdaten erhoben werden, die zu den besonderen Kategorien personenbezogener Daten gehören (Art. 9 DSGVO), und Antworten zu Gewalt, Drohungen und Belästigung werden nur als Anzahl gezeigt."
+          },
+          {
+            "t": "h2",
+            "text": "In der EU gespeichert und nicht weitergegeben"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Wir speichern die Daten auf Servern in der EU (Frankfurt am Main), unter der DSGVO",
+              "Wir geben die Antworten nicht an Dritte weiter und verwenden keine Antworten, um KI-Modelle zu trainieren",
+              "Eine einzelne Antwort kann nicht für sich herausgesucht oder gelöscht werden, weil sie sich keiner Person zuordnen lässt (Art. 11 DSGVO)"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Der Auftragsverarbeitungsvertrag liegt in Orgpuls"
+          },
+          {
+            "t": "p",
+            "text": "Sie sind Verantwortlicher und Orgpuls Auftragsverarbeiter nach Art. 28 DSGVO. Die Geschäftsführung liest und unterzeichnet den Vertrag unter Einstellungen und kann ihn drucken oder als PDF speichern. Wir setzen drei Unterauftragsverarbeiter ein: Supabase (Datenbank und Anmeldung, Frankfurt am Main), Vercel (Betrieb, Frankfurt am Main) und Brevo (E-Mail), und einen vierten für Organisationen, die die Befragung in Teams versenden: Microsoft (Azure Bot Service, EU)."
+          },
+          {
+            "t": "h2",
+            "text": "Fragen, die Sie jedem Anbieter stellen sollten"
+          },
+          {
+            "t": "p",
+            "text": "Anonymität ist leicht versprochen und schwer bewiesen. Stellen Sie diese Fragen – uns und anderen:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Gibt es eine Spalte oder ein Protokoll, das eine Antwort mit einer Person verbinden kann – auch für Administratoren?",
+              "Wie groß muss eine Gruppe sein, bevor sie gezeigt wird, und wer kann die Grenze senken?",
+              "Lässt sich eine verborgene Gruppe aus der Gesamtzahl und den anderen Gruppen errechnen?",
+              "Wandert die Gruppe mit, wenn ein Kommentar gezeigt wird?",
+              "Wo werden die Daten gespeichert, und welche Unterauftragsverarbeiter werden eingesetzt?",
+              "Werden die Antworten für etwas anderes verwendet, zum Beispiel um KI-Modelle zu trainieren?"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Mehr dazu in [§ 26 BDSG, Datenverarbeitung für Zwecke des Beschäftigungsverhältnisses](https://www.gesetze-im-internet.de/bdsg_2018/__26.html), beim Bundesministerium der Justiz."
+          },
+          {
+            "t": "box",
+            "title": "Fragen zum Datenschutz?",
+            "text": "Schreiben Sie an [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Zuständig für private Arbeitgeber ist die Datenschutzaufsichtsbehörde des Landes, in dem das Unternehmen seinen Sitz hat; der Bundesbeauftragte führt eine [Liste der Landesbehörden](https://www.bfdi.bund.de/DE/Service/Anschriften/Laender/Laender-node.html)."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Kann der Arbeitgeber sehen, wer was geantwortet hat?",
+            "a": "Nein. Die Antwort wird in einer Tabelle gespeichert, die keine Spalte hat, die sie mit einer Person verbinden könnte. Keine Ansicht, kein Export und keine Datenbankabfrage zeigt, was eine namentlich bekannte Person geantwortet hat, auch nicht für die Geschäftsführung oder Administratoren."
+          },
+          {
+            "q": "Was passiert, wenn eine Gruppe zu klein ist?",
+            "a": "Keine Gruppe wird gezeigt, bevor mindestens 5 geantwortet haben; bis dahin steht ein Strich. Eine Organisation kann die Grenze auf 10 anheben, aber nie unter 5 senken. Ließe sich eine verborgene Gruppe aus den anderen errechnen, wird eine weitere Gruppe verborgen."
+          },
+          {
+            "q": "Wo werden die Daten gespeichert?",
+            "a": "Auf Servern in der EU (Frankfurt am Main), unter der DSGVO. Die Unterauftragsverarbeiter sind Supabase, Vercel und Brevo, und Microsoft für Organisationen, die die Befragung in Teams versenden."
+          },
+          {
+            "q": "Warum wird keine Einwilligung verwendet?",
+            "a": "Weil Beschäftigte von ihrem Arbeitgeber abhängig sind und eine Einwilligung deshalb nur eingeschränkt freiwillig sein kann; das Gesetz verlangt, diese Abhängigkeit zu berücksichtigen (§ 26 Abs. 2 BDSG). Die Verarbeitung stützt sich in der Regel auf die rechtliche Verpflichtung, Art. 6 Abs. 1 lit. c DSGVO und § 26 Abs. 1 BDSG, mit der Gefährdungsbeurteilung nach § 5 ArbSchG als der Pflicht; wo ein Betriebsrat besteht, kann eine Betriebsvereinbarung hinzukommen (§ 26 Abs. 4 BDSG), und für einen öffentlichen Arbeitgeber kann die Grundlage das öffentliche Interesse sein (Art. 6 Abs. 1 lit. e DSGVO). Der Arbeitgeber als Verantwortlicher legt die Grundlage fest."
+          },
+          {
+            "q": "Werden die Antworten verwendet, um KI zu trainieren?",
+            "a": "Nein. Wir geben die Antworten nicht an Dritte weiter und verwenden keine Antworten, um KI-Modelle zu trainieren."
+          }
+        ]
+      },
+      "kontakt": {
+        "title": "Kontakt – Fragen zur Befragung und zur Gefährdungsbeurteilung | Orgpuls",
+        "description": "Fragen zu Orgpuls, Hilfe beim Start oder Orgpuls in mehreren Gesellschaften? Schreiben Sie an hjelp@orgpuls.no.",
+        "crumb": "Kontakt",
+        "kicker": "Kontakt",
+        "h1": "Fragen Sie uns – wir antworten innerhalb eines Arbeitstags",
+        "lead": "Nutzen Sie das Formular unten oder die E-Mail. Schreiben Sie, worum es geht und wie viele Beschäftigte Sie sind, dann können wir gleich konkret antworten.",
+        "blocks": [
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Mehrere Gesellschaften oder eine große Organisation",
+                "text": "Nutzen Sie Orgpuls in mehreren Gesellschaften oder in einer großen Organisation? Erzählen Sie uns, wie Sie organisiert sind. Schreiben Sie an [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Orgpuls%20in%20mehreren%20Gesellschaften)."
+              },
+              {
+                "title": "Hilfe beim Start",
+                "text": "Brauchen Sie Hilfe bei der ersten Einrichtung, schreiben Sie an [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Hilfe%20beim%20Start) und sagen Sie uns, wo Sie nicht weiterkommen."
+              },
+              {
+                "title": "Datenschutz",
+                "text": "Fragen dazu, was wir speichern und wie: [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Datenschutz). Siehe auch [Sicherheit und Datenschutz](/sikkerhet)."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Möchten Sie lieber selbst loslegen? Registrieren Sie sich mit dem Namen des Unternehmens – danach können Sie die erste Befragung planen."
+          }
+        ]
+      },
+      "personvernerklaering": {
+        "title": "Datenschutzerklärung | Orgpuls",
+        "description": "Die personenbezogenen Daten, die Orgpuls verarbeitet, wenn Sie die Website besuchen, eine Organisation registrieren, den Newsletter erhalten oder uns kontaktieren – und Ihre Rechte.",
+        "crumb": "Datenschutzerklärung",
+        "kicker": "Datenschutz",
+        "h1": "Datenschutzerklärung",
+        "lead": "Hier steht, was Orgpuls über Sie erhebt, warum, wie lange wir es aufbewahren und wer uns dabei hilft. Stand: 29. Oktober 2026.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Wer verantwortlich ist"
+          },
+          {
+            "t": "p",
+            "text": "Pundit Invest AS (norwegische Org.-Nr. 922 698 422), Øvre Prinsdals vei 36L, 1266 Oslo, Norwegen, die Orgpuls bereitstellt, ist Verantwortliche für die hier beschriebenen Daten: Besuche der Website, Registrierung von Organisationen, Newsletter, Marketing und Kundensupport. Fragen zum Datenschutz richten Sie an [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
+          },
+          {
+            "t": "box",
+            "title": "Antworten auf Mitarbeiterbefragungen",
+            "text": "Nutzt eine Organisation Orgpuls, um die psychische Belastung bei der Arbeit zu erheben, ist die Organisation Verantwortliche und Orgpuls Auftragsverarbeiter nach einem Auftragsverarbeitungsvertrag. Die Antworten werden ohne Verbindung zu der Person gespeichert, die geantwortet hat, und die Ergebnisse einer Gruppe werden nur gezeigt, wenn mindestens fünf geantwortet haben; für eine deutsche Organisation liegt die Grenze nie unter fünf. Die einzige Ausnahme ist ein Kommentar, dessen Verfasserin oder Verfasser darum bittet, zu erfahren, wenn die Geschäftsführung darauf antwortet: Dann wird gespeichert, wer ihn geschrieben hat, verschlüsselt und nur, um diese Nachricht zu senden, und die Angabe wird gelöscht, wenn das Gespräch endet, wenn die Benachrichtigung abgeschaltet wird und spätestens nach einem Jahr. Holt die Organisation die Beschäftigten aus Microsoft Entra ID, tun wir das im Auftrag der Organisation und nur für die Gruppen, die sie wählt: Name, E-Mail-Adresse, Sprache, Gruppenzugehörigkeit und Objekt-ID im Verzeichnis, und die Mobilnummer nur, wenn die Organisation den Link als SMS versendet. Nutzt Ihr Arbeitgeber Slack, um Ihnen den Link zu senden, findet Orgpuls Sie im Workspace über Ihre dienstliche E-Mail-Adresse und speichert dort Ihre Mitglieds-ID, im Auftrag des Arbeitgebers. Die Nachricht ist ein kurzer Text und der persönliche Link, ohne Lesebestätigung und ohne Erfassung von Klicks. Slack ist das Werkzeug des Arbeitgebers: Die Slack-Administration dort kann die Nachrichten lesen, so wie eine E-Mail-Administration E-Mails lesen kann, und eine Erinnerung zeigt, dass Sie zum Zeitpunkt des Versands noch nicht geantwortet hatten. Ihre Antwort wird ohne Verbindung zur Nachricht gespeichert. Wie das gebaut ist, steht unter [Sicherheit und Datenschutz](/sikkerhet). Fragen zu einer Befragung, an der Sie teilnehmen, richten Sie an Ihren Arbeitgeber."
+          },
+          {
+            "t": "h2",
+            "text": "Wenn Sie die Website besuchen"
+          },
+          {
+            "t": "p",
+            "text": "Wir führen eine eigene Statistik über die Nutzung von orgpuls.com, auch de.orgpuls.com, ohne Cookies und ohne etwas auf Ihrem Gerät zu speichern. Bei jedem Seitenaufruf sendet der Browser, welche Seite es ist, die Website, von der Sie kamen (nur die Domain), und etwaige Kampagnenkennzeichen in der Adresse (utm) an unsere eigene Plattform. Klicken Sie auf eine Schaltfläche, die zur Registrierung führt, oder beginnen oder beenden Sie eine Registrierung, wird auch das gesendet, zusammen mit dem Schritt der Registrierung, den Sie erreichen, und einem Code für einen etwaigen Fehler, ohne irgendetwas von dem, was Sie geschrieben haben. Die IP-Adresse und die Kennung des Browsers werden nicht gespeichert. Sie werden nur verwendet, um mit einem Schlüssel, der täglich wechselt, einen Besuchscode zu bilden, damit wir Besuche innerhalb eines Tages zählen können, ohne Sie von einem Tag zum nächsten verfolgen zu können, und um zu sehen, ob der Besuch von einem Handy, einem Tablet oder einem Computer kommt. Außerdem misst Vercel, das die Website betreibt, Seitenaufrufe und Ladezeit ohne Cookies."
+          },
+          {
+            "t": "p",
+            "text": "Bittet Ihr Browser darum, nicht verfolgt zu werden (Global Privacy Control oder Do Not Track), wird nichts an unsere Plattform gesendet. Die Statistik wird nach 13 Monaten gelöscht. Die Rechtsgrundlage ist unser berechtigtes Interesse zu verstehen, wie die Website genutzt wird, Art. 6 Abs. 1 lit. f DSGVO."
+          },
+          {
+            "t": "h2",
+            "text": "Wenn Sie eine Organisation registrieren"
+          },
+          {
+            "t": "p",
+            "text": "Wir speichern Ihren Namen, Ihre E-Mail-Adresse, Ihr Passwort (nur als kryptografischen Hash), den Namen der Organisation, die Umsatzsteuer-Identifikationsnummer, wenn Sie sie angeben, und die Zahl der Beschäftigten. Wir speichern auch Ihre Antwort, wenn Sie uns sagen, wie Sie von uns erfahren haben. Die Rechtsgrundlage ist der Vertrag mit der Organisation, Art. 6 Abs. 1 lit. b, und unser berechtigtes Interesse zu wissen, welche Kanäle funktionieren, Art. 6 Abs. 1 lit. f."
+          },
+          {
+            "t": "p",
+            "text": "Melden Sie sich mit Google an, erhalten wir Ihren Namen und Ihre E-Mail-Adresse von Google. Ihr Passwort erhalten wir dort nie."
+          },
+          {
+            "t": "p",
+            "text": "Melden Sie sich mit Microsoft an, erhalten wir Ihren Namen und Ihre E-Mail-Adresse von Microsoft, und wir speichern zwei technische Kennzeichen des Kontos: die ID der Microsoft-365-Organisation, zu der es gehört (Tenant-ID), und die Objekt-ID des Kontos dort. Wir verwenden sie nur, um sicherzustellen, dass sich dasselbe Microsoft-Konto aus der Microsoft-365-Organisation, die die Organisation gegebenenfalls verbunden hat, erneut anmeldet. Ihr Passwort erhalten wir dort nie. Die Kennzeichen werden zusammen mit dem Konto gelöscht. Die Rechtsgrundlage ist der Vertrag mit der Organisation, Art. 6 Abs. 1 lit. b, und unser berechtigtes Interesse, die Anmeldung abzusichern, Art. 6 Abs. 1 lit. f. Unabhängig davon, wie Sie sich anmelden, bewahrt unser Anmeldedienst die Identitätsdaten auf, die Google oder Microsoft ihm senden, und protokolliert bei jeder Anmeldung IP-Adresse und Browser, aus Sicherheitsgründen."
+          },
+          {
+            "t": "h2",
+            "text": "Wenn Sie die Demo auf www.orgpuls.com ausprobieren"
+          },
+          {
+            "t": "p",
+            "text": "Fordern Sie auf www.orgpuls.com eine Demo an, speichern wir Ihren Namen, Ihre E-Mail-Adresse, die Organisation und die Rolle, die Sie angeben, ob Sie das Kästchen für E-Mails von uns angekreuzt haben, und einen Besuchscode für das Netz, aus dem Sie kamen, gebildet aus der IP-Adresse mit einem Schlüssel, der täglich wechselt. Die IP-Adresse selbst wird nicht gespeichert. Die Anfrage wird nach 30 Tagen gelöscht. Wir verwenden sie, um den Anmeldelink zu senden und Missbrauch zu verhindern, etwa viele Links an dieselbe Adresse. Die Rechtsgrundlage ist, dass Sie die Demo angefordert haben, Art. 6 Abs. 1 lit. b, und unser berechtigtes Interesse, Missbrauch zu unterbinden, Art. 6 Abs. 1 lit. f."
+          },
+          {
+            "t": "p",
+            "text": "Die Demo ist eine Kopie einer fiktiven Organisation, auf die nur Sie Zugriff haben. Sie und Ihre Anmeldung werden nach 14 Tagen ohne Anmeldung gelöscht, oder sobald Sie ein eigenes Konto anlegen. Haben Sie den Link geöffnet, speichern wir Ihre Adresse, Ihren Namen, Ihre Organisation und Ihre Rolle als Kontakt mit der Kennzeichnung „Demo“, damit wir wissen, wer Orgpuls ausprobiert hat. Gab es Sie schon als Kontakt, behalten wir, was wir hatten, und ergänzen nur, was fehlte. Die Rechtsgrundlage ist unser berechtigtes Interesse, diejenigen zu kennen, die das Produkt ausprobieren, Art. 6 Abs. 1 lit. f. Den Kontakt behalten wir, bis Sie uns bitten, ihn zu löschen, oder widersprechen. E-Mails über Orgpuls senden wir Ihnen nur, wenn Sie das Kästchen dafür angekreuzt haben, Art. 6 Abs. 1 lit. a, und Sie können sich in jeder E-Mail abmelden."
+          },
+          {
+            "t": "h2",
+            "text": "Newsletter und E-Mails über Orgpuls"
+          },
+          {
+            "t": "p",
+            "text": "Melden Sie sich für den Newsletter an, speichern wir die E-Mail-Adresse, gegebenenfalls Name und Organisation, welche Listen Sie gewählt haben und wann Sie die Anmeldung bestätigt haben. Die Rechtsgrundlage ist Ihre Einwilligung, Art. 6 Abs. 1 lit. a. Wir erfassen, ob eine Aussendung zugestellt, geöffnet oder angeklickt wurde, um zu wissen, was nützlich ist. Sie können sich über den Link am Ende jeder E-Mail abmelden oder die Listen neu wählen. Nach der Abmeldung behalten wir nur einen kryptografischen Hash der Adresse, damit wir nicht erneut an sie senden."
+          },
+          {
+            "t": "p",
+            "text": "An Organisationen können wir E-Mails über Orgpuls an Funktionsadressen (zum Beispiel info@) senden, mit dem berechtigten Interesse als Grundlage. Persönliche Adressen erhalten E-Mails von uns nur mit Einwilligung, oder wenn Sie bereits Kundin oder Kunde sind und nicht widersprochen haben. Jede E-Mail hat einen Abmeldelink. Wenn wir an eine Organisation in Norwegen schreiben, holen wir Name, Organisationsnummer, Branche und Anschrift aus dem norwegischen Einheitsregister (Enhetsregisteret) und den Namen der Geschäftsführung (daglig leder) aus den dortigen öffentlichen Rollenangaben. Den Namen verwenden wir nur, um die Organisation anzusprechen, an der Adresse der Organisation. Die Rechtsgrundlage ist das berechtigte Interesse, Art. 6 Abs. 1 lit. f, und die Daten stammen aus einer öffentlichen Quelle (Art. 14). Sie können jederzeit widersprechen, siehe unten."
+          },
+          {
+            "t": "h2",
+            "text": "Wenn Sie uns kontaktieren"
+          },
+          {
+            "t": "p",
+            "text": "Schreiben Sie uns, über das Formular oder per E-Mail, speichern wir Ihren Namen, Ihre E-Mail-Adresse und das, was Sie schreiben, um antworten und das Anliegen weiterverfolgen zu können. Die Rechtsgrundlage ist unser berechtigtes Interesse, Anfragen zu beantworten, oder der Vertrag, wenn Sie Kundin oder Kunde sind."
+          },
+          {
+            "t": "h2",
+            "text": "Wenn Sie auf www.orgpuls.com eine Vorlage herunterladen"
+          },
+          {
+            "t": "p",
+            "text": "Laden Sie eine der Vorlagen auf www.orgpuls.com herunter, speichern wir Ihren Namen, Ihre E-Mail-Adresse, welche Vorlage Sie heruntergeladen haben, Organisation und Rolle, wenn Sie sie angeben, und ob Sie das Kästchen für E-Mails von uns angekreuzt haben. Die Rechtsgrundlage ist unser berechtigtes Interesse zu wissen, wer die Vorlagen nutzt, Art. 6 Abs. 1 lit. f. E-Mails über neue Vorlagen und Artikel erhalten Sie nur, wenn Sie das Kästchen dafür angekreuzt haben; dann ist die Rechtsgrundlage Ihre Einwilligung, Art. 6 Abs. 1 lit. a, und Sie können sie über den Link in jeder E-Mail widerrufen. Der Browser erhält ein Cookie, das sich ein Jahr lang merkt, welche Vorlagen Sie heruntergeladen haben."
+          },
+          {
+            "t": "h2",
+            "text": "Cookies"
+          },
+          {
+            "t": "p",
+            "text": "Wir verwenden nur Cookies, die für den Dienst nötig sind: Anmeldung, Ihre Sprachwahl, Anzeigeeinstellungen in der App und ein kurzlebiges Cookie, das sich die Organisation merkt, während Sie sich mit Google registrieren. In der Demo auf www.orgpuls.com merkt sich der Browser, welche Stellen der Demo-Tour Sie besucht haben; das wird nur auf Ihrem Gerät gespeichert. Laden Sie dort eine Vorlage herunter, merkt sich ein Cookie ein Jahr lang, welche Vorlagen es waren, damit Sie das Formular nicht erneut ausfüllen müssen. Keines wird für Statistik oder Werbung verwendet."
+          },
+          {
+            "t": "h2",
+            "text": "Wer uns hilft"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Supabase Inc. (USA): Datenbank, Anmeldung, Hintergrundjobs und unsere eigene Besuchsstatistik. Die Daten werden in Frankfurt am Main gespeichert und verarbeitet.",
+              "Vercel Inc. (USA): Betrieb der Website und der Anwendung und die cookiefreie Messung von Seitenaufrufen. Die Serverfunktionen laufen in Frankfurt am Main.",
+              "Brevo SAS (Frankreich): Versand von E-Mails, und von SMS, wo eine Organisation das eingeschaltet hat, und Erfassung von Zustellung, Öffnung und Klicks in E-Mails.",
+              "Google (Irland): Anmeldung mit Google, nur wenn Sie das wählen.",
+              "Microsoft (Irland): Anmeldung mit Microsoft, nur wenn Sie das wählen.",
+              "Microsoft Ireland Operations Ltd (Irland): Azure Bot Service übermittelt die Teams-Nachricht mit dem Link zur Befragung, für Organisationen, die Teams eingeschaltet haben. Der Dienst ist in der EU (Westeuropa) konfiguriert."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Anbieter außerhalb des EWR sind durch die Standardvertragsklauseln der EU-Kommission für die Übermittlung gebunden. Wir verkaufen keine personenbezogenen Daten und geben sie nicht an andere für deren Marketing weiter."
+          },
+          {
+            "t": "h2",
+            "text": "Wie lange wir die Daten aufbewahren"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Besuchsstatistik: 13 Monate. Der Besuchscode wechselt täglich.",
+              "Das Konto und die Daten der Organisation: so lange das Kundenverhältnis besteht und danach so lange, wie das norwegische Rechnungslegungsgesetz (regnskapsloven) es für das verlangt, was zur Buchführung gehört.",
+              "Demo auf www.orgpuls.com: die Anfrage 30 Tage. Die Demo und die Anmeldung 14 Tage ohne Anmeldung. Der Kontakt, bis Sie uns bitten, ihn zu löschen.",
+              "Newsletter: bis Sie sich abmelden. Danach nur der Hash, der neue Aussendungen verhindert.",
+              "Anliegen an den Kundensupport: so lange es nötig ist, um das Anliegen und das Kundenverhältnis weiterzuverfolgen.",
+              "Download von Vorlagen auf www.orgpuls.com: bis Sie uns bitten, die Daten zu löschen. Die Einwilligung in E-Mails: bis Sie sie widerrufen."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Ihre Rechte"
+          },
+          {
+            "t": "p",
+            "text": "Sie können Auskunft über, Berichtigung und Löschung von Daten über Sie verlangen, uns bitten, die Verarbeitung einzuschränken, einer Verarbeitung widersprechen, die sich auf ein berechtigtes Interesse stützt, und Daten, die Sie uns gegeben haben, in einem maschinenlesbaren Format erhalten. Schreiben Sie an [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no); wir antworten innerhalb von 30 Tagen. Sind Sie der Ansicht, dass wir Daten entgegen den Vorschriften verarbeiten, können Sie sich bei der Aufsichtsbehörde des Landes beschweren, in dem Sie wohnen; in Deutschland ist das die Datenschutzaufsichtsbehörde Ihres Bundeslandes, die der [Bundesbeauftragte für den Datenschutz und die Informationsfreiheit](https://www.bfdi.bund.de/DE/Service/Anschriften/Laender/Laender-node.html) auflistet. Pundit Invest AS untersteht der Aufsicht von [Datatilsynet](https://www.datatilsynet.no) in Norwegen, wo Sie sich ebenfalls beschweren können."
+          }
+        ]
+      }
+    },
+    "shots": {
+      "caption": "{screen} · Nordwind Tiefbau GmbH – Beispiel",
+      "oversikt": {
+        "screen": "Übersicht",
+        "alt": "Bildschirmfoto der Übersicht in Orgpuls: Index 61, drei Punkte unter dem Vorjahr, 28 von 34 haben geantwortet, und die elf Faktoren nach Punkten und Bedeutung angeordnet, vom Meinungsklima bei 41 bis Anerkennung und Sinn bei 78."
+      },
+      "varmekart": {
+        "screen": "Ergebnisse",
+        "alt": "Bildschirmfoto der Heatmap: die elf Faktoren gegen die Abteilungen, mit dem Meinungsklima in der Werkstatt bei 28 als niedrigster Zelle. Zwei Abteilungen werden mit Strich gezeigt: die Verwaltung, unter der Grenze von fünf Antworten, und der Betrieb, damit die Zahlen der Verwaltung nicht errechnet werden können."
+      },
+      "resultater": {
+        "screen": "Ergebnisse",
+        "alt": "Bildschirmfoto der Heatmap neben der gewählten Zelle: Meinungsklima in der Werkstatt, 28, markiert als „Zuerst angehen“, mit den drei Aussagen dahinter und anonymen Kommentaren zum Faktor."
+      },
+      "kommentarer": {
+        "screen": "Kommentare",
+        "alt": "Bildschirmfoto der Kommentare: Themen links und anonyme Kommentare mit einem Antwortfeld und der Schaltfläche „Direkten Kontakt erbitten“."
+      },
+      "samtaler": {
+        "screen": "Kommentare",
+        "alt": "Bildschirmfoto eines anonymen Kommentars zum Meinungsklima, mit einem Feld, um anonym zu antworten, und der Schaltfläche „Direkten Kontakt erbitten“."
+      },
+      "tiltak": {
+        "screen": "Maßnahmen",
+        "alt": "Bildschirmfoto des Maßnahmen-Boards mit vier Spalten: Befunde, Gewählter Fokus, Laufende Maßnahmen und Wirkung gemessen."
+      },
+      "arshjul": {
+        "screen": "Befragungen",
+        "alt": "Bildschirmfoto des Jahresplans für 2026: eine Pulsbefragung im März, die Basisbefragung im September mit Index 61 und eine geplante Pulsbefragung im Dezember."
+      },
+      "sporsmal": {
+        "screen": "Befragung",
+        "alt": "Bildschirmfoto der Befragung auf einem Handy, hier auf Englisch, Seite 1 von 16: das Thema Meinungsklima mit einer Aussage darüber, Missstände ohne Angst vor Folgen ansprechen zu können, Antworten von „stimme gar nicht zu“ bis „stimme voll zu“, eine Wahl für „nicht relevant“ und ein freiwilliger Kommentar."
+      },
+      "rapport": {
+        "screen": "Bericht",
+        "alt": "Bildschirmfoto der Dokumentation, Teil 3 Erhebung: die elf Faktoren mit Vorschrift, Punkten für 2026 und 2025 und Risikostufe."
+      }
+    },
+    "signup": {
+      "label": "Name des Unternehmens",
+      "submit": "Loslegen",
+      "invalid": "Geben Sie den Namen des Unternehmens ein."
+    },
+    "og": {
+      "pills": [
+        "Gebaut auf QPS Nordic",
+        "§ 5 Abs. 3 Nr. 6 ArbSchG",
+        "Anonym ab 5 Antworten"
+      ]
+    },
+    "voTip": {
+      "kicker": "Für den Betriebsrat",
+      "title": "Die Geschäftsführung auf die Beurteilung hinweisen",
+      "lead": "Tragen Sie die Namen ein, dann bekommen Sie eine fertige E-Mail an die Geschäftsführung. Sie senden sie selbst, aus Ihrem eigenen Postfach. Orgpuls sieht nicht, was Sie schreiben, und speichert nichts.",
+      "you": "Ihr Name",
+      "leader": "Vorname (Geschäftsführung)",
+      "org": "Der Betrieb",
+      "optional": "optional",
+      "preview": "Die E-Mail",
+      "open": "Im E-Mail-Programm öffnen",
+      "copy": "Text kopieren",
+      "copied": "Kopiert. Fügen Sie ihn in eine neue E-Mail ein.",
+      "failed": "Kopieren hat nicht geklappt. Markieren Sie den Text und kopieren Sie ihn selbst.",
+      "subject": "Vorschlag: Beurteilung der psychischen Belastung",
+      "greeting": "Hallo {leader},",
+      "greetingPlain": "Guten Tag,",
+      "inOrg": " bei {org}",
+      "body": [
+        "Wir müssen die psychischen Belastungen bei der Arbeit{inOrg} in der Gefährdungsbeurteilung beurteilen (§ 5 Abs. 3 Nr. 6 ArbSchG), Maßnahmen treffen und das Ergebnis dokumentieren (§§ 3 und 6 ArbSchG). Als Betriebsrat bestimmen wir bei der Methode mit (§ 87 Abs. 1 Nr. 7 BetrVG), und ich würde gern sehen, dass wir anfangen.",
+        "Ich habe mir Orgpuls angesehen, einen Dienst genau dafür. Die Beschäftigten antworten anonym auf dem Handy, keine einzelne Antwort lässt sich auf eine Person zurückführen, und das Ergebnis einer Gruppe wird nur gezeigt, wenn mindestens fünf geantwortet haben. Wir bekommen die Ergebnisse, Maßnahmen mit verantwortlicher Person und Termin und die Dokumentation, die die Arbeitsschutzbehörde verlangen kann.",
+        "Die Einrichtung dauert unter einer Stunde. Der Betriebsrat kann eine eigene Rolle bekommen, die dieselben Ergebnisse sieht wie die Geschäftsführung, auf Gruppenebene – tragen Sie mich also gern als Betriebsrat ein, wenn es eingerichtet wird.",
+        "Hier können Sie mehr lesen und loslegen: {link}",
+        "Können wir das in der nächsten Sitzung besprechen?"
+      ],
+      "sign": "Mit freundlichen Grüßen\n{you}\nfür den Betriebsrat",
+      "signPlain": "Mit freundlichen Grüßen\nder Betriebsrat"
+    }
+  },
+  "site": {
+    "chrome": {
+      "nav": {
+        "plattform": "Plattform",
+        "omPlattformen": "So funktioniert die Plattform",
+        "bruksomrader": "Anwendungsfälle",
+        "hvorfor": "Warum Orgpuls",
+        "pris": "Preise",
+        "bransjer": "Branchen",
+        "alleBransjer": "Alle Branchen",
+        "ressurser": "Wissen",
+        "alleArtikler": "Alle Artikel",
+        "artiklerStart": "Erste Schritte",
+        "artiklerLov": "Die gesetzlichen Anforderungen",
+        "artiklerGjennomforing": "Durchführung",
+        "artiklerEtter": "Nach den Ergebnissen",
+        "artiklerFaktorer": "Die elf Faktoren",
+        "lovkrav": "Psychische Belastung im ArbSchG",
+        "verneombud": "Die Rolle des Betriebsrats",
+        "maler": "Vorlagen",
+        "sikkerhet": "Datenschutz und Anonymität",
+        "anonymitet": "Anonymität",
+        "kontakt": "Kontakt",
+        "smaaBedrifter": "Kleine Unternehmen"
+      },
+      "navLabel": "Hauptmenü",
+      "menu": "Menü",
+      "demo": "Demo ansehen",
+      "signIn": "Anmelden",
+      "getStarted": "Loslegen",
+      "skip": "Zum Hauptinhalt springen",
+      "footerNav": "Fußzeilenmenü",
+      "sections": "Abschnitte",
+      "crumbs": "Sie sind hier",
+      "trial": "Loslegen",
+      "start": {
+        "title": "Starten Sie mit Orgpuls im eigenen Unternehmen",
+        "lead": "Geben Sie den Namen des Unternehmens ein, um loszulegen. Kein Berater und kein Kick-off-Termin – die erste Befragung lässt sich noch am selben Tag planen.",
+        "placeholder": "Wie eingetragen",
+        "submit": "Loslegen",
+        "invalid": "Geben Sie den Namen des Unternehmens ein.",
+        "label": "Name des Unternehmens",
+        "going": "Wir öffnen die Registrierung für {company} …"
+      },
+      "band": {
+        "title": "Beginnen Sie mit dem eigenen Unternehmen",
+        "lead": "Geben Sie den Namen des Unternehmens ein, um loszulegen. Kein Berater und kein Kick-off-Termin, und die Antworten werden in der EU gespeichert.",
+        "leadHome": "Geben Sie den Namen des Unternehmens ein, um loszulegen. Kein Berater und kein Kick-off-Termin – die erste Befragung lässt sich noch am selben Tag planen, und keine Gruppe wird gezeigt, bevor mindestens 5 geantwortet haben."
+      },
+      "footer": {
+        "about": "Orgpuls hilft deutschen Arbeitgebern, psychische Belastungen bei der Arbeit zu erheben, zu beurteilen und mit Maßnahmen nachzuverfolgen. Die Antworten werden in der EU gespeichert, und keine einzelne Antwort lässt sich auf eine Person zurückführen.",
+        "bottom": "© {year} Orgpuls · bereitgestellt von Pundit Invest AS, einer in Norwegen eingetragenen Gesellschaft, Org.-Nr. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norwegen · <mail>hjelp@orgpuls.no</mail> · <privacy>Datenschutz</privacy><terms> · AGB</terms>",
+        "head": {
+          "produkt": "Produkt",
+          "bruksomrader": "Anwendungsfälle",
+          "ressurser": "Wissen",
+          "omOss": "Über uns",
+          "hvorfor": "Warum Orgpuls",
+          "bransjer": "Branchen"
+        },
+        "link": {
+          "plattform": "Plattform",
+          "malinger": "Befragungen und Jahresplan",
+          "resultater": "Ergebnisse",
+          "kommentarer": "Kommentare",
+          "tiltak": "Maßnahmen",
+          "pris": "Preise",
+          "kartleggingNoun": "Erhebung der psychischen Belastung",
+          "medarbeiderundersokelse": "Mitarbeiterbefragung",
+          "pulsmalinger": "Pulsbefragungen",
+          "rapportArbeidstilsynet": "Dokumentation nach § 6 ArbSchG",
+          "amu": "Betriebsrat und Arbeitsschutzausschuss",
+          "alleArtikler": "Alle Artikel",
+          "maler": "Vorlagen",
+          "slikVirker": "So funktioniert es",
+          "lovenForklart": "Psychische Belastung im ArbSchG",
+          "sporsmalssettet": "Das Fragenset",
+          "personvernAnonymitet": "Datenschutz und Anonymität",
+          "faq": "Häufige Fragen",
+          "hvorfor": "Warum Orgpuls",
+          "kontakt": "Kontakt",
+          "personvernerklaering": "Datenschutz",
+          "vilkar": "AGB",
+          "arlig": "Jährliche Erhebung",
+          "puls": "Puls zwischen den Befragungen",
+          "utenHr": "Ohne Personalabteilung",
+          "smaaBedrifter": "Kleine Unternehmen",
+          "tilsyn": "Aufsicht und Dokumentation",
+          "positivt": "Der Blick auf das, was trägt",
+          "anonymitet": "Anonymität",
+          "forskning": "Die Forschung dahinter",
+          "sammenlignet": "Im Vergleich",
+          "handel": "Handel",
+          "kontor": "Wissen und Büro",
+          "bygg": "Bau",
+          "skole": "Kita und Schule",
+          "helse": "Gesundheit und Pflege",
+          "verneombud": "Betriebsrat"
+        }
+      },
+      "language": "Sprache",
+      "risk": "Kein Berater · Keine Personalabteilung nötig",
+      "trust": {
+        "label": "Orgpuls in Kürze",
+        "eu": "Antworten werden in der EU gespeichert",
+        "k": "Mindestens 5 Antworten, bevor eine Gruppe gezeigt wird",
+        "qps": "Fragen auf Grundlage des QPS Nordic",
+        "law": "Für die Gefährdungsbeurteilung, § 5 Abs. 3 Nr. 6 ArbSchG"
+      }
+    },
+    "home": {
+      "h1": "Orgpuls – Mitarbeiterbefragung und Gefährdungsbeurteilung psychischer Belastung für kleine und mittlere Unternehmen",
+      "example": "Fiktive Beispieldaten.",
+      "carousel": {
+        "roledescription": "Karussell",
+        "label": "Wobei Orgpuls hilft",
+        "tablist": "Thema wählen",
+        "prev": "Vorheriges Thema",
+        "next": "Nächstes Thema",
+        "announce": "Thema {n} von 3: {label}"
+      },
+      "risk": "Antworten werden in der EU gespeichert · Ergebnisse nur für Gruppen mit mindestens 5 Antworten · kein Berater nötig",
+      "cta": "Loslegen",
+      "done": "erledigt",
+      "bar": {
+        "oversikt": "de.orgpuls.com · Übersicht",
+        "resultater": "de.orgpuls.com · Ergebnisse"
+      },
+      "slides": [
+        {
+          "tab": "Früh erkennen",
+          "title": "Mitarbeiter- und Belastungsbefragungen für kleine und mittlere Unternehmen",
+          "lead": "In einem kleinen Unternehmen fällt jede Krankmeldung und jede Kündigung ins Gewicht. Orgpuls erhebt die psychische Belastung anonym und zeigt, was Sie tun sollten – ohne Personalabteilung, und die Einrichtung dauert unter einer Stunde.",
+          "link": "So funktioniert es",
+          "caption": "Sie sehen sofort, was trägt – und was jetzt zu tun ist."
+        },
+        {
+          "tab": "Gefährdungsbeurteilung",
+          "eyebrow": "§ 5 Abs. 3 Nr. 6 ArbSchG · § 6 ArbSchG",
+          "title": "Psychische Belastungen beurteilen – ohne Arbeitsschutzexperte zu werden.",
+          "lead": "Die Gefährdungsbeurteilung muss auch die psychischen Belastungen bei der Arbeit erfassen. Eine standardisierte Befragung ist ein guter Weg, einen Teil davon zu leisten. Orgpuls fragt nach Arbeitsmenge, Anforderungen und Unterstützung, bezieht den Betriebsrat ein und dokumentiert die Beurteilung schriftlich.",
+          "link": "Was das Gesetz verlangt",
+          "caption": "Die Dokumentation entsteht, während Sie arbeiten."
+        },
+        {
+          "tab": "Von Antworten zu Maßnahmen",
+          "eyebrow": "Von der Erhebung zu Maßnahmen",
+          "title": "Von Antworten zu Maßnahmen – ohne eigenes Projekt.",
+          "lead": "Das Ergebnis kommt mit drei Maßnahmenvorschlägen je Faktor. Sie wählen, geben der Maßnahme eine verantwortliche Person und eine Frist, und die nächste Pulsbefragung zeigt, ob sie geholfen hat. Das ist Ihr Maßnahmenplan, und nichts bleibt in der Schublade.",
+          "link": "So funktionieren Maßnahmen",
+          "caption": "Jede Maßnahme hat eine verantwortliche Person, eine Frist und einen Status."
+        }
+      ],
+      "law": {
+        "title": "Beurteilung psychischer Belastung · Nordwind Tiefbau GmbH",
+        "pill": "4 von 4 erledigt",
+        "rows": [
+          {
+            "t": "Erhebung der psychischen Belastung bei der Arbeit",
+            "s": "Arbeitsmenge, Anforderungen, Handlungsspielraum und Unterstützung – § 5 Abs. 3 Nr. 6 ArbSchG."
+          },
+          {
+            "t": "Beurteilung je Faktor",
+            "s": "Geringes, mittleres oder hohes Risiko – schriftlich dokumentiert (§ 6 ArbSchG)."
+          },
+          {
+            "t": "Betriebsrat und Beschäftigte wirken mit",
+            "s": "Der Betriebsrat erfährt es zuerst und sieht dieselben Zahlen wie die Geschäftsführung."
+          },
+          {
+            "t": "Dokumentation bereit für die Aufsicht",
+            "s": "Beurteilung und Maßnahmenplan, fertig, wenn die Arbeitsschutzbehörde sie verlangt."
+          }
+        ]
+      },
+      "measures": {
+        "title": "Maßnahmen · Projekt Süd",
+        "meta": "3 aktiv · 1 geschlossen",
+        "rows": [
+          {
+            "t": "Feste Abstimmung des Zeitplans mit dem Team",
+            "s": "{factor} · verantwortlich: Bauleitung · Frist 15. Nov.",
+            "pill": "Läuft"
+          },
+          {
+            "t": "„Stopp und Bescheid sagen“ in der Morgenbesprechung",
+            "s": "{factor} · verantwortlich: Vorarbeiter · Frist 1. Dez.",
+            "pill": "Beschlossen"
+          },
+          {
+            "t": "Patenschaft für neue Beschäftigte in den ersten 4 Wochen",
+            "s": "{factor} · verantwortlich: Projektleitung · Frist 10. Jan.",
+            "pill": "Vorgeschlagen"
+          },
+          {
+            "t": "Kurze Teambesprechung jede Woche",
+            "s": "{factor} · Wirkung in der Pulsbefragung gemessen",
+            "pill": "Geschlossen"
+          }
+        ]
+      },
+      "trust": [
+        {
+          "tile": "5",
+          "t": "Anonym, mindestens 5 Antworten je Gruppe"
+        },
+        {
+          "tile": "EU",
+          "t": "Antworten werden in der EU gespeichert"
+        },
+        {
+          "tile": "§",
+          "t": "Für die Gefährdungsbeurteilung nach § 5 ArbSchG"
+        },
+        {
+          "tile": "Q",
+          "t": "Fragen auf Grundlage des QPS Nordic"
+        }
+      ],
+      "challenges": {
+        "k": "Kommt Ihnen das bekannt vor?",
+        "title": "Das Gesetz gilt mit 12 Beschäftigten genauso wie mit 1 200",
+        "lead": "Die Pflicht zur Gefährdungsbeurteilung in § 5 Arbeitsschutzgesetz gilt für jeden Arbeitgeber, psychische Belastungen eingeschlossen. Der Unterschied: Ein kleines Unternehmen muss sie ohne eigene Personalabteilung, ohne Berater und ohne wochenlangen Aufwand erledigen.",
+        "problem": "Die Herausforderung",
+        "solution": "Mit Orgpuls",
+        "cards": [
+          {
+            "t": "Keine Personalabteilung",
+            "p": "Die Geschäftsführung hat den Arbeitsschutz neben Vertrieb, Gehältern und Tagesgeschäft.",
+            "s": "Orgpuls plant, versendet und erinnert. Sie sehen durch, der Rest läuft von selbst."
+          },
+          {
+            "t": "Zu wenige, um anonym zu sein",
+            "p": "Mit 12 Beschäftigten glaubt man leicht, die Chefin wisse, wer was geschrieben hat.",
+            "s": "Keine Gruppe wird mit weniger als 5 Antworten gezeigt. Sie können die Grenze anheben, aber nie unter 5 senken oder abschalten."
+          },
+          {
+            "t": "Unklar, was das Gesetz verlangt",
+            "p": "Die Vorschriften sind für Juristen geschrieben, und die Arbeitsschutzbehörde kann die Dokumentation sehen wollen.",
+            "s": "Die Faktoren sind den Feldern zugeordnet, die § 4 ArbSchG nennt. Der Bericht zeigt die Beurteilung und die Vorschrift zu jedem Faktor."
+          },
+          {
+            "t": "Wenig Zeit und kleines Budget",
+            "p": "Ein Berater und ein eigenes Projekt sind mehr, als das Unternehmen stemmen kann.",
+            "s": "Kein Berater und kein eigenes Projekt: Die erste Befragung wird noch am selben Tag geplant."
+          }
+        ]
+      },
+      "survey": {
+        "k": "Befragungen",
+        "title": "Die psychische Belastung erhoben. In 4 Minuten.",
+        "lead": "Elf Faktoren auf Grundlage des QPS Nordic, drei Aussagen je Faktor, Antworten von 1 bis 5. Ein guter Weg, einen Teil der Beurteilung zu leisten, die § 5 ArbSchG verlangt – und kurz genug, dass die Leute antworten.",
+        "mock": "Beispiel aus der Befragung: drei Aussagen zum Meinungsklima, Antworten von 1 bis 5, Kommentar freiwillig",
+        "note": {
+          "t": "Anonym von Grund auf",
+          "d": "Keine Gruppe wird mit weniger als 5 Antworten gezeigt. Sie können die Grenze anheben, aber tiefer geht es nie – diese Untergrenze gehört dem Produkt, nicht Ihnen."
+        },
+        "caption": "So sieht eine Seite für die beschäftigte Person aus.",
+        "h3": "Vier Minuten für die Beschäftigten. Fertige Dokumentation für Sie.",
+        "points": [
+          "Einladung per E-Mail, Teams oder Slack – und die Beschäftigten lassen sich aus Entra ID übernehmen.",
+          "Erinnerungen gehen von selbst hinaus, und der Betriebsrat erfährt es vor jeder Runde.",
+          "Die Beschäftigten antworten auf dem Handy, über den Link, den sie bekommen, ohne Anmeldung.",
+          "Dokumentation bereit, wenn die Arbeitsschutzbehörde sie verlangt, mit Vorschrift je Faktor."
+        ],
+        "link": "Die Fragen ansehen"
+      },
+      "band": {
+        "k": "Weniger zu merken",
+        "title": "Gebaut für alle, bei denen der Arbeitsschutz eine von zehn Aufgaben ist",
+        "lead": "Orgpuls plant die Runden, versendet, erinnert und schreibt die Dokumentation. Sie verwenden die Zeit auf die Nachverfolgung.",
+        "stats": [
+          {
+            "v": "20 Min.",
+            "l": "von der Registrierung bis zum geplanten Versand"
+          },
+          {
+            "v": "4 Min.",
+            "l": "um die Hauptbefragung zu beantworten"
+          },
+          {
+            "v": "5 Antworten",
+            "l": "Minimum je Gruppe – nie weniger"
+          },
+          {
+            "v": "11",
+            "l": "Faktoren, den Feldern des § 4 ArbSchG zugeordnet"
+          }
+        ],
+        "callout": {
+          "head": "Werkstatt · 8 Antworten",
+          "value": "28",
+          "text": "Der niedrigste Wert in der Karte. Drei Maßnahmenvorschläge liegen bereit."
+        },
+        "caption": "Die Werkstatt sticht beim Meinungsklima heraus.",
+        "h3": "Sicher, auch wenn alle einander kennen.",
+        "text": "Gruppen mit weniger als 5 Antworten werden als Strich (—) gezeigt, sodass niemand herausgegriffen werden kann – auch nicht in einer Werkstatt mit sechs Beschäftigten. Der Betriebsrat sieht dieselben Zahlen wie die Geschäftsführung, gleichzeitig."
+      },
+      "results": {
+        "title": "Eine Seite: was trägt, und was Sie jetzt tun",
+        "lead": "Das Ergebnis kommt als Satz, nicht als Tabelle. Die Zahlen liegen darunter, Faktor für Faktor, mit der Veränderung seit dem letzten Mal.",
+        "since": "Seit dem letzten Mal",
+        "index": {
+          "label": "Arbeitsumfeld-Index",
+          "value": "61",
+          "delta": "−3",
+          "meta": "Basisbefragung 2026 · Nordwind Tiefbau"
+        },
+        "caption": "Der Index sinkt, und die Arbeitsmenge zieht am stärksten nach unten."
+      },
+      "loop": {
+        "title": "Messen ist der erste Schritt. Den Unterschied machen die Maßnahmen.",
+        "lead": "Befragungen, Ergebnisse, Kommentare und Maßnahmen in einem Kreislauf. Jede Runde beginnt dort, wo die letzte aufgehört hat.",
+        "pillars": [
+          {
+            "t": "Messen",
+            "d": "Eine Basisbefragung im Jahr, Pulsbefragungen dazwischen. Der Jahresplan plant die Runden selbst."
+          },
+          {
+            "t": "Verstehen",
+            "d": "Ergebnisse je Abteilung und Faktor, und anonyme Kommentare, auf die Sie antworten können, ohne zu wissen, wer geschrieben hat."
+          },
+          {
+            "t": "Nachverfolgen",
+            "d": "Drei Maßnahmenvorschläge je Faktor. Jede Maßnahme bekommt eine verantwortliche Person und eine Frist, und die nächste Pulsbefragung zeigt, ob sie gewirkt hat."
+          }
+        ]
+      },
+      "roles": {
+        "k": "Wer sind Sie?",
+        "title": "Der Arbeitsschutz ist selten die Aufgabe einer Einzelnen",
+        "lead": "Führungskräfte, Personalverantwortliche und der Betriebsrat haben alle ihren Teil daran. Jede Rolle bekommt ihren eigenen Zugang.",
+        "cta": "Was Sie bekommen",
+        "cards": [
+          {
+            "i": "GF",
+            "t": "Geschäftsführung",
+            "s": "Ohne Personalabteilung",
+            "get": [
+              "Eine Seite: was trägt, und was Sie jetzt tun",
+              "Hilfe bei der Beurteilung, ohne Paragrafen zu lesen",
+              "Bericht für die Geschäftsleitung"
+            ]
+          },
+          {
+            "i": "HR",
+            "t": "Personalabteilung",
+            "s": "Oft allein in der Rolle",
+            "get": [
+              "Ergebnisse je Abteilung, Team und Segment",
+              "Entwicklung über die Jahre, Befragung für Befragung",
+              "Rollen und Zugriff an einer Stelle gesteuert"
+            ]
+          },
+          {
+            "i": "AL",
+            "t": "Abteilungsleitung",
+            "s": "Eigenes Team",
+            "get": [
+              "Nur Ihr Team, und erst wenn genug geantwortet haben",
+              "Anonyme Kommentare, auf die Sie antworten können",
+              "Drei Maßnahmenvorschläge, bereit zur Auswahl"
+            ]
+          },
+          {
+            "i": "BR",
+            "t": "Betriebsrat",
+            "s": "Vertritt die Beschäftigten",
+            "get": [
+              "Dieselben Zahlen wie die Geschäftsführung, gleichzeitig",
+              "Benachrichtigung vor jedem Versand",
+              "Beurteilung und Maßnahmenplan, Faktor für Faktor"
+            ]
+          }
+        ]
+      },
+      "industries": {
+        "k": "Branchen",
+        "all": "Alle Branchen",
+        "new": "Neu"
+      }
+    },
+    "plattform": {
+      "crumb": "Plattform",
+      "eyebrow": "Plattform",
+      "h1": "Eine Erhebung, die zu Maßnahmen führt.",
+      "lead": "Die Befragung ist der Anfang. Das Ergebnis zeigt, was nach unten zieht, die Kommentare erklären warum, und die nächste Befragung zeigt, ob die Maßnahmen gewirkt haben. In 20 Minuten eingerichtet – mit oder ohne HR-System.",
+      "next": "Die Anwendungsfälle ansehen",
+      "index": [
+        {
+          "t": "Befragungen",
+          "d": "Ein Jahresplan, der sich selbst erledigt"
+        },
+        {
+          "t": "Ergebnisse",
+          "d": "Was hebt, was nach unten zieht"
+        },
+        {
+          "t": "Kommentare",
+          "d": "Den Beschäftigten antworten, ohne zu wissen wem"
+        },
+        {
+          "t": "Maßnahmen",
+          "d": "Verantwortliche, Frist und gemessene Wirkung"
+        }
+      ],
+      "lesMer": "Mehr lesen",
+      "example": "Fiktive Beispieldaten.",
+      "malinger": {
+        "eyebrow": "Befragungen und Jahresplan",
+        "h": "Der Jahresplan erledigt sich selbst",
+        "p": "Eine Hauptbefragung im Jahr setzt die Basis. Die Pulsbefragungen dazwischen messen nur das, wozu Sie Maßnahmen beschlossen haben – drei Aussagen je Faktor. Orgpuls versendet, erinnert und benachrichtigt für Sie.",
+        "ticks": [
+          "Basis: 37 Fragen, alle Beschäftigten, einmal im Jahr",
+          "Puls: drei Aussagen aus jedem Faktor mit offenen Maßnahmen",
+          "Der Faktor fällt aus dem Puls, wenn die Maßnahmen geschlossen sind",
+          "Einen Puls in beliebigem Monat direkt im Jahresplan hinzufügen"
+        ],
+        "use": "Anwendungsfall: jährliche Erhebung",
+        "caption": "Der Betriebsrat wird 2 Tage vorher benachrichtigt, und die Beschäftigten bekommen die Einladung am Dienstag um 09:00 Uhr. Ein Puls schließt nach 7 Tagen, die Hauptbefragung nach 14.",
+        "card": {
+          "title": "Jahresplan 2026",
+          "meta": "4 Versände · Pause im Juli"
+        },
+        "months": [
+          "Jan",
+          "Feb",
+          "Mär",
+          "Apr",
+          "Mai",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Okt",
+          "Nov",
+          "Dez"
+        ],
+        "tags": {
+          "pulse": "Puls",
+          "holiday": "Urlaub",
+          "main": "Basis"
+        }
+      },
+      "respondent": {
+        "eyebrow": "So ist das Antworten",
+        "h": "Vier Minuten, auf dem Handy, in der Pause",
+        "p": "Ein Thema nach dem anderen, der Faktor sichtbar, Kommentar freiwillig. Die Reihenfolge wird für jede Person gemischt, sodass niemand daran, wann eine Antwort kam, erraten kann, wer was geantwortet hat.",
+        "ticks": [
+          "Wir speichern nie Namen, E-Mail oder IP-Adresse zusammen mit der Antwort",
+          "Die Führungskraft sieht Zahlen erst, wenn mindestens fünf geantwortet haben",
+          "Jede Frage kann übersprungen werden, und Kommentare sind freiwillig",
+          "Einladung per E-Mail, Teams oder Slack – oder ein QR-Code für alle ohne eigenen Bildschirm"
+        ],
+        "use": "Anwendungsfall: jährliche Erhebung",
+        "caption": "So sieht es für die beschäftigte Person aus.",
+        "card": {
+          "title": "Die Befragung auf dem Handy",
+          "meta": "ein Thema pro Seite"
+        }
+      },
+      "resultater": {
+        "eyebrow": "Ergebnisse",
+        "h": "Sortiert nach dem, was am meisten zählt – nicht nach der niedrigsten Zahl",
+        "p": "Faktoren mit Index 0–100, Entwicklung seit dem Vorjahr und Risikostufe. Tippen Sie auf einen Faktor und sehen Sie die Aussagen hinter der Zahl, die Antwortverteilung und drei Maßnahmenvorschläge.",
+        "ticks": [
+          "Heatmap, Priorität, Gruppenprofil und Entwicklung – dieselben Zahlen, vier Fragen",
+          "Gruppen unter der Mindestgruppengröße werden als „—“ gezeigt, auch der Administration",
+          "Jeder Faktor ist mit seiner Vorschrift verknüpft – im Bericht und an jeder Maßnahme"
+        ],
+        "use": "Anwendungsfall: ein Team sticht heraus",
+        "caption": "Zuoberst steht, was am meisten nach unten zieht, mit Vorschlägen direkt darunter.",
+        "card": {
+          "title": "Faktor · Index und Entwicklung",
+          "meta": "Risiko"
+        },
+        "rows": [
+          {
+            "mark": "41",
+            "sub": "§ 17 Abs. 1 ArbSchG · −7 seit dem Vorjahr",
+            "pill": "Hoch"
+          },
+          {
+            "mark": "44",
+            "sub": "§ 5 Abs. 3 Nr. 4 ArbSchG · −9",
+            "pill": "Hoch"
+          },
+          {
+            "mark": "52",
+            "sub": "§ 4 Nr. 4 ArbSchG · −6",
+            "pill": "Mittel"
+          },
+          {
+            "mark": "64",
+            "sub": "§ 3 Abs. 2 Nr. 2 ArbSchG · −5",
+            "pill": "Mittel"
+          },
+          {
+            "mark": "71",
+            "sub": "§ 12 Abs. 1 ArbSchG · −2",
+            "pill": "Gering"
+          }
+        ]
+      },
+      "kommentarer": {
+        "eyebrow": "Kommentare",
+        "h": "Anonymer Dialog, kein Posteingang",
+        "p": "Orgpuls sortiert die Freitextantworten nach Faktor und Tonlage. Die Führungskraft antwortet, ohne zu wissen, wer geschrieben hat, und die beschäftigte Person liest die Antwort über ihren privaten Link.",
+        "ticks": [
+          "Gruppiert je Faktor, mit der Tonlage aus der Antwort, zu der der Kommentar gehört",
+          "Die Antwort erreicht die Person, die geschrieben hat – ohne dass jemand weiß, wer",
+          "Ein Faktor wird erst gezeigt, wenn mindestens fünf geantwortet haben"
+        ],
+        "use": "Anwendungsfall: neue Führungskraft",
+        "caption": "Wer geschrieben hat, sieht Ihre Antwort – Sie erfahren nie, wer es war.",
+        "card": {
+          "title": "Alle Faktoren",
+          "meta": "18 Kommentare"
+        },
+        "rows": [
+          {
+            "title": "„Es bringt nichts, etwas zu sagen. Wir haben im Frühjahr eine Abweichung am Gerüst gemeldet und nie wieder etwas gehört.“",
+            "sub": "{factor} · wartet · 6 Tage",
+            "pill": "Negativ"
+          },
+          {
+            "title": "„Die Umstellung der Morgenbesprechung war ein guter Schritt.“",
+            "sub": "{factor} · Sie haben geantwortet: Schön zu hören – wir behalten das bei.",
+            "pill": "Positiv"
+          }
+        ]
+      },
+      "tiltak": {
+        "eyebrow": "Maßnahmen",
+        "h": "Vom Befund zur Wirkung, mit Verantwortlichen und Frist",
+        "p": "Jeder Faktor hat drei fertige Vorschläge mit Rückhalt in der Forschung: eine Routine, einen Workshop oder eine Führungspraxis. Jeder Vorschlag sagt, wie lange er dauert und welche Aussage die Wirkung misst.",
+        "ticks": [
+          "Sechs Schritte: vorgeschlagen, beschlossen, läuft, umgesetzt, Wirkung gemessen, geschlossen",
+          "Verantwortliche und Frist an jeder Maßnahme: die Maßnahmen, die § 3 ArbSchG verlangt, mit ihrer Überprüfung",
+          "Die Wirkung wird an derselben Aussage im nächsten Puls gemessen"
+        ],
+        "use": "Anwendungsfall: Puls zwischen den Befragungen",
+        "caption": "Drei Vorschläge je Faktor, bereit zur Auswahl.",
+        "card": {
+          "title": "Vorschläge · {factor}",
+          "meta": "Index 41"
+        },
+        "rows": [
+          {
+            "title": "Jede Meldung innerhalb von fünf Tagen beantworten",
+            "sub": "Routine · laufend"
+          },
+          {
+            "title": "Workshop: Was hindert uns, etwas anzusprechen?",
+            "sub": "Workshop · 90 Min."
+          },
+          {
+            "title": "Die Führungskraft fragt zuerst und spricht zuletzt",
+            "sub": "Führungspraxis · in jeder Besprechung"
+          }
+        ],
+        "pill": "In den Plan"
+      },
+      "rapport": {
+        "eyebrow": "Bericht",
+        "h": "Dokumentation für Arbeitsschutzausschuss, Geschäftsleitung und Behörde",
+        "p": "Orgpuls stellt die Dokumentation aus den Zahlen und Ihren Beurteilungen zusammen: das Ergebnis der Gefährdungsbeurteilung, die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung (§ 6 ArbSchG). Wählen Sie Jahr, Umfang und Empfänger. Sie lesen durch und geben frei – nichts wird automatisch versandt.",
+        "ticks": [
+          "Rechtsgrundlagen: §§ 3, 5 und 6 ArbSchG, §§ 80, 87 und 89 BetrVG, § 11 ASiG",
+          "Die Beteiligung des Betriebsrats steht dokumentiert",
+          "Als PDF speichern – die Daten gehören Ihnen"
+        ],
+        "use": "Anwendungsfall: Aufsicht und Dokumentation",
+        "caption": "Fertig, wenn der Arbeitsschutzausschuss oder die Arbeitsschutzbehörde danach fragt.",
+        "card": {
+          "title": "Dokumentation · 2026",
+          "meta": "PDF"
+        },
+        "rows": [
+          {
+            "mark": "1",
+            "title": "Methode und Beteiligung",
+            "sub": "Betriebsrat · Arbeitnehmervertretung"
+          },
+          {
+            "mark": "3",
+            "title": "Erhebung",
+            "sub": "Was gut läuft, was nach unten zieht"
+          },
+          {
+            "mark": "4",
+            "title": "Beurteilung",
+            "sub": "§ 5 ArbSchG · Gefährdungen und wie ernst sie sind"
+          },
+          {
+            "mark": "5",
+            "title": "Maßnahmen",
+            "sub": "4 Maßnahmen · 1 Wirkung gemessen"
+          }
+        ]
+      },
+      "roller": {
+        "eyebrow": "Rollen und Zugriff",
+        "h": "Niemand sieht, wer geantwortet hat",
+        "p": "Die Rolle bestimmt, was Sie sehen. Niemand sieht einzelne Antworten, und die Mindestgruppengröße – mindestens fünf Antworten – gilt auch für die Administration. Die einfache Ansicht gibt eine Seite, die erweiterte alle Analysen.",
+        "ticks": [
+          "Die Geschäftsführung sieht das ganze Unternehmen und alle Kommentare",
+          "Die Abteilungsleitung sieht ihr eigenes Team, sobald genug geantwortet haben",
+          "Der Betriebsrat sieht das Ganze und die Beurteilung"
+        ],
+        "use": "Anwendungsfall: Betriebsrat und Arbeitsschutzausschuss",
+        "caption": "Die Marken zeigen, wann jede Rolle vor dem Versand benachrichtigt wird.",
+        "card": {
+          "title": "Zugriff je Rolle",
+          "meta": "Mindestgruppengröße 5 Antworten"
+        },
+        "rows": [
+          {
+            "mark": "GF",
+            "title": "Geschäftsführung",
+            "sub": "Ganzes Unternehmen · alle Kommentare · setzt Verantwortliche und Frist",
+            "pill": "1 Tag vorher"
+          },
+          {
+            "mark": "AL",
+            "title": "Abteilungsleitung",
+            "sub": "Eigenes Team · eigene Kommentare und Maßnahmen",
+            "pill": "1 Tag vorher"
+          },
+          {
+            "mark": "BR",
+            "title": "Betriebsrat",
+            "sub": "Ganzes Unternehmen · Beurteilung und Rechtsgrundlagen",
+            "pill": "2 Tage vorher"
+          }
+        ]
+      },
+      "oppsett": {
+        "eyebrow": "Einrichtung",
+        "h": "In 20 Minuten fertig, mit oder ohne HR-System",
+        "p": "Geben Sie den Namen des Unternehmens und, wenn Sie wollen, die USt-IdNr. ein. Fügen Sie die Beschäftigten ein, laden Sie eine CSV hoch oder übernehmen Sie sie aus Microsoft Entra ID – dann hält Orgpuls die Liste aktuell.",
+        "ticks": [
+          "Assistent in 9 Schritten vom Unternehmen bis zum ersten Versand",
+          "Mindestens fünf Antworten je Gruppe, anhebbar auf zehn – kleine Gruppen zählen im Ganzen mit",
+          "Daten in der EU, und Sie unterzeichnen den Auftragsverarbeitungsvertrag in der App"
+        ],
+        "use": "Anwendungsfall: ohne Personalabteilung",
+        "caption": "Alles funktioniert ohne HR-System.",
+        "card": {
+          "title": "Integrationen",
+          "meta": "funktioniert ohne HR-System"
+        },
+        "rows": [
+          {
+            "title": "Anmeldung mit Microsoft und Google",
+            "sub": "Mit dem Konto der Arbeit anmelden, über Entra ID oder Google",
+            "pill": "Fertig"
+          },
+          {
+            "title": "CSV, Liste oder Entra ID",
+            "sub": "Gruppe und Rolle in der Tabelle, oder aus Microsoft übernommen",
+            "pill": "Fertig"
+          },
+          {
+            "title": "E-Mail, QR-Code, Teams und Slack",
+            "sub": "Der Link kommt dorthin, wo die Leute tatsächlich lesen",
+            "pill": "Fertig"
+          },
+          {
+            "title": "HR- und Lohnsysteme",
+            "sub": "Noch nicht fertig – sagen Sie uns, was Sie nutzen",
+            "pill": "Kommt"
+          }
+        ]
+      }
+    },
+    "hvorfor": {
+      "seoTitle": "Warum Orgpuls – die psychische Belastung das ganze Jahr im Blick | Orgpuls",
+      "seoDescription": "Mitarbeiterbefragung zur psychischen Belastung bei der Arbeit: Stärken zuerst, Maßnahmen mit Verantwortlichen und Frist, Anonymität ab 5 Antworten und die Dokumentation nach § 6 ArbSchG.",
+      "crumb": "Warum Orgpuls",
+      "h1": "Die psychische Belastung das ganze Jahr im Blick – und sehen, was wirkt",
+      "lead": "Eine Befragung im Jahr zeigt, wie es den Leuten im September ging – nicht, ob die Maßnahmen gewirkt haben. Mit Orgpuls bauen Führungskräfte und Betriebsrat auf dem auf, was trägt, geben jedem Befund eine verantwortliche Person und messen die Wirkung. Hier sind die Entscheidungen dahinter, und warum.",
+      "next": "Die Anwendungsfälle ansehen →",
+      "usesLabel": "In der Plattform ansehen",
+      "sections": [
+        {
+          "k": "Der Blick auf das, was trägt",
+          "t": "Mit dem anfangen, was funktioniert",
+          "d": "Die Zusammenfassung zeigt zuerst, was den Leuten Energie gibt, dann, was Energie nimmt. Sie bauen auf dem auf, was stark ist – und Menschen lassen sich leichter für eine Verbesserung gewinnen, wenn sie sehen, dass auch das Gute gesehen wird.",
+          "points": [
+            "Die Zusammenfassung beginnt mit dem, womit die Leute zufrieden sind",
+            "Jeder Bereich bekommt ein Etikett – auch „Gut“, nicht nur „Braucht Einsatz“",
+            "Kommentare mit positiver Tonlage werden neben den kritischen gezeigt"
+          ],
+          "m": {
+            "title": "Womit die Leute am zufriedensten sind",
+            "note": "Basisbefragung 2026",
+            "rows": [
+              "Anerkennung und Sinn",
+              "Unterstützung durch Kolleginnen und Kollegen",
+              "Rollenklarheit",
+              "Mitwirkung und Kontrolle"
+            ],
+            "foot": "Die Leute schätzen den Sinn ihrer Arbeit und einander. Das ist ein guter Ausgangspunkt, um das Meinungsklima anzugehen."
+          }
+        },
+        {
+          "k": "Laufende Nachverfolgung",
+          "t": "Eine Befragung ist eine Momentaufnahme. Vier sind eine Richtung.",
+          "d": "Die Hauptbefragung setzt den Nullpunkt. Kurze Pulsbefragungen dazwischen messen nur das, woran Sie arbeiten. So sehen Sie, ob die Kurve dreht, solange noch Zeit zum Nachsteuern ist – nicht ein Jahr später.",
+          "points": [
+            "Der Jahresplan versendet, erinnert und benachrichtigt von selbst",
+            "Der Puls fragt nur nach den Faktoren, zu denen Sie offene Maßnahmen haben",
+            "Der Faktor fällt aus dem Puls, wenn die Maßnahmen geschlossen sind, damit niemand dieselbe Frage in alle Ewigkeit bekommt"
+          ],
+          "m": {
+            "title": "Arbeitsmenge · Projekt",
+            "note": "Ziel 60",
+            "labels": [
+              "Basis 25",
+              "Basis 26",
+              "Puls Dez",
+              "Puls Mär",
+              "Puls Jun"
+            ]
+          }
+        },
+        {
+          "k": "Vom Befund zum Handeln",
+          "t": "Jeder Befund bekommt eine verantwortliche Person und ein Enddatum",
+          "d": "Eine Zahl, die niemandem gehört, bleibt liegen. Jede Maßnahme in Orgpuls gehört zu einem Faktor, hat eine verantwortliche Person und ein Enddatum und kann nicht geschlossen werden, bevor die nächste Befragung gezeigt hat, ob sie gewirkt hat.",
+          "points": [
+            "Drei Vorschläge je Faktor: Workshop, Routine oder Führungspraxis",
+            "Jeder Vorschlag sagt, welche Aussage erneut gemessen wird",
+            "Die Maßnahmen gehen als Maßnahmenplan in die Dokumentation für die Geschäftsleitung und den Arbeitsschutzausschuss ein, wenn Sie einen haben"
+          ],
+          "m": {
+            "title": "Feste Antwort auf Abweichungsmeldungen",
+            "note": "Anna Richter · bis 15. Okt.",
+            "steps": [
+              {
+                "t": "Vorgeschlagen",
+                "d": "Aus dem Ergebnis zum Meinungsklima"
+              },
+              {
+                "t": "Beschlossen",
+                "d": "Mit dem Betriebsrat am 24. Sep."
+              },
+              {
+                "t": "Läuft",
+                "d": "Antwort innerhalb von fünf Tagen auf jede Meldung"
+              },
+              {
+                "t": "Wirkung gemessen",
+                "d": "Puls im Dezember"
+              },
+              {
+                "t": "Geschlossen",
+                "d": "Wenn das Meinungsklima über 60 liegt"
+              }
+            ]
+          }
+        },
+        {
+          "k": "Anonymität",
+          "t": "Anonymität, die sich nicht abschalten lässt",
+          "d": "Orgpuls verbindet eine Antwort nie mit Name, E-Mail oder IP-Adresse. Niemand sieht eine Gruppe, bevor genug geantwortet haben – auch die Administration nicht. Die Mindestgruppengröße ist 5 Antworten, nie weniger; Sie können sie auf 10 anheben.",
+          "points": [
+            "Kleine Gruppen werden nicht gezeigt, zählen aber im Ganzen mit",
+            "Die Reihenfolge der Aussagen wird für jede Person gemischt",
+            "Kommentare zu einem Faktor werden erst gezeigt, wenn genug geschrieben haben – mindestens 5"
+          ],
+          "src": "DSGVO und § 26 BDSG zum Beschäftigtendatenschutz",
+          "m": {
+            "title": "Was die Führungskraft sieht",
+            "note": "Mindestgruppengröße 5 Antworten",
+            "cols": [
+              "Mng.",
+              "Menge",
+              "Führ.",
+              "Rolle",
+              "Sinn"
+            ],
+            "teams": [
+              "Betrieb · 8",
+              "Projekt · 9",
+              "Verw. · 3",
+              "Lager · 4"
+            ],
+            "foot": "Verwaltung und Lager haben zu wenige Antworten. Sie zählen im Ganzen mit, werden aber nie als eigene Zeile gezeigt."
+          }
+        },
+        {
+          "k": "Die Forschung dahinter",
+          "t": "Fragen mit Forschung dahinter",
+          "d": "Die Fragen bauen auf dem QPS Nordic auf, einem nordischen Fragebogen zu psychologischen und sozialen Faktoren der Arbeit. Der Wortlaut ist festgeschrieben, damit Sie Jahr für Jahr vergleichen können.",
+          "points": [
+            "11 Faktoren, 3 Aussagen je Faktor, Skala 1–5",
+            "Die Antworten werden zu einem gut lesbaren Index von 0 bis 100",
+            "Die Maßnahmenvorschläge bauen auf bekannter Forschung dazu auf, was wirkt"
+          ],
+          "src": "QPS Nordic · STAMI",
+          "m": {
+            "title": "Eine Auswahl der Faktoren",
+            "note": "11 insgesamt",
+            "cards": [
+              {
+                "tag": "Meinungsklima",
+                "t": "Ich kann Missstände ansprechen, ohne Folgen fürchten zu müssen",
+                "meta": "3 Aussagen"
+              },
+              {
+                "tag": "Arbeitsmenge",
+                "t": "Meine Arbeitsmenge ist auf Dauer zu bewältigen",
+                "meta": "3 Aussagen"
+              },
+              {
+                "tag": "Rollenklarheit",
+                "t": "Ich weiß, was in meiner Arbeit von mir erwartet wird",
+                "meta": "3 Aussagen"
+              }
+            ]
+          }
+        },
+        {
+          "k": "Das Gesetz",
+          "t": "Die Dokumentation entsteht bei der Arbeit – nicht im Nachhinein",
+          "d": "Das Arbeitsschutzgesetz verlangt, dass Sie die Gefährdungen beurteilen, psychische Belastungen eingeschlossen, die erforderlichen Maßnahmen treffen, ihre Wirksamkeit überprüfen und das Ergebnis dokumentieren. Eine Befragung ist keine Pflicht, aber ein guter Weg, einen Teil der Beurteilung zu leisten. Orgpuls folgt den Schritten, sodass die Dokumentation entsteht, während Sie arbeiten. Wer keine Paragrafen sehen will, kann sie abschalten.",
+          "points": [
+            "Beurteilung der psychischen Belastung bei der Arbeit (§ 5 Abs. 3 Nr. 6 ArbSchG)",
+            "Orgpuls hält die Beteiligung des Betriebsrats fest (§§ 87, 89 BetrVG)",
+            "Eine Dokumentation, die Sie vorzeigen, wenn die Arbeitsschutzbehörde sie verlangt, bereit als PDF"
+          ],
+          "src": "§§ 3, 5 und 6 ArbSchG · §§ 80, 87 und 89 BetrVG · § 11 ASiG",
+          "m": {
+            "title": "Vorschrift je Schritt",
+            "note": "aus der Dokumentation",
+            "cards": [
+              {
+                "tag": "§ 5 ArbSchG",
+                "t": "Gefährdungsbeurteilung",
+                "meta": "Unterstützt"
+              },
+              {
+                "tag": "§ 5 Abs. 3 Nr. 6",
+                "t": "Psychische Belastungen bei der Arbeit",
+                "meta": "Unterstützt"
+              },
+              {
+                "tag": "§ 6 ArbSchG",
+                "t": "Dokumentation mit Maßnahmen und Überprüfung",
+                "meta": "Dokumentiert"
+              }
+            ],
+            "foot": "Orgpuls deckt die Beurteilung der psychischen Belastung ab. Die übrigen Pflichten des Arbeitsschutzes liegen außerhalb."
+          }
+        }
+      ],
+      "compare": {
+        "k": "Im Vergleich",
+        "t": "Gegen Tabellen und gegen große HR-Systeme",
+        "d": "Zwei verbreitete Alternativen sind ein eigenes Formular mit den Antworten in einer Tabelle und ein Umfragemodul in einem großen HR-System. Beides kann funktionieren. So unterscheiden sie sich von Orgpuls.",
+        "cols": [
+          "Tabelle und Formular",
+          "Großes HR-System",
+          "Orgpuls"
+        ],
+        "rows": [
+          {
+            "k": "Zeit bis zum ersten Versand",
+            "a": "Tage",
+            "b": "Je nach Einrichtung",
+            "c": "20 Minuten"
+          },
+          {
+            "k": "Fertige Fragen mit Forschung dahinter",
+            "a": "Nein",
+            "b": "Oft",
+            "c": "QPS Nordic"
+          },
+          {
+            "k": "Anonymität mit Mindestgruppengröße",
+            "a": "Von Hand",
+            "b": "Ja",
+            "c": "Mindestens 5 Antworten, auch für die Administration"
+          },
+          {
+            "k": "Zeigt Stärken vor Schwächen",
+            "a": "Nein",
+            "b": "Unterschiedlich",
+            "c": "Ja"
+          },
+          {
+            "k": "Maßnahmenvorschläge",
+            "a": "Nein",
+            "b": "Selten",
+            "c": "3 je Faktor"
+          },
+          {
+            "k": "Misst, ob die Maßnahmen gewirkt haben",
+            "a": "Nein",
+            "b": "Teilweise",
+            "c": "Puls zu den Maßnahmen"
+          },
+          {
+            "k": "Dokumentation von Beurteilung und Maßnahmenplan",
+            "a": "Von Hand",
+            "b": "Unterschiedlich",
+            "c": "Eingebaut"
+          },
+          {
+            "k": "Fragen zu Arbeitszeit und Erholung",
+            "a": "Eigene Fragen",
+            "b": "Unterschiedlich",
+            "c": "Als Modul geplant"
+          }
+        ]
+      },
+      "faq": {
+        "k": "Häufige Fragen",
+        "nav": "Fragen",
+        "t": "Was die Leute wissen wollen, bevor sie anfangen",
+        "d": "Finden Sie die Antwort nicht? Schreiben Sie uns über das <link>Kontaktformular</link>. Wir antworten persönlich.",
+        "items": [
+          {
+            "q": "Kann die Führungskraft sehen, wer was geantwortet hat?",
+            "a": "Nein. Orgpuls verbindet eine Antwort nie mit Name, E-Mail oder IP-Adresse – das ist in der Datenbank eingebaut, keine Routine – und die Antworten werden in der EU gespeichert. Niemand sieht eine Gruppe, bevor mindestens 5 geantwortet haben, und das gilt auch für die Administration. Sie können die Grenze auf 10 anheben, aber nie unter 5 senken."
+          },
+          {
+            "q": "Müssen wir eine Mitarbeiterbefragung machen?",
+            "a": "Sie müssen die Gefährdungen beurteilen, aber das Gesetz verlangt keine Befragung. Verlangt wird, dass Sie durch eine Beurteilung der mit der Arbeit verbundenen Gefährdung ermitteln, welche Maßnahmen erforderlich sind – ausdrücklich auch für psychische Belastungen (§ 5 Abs. 3 Nr. 6 ArbSchG) –, die Maßnahmen treffen und auf ihre Wirksamkeit überprüfen (§ 3 ArbSchG) und das Ergebnis dokumentieren (§ 6 ArbSchG). Eine standardisierte Befragung ist ein guter Weg, einen Teil davon zu leisten."
+          },
+          {
+            "q": "Was macht der Betriebsrat?",
+            "a": "Der Betriebsrat vertritt die Beschäftigten und wird vom Arbeitgeber bei allen Fragen des Arbeitsschutzes hinzugezogen (§ 89 Abs. 2 BetrVG); bei Regelungen zum Gesundheitsschutz, also auch bei der Methode der Gefährdungsbeurteilung, bestimmt er mit (§ 87 Abs. 1 Nr. 7 BetrVG). Gewählt wird er ab fünf wahlberechtigten Arbeitnehmern, wenn die Beschäftigten es wollen – eine Pflicht des Arbeitgebers ist er nicht (§ 1 BetrVG). In Orgpuls hat der Betriebsrat eine eigene Rolle und sieht die Ergebnisse gleichzeitig mit der Geschäftsführung; gibt es keinen, bleibt die Rolle leer."
+          },
+          {
+            "q": "Wie lange dauert es?",
+            "a": "Die Beschäftigten antworten in etwa vier Minuten auf die Basisbefragung und in unter einer Minute auf einen Puls, auf dem Handy. Die Einrichtung dauert beim ersten Mal unter einer Stunde: Sie tragen die Beschäftigten ein – einfügen, eine CSV hochladen oder von Hand eintippen –, wählen die Mindestgruppengröße und bestätigen die Fragen. Danach plant der Jahresplan die Runden selbst. Sie brauchen kein HR-System."
+          },
+          {
+            "q": "Warum nicht einfach eine Befragung im Jahr?",
+            "a": "Eine Befragung zeigt, wie es zu einem Zeitpunkt stand. Sie sagt nicht, ob die Maßnahmen gewirkt haben, und getroffene Maßnahmen sind auf ihre Wirksamkeit zu überprüfen (§ 3 Abs. 1 ArbSchG). Der Puls misst nur die Faktoren, an denen Sie arbeiten, sodass Sie die Entwicklung sehen, ohne jedes Mal alles abzufragen."
+          },
+          {
+            "q": "Deckt Orgpuls den ganzen Arbeitsschutz ab?",
+            "a": "Nein. Orgpuls unterstützt die Beurteilung der psychischen Belastung bei der Arbeit, die Maßnahmen und die Überprüfung ihrer Wirksamkeit, und dokumentiert sie (§§ 3, 5 und 6 ArbSchG). Die übrigen Gefährdungen der Gefährdungsbeurteilung, die Unterweisung, Betriebsarzt und Fachkraft für Arbeitssicherheit und die Beschwerdestelle nach dem AGG bleiben Ihre Aufgabe."
+          }
+        ]
+      }
+    },
+    "story": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Mär",
+        "Apr",
+        "Mai",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Dez"
+      ],
+      "base": "Haupt",
+      "pulse": "Puls",
+      "holiday": "Urlaub",
+      "source": "Quelle: {src}",
+      "use": {
+        "mal": "Befragungen und Jahresplan",
+        "svar": "So ist das Antworten",
+        "res": "Ergebnisse",
+        "vis": "Vier Ansichten",
+        "kom": "Kommentare",
+        "tilt": "Maßnahmen",
+        "rap": "Bericht",
+        "rol": "Rollen und Zugriff",
+        "opp": "Einstellungen",
+        "ast": "Die Assistentin"
+      }
+    },
+    "bruksomrader": {
+      "crumb": "Anwendungsfälle",
+      "eyebrow": "Anwendungsfälle",
+      "h1": "Von der Erhebung der psychischen Belastung zum Führungsinstrument.",
+      "lead": "Dieselben Fragen, dieselbe Mindestgruppengröße und dieselbe Maßnahmenliste – auf acht Arten genutzt. Wählen Sie die Situation, die Ihrer ähnelt, und sehen Sie, wie Sie sie in der Praxis lösen.",
+      "next": "Die Plattform ansehen",
+      "usesLabel": "Das nutzen Sie dabei",
+      "example": "Fiktive Beispieldaten.",
+      "use": {
+        "opp": "Einstellungen",
+        "mal": "Befragungen und Jahresplan",
+        "rap": "Bericht",
+        "res": "Ergebnisse",
+        "tilt": "Maßnahmen",
+        "kom": "Kommentare",
+        "rol": "Rollen und Zugriff"
+      },
+      "sections": [
+        {
+          "eyebrow": "Ohne Personalabteilung",
+          "short": "Geschäftsführung, 20 Beschäftigte, keine HR",
+          "h": "Geschäftsführung, 20 Beschäftigte, keine Personalabteilung",
+          "p": "Die einfache Ansicht gibt eine einzige Seite: womit die Leute zufrieden sind, was nach unten zieht und drei Dinge, die jetzt zu tun sind. Die Assistentin Tuva zeigt, was noch fehlt, bis Sie startklar sind, und die Hilfe ist auf jeder Seite.",
+          "ticks": [
+            "Eine Geschäftsführung mit weniger als 50 Beschäftigten bekommt die einfache Ansicht automatisch",
+            "Die Beschäftigten einfügen oder eine CSV hochladen – kein HR-System nötig",
+            "Der Assistent führt Sie in etwa 20 Minuten von der Registrierung zum geplanten Versand"
+          ],
+          "card": {
+            "title": "Das jetzt tun",
+            "meta": "Übersicht · einfache Ansicht",
+            "rows": [
+              {
+                "title": "Feste Antwort auf Abweichungsmeldungen innerhalb von fünf Tagen",
+                "sub": "{factor} · Frist 15. Okt."
+              },
+              {
+                "title": "Priorisierungsbesprechung jeden Montag",
+                "sub": "{factor} · verantwortlich: Sie · Frist 1. Nov."
+              },
+              {
+                "title": "Zwei anonyme Kommentare warten auf eine Antwort",
+                "sub": "Kommentare · warten seit 6 Tagen"
+              }
+            ]
+          },
+          "caption": "Die Leute erleben die Arbeit als sinnvoll. Nach unten ziehen das Meinungsklima und die Arbeitsmenge."
+        },
+        {
+          "eyebrow": "Jährliche Erhebung",
+          "short": "Die Erhebung des Jahres, in einer Stunde unterwegs",
+          "h": "Die Erhebung der psychischen Belastung des Jahres, in einer Stunde unterwegs",
+          "p": "Eine Hauptbefragung im Jahr kann ein Teil der Beurteilung psychischer Belastungen sein, die § 5 Abs. 3 Nr. 6 ArbSchG verlangt, und setzt die Basis, an der Sie alles andere messen. Die Fragen stehen, die Mindestgruppengröße ist gesetzt, und Orgpuls erstellt die Dokumentation.",
+          "ticks": [
+            "33 Aussagen zu 11 Faktoren, etwa 4 Minuten zum Antworten",
+            "Der Betriebsrat wird 2 Tage vor dem Versand benachrichtigt",
+            "Erinnerungen gehen automatisch hinaus, und die Runde schließt nach 14 Tagen",
+            "Schriftliche Beurteilung je Faktor, mit Vorschrift"
+          ],
+          "card": {
+            "title": "Jahresplan 2026",
+            "meta": "1 Hauptbefragung · 3 Pulsbefragungen"
+          },
+          "caption": "Die Hauptbefragung im September liefert das Ergebnis vor der Budget- und Maßnahmenplanung im Herbst."
+        },
+        {
+          "eyebrow": "Puls zwischen den Befragungen",
+          "short": "Sehen, ob die Maßnahmen wirken – vor dem nächsten Jahr",
+          "h": "Sehen, ob die Maßnahmen wirken – vor dem nächsten Jahr",
+          "p": "Die Pulsbefragung stellt die drei Aussagen zu jedem Faktor, zu dem Sie Maßnahmen beschlossen haben, und zeigt, ob die Kurve dreht, solange noch Zeit zum Nachsteuern ist.",
+          "ticks": [
+            "Der Puls fragt nur nach den Faktoren mit offenen Maßnahmen",
+            "Dieselbe Formulierung wie in der Hauptbefragung, damit Sie die Zahlen vergleichen können",
+            "Der Faktor fällt weg, wenn die Maßnahmen geschlossen sind"
+          ],
+          "card": {
+            "title": "{factor} · ganzes Unternehmen",
+            "meta": "gestrichelte Linie = Ziel 60",
+            "goal": "Ziel 60",
+            "labels": [
+              "Basis 25",
+              "Basis 26",
+              "Puls Dez",
+              "Puls Mär",
+              "Puls Jun"
+            ],
+            "sr": "Basis 2025: 48. Basis 2026: 41. Puls Dezember: 44. Puls März: 48. Puls Juni: 53. Ziel: 60."
+          },
+          "caption": "Die Maßnahme „feste Antwort auf Abweichungsmeldungen“ begann im Oktober. Die Pulsbefragungen zeigen, dass sie wirkt, aber noch nicht genug."
+        },
+        {
+          "eyebrow": "Aufsicht und Dokumentation",
+          "short": "Wenn die Arbeitsschutzbehörde den Betrieb besichtigt",
+          "h": "Bereit, wenn die Arbeitsschutzbehörde die Dokumentation verlangt",
+          "p": "Die Dokumentation fasst Erhebung, Beurteilung, Maßnahmen und Beteiligung zusammen, mit Vorschrift je Faktor. Wählen Sie Jahr und Umfang, lesen Sie durch und speichern Sie als PDF. Nichts wird eingereicht – Sie haben sie bereit, wenn die Arbeitsschutzbehörde des Landes sie bei einer Besichtigung verlangt (§ 21 ArbSchG).",
+          "ticks": [
+            "Das Ergebnis der Beurteilung, die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung (§ 6 ArbSchG)",
+            "Zeigt, dass der Betriebsrat benachrichtigt und hinzugezogen wurde (§ 89 Abs. 2 BetrVG)",
+            "Maßnahmenprotokoll mit Verantwortlichen, Frist und gemessener Wirkung"
+          ],
+          "card": {
+            "title": "Dokumentation · 2026",
+            "meta": "PDF",
+            "done": "fertig",
+            "rows": [
+              {
+                "title": "Methode und Beteiligung",
+                "sub": "Betriebsrat und Arbeitnehmervertretung"
+              },
+              {
+                "title": "Erhebung",
+                "sub": "Was gut läuft, was nach unten zieht"
+              },
+              {
+                "title": "Beurteilung",
+                "sub": "Welche Gefährdungen bestehen und ob sie ernst sind"
+              },
+              {
+                "title": "Maßnahmenplan",
+                "sub": "Wer, wann und Status"
+              }
+            ]
+          },
+          "caption": "Die Dokumentation entsteht, während Sie arbeiten."
+        },
+        {
+          "eyebrow": "Ein Team sticht heraus",
+          "short": "Wenn ein Team es schwerer hat als der Rest",
+          "h": "Wenn ein Team es schwerer hat als der Rest",
+          "p": "Die Heatmap zeigt Team gegen Faktor. Das Gruppenprofil vergleicht ein Team mit dem Rest und zeigt, wo der Unterschied am größten ist – ohne eine einzelne Person herauszugreifen.",
+          "ticks": [
+            "Gruppen unter der Grenze werden als Strich gezeigt, auch der Administration",
+            "Die Abteilungsleitung sieht nur ihr eigenes Team",
+            "Drei Maßnahmenvorschläge je Faktor, bereit zur Auswahl"
+          ],
+          "card": {
+            "title": "Team × Faktor",
+            "meta": "Mindestgruppengröße 5 Antworten",
+            "table": "Team und Faktor",
+            "short": [
+              "Mng",
+              "Mge",
+              "Fhr",
+              "Rol",
+              "Snn"
+            ],
+            "hidden": "verborgen, unter 5 Antworten",
+            "teams": [
+              {
+                "g": "Betrieb",
+                "sr": "Betrieb, 8 Antworten"
+              },
+              {
+                "g": "Projekt",
+                "sr": "Projekt, 9 Antworten"
+              },
+              {
+                "g": "Werkstatt",
+                "sr": "Werkstatt, 8 Antworten"
+              },
+              {
+                "g": "Verw.",
+                "sr": "Verwaltung, 3 Antworten"
+              }
+            ]
+          },
+          "caption": "Werkstatt und Projekt stechen bei je einem Faktor heraus. Das sind zwei verschiedene Probleme, und sie brauchen je eine eigene Maßnahme."
+        },
+        {
+          "eyebrow": "Umstrukturierung und Veränderung",
+          "short": "Vor und nach einer Veränderung messen",
+          "h": "Vor und nach einer Veränderung messen",
+          "p": "Legen Sie 4–6 Wochen nach einer Umstrukturierung, einem Systemwechsel oder einer Zusammenlegung eine zusätzliche Pulsbefragung in den Jahresplan. Dann sehen Sie, ob die Leute wissen, was von ihnen erwartet wird, und ob die Unterstützung durch die Führungskraft hält.",
+          "ticks": [
+            "Eine Pulsbefragung in beliebigem Monat mit einem Klick hinzufügen",
+            "Die betroffenen Faktoren wählen: Rollenklarheit, widersprüchliche Anforderungen, Unterstützung durch die Führungskraft",
+            "Mit der Basis von vor der Veränderung vergleichen"
+          ],
+          "card": {
+            "title": "{factor} · vorher und nachher",
+            "meta": "Basis gegen Puls 6 Wochen danach",
+            "bars": [
+              "Weiß, was erwartet wird · vorher",
+              "Weiß, was erwartet wird · nachher",
+              "Weiß, wo die Verantwortung endet · vorher",
+              "Weiß, wo die Verantwortung endet · nachher"
+            ]
+          },
+          "caption": "Am stärksten fällt die Klarheit über die Verantwortungsgrenzen. Eine kurze Rollenkarte je Team ist eine gute erste Maßnahme."
+        },
+        {
+          "eyebrow": "Neue Führungskraft",
+          "short": "Ein ehrlicher Ausgangspunkt für eine neue Führungskraft",
+          "h": "Geben Sie einer neuen Führungskraft einen ehrlichen Ausgangspunkt",
+          "p": "Die Basis von vor dem Führungswechsel und der Puls danach zeigen, wie das Team Unterstützung, Rollenklarheit und Meinungsklima erlebt. Die Zahlen gelten dem Team als Ganzem – nie einzelnen Personen, und nie der Führungskraft als Person.",
+          "ticks": [
+            "Das Team muss mindestens 5 Antworten haben, bevor etwas gezeigt wird",
+            "Vorschläge zur Führungspraxis für die meisten Faktoren",
+            "Die Führungskraft kann auf anonyme Kommentare antworten, ohne zu wissen, wer sie geschrieben hat"
+          ],
+          "card": {
+            "title": "{factor} · Projekt",
+            "meta": "9 Antworten",
+            "bars": [
+              "Bekommt Unterstützung, wenn die Arbeit fordernd wird",
+              "Die Führungskraft weiß, was die Arbeit bedeutet",
+              "Kann schwierige Dinge ansprechen"
+            ]
+          },
+          "caption": "Ein Ausgangspunkt zum Daraufaufbauen, kein Zeugnis."
+        },
+        {
+          "eyebrow": "Betriebsrat und Arbeitsschutzausschuss",
+          "short": "Dieselben Zahlen auf dem Tisch für alle Seiten",
+          "h": "Dieselben Zahlen auf dem Tisch für alle Seiten",
+          "p": "Der Betriebsrat sieht dieselben Zahlen und dieselbe Beurteilung wie die Geschäftsführung, gleichzeitig, und wird bei allen Fragen des Arbeitsschutzes hinzugezogen (§ 89 Abs. 2 BetrVG). Der Arbeitsschutzausschuss – ab mehr als zwanzig Beschäftigten – berät die Anliegen des Arbeitsschutzes mindestens vierteljährlich (§ 11 ASiG).",
+          "ticks": [
+            "Der Betriebsrat wird vor jedem Versand benachrichtigt",
+            "Die Maßnahmen stehen mit Verantwortlichen und Frist in der Vorlage für den Arbeitsschutzausschuss",
+            "Niemand in irgendeiner Rolle sieht einzelne Antworten"
+          ],
+          "card": {
+            "title": "Vor der Sitzung des Arbeitsschutzausschusses",
+            "meta": "aus der Vorlage für den Ausschuss",
+            "rows": [
+              {
+                "mark": "BetrVG",
+                "title": "Der Betriebsrat wurde 2 Tage vor dem Versand benachrichtigt",
+                "sub": "Erledigt 12. Sep.",
+                "pill": "Erledigt"
+              },
+              {
+                "mark": "§ 87",
+                "title": "Der Betriebsrat dabei, als der Maßnahmenplan aufgestellt wurde",
+                "sub": "Erledigt 6. Okt.",
+                "pill": "Erledigt"
+              },
+              {
+                "mark": "Risiko",
+                "title": "Zwei Faktoren mit hohem Risiko – Maßnahmen beschlossen",
+                "sub": "Wird in der Sitzung des Ausschusses behandelt",
+                "pill": "Zur Beratung"
+              }
+            ]
+          },
+          "caption": "Die Beteiligung ist dokumentiert, bevor jemand fragt."
+        }
+      ]
+    },
+    "contact": {
+      "k": "Kontakt",
+      "t": "Schreiben Sie uns",
+      "d": "Fragen zum Produkt, mehrere Gesellschaften in einem Konzern oder Hilfe beim ersten Versand. Wir antworten selbst innerhalb eines Werktags.",
+      "topics": [
+        "Fragen zum Produkt",
+        "Mehrere Gesellschaften oder eine große Organisation",
+        "Hilfe beim ersten Versand",
+        "Datenschutz und Auftragsverarbeitungsvertrag"
+      ],
+      "topicsLabel": "Worum geht es?",
+      "name": "Name",
+      "mail": "E-Mail",
+      "org": "Organisation",
+      "orgPlaceholder": "Optional",
+      "msg": "Nachricht",
+      "send": "Nachricht senden",
+      "invalid": "Geben Sie einen Namen und eine gültige E-Mail-Adresse an.",
+      "sent": "Danke! Wir haben die Nachricht erhalten und antworten Ihnen innerhalb eines Werktags per E-Mail.",
+      "limited": "Sie haben in der letzten Stunde mehrere Nachrichten gesendet. Warten Sie kurz, oder schreiben Sie uns per E-Mail.",
+      "failed": "Die Nachricht ist nicht angekommen. Schreiben Sie uns an {mail}, dann antworten wir innerhalb eines Werktags."
     }
   },
   "plan": {

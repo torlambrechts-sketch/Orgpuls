@@ -117,6 +117,69 @@ const SE_PATHS: Readonly<Record<string, string>> = {
 }
 
 /**
+ * The German site (X-115, DE-F, D-291): de.orgpuls.com, Tor's choice («lives at de.orgpuls.com»).
+ * DE_HOST overrides it, as SE_HOST does Sweden's. The product opens in German and offers English
+ * beside it; the site's own pages are Germany's, in German, for German law (docs/markets/de-legal.md).
+ *
+ * Until the market opens (DE-G) the host stays reserved (RESERVED_HOSTS, D-258) and the site is in
+ * the build but not served, so its pack, pictures and cards ship before the switch. `DE_SITE=open`
+ * turns the site on and takes the host off the reserved list in the same breath.
+ */
+export const DE_HOST = process.env.DE_HOST?.trim().toLowerCase() || 'de.orgpuls.com'
+export const DE_URL = `https://${DE_HOST}`
+export const DE_SITE_OPEN = process.env.DE_SITE?.trim().toLowerCase() === 'open'
+
+/**
+ * The pages Germany's site serves, by route (DE-F, D-291): the same ten as Sweden's — the product, the
+ * use cases, the argument, the law (the Gefährdungsbeurteilung of psychological load, §§ 3, 5 and 6
+ * ArbSchG), the Betriebsrat, small businesses, security, contact and the privacy notice. Not the
+ * prices or the terms, which wait on Germany's own (DE-E), and not the industries, the articles, the
+ * templates or the demo, which are written for Norway.
+ */
+export const DE_PAGES = [
+  '/',
+  '/plattform',
+  '/bruksomrader',
+  '/hvorfor',
+  '/lovkrav',
+  '/verneombud',
+  '/smaa-bedrifter',
+  '/sikkerhet',
+  '/kontakt',
+  '/personvernerklaering',
+] as const
+
+/**
+ * Their addresses in German, and the sign-in's and sign-up's (D-291). /plattform and /kontakt are
+ * German as they are. The law's address is the words a German employer searches for (the
+ * Gefährdungsbeurteilung psychischer Belastung, § 5 Abs. 3 Nr. 6 ArbSchG), without umlauts, as the
+ * site's own shape wants (ä → ae).
+ */
+const DE_PATHS: Readonly<Record<string, string>> = {
+  '/bruksomrader': '/anwendungsfaelle',
+  '/hvorfor': '/warum-orgpuls',
+  '/lovkrav': '/gefaehrdungsbeurteilung-psychische-belastung',
+  '/verneombud': '/betriebsrat',
+  '/smaa-bedrifter': '/kleine-unternehmen',
+  '/sikkerhet': '/sicherheit',
+  '/personvernerklaering': '/datenschutz',
+  '/logg-inn': '/anmelden',
+  '/registrer': '/registrieren',
+}
+
+/** Germany's site row (D-291): in SITES only once DE_SITE=open; exported so its tests can read it before */
+export const DE_SITE: Site = {
+  host: DE_HOST,
+  url: DE_URL,
+  brand: 'orgpuls',
+  market: 'de',
+  lang: 'de',
+  pinned: false,
+  langs: MARKET_LANGS.de,
+  own: { key: 'de', pages: DE_PAGES, paths: DE_PATHS },
+}
+
+/**
  * Empvibe's site, the United Kingdom's (X-111, UK-E, D-270): www.empvibe.com, with the bare domain
  * as its alias. EMPVIBE_HOST overrides the address, as EN_HOST does the English one.
  */
@@ -194,6 +257,8 @@ export const SITES: readonly Site[] = [
     langs: MARKET_LANGS.se,
     own: { key: 'se', pages: SE_PAGES, paths: SE_PATHS },
   },
+  // Germany's site of its own (DE-F, D-291), once DE_SITE=open: its pages in German, the product in German or English
+  ...(DE_SITE_OPEN ? [DE_SITE] : []),
   ...EMPVIBE_SITES,
 ]
 
@@ -248,15 +313,15 @@ export const MOVED_HOSTS: readonly string[] = [EN_HOST]
  * Addresses registered for a market that is not open yet: routed to the app (DNS, the Vercel domain)
  * but no site of their own (X-110):
  *
- *   de.orgpuls.com              Germany, whose market waits on the instrument and roles decisions
- *                               (docs/markets/PLAN.md phase 3); DE_HOST overrides it
+ *   de.orgpuls.com              Germany, whose site is built (DE-F, D-291) and waits on DE-G to be
+ *                               served: reserved until DE_SITE=open; DE_HOST overrides it
  *
  * Nothing is served there, not even the sign-up: no market exists to join, and the Norwegian site
  * would otherwise be indexed a second time under another name and sign a German firm up as a
  * Norwegian one. Every request goes where an English reader goes from en.orgpuls.com (`toEnglish`),
  * temporarily (307), so the day the market opens, its own site takes over (hostGate, D-258).
  */
-export const RESERVED_HOSTS: readonly string[] = [process.env.DE_HOST?.trim().toLowerCase() || 'de.orgpuls.com']
+export const RESERVED_HOSTS: readonly string[] = DE_SITE_OPEN ? [] : [DE_HOST]
 
 /** The production hosts of the product and the public site. */
 export const PUBLIC_HOSTS: readonly string[] = SITES.map((s) => s.host)

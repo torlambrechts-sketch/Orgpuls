@@ -14797,3 +14797,90 @@ and the results are English for a German reader until German is a survey languag
 
 **Not yet:** a German lawyer's review of the pack and of de-legal.md's UNVERIFIED 1–10, the EU-representative
 question (UNVERIFIED 7) before DE-G; DE-A2, DE-D, DE-E, DE-F and DE-G as PLAN.md lists them.
+
+## D-291 — Germany's site on de.orgpuls.com, built behind a flag (DE-F, 2026-10-29)
+
+DE-F in docs/markets/PLAN.md phase 3 (X-115), on Sweden's pattern (D-270, D-276): a site of its own for Germany, in
+German, for German law, with the product in German or English behind it. It ships closed: `DE_SITE=open`, an
+environment variable `lib/hosts.ts` reads once when it loads, puts the site's row into `SITES`; until DE-G sets it
+on Vercel, de.orgpuls.com keeps answering as D-258 says (every address to the English site), and nothing on
+Norway's, Sweden's or Empvibe's hosts changes. The pack, the pictures, the cards and the tests ship now, so the
+switch is one variable.
+
+1. **The host** (`lib/hosts.ts` `DE_SITE`, `DE_PAGES`, `DE_PATHS`): de.orgpuls.com, market `de`, language `de`,
+   languages de and en, the ten pages Sweden serves — the start page, the platform, the use cases, why Orgpuls, the
+   law, the works council, small businesses, security, contact and the privacy notice — at German addresses
+   (`/gefaehrdungsbeurteilung-psychische-belastung`, `/betriebsrat`, `/kleine-unternehmen`, `/sicherheit`,
+   `/datenschutz`, `/anwendungsfaelle`, `/warum-orgpuls`, `/anmelden`, `/registrieren`). A Norwegian address
+   answers 308 to the German one; a page the site does not serve (prices, terms, industries, articles, templates,
+   the demo) and another site's address (`/skyddsombud`) answer 404; sign-in and sign-up are served.
+   `RESERVED_HOSTS` names the host while the flag is off, so the gate keeps sending it to the English site. The
+   sitemap, robots, llms.txt, the canonical URL and `hreflang="de-DE"` follow from the row as for every site of its
+   own; nothing there names a market.
+2. **The words** (`messages/market/de/de.json`, now 1 816 keys; `en.json` 320): every page word Sweden's pack
+   carries — site.chrome, site.home, site.plattform, site.bruksomrader, site.hvorfor, site.contact, site.story,
+   seo.common, seo.signup, seo.og, seo.shots, seo.llms, seo.home, seo.pages.{plattform, bruksomrader, sikkerhet,
+   kontakt, personvernerklaering}, seo.lp.{lovkrav, verneombud, smaaBedrifter}, seo.voTip, start — written in
+   German from the Swedish, for German law from docs/markets/de-legal.md, with the three chrome keys a site of its
+   own has beyond Norway's (nav.kontakt, nav.smaaBedrifter, footer.link.verneombud). English carries the chrome
+   (93 keys) for a sign-in or sign-up read in English on the German site, as Sweden's does; the page words are in
+   German only, which `scripts/verify/i18n.mjs` `PAGES_IN_SITE_LANG` now allows for `de` as for `se`, since the
+   site pins its pages to German (lib/i18n/request.ts, `PAGE_LANG_HEADER`). The gate holds the pack's parity and ICU
+   arguments; an array in no.json is an array in the pack. The pack is built, not written by hand: a session
+   script lays the flat German and English texts over no.json's key order, refuses a key no.json lacks unless it is
+   a structure key or one Sweden's pack owns, checks every ICU signature against the source and shapes arrays as
+   the source has them. The start words say no trial and no card (DE-E), as Sweden's.
+3. **What the pages say, and `tests/unit/de-site.test.ts` holds** (on se-site's pattern, 17 tests): nothing only
+   true in Norway and nothing in Norwegian outside the footer's company line and the privacy notice's facts about
+   the provider; no claim German law does not allow — no «zertifiziert», no approval, no survey required by law,
+   nothing filed with the authority, no interval as if the statute set one, no duty to have a works council; no
+   price, «kostenlos» or trial (DE-E); no threshold under five; not «auf Deutsch» for the survey (DE-A2); no SMS
+   outside the privacy notice; every menu and footer entry worded in German and in English; every array as long as
+   Norway's. The law page cites §§ 3, 5 and 6 ArbSchG and § 87 Abs. 1 Nr. 7 BetrVG for the four steps, § 21
+   Abs. 1a for the inspections from 2026, and §§ 22, 25 and 26 ArbSchG for the ladder (Besichtigung und Beratung,
+   Auskunft und Unterlagen, Anordnung, Bußgeld bis 30.000 Euro und Strafe); the works-council page §§ 1, 80, 87,
+   89, 37, 40, 78, 23, 84 and 85 BetrVG and § 22 SGB VII; the security page rests the processing on Art. 6 Abs. 1
+   lit. c DSGVO and § 26 Abs. 1 BDSG with § 5 ArbSchG as the duty, a Betriebsvereinbarung under § 26 Abs. 4,
+   never consent (§ 26 Abs. 2); the privacy notice names the Land's data-protection authority (the
+   Bundesbeauftragte's list at bfdi.bund.de) beside Datatilsynet. The provisions this entry cites beyond
+   de-legal.md — §§ 13, 22, 25, 26 ArbSchG, §§ 23, 37, 40, 75, 78, 84, 85 BetrVG, §§ 3, 6 ASiG, § 26 BDSG — were
+   read from gesetze-im-internet.de in this session (its pages answered the session's WebFetch 503 and curl 200).
+   The third role is «Betriebsrat» throughout, and the tip mail is the works council's to the Geschäftsführung.
+4. **The pictures** (DE-F3): `scripts/seed/design-fixture.de.mjs` tells the scenario as Nordwind Tiefbau GmbH —
+   market de, German, Europe/Berlin, the USt-IdNr. DE999999995 (the check digit `app.de_ustid_check` computes, at
+   the far end of the series), id space 8049 — every Norwegian text replaced and the same answers and figures (28
+   of 34, index 61, 64 the year before), held by the generator's own checks; `scripts/qa/up.sh` seeds it and
+   `supabase/tests/local_account.sql` signs in to it. `product-shots.mjs --market de` takes the nine screens signed
+   in as its Geschäftsführerin, in German, on Berlin's clock, into assets/produkt/de; `og-images.mjs --market de`
+   draws the cards into public/og/de (the law, the works council, small businesses, default) in German with German
+   pills; `lib/marketing/shots.ts` `DE_SHOTS` and `SITE_SHOTS.de` hand them to the site. The questionnaire is in
+   English, as a German employee meets it (`locale_de`, DE-A2); the report's factor table names the factors from
+   the translation registry, in English for a German organisation until German is approved there (the gap D-289
+   names), while the overview and the heatmap name them from the German catalogue. Two defects the pictures
+   showed are fixed: the surveys page, the overview, the report, the pulse view, the platform page and the
+   invitation page lower-cased a German noun inside a sentence («6 Fragen zu meinungsklima und arbeitsmenge»);
+   `lowerInSentence` (lib/i18n/locales.ts) leaves German as it is and lower-cases the other languages as before.
+   And the default card's four-line title met three rows of pills: the German pills are «Gebaut auf QPS Nordic»,
+   «§ 5 Abs. 3 Nr. 6 ArbSchG», «Anonym ab 5 Antworten», two rows as Sweden's.
+5. **Still Norway's, or waiting**: prices, currency, terms and the DPA (DE-E; the site states no price and links
+   no terms); the mail links (`MARKET_SITE_URL.de` joins with DE-G, since tests/unit/market-links.test.ts couples
+   the table to `SITES`); the German survey (DE-A2); the German module (DE-D); a German lawyer's reading
+   (de-legal.md UNVERIFIED 1–10).
+
+Tests: tests/unit/de-site.test.ts; tests/unit/markets.test.ts' Germany block (reserved by default, open with
+`DE_SITE`); se-site, legal-pack, market-links, german-platform and plurals unchanged and green; `npm run
+verify:i18n` (market de: 1 816 keys in de, en); `npm run test:db` (every suite and design_figures); the wiring
+audit (nothing new); `node scripts/i18n/page-map.mjs --check` (66 pages match); tsc and lint.
+
+**Seen in the browser** (the QA stack built and served with `DE_SITE=open`, the Host header de.orgpuls.com): all
+ten pages answer 200 at their German addresses with `lang="de"`, German titles and descriptions, canonical and
+`hreflang="de-DE"` on de.orgpuls.com and og:image under /og/de/; /lovkrav answers 308 to
+/gefaehrdungsbeurteilung-psychische-belastung; /vilkar and /skyddsombud 404; /anmelden and /registrieren 200; the
+sitemap lists the ten German addresses and nothing else; llms.txt is in German. Signed in as Nordwind's
+Geschäftsführerin: the overview, the heatmap (Betrieb and Verwaltung as a dash under the floor of five), the year
+plan with the works council's notice, the measures board, the comments, the report and the questionnaire preview
+are what the nine pictures show.
+
+**Not yet (DE-G):** `DE_SITE=open` on Vercel; hosted migrations 0235 and 0236; Supabase Auth redirect URLs for
+https://de.orgpuls.com; the mail links; Search Console, Sentral and IndexNow; a German reader of the texts before
+the switch.

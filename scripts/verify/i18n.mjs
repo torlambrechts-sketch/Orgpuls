@@ -176,7 +176,7 @@ const MARKET_DIR = join(DIR, 'market')
  * so it is in every language of the pack, as any other key. The language is the site's (lib/hosts.ts,
  * the se row's `lang`; tests/unit/se-site.test.ts holds the two together).
  */
-const PAGES_IN_SITE_LANG = { se: 'sv' }
+const PAGES_IN_SITE_LANG = { se: 'sv', de: 'de' }
 const pageWord = (key) => /^(site|seo|start)\./.test(key) && !key.startsWith('site.chrome.')
 let packKeys = 0
 for (const market of existsSync(MARKET_DIR) ? readdirSync(MARKET_DIR) : []) {

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { lowerInSentence } from '@/lib/i18n/locales'
 import { roundTitle, type Titled } from '@/lib/rounds/title'
 import { ButtonLink } from '@/components/ui/Button'
 import { PrintButton } from '@/components/rapport/PrintButton'
@@ -433,7 +434,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
                         m.variant
                           ? t('rapport.module.footerVariant', {
                               name: m.name,
-                              variant: m.variant.name.toLocaleLowerCase(locale),
+                              variant: lowerInSentence(m.variant.name, locale),
                               code: m.variant.code,
                               version: m.variant.version,
                             })
@@ -1087,7 +1088,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
     const delta = view.index !== null && view.prevIndex !== null ? view.index - view.prevIndex : null
     const high = view.factors.filter((f) => f.band === 'hoy').map((f) => (t.has(`factor.${f.key}.label`) ? t(`factor.${f.key}.label`) : f.key))
     const list = new Intl.ListFormat(locale, { type: 'conjunction' })
-    const lower = (s: string) => s.toLocaleLowerCase(locale)
+    const lower = (s: string) => lowerInSentence(s, locale)
     const decided = view.measures.filter((m) => stepIndex(m.step) >= stepIndex('besluttet'))
     const done = decided.filter((m) => stepIndex(m.step) >= stepIndex('gjennomfort')).length
     const late = decided.filter((m) => m.late).length

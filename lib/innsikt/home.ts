@@ -1,5 +1,6 @@
 import 'server-only'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { lowerInSentence } from '@/lib/i18n/locales'
 import { isFreePlan } from '@/lib/billing/read'
 import { getConversations, type Conversation } from '@/lib/conversations/read'
 import { getMeasures, type Measure } from '@/lib/measures/read'
@@ -105,7 +106,7 @@ async function base() {
   const month = (day: string | null) => fmt(day, { month: 'short' }).replace(/\.$/, '').toUpperCase()
   const title = (r: RoundRow) => roundTitle(t, r)
   const factor = (key: string, form: 'label' | 'map' = 'label') => (t.has(`factor.${key}.${form}`) ? t(`factor.${key}.${form}`) : key)
-  const lower = (s: string) => s.toLocaleLowerCase(locale)
+  const lower = (s: string) => lowerInSentence(s, locale)
 
   const delta = ok && before ? ok.index - before.index : null
   const was = new Map((before?.factors ?? []).map((f) => [f.key, f.index]))

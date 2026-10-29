@@ -32,6 +32,13 @@
  * those are local_account.sql's third account. Its anchors are the Swedish words its screens show.
  *
  *   node scripts/marketing/product-shots.mjs --market se --base http://localhost:3100
+ *
+ * `--market de` takes the German site's set (DE-F3, D-291) the same way: the scenario as a German firm,
+ * Nordwind Tiefbau GmbH (design-fixture.mjs --market de), signed in as its Geschäftsführerin in German,
+ * written to assets/produkt/de/<id>.webp. It signs in with DE_DEV_EMAIL / DE_DEV_PASSWORD; on the local
+ * stack those are local_account.sql's fourth account. Its anchors are the German words its screens show.
+ *
+ *   node scripts/marketing/product-shots.mjs --market de --base http://localhost:3100
  */
 import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
@@ -43,11 +50,11 @@ const arg = (name, fallback) => {
   return i > -1 ? process.argv[i + 1] : fallback
 }
 const base = arg('base', 'http://localhost:3000')
-// the set: Norway's (the default), Empvibe's (--brand empvibe) or the Swedish site's (--market se)
+// the set: Norway's (the default), Empvibe's (--brand empvibe), the Swedish site's (--market se) or the German site's (--market de)
 const market = arg('market', null)
-if (market !== null && market !== 'se') throw new Error(`--market is se, not ${market}`)
+if (market !== null && !['se', 'de'].includes(market)) throw new Error(`--market is se or de, not ${market}`)
 const brand = market ?? arg('brand', 'orgpuls')
-if (!['orgpuls', 'empvibe', 'se'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
+if (!['orgpuls', 'empvibe', 'se', 'de'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
 const out = brand === 'orgpuls' ? 'assets/produkt' : `assets/produkt/${brand}`
 const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && !all[i - 1]?.startsWith('--'))
 
@@ -190,19 +197,62 @@ const SE = [
   { id: 'rapport', route: '/rapport', width: 1440, anchors: [at('3. Kartläggning'), at('Uppskattning och meningsfullhet')], pad: 24 },
 ]
 
-const SHOTS = brand === 'orgpuls' ? ORGPULS : brand === 'empvibe' ? EMPVIBE : SE
-const login = brand === 'orgpuls' ? 'ORGPULS' : brand === 'empvibe' ? 'EMPVIBE' : 'SE'
+/**
+ * The German site's set: the same nine pictures, in German, with German dates on Berlin's clock. As
+ * Empvibe's and Sweden's, the overview is the Advanced view's first screen.
+ */
+const DE = [
+  {
+    id: 'oversikt',
+    route: '/innsikt',
+    width: 1440,
+    click: 'Erweitert',
+    anchors: [at('Wo Sie Ihre Zeit einsetzen sollten'), card('Hoher Wert')],
+    pad: 20,
+  },
+  { id: 'resultater', route: '/resultater', width: 1440, anchors: [card('Gruppe × Faktor'), card('Zuerst beheben')], pad: 12 },
+  { id: 'varmekart', route: '/resultater', width: 1440, anchors: [card('Gruppe × Faktor')], pad: 12, maxHeight: 400 },
+  { id: 'kommentarer', route: '/kommentarer', width: 1440, anchors: [card('Themen'), card('Alle Kommentare')], pad: 20, maxHeight: 560 },
+  { id: 'samtaler', route: '/kommentarer', width: 1440, anchors: [card('Alle Kommentare')], pad: 12, maxHeight: 304 },
+  {
+    id: 'tiltak',
+    route: '/tiltak',
+    width: 1440,
+    anchors: [at('Vom Befund zur Wirkung'), panel('Eine neue Befragung zeigt, ob es gewirkt hat'), panel('Vorgeschlagen anhand der Werte')],
+    pad: 12,
+  },
+  { id: 'arshjul', route: '/malinger', width: 1440, anchors: [card('Jahresplan')], pad: 20 },
+  {
+    id: 'sporsmal',
+    // Nordwind's 2026 baseline: the fixture's round in the German id space (design-fixture.de.mjs). The
+    // survey is in English for a German organisation's employees until German is switched on for it
+    // (locale_de, DE-A2; the same rule as Sweden's, D-255), so the phone shows the survey as they get it
+    route: '/forhandsvis?runde=00000000-0000-4000-8049-000000000002',
+    width: 390,
+    anchors: [card('I can report censurable conditions without fearing consequences')],
+    pad: 0,
+    click: 'Start',
+    maxHeight: 721,
+    hide: 'Vorschau – nichts, was Sie hier wählen, wird gesendet.',
+  },
+  // the report names the factors from the translation registry, in English for a German organisation until
+  // German is approved as a survey language (DE-A2, the gap D-289 names), so its anchor is the English name
+  { id: 'rapport', route: '/rapport', width: 1440, anchors: [at('3. Erhebung'), at('Recognition and meaning')], pad: 24 },
+]
+
+const SHOTS = brand === 'orgpuls' ? ORGPULS : brand === 'empvibe' ? EMPVIBE : brand === 'se' ? SE : DE
+const login = brand === 'orgpuls' ? 'ORGPULS' : brand === 'empvibe' ? 'EMPVIBE' : brand === 'se' ? 'SE' : 'DE'
 
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 })
 const p = await ctx.newPage()
 
 await p.goto(`${base}/logg-inn`, { waitUntil: 'networkidle' })
-await p.getByLabel(/e-post|email/i).fill(process.env[`${login}_DEV_EMAIL`] ?? '')
-await p.getByLabel(/passord|lösenord|password/i).fill(process.env[`${login}_DEV_PASSWORD`] ?? '')
+await p.getByLabel(/e-post|e-mail|email/i).fill(process.env[`${login}_DEV_EMAIL`] ?? '')
+await p.getByLabel(/passord|lösenord|passwort|password/i).fill(process.env[`${login}_DEV_PASSWORD`] ?? '')
 await Promise.all([
   p.waitForURL((u) => !u.pathname.startsWith('/logg-inn')),
-  p.getByRole('button', { name: /logg inn|logga in|sign in/i }).click(),
+  p.getByRole('button', { name: /logg inn|logga in|anmelden|sign in/i }).click(),
 ])
 
 mkdirSync(out, { recursive: true })

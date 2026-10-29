@@ -428,3 +428,109 @@ describe('the United Kingdom (X-111, D-264, D-275)', () => {
     for (const host of ['www.orgpuls.com', 'en.orgpuls.com', 'se.orgpuls.com', 'localhost:3000']) expect(marketOfHost(host)).not.toBe('gb')
   })
 })
+
+describe('Germany’s site of its own, behind DE_SITE (DE-F, D-291)', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+    vi.resetModules()
+  })
+  const de = 'de.orgpuls.com'
+
+  it('stays reserved until DE_SITE=open: nothing served, every address sent where an English reader goes (D-258)', async () => {
+    vi.stubEnv('DE_SITE', '')
+    vi.resetModules()
+    const hosts = await import('@/lib/hosts')
+    expect(hosts.DE_SITE_OPEN).toBe(false)
+    expect(hosts.RESERVED_HOSTS).toEqual([de])
+    expect(hosts.siteOf(de)).toBeNull()
+    expect(hosts.SITES.some((s) => s.market === 'de')).toBe(false)
+    expect(hosts.hostGate(de, '/', true)).toEqual({ noindex: true, redirect: 'https://www.empvibe.com/' })
+    // the row exists for the build, its tests and its pictures, whatever the flag says
+    expect(hosts.DE_SITE).toMatchObject({ host: de, market: 'de', lang: 'de', brand: 'orgpuls', pinned: false })
+    expect(hosts.DE_SITE.own?.key).toBe('de')
+  })
+
+  it('is de.orgpuls.com once open (X-115): a site of its own in German with English for the product, signing up into Germany', async () => {
+    vi.stubEnv('DE_SITE', 'open')
+    vi.resetModules()
+    const hosts = await import('@/lib/hosts')
+    expect(hosts.RESERVED_HOSTS).toEqual([])
+    expect(hosts.siteOf(de)).toMatchObject({ brand: 'orgpuls', market: 'de', lang: 'de', pinned: false, url: 'https://de.orgpuls.com' })
+    expect(hosts.siteOf(de)?.own?.key).toBe('de')
+    expect(hosts.siteTag(hosts.siteOf(de)!)).toBe('de-DE')
+    expect(hosts.marketOfHost('DE.orgpuls.com:443')).toBe('de')
+    expect(hosts.siteLangs(de)).toEqual(['de', 'en'])
+    expect(hosts.outboundBase(de, 'http')).toBe('https://de.orgpuls.com')
+    // Norway's and Sweden's hosts are untouched
+    expect(hosts.marketOfHost('www.orgpuls.com')).toBe('no')
+    expect(hosts.marketOfHost('se.orgpuls.com')).toBe('se')
+    expect(hosts.siteLangs('www.orgpuls.com')).toEqual(['no', 'en'])
+  })
+
+  it('moves with DE_HOST, as Sweden’s site moves with SE_HOST', async () => {
+    vi.stubEnv('DE_SITE', 'open')
+    vi.stubEnv('DE_HOST', 'Orgpuls.DE')
+    vi.resetModules()
+    const hosts = await import('@/lib/hosts')
+    expect(hosts.marketOfHost('orgpuls.de')).toBe('de')
+    expect(hosts.siteOf('orgpuls.de')?.url).toBe('https://orgpuls.de')
+    expect(hosts.marketOfHost(de)).toBe('no')
+  })
+
+  it('serves each of its pages at its German address, in German, and the Norwegian address goes there', async () => {
+    vi.stubEnv('DE_SITE', 'open')
+    vi.resetModules()
+    const { hostGate } = await import('@/lib/hosts')
+    const pages: [string, string][] = [
+      ['/anwendungsfaelle', '/bruksomrader'],
+      ['/warum-orgpuls', '/hvorfor'],
+      ['/gefaehrdungsbeurteilung-psychische-belastung', '/lovkrav'],
+      ['/betriebsrat', '/verneombud'],
+      ['/kleine-unternehmen', '/smaa-bedrifter'],
+      ['/sicherheit', '/sikkerhet'],
+      ['/datenschutz', '/personvernerklaering'],
+    ]
+    for (const [address, route] of pages) {
+      expect(hostGate(de, address, true), address).toEqual({ noindex: false, redirect: null, rewrite: route, lang: 'de' })
+      expect(hostGate(de, route, true), route).toEqual({ noindex: false, redirect: address, canonical: true, lang: 'de' })
+    }
+    for (const path of ['/', '/plattform', '/kontakt']) expect(hostGate(de, path, true), path).toEqual({ noindex: false, redirect: null, lang: 'de' })
+    // the sign-in and sign-up keep the visitor's language: they lead into the product
+    expect(hostGate(de, '/anmelden', true)).toEqual({ noindex: false, redirect: null, rewrite: '/logg-inn' })
+    expect(hostGate(de, '/registrieren', true)).toEqual({ noindex: false, redirect: null, rewrite: '/registrer' })
+    expect(hostGate(de, '/registrer', true)).toEqual({ noindex: false, redirect: '/registrieren', canonical: true })
+  })
+
+  it('answers 404 for the prices and terms it has none of yet, and for the pages written for Norway', async () => {
+    vi.stubEnv('DE_SITE', 'open')
+    vi.resetModules()
+    const { hostGate, NOT_SERVED_PATH } = await import('@/lib/hosts')
+    const notServed = { noindex: true, redirect: null, rewrite: NOT_SERVED_PATH }
+    for (const path of ['/priser', '/vilkar', '/bransjer', '/handel', '/artikler', '/artikler/medarbeiderundersokelse', '/maler', '/demo', '/pricing', '/platform', '/skyddsombud'])
+      expect(hostGate(de, path, true), path).toEqual(notServed)
+  })
+
+  it('lets the product, the survey, the callbacks, the API and the site’s files through, in the visitor’s language', async () => {
+    vi.stubEnv('DE_SITE', 'open')
+    vi.resetModules()
+    const { hostGate } = await import('@/lib/hosts')
+    const key = readdirSync('public').find((f) => /^[0-9a-f]{32}\.txt$/.test(f))!
+    for (const path of ['/auth/callback', '/s/abc', '/r/abc', '/inn/abc', '/bli-med/x', '/nytt-passord', '/logo/x', '/api/sprak', '/robots.txt', '/sitemap.xml', '/llms.txt', `/${key}`])
+      expect(hostGate(de, path, true), path).toEqual({ noindex: false, redirect: null })
+    expect(hostGate(de, '/innsikt', false)).toEqual({ noindex: false, redirect: null })
+  })
+
+  it('has one address per route, none of them another route’s, each a German word in the site’s shape', async () => {
+    const { addressOf, routeOf, DE_SITE, DE_PAGES } = await import('@/lib/hosts')
+    const paths = DE_SITE.own!.paths
+    expect(new Set(Object.values(paths)).size).toBe(Object.keys(paths).length)
+    for (const address of Object.values(paths)) expect(Object.keys(paths), address).not.toContain(address)
+    expect(addressOf(paths, '/smaa-bedrifter#team')).toBe('/kleine-unternehmen#team')
+    expect(addressOf(paths, '/registrer?orgnr=DE136695976')).toBe('/registrieren?orgnr=DE136695976')
+    expect(routeOf(paths, '/betriebsrat')).toBe('/verneombud')
+    // lower case, no umlauts or ß: ä, ö, ü written ae, oe, ue
+    for (const address of Object.values(paths)) expect(address, address).toMatch(/^\/[a-z0-9]+(-[a-z0-9]+)*$/)
+    for (const route of ['/priser', '/vilkar', '/artikler', '/maler', '/bransjer', '/demo']) expect(DE_PAGES as readonly string[]).not.toContain(route)
+    expect(DE_PAGES).toHaveLength(10)
+  })
+})

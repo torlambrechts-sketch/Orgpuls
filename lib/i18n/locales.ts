@@ -92,3 +92,11 @@ export const fallbackOf = (code: string): readonly string[] => spec(code)?.fallb
 
 /** The chosen language, set by the switch (lib/i18n/actions) and restored at sign-in. */
 export const LOCALE_COOKIE = 'NEXT_LOCALE'
+
+/**
+ * A translated noun inside a sentence: lower-cased in the languages that write it so (bokmål's «om
+ * ytringsklima», English's «about freedom to speak up», Swedish's «om yttrandeklimat»), and left as it
+ * is in German, where a noun keeps its capital wherever it stands («zu Meinungsklima», «Puls Mai 2025»).
+ * Use it instead of toLocaleLowerCase on a text a catalogue gave you (D-291).
+ */
+export const lowerInSentence = (text: string, locale: string): string => (locale === 'de' || locale.startsWith('de-') ? text : text.toLocaleLowerCase(locale))

@@ -28,6 +28,12 @@
  * its pictures (assets/produkt/se).
  *
  *   node scripts/marketing/og-images.mjs --market se --base http://localhost:3000
+ *
+ * `--market de` draws the German site's cards (DE-F3, D-291) into public/og/de/ the same way, in
+ * Germany's German (messages/market/de/de.json over de.json over en.json) and with its pictures
+ * (assets/produkt/de).
+ *
+ *   node scripts/marketing/og-images.mjs --market de --base http://localhost:3000
  */
 import { mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -41,10 +47,10 @@ const base = arg('base', 'http://localhost:3000')
 // --only <slug>: one card, leaving the others' files as they are
 const only = arg('only', null)
 const market = arg('market', null)
-if (market !== null && market !== 'se') throw new Error(`--market is se, not ${market}`)
-// the set: Norway's (the default), Empvibe's (--brand empvibe) or the Swedish site's (--market se)
+if (market !== null && !['se', 'de'].includes(market)) throw new Error(`--market is se or de, not ${market}`)
+// the set: Norway's (the default), Empvibe's (--brand empvibe), the Swedish site's (--market se) or the German site's (--market de)
 const brand = market ?? arg('brand', 'orgpuls')
-if (!['orgpuls', 'empvibe', 'se'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
+if (!['orgpuls', 'empvibe', 'se', 'de'].includes(brand)) throw new Error(`--brand is orgpuls or empvibe, not ${brand}`)
 const empvibe = brand === 'empvibe'
 const own = brand !== 'orgpuls'
 const out = own ? `public/og/${brand}` : 'public/og'
@@ -60,10 +66,12 @@ const gb = empvibe
   ? merge(read('messages/en.json'), read('messages/market/gb/en.json'))
   : brand === 'se'
     ? merge(merge(read('messages/en.json'), read('messages/sv.json')), read('messages/market/se/sv.json'))
-    : null
+    : brand === 'de'
+      ? merge(merge(read('messages/en.json'), read('messages/de.json')), read('messages/market/de/de.json'))
+      : null
 const named = (t) => (empvibe ? t.replace(/Orgpuls(?:'s|’s|'|’)(?![\p{L}\p{N}])/gu, 'Empvibe’s').replace(/Orgpuls/g, 'Empvibe') : t)
 const NAME = empvibe ? 'Empvibe' : 'Orgpuls'
-const LANG = empvibe ? 'en-GB' : brand === 'se' ? 'sv-SE' : 'nb'
+const LANG = empvibe ? 'en-GB' : brand === 'se' ? 'sv-SE' : brand === 'de' ? 'de-DE' : 'nb'
 // the site's own @font-face rules; their /fonts/… URLs resolve against the running server
 const fonts = readFileSync('app/fonts.css', 'utf8')
 
@@ -112,7 +120,7 @@ const UK_ARTICLE_CARDS = [...ukSrc.matchAll(/slug: '([^']+)',\s*key: '([^']+)',/
 }))
 if (UK_ARTICLE_CARDS.some((a) => !a.h1 || !a.kicker)) throw new Error('an Empvibe article has no h1 in messages/market/gb/en.json, or the index no eyebrow')
 // a site of its own's: the pages it serves with a card of their own (lib/hosts.ts EMPVIBE_PAGES,
-// SE_PAGES), the two guides under their legal references, its articles (Empvibe's), and its default
+// SE_PAGES, DE_PAGES), the two guides under their legal references, its articles (Empvibe's), and its default
 // card for every other page
 const EMPVIBE_CARDS = own
   ? [
