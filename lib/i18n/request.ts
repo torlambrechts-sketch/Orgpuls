@@ -12,12 +12,10 @@ import { registryOverlay } from './registry-overlay'
 import { surveyTexts } from './survey-texts'
 import { keyedMessages } from './keyed'
 import { pseudoMessages } from './pseudo'
+import { mergeMessages, type Tree } from './merge'
 
-type Tree = { [k: string]: unknown }
-const isTree = (v: unknown): v is Tree => !!v && typeof v === 'object' && !Array.isArray(v)
-/** b over a, key by key: a string missing from b is taken from a */
-const merge = (a: Tree, b: Tree): Tree =>
-  Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, isTree(a[k]) && isTree(b[k]) ? merge(a[k], b[k]) : (b[k] ?? a[k])]))
+/** b over a (lib/i18n/merge.ts): key by key, a list of the same length item by item */
+const merge = mergeMessages
 
 /**
  * A locale's catalogue, over the ones it falls back to (lib/i18n/locales.ts `fallback`, the

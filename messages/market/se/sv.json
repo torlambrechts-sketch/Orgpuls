@@ -247,7 +247,6 @@
       },
       "rapportTilTilsynet": {
         "title": "Rapporten för Arbetsmiljöverket",
-        "lead": "Vad den innehåller, vilken period den täcker, och vad ni bör bifoga.",
         "body": {
           "p1": "Rapporten är byggd för att vara den dokumentation Arbetsmiljöverket kan begära (arbetsmiljölagen 7 kap. 3 §), inte en presentation. Den följer stegen i AFS 2023:1 i ordning: vad som undersöktes, vad riskbedömningen kom fram till, vilka åtgärder som genomfördes eller står i handlingsplanen, och vad kontrollen visade.",
           "p4": "Bifoga det Orgpuls inte har: anteckningar från samverkan med facket, skyddsronder under perioden och dokumentation av information och utbildning."
@@ -3176,7 +3175,6 @@
   "start": {
     "finalTitle": "Börja med er egen verksamhet",
     "finalBody": "Skriv in företagets namn och din e-postadress, så är ni i gång på 3 minuter. Svaren lagras i EU, och ingen grupp visas förrän minst 5 har svarat.",
-    "ctaFree": "Kom igång",
-    "faqEyebrow": "Frågor vi ofta får"
+    "ctaFree": "Kom igång"
   }
 }

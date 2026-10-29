@@ -155,14 +155,20 @@ export const langOf = (v: string | null | undefined): Lang => (v === 'en' ? 'en'
 /** Each market's legal pack's mail texts, per mail language (messages/market/<market>/<lang>.json) */
 export type MailPacks = Record<string, Partial<Record<Lang, MailMessages>>>
 
-const mergeTree = (a: Record<string, unknown>, b: Record<string, unknown>): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...a }
-  for (const [k, v] of Object.entries(b)) {
-    const was = out[k]
-    out[k] = v && typeof v === 'object' && was && typeof was === 'object' ? mergeTree(was as Record<string, unknown>, v as Record<string, unknown>) : v
-  }
-  return out
+/**
+ * b over a, by the app's rule (lib/i18n/merge.ts; tests/unit/merge.test.ts holds the two equal): an
+ * object key by key, a list of the same length item by item with null keeping a's item, anything
+ * else b's. A pack holds only what differs from the language it is laid over.
+ */
+const isTree = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v)
+const mergeValue = (lower: unknown, upper: unknown): unknown => {
+  if (upper === undefined || upper === null) return lower
+  if (isTree(lower) && isTree(upper)) return mergeTree(lower, upper)
+  if (Array.isArray(lower) && Array.isArray(upper) && lower.length === upper.length) return upper.map((v, i) => mergeValue(lower[i], v))
+  return upper
 }
+export const mergeTree = (a: Record<string, unknown>, b: Record<string, unknown>): Record<string, unknown> =>
+  Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, mergeValue(a[k], b[k])]))
 
 /**
  * The texts an organisation in `market` reads (D-257). The message files state Norway's law; a

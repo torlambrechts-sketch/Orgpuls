@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest'
 import { committeeDuty, factorLawRef, healthServiceDuty, LEGAL_PACKS } from '@/lib/legal/pack'
 import { PACK_LANGS, packLang } from '@/lib/i18n/market-overlay'
 import { MARKET_K_FLOOR, MARKETS, REGISTRY_LOOKUP, type Market } from '@/lib/markets'
+// what states Norwegian law, names its bodies or its register (shared with scripts/i18n/pack-delta.mjs)
+import { NORWEGIAN_LAW } from '@/scripts/lib/law.mjs'
 
 /**
  * Each market's legal pack (SE-C, D-257). The message files state Norway's law; an organisation in
@@ -29,9 +31,6 @@ const no = flat(read('messages/no.json'))
 const en = flat(read('messages/en.json'))
 const pack = (market: Market, lang: string) => flat(read(`messages/market/${market}/${lang}.json`))
 
-/** What states Norwegian law, names its bodies or its register */
-const NORWEGIAN_LAW =
-  /Arbeidstilsynet|arbeidsmiljøloven|\baml\b|§|\bAMU\b|arbeidsmiljøutvalg|forskrift|internkontroll|Brønnøysund|norske|Norge|Lovdata|bedriftshelse|\bBHT\b|STAMI|Datatilsynet|kontrolltiltak|kap(ittel|\.) 2A/i
 
 /**
  * Where a Norwegian legal text is not a market's to replace, and why. Each is a place an

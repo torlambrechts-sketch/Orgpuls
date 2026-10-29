@@ -14,7 +14,7 @@
     "markets:edge": "tsx scripts/markets/edge.ts",
     "verify:pixel": "node scripts/verify/pixel.mjs",
     "verify:probe": "node scripts/verify/probe.mjs",
-    "verify:i18n": "node scripts/verify/i18n.mjs && node scripts/i18n/respondent-ui.mjs --check",
+    "verify:i18n": "node scripts/verify/i18n.mjs && node scripts/i18n/respondent-ui.mjs --check && node scripts/i18n/pack-delta.mjs",
     "test": "vitest run",
     "modules:validate": "tsx scripts/modules/validate.ts",
     "modules:seed": "tsx scripts/modules/seed.ts",

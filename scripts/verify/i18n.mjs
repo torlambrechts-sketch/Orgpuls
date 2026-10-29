@@ -175,6 +175,11 @@ const MARKET_DIR = join(DIR, 'market')
  * shown. The chrome (site.chrome.) also frames sign-in and sign-up, which keep the reader's language,
  * so it is in every language of the pack, as any other key. The language is the site's (lib/hosts.ts,
  * the se row's `lang`; tests/unit/se-site.test.ts holds the two together).
+ *
+ * A pack holds only what differs from its language (scripts/i18n/pack-delta.mjs, lib/i18n/merge.ts):
+ * a key one language of the pack leaves out is that language's own file's, which the reader then
+ * reads. So a key is missing only where the language's own file has none either. A text that states
+ * Norwegian law is never left out (pack-delta keeps it; tests/unit/legal-pack.test.ts holds it).
  */
 const PAGES_IN_SITE_LANG = { se: 'sv', de: 'de' }
 const pageWord = (key) => /^(site|seo|start)\./.test(key) && !key.startsWith('site.chrome.')
@@ -187,6 +192,8 @@ for (const market of existsSync(MARKET_DIR) ? readdirSync(MARKET_DIR) : []) {
   )
   const langs = Object.keys(packs)
   const keys = [...new Set(langs.flatMap((l) => Object.keys(packs[l])))]
+  // each language's own file, under the pack: what a key the pack leaves out reads
+  const under = Object.fromEntries(langs.map((l) => [l, flattenMessages(JSON.parse(readFileSync(join(DIR, `${l}.json`), 'utf8')))]))
   const own = {}
   for (const lang of langs) {
     const id = `market/${market}/${lang}`
@@ -194,6 +201,7 @@ for (const market of existsSync(MARKET_DIR) ? readdirSync(MARKET_DIR) : []) {
     for (const key of keys) {
       if (!(key in packs[lang])) {
         if (PAGES_IN_SITE_LANG[market] && PAGES_IN_SITE_LANG[market] !== lang && pageWord(key)) continue
+        if (key in under[lang]) continue
         fail(id, key, 'parity', `is missing; the pack's other languages have it`)
         continue
       }

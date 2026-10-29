@@ -247,7 +247,6 @@
       },
       "rapportTilTilsynet": {
         "title": "The report for the Swedish Work Environment Authority",
-        "lead": "What it contains, which period it covers, and what to attach.",
         "body": {
           "p1": "The report is built to be the documentation the Swedish Work Environment Authority can ask for (Work Environment Act chapter 7 section 3), not a presentation. It follows the steps of AFS 2023:1 in order: what was examined, what the risk assessment concluded, which measures were taken or stand in the action plan, and what the follow-up showed.",
           "p4": "Attach what Orgpuls does not have: notes from the union consultation, safety rounds in the period, and documentation of information and training."
@@ -346,46 +345,20 @@
   "site": {
     "chrome": {
       "nav": {
-        "plattform": "Platform",
-        "omPlattformen": "How the platform works",
-        "bruksomrader": "Use cases",
-        "hvorfor": "Why Orgpuls",
-        "pris": "Pricing",
-        "bransjer": "Industries",
-        "alleBransjer": "All industries",
-        "ressurser": "Resources",
-        "alleArtikler": "All articles",
-        "artiklerStart": "Getting started",
-        "artiklerLov": "The legal requirements",
-        "artiklerGjennomforing": "Carrying it out",
-        "artiklerEtter": "After the results",
-        "artiklerFaktorer": "The eleven factors",
         "lovkrav": "The OSA rules explained",
         "verneombud": "The safety representative’s role",
         "maler": "Templates",
         "sikkerhet": "Data protection and anonymity",
         "smaaBedrifter": "Small businesses",
-        "kontakt": "Contact",
-        "anonymitet": "Anonymity"
+        "kontakt": "Contact"
       },
-      "navLabel": "Main menu",
-      "menu": "Menu",
       "demo": "See demo",
-      "signIn": "Sign in",
       "getStarted": "Get started",
-      "skip": "Skip to main content",
-      "footerNav": "Footer menu",
-      "sections": "Sections",
-      "crumbs": "You are here",
       "trial": "Get started",
       "start": {
         "title": "Set up Orgpuls for your own organisation",
         "lead": "Enter your company’s name to get started. No consultant and no kick-off meeting – the first survey can be planned the same day.",
-        "placeholder": "As registered",
-        "submit": "Get started",
-        "invalid": "Enter the name of the company.",
-        "label": "Company name",
-        "going": "Opening the sign-up for {company} …"
+        "submit": "Get started"
       },
       "band": {
         "title": "Start with your own organisation",
@@ -396,60 +369,23 @@
         "about": "Orgpuls helps Swedish employers survey the organisational and social work environment and follow up with an action plan. Answers are stored in the EU, and no single answer can be traced back to a person.",
         "bottom": "© {year} Orgpuls · provided by Pundit Invest AS, a company registered in Norway, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, Norway · <mail>hjelp@orgpuls.no</mail> · <privacy>Privacy</privacy><terms> · Terms</terms>",
         "head": {
-          "produkt": "Product",
-          "bruksomrader": "Use cases",
-          "ressurser": "Resources",
-          "omOss": "About us",
-          "hvorfor": "Why Orgpuls",
-          "bransjer": "Industries"
+          "omOss": "About us"
         },
         "link": {
-          "plattform": "Platform",
-          "malinger": "Surveys and the year wheel",
-          "resultater": "Results",
-          "kommentarer": "Comments",
-          "tiltak": "Measures",
-          "pris": "Pricing",
           "kartleggingNoun": "Work environment survey",
-          "medarbeiderundersokelse": "Employee survey",
-          "pulsmalinger": "Pulse surveys",
           "rapportArbeidstilsynet": "Documentation for inspections",
           "amu": "Safety representatives and safety committees",
-          "alleArtikler": "All articles",
           "maler": "Templates",
-          "slikVirker": "How it works",
           "lovenForklart": "The OSA rules explained",
-          "sporsmalssettet": "The question set",
           "personvernAnonymitet": "Data protection and anonymity",
-          "faq": "Frequently asked questions",
-          "hvorfor": "Why Orgpuls",
-          "kontakt": "Contact",
           "personvernerklaering": "Privacy policy",
-          "vilkar": "Terms",
-          "arlig": "Annual survey",
-          "puls": "Pulses between surveys",
-          "utenHr": "No HR department",
-          "smaaBedrifter": "Small businesses",
-          "tilsyn": "Inspections and documentation",
-          "positivt": "Positive focus",
-          "anonymitet": "Anonymity",
-          "forskning": "The research behind it",
-          "sammenlignet": "Compared",
-          "handel": "Retail",
-          "kontor": "Knowledge and office work",
-          "bygg": "Building and construction",
           "skole": "Preschools and schools",
-          "helse": "Health and care",
           "verneombud": "Safety representatives"
         }
       },
-      "language": "Language",
       "risk": "No consultant · No HR department needed",
       "trust": {
-        "label": "Orgpuls in brief",
-        "eu": "Answers stored in the EU",
         "k": "Results only for groups of 5 or more",
-        "qps": "Questions built on QPS Nordic",
         "law": "For your risk assessment, AFS 2023:1 s. 11"
       }
     }

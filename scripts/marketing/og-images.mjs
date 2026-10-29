@@ -38,6 +38,7 @@
 import { mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright-core'
+import { mergeMessages } from '../lib/merge.mjs'
 
 const arg = (name, fallback) => {
   const i = process.argv.indexOf(`--${name}`)
@@ -56,9 +57,8 @@ const own = brand !== 'orgpuls'
 const out = own ? `public/og/${brand}` : 'public/og'
 const shots = own ? `assets/produkt/${brand}` : 'assets/produkt'
 const no = JSON.parse(readFileSync('messages/no.json', 'utf8'))
-/** the request config's merge (lib/i18n/request.ts): b over a, key by key, an array replaced whole */
-const isTree = (v) => !!v && typeof v === 'object' && !Array.isArray(v)
-const merge = (a, b) => Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, isTree(a[k]) && isTree(b[k]) ? merge(a[k], b[k]) : (b[k] ?? a[k])]))
+/** the request config's merge (lib/i18n/merge.ts): b over a, key by key, a list of the same length item by item */
+const merge = mergeMessages
 const read = (path) => JSON.parse(readFileSync(path, 'utf8'))
 // a site of its own's words: Empvibe's, the market pack over English, and the brand's name where a text
 // says Orgpuls (lib/brand.ts rebrand); Sweden's, its pack over Swedish over English (lib/i18n/request.ts)

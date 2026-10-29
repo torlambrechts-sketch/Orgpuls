@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import gb from '@/messages/market/gb/en.json'
+import en from '@/messages/en.json'
+import { mergeMessages } from '@/lib/i18n/merge'
 import { PLAN_MAX } from '@/lib/billing/read'
 import { MARKET_CONFIG, MARKETS } from '@/lib/markets'
 import { ANNUAL_MONTHS, PLAN_PRICES, PLAN_SIZES, PRICE_MARKET, planPrices, planSizes, priceDigits, yearly } from '@/lib/site/pricing'
@@ -87,7 +89,8 @@ describe('the VAT number (0227)', () => {
 })
 
 describe('the price page on Empvibe’s site (UK-G, D-275)', () => {
-  const pris = gb.site.pris as unknown as { plans: { price: string }[]; included: { sizes: { price: string }[] }; free: { price: string } }
+  // what the page shows: the gb pack over English (lib/i18n/merge.ts), the pack holding only what differs
+  const pris = (mergeMessages(en, gb).site as Record<string, unknown>).pris as { plans: { price: string }[]; included: { sizes: { price: string }[] }; free: { price: string } }
 
   it('draws the United Kingdom’s list, as Oppsett › Betaling charges it', () => {
     expect(planSizes('gb').map((s) => s.monthly)).toEqual([PLAN_PRICES.gb.small, PLAN_PRICES.gb.usual, null])
