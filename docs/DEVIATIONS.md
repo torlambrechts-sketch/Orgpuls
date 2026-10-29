@@ -14939,7 +14939,10 @@ a person has approved it, and German is offered only where a pilot or the flag s
 5. **The employee import** (`app/(app)/oppsett/actions.ts` `languageOf`) read a language column of bokmål, English,
    Polish and Lithuanian only, so a Swede or a Dane imported by spreadsheet could not be marked. It is now one table over
    every survey language — code, bokmål name, English name, own name (`de`, `deutsch`, `tysk`, `german`) — and a
-   language added to the registry without its words is a type error, as the language chip is (D-289).
+   language added to the registry without its words is a type error, as the language chip is (D-289). German is
+   stored only once `locale_de` is on, so the code works against a hosted register that predates 0237 (the playbook's
+   expand-before-contract); the flag is signed off after the texts are approved, which needs 0237 anyway, and a German
+   organisation's employees meet German through the organisation's language meanwhile.
 6. **CI** seeds the German fixture (`--market de`) as it seeds the British and the Swedish, which D-291 left to
    `scripts/qa/up.sh` alone. The SQL probes that used `de` as a language the database refuses (`locale_pilot_invariants`
    row 2, `legal_invariants` row 4) use Finnish; `survey_language_invariants` row 2 inserts a German text and a German

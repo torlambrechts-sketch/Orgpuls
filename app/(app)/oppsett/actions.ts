@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { LOCALES } from '@/lib/i18n/locales'
 import { RESPONDENT_LOCALES, type RespondentLocale } from '@/lib/i18n/offered'
+import { flag } from '@/lib/flags'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { K_FLOOR, K_MAX } from '@/lib/org/threshold'
@@ -621,5 +622,9 @@ const LANGUAGE_WORDS: Record<RespondentLocale, readonly string[]> = {
 }
 function languageOf(cell: string): RespondentLocale | null {
   const v = cell.trim().toLowerCase()
-  return RESPONDENT_LOCALES.find((l) => LANGUAGE_WORDS[l].includes(v)) ?? null
+  const l = RESPONDENT_LOCALES.find((x) => LANGUAGE_WORDS[x].includes(v)) ?? null
+  // German is stored once it is switched on (locale_de, signed off after its texts are approved), so a
+  // register whose database predates 0237 is never asked to hold it; a German organisation's employees
+  // meet German anyway through the organisation's language (D-292)
+  return l === 'de' && !flag('locale_de') ? null : l
 }
