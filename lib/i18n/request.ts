@@ -1,5 +1,6 @@
 import { cookies, headers } from 'next/headers'
-import { PAGE_LANG_HEADER, siteOf } from '@/lib/hosts'
+import { PAGE_LANG_HEADER } from '@/lib/hosts'
+import { requestSite } from '@/lib/site/host'
 import { getRequestConfig } from 'next-intl/server'
 import { brandOf, rebrand, type Brand } from '@/lib/brand'
 import type { Market } from '@/lib/markets'
@@ -88,7 +89,7 @@ export default getRequestConfig(async ({ locale: asked }) => {
     const market = await requestMarket()
     return {
       locale: asked,
-      messages: await loadMessages(asked, market, brandOf(market), siteOf((await headers()).get('host'))?.market ?? market),
+      messages: await loadMessages(asked, market, brandOf(market), (await requestSite())?.market ?? market),
       getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
     }
   }
@@ -96,7 +97,7 @@ export default getRequestConfig(async ({ locale: asked }) => {
   // site of its own's page, written in that language only (Sweden's, D-276; the middleware names it);
   // elsewhere the visitor's choice, then the site's language, then Norwegian
   const head = await headers()
-  const site = siteOf(head.get('host'))
+  const site = await requestSite()
   const ownPage = !!site?.own && head.get(PAGE_LANG_HEADER) === site.lang
   const chosen = (await cookies()).get(LOCALE_COOKIE)?.value
   const locale = site?.pinned || ownPage ? site!.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE)

@@ -1,4 +1,4 @@
-import type { Market } from '@/lib/markets'
+import { MARKET_CONFIG, MARKETS, type Market } from '@/lib/markets'
 
 /**
  * The brands the product is sold under (docs/markets/PLAN.md, the brand axis; X-111): one app, one
@@ -18,10 +18,11 @@ export type Brand = keyof typeof BRANDS
 export const DEFAULT_BRAND: Brand = 'orgpuls'
 
 /**
- * Each market's brand: the name its organisations, their employees and their mail read. A market
- * belongs to one brand; a site's brand is its market's (lib/hosts.ts, held by tests/unit/brand.test.ts).
+ * Each market's brand (lib/markets.ts MarketConfig.brand): the name its organisations, their employees
+ * and their mail read. A market belongs to one brand; a site's brand is its market's (lib/hosts.ts,
+ * held by tests/unit/brand.test.ts).
  */
-export const MARKET_BRAND: Record<Market, Brand> = { no: 'orgpuls', se: 'orgpuls', gb: 'empvibe', de: 'orgpuls' }
+export const MARKET_BRAND: Record<Market, Brand> = Object.fromEntries(MARKETS.map((m) => [m, MARKET_CONFIG[m].brand])) as Record<Market, Brand>
 
 export const brandOf = (market: Market): Brand => MARKET_BRAND[market] ?? DEFAULT_BRAND
 

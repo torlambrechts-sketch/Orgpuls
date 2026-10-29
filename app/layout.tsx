@@ -28,7 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(own?.site.url ?? SITE_URL),
     title: brand('name'),
-    description: own ? (await getTranslations('app'))('tagline') : 'Psykososialt arbeidsmiljø for norske virksomheter.',
+    // the product's tagline in the reader's language, and on a site of its own its market's (no line
+    // of bokmål written into the code: an English reader of Norway's hosts reads it in English)
+    description: (await getTranslations('app'))('tagline'),
     // Bing Webmaster Tools' meta-tag check, when the site is verified that way rather than imported
     // from Google Search Console (D-234); the value is the code Bing shows, set in Vercel's environment
     ...(process.env.BING_SITE_VERIFICATION ? { verification: { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } } : {}),

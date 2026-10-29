@@ -1,12 +1,12 @@
 import 'server-only'
-import { headers } from 'next/headers'
 import { cache } from 'react'
 import { BRANDS } from '@/lib/brand'
 import { flag, FLAG_NAMES, type FlagName } from '@/lib/flags'
-import { addressOf, siteOf, type Site } from '@/lib/hosts'
+import { addressOf, type Site } from '@/lib/hosts'
 import { registryTexts, type Locale } from '@/lib/i18n/locales'
 import { SHOTS, SITE_SHOTS } from '@/lib/marketing/shots'
 import { articlesOf, type SiteArticles } from '@/lib/marketing/site-articles'
+import { requestSite } from '@/lib/site/host'
 
 /**
  * The site of its own this request is on (D-270, lib/hosts.ts `Site.own`): Empvibe's, open since
@@ -29,7 +29,7 @@ export type OwnSite = {
 }
 
 export const ownSite = cache(async (): Promise<OwnSite | null> => {
-  const site = siteOf((await headers()).get('host'))
+  const site = await requestSite()
   if (!site?.own) return null
   const own = site as OwnSite['site']
   const address = (href: string) => addressOf(own.own.paths, href)

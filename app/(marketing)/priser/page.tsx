@@ -11,7 +11,7 @@ import { StartBand } from '@/components/site/v3/StartBand'
 import { FaqItems } from '@/lib/marketing/blocks'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, faqPage, graph, ldLanguage, organization, siteLd, software } from '@/lib/marketing/schema'
-import { requestMarket } from '@/lib/i18n/market'
+import { siteMarket } from '@/lib/i18n/market'
 import { planSizes, priceDigits, yearly } from '@/lib/site/pricing'
 
 /**
@@ -55,8 +55,9 @@ export default async function PrisPage() {
 
   const format = await getFormatter()
   const ld = await siteLd()
-  // the market the page's words are in: its list, in its currency (lib/site/pricing, X-113)
-  const market = await requestMarket()
+  // the market the page's words are in, the host's site's (lib/i18n/request.ts SITE_WORDS): its list, in
+  // its currency (lib/site/pricing, X-113), whoever reads it
+  const market = await siteMarket()
   const fit = planSizes(market)
   // whole kroner; pounds to the penny, where a whole pound would be a different price
   const digits = priceDigits(market)
@@ -81,7 +82,7 @@ export default async function PrisPage() {
             url: ld.absolute('/priser'),
             name: seo('pages.priser.title'),
             description: seo('pages.priser.description'),
-            inLanguage: ld.languages.includes('en') && ld.languages.length === 1 ? 'en-GB' : ldLanguage(await getLocale()),
+            inLanguage: ld.tag ?? ldLanguage(await getLocale()),
           },
           breadcrumbs(
             [

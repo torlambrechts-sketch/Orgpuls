@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { readSupabaseEnv } from '@/lib/supabase/env'
-import { hostGate, PAGE_LANG_HEADER } from '@/lib/hosts'
+import { effectiveHost, hostGate, PAGE_LANG_HEADER, PREVIEW_SITE_COOKIE, SITE_HOST_HEADER } from '@/lib/hosts'
 
 /**
  * Refreshes the auth session on every request and redirects anonymous visitors to
@@ -143,20 +143,31 @@ export async function updateSession(request: NextRequest) {
   // reserved one (D-258) send every address where an English reader goes. Pure string work on the
   // host: it cannot throw.
   const read = request.method === 'GET' || request.method === 'HEAD'
-  const gate = hostGate(request.headers.get('x-forwarded-host') ?? request.headers.get('host'), path, isPublic(path), request.nextUrl.search, read)
+  // the host the request is answered as: itself on a production host; on a preview or a local build,
+  // the site a `?site=` chose (lib/hosts.ts effectiveHost), so every site can be looked at and tested
+  const asked = request.nextUrl.searchParams.get('site')
+  const host = effectiveHost(
+    request.headers.get('x-forwarded-host') ?? request.headers.get('host'),
+    asked ?? request.cookies.get(PREVIEW_SITE_COOKIE)?.value,
+  )
+  const gate = hostGate(host, path, isPublic(path), request.nextUrl.search, read)
   // a site of its own's page is in its own language (D-276): the request config reads it from here.
   // No request carries on a value the visitor sent, public or the product's (guard), and the request
-  // config takes the value only where it names the site's own language
+  // config takes the value only where it names the site's own language. The host the gate decided on
+  // goes with it (SITE_HOST_HEADER), so the pages read the same one
   const headers = new Headers(request.headers)
   headers.delete(PAGE_LANG_HEADER)
+  headers.delete(SITE_HOST_HEADER)
   if (gate.lang) headers.set(PAGE_LANG_HEADER, gate.lang)
+  if (host) headers.set(SITE_HOST_HEADER, host)
+  const answer = (response: NextResponse) => rememberSite(response, asked)
   // a site of its own (D-270): a page asked for by its Norwegian address goes to the site's own
   // address, permanently and with its query; only a page load, so a form posted there still lands
   if (gate.canonical) {
-    if (!read) return noindex(await route(request, path, headers), gate.noindex)
+    if (!read) return answer(noindex(await route(request, path, headers), gate.noindex))
     const url = request.nextUrl.clone()
     url.pathname = gate.redirect!
-    return NextResponse.redirect(url, 308)
+    return answer(NextResponse.redirect(url, 308))
   }
   if (gate.redirect) {
     // a moved or reserved host's redirect is absolute and carries the query, permanently from a moved
@@ -167,9 +178,20 @@ export async function updateSession(request: NextRequest) {
   if (gate.rewrite) {
     const url = request.nextUrl.clone()
     url.pathname = gate.rewrite
-    return noindex(NextResponse.rewrite(url, { request: { headers } }), gate.noindex)
+    return answer(noindex(NextResponse.rewrite(url, { request: { headers } }), gate.noindex))
   }
-  return noindex(await route(request, path, headers), gate.noindex)
+  return answer(noindex(await route(request, path, headers), gate.noindex))
+}
+
+/**
+ * A preview's choice of site (`?site=se`) is kept for the pages after it, until `?site=off`. Only
+ * where effectiveHost may honour it: never on a production deployment, where the cookie is not set.
+ */
+function rememberSite(response: NextResponse, asked: string | null): NextResponse {
+  if (asked === null || process.env.VERCEL_ENV === 'production') return response
+  if (asked === 'off' || asked === '') response.cookies.delete(PREVIEW_SITE_COOKIE)
+  else response.cookies.set(PREVIEW_SITE_COOKIE, asked, { path: '/', sameSite: 'lax', httpOnly: true })
+  return response
 }
 
 const noindex = (response: NextResponse, on: boolean) => {
@@ -182,7 +204,7 @@ async function route(request: NextRequest, path: string, headers: Headers) {
   if (isPublic(path)) return NextResponse.next({ request: { headers } })
 
   try {
-    return await guard(request)
+    return await guard(request, headers)
   } catch (error) {
     console.error('[middleware] refusing the request: the access check failed', error)
     return toSignIn(request)
@@ -214,7 +236,7 @@ function toSignIn(request: NextRequest) {
   return NextResponse.redirect(url)
 }
 
-async function guard(request: NextRequest) {
+async function guard(request: NextRequest, gated: Headers) {
   // inside the try, on purpose — see rule 4 above
   const { createServerClient } = await import('@supabase/ssr')
 
@@ -225,11 +247,15 @@ async function guard(request: NextRequest) {
   }
   for (const warning of env.warnings) console.warn(`[middleware] ${warning}`)
 
-  // the request as it came, with the session's cookies as refreshed below, and never a page language
-  // the visitor sent (D-276): only the gate names one, and only for a site's own page
+  // the request as the gate passed it on (its page language and host, never the visitor's), with the
+  // session's cookies as refreshed below (D-276)
   const forwarded = () => {
     const headers = new Headers(request.headers)
-    headers.delete(PAGE_LANG_HEADER)
+    for (const name of [PAGE_LANG_HEADER, SITE_HOST_HEADER]) {
+      const value = gated.get(name)
+      if (value) headers.set(name, value)
+      else headers.delete(name)
+    }
     return headers
   }
   const pass = () => NextResponse.next({ request: { headers: forwarded() } })

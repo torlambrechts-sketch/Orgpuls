@@ -11,6 +11,7 @@ import { breadcrumbs, graph, organization, siteLd } from '@/lib/marketing/schema
 import { ownSite, serves, siteArticles, siteShots } from '@/lib/site/own'
 import { zip } from '@/lib/site/zip'
 import { lowerInSentence } from '@/lib/i18n/locales'
+import { DEFAULT_MARKET, REGISTRY_LOOKUP } from '@/lib/markets'
 
 /**
  * Plattform (D-190): design-reference/orgpuls/nettside-v3/Plattform.dc.html.
@@ -148,9 +149,11 @@ export default async function PlattformPage() {
   const own = await ownSite()
   const { questions } = await siteArticles()
   const readMoreOf = (id: CaseId) => (id === 'respondent' && questions && serves(own, '/artikler') ? `/artikler/${questions}` : USE[id])
-  // the first setup row is the register lookup in Norway (§); a site of its own looks nothing up (D-271)
+  // the first setup row is the register lookup (§, Brønnøysund in Norway); a market whose sign-up looks
+  // nothing up draws ✓ (lib/markets.ts MarketConfig.registryLookup, D-271)
+  const lookup = REGISTRY_LOOKUP[own?.site.market ?? DEFAULT_MARKET]
   const setupRows = zip(
-    SETUP_ROWS.map((r, i) => (i === 0 && own ? { ...r, glyph: '✓' } : r)),
+    SETUP_ROWS.map((r, i) => (i === 0 && !lookup ? { ...r, glyph: '✓' } : r)),
     z.array(z.object({ title: Str, sub: Str, pill: Str })).parse(t.raw('oppsett.rows')),
   )
   const factor = (id: string) => all(`factor.${id}.name`)

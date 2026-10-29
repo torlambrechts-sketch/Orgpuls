@@ -5,6 +5,7 @@ import { Blocks as BlocksSchema, Sources, wordCount, type Block } from '@/lib/ma
 import { cardUrl } from '@/lib/marketing/meta'
 import { article as articleLd, breadcrumbs, graph, organization, siteLd } from '@/lib/marketing/schema'
 import { ownSite } from '@/lib/site/own'
+import { DEFAULT_MARKET, MARKET_CONFIG } from '@/lib/markets'
 import { type Article, articleImage } from '@/lib/marketing/site'
 import { TemplateTeaser } from './TemplateTeaser'
 import { ArticleCards } from './ArticleCards'
@@ -27,8 +28,9 @@ const WPM = 200
 export async function ArticleView({ article: a }: { article: Article }) {
   const t = await getTranslations()
   const k = `seo.articles.${a.key}`
-  // the law drawing's seal: § on Norway's site, ✓ on a site of its own, whose law is not cited by section (D-271)
-  const seal = (await ownSite()) ? '✓' : '§'
+  // the law drawing's seal: the site's market's (lib/markets.ts MarketConfig.lawSeal): § where its law is
+  // cited by section, ✓ in the United Kingdom, whose law is not (D-271)
+  const seal = MARKET_CONFIG[(await ownSite())?.site.market ?? DEFAULT_MARKET].lawSeal
   return (
     <ArticleBody
       content={{

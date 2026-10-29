@@ -23,7 +23,7 @@ import {
   brandedCatalogue,
   brandNameOf,
   isReservedAddress,
-  langOf,
+  orgLangOf,
   MARKET_AUTH_LANG,
   MARKET_MAIL_DOMAIN,
   mailFrom,
@@ -97,7 +97,9 @@ Deno.serve(async (req) => {
 
   // the site the person signed up, was invited or asked on (UK-G, D-275): its link, brand and language
   const site = authSite(data.email_data.redirect_to, Deno.env.get('ORGPULS_APP_URL') ?? '')
-  const lang = langOf(data.user.user_metadata?.lang ?? (site.market ? MARKET_AUTH_LANG[site.market] : undefined))
+  // the language the person asked in (a demo link carries the page's), English for Swedish and German,
+  // which the mail is not written in (orgLangOf); else the site's market's
+  const lang = orgLangOf(data.user.user_metadata?.lang ?? (site.market ? MARKET_AUTH_LANG[site.market] : undefined))
   const link = authLink(site.url, action, data.email_data.token_hash)
   const brand = brandNameOf(site.market)
   const key = Deno.env.get('BREVO_API_KEY') ?? ''

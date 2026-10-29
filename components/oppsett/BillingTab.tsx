@@ -1,6 +1,7 @@
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { ANNUAL_MONTHS, CANCEL_REASONS, fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
 import { planPrices, priceDigits, yearly as yearPrice } from '@/lib/site/pricing'
+import { MARKET_CONFIG } from '@/lib/markets'
 import { requestMarket } from '@/lib/i18n/market'
 import { BillingForm, CancelSubscription, DowngradeToFree, ExtendTrialButton, WithdrawCancellation, WithdrawDowngrade } from './BillingForms'
 import { dateFormat } from '@/lib/i18n/dates'
@@ -50,8 +51,9 @@ export async function BillingTab({
   const format = await getFormatter()
   const market = await requestMarket()
   const prices = planPrices(market)
-  // the reverse-charged invoice of a UK organisation carries its VAT number; EHF is Norway's (0227)
-  const uk = market === 'gb'
+  // what the market's invoice asks for (lib/markets.ts MarketConfig.billing, 0227): a reverse-charged
+  // invoice carries a VAT number (the UK's), else the form offers EHF
+  const { vatNumber } = MARKET_CONFIG[market].billing
   // the organisation's clock and the reader's form of a date (lib/i18n/dates.ts, D-273)
   const dates = await getDates()
   const date = (iso: string) => dateFormat(dates, { dateStyle: 'long' }).format(new Date(iso))
@@ -240,7 +242,7 @@ export async function BillingTab({
             ehf: billing.ehf,
           }}
           vat={
-            uk
+            vatNumber
               ? { initial: billing.vat_number ?? '', label: t('vatNumber'), hint: t('vatNumberHint') }
               : null
           }

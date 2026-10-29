@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import gb from '@/messages/market/gb/en.json'
 import { PLAN_MAX } from '@/lib/billing/read'
-import { MARKETS } from '@/lib/markets'
+import { MARKET_CONFIG, MARKETS } from '@/lib/markets'
 import { ANNUAL_MONTHS, PLAN_PRICES, PLAN_SIZES, PRICE_MARKET, planPrices, planSizes, priceDigits, yearly } from '@/lib/site/pricing'
 import { EMPVIBE_PAGES } from '@/lib/hosts'
 import { OWN_FOOTERS, OWN_NAV } from '@/lib/site/nav'
@@ -71,10 +71,18 @@ describe('the VAT number (0227)', () => {
     }
   })
 
-  it('is drawn only for a UK organisation, where EHF is drawn for Norway', () => {
+  it('is drawn where the market registry asks for one, where EHF is drawn elsewhere', () => {
     const tab = readFileSync('components/oppsett/BillingTab.tsx', 'utf8')
-    expect(tab).toMatch(/const uk = market === 'gb'/)
-    expect(tab).toMatch(/vat=\{\s*uk/)
+    expect(tab).toMatch(/const \{ vatNumber \} = MARKET_CONFIG\[market\]\.billing/)
+    expect(tab).toMatch(/vat=\{\s*vatNumber/)
+    // a market's invoice asks for a VAT number or offers EHF, never both (BillingForms draws one or the other)
+    for (const m of MARKETS) expect(MARKET_CONFIG[m].billing.eInvoice, m).toBe(!MARKET_CONFIG[m].billing.vatNumber)
+  })
+
+  it('is accepted by the database for the markets the registry asks it of, and no others (save_billing, 0227)', () => {
+    // every market the function names is the one that takes a VAT number and refuses EHF
+    const named = new Set([...migration.matchAll(/v_market (?:is distinct from|=) '([a-z]{2})'/g)].map((m) => m[1]))
+    expect(named).toEqual(new Set(MARKETS.filter((m) => MARKET_CONFIG[m].billing.vatNumber)))
   })
 })
 

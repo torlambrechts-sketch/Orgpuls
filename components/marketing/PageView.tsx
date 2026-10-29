@@ -3,7 +3,7 @@ import Link from '@/components/site/SitePaths'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Faq } from '@/components/start/Faq'
 import type { Block, FaqItem } from '@/lib/marketing/blocks'
-import { breadcrumbs, faqPage, graph, ldLanguage, ORGPULS_LD, organization, siteLd } from '@/lib/marketing/schema'
+import { breadcrumbs, faqPage, graph, ldLanguage, organization, siteLd } from '@/lib/marketing/schema'
 import type { ShotId } from '@/lib/marketing/shot-ids'
 import { ArticleCards } from './ArticleCards'
 import { Blocks } from './Blocks'
@@ -102,7 +102,7 @@ export async function PageView({
       <JsonLd
         data={graph(
           organization(ld),
-          { '@type': schemaType, url: ld.absolute(path), name: c.title, description: c.description, inLanguage: ld === ORGPULS_LD ? ldLanguage(await getLocale()) : 'en-GB' },
+          { '@type': schemaType, url: ld.absolute(path), name: c.title, description: c.description, inLanguage: ld.tag ?? ldLanguage(await getLocale()) },
           breadcrumbs(trail, ld),
           ...(faq.length ? [faqPage(faq)] : []),
           ...extraSchema,

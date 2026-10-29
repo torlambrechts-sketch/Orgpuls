@@ -2,11 +2,11 @@
 
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-import { headers } from 'next/headers'
 import { HEARD } from '@/lib/signup/heard'
 import { completePendingSignup, PENDING_KEY, type PendingOrg } from '@/lib/signup/pending'
 import { confirmJoinRequest, myJoinRequest, signUpSeparately, type JoinRequest } from '@/lib/signup/organisation'
 import { marketOfHost } from '@/lib/hosts'
+import { requestHost } from '@/lib/site/host'
 import { authReturn } from '@/lib/auth/return'
 import { orgNumberProblem } from '@/lib/markets'
 import { normalizeOrgNumber, ORG_NUMBER_SHAPE, signupOrgNumber } from '@/lib/org-number'
@@ -54,9 +54,8 @@ export async function createAccount(
   _prev: SignUpState,
   formData: FormData,
 ): Promise<SignUpState> {
-  const h = await headers()
   // the host decides the market, never a form field (D-251)
-  const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
+  const market = marketOfHost(await requestHost())
   const typed = String(formData.get('orgNumber') ?? '').trim()
   const parsed = SignUp.safeParse({
     companyName: String(formData.get('companyName') ?? ''),
