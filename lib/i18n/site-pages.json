@@ -3074,7 +3074,8 @@
    "keys": [
     "bliMed.badge",
     "bliMed.state.not_found",
-    "bliMed.toSignIn"
+    "bliMed.toSignIn",
+    "app.tagline"
    ],
    "states": [
     "bliMed.title",
@@ -5056,6 +5057,7 @@
   {
    "path": "/logg-inn",
    "keys": [
+    "app.tagline",
     "auth.badge",
     "auth.title",
     "auth.lead",
@@ -5681,6 +5683,7 @@
   {
    "path": "/nytt-passord",
    "keys": [
+    "app.tagline",
     "newPassword.badge",
     "newPassword.expiredTitle",
     "newPassword.expiredLead",
@@ -6225,6 +6228,7 @@
   {
    "path": "/registrer",
    "keys": [
+    "app.tagline",
     "registrer.stepAccount",
     "registrer.step3",
     "registrer.formTitle",
@@ -6298,6 +6302,7 @@
     "registrer.problem.invalid_org_number_gb",
     "registrer.problem.nothing_pending",
     "registrer.problem.same_number",
+    "registrer.problem.invalid_org_number_de",
     "registrer.googleOr",
     "registrer.google",
     "registrer.microsoft",
@@ -6940,6 +6945,7 @@
   "seo.common.readMore"
  ],
  "unseen": [
+  "app.name",
   "factor.ytring.short",
   "factor.ytring.desc",
   "factor.ytring.map",
