@@ -1,5 +1,5 @@
 import type { Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { hasPublicPage, INDUSTRIES, isNewIndustry, pageIn } from '@/content/industries'

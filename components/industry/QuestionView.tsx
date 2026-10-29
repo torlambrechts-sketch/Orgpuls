@@ -1,5 +1,5 @@
 import type { Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { getTranslations } from 'next-intl/server'
 import { citeOrder } from '@/content/industries/cites'
 import { listOf, moduleFile, simplifiedFactors, type PageFactor, type PageLang } from '@/content/industries/modules'
