@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { RiskBadge } from '@/components/ui/Risk'
 import { getRoundPage, type RoundPage } from '@/lib/results/page'
 import { logoPath } from '@/lib/org/logo'
-import { MAIN_URL, siteOf } from '@/lib/hosts'
+import { MAIN_URL, type Site } from '@/lib/hosts'
+import { requestSite } from '@/lib/site/host'
 import { switchUrl } from '@/lib/i18n/switch'
 import { dateFormat, type Dates } from '@/lib/i18n/dates'
 import { getDates } from '@/lib/i18n/dates-server'
@@ -42,7 +42,7 @@ export default async function RoundPageRoute({ params }: { params: Promise<{ slu
 
   // the reader's form of a date on the organisation's clock (lib/i18n/dates.ts, D-273)
   const locale = await getLocale()
-  return <Page page={page} t={t} home={homeOf(siteOf((await headers()).get('host')), locale)} dates={await getDates(locale)} />
+  return <Page page={page} t={t} home={homeOf(await requestSite(), locale)} dates={await getDates(locale)} />
 }
 
 const FROM_PAGE = '/?utm_source=ansattside&utm_medium=referral'
@@ -52,7 +52,7 @@ const FROM_PAGE = '/?utm_source=ansattside&utm_medium=referral'
  * own, Norway's elsewhere, in English through the language switch for an English reader, since
  * Norway's site has one address per page since the move (UK-G, D-275).
  */
-function homeOf(site: ReturnType<typeof siteOf>, locale: string): string {
+function homeOf(site: Site | null, locale: string): string {
   if (site?.own) return `${site.url}${FROM_PAGE}`
   // English for this browser only: following a link is not choosing a language for an account
   return locale === 'en' ? switchUrl(MAIN_URL, 'en', FROM_PAGE, false) : `${MAIN_URL}${FROM_PAGE}`

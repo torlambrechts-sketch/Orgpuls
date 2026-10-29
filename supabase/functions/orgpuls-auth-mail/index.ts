@@ -23,11 +23,13 @@ import {
   brandedCatalogue,
   brandNameOf,
   isReservedAddress,
-  langOf,
+  orgLangOf,
   MARKET_AUTH_LANG,
   MARKET_MAIL_DOMAIN,
+  MARKET_SUPPORT_MAIL,
   mailFrom,
   renderAuth,
+  supportFor,
   withMailOverrides,
   type AuthAction,
   type MailCatalogue,
@@ -97,7 +99,9 @@ Deno.serve(async (req) => {
 
   // the site the person signed up, was invited or asked on (UK-G, D-275): its link, brand and language
   const site = authSite(data.email_data.redirect_to, Deno.env.get('ORGPULS_APP_URL') ?? '')
-  const lang = langOf(data.user.user_metadata?.lang ?? (site.market ? MARKET_AUTH_LANG[site.market] : undefined))
+  // the language the person asked in (a demo link carries the page's), English for Swedish and German,
+  // which the mail is not written in (orgLangOf); else the site's market's
+  const lang = orgLangOf(data.user.user_metadata?.lang ?? (site.market ? MARKET_AUTH_LANG[site.market] : undefined))
   const link = authLink(site.url, action, data.email_data.token_hash)
   const brand = brandNameOf(site.market)
   const key = Deno.env.get('BREVO_API_KEY') ?? ''
@@ -108,11 +112,11 @@ Deno.serve(async (req) => {
     site.market && MARKET_MAIL_DOMAIN[site.market] ? brevoAuthenticatedDomains(key, 1000) : Promise.resolve(new Set<string>()),
   ])
   const footer = site.market ? `${brand} · ${new URL(site.url).host.replace(/^www\./, '')}` : undefined
-  const r = renderAuth(brandedCatalogue(cat, brand), action, lang, email, link, footer)
+  const r = renderAuth(brandedCatalogue(cat, brand, site.market ? MARKET_SUPPORT_MAIL[site.market] : undefined), action, lang, email, link, footer)
 
   const base = { email: Deno.env.get('ORGPULS_MAIL_FROM') ?? '', name: Deno.env.get('ORGPULS_MAIL_FROM_NAME') ?? 'Orgpuls' }
   const res = await brevoSend(key, {
-    ...mailFrom(base, site.market, domains, Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no'),
+    ...mailFrom(base, site.market, domains, supportFor(site.market, Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no')),
     to: [{ email }],
     subject: r.subject,
     html: r.html,

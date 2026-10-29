@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
+import { mergeMessages } from '@/lib/i18n/merge'
 import { EMPVIBE_PAGES } from '@/lib/hosts'
 import { OWN_FOOTERS, OWN_NAV } from '@/lib/site/nav'
 import { ANNUAL_MONTHS, PLAN_PRICES } from '@/lib/site/pricing'
@@ -20,9 +21,8 @@ import { ANNUAL_MONTHS, PLAN_PRICES } from '@/lib/site/pricing'
 type Tree = { [k: string]: unknown }
 const read = (path: string) => JSON.parse(readFileSync(path, 'utf8')) as Tree
 const isTree = (v: unknown): v is Tree => !!v && typeof v === 'object' && !Array.isArray(v)
-/** the request config's own merge (lib/i18n/request.ts): b over a, key by key, an array replaced whole */
-const merge = (a: Tree, b: Tree): Tree =>
-  Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, isTree(a[k]) && isTree(b[k]) ? merge(a[k], b[k]) : (b[k] ?? a[k])]))
+/** the request config's own merge (lib/i18n/merge.ts): b over a, key by key, a list of the same length item by item */
+const merge = (a: Tree, b: Tree): Tree => mergeMessages(a, b)
 const flat = (tree: unknown, prefix = '', out: Record<string, string> = {}): Record<string, string> => {
   if (typeof tree === 'string') out[prefix] = tree
   else if (Array.isArray(tree)) tree.forEach((v, i) => flat(v, `${prefix}.${i}`, out))

@@ -5,8 +5,8 @@ import { SignUpFlow } from '@/components/start/SignUpFlow'
 import { googleEnabled } from '@/lib/auth/google'
 import { microsoftEnabled } from '@/lib/auth/microsoft'
 import { createClient } from '@/lib/supabase/server'
-import { headers } from 'next/headers'
 import { marketOfHost } from '@/lib/hosts'
+import { requestHost } from '@/lib/site/host'
 import { LEGAL_PACK, MARKET_K_FLOOR, REGISTRY_LOOKUP } from '@/lib/markets'
 import { orgNumberInput } from '@/lib/org-number'
 import { myJoinRequest, type JoinRequest } from '@/lib/signup/organisation'
@@ -72,8 +72,7 @@ export default async function RegistrerPage({
   }
 
   // the host's market decides the number's rule and keyboard (D-254)
-  const h = await headers()
-  const market = marketOfHost(h.get('x-forwarded-host') ?? h.get('host'))
+  const market = marketOfHost(await requestHost())
   const registry = REGISTRY_LOOKUP[market]
 
   return (

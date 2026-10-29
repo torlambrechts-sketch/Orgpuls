@@ -1,7 +1,8 @@
 /**
  * The mails Orgpuls sends, rendered from the `mail.*` messages. D-65.
  *
- * Pure on purpose: no imports, no Deno or Node globals. The two edge functions import it,
+ * Pure on purpose: no Deno or Node globals, and no import but the market registry's and the brand
+ * rule's generated copies (./markets.ts, ./brand-name.ts, themselves pure). The two edge functions import it,
  * and `tests/unit/mail.test.ts` runs it under Vitest against messages/no.json and en.json,
  * so what the tests prove is what production sends.
  *
@@ -11,6 +12,9 @@
  *   - a link into the app only for someone who can sign in to follow it.
  * Every value that came from the database is HTML-escaped before it is placed in markup.
  */
+
+import { PRODUCT_SUPPORT, renameBrand } from './brand-name.ts'
+import { MARKET_AUTH_LANG, MARKET_BRAND_NAME, MARKET_MAIL_DOMAIN, MARKET_SITE_URL, MARKET_SUPPORT_MAIL, MARKET_TIME_ZONE } from './markets.ts'
 
 /** Bokmål and English are the platform's; the rest are survey languages whose texts come from the registry (D-133; German since D-292) */
 export type Lang = 'no' | 'en' | 'pl' | 'uk' | 'lt' | 'sv' | 'da' | 'de'
@@ -152,14 +156,20 @@ export const langOf = (v: string | null | undefined): Lang => (v === 'en' ? 'en'
 /** Each market's legal pack's mail texts, per mail language (messages/market/<market>/<lang>.json) */
 export type MailPacks = Record<string, Partial<Record<Lang, MailMessages>>>
 
-const mergeTree = (a: Record<string, unknown>, b: Record<string, unknown>): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...a }
-  for (const [k, v] of Object.entries(b)) {
-    const was = out[k]
-    out[k] = v && typeof v === 'object' && was && typeof was === 'object' ? mergeTree(was as Record<string, unknown>, v as Record<string, unknown>) : v
-  }
-  return out
+/**
+ * b over a, by the app's rule (lib/i18n/merge.ts; tests/unit/merge.test.ts holds the two equal): an
+ * object key by key, a list of the same length item by item with null keeping a's item, anything
+ * else b's. A pack holds only what differs from the language it is laid over.
+ */
+const isTree = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v)
+const mergeValue = (lower: unknown, upper: unknown): unknown => {
+  if (upper === undefined || upper === null) return lower
+  if (isTree(lower) && isTree(upper)) return mergeTree(lower, upper)
+  if (Array.isArray(lower) && Array.isArray(upper) && lower.length === upper.length) return upper.map((v, i) => mergeValue(lower[i], v))
+  return upper
 }
+export const mergeTree = (a: Record<string, unknown>, b: Record<string, unknown>): Record<string, unknown> =>
+  Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, mergeValue(a[k], b[k])]))
 
 /**
  * The texts an organisation in `market` reads (D-257). The message files state Norway's law; a
@@ -170,7 +180,7 @@ const mergeTree = (a: Record<string, unknown>, b: Record<string, unknown>): Reco
  */
 export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: string | null | undefined): MailCatalogue {
   const pack = market ? packs[market] : undefined
-  if (!pack) return brandedCatalogue(cat, brandNameOf(market))
+  if (!pack) return brandedCatalogue(cat, brandNameOf(market), MARKET_SUPPORT_MAIL[market ?? ''])
   const fallback = pack.en ?? Object.values(pack)[0]
   const out = { ...cat } as MailCatalogue
   for (const lang of Object.keys(cat) as Lang[]) {
@@ -178,26 +188,27 @@ export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: st
     const own = out[lang]
     if (law && own) out[lang] = mergeTree(own, law)
   }
-  return brandedCatalogue(out, brandNameOf(market))
+  return brandedCatalogue(out, brandNameOf(market), MARKET_SUPPORT_MAIL[market ?? ''])
 }
 
 /**
- * Each market's brand name (lib/brand.ts MARKET_BRAND and BRANDS; tests/unit/mail.test.ts holds the
- * two equal): what a notice to an organisation there calls the product, and the sender's name.
+ * Each market's brand name, own site, Auth mail language, mail domain and time zone: the market
+ * registry (lib/markets.ts MARKET_CONFIG) as the functions read it, generated into ./markets.ts by
+ * `npm run markets:edge`. Germany's site joins MARKET_SITE_URL the day the registry opens it (DE-G).
  */
-export const MARKET_BRAND_NAME: Readonly<Record<string, string>> = { no: 'Orgpuls', se: 'Orgpuls', gb: 'Empvibe', de: 'Orgpuls' }
-export const brandNameOf = (market: string | null | undefined): string => MARKET_BRAND_NAME[market ?? ''] ?? 'Orgpuls'
+export { MARKET_AUTH_LANG, MARKET_BRAND_NAME, MARKET_MAIL_DOMAIN, MARKET_SITE_URL, MARKET_SUPPORT_MAIL, MARKET_TIME_ZONE }
 
 /**
- * A market's own site, where the links in its organisations' mail, SMS, Teams and Slack lead since it
- * opened: Empvibe's for the United Kingdom (UK-G, D-275), se.orgpuls.com for Sweden (SE-F, D-276), where
- * a Swedish leader's session is (lib/hosts.ts EMPVIBE_URL, SE_URL; tests/unit/market-links.test.ts
- * holds them to the host registry). Norway is reached through the product's own address,
- * ORGPULS_APP_URL.
+ * The inbox a market's organisations write to: its brand's own once it has one (lib/brand.ts BRANDS
+ * `support`), else the one this function is configured with (ORGPULS_SUPPORT_MAIL)
  */
-// a market's links lead to its site only once the site serves them (tests/unit/market-links.test.ts holds
-// this to lib/hosts.ts SITES); Germany's joined when de.orgpuls.com opened (DE-G, D-293)
-export const MARKET_SITE_URL: Readonly<Record<string, string>> = { gb: 'https://www.empvibe.com', se: 'https://se.orgpuls.com', de: 'https://de.orgpuls.com' }
+export function supportFor(market: string | null | undefined, configured: string): string {
+  const own = MARKET_SUPPORT_MAIL[market ?? '']
+  return own && own !== PRODUCT_SUPPORT ? own : configured
+}
+
+export const brandNameOf = (market: string | null | undefined): string => MARKET_BRAND_NAME[market ?? ''] ?? 'Orgpuls'
+
 
 /** The product's own production address (lib/hosts.ts MAIN_URL), the only base a market's site replaces */
 const PRODUCTION = /^https:\/\/www\.orgpuls\.com\/?$/
@@ -221,12 +232,6 @@ export function smsSenderOf(market: string | null | undefined, fallback: string)
   return name === 'Orgpuls' ? fallback : name
 }
 
-/**
- * A brand's own mail domain (UK-G, D-275). Its organisations' mail is sent from it once Brevo reports
- * it authenticated, under the product's own address's name before the @; until then, from the
- * product's address under the brand's name (X-111).
- */
-export const MARKET_MAIL_DOMAIN: Readonly<Record<string, string>> = { gb: 'empvibe.com' }
 
 /** The sender of a mail to an organisation in this market, given the domains Brevo has authenticated */
 export function senderFor(
@@ -275,23 +280,16 @@ export function authSite(redirectTo: string | null | undefined, appUrl: string):
   return { url: appUrl, market: null }
 }
 
-/**
- * The language of an Auth mail to a person whose sign-up named none: the market's, else bokmål. English
- * for Sweden as well, the language a Swedish organisation's leaders read their mail in until it exists
- * in Swedish (D-255)
- */
-export const MARKET_AUTH_LANG: Readonly<Record<string, Lang>> = { gb: 'en', se: 'en' }
 
 /**
- * The texts under a brand's name, as lib/brand.ts `rebrand` does for the app: «Orgpuls» becomes the
- * brand's name, an address (orgpuls.com, hjelp@orgpuls.no) stays, and the possessive follows the
- * language. Orgpuls reads the catalogue as written.
+ * The texts under a brand's name, by the rule the app uses (./brand-name.ts, lib/brand-name.ts):
+ * «Orgpuls» becomes the brand's name, the possessive follows the language, and the support address
+ * is the brand's once it has its own. Orgpuls reads the catalogue as written.
  */
-export function brandedCatalogue(cat: MailCatalogue, name: string): MailCatalogue {
-  if (name === 'Orgpuls') return cat
+export function brandedCatalogue(cat: MailCatalogue, name: string, support: string = PRODUCT_SUPPORT): MailCatalogue {
+  if (name === 'Orgpuls' && support === PRODUCT_SUPPORT) return cat
   const walk = (v: unknown, lang: string): unknown => {
-    if (typeof v === 'string')
-      return v.replace(/Orgpuls(?:'s|’s|'|’)(?![\p{L}\p{N}])/gu, lang === 'en' ? `${name}'s` : `${name}s`).replace(/Orgpuls/g, name)
+    if (typeof v === 'string') return renameBrand(v, name, lang, support)
     if (Array.isArray(v)) return v.map((x) => walk(x, lang))
     if (v && typeof v === 'object') return Object.fromEntries(Object.entries(v as Record<string, unknown>).map(([k, x]) => [k, walk(x, lang)]))
     return v
@@ -304,6 +302,10 @@ export function brandedCatalogue(cat: MailCatalogue, name: string): MailCatalogu
  * organisation in Swedish (the Swedish market, D-254) reads English, the language behind Swedish
  * in the app (D-252), until the leaders' notices are written in Swedish; never bokmål. An
  * organisation in German (D-289) reads English the same way. Anything else is bokmål, as before.
+ *
+ * The same rule holds for one leader's own mail, by their own language: a Swedish leader's trial
+ * reminder (renderLifecycle) and a sign-in link asked for on a Swedish or German page (the Auth hook)
+ * are English, never bokmål, which a leader who chose Swedish or German may not read.
  */
 export const orgLangOf = (v: string | null | undefined): Lang => (v === 'en' || v === 'sv' || v === 'de' ? 'en' : 'no')
 
@@ -354,12 +356,6 @@ export function escapeHtml(s: string): string {
 /** "12. oktober" / "12 October", in the organisation's own zone. */
 const DATE_LOCALE: Record<Lang, string> = { no: 'nb-NO', en: 'en-GB', pl: 'pl-PL', uk: 'uk-UA', lt: 'lt-LT', sv: 'sv-SE', da: 'da-DK', de: 'de-DE' }
 
-/**
- * Each market's time zone (lib/markets.ts MARKET_TIME_ZONE; tests/unit/mail.test.ts holds the two
- * equal), the zone an organisation there takes at sign-up and keeps: the clock its notices' dates are
- * on (D-280), so a deadline at midnight in London is not the next day's in a British inbox.
- */
-export const MARKET_TIME_ZONE: Readonly<Record<string, string>> = { no: 'Europe/Oslo', se: 'Europe/Stockholm', gb: 'Europe/London', de: 'Europe/Berlin' }
 export const timeZoneOf = (market: string | null | undefined): string => MARKET_TIME_ZONE[market ?? ''] ?? 'Europe/Oslo'
 
 export function dateOf(iso: string | null, lang: Lang, withYear = false, timeZone = 'Europe/Oslo'): string {
@@ -961,7 +957,8 @@ export const LIFECYCLE_PATH: Record<LifecycleStep, string> = {
 }
 
 export function renderLifecycle(cat: MailCatalogue, job: LifecycleJob, appUrl: string, graceDays = 14): Rendered {
-  const lang = langOf(job.lang)
+  // the leader's own language (0219: their profile's), English for Swedish and German (orgLangOf)
+  const lang = orgLangOf(job.lang)
   const m = cat[lang]
   const key = `lifecycle.${job.step}`
   // the trial's end for the first three steps and trial_ending; the read-only date after it;

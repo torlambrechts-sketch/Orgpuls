@@ -394,5 +394,3 @@ export const SITE_PAGES = [
   { slug: 'personvernerklaering', key: 'personvernerklaering' },
   { slug: 'vilkar', key: 'vilkar' },
 ] as const
-/** The support address the product already prints (messages: registrer, oppsett). */
-export const CONTACT_MAIL = 'hjelp@orgpuls.no'

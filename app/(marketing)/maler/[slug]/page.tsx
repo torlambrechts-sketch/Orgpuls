@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { PageTemplate } from '@/components/marketing/PageTemplate'
 import { TemplateDownload, type TemplateDownloadWords } from '@/components/marketing/TemplateDownload'
 import { pageMeta } from '@/lib/marketing/meta'
-import { CONTACT_MAIL } from '@/lib/marketing/site'
+import { siteSupport } from '@/lib/site/own'
 import { granted, TEMPLATE_COOKIE, templateBySlug, TEMPLATES } from '@/lib/marketing/templates'
 
 /**
@@ -74,7 +74,7 @@ export default async function Page({ params }: Props) {
           slug={tpl.slug}
           files={tpl.files.map((f) => ({ name: f.name, format: f.format, label: labels[f.name] ?? f.name }))}
           ready={ready}
-          to={CONTACT_MAIL}
+          to={await siteSupport()}
           words={Words.parse(t.raw('seo.maler.form'))}
         />
       }

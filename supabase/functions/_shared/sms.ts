@@ -1,10 +1,12 @@
 /**
  * SMS: numbers, length and the message itself. D-66.
  *
- * Pure like mail.ts: no imports, no runtime globals. The dispatcher sends with it, the SMS
- * screen counts with it, the Ansatte form normalises numbers with it, and
- * tests/unit/sms.test.ts proves all three against the same code.
+ * Pure like mail.ts: no runtime globals, and no import but the market registry's generated copy
+ * (./markets.ts). The dispatcher sends with it, the SMS screen counts with it, the Ansatte form
+ * normalises numbers with it, and tests/unit/sms.test.ts proves all three against the same code.
  */
+
+import { MARKET_PHONE } from './markets.ts'
 
 // ---------------------------------------------------------------------------------------
 // Numbers
@@ -33,10 +35,10 @@ export function normalizePhone(input: string | null | undefined, market: string 
   if (s.startsWith('00')) s = `+${s.slice(2)}`
   if (/^\+47\d{8}$/.test(s)) return /^\+47[49]/.test(s) ? s : null
   if (/^\+[1-9]\d{7,14}$/.test(s)) return s
-  if (market === 'gb') return /^07([1-57-9]\d{8}|624\d{6})$/.test(s) ? `+44${s.slice(1)}` : null
-  if (market === 'se') return /^07[02369]\d{7}$/.test(s) ? `+46${s.slice(1)}` : null
-  // Germany (DE-B): a mobile number begins 015, 016 or 017 and has eleven or twelve digits with its leading zero
-  if (market === 'de') return /^01[5-7]\d{8,9}$/.test(s) ? `+49${s.slice(1)}` : null
+  // a market's own way of writing a mobile number (lib/markets.ts MarketConfig.phone): the UK's 07…,
+  // Sweden's 07…, Germany's 015/016/017… (DE-B), its leading zero replaced by the country code
+  const local = MARKET_PHONE[market]
+  if (local) return new RegExp(local.mobile).test(s) ? `${local.prefix}${s.slice(1)}` : null
   if (/^[49]\d{7}$/.test(s)) return `+47${s}`
   if (/^47[49]\d{7}$/.test(s) && !/^\(?47[49]\)?[\s\-.]/.test(raw)) return `+${s}`
   return null

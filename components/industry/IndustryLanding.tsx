@@ -1,5 +1,5 @@
 import type { Route } from 'next'
-import Link from 'next/link'
+import Link from '@/components/site/SitePaths'
 import { Fragment } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'

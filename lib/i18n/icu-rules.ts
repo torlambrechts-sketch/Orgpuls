@@ -22,7 +22,8 @@ export function flattenMessages(value: Catalogue, prefix = '', out: Record<strin
   for (const [k, v] of Object.entries(value)) {
     const key = prefix ? `${prefix}.${k}` : k
     if (v && typeof v === 'object') flattenMessages(v, key, out)
-    else out[key] = String(v)
+    // a null list item in a market pack is the language's own item (lib/i18n/merge.ts), not a text
+    else if (v !== null) out[key] = String(v)
   }
   return out
 }

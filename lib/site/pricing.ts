@@ -1,4 +1,4 @@
-import type { Market } from '@/lib/markets'
+import { MARKET_CONFIG, MARKETS, type Market } from '@/lib/markets'
 
 /**
  * Each market's price list: a month of each plan, excluding VAT, in the market's currency. Norway's
@@ -13,8 +13,10 @@ export const PLAN_PRICES = {
 } as const
 export type PriceList = (typeof PLAN_PRICES)[keyof typeof PLAN_PRICES]
 
-/** Which list an organisation in each market pays by */
-export const PRICE_MARKET: Record<Market, keyof typeof PLAN_PRICES> = { no: 'no', se: 'no', gb: 'gb', de: 'no' }
+/** Which list an organisation in each market pays by (lib/markets.ts MarketConfig.prices) */
+export const PRICE_MARKET: Record<Market, keyof typeof PLAN_PRICES> = Object.fromEntries(
+  MARKETS.map((m) => [m, MARKET_CONFIG[m].prices]),
+) as Record<Market, keyof typeof PLAN_PRICES>
 
 export const planPrices = (market: Market): PriceList => PLAN_PRICES[PRICE_MARKET[market]]
 

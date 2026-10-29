@@ -1,6 +1,6 @@
 import type { Locale } from '@/lib/i18n/locales'
 import type { Brand } from '@/lib/brand'
-import { DEFAULT_MARKET, MARKET_LANGS, type Market } from '@/lib/markets'
+import { DEFAULT_MARKET, MARKET_CONFIG, MARKET_LANGS, type Market } from '@/lib/markets'
 import { EMPVIBE_ARTICLES } from '@/lib/marketing/articles-empvibe'
 
 /**
@@ -23,6 +23,9 @@ import { EMPVIBE_ARTICLES } from '@/lib/marketing/articles-empvibe'
  * longer here (D-230).
  */
 export const MAIN_HOST = 'www.orgpuls.com'
+
+/** A market's own site's host as the market registry names it (lib/markets.ts MarketConfig.site) */
+const registryHost = (market: Market): string => new URL(MARKET_CONFIG[market].site!.url).host
 export const EN_HOST = process.env.EN_HOST?.trim().toLowerCase() || 'en.orgpuls.com'
 
 export const MAIN_URL = `https://${MAIN_HOST}`
@@ -76,16 +79,18 @@ const NORWAY_LANGS: readonly Locale[] = MARKET_LANGS.no
  * as EN_HOST does the English one. The product opens in Swedish and offers English beside it; the
  * site's own pages are Sweden's, in Swedish (SE-F, D-276).
  */
-export const SE_HOST = process.env.SE_HOST?.trim().toLowerCase() || 'se.orgpuls.com'
+export const SE_HOST = process.env.SE_HOST?.trim().toLowerCase() || registryHost('se')
 export const SE_URL = `https://${SE_HOST}`
 
 /**
- * The pages Sweden's site serves, by route (SE-F, D-276): the product, the use cases, the argument,
- * the law (arbetsmiljölagen, AFS 2023:1 and AFS 2023:2), skyddsombud, small businesses, security,
- * contact and the privacy notice. Not the prices or the terms, which wait on Sweden's own (SE-E),
- * and not the industries, the articles, the templates or the demo, which are written for Norway.
+ * The pages a market of Orgpuls's own outside Norway serves on its own site, by route (SE-F, D-276;
+ * DE-F, D-291): the product, the use cases, the argument, the law, the safety representative's role
+ * (skyddsombud, the Betriebsrat), small businesses, security, contact and the privacy notice. Not the
+ * prices or the terms, which wait on each market's own (SE-E, DE-E), and not the industries, the
+ * articles, the templates or the demo, which are written for Norway. One list, so a page added for
+ * these markets is added once; a market that serves more names its own, as Empvibe's does.
  */
-export const SE_PAGES = [
+const COUNTRY_PAGES = [
   '/',
   '/plattform',
   '/bruksomrader',
@@ -97,6 +102,9 @@ export const SE_PAGES = [
   '/kontakt',
   '/personvernerklaering',
 ] as const
+
+/** The pages Sweden's site serves, by route (SE-F, D-276): the country pages, in Swedish for Swedish law */
+export const SE_PAGES = COUNTRY_PAGES
 
 /**
  * Their addresses in Swedish, and the sign-in's and sign-up's (D-276). /plattform and /kontakt are
@@ -123,28 +131,11 @@ const SE_PATHS: Readonly<Record<string, string>> = {
  * Built behind `DE_SITE=open` with the host reserved (D-258, D-291) until Tor opened it on 2026-10-29
  * («open de.orgpuls.com», X-116, D-293): served since, like Sweden's, with no switch.
  */
-export const DE_HOST = process.env.DE_HOST?.trim().toLowerCase() || 'de.orgpuls.com'
+export const DE_HOST = process.env.DE_HOST?.trim().toLowerCase() || registryHost('de')
 export const DE_URL = `https://${DE_HOST}`
 
-/**
- * The pages Germany's site serves, by route (DE-F, D-291): the same ten as Sweden's — the product, the
- * use cases, the argument, the law (the Gefährdungsbeurteilung of psychological load, §§ 3, 5 and 6
- * ArbSchG), the Betriebsrat, small businesses, security, contact and the privacy notice. Not the
- * prices or the terms, which wait on Germany's own (DE-E), and not the industries, the articles, the
- * templates or the demo, which are written for Norway.
- */
-export const DE_PAGES = [
-  '/',
-  '/plattform',
-  '/bruksomrader',
-  '/hvorfor',
-  '/lovkrav',
-  '/verneombud',
-  '/smaa-bedrifter',
-  '/sikkerhet',
-  '/kontakt',
-  '/personvernerklaering',
-] as const
+/** The pages Germany's site serves, by route (DE-F, D-291): the country pages, in German for German law */
+export const DE_PAGES = COUNTRY_PAGES
 
 /**
  * Their addresses in German, and the sign-in's and sign-up's (D-291). /plattform and /kontakt are
@@ -168,7 +159,7 @@ const DE_PATHS: Readonly<Record<string, string>> = {
 export const DE_SITE: Site = {
   host: DE_HOST,
   url: DE_URL,
-  brand: 'orgpuls',
+  brand: MARKET_CONFIG.de.brand,
   market: 'de',
   lang: 'de',
   pinned: false,
@@ -180,7 +171,7 @@ export const DE_SITE: Site = {
  * Empvibe's site, the United Kingdom's (X-111, UK-E, D-270): www.empvibe.com, with the bare domain
  * as its alias. EMPVIBE_HOST overrides the address, as EN_HOST does the English one.
  */
-export const EMPVIBE_HOST = process.env.EMPVIBE_HOST?.trim().toLowerCase() || 'www.empvibe.com'
+export const EMPVIBE_HOST = process.env.EMPVIBE_HOST?.trim().toLowerCase() || registryHost('gb')
 export const EMPVIBE_URL = `https://${EMPVIBE_HOST}`
 
 /**
@@ -232,7 +223,7 @@ const EMPVIBE_PATHS: Readonly<Record<string, string>> = {
 const EMPVIBE_SITES: readonly Site[] = [EMPVIBE_HOST, 'empvibe.com'].map((host) => ({
   host,
   url: EMPVIBE_URL,
-  brand: 'empvibe',
+  brand: MARKET_CONFIG.gb.brand,
   market: 'gb',
   lang: 'en',
   pinned: true,
@@ -241,21 +232,22 @@ const EMPVIBE_SITES: readonly Site[] = [EMPVIBE_HOST, 'empvibe.com'].map((host) 
 }))
 
 export const SITES: readonly Site[] = [
-  { host: MAIN_HOST, url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
-  { host: 'orgpuls.com', url: MAIN_URL, brand: 'orgpuls', market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
+  { host: MAIN_HOST, url: MAIN_URL, brand: MARKET_CONFIG.no.brand, market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
+  { host: 'orgpuls.com', url: MAIN_URL, brand: MARKET_CONFIG.no.brand, market: 'no', lang: 'no', pinned: false, langs: NORWAY_LANGS },
   // Sweden's site of its own (SE-F, D-276): its pages in Swedish, the product in Swedish or English
   {
     host: SE_HOST,
     url: SE_URL,
-    brand: 'orgpuls',
+    brand: MARKET_CONFIG.se.brand,
     market: 'se',
     lang: 'sv',
     pinned: false,
     langs: MARKET_LANGS.se,
     own: { key: 'se', pages: SE_PAGES, paths: SE_PATHS },
   },
-  // Germany's site of its own (DE-F, D-291; open since D-293): its pages in German, the product in German or English
-  DE_SITE,
+  // Germany's site of its own (DE-F, D-291; open since DE-G, X-116): its pages in German, the product in
+  // German or English; served while the market registry says it is open (lib/markets.ts MarketConfig.site)
+  ...(MARKET_CONFIG.de.site?.open ? [DE_SITE] : []),
   ...EMPVIBE_SITES,
 ]
 
@@ -314,7 +306,7 @@ export const MOVED_HOSTS: readonly string[] = [EN_HOST]
  * (`toEnglish`), temporarily (307), so the day the market opens, its own site takes over (hostGate,
  * D-258). de.orgpuls.com was the one such host, from X-110 until DE-G opened it (D-293); none today.
  */
-export const RESERVED_HOSTS: readonly string[] = []
+export const RESERVED_HOSTS: readonly string[] = MARKET_CONFIG.de.site?.open ? [] : [DE_HOST]
 
 /** The production hosts of the product and the public site. */
 export const PUBLIC_HOSTS: readonly string[] = SITES.map((s) => s.host)
@@ -454,6 +446,35 @@ function ownSite(site: Site & { own: NonNullable<Site['own']> }, path: string, p
   const alias = own.paths[path]
   if (alias && serves(path)) return { noindex: false, redirect: alias, canonical: true as const, ...lang }
   return publicPath && !serves(path) ? notServed : { noindex: false, redirect: null, ...lang }
+}
+
+/**
+ * The request header the middleware names the host a request is answered as (lib/site/host.ts
+ * `requestHost`): the host itself, or on a host that is not a site, the site a preview chose
+ * (`effectiveHost`). Set on every request the middleware passes on and deleted from what the visitor
+ * sent, so a page reads one host, the one the gate decided on, never a value from outside.
+ */
+export const SITE_HOST_HEADER = 'x-orgpuls-site-host'
+
+/** The cookie a preview's or a local build's choice of site is kept in (`?site=se`, `?site=off`) */
+export const PREVIEW_SITE_COOKIE = 'orgpuls-site'
+
+/**
+ * The host a request is answered as. A production host is always itself: a site, a moved host or a
+ * reserved one never takes a choice from the visitor. A host that is none of these (a Vercel preview,
+ * localhost, the CI stack) shows Norway's site, as before, unless the request chose another site by
+ * its market (`?site=se`, kept in PREVIEW_SITE_COOKIE): then it is answered as that site's host, so a
+ * preview, an end-to-end run or a screenshot can show Sweden's, Germany's or
+ * Empvibe's site without its domain. Off on a production deployment whatever the host.
+ */
+export function effectiveHost(
+  host: string | null | undefined,
+  choice: string | null | undefined,
+  production = process.env.VERCEL_ENV === 'production',
+): string | null {
+  const name = hostOf(host)
+  if (!choice || production || siteOf(name) || MOVED_HOSTS.includes(name) || RESERVED_HOSTS.includes(name)) return host ?? null
+  return SITES.find((s) => s.market === choice)?.host ?? host ?? null
 }
 
 /**

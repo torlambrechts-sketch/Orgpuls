@@ -21,7 +21,7 @@ import { localeRegistry } from '../lib/locales.mjs'
 const REF = process.env.SUPABASE_PROJECT_REF ?? 'jmhhszsnjfqgclxzhciq'
 const TOKEN = process.env.SB_MCP_PAT ?? process.env.SUPABASE_ACCESS_TOKEN
 const FUNCTIONS = ['orgpuls-dispatch', 'orgpuls-auth-mail', 'orgpuls-mail-events', 'orgpuls-entra-sync', 'orgpuls-teams-bot']
-const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/survey-texts.ts', '_shared/entra.ts', '_shared/teams.ts', '_shared/slack.ts', '_shared/lead-copy.ts', '_shared/messages.gen.ts']
+const SHARED = ['_shared/markets.ts', '_shared/brand-name.ts', '_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/survey-texts.ts', '_shared/entra.ts', '_shared/teams.ts', '_shared/slack.ts', '_shared/lead-copy.ts', '_shared/messages.gen.ts']
 const ROOT = 'supabase/functions'
 
 const mail = (lang) => JSON.parse(readFileSync(`messages/${lang}.json`, 'utf8')).mail
@@ -51,6 +51,9 @@ writeFileSync(
     `export const SURVEY_ONLY: string[] = ${JSON.stringify(localeRegistry().filter((l) => l.survey && l.surveyTexts === 'registry').map((l) => l.code))}\n` +
     `export const SURVEY_SOURCE: { ui: Record<string, string>; mail: Record<string, string> } = ${readFileSync('lib/i18n/survey-source.json', 'utf8').trim()}\n`,
 )
+
+// the market registry's copy the functions read (supabase/functions/_shared/markets.ts), from lib/markets.ts
+execFileSync('npx', ['tsx', 'scripts/markets/edge.ts'], { stdio: 'inherit' })
 
 execFileSync('npx', ['-y', 'deno', 'check', '--config', `${ROOT}/deno.json`, ...FUNCTIONS.map((f) => `${ROOT}/${f}/index.ts`)], { stdio: 'inherit' })
 if (process.argv.includes('--check')) process.exit(0)

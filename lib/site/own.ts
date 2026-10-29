@@ -1,12 +1,12 @@
 import 'server-only'
-import { headers } from 'next/headers'
 import { cache } from 'react'
-import { BRANDS } from '@/lib/brand'
+import { BRANDS, DEFAULT_BRAND } from '@/lib/brand'
 import { flag, FLAG_NAMES, type FlagName } from '@/lib/flags'
-import { addressOf, siteOf, type Site } from '@/lib/hosts'
+import { addressOf, type Site } from '@/lib/hosts'
 import { registryTexts, type Locale } from '@/lib/i18n/locales'
 import { SHOTS, SITE_SHOTS } from '@/lib/marketing/shots'
 import { articlesOf, type SiteArticles } from '@/lib/marketing/site-articles'
+import { requestSite } from '@/lib/site/host'
 
 /**
  * The site of its own this request is on (D-270, lib/hosts.ts `Site.own`): Empvibe's, open since
@@ -29,12 +29,15 @@ export type OwnSite = {
 }
 
 export const ownSite = cache(async (): Promise<OwnSite | null> => {
-  const site = siteOf((await headers()).get('host'))
+  const site = await requestSite()
   if (!site?.own) return null
   const own = site as OwnSite['site']
   const address = (href: string) => addressOf(own.own.paths, href)
   return { site: own, name: BRANDS[site.brand].name, address, absolute: (href) => `${site.url}${address(href)}` }
 })
+
+/** The address this site's readers write to: its brand's (lib/brand.ts BRANDS `support`) */
+export const siteSupport = async (): Promise<string> => BRANDS[(await ownSite())?.site.brand ?? DEFAULT_BRAND].support
 
 /** Whether this site serves the route (a site of its own serves its list; Norway's hosts every page) */
 export const serves = (own: OwnSite | null, route: string) => !own || (own.site.own.pages as readonly string[]).includes(route)

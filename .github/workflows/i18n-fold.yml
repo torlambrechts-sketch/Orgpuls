@@ -59,9 +59,14 @@ jobs:
 
       - name: Check the folded files
         if: steps.diff.outputs.changed == 'true'
+        # a folded bokmål text leaves its translations behind (scripts/i18n/stale.mjs): listed in the pull
+        # request rather than failing here, so the request is opened and the translations follow in it
+        env:
+          I18N_STALE: report
         run: |
           npm ci
           npm run -s verify:i18n
+          { echo; echo '### Translations to update'; echo '```'; node scripts/i18n/stale.mjs 2>&1 | tail -n 60; echo '```'; } >> "$RUNNER_TEMP/fold.md"
           npx vitest run tests/unit/platform-package.test.ts tests/unit/site-sheet.test.ts tests/unit/plurals.test.ts
 
       - name: Open or update the pull request

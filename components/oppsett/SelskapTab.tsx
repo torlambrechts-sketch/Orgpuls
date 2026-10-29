@@ -9,7 +9,7 @@ import { BhtField } from '@/components/oppsett/BhtField'
 import { IndustryForm } from '@/components/oppsett/IndustryForm'
 import { LogoCard } from '@/components/oppsett/LogoCard'
 import { INDUSTRIES_IN_ORDER, resolveIndustry } from '@/content/industries/meta'
-import { isLocale } from '@/lib/i18n/locales'
+import { contentLang, isLocale } from '@/lib/i18n/locales'
 import { DEFAULT_MARKET, isMarket, MARKET_LANGS, REGISTRY_LOOKUP } from '@/lib/markets'
 import { committeeDuty, healthServiceDuty, LEGAL_PACKS } from '@/lib/legal/pack'
 import { getUsableModuleKeys } from '@/lib/modules/read'
@@ -62,7 +62,8 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
     key: c.industry_key,
     suggestedAtChoice: c.industry_suggested,
   })
-  const lang = locale === 'en' ? 'en' : 'no'
+  // the industries are named in bokmål and English; every other language reads English (contentLang)
+  const lang = contentLang(locale)
   const industryName = (i: { label: { no: string; en: string } }) =>
     i.label[lang].charAt(0).toLocaleUpperCase(locale) + i.label[lang].slice(1)
 

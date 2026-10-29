@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { z } from 'zod'
-import type { Market } from '@/lib/markets'
+import { MARKET_CONFIG, MARKETS, type Market } from '@/lib/markets'
 
 /**
  * The data processing agreement (databehandleravtale, D-87): its words are messages
@@ -40,7 +40,7 @@ export type DpaMarket = keyof typeof DPA_IN_FORCE
  * The agreement an organisation in each market signs: its market's own where one is published, else
  * Norway's. Mirrors app.dpa_market (0226), which public.sign_dpa signs by.
  */
-export const DPA_MARKET: Record<Market, DpaMarket> = { no: 'no', se: 'no', gb: 'gb', de: 'no' }
+export const DPA_MARKET: Record<Market, DpaMarket> = Object.fromEntries(MARKETS.map((m) => [m, MARKET_CONFIG[m].dpa])) as Record<Market, DpaMarket>
 
 /** The version in force for an organisation in `market`, and its hash */
 export function dpaInForce(market: Market): { version: string; sha256: string } {

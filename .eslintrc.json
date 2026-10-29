@@ -1,11 +1,39 @@
 {
   "root": true,
-  "extends": ["next/core-web-vitals"],
+  "extends": [
+    "next/core-web-vitals"
+  ],
   "ignorePatterns": [
     "design-reference/**",
     ".next/**",
     "node_modules/**",
     "artifacts/**",
     ".playwright-mcp/**"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "app/(marketing)/**/*.tsx",
+        "components/marketing/**/*.tsx",
+        "components/site/**/*.tsx",
+        "components/industry/**/*.tsx"
+      ],
+      "excludedFiles": [
+        "components/site/SitePaths.tsx"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "next/link",
+                "message": "The public site links through '@/components/site/SitePaths' (SiteLink), which draws each route at the site's own address (lib/hosts.ts addressOf, D-270) and makes a link that changes the page's language a page load (D-276)."
+              }
+            ]
+          }
+        ]
+      }
+    }
   ]
 }

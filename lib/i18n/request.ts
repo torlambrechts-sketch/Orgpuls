@@ -1,5 +1,6 @@
 import { cookies, headers } from 'next/headers'
-import { PAGE_LANG_HEADER, siteOf } from '@/lib/hosts'
+import { PAGE_LANG_HEADER } from '@/lib/hosts'
+import { requestSite } from '@/lib/site/host'
 import { getRequestConfig } from 'next-intl/server'
 import { brandOf, rebrand, type Brand } from '@/lib/brand'
 import type { Market } from '@/lib/markets'
@@ -11,12 +12,10 @@ import { registryOverlay } from './registry-overlay'
 import { surveyTexts } from './survey-texts'
 import { keyedMessages } from './keyed'
 import { pseudoMessages } from './pseudo'
+import { mergeMessages, type Tree } from './merge'
 
-type Tree = { [k: string]: unknown }
-const isTree = (v: unknown): v is Tree => !!v && typeof v === 'object' && !Array.isArray(v)
-/** b over a, key by key: a string missing from b is taken from a */
-const merge = (a: Tree, b: Tree): Tree =>
-  Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, isTree(a[k]) && isTree(b[k]) ? merge(a[k], b[k]) : (b[k] ?? a[k])]))
+/** b over a (lib/i18n/merge.ts): key by key, a list of the same length item by item */
+const merge = mergeMessages
 
 /**
  * A locale's catalogue, over the ones it falls back to (lib/i18n/locales.ts `fallback`, the
@@ -88,7 +87,7 @@ export default getRequestConfig(async ({ locale: asked }) => {
     const market = await requestMarket()
     return {
       locale: asked,
-      messages: await loadMessages(asked, market, brandOf(market), siteOf((await headers()).get('host'))?.market ?? market),
+      messages: await loadMessages(asked, market, brandOf(market), (await requestSite())?.market ?? market),
       getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
     }
   }
@@ -96,7 +95,7 @@ export default getRequestConfig(async ({ locale: asked }) => {
   // site of its own's page, written in that language only (Sweden's, D-276; the middleware names it);
   // elsewhere the visitor's choice, then the site's language, then Norwegian
   const head = await headers()
-  const site = siteOf(head.get('host'))
+  const site = await requestSite()
   const ownPage = !!site?.own && head.get(PAGE_LANG_HEADER) === site.lang
   const chosen = (await cookies()).get(LOCALE_COOKIE)?.value
   const locale = site?.pinned || ownPage ? site!.lang : isLocale(chosen) ? chosen : (site?.lang ?? DEFAULT_LOCALE)

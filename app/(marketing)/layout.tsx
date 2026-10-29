@@ -2,20 +2,20 @@ import type { Metadata } from 'next'
 import Link from '@/components/site/SitePaths'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { marketOfHost, PAGE_LANG_HEADER, siteLangs } from '@/lib/hosts'
+import { hostOf, marketOfHost, PAGE_LANG_HEADER, PUBLIC_HOSTS, siteLangs } from '@/lib/hosts'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
 import { SiteHeader } from '@/components/site/v3/SiteHeader'
 import { FOOTERS, OWN_FOOTERS, OWN_NAV, SITE_NAV, type FooterId } from '@/lib/site/nav'
 import { SitePathsProvider } from '@/components/site/SitePaths'
-import { ownSite, serves } from '@/lib/site/own'
+import { ownSite, serves, siteSupport } from '@/lib/site/own'
 import { industryLinks } from '@/lib/site/industries'
 import { INDUSTRY_META } from '@/content/industries/meta'
-import { CONTACT_MAIL } from '@/lib/marketing/site'
 import { siteIndexing } from '@/lib/site/indexing'
 import { siteNotice } from '@/lib/site/notice'
 import { contentLang } from '@/lib/i18n/locales'
+import { requestHost } from '@/lib/site/host'
 
 /**
  * The public chrome (D-190): design-reference/orgpuls/nettside-v3, the mint top band with the
@@ -40,7 +40,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
   // of its own's pages have none: they are written in its one language (D-270, D-276). On Sweden's,
   // signing in and up keep the reader's choice, Swedish or English, and the switch is there
   const head = await headers()
-  const host = head.get('host')
+  const host = await requestHost()
   // a site of its own (D-270): its menu, its footer, its addresses; no industries, no demo, one language.
   // Its menu and footer link only to the pages it serves: Sweden's has no prices or terms yet (D-276)
   const own = await ownSite()
@@ -49,7 +49,9 @@ export default async function MarketingLayout({ children }: { children: React.Re
     .filter((i) => linked(i.href))
     .map((i) => (i.children ? { ...i, children: i.children.filter((c) => linked(c.href)) } : i))
   const footers = own ? OWN_FOOTERS : FOOTERS
-  const industries = own ? [] : await industryLinks()
+  // what a site shows follows from the pages it serves, not from which site it is: industries and the
+  // demo only where /bransjer and /demo are served (Norway's hosts today)
+  const industries = serves(own, '/bransjer') ? await industryLinks() : []
   // Bransjer's column links to the cards /bransjer shows in this language: on English only the
   // industries with an English page have one, so a link to any other card would land nowhere
   const shown = new Set(industries.map((i) => INDUSTRY_META.find((m) => `/${m.slug}` === i.href)?.anchor))
@@ -71,14 +73,17 @@ export default async function MarketingLayout({ children }: { children: React.Re
     ]),
   ) as FooterData
 
+  // the address the site's readers write to: its brand's (lib/brand.ts BRANDS `support`)
+  const support = await siteSupport()
   // the site notice (0123): only while it is switched on (the platform's settings.set_notice)
   const notice = await siteNotice(contentLang(await getLocale()))
 
   return (
     <SitePathsProvider paths={own?.site.own.paths} market={marketOfHost(host)} pages={pinnedPages}>
       <div className="min-h-screen bg-bg font-site text-[14px] text-ink">
-        {/* the site's own visit counting, in Sentral (D-248): renders nothing */}
-        <SiteBeacon />
+        {/* the site's own visit counting, in Sentral (D-248): renders nothing. Counted on the production
+            host the request really came to, never a preview showing another site (lib/hosts.ts effectiveHost) */}
+        <SiteBeacon counted={PUBLIC_HOSTS.includes(hostOf(head.get('x-forwarded-host') ?? head.get('host')))} paths={own?.site.own.paths} />
         {/* G-01: the first thing a keyboard reaches; drawn as the header's button while focused */}
         <a
           href="#innhold"
@@ -100,7 +105,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           }))}
           label={t('navLabel')}
           menu={t('menu')}
-          demo={own ? undefined : t('demo')}
+          demo={serves(own, '/demo') ? t('demo') : undefined}
           signIn={t('signIn')}
           cta={t('getStarted')}
         />
@@ -118,7 +123,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
             year: new Date().getFullYear(),
             // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)
             mail: (chunks) => (
-              <a href={`mailto:${CONTACT_MAIL}`} className="text-inherit underline underline-offset-2 hover:text-ink">
+              <a href={`mailto:${support}`} className="text-inherit underline underline-offset-2 hover:text-ink">
                 {chunks}
               </a>
             ),

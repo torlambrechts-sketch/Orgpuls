@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
+import { mergeMessages } from '@/lib/i18n/merge'
 import { addressOf, EMPVIBE_PAGES, siteOf } from '@/lib/hosts'
 import { EMPVIBE_ARTICLE_GROUPS, EMPVIBE_ARTICLES, EMPVIBE_LANDING_ARTICLES, EMPVIBE_QUESTIONS_ARTICLE } from '@/lib/marketing/articles-empvibe'
 import { Blocks, plain, Sources, type Block } from '@/lib/marketing/blocks'
@@ -26,6 +27,8 @@ type Tree = { [k: string]: unknown }
 const read = (path: string) => JSON.parse(readFileSync(path, 'utf8')) as Tree
 const at = (tree: unknown, key: string): unknown => key.split('.').reduce<unknown>((o, p) => (o as Tree | undefined)?.[p], tree)
 const gb = read('messages/market/gb/en.json')
+// what Empvibe's site shows: the gb pack over English (lib/i18n/merge.ts), the pack holding only what differs
+const shown = mergeMessages(read('messages/en.json'), gb)
 const words = (key: string) => at(gb, `seo.articles.${key}`) as Tree
 
 /** The pages a UK article may cite: the law and the bodies that state it, never a commentator */
@@ -175,9 +178,9 @@ describe('Empvibe’s articles: the words (UK-H, D-278)', () => {
       expect(Blocks.safeParse(w.blocks).success, `${a.slug} blocks`).toBe(true)
       expect(Sources.safeParse(w.sources).success, `${a.slug} sources`).toBe(true)
     }
-    for (const field of ['title', 'description', 'crumb', 'eyebrow', 'h1', 'lead']) expect(at(gb, `seo.index.${field}`), field).toEqual(expect.any(String))
+    for (const field of ['title', 'description', 'crumb', 'eyebrow', 'h1', 'lead']) expect(at(shown, `seo.index.${field}`), field).toEqual(expect.any(String))
     for (const g of EMPVIBE_ARTICLE_GROUPS)
-      for (const field of ['title', 'text']) expect(at(gb, `seo.index.groups.${g}.${field}`), `${g} ${field}`).toEqual(expect.any(String))
+      for (const field of ['title', 'text']) expect(at(shown, `seo.index.groups.${g}.${field}`), `${g} ${field}`).toEqual(expect.any(String))
     // what an article's foot says of its sources: the UK's own law and bodies, not Norway's
     expect(String(at(gb, 'seo.common.disclaimer'))).toMatch(/legislation\.gov\.uk|HSE/)
   })

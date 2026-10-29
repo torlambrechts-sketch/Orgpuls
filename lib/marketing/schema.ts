@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { PLAN_PRICES, planPrices, yearly, type PriceList } from '@/lib/site/pricing'
 import { ownSite, serves } from '@/lib/site/own'
 import { siteTag } from '@/lib/hosts'
+import { BRANDS } from '@/lib/brand'
 
 /**
  * The site a page's schema.org objects describe: Orgpuls on Norway's hosts, or a site of its own
@@ -20,6 +21,8 @@ export type SiteLd = {
   languages: readonly string[]
   /** a site of its own's pages' language (BCP 47): en-GB, sv-SE; null on Norway's, which says it per page */
   tag: string | null
+  /** the address its readers write to: its brand's (lib/brand.ts BRANDS `support`) */
+  support: string
   /** the prices the site publishes, and its plans' names as its price page shows them; null where it publishes none */
   offers: { prices: PriceList; names: { free: string; small: string; usual: string } } | null
 }
@@ -31,6 +34,7 @@ export const ORGPULS_LD: SiteLd = {
   areaServed: 'NO',
   languages: ['nb', 'en'],
   tag: null,
+  support: BRANDS.orgpuls.support,
   offers: { prices: PLAN_PRICES.no, names: { free: 'Gratis', small: 'Liten', usual: 'Vanlig' } },
 }
 
@@ -52,6 +56,7 @@ export async function siteLd(): Promise<SiteLd> {
     // the languages its pages are in: its own one (D-276)
     languages: [siteTag(own.site)],
     tag: siteTag(own.site),
+    support: BRANDS[own.site.brand].support,
     offers: serves(own, '/priser') ? await offers() : null,
   }
 }
@@ -83,12 +88,12 @@ export const organization = (site: SiteLd = ORGPULS_LD) => ({
   address: { '@type': 'PostalAddress', streetAddress: 'Øvre Prinsdals vei 36L', postalCode: '1266', addressLocality: 'Oslo', addressCountry: 'NO' },
   url: site.url,
   logo: site.absolute('/apple-icon.png'),
-  email: 'hjelp@orgpuls.no',
+  email: site.support,
   areaServed: site.areaServed,
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer support',
-    email: 'hjelp@orgpuls.no',
+    email: site.support,
     url: site.absolute('/kontakt'),
     availableLanguage: site.languages,
   },

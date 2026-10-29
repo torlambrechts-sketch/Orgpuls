@@ -387,8 +387,7 @@
       }
     },
     "org": {
-      "number": "Company number",
-      "leadManual": "Check the name the organisation is shown with."
+      "number": "Company number"
     }
   },
   "plan": {
@@ -404,37 +403,13 @@
       "h1": "From stress risk assessment to a tool for managers.",
       "sections": [
         {
-          "eyebrow": "No HR department",
-          "short": "Managing director, 20 staff, no HR",
-          "h": "A managing director, 20 employees, no HR department",
-          "p": "The simple view gives you one page: what people are happy with, what drags things down and three things to do now. Tuva, the assistant, shows what is left before you are up and running, and help is on every page.",
           "ticks": [
-            "A managing director with fewer than 50 employees gets the simple view automatically",
-            "Paste in your staff or upload a CSV – no HR system needed",
+            null,
+            null,
             "The wizard takes you from sign-up to a planned send-out in about 20 minutes"
-          ],
-          "card": {
-            "title": "Do this now",
-            "meta": "Overview · simple view",
-            "rows": [
-              {
-                "title": "A fixed reply to incident reports within five days",
-                "sub": "{factor} · due 15 Oct"
-              },
-              {
-                "title": "A priorities meeting every Monday",
-                "sub": "{factor} · owner: you · due 1 Nov"
-              },
-              {
-                "title": "Two anonymous comments waiting for a reply",
-                "sub": "Comments · waiting 6 days"
-              }
-            ]
-          },
-          "caption": "People find meaning in their work. What drags things down is freedom to speak up and workload."
+          ]
         },
         {
-          "eyebrow": "Annual survey",
           "short": "The annual survey, set up in an hour",
           "h": "The annual stress survey, set up in an hour",
           "p": "One main survey a year can form part of your stress risk assessment and sets the baseline you measure everything else against. The questions are ready, the threshold is set, and Empvibe produces the written record.",
@@ -443,40 +418,10 @@
             "Your health and safety representative, if you have one, is told 2 days before the send-out",
             "Reminders go out automatically, and the round closes after 14 days",
             "A risk assessment per factor, ready for your written record"
-          ],
-          "card": {
-            "title": "Year wheel 2026",
-            "meta": "1 main survey · 3 pulses"
-          },
-          "caption": "A main survey in September gives you results before the autumn's budget and action planning."
+          ]
         },
+        null,
         {
-          "eyebrow": "Pulses between surveys",
-          "short": "See whether the measures work – before next year",
-          "h": "See whether the measures work – before next year",
-          "p": "The pulse asks the three statements for each factor you have put measures on, and shows whether the curve turns while there is still time to adjust.",
-          "ticks": [
-            "The pulse asks only about factors with open measures",
-            "The same wording as the main survey, so you can compare the figures",
-            "A factor drops out once its measures are closed"
-          ],
-          "card": {
-            "title": "{factor} · whole organisation",
-            "meta": "dashed line = target 60",
-            "goal": "Target 60",
-            "labels": [
-              "Base. 25",
-              "Base. 26",
-              "Pulse Dec",
-              "Pulse Mar",
-              "Pulse Jun"
-            ],
-            "sr": "Baseline 2025: 48. Baseline 2026: 41. Pulse December: 44. Pulse March: 48. Pulse June: 53. Target: 60."
-          },
-          "caption": "The measure \"a fixed reply to incident reports\" started in October. The pulses show it is working, but not enough yet."
-        },
-        {
-          "eyebrow": "Inspections and documentation",
           "short": "When an inspector asks how you assess work-related stress",
           "h": "Ready when an inspector asks how you assess work-related stress",
           "p": "The written record brings together the survey, the risk assessment and the measures, for the year and scope you choose. Nothing is filed: you keep it, and an inspector (HSE or your local authority; HSENI in Northern Ireland) may ask to see it.",
@@ -487,124 +432,36 @@
           ],
           "card": {
             "title": "Written record · 2026",
-            "meta": "PDF",
-            "done": "done",
             "rows": [
               {
                 "title": "Method and consultation",
                 "sub": "Representatives, or employees directly"
               },
+              null,
               {
-                "title": "Survey",
-                "sub": "What is going well, what drags things down"
-              },
-              {
-                "title": "Risk assessment",
                 "sub": "Significant findings, groups especially at risk"
               },
-              {
-                "title": "Measures",
-                "sub": "Owner, deadline and status"
-              }
+              null
             ]
           },
           "caption": "The record builds up as you work."
         },
+        null,
+        null,
         {
-          "eyebrow": "One team stands out",
-          "short": "When one team is having a harder time than the rest",
-          "h": "When one team is having a harder time than the rest",
-          "p": "The heat map shows team against factor. The segment profile compares one team with the rest and shows where the difference is largest – without singling out any individual.",
-          "ticks": [
-            "Groups below the limit show as a dash, administrators included",
-            "The department manager sees only their own team",
-            "Three suggested measures per factor, ready to pick"
-          ],
-          "card": {
-            "title": "Team × factor",
-            "meta": "threshold 5 answers",
-            "table": "Team and factor",
-            "short": [
-              "Voice",
-              "Load",
-              "Mgr",
-              "Role",
-              "Mean"
-            ],
-            "hidden": "hidden, under 5 answers",
-            "teams": [
-              {
-                "g": "Operations",
-                "sr": "Operations, 8 answers"
-              },
-              {
-                "g": "Project",
-                "sr": "Project, 9 answers"
-              },
-              {
-                "g": "Workshop",
-                "sr": "Workshop, 8 answers"
-              },
-              {
-                "g": "Admin",
-                "sr": "Administration, 3 answers"
-              }
-            ]
-          },
-          "caption": "Workshop and Project stand out on different factors. They are two different problems, and each needs its own measure."
-        },
-        {
-          "eyebrow": "Reorganisation and change",
-          "short": "Measure before and after a change",
-          "h": "Measure before and after a change",
-          "p": "Add an extra pulse to the year wheel 4–6 weeks after a reorganisation, a system change or a merger. Then you can see whether people know what is expected of them, and whether support from managers holds up.",
-          "ticks": [
-            "Add a pulse in any month with one click",
-            "Choose the factors affected: role clarity, conflicting demands, support from manager",
-            "Compare with the baseline from before the change"
-          ],
-          "card": {
-            "title": "{factor} · before and after",
-            "meta": "baseline against a pulse 6 weeks later",
-            "bars": [
-              "Knows what is expected · before",
-              "Knows what is expected · after",
-              "Knows where their responsibility ends · before",
-              "Knows where their responsibility ends · after"
-            ]
-          },
-          "caption": "The drop is largest on where responsibility ends. A short role map per team is a good first measure."
-        },
-        {
-          "eyebrow": "New manager",
-          "short": "An honest starting point for a new manager",
-          "h": "Give a new manager an honest starting point",
-          "p": "The baseline from before the change of manager and the pulse afterwards show how the team experiences support, role clarity and freedom to speak up. The figures are for the team as a whole – never individuals, and never the manager as a person.",
           "ticks": [
             "The team needs at least 5 answers before anything shows",
-            "Leadership-practice suggestions for most factors",
-            "The manager can reply to anonymous comments without knowing who wrote them"
-          ],
-          "card": {
-            "title": "{factor} · Project",
-            "meta": "9 answers",
-            "bars": [
-              "Gets support when the job gets demanding",
-              "The manager knows what the job involves",
-              "Can raise difficult matters"
-            ]
-          },
-          "caption": "A starting point to build on, not a grade."
+            null,
+            null
+          ]
         },
         {
           "eyebrow": "Consultation and safety committee",
-          "short": "The same figures on the table for everyone",
-          "h": "The same figures on the table for everyone",
           "p": "If you have a health and safety representative, they see the same figures and risk assessment as management, at the same time. If not, you consult employees directly. A safety committee is needed only when two union safety representatives ask in writing – no headcount rule.",
           "ticks": [
             "Your health and safety representative, if you have one, is told before every send-out",
             "You record the consultation, with representatives or employees (SRSC 1977, HSCER 1996)",
-            "No one in any role sees individual answers"
+            null
           ],
           "card": {
             "title": "Safety committee paper",
@@ -613,20 +470,15 @@
               {
                 "mark": "SRSC",
                 "title": "Union safety representative consulted on the survey",
-                "sub": "Done 3 Feb",
-                "pill": "Done"
+                "sub": "Done 3 Feb"
               },
               {
                 "mark": "HSCER",
                 "title": "Staff without a representative consulted directly",
-                "sub": "Done 5 Feb",
-                "pill": "Done"
+                "sub": "Done 5 Feb"
               },
               {
-                "mark": "Risk",
-                "title": "Two factors at high risk – measures decided",
-                "sub": "On the safety committee's agenda",
-                "pill": "Under review"
+                "sub": "On the safety committee's agenda"
               }
             ]
           },
@@ -640,116 +492,38 @@
       "crumb": "Why Empvibe",
       "lead": "One survey a year shows how people were doing in September — not whether the measures worked. With Empvibe, managers build on what works, give every finding an owner and measure the effect. Here are the choices behind it, and why.",
       "sections": [
+        null,
+        null,
         {
-          "k": "Positive focus",
-          "t": "Start with what works",
-          "d": "The summary first shows what gives people energy, then what drains it. You build on what is strong — and people are more willing to improve something when they see that the good is noticed too.",
-          "points": [
-            "The summary starts with what people enjoy",
-            "Every area gets a label — including “Good”, not just “Needs work”",
-            "Comments with a positive tone appear alongside the critical ones"
-          ],
-          "m": {
-            "title": "What people are most satisfied with",
-            "note": "baseline 2026",
-            "rows": [
-              "Recognition and meaning",
-              "Support from colleagues",
-              "Role clarity",
-              "Participation and control"
-            ],
-            "foot": "People value the meaning in their work and each other. That is a good starting point for working on speaking up."
-          }
-        },
-        {
-          "k": "Continuous follow-up",
-          "t": "One survey is a snapshot. Four are a direction.",
-          "d": "The main survey sets the baseline. Short pulses in between measure only what you are working on. Then you see whether the curve turns while there is still time to adjust — not a year later.",
-          "points": [
-            "The annual cycle sends out, reminds and notifies by itself",
-            "The pulse asks only about the factors you have open measures on",
-            "A factor drops out of the pulse when its measures are closed, so people are not asked the same thing forever"
-          ],
-          "m": {
-            "title": "Workload · Projects",
-            "note": "target 60",
-            "labels": [
-              "Baseline 25",
-              "Baseline 26",
-              "Pulse Dec",
-              "Pulse Mar",
-              "Pulse Jun"
-            ]
-          }
-        },
-        {
-          "k": "From finding to action",
-          "t": "Every finding gets an owner and a deadline",
           "d": "A figure nobody owns goes nowhere. Every measure in Empvibe is tied to a factor, has an owner and a deadline, and cannot be closed until the next survey has shown whether it worked.",
           "points": [
-            "Three suggestions per factor: workshop, routine or leadership practice",
-            "Each suggestion says which statement to measure again",
+            null,
+            null,
             "Measures carry over into your written record, for management and the safety committee if you have one"
           ],
           "m": {
-            "title": "Always reply to incident reports",
             "note": "Anne Reid · due 15 Oct",
             "steps": [
+              null,
               {
-                "t": "Proposed",
-                "d": "From the result for speaking up"
-              },
-              {
-                "t": "Decided",
                 "d": "With the health and safety representative 24 Sep"
               },
-              {
-                "t": "In progress",
-                "d": "Reply to every report within five days"
-              },
-              {
-                "t": "Effect measured",
-                "d": "Pulse in December"
-              },
-              {
-                "t": "Closed",
-                "d": "When speaking up is above 60"
-              }
+              null,
+              null,
+              null
             ]
           }
         },
         {
-          "k": "Anonymity",
-          "t": "Anonymity that cannot be switched off",
           "d": "Empvibe never links a response to a name, email or IP. Nobody sees a group until enough people have answered — not even administrators. The threshold is 5 responses and never lower; you can raise it to 10.",
           "points": [
-            "Small groups are not shown, but count towards the whole",
+            null,
             "The factors’ statements come in random order for each person",
             "Comments on a factor show only once enough have written – at least 5"
           ],
-          "src": "UK GDPR and the ICO's guidance on anonymisation",
-          "m": {
-            "title": "What the manager sees",
-            "note": "threshold 5 responses",
-            "cols": [
-              "Speak",
-              "Load",
-              "Mgr",
-              "Role",
-              "Meaning"
-            ],
-            "teams": [
-              "Operations · 8",
-              "Projects · 9",
-              "Admin · 3",
-              "Warehouse · 4"
-            ],
-            "foot": "Admin and Warehouse have too few responses. They count towards the whole, but are never shown as a row of their own."
-          }
+          "src": "UK GDPR and the ICO's guidance on anonymisation"
         },
         {
-          "k": "The research behind it",
-          "t": "Questions with research behind them",
           "d": "The questions are based on QPS Nordic, a validated Nordic questionnaire on psychological and social factors at work. The wording is locked, so you can compare year on year.",
           "points": [
             "11 factors, 3 statements each, scale 1–5, shown as an index from 0 to 100",
@@ -757,28 +531,7 @@
             "Factors mapped onto HSE's Management Standards areas — our own mapping, with Change touched by one statement only",
             "HSE's Management Standards Indicator Tool (35 statements, 7 areas) can be added as a module, unchanged"
           ],
-          "src": "QPS Nordic · Indicator Tool — Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence",
-          "m": {
-            "title": "A selection of the factors",
-            "note": "11 in total",
-            "cards": [
-              {
-                "tag": "Speaking up",
-                "t": "I can speak up about wrongdoing without fearing the consequences",
-                "meta": "3 statements"
-              },
-              {
-                "tag": "Workload",
-                "t": "My workload is manageable over time",
-                "meta": "3 statements"
-              },
-              {
-                "tag": "Role clarity",
-                "t": "I know what is expected of me in my job",
-                "meta": "3 statements"
-              }
-            ]
-          }
+          "src": "QPS Nordic · Indicator Tool — Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence"
         },
         {
           "k": "The law",
@@ -817,47 +570,17 @@
       "compare": {
         "d": "Two common alternatives are your own form in a spreadsheet and a survey module in a large HR system. Both can work. This is how they differ from Empvibe.",
         "cols": [
-          "Spreadsheet and form",
-          "Large HR system",
+          null,
+          null,
           "Empvibe"
         ],
         "rows": [
-          {
-            "k": "Time to first send-out",
-            "a": "Days",
-            "b": "Depends on the setup",
-            "c": "20 minutes"
-          },
-          {
-            "k": "Ready-made, research-based question set",
-            "a": "No",
-            "b": "Often",
-            "c": "QPS Nordic"
-          },
-          {
-            "k": "Anonymity with threshold",
-            "a": "Manual",
-            "b": "Yes",
-            "c": "Yes, for admins too"
-          },
-          {
-            "k": "Shows strengths before weaknesses",
-            "a": "No",
-            "b": "Varies",
-            "c": "Yes"
-          },
-          {
-            "k": "Suggested measures",
-            "a": "No",
-            "b": "Rarely",
-            "c": "3 per factor"
-          },
-          {
-            "k": "Checks whether measures worked",
-            "a": "No",
-            "b": "Partly",
-            "c": "Pulse on the measures"
-          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           {
             "k": "Record for your stress risk assessment",
             "a": "Manual",
@@ -876,25 +599,12 @@
         "d": "Can't find the answer? Write to us using the <link>contact form</link>. We reply personally.",
         "items": [
           {
-            "q": "Can the manager see who answered what?",
             "a": "No. Empvibe never links a response to a name, email or IP, and answers are stored in the EU. Nobody sees a group until it has at least 5 responses — your organisation can raise that to 10, never below 5 — and that applies to administrators too."
           },
-          {
-            "q": "Why not just one survey a year?",
-            "a": "One survey shows how things stood at one point in time. It doesn't tell you whether the measures worked. The pulse measures only the factors you are working on, so you see the trend without asking about everything every time."
-          },
-          {
-            "q": "Won't people get tired of answering?",
-            "a": "The pulse asks only about the factors you have open measures on, and a factor drops out once its measures are closed. What wears people out is answering without seeing anything happen — which is why everyone gets to see the measures."
-          },
-          {
-            "q": "Do we need an HR system?",
-            "a": "No. You can paste employees in, upload them as a CSV or add them by hand."
-          },
-          {
-            "q": "Can we change the questions?",
-            "a": "You can switch off a factor, but not change the wording. That is what makes the figures comparable over time."
-          },
+          null,
+          null,
+          null,
+          null,
           {
             "q": "Does this cover all our health and safety duties?",
             "a": "No. A survey can form part of your stress risk assessment (MHSWR 1999 reg 3; MHSWR (NI) 2000 in Northern Ireland), and Empvibe helps you keep the written record of its significant findings. Other duties, such as your health and safety policy and risk assessments for other hazards, are outside its scope."
@@ -912,11 +622,7 @@
       "start": {
         "title": "Set up Empvibe for your own organisation",
         "lead": "Enter your company’s name to sign up. No consultant and no kick-off meeting.",
-        "label": "Company name",
-        "placeholder": "As registered",
-        "submit": "Get started",
-        "invalid": "Enter the name of the company.",
-        "going": "Opening the sign-up for {company} …"
+        "submit": "Get started"
       },
       "getStarted": "Get started",
       "trial": "Get started",
@@ -954,7 +660,7 @@
       "respondent": {
         "p": "One topic at a time, the factor visible, comments optional – and any question can be skipped. The statements on the eleven factors come in a random order for each person, so no one can guess who answered what from when the answer came in; HSE’s Indicator Tool keeps HSE’s own order.",
         "ticks": [
-          "We never store a name, e-mail or IP address with the answer",
+          null,
           "Managers see figures only once at least 5 have answered",
           "Optional module: HSE’s Management Standards Indicator Tool, 35 statements, added unchanged. Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence",
           "Invitation by e-mail, or a QR code on the noticeboard for those without a screen at work"
@@ -963,42 +669,32 @@
       },
       "resultater": {
         "ticks": [
-          "Heat map, priority, segment profile and trend – the same figures, four questions",
-          "Groups below the limit show as «—», administrators included",
+          null,
+          null,
           "Factors are mapped onto HSE’s Management Standards areas, in the record and on each measure – the mapping is Empvibe’s own"
         ],
         "rows": [
           {
-            "mark": "41",
-            "sub": "HSE: Relationships · −7 since last year",
-            "pill": "High"
+            "sub": "HSE: Relationships · −7 since last year"
           },
           {
-            "mark": "44",
-            "sub": "HSE: Demands · −9",
-            "pill": "High"
+            "sub": "HSE: Demands · −9"
           },
           {
-            "mark": "52",
-            "sub": "HSE: Role · −6",
-            "pill": "Medium"
+            "sub": "HSE: Role · −6"
           },
           {
-            "mark": "64",
-            "sub": "HSE: Support · −5",
-            "pill": "Medium"
+            "sub": "HSE: Support · −5"
           },
           {
-            "mark": "71",
-            "sub": "HSE: Role · −2",
-            "pill": "Low"
+            "sub": "HSE: Role · −2"
           }
         ]
       },
       "kommentarer": {
         "ticks": [
-          "Grouped by factor, with the tone taken from the answer the comment belongs to",
-          "The reply reaches the person who wrote – without anyone knowing who",
+          null,
+          null,
           "A factor is shown only once at least 5 have answered"
         ]
       },
@@ -1009,34 +705,21 @@
         "ticks": [
           "Legal basis: MHSWR 1999 regs 3 and 5 in Great Britain, MHSWR (NI) 2000 in Northern Ireland",
           "Consultation with representatives, or with employees directly, is on record",
-          "Save as PDF – the data is yours"
+          null
         ],
         "use": "Use case: inspections and records",
         "card": {
-          "title": "Written record · 2026",
-          "meta": "PDF"
+          "title": "Written record · 2026"
         },
         "rows": [
           {
-            "mark": "1",
-            "title": "Method and participation",
             "sub": "Instrument · response rate · threshold"
           },
+          null,
           {
-            "mark": "3",
-            "title": "Survey",
-            "sub": "What is going well, what drags things down"
-          },
-          {
-            "mark": "4",
-            "title": "Risk assessment",
             "sub": "MHSWR 1999 reg 3 · likelihood and consequence"
           },
-          {
-            "mark": "5",
-            "title": "Measures",
-            "sub": "4 measures · 1 effect measured"
-          }
+          null
         ],
         "caption": "Yours to keep – ready when an inspector (HSE, your local authority or HSENI) asks to see it."
       },
@@ -1044,28 +727,20 @@
         "p": "Your role decides what you see. No one sees individual answers, and the threshold – at least 5 answers – applies to administrators too. The simple view gives one page; the full view gives every analysis.",
         "ticks": [
           "The managing director (or owner) sees the whole organisation and every comment",
-          "The department manager sees their own team once enough have answered",
+          null,
           "The health and safety representative, where you have one, sees the same figures and the risk assessment"
         ],
         "use": "Use case: health and safety representative",
         "rows": [
           {
-            "mark": "MD",
-            "title": "Managing director",
-            "sub": "Whole organisation · all comments · sets owner and deadline",
-            "pill": "1 day before"
+            "mark": "MD"
           },
           {
-            "mark": "DM",
-            "title": "Department manager",
-            "sub": "Own team · own comments and measures",
-            "pill": "1 day before"
+            "mark": "DM"
           },
           {
             "mark": "H&S",
-            "title": "Health and safety representative",
-            "sub": "Whole organisation · risk assessment and legal basis",
-            "pill": "2 days before"
+            "title": "Health and safety representative"
           }
         ]
       },
@@ -1074,18 +749,11 @@
         "rows": [
           {
             "title": "Microsoft Entra ID sign-in",
-            "sub": "Sign in with your Microsoft work account",
-            "pill": "Ready"
+            "sub": "Sign in with your Microsoft work account"
           },
+          null,
           {
-            "title": "CSV, a list or Entra ID",
-            "sub": "Group and role in the table, or fetched from Microsoft",
-            "pill": "Ready"
-          },
-          {
-            "title": "E-mail, QR code, Teams and Slack",
-            "sub": "The link arrives where people actually read",
-            "pill": "Ready"
+            "title": "E-mail, QR code, Teams and Slack"
           },
           {
             "title": "HR and payroll systems",
@@ -1098,10 +766,10 @@
     "contact": {
       "d": "Questions about the product, several companies in a group or help with the first send-out. We reply personally within one working day.",
       "topics": [
-        "Questions about the product",
+        null,
         "Several companies or a large organisation",
-        "Help with the first send-out",
-        "Privacy and data processing agreement"
+        null,
+        null
       ]
     },
     "home": {
@@ -1117,28 +785,17 @@
       },
       "slides": [
         {
-          "tab": "Catch it early",
           "title": "Employee wellbeing and stress surveys for small and medium-sized businesses",
-          "lead": "In a small business, every sickness absence and every resignation is felt. Empvibe surveys the psychosocial work environment anonymously and shows what to do about it – no HR department needed, and setup takes under an hour.",
-          "link": "See how it works",
-          "caption": "You see straight away what works – and what to do now."
+          "lead": "In a small business, every sickness absence and every resignation is felt. Empvibe surveys the psychosocial work environment anonymously and shows what to do about it – no HR department needed, and setup takes under an hour."
         },
         {
           "tab": "Risk assessment",
           "eyebrow": "Stress risk assessment",
           "title": "Assess work-related stress – without becoming a health and safety expert.",
           "lead": "The law requires a suitable and sufficient risk assessment, and work-related stress is part of it. A survey can form part of that assessment. Empvibe maps the results onto HSE's Management Standards areas and gives you a written record of the significant findings to keep.",
-          "link": "See what the law requires",
           "caption": "The written record builds up as you work."
         },
-        {
-          "tab": "From answers to measures",
-          "eyebrow": "From survey to measures",
-          "title": "From answers to measures – without a separate project.",
-          "lead": "The results come with three suggested measures per factor. You choose, give each measure an owner and a deadline, and the next pulse shows whether it helped. Nothing gets left in a drawer.",
-          "link": "See how measures work",
-          "caption": "Every measure has an owner, a deadline and a status."
-        }
+        null
       ],
       "law": {
         "title": "Stress risk assessment · Brackenmoor Civils Ltd",
@@ -1148,7 +805,6 @@
             "s": "Eleven factors, mapped onto the areas of HSE's Management Standards."
           },
           {
-            "t": "Risk assessment per factor",
             "s": "Low, medium or high risk – and any group especially at risk."
           },
           {
@@ -1163,44 +819,32 @@
       },
       "trust": [
         {
-          "tile": "5",
           "t": "Anonymous – at least 5 answers per group"
         },
-        {
-          "tile": "EU",
-          "t": "Answers stored in the EU"
-        },
+        null,
         {
           "tile": "✓",
           "t": "For your stress risk assessment"
         },
-        {
-          "tile": "Q",
-          "t": "Questions built on QPS Nordic"
-        }
+        null
       ],
       "challenges": {
         "lead": "The duty to assess the risk of work-related stress applies to every employer. The difference is that a small business has to get it done without its own HR, without a consultant and without spending weeks on it.",
         "solution": "With Empvibe",
         "cards": [
           {
-            "t": "No HR department",
             "p": "The managing director handles health and safety on top of sales, payroll and operations.",
             "s": "Empvibe plans, sends out and reminds people. You look it over, and the rest runs by itself."
           },
           {
-            "t": "Too few to be anonymous",
             "p": "With 12 employees, it is easy to think the manager knows who wrote what.",
             "s": "No group is shown with fewer than 5 answers. You can raise the limit, but never below 5, and never switch it off."
           },
           {
-            "t": "Unclear what the law requires",
             "p": "The regulations are written for lawyers, and an inspector may ask to see your risk assessment.",
             "s": "Empvibe maps the factors onto HSE's Management Standards areas, and the written record shows the risk for each factor."
           },
           {
-            "t": "Little time, small budget",
-            "p": "A consultant and a separate project are more than the business has room for.",
             "s": "No consultant and no separate project: the first survey is planned the same day."
           }
         ],
@@ -1225,19 +869,16 @@
         "lead": "Empvibe plans the rounds, sends them out, sends reminders and writes up the record. You spend your time on the follow-up.",
         "stats": [
           {
-            "v": "20 min",
-            "l": "from sign-up to a planned send-out"
+            "v": "20 min"
           },
           {
-            "v": "4 min",
-            "l": "to answer the main survey"
+            "v": "4 min"
           },
           {
             "v": "5 answers",
             "l": "the minimum per group – never lower"
           },
           {
-            "v": "11",
             "l": "factors, mapped onto HSE's Management Standards areas"
           }
         ],
@@ -1248,42 +889,22 @@
         "lead": "Managers, HR and the health and safety representative, where you have one, all play a part. Each role gets its own way in.",
         "cards": [
           {
-            "i": "MD",
             "t": "Managing director or owner",
-            "s": "No HR department",
             "get": [
-              "One page: what works, and what you do now",
+              null,
               "Help with the stress risk assessment, no legal reading needed",
-              "A report for the management team"
+              null
             ]
           },
-          {
-            "i": "HR",
-            "t": "HR",
-            "s": "Often the only one in the role",
-            "get": [
-              "Results by department, team and segment",
-              "Trends over the years, survey by survey",
-              "Roles and access managed in one place"
-            ]
-          },
-          {
-            "i": "DM",
-            "t": "Department manager",
-            "s": "Your own team",
-            "get": [
-              "Only your team, and only once enough have answered",
-              "Anonymous comments you can reply to",
-              "Three suggested measures, ready to choose"
-            ]
-          },
+          null,
+          null,
           {
             "i": "HS",
             "t": "Health and safety representative",
             "s": "Where you have one",
             "get": [
-              "The same figures as management, at the same time",
-              "Notice before every send-out",
+              null,
+              null,
               "The risk assessment and the measures, factor by factor"
             ]
           }
@@ -1312,51 +933,42 @@
       "free": {
         "price": "£0",
         "items": [
-          "Yearly main survey with the standard questions",
+          null,
           "Results per department and team, from 5 answers",
-          "Unlimited measures with owner and deadline",
-          "No card and no time limit"
+          null,
+          null
         ],
         "unit": "per month"
       },
       "plans": [
         {
-          "name": "Small",
           "who": "Up to 25 employees",
           "price": "£25",
-          "unit": "per month",
           "items": [
-            "All features included",
-            "Unlimited surveys and measures",
+            null,
+            null,
             "Health and safety representatives at no extra cost",
-            "Monthly with no lock-in, or yearly with two months free"
-          ],
-          "cta": "Try it free"
+            null
+          ]
         },
         {
-          "name": "Usual",
           "who": "26 to 100 employees",
           "price": "£55",
-          "unit": "per month",
           "items": [
-            "All features included",
-            "Unlimited surveys and measures",
+            null,
+            null,
             "Health and safety representatives at no extra cost",
-            "Monthly with no lock-in, or yearly with two months free"
-          ],
-          "cta": "Try it free"
+            null
+          ]
         },
         {
-          "name": "Several companies",
           "who": "Groups and over 100 employees",
-          "price": "By agreement",
           "items": [
-            "All features included",
-            "Unlimited surveys and measures",
+            null,
+            null,
             "Health and safety representatives at no extra cost",
-            "Price and terms in a separate offer"
-          ],
-          "cta": "Talk to us"
+            null
+          ]
         }
       ],
       "footnote": "All prices exclude VAT. No UK VAT is added: you account for any VAT yourself under the reverse charge. Invoiced monthly or yearly by e-mail, in pounds sterling. If you choose no plan after the trial, you carry on for free.",
@@ -1364,49 +976,35 @@
         "lead": "A business with 8 employees gets the same questions, the same written record and the same help as one with 80. No features are locked behind a more expensive plan.",
         "sizes": [
           {
-            "name": "Small",
             "range": "1–25 employees",
             "price": "£25 per month"
           },
           {
-            "name": "Usual",
             "range": "26–100 employees",
             "price": "£55 per month"
           },
           {
-            "name": "Several companies",
-            "range": "Over 100 employees",
-            "price": "By agreement"
+            "range": "Over 100 employees"
           }
         ],
         "groups": [
           {
-            "t": "Surveys",
             "items": [
-              "Main survey and pulses, as often as every month",
-              "The year wheel plans the rounds for you",
+              null,
+              null,
               "Sent by e-mail, Teams and Slack",
               "A link or QR code for people without a work e-mail"
             ]
           },
           {
-            "t": "Results",
             "items": [
               "Results by department and team, from 5 answers",
-              "Heat map and trends over time",
-              "Anonymous comments you can reply to"
+              null,
+              null
             ]
           },
+          null,
           {
-            "t": "Follow-up",
-            "items": [
-              "Three suggested measures per factor",
-              "Unlimited measures with owner and deadline",
-              "The pulse shows whether the measure worked"
-            ]
-          },
-          {
-            "t": "Documentation",
             "items": [
               "The risk for each factor, mapped onto HSE’s Management Standards areas (our own mapping)",
               "A written record ready to print or save as PDF",
@@ -1414,11 +1012,10 @@
             ]
           },
           {
-            "t": "Roles and help",
             "items": [
               "Health and safety representatives at no extra cost",
-              "Department managers see only their own team",
-              "Help from the people who build the product"
+              null,
+              null
             ]
           }
         ]
@@ -1433,54 +1030,36 @@
         "h1": "The same legal duty, different workplaces",
         "lead": "Every employer must assess the risks to employees' health and safety, work-related stress included. But what matters most, and how you reach people, varies. Here are the pages for the most common needs.",
         "blocks": [
+          null,
           {
-            "t": "h2",
-            "text": "By need"
-          },
-          {
-            "t": "links",
             "items": [
               {
                 "title": "What the law requires",
-                "text": "The stress risk assessment, the written record from five employees and consultation – and how you document them.",
-                "href": "/lovkrav"
+                "text": "The stress risk assessment, the written record from five employees and consultation – and how you document them."
               }
             ]
           },
+          null,
           {
-            "t": "h2",
-            "text": "By role"
-          },
-          {
-            "t": "links",
             "items": [
               {
                 "title": "For health and safety representatives",
-                "text": "The same figures and risk assessment as management – never anyone's individual answers.",
-                "href": "/verneombud"
+                "text": "The same figures and risk assessment as management – never anyone's individual answers."
               }
             ]
           },
+          null,
           {
-            "t": "h2",
-            "text": "By size"
-          },
-          {
-            "t": "links",
             "items": [
               {
-                "title": "Small businesses",
-                "text": "No HR department: an anonymous staff survey and a written record, set up in under an hour.",
-                "href": "/smaa-bedrifter"
+                "text": "No HR department: an anonymous staff survey and a written record, set up in under an hour."
               }
             ]
           },
           {
-            "t": "h2",
             "text": "By situation"
           },
           {
-            "t": "links",
             "items": [
               {
                 "title": "People on site without a work e-mail",
@@ -1495,8 +1074,6 @@
             ]
           },
           {
-            "t": "box",
-            "title": "Not finding yours?",
             "text": "The legal duty is the same in every industry, and Empvibe works the same way. See [how the platform fits together](/plattform), or [write to us](/kontakt)."
           }
         ]
@@ -1507,96 +1084,42 @@
         "lead": "Empvibe brings the survey, the risk assessment and its follow-up into one steady rhythm. Each part can be used on its own, but the value is in how they connect: the survey becomes measures, and the next survey shows whether they worked.",
         "blocks": [
           {
-            "t": "h2",
             "text": "Surveys"
           },
           {
-            "t": "cards",
             "items": [
               {
-                "title": "Baseline",
                 "text": "Eleven psychosocial factors with three statements each, answered on a five-point scale. The wording builds on QPS Nordic, and the factors are mapped onto the areas of HSE’s Management Standards for work-related stress – the mapping is Empvibe’s own, and Change is touched by one statement only. About four minutes per employee."
               },
               {
-                "title": "Pulse",
                 "text": "Short surveys between baselines, only on the factors where a measure is running. The pulse is not a new baseline but a measurement of whether the measure works. Under a minute."
               },
-              {
-                "title": "Your own questions",
-                "text": "Up to five of your own questions per survey, for what is particular to you. They are reported separately and never enter the index."
-              },
-              {
-                "title": "Outside the index",
-                "text": "A recommendation question, screening for offensive behaviour and for violence and threats – only as a count for the whole organisation – and an open field."
-              }
+              null,
+              null
             ]
           },
           {
-            "t": "p",
             "text": "As an optional module, HSE’s Management Standards Indicator Tool – 35 statements in seven areas – can be added unchanged, and its results are shown for each of HSE’s seven areas. Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence. The survey is sent by e-mail, Microsoft Teams or Slack, or shared as a link and a QR code. One reminder goes to those who have not answered, from the system and not the manager."
           },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           {
-            "t": "shot",
-            "id": "sporsmal"
-          },
-          {
-            "t": "h2",
-            "text": "Results"
-          },
-          {
-            "t": "p",
-            "text": "The answers become an index from 0 to 100 per factor, with a risk band: 65 or above is low risk, 50–64 medium and below 50 high. The result can be read in several ways:"
-          },
-          {
-            "t": "shot",
-            "id": "oversikt"
-          },
-          {
-            "t": "ul",
-            "items": [
-              "**Heatmap** – the factors against the departments, with the statements behind each figure",
-              "**Priority** – which factors matter most for whether people would recommend the workplace",
-              "**Segment profile, Compare and Development** – one department, two surveys, or the development over time"
-            ]
-          },
-          {
-            "t": "shot",
-            "id": "resultater"
-          },
-          {
-            "t": "p",
             "text": "A department is shown only once at least five have answered; you can raise the threshold to ten, but never lower it below five. When a department could be worked out from the others, one more is held back. Read more about [anonymity and security](/sikkerhet)."
           },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           {
-            "t": "h2",
-            "text": "Comments and conversations"
-          },
-          {
-            "t": "p",
-            "text": "Employees can write a comment on a statement. Management can reply without knowing who wrote it, and the writer can read the reply and answer back through a private link. If a manager wants to talk directly, they can ask – and the employee alone decides whether to make themselves known, by writing from their own e-mail."
-          },
-          {
-            "t": "shot",
-            "id": "kommentarer"
-          },
-          {
-            "t": "h2",
-            "text": "Measures"
-          },
-          {
-            "t": "p",
-            "text": "The findings become measures on a board, from finding to effect. Each measure has an owner, a deadline and the factor it is meant to move, and ready suggestions are there to start from. **A measure cannot be closed before its effect is measured** – the next pulse must show whether the figure has moved."
-          },
-          {
-            "t": "shot",
-            "id": "tiltak"
-          },
-          {
-            "t": "h2",
             "text": "The year wheel and the written record"
           },
           {
-            "t": "cards",
             "items": [
               {
                 "title": "The year wheel",
@@ -1608,32 +1131,18 @@
               }
             ]
           },
+          null,
+          null,
+          null,
           {
-            "t": "shot",
-            "id": "arshjul"
-          },
-          {
-            "t": "shot",
-            "id": "rapport"
-          },
-          {
-            "t": "h2",
-            "text": "Roles and access"
-          },
-          {
-            "t": "table",
-            "head": [
-              "Role",
-              "Sees"
-            ],
             "rows": [
               [
                 "Managing director (or owner)",
-                "The whole organisation, every factor and the anonymous conversations"
+                null
               ],
               [
                 "Department manager",
-                "Their own department once the threshold is met, and the conversations from it"
+                null
               ],
               [
                 "Health and safety representative",
@@ -1641,16 +1150,9 @@
               ]
             ]
           },
+          null,
+          null,
           {
-            "t": "p",
-            "text": "No role sees who answered what. That link does not exist."
-          },
-          {
-            "t": "h2",
-            "text": "Getting started"
-          },
-          {
-            "t": "p",
             "text": "Sign up with your company name; the Companies House number is optional. Add employees from a spreadsheet, one at a time or from Microsoft Entra ID, and follow the setup wizard. See the [use cases](/bruksomrader) for the situations Empvibe is built for."
           }
         ]
@@ -1659,70 +1161,34 @@
         "title": "Security, privacy and anonymity | Empvibe",
         "description": "How Empvibe keeps answers anonymous: no link to a person, at least 5 answers per group, data in the EU. What we store, and what we do not.",
         "faq": [
+          null,
           {
-            "q": "Can the employer see who answered what?",
-            "a": "No. The answer is stored in a table with no column that could link it to a person. No screen, export or query shows what a named person answered, not even for administrators."
-          },
-          {
-            "q": "What happens when a group is too small?",
             "a": "No group is shown before at least 5 have answered; a dash is shown instead. An organisation can raise the threshold to 10, but never lower it below 5. If a hidden group could be calculated from the others, one more group is hidden."
           },
           {
-            "q": "Where is the data stored?",
             "a": "On servers in the EU (Frankfurt). UK law treats the EEA as adequate for transfers (DPA 2018 Sch 21 paras 4–5). The sub-processors are Supabase, Vercel and Brevo, and Microsoft for organisations that send the survey in Teams."
           },
           {
-            "q": "Why is consent not used?",
             "a": "Because, as the Information Commission (ICO) puts it, consent is not usually appropriate in the employment context: an employee cannot freely say no to their employer. The basis we recommend is legal obligation, UK GDPR Article 6(1)(c), with the risk assessment under MHSWR 1999 reg 3 (MHSWR (NI) 2000 in Northern Ireland)."
           },
-          {
-            "q": "Are the answers used to train AI?",
-            "a": "No. We do not share answers with third parties and use no answers to train AI models."
-          }
+          null
         ],
         "blocks": [
+          null,
           {
-            "t": "h2",
-            "text": "What we store, and what we do not"
-          },
-          {
-            "t": "p",
             "text": "The register holds each employee’s name, e-mail and group. If you bring in employees from Microsoft Entra ID, the person’s object ID in the directory is stored too. The answer itself goes into a table that **has no column that could hold a link to a person**. The row shows the round, the group and the hour the answer came in – not the minute."
           },
           {
-            "t": "p",
             "text": "Empvibe recognises the invitation link by a cryptographic checksum. The invitation records that it has been used, so you get no reminder – but never the answer. No screen, export or query shows what a named person answered, not even to administrators: the information does not exist."
           },
+          null,
           {
-            "t": "timeline",
-            "items": [
-              {
-                "date": "The invitation",
-                "title": "Recognised by a checksum",
-                "text": "The link is looked up by a cryptographic checksum. The invitation only records that it has been used, so you get no reminder."
-              },
-              {
-                "date": "The answer",
-                "title": "Stored with no link to you",
-                "text": "The row shows the round, the group and the hour the answer came in. No column can hold a link to a person."
-              },
-              {
-                "date": "The result",
-                "title": "Shown only when enough have answered",
-                "text": "Figures are shown per group, and only when the group has at least as many answers as the limit."
-              }
-            ]
-          },
-          {
-            "t": "h2",
             "text": "Fewer than 5 answers show a dash – always"
           },
           {
-            "t": "p",
             "text": "No group is shown until at least 5 have answered. The database enforces the limit: you can raise it up to 10, but nobody can lower it below 5. The fewer the answers, the easier it is to recognise who said what – as the Information Commission (ICO) puts it, a person can be identifiable even if you do not know their name. A round keeps the limit it started with, so lowering the limit later never opens earlier rounds. If the figures for the other groups would reveal a hidden group, Empvibe hides one more, so nobody can work their way back to it."
           },
           {
-            "t": "ladder",
             "items": [
               {
                 "title": "At least 5 answers",
@@ -1735,74 +1201,37 @@
                 "text": "Raise the limit if your groups are large. A round keeps the limit it started with."
               },
               {
-                "title": "Up to 10 answers",
-                "ref": "Highest limit",
                 "text": "The more answers per group, the harder it is to recognise who said what."
               }
             ]
           },
+          null,
+          null,
+          null,
           {
-            "t": "h2",
-            "text": "Comments and conversations stay anonymous"
-          },
-          {
-            "t": "p",
-            "text": "A comment is shown only when the group it comes from has enough answers, and the group never travels with the comment. The writer gets a private key to the conversation; the database stores only a checksum of it. If a manager wants to talk directly, the manager can ask – but only the employee can make themselves known, by writing from their own e-mail."
-          },
-          {
-            "t": "h2",
-            "text": "The basis is a legal duty, not consent"
-          },
-          {
-            "t": "p",
             "text": "The answers are personal data under UK GDPR, even though none can be traced to a person. The basis we recommend is legal obligation: UK GDPR Article 6(1)(c), with the risk assessment under MHSWR 1999 reg 3 (MHSWR (NI) 2000 in Northern Ireland). The Information Commission (ICO) says consent is not usually appropriate in the employment context, so consent is not used. The questions are designed not to collect health data, and answers about violence, threats and offensive behaviour are shown only as counts."
           },
+          null,
           {
-            "t": "h2",
-            "text": "Stored in the EU, not passed on"
-          },
-          {
-            "t": "ul",
             "items": [
               "We store the data on servers in the EU (Frankfurt), and UK law treats the EEA as adequate for transfers (DPA 2018 Sch 21 paras 4–5)",
-              "We do not share answers with third parties, and use no answers to train AI models",
+              null,
               "A single answer cannot be retrieved or deleted on its own, because it cannot be linked to a person"
             ]
           },
           {
-            "t": "h2",
             "text": "A data processing agreement"
           },
           {
-            "t": "p",
             "text": "You are the controller and Empvibe’s provider, Pundit Invest AS, the processor, under UK GDPR Article 28. The UK version of the agreement is published before Empvibe opens in the United Kingdom; the managing director then reads and signs it under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail), and a fourth for organisations that send the survey in Teams: Microsoft (Azure Bot Service, EU)."
           },
+          null,
+          null,
+          null,
           {
-            "t": "h2",
-            "text": "Questions to ask any supplier"
-          },
-          {
-            "t": "p",
-            "text": "Anonymity is easy to promise and hard to prove. Ask these questions – of us and of others:"
-          },
-          {
-            "t": "ul",
-            "items": [
-              "Is there any column or log that could link an answer to a person – including for administrators?",
-              "How large must a group be before it is shown, and who can lower the threshold?",
-              "Can a hidden group be calculated from the total and the other groups?",
-              "Does the group come with a comment when it is shown?",
-              "Where is the data stored, and which sub-processors are used?",
-              "Are the answers used for anything else, such as training AI models?"
-            ]
-          },
-          {
-            "t": "p",
             "text": "Read more in the guidance of the Information Commission (ICO): [how do we ensure anonymisation is effective?](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/how-do-we-ensure-anonymisation-is-effective/)"
           },
           {
-            "t": "box",
-            "title": "Questions about privacy?",
             "text": "Write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). The UK’s data protection regulator is the Information Commission (ICO), at [ico.org.uk](https://ico.org.uk/)."
           }
         ]
@@ -1812,24 +1241,20 @@
         "description": "Questions about Empvibe, help with setup, or Empvibe for several companies? Write to hjelp@orgpuls.no.",
         "blocks": [
           {
-            "t": "cards",
             "items": [
               {
                 "title": "Several companies or a large organisation",
                 "text": "Running Empvibe in several companies, or across a large organisation? Tell us how you are organised. Write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Empvibe%20for%20several%20companies)."
               },
               {
-                "title": "Help with setup",
                 "text": "If you need help with the first setup, write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Help%20with%20setup) and say where you are stuck."
               },
               {
-                "title": "Privacy",
                 "text": "Questions about what we store and how: [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Privacy). See also [security and privacy](/sikkerhet)."
               }
             ]
           },
           {
-            "t": "p",
             "text": "Would you rather get started yourself? Sign up with your company’s name – then you can plan the first survey."
           }
         ]
@@ -2235,40 +1660,31 @@
       "priser": {
         "title": "Pricing: staff survey on work-related stress | Empvibe",
         "description": "Free yearly stress survey. Small £25 and Usual £55 a month excl. VAT, two months free on a yearly plan. 15 days with everything, no card.",
-        "crumb": "Pricing",
-        "kicker": "Pricing",
         "h1": "Free to start. Everything included from £25 a month.",
         "lead": "One fixed price by headcount – not per user, not per survey. Monthly with no lock-in, or yearly with two months free. Health and safety representatives cost nothing extra. 15 days with everything, then free for the main survey.",
         "blocks": [
+          null,
           {
-            "t": "plans"
-          },
-          {
-            "t": "h2",
             "text": "Included in every paid plan"
           },
           {
-            "t": "ul",
             "items": [
               "A main survey each year with pulses in between, as many rounds as you like",
               "A written record of your stress risk assessment, ready to print or save as PDF",
-              "Unlimited measures, with ready suggestions",
+              null,
               "Health and safety representatives at no extra cost",
               "No set-up fee and no lock-in"
             ]
           },
           {
-            "t": "p",
             "text": "All prices exclude VAT. No UK VAT is added: you account for any VAT yourself under the reverse charge."
           }
         ],
         "faq": [
           {
-            "q": "Is there a free version?",
             "a": "Yes. For the first 15 days you have everything, with no card. If you choose no plan, you carry on for free with the standard main survey, the results and the measures – for as long as you like, however many you are. Pulses, follow-up surveys, optional modules such as HSE’s Management Standards Indicator Tool, your own questions, comparisons with earlier rounds and the written record of the risk assessment come with Small and Usual."
           },
           {
-            "q": "What does a yearly agreement cost?",
             "a": "Ten months’ price for twelve: Small £250 and Usual £550 a year excl. VAT, invoiced a year at a time. A monthly agreement has no lock-in."
           },
           {
@@ -2288,7 +1704,6 @@
             "a": "Then the Usual plan applies, the price for 26 to 100 employees. The managing director changes the plan under Settings › Payment, and everything you have measured and all your measures come with you."
           },
           {
-            "q": "What happens to our data if we stop?",
             "a": "It is yours. While your plan includes the written record, you can print it or save it as PDF at any time, and after you cancel until the data is deleted. We delete the organisation’s data 30 days after the agreement ends, except what the law requires us to keep, such as invoices. Moving to the free plan deletes nothing."
           }
         ]
@@ -2298,9 +1713,7 @@
       "smaaBedrifter": {
         "title": "Staff wellbeing survey for small businesses | Empvibe",
         "description": "Staff wellbeing survey for small UK businesses: what the law asks about work-related stress by headcount, results only from 5 answers, set up in under an hour.",
-        "crumb": "Small businesses",
         "card": {
-          "title": "Small businesses",
           "text": "No HR department? An anonymous staff survey that can form part of your stress risk assessment."
         },
         "kicker": "For small businesses with no HR team",
@@ -2857,12 +2270,10 @@
       },
       "verneombud": {
         "card": {
-          "title": "Safety representatives",
           "text": "Health and safety representatives and employee consultation in a stress risk assessment, step by step."
         },
         "title": "Safety representatives and stress risk assessment | Empvibe",
         "description": "Health and safety representatives and employee consultation in a stress risk assessment: who they are, their part at each step, and what to do without one.",
-        "crumb": "For safety representatives",
         "kicker": "SRSC 1977 · HSCER 1996",
         "h1": "Health and safety representatives and the stress survey: consultation step by step",
         "lead": "Every employer must consult employees on health and safety, and work-related stress is part of it. Where a recognised trade union has appointed safety representatives, the employer consults them in good time; otherwise it consults employees directly or through representatives they have elected. Here is what representatives can expect at each step of a stress survey — and what to do if you have none. The responsibility stays with the employer.",
@@ -3100,9 +2511,7 @@
       }
     },
     "signup": {
-      "label": "Company name",
-      "submit": "Get started",
-      "invalid": "Enter the name of the company."
+      "submit": "Get started"
     },
     "common": {
       "priceLine": "Answers stored in the EU · No HR department or consultant needed",
@@ -3147,8 +2556,8 @@
         "I would like to suggest that we survey work-related stress{inOrg}. We must make a suitable and sufficient risk assessment that covers stress (MHSWR 1999 reg 3; in Northern Ireland, MHSWR (NI) 2000 reg 3), and a survey can form part of it. As health and safety representative I would like us to get started, and to be consulted from the planning stage.",
         "I have looked at Empvibe, a survey of the psychosocial work environment that maps its factors onto the areas of HSE’s Management Standards for work-related stress. No single answer can be traced to a person, and results are shown only for groups of at least 5. We would get results by factor and department, measures with an owner and a deadline, and a written record for our risk assessment.",
         "The health and safety representative can have a role that sees the same figures as management, so do add me as health and safety representative when it is set up.",
-        "You can read more and get started here: {link}",
-        "Could we bring it up at the next meeting?"
+        null,
+        null
       ],
       "sign": "Kind regards\n{you}\nhealth and safety representative",
       "signPlain": "Kind regards\nthe health and safety representative"
@@ -3173,8 +2582,6 @@
     "index": {
       "title": "Guides to work-related stress and staff surveys | Empvibe",
       "description": "Guides for UK employers: the stress risk assessment, HSE’s Management Standards and Indicator Tool, staff survey questions, anonymity and acting on results.",
-      "crumb": "Articles",
-      "eyebrow": "Articles",
       "h1": "Work-related stress and staff surveys, explained",
       "lead": "What the law asks of an employer on work-related stress, what HSE’s Management Standards and Indicator Tool are, which questions to ask, and how to act on the answers. Written for managing directors, HR and health and safety representatives in UK organisations.",
       "groups": {

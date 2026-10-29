@@ -11,6 +11,7 @@ import { PageTemplate } from './PageTemplate'
 import { ownSite, serves, siteArticles } from '@/lib/site/own'
 import { VoTip, type VoTipWords } from './VoTip'
 import { MAIN_URL } from '@/lib/hosts'
+import { DEFAULT_MARKET, MARKET_CONFIG } from '@/lib/markets'
 import { ArticleArt } from './art/ArticleArt'
 import { LawArt } from './art/LawArt'
 import { SafetyRepArt } from './art/SafetyRepArt'
@@ -26,6 +27,8 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
   // a site of its own (D-270) serves only some neighbours, and files a page under its articles only
   // where it publishes some (Empvibe's own since UK-H, D-278; none on Sweden's)
   const own = await ownSite()
+  // what the site's market says about its law and its safety representative (lib/markets.ts)
+  const market = MARKET_CONFIG[own?.site.market ?? DEFAULT_MARKET]
   const articles = (await siteArticles()).landing[slug]
   // an informational page (D-236): under Artikler, no product picture, no sales pages beside it
   if (INFORMATIONAL_PAGES.includes(slug))
@@ -41,14 +44,14 @@ export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; par
           slug === 'verneombud' ? (
             <VoTip
               words={t.raw('seo.voTip') as VoTipWords}
-              link={`${own?.site.url ?? MAIN_URL}/?utm_source=${own ? 'safety-representative' : 'verneombud'}&utm_medium=tips`}
+              link={`${own?.site.url ?? MAIN_URL}/?utm_source=${market.safetyRepSource}&utm_medium=tips`}
             />
           ) : undefined
         }
         informational
         heroArt={
           slug === 'lovkrav' ? (
-            <LawArt className="h-auto w-full max-w-[440px]" seal={own ? '✓' : '§'} />
+            <LawArt className="h-auto w-full max-w-[440px]" seal={market.lawSeal} />
           ) : slug === 'verneombud' ? (
             <SafetyRepArt className="h-auto w-full max-w-[440px]" />
           ) : (

@@ -14991,6 +14991,7 @@ pilots it, while a German-speaking leader now reads the statements and factor na
 **Not yet (DE-G):** a pilot for the first German organisation, or Tor's sign-off of `locale_de` after reading the
 drafts; the German reader's review of the open questions in `docs/translations/de.md`.
 
+<<<<<<< HEAD
 ## D-293 — de.orgpuls.com opens and German is on in the survey; the site's search words (DE-G, X-116, 2026-10-29)
 
 Tor, 29 October 2026, in three lines after D-292: «YOU DO THE MIGRATION», «Turn the flag on and open de.orgpuls.com»,
@@ -15052,3 +15053,45 @@ with llms words; `de-site.test.ts` without the flag; `german-survey.test.ts`: th
 
 **Still Tor's:** the German prices and DPA (DE-E; the site shows none, by design), Sentral's site, a German reader of
 the texts, the lawyer's review of `docs/markets/de-legal.md` UNVERIFIED 1–10.
+>>>>>>> origin/main
+
+## D-294 — One source for every market: the registry, delta packs, source tracking, every site in CI (2026-10-29)
+
+The owner's question: can a change be made once and reach Sweden, Germany and the UK, so that only the language
+differs? The code paths were shared already; the text and the market facts were not. An architecture review
+(«Multi-market architecture review», 29 October) found the gaps; this closes them, without a migration.
+
+1. **The market registry** (`lib/markets.ts` `MARKET_CONFIG`). The maps the code kept per market (brand, price
+   list, DPA, pack languages, floors, time zones, register lookup, the hosts' brands and default addresses,
+   whether a market's site is open or reserved, Germany's since D-293) are read from it; the edge functions' maps (brand name, site, Auth language, mail domain,
+   time zone, phone rule, support inbox) are generated from it (`npm run markets:edge`). Components ask it: the
+   VAT number in Oppsett › Betaling (`billing.vatNumber`, held to `save_billing`, 0227), the law seal (§ in
+   Sweden and Germany, whose law is cited by section; ✓ only in the UK, as D-271 decided for the UK), the
+   «Tips ledelsen» utm_source, Plattform's register glyph, and industries and the demo in the menu by the pages
+   a site serves.
+2. **One host per request.** The middleware decides the host (`SITE_HOST_HEADER`); pages read it through
+   `lib/site/host.ts`. On a non-production host `?site=<market>` shows that market's site.
+3. **Fixes found by the review:** /pricing took kroner from a signed-in Norwegian organisation under Empvibe's
+   pound template; Sweden's and Germany's pages said en-GB in their JSON-LD; a Swedish or German leader's trial
+   mail and a demo link asked for on a Swedish or German page were bokmål (now English, `orgLangOf`); the visit
+   counting read DE_SITE and the host overrides in the browser, where they are never set; Swedish and German
+   readers saw Norwegian industry names in Oppsett › Selskap; the root description was bokmål in the code.
+4. **Packs hold only what differs** (`lib/i18n/merge.ts`, `scripts/i18n/pack-delta.mjs`): 615 copies left out
+   (485 in the UK pack). Kept: law texts (`scripts/lib/law.mjs`, shared with legal-pack.test) and the documents
+   a market holds whole. Every pack renders as before (`tests/unit/merge.test.ts`).
+5. **Source tracking** (`scripts/i18n/stale.mjs`): 21 689 translations record their bokmål; `verify:i18n` fails
+   while one is behind. The weekly fold lists them in its pull request instead.
+6. **Every site in CI** (`scripts/verify/sites.ts`, the «Every site» step): 56 pages on four sites, locally
+   against a production build and in CI. ESLint refuses `next/link` in the public site's code.
+7. **One brand rule** (`lib/brand-name.ts`) for the app, the mail and the share cards; the support inbox is
+   `BRANDS.support`, still hjelp@orgpuls.no for Empvibe until it has a mailbox (Tor's, X-111).
+
+**Deliberately not done:** the Swedish and German site copy stays in their packs (docs/markets/PLAN.md, «One
+source for every market»). Prices, VAT and terms for Sweden and Germany wait on SE-E and DE-E: the registry
+holds today's values, so each is a data change once decided. `save_billing` still names `'gb'`; a test holds it
+to the registry until a migration makes the invoice form a column of `app.markets`.
+
+**Changed for a reader:** Sweden's and Germany's law drawings and articles now carry § (was ✓); their
+«Tips ledelsen» links carry `utm_source=skyddsombud` / `betriebsrat`; Swedish and German leaders get their trial
+and billing mail in English; the root description on Norway's hosts is the tagline in the reader's language.
+=======

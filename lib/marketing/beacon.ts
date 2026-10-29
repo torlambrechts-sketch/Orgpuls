@@ -37,10 +37,26 @@ export function referrerHost(referrer: string, self: string): string | undefined
   }
 }
 
-export function mayCount(host: string, path: string, optedOut: boolean, override = COLLECT_OVERRIDE): boolean {
+/**
+ * What the server knows about the page's site (app/(marketing)/layout.tsx, SiteBeacon): whether its
+ * host is a production one, and its own addresses. The browser cannot work these out itself: the
+ * host registry reads the deployment's environment (DE_SITE, SE_HOST, …), which the browser's copy of
+ * lib/hosts.ts never sees, so Germany's site would go uncounted once open, and an overridden host too.
+ */
+export type BeaconSite = { counted: boolean; paths?: Readonly<Record<string, string>> }
+
+let SITE: BeaconSite | null = null
+
+/** Called by SiteBeacon, before anything is sent, with the server's answer for this page's site */
+export function setBeaconSite(site: BeaconSite): void {
+  SITE = site
+}
+
+export function mayCount(host: string, path: string, optedOut: boolean, override = COLLECT_OVERRIDE, site: BeaconSite | null = SITE): boolean {
   // a site with addresses of its own reads each as its route: Empvibe's /sign-in is /logg-inn (D-270, D-274)
-  if (optedOut || NEVER.test(path) || NEVER.test(routeOf(siteOf(host)?.own?.paths, path))) return false
-  return !!override || PUBLIC_HOSTS.includes(host.toLowerCase())
+  const paths = site ? site.paths : siteOf(host)?.own?.paths
+  if (optedOut || NEVER.test(path) || NEVER.test(routeOf(paths, path))) return false
+  return !!override || (site ? site.counted : PUBLIC_HOSTS.includes(host.toLowerCase()))
 }
 
 type Kind = { k: 'view' } | { k: 'cta'; l: string } | { k: 'event'; e: SiteEvent } | { k: 'form'; e: FormEvent; l: string }
