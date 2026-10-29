@@ -13,7 +13,7 @@ const AT = new Date('2026-09-14T22:30:00Z')
 describe('dates in the reader’s form, on the organisation’s clock (D-273)', () => {
   it('writes English the British way, and every other language as before', () => {
     expect(intlLocale('en')).toBe('en-GB')
-    for (const l of ['no', 'sv', 'pl', 'uk', 'lt', 'da', 'nb']) expect(intlLocale(l)).toBe(l)
+    for (const l of ['no', 'sv', 'pl', 'uk', 'lt', 'da', 'de', 'nb']) expect(intlLocale(l)).toBe(l)
     expect(dateFormat({ locale: intlLocale('en'), timeZone: 'Europe/London' }, { dateStyle: 'long' }).format(AT)).toBe('14 September 2026')
     expect(dateFormat({ locale: intlLocale('en'), timeZone: 'Europe/London' }, { hour: '2-digit', minute: '2-digit' }).format(AT)).toBe('23:30')
   })

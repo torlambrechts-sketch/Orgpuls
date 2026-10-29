@@ -24,7 +24,7 @@ import no from '@/messages/no.json'
 const KEY = 'hse-indicator-tool'
 const m = parseModule(JSON.parse(readFileSync(`modules/${KEY}/v1.json`, 'utf8')), KEY)
 const en = m.translations!.en!
-const LANGS = ['pl', 'uk', 'lt', 'sv', 'da'] as const
+const LANGS = ['pl', 'uk', 'lt', 'sv', 'da', 'de'] as const
 const registry = (lang: string) => RegistryFile.parse(JSON.parse(readFileSync(`modules/${KEY}/registry/${lang}.json`, 'utf8')))
 const items = m.factors.flatMap((f) => f.items)
 const item = (code: string) => items.find((i) => i.id === code)!
@@ -156,7 +156,7 @@ describe('its survey translations (modules/hse-indicator-tool/registry)', () => 
     expect(pl.scales?.frekvens).toEqual(['Nigdy', 'Rzadko', 'Czasami', 'Często', 'Zawsze'])
     // HSE's PDF prints «Zdecydowanie się zgadzam» under 1; the anchor is «strongly disagree» (D-268)
     expect(pl.scales?.enighet?.[0]).toBe('Zdecydowanie się nie zgadzam')
-    for (const lang of ['uk', 'lt', 'sv', 'da']) expect(registry(lang).official, lang).toBeUndefined()
+    for (const lang of ['uk', 'lt', 'sv', 'da', 'de']) expect(registry(lang).official, lang).toBeUndefined()
   })
 })
 

@@ -3,7 +3,11 @@
 Every text a respondent can meet has a first draft in Polish, Ukrainian, Lithuanian, Swedish and
 Danish: the statements, the questions outside the index, the three published industry modules, the
 survey pages, and the invitation, reminder and SMS texts. Each language has 553 texts (348 from the
-first run, 205 from the second). The drafts are waiting for a human translator (X-071).
+first run, 205 from the second). The drafts are waiting for a human translator (X-071). German followed
+on 2026-10-29 (DE-A2, D-292): the product's 212 texts in `de.orgpuls-translations.json` in this folder, a
+package for the platform's `translations.import` (this repository cannot reach the hosted registry), and
+the seven published modules' 605 texts by code in `modules/<key>/registry/de.json`, which
+`npm run -s modules:registry` writes to any database (D-263).
 
 **Translations ship with the text (X-089, 2026-09-29).** A respondent-facing text that is added or
 changed is drafted in all five languages in the same piece of work, never left for later: one
@@ -88,6 +92,7 @@ A methodologist decides whether any official wording replaces a draft, and the l
 - [Lithuanian](lt.md)
 - [Swedish](sv.md)
 - [Danish](da.md)
+- [German](de.md) — the app's chrome (D-289) and, from «The survey in German», the respondent texts (D-292)
 
 Each page has the translator's glossary and decisions, the reviewer's log, and the open questions
 for the human translator.

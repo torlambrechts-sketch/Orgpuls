@@ -16,9 +16,9 @@
 import { PRODUCT_SUPPORT, renameBrand } from './brand-name.ts'
 import { MARKET_AUTH_LANG, MARKET_BRAND_NAME, MARKET_MAIL_DOMAIN, MARKET_SITE_URL, MARKET_SUPPORT_MAIL, MARKET_TIME_ZONE } from './markets.ts'
 
-/** Bokmål and English are the platform's; the rest are survey languages whose texts come from the registry (D-133) */
-export type Lang = 'no' | 'en' | 'pl' | 'uk' | 'lt' | 'sv' | 'da'
-const LANGS: readonly string[] = ['no', 'en', 'pl', 'uk', 'lt', 'sv', 'da'] satisfies readonly Lang[]
+/** Bokmål and English are the platform's; the rest are survey languages whose texts come from the registry (D-133; German since D-292) */
+export type Lang = 'no' | 'en' | 'pl' | 'uk' | 'lt' | 'sv' | 'da' | 'de'
+const LANGS: readonly string[] = ['no', 'en', 'pl', 'uk', 'lt', 'sv', 'da', 'de'] satisfies readonly Lang[]
 const isLang = (v: unknown): v is Lang => typeof v === 'string' && LANGS.includes(v)
 /** The `mail` subtree of one language's messages. */
 export type MailMessages = Record<string, unknown>
@@ -354,7 +354,7 @@ export function escapeHtml(s: string): string {
 }
 
 /** "12. oktober" / "12 October", in the organisation's own zone. */
-const DATE_LOCALE: Record<Lang, string> = { no: 'nb-NO', en: 'en-GB', pl: 'pl-PL', uk: 'uk-UA', lt: 'lt-LT', sv: 'sv-SE', da: 'da-DK' }
+const DATE_LOCALE: Record<Lang, string> = { no: 'nb-NO', en: 'en-GB', pl: 'pl-PL', uk: 'uk-UA', lt: 'lt-LT', sv: 'sv-SE', da: 'da-DK', de: 'de-DE' }
 
 export const timeZoneOf = (market: string | null | undefined): string => MARKET_TIME_ZONE[market ?? ''] ?? 'Europe/Oslo'
 
@@ -464,8 +464,8 @@ export type LanguageOffer = {
  * two equal): where it is offered it comes first and bokmål is not offered beside it (D-280), so an
  * invitation and the survey page it links to agree on the languages.
  */
-// Germany's survey base is English until German is a survey language (DE-A2, D-289): lib/i18n/offered.ts surveyBaseOf
-export const MARKET_SURVEY_BASE: Readonly<Record<string, Lang>> = { no: 'no', se: 'sv', gb: 'en', de: 'en' }
+// German is a survey language since DE-A2 (D-292), so Germany's survey base is German: lib/i18n/offered.ts surveyBaseOf
+export const MARKET_SURVEY_BASE: Readonly<Record<string, Lang>> = { no: 'no', se: 'sv', gb: 'en', de: 'de' }
 
 export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOffer | null): Lang[] | null {
   if (!offer) return null

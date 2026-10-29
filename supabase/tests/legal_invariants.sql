@@ -85,7 +85,7 @@ begin
       || ',' || coalesce(app.op_legal_set('doc:probe no', h1, true)->>'error', 'ok')
       || ',' || coalesce(app.op_legal_set('doc:probe:no', 'abc', true)->>'error', 'ok')
       || ',' || coalesce(app.op_legal_set('doc:probe:no', h1, null)->>'error', 'ok')
-      || ',' || coalesce(app.op_translations_approve('de', hui, h1)->>'error', 'ok')
+      || ',' || coalesce(app.op_translations_approve('fi', hui, h1)->>'error', 'ok')
       || ',' || coalesce(app.op_translations_approve(null, hui, h1)->>'error', 'ok')
       || ',' || coalesce(app.op_translations_approve('lt', hui, 'x')->>'error', 'ok');
     v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'a malformed key, hash, choice, language or digest is refused, NULL included',

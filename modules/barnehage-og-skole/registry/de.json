@@ -1,0 +1,187 @@
+{
+  "locale": "de",
+  "factors": {
+    "vold_og_trusler": "Gewalt und Drohungen durch Kinder oder Schülerinnen und Schüler",
+    "bemanning_og_vikarer": "Personalbesetzung und Vertretungen",
+    "tid_til_kjerneoppgavene": "Zeit für die Kernaufgaben",
+    "samarbeid_med_foreldre": "Zusammenarbeit mit Eltern",
+    "tilrettelegging_og_inkludering": "Förderung und Inklusion",
+    "kompetanse_og_fellesskap": "Kompetenz und Gemeinschaft im Kollegium",
+    "stoy_kropp_og_pauser": "Lärm, Körper und Pausen",
+    "vanskelige_saker": "Schwierige Fälle"
+  },
+  "items": {
+    "BS-VT-1": "Wir haben allen bekannte Abläufe dafür, was wir tun, wenn ein Kind oder eine Schülerin oder ein Schüler gewalttätig oder bedrohlich wird",
+    "BS-VT-2": "Ich weiß, welchen Handlungsspielraum ich habe, um einzugreifen, wenn eine Situation gefährlich wird",
+    "BS-VT-3": "Nach einem Vorfall mit Gewalt oder Drohungen kümmert sich jemand um die beteiligte Person",
+    "BS-BE-1": "Die Personalbesetzung macht es möglich, den Kindern oder Schülerinnen und Schülern das zu geben, was sie brauchen",
+    "BS-BE-2": "Wenn jemand fehlt, wird eine Vertretung eingesetzt",
+    "BS-BE-3": "Ich bin selten allein mit mehr Kindern oder Schülerinnen und Schülern, als ich im Blick behalten kann",
+    "BS-TS-1": "Ich habe Zeit, die Arbeit mit den Kindern oder Schülerinnen und Schülern zu planen und vorzubereiten",
+    "BS-TS-2": "Dokumentation und Berichte stehen im Verhältnis zu ihrem Nutzen",
+    "BS-TS-3": "Besprechungs- und Teamzeiten werden für das genutzt, was für die Kinder oder Schülerinnen und Schüler am wichtigsten ist",
+    "BS-FO-1": "Es ist klar, was Eltern von uns erwarten können",
+    "BS-FO-2": "Wenn die Zusammenarbeit mit Eltern anspruchsvoll wird, bekomme ich Unterstützung von der Leitung",
+    "BS-FO-3": "Ich muss Eltern außerhalb der Arbeitszeit nicht antworten",
+    "BS-TI-1": "Ich bekomme genug Unterstützung, um Kinder oder Schülerinnen und Schüler mit besonderem Förderbedarf zu begleiten",
+    "BS-TI-2": "Wir haben Zugang zu sonderpädagogischer Kompetenz, wenn wir sie brauchen",
+    "BS-TI-3": "Ich weiß, an wen ich mich wenden kann, wenn ein Kind oder eine Schülerin oder ein Schüler mehr Hilfe braucht, als wir geben können",
+    "BS-KO-1": "Neue und Vertretungen werden eingearbeitet, bevor sie allein Verantwortung für Kinder oder Schülerinnen und Schüler tragen",
+    "BS-KO-2": "Wir haben Zeit für fachliche Gespräche im Kollegium",
+    "BS-KO-3": "Es ist klar, wie die Aufgaben zwischen pädagogischen Fachkräften, Lehrkräften und anderen Beschäftigten verteilt sind",
+    "BS-FY-1": "Der Lärmpegel im Laufe des Tages ist erträglich",
+    "BS-FY-2": "Wir haben Möbel und Ausstattung, mit denen ich körperschonend arbeiten kann",
+    "BS-FY-3": "Ich schaffe es, im Laufe des Arbeitstags Pausen zu machen",
+    "BS-VS-1": "Ich weiß, wie wir vorgehen, wenn wir uns Sorgen machen, wie es einem Kind oder einer Schülerin oder einem Schüler zu Hause geht",
+    "BS-VS-2": "Wenn wir einen schwierigen Fall von Mobbing oder Übergriffen haben, stehe ich damit nicht allein",
+    "BS-VS-3": "Wir haben Zeit, Fällen nachzugehen, in denen es um das Wohlbefinden und die Sicherheit der Kinder oder Schülerinnen und Schüler geht"
+  },
+  "counts": {
+    "BS-T-1": {
+      "text": "Haben Sie in den letzten drei Monaten einen Vorfall mit Gewalt oder Drohungen durch ein Kind oder eine Schülerin oder einen Schüler miterlebt, der nicht gemeldet wurde?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    },
+    "BS-T-2": {
+      "text": "Haben Sie in den letzten vier Wochen an einem Tag gearbeitet, an dem eine Abwesenheit nicht durch eine Vertretung abgedeckt wurde?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    }
+  },
+  "segments": {
+    "BS-S-rolle": {
+      "text": "Welche Rolle haben Sie?",
+      "options": [
+        "Pädagogische Fachkraft oder Lehrkraft",
+        "Fachkraft, Assistenz oder Betreuungspersonal",
+        "Leitung oder Verwaltung"
+      ]
+    },
+    "BS-S-stillingsstorrelse": {
+      "text": "Welchen Stellenumfang haben Sie?",
+      "options": [
+        "Vollzeit",
+        "Teilzeit, 50 Prozent oder mehr",
+        "Teilzeit, unter 50 Prozent"
+      ]
+    }
+  },
+  "variants": {
+    "BS-VT-1": {
+      "barnehage": "Wir haben allen bekannte Abläufe dafür, was wir tun, wenn ein Kind gewalttätig oder bedrohlich wird",
+      "skole": "Wir haben allen bekannte Abläufe dafür, was wir tun, wenn eine Schülerin oder ein Schüler gewalttätig oder bedrohlich wird"
+    },
+    "BS-VT-2": {
+      "barnehage": "Ich weiß, welchen Handlungsspielraum ich habe, um einzugreifen, wenn eine Situation gefährlich wird",
+      "skole": "Ich weiß, welchen Handlungsspielraum ich habe, um einzugreifen, wenn eine Situation gefährlich wird"
+    },
+    "BS-VT-3": {
+      "barnehage": "Nach einem Vorfall mit Gewalt oder Drohungen kümmert sich jemand um die beteiligte Person",
+      "skole": "Nach einem Vorfall mit Gewalt oder Drohungen kümmert sich jemand um die beteiligte Person"
+    },
+    "BS-BE-1": {
+      "barnehage": "Die Personalbesetzung macht es möglich, den Kindern das zu geben, was sie brauchen",
+      "skole": "Die Personalbesetzung macht es möglich, den Schülerinnen und Schülern das zu geben, was sie brauchen"
+    },
+    "BS-BE-2": {
+      "barnehage": "Wenn jemand fehlt, wird eine Vertretung eingesetzt",
+      "skole": "Wenn jemand fehlt, wird eine Vertretung eingesetzt"
+    },
+    "BS-BE-3": {
+      "barnehage": "Ich bin selten allein mit mehr Kindern, als ich im Blick behalten kann",
+      "skole": "Ich bin selten allein mit mehr Schülerinnen und Schülern, als ich im Blick behalten kann"
+    },
+    "BS-TS-1": {
+      "barnehage": "Ich habe Zeit, die Arbeit mit den Kindern zu planen und vorzubereiten",
+      "skole": "Ich habe Zeit, die Arbeit mit den Schülerinnen und Schülern zu planen und vorzubereiten"
+    },
+    "BS-TS-2": {
+      "barnehage": "Dokumentation und Berichte stehen im Verhältnis zu ihrem Nutzen",
+      "skole": "Dokumentation und Berichte stehen im Verhältnis zu ihrem Nutzen"
+    },
+    "BS-TS-3": {
+      "barnehage": "Besprechungs- und Teamzeiten werden für das genutzt, was für die Kinder am wichtigsten ist",
+      "skole": "Besprechungs- und Teamzeiten werden für das genutzt, was für die Schülerinnen und Schüler am wichtigsten ist"
+    },
+    "BS-FO-1": {
+      "barnehage": "Es ist klar, was Eltern von uns erwarten können",
+      "skole": "Es ist klar, was Eltern von uns erwarten können"
+    },
+    "BS-FO-2": {
+      "barnehage": "Wenn die Zusammenarbeit mit Eltern anspruchsvoll wird, bekomme ich Unterstützung von der Leitung",
+      "skole": "Wenn die Zusammenarbeit mit Eltern anspruchsvoll wird, bekomme ich Unterstützung von der Leitung"
+    },
+    "BS-FO-3": {
+      "barnehage": "Ich muss Eltern außerhalb der Arbeitszeit nicht antworten",
+      "skole": "Ich muss Eltern außerhalb der Arbeitszeit nicht antworten"
+    },
+    "BS-TI-1": {
+      "barnehage": "Ich bekomme genug Unterstützung, um Kinder mit besonderem Förderbedarf zu begleiten",
+      "skole": "Ich bekomme genug Unterstützung, um Schülerinnen und Schüler mit besonderem Förderbedarf zu begleiten"
+    },
+    "BS-TI-2": {
+      "barnehage": "Wir haben Zugang zu sonderpädagogischer Kompetenz, wenn wir sie brauchen",
+      "skole": "Wir haben Zugang zu sonderpädagogischer Kompetenz, wenn wir sie brauchen"
+    },
+    "BS-TI-3": {
+      "barnehage": "Ich weiß, an wen ich mich wenden kann, wenn ein Kind mehr Hilfe braucht, als wir geben können",
+      "skole": "Ich weiß, an wen ich mich wenden kann, wenn eine Schülerin oder ein Schüler mehr Hilfe braucht, als wir geben können"
+    },
+    "BS-KO-1": {
+      "barnehage": "Neue und Vertretungen werden eingearbeitet, bevor sie allein Verantwortung für Kinder tragen",
+      "skole": "Neue und Vertretungen werden eingearbeitet, bevor sie allein Verantwortung für Schülerinnen und Schüler tragen"
+    },
+    "BS-KO-2": {
+      "barnehage": "Wir haben Zeit für fachliche Gespräche im Kollegium",
+      "skole": "Wir haben Zeit für fachliche Gespräche im Kollegium"
+    },
+    "BS-KO-3": {
+      "barnehage": "Es ist klar, wie die Aufgaben zwischen pädagogischen Fachkräften und anderen Beschäftigten verteilt sind",
+      "skole": "Es ist klar, wie die Aufgaben zwischen Lehrkräften und anderen Beschäftigten verteilt sind"
+    },
+    "BS-FY-1": {
+      "barnehage": "Der Lärmpegel im Laufe des Tages ist erträglich",
+      "skole": "Der Lärmpegel im Laufe des Tages ist erträglich"
+    },
+    "BS-FY-2": {
+      "barnehage": "Wir haben Möbel und Ausstattung, mit denen ich körperschonend arbeiten kann",
+      "skole": "Wir haben Möbel und Ausstattung, mit denen ich körperschonend arbeiten kann"
+    },
+    "BS-FY-3": {
+      "barnehage": "Ich schaffe es, im Laufe des Arbeitstags Pausen zu machen",
+      "skole": "Ich schaffe es, im Laufe des Arbeitstags Pausen zu machen"
+    },
+    "BS-VS-1": {
+      "barnehage": "Ich weiß, wie wir vorgehen, wenn wir uns Sorgen machen, wie es einem Kind zu Hause geht",
+      "skole": "Ich weiß, wie wir vorgehen, wenn wir uns Sorgen machen, wie es einer Schülerin oder einem Schüler zu Hause geht"
+    },
+    "BS-VS-2": {
+      "barnehage": "Wenn wir einen schwierigen Fall von Mobbing oder Übergriffen haben, stehe ich damit nicht allein",
+      "skole": "Wenn wir einen schwierigen Fall von Mobbing oder Übergriffen haben, stehe ich damit nicht allein"
+    },
+    "BS-VS-3": {
+      "barnehage": "Wir haben Zeit, Fällen nachzugehen, in denen es um das Wohlbefinden und die Sicherheit der Kinder geht",
+      "skole": "Wir haben Zeit, Fällen nachzugehen, in denen es um das Wohlbefinden und die Sicherheit der Schülerinnen und Schüler geht"
+    },
+    "BS-T-1": {
+      "barnehage": "Haben Sie in den letzten drei Monaten einen Vorfall mit Gewalt oder Drohungen durch ein Kind miterlebt, der nicht gemeldet wurde?",
+      "skole": "Haben Sie in den letzten drei Monaten einen Vorfall mit Gewalt oder Drohungen durch eine Schülerin oder einen Schüler miterlebt, der nicht gemeldet wurde?"
+    },
+    "BS-T-2": {
+      "barnehage": "Haben Sie in den letzten vier Wochen an einem Tag gearbeitet, an dem eine Abwesenheit nicht durch eine Vertretung abgedeckt wurde?",
+      "skole": "Haben Sie in den letzten vier Wochen an einem Tag gearbeitet, an dem eine Abwesenheit nicht durch eine Vertretung abgedeckt wurde?"
+    }
+  },
+  "factorVariants": {
+    "vold_og_trusler": {
+      "barnehage": "Gewalt und Drohungen durch Kinder",
+      "skole": "Gewalt und Drohungen durch Schülerinnen und Schüler"
+    }
+  }
+}

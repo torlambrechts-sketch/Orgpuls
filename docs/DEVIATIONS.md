@@ -14885,7 +14885,96 @@ are what the nine pictures show.
 https://de.orgpuls.com; the mail links; Search Console, Sentral and IndexNow; a German reader of the texts before
 the switch.
 
-## D-292 — One source for every market: the registry, delta packs, source tracking, every site in CI (2026-10-29)
+## D-292 — German is a survey language: the respondent texts drafted, the database's lists widened, the modules' German by code (DE-A2, 2026-10-29)
+
+Tor, 29 October 2026: «lives at de.orgpuls.com, start building it» (X-115). DE-A2 in docs/markets/PLAN.md phase 3,
+on the pattern of the five survey languages before it (D-133, X-071, X-089) and of German as a platform language
+(D-289). Nothing is approved here: as for every other survey language, a German text reaches a respondent only once
+a person has approved it, and German is offered only where a pilot or the flag says so.
+
+1. **The registry** (`lib/i18n/locales.ts`): `de` is `survey: true`, its respondent texts in the translation registry
+   (`surveyTexts: 'registry'`), as Swedish. With that one change every derived list moves: `TRANSLATION_LOCALES` and
+   `RESPONDENT_LOCALES`, the dispatcher's `SURVEY_ONLY`, the language picker on the survey page, and `surveyBaseOf('de')`,
+   which is German now that the first of the market's languages is a survey language (D-280); `MARKET_SURVEY_BASE.de` is
+   German with it, so a German organisation's survey opens in German and its invitation is written in German where it
+   is offered, and in English otherwise. `locale_de` joins the flags, not signed off: German is offered by a pilot
+   (`locales.pilot`) until Tor approves the texts, as English, Polish and Lithuanian were.
+2. **The database** (0237) widens the lists the unit test holds to the registry (`tests/unit/locales.test.ts`): the
+   check constraints on `employees.language`, `item_translations.locale`, `ui_translation_approvals.locale` and
+   `locale_pilots.locale`, and the functions that name the languages — `app.round_locale_state`,
+   `public.dispatch_language_texts`, the platform's `app.op_translations_import`, `op_translations_approve`,
+   `op_locale_pilot` and `op_auto_record` (0206's names for 0086's and 0101's bodies), and the Entra sync's
+   `public.entra_sync_apply` (0165), so a person whose directory language is German keeps it. Each is the repository's
+   latest definition with `de` added and nothing else changed: generated from the migration texts and proved on the
+   local stack by diffing `pg_get_functiondef` before and after — two lines per function, four for the dispatcher's.
+   No destructive statement. The test now also holds `op_auto_record`, `entra_sync_apply`, and the literal lists in
+   `supabase/functions/_shared/mail.ts` (`Lang`, `LANGS`, `DATE_LOCALE`) and `entra.ts` (`LANGS`) to the registry.
+3. **The product's own texts, 212**, drafted by machine into `docs/translations/de.orgpuls-translations.json`
+   (`orgpuls-translations` v1, locale `de`, origin *machine*, step *draft*): the 33 core statements, the 23 texts of the
+   questions outside the index, the 111 strings of the survey pages, the 45 invitation, reminder and SMS texts. Written
+   following `docs/translations/de.md`, whose new section «The survey in German» has the scales, the terms and the
+   open questions: Sie-form; the agreement scale «Stimme gar nicht zu / Stimme eher nicht zu / Weder noch / Stimme eher
+   zu / Stimme voll zu»; «Trifft auf mich nicht zu»; «Keine Angabe»; the round names without an article
+   («Basisbefragung {year}», «Pulsbefragung {n} · {year}») so «zur {round}» and «Die {round} endet morgen» stay
+   grammatical; «Ihre Führungskraft» for the leader and as the `{name}` fallback, «die Leitung» for ledelsen,
+   «Geschäftsführung» in the invitation's signature, «Arbeitnehmervertretung» in the thank-you text. The package passes
+   `checkImport` as the platform's import runs it — 212 rows, zero errors and zero warnings, so every row was made from
+   the current bokmål — and the four SMS texts stay one GSM-7 message each. It is written as a package for the platform's
+   `translations.import` because this repository cannot write to the hosted registry; proved locally through
+   `app.op_translations_import('de', …)` with a platform actor: 817 new rows, none refused, on the first try.
+4. **The seven published modules' texts, 605, by code with each module.** A module text's registry key is its
+   item's uuid (`module:<uuid>`), which differs between databases: the local rebuild during this work regenerated every
+   id, and the first package, keyed by the old ones, matched nothing. So the modules' German ships as
+   `modules/<key>/registry/de.json` (D-263), keyed by the module file's own codes, for all seven modules — HSE 218,
+   Arbetstid och återhämtning 28, Bygg og anlegg 48, Helse og omsorg 49, Handel 49, Barnehage og skole 102,
+   Kunnskap og kontor 103 — which `npm run -s modules:registry` resolves against the database it runs on, hashed on the
+   bokmål each translates (D-253). The registry-file format (`lib/modules/registry-file.ts`) grew what the five modules
+   without files needed and the two with files did not: `segments` (a segment question is an item coded
+   `<prefix>-S-<id>`, 0090), and for a worded module (0083) `variants` and `factorVariants`, the kindergarten and school
+   wording of a text and of a factor name, written as `module:<id>:v:<wording>` and `mfactor:<id>:v:<wording>` on the
+   bokmål wording's hash, exactly as the catalogue keys them. Resolved on the local stack: 597 rows, Barnehage's 54
+   wordings among them; kunnskap's file names 15 factors where that database holds 23, eight being leftovers of an
+   earlier file that no module names. The five Norwegian and British modules carry only German in their registry folder:
+   their other languages were imported as packages before the folder existed, and stay in the hosted registry.
+5. **The employee import** (`app/(app)/oppsett/actions.ts` `languageOf`) read a language column of bokmål, English,
+   Polish and Lithuanian only, so a Swede or a Dane imported by spreadsheet could not be marked. It is now one table over
+   every survey language — code, bokmål name, English name, own name (`de`, `deutsch`, `tysk`, `german`) — and a
+   language added to the registry without its words is a type error, as the language chip is (D-289). German is
+   stored only once `locale_de` is on, so the code works against a hosted register that predates 0237 (the playbook's
+   expand-before-contract); the flag is signed off after the texts are approved, which needs 0237 anyway, and a German
+   organisation's employees meet German through the organisation's language meanwhile.
+6. **CI** seeds the German fixture (`--market de`) as it seeds the British and the Swedish, which D-291 left to
+   `scripts/qa/up.sh` alone. The SQL probes that used `de` as a language the database refuses (`locale_pilot_invariants`
+   row 2, `legal_invariants` row 4) use Finnish; `survey_language_invariants` row 2 inserts a German text and a German
+   employee beside the Swedish and Danish ones.
+
+**Gates:** tsc 0, lint 0, verify:i18n PASS, `npx vitest run` 85 files / 1 060 tests, `npm run -s modules:validate`,
+`npm run qa:up -- --reset` then `npm run test:db` (101 suites), `node scripts/audit/wiring.mjs` 0 findings,
+`NEXT_DIST_DIR=.next-build npx next build` exit 0.
+
+**Tests:** `tests/unit/german-survey.test.ts` (15): the registry row and every derived list; the flag present and not
+signed off; the package exactly the catalogue of the product's texts, every entry a machine draft, `checkImport` with
+no problem; typography (Sie, „…“, the spaced en dash, no GDA, no stray space) and GSM-7 for the SMS texts; each of the
+seven registry files complete against its module's definition (factors, statements, count questions and their options,
+segments, wordings, scales and prefaces where the module has them), a translation and not the bokmål, and no eighth
+module with a file. `tests/unit/locales.test.ts` (19) as in 2. `module-hse`, `module-arbetstid`, `module-instrument`,
+`entra-sync`, `p1-language`, `dates`, `german-platform` and `mail` follow.
+
+**Seen in the browser** (the QA stack rebuilt with 0237, the package imported through the platform command and, for
+the check only, every German row set approved on the local stack): the Lumio survey at `/s/<token>?lang=de` offers
+Norsk, English and Deutsch, opens with «Bevor Sie beginnen», carries `lang="de"` on the survey, and walks all eleven
+statements in German with «Stimme gar nicht zu … Stimme voll zu», «Trifft auf mich nicht zu», «Möchten Sie mehr sagen?
+Freiwillig und anonym», «Zurück», «Überspringen», «Weiter» to «Absenden», at 390 and 320 px, with no raw key, no
+bokmål, no console error and nothing wider than the screen. Signed in as Nordwind's Geschäftsführerin, the report's
+factor table reads «Meinungsklima», «Rollenklarheit», «Anerkennung und Sinn» from the registry (D-253's overlay, now for
+German), where D-291's picture had English; the pictures are retaken once German is approved on the hosted project.
+
+**Not yet (DE-G):** hosted migration 0237 after 0235 and 0236; the package imported through `translations.import` and
+`npm run -s modules:registry | psql` against the hosted project; a pilot for the first German organisation, or Tor's
+sign-off of `locale_de` after reading the drafts; the German reader's review of the open questions in
+`docs/translations/de.md`.
+
+## D-293 — One source for every market: the registry, delta packs, source tracking, every site in CI (2026-10-29)
 
 The owner's question: can a change be made once and reach Sweden, Germany and the UK, so that only the language
 differs? The code paths were shared already; the text and the market facts were not. An architecture review

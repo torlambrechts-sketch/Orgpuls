@@ -1,0 +1,75 @@
+{
+  "locale": "de",
+  "factors": {
+    "sikkerhet_foran_fremdrift": "Sicherheit vor Tempo",
+    "sikkerhet_i_laget": "Sicherheit im Team",
+    "planlegging_og_fremdrift": "Planung und Baufortschritt",
+    "samordning_pa_byggeplassen": "Koordination auf der Baustelle",
+    "sprak_og_beskjeder": "Sprache und Anweisungen",
+    "nye_og_unge": "Neue und junge Leute im Team",
+    "a_si_at_man_ikke_har_det_bra": "Sagen, dass es einem nicht gut geht",
+    "arbeidstid_og_restitusjon": "Arbeitszeit und Erholung"
+  },
+  "items": {
+    "BA-SF-1": "Wenn die Zeit knapp wird, geht die Sicherheit weiterhin vor dem Baufortschritt",
+    "BA-SF-2": "Ich kann eine Arbeit stoppen, die ich für unsicher halte, ohne deswegen Probleme zu bekommen",
+    "BA-SF-3": "Wer einen Beinaheunfall meldet, bekommt Dank und keine Schuldzuweisung",
+    "BA-SL-1": "In meinem Team nehmen wir keine Abkürzungen, die das Risiko erhöhen, auch nicht unter Zeitdruck",
+    "BA-SL-2": "Wir sagen es einander, wenn wir etwas Unsicheres sehen",
+    "BA-SL-3": "Unerwünschte Ereignisse werden durchgesprochen, damit wir daraus lernen",
+    "BA-PF-1": "Der Zeitplan ist realistisch für die Arbeit, die wir machen sollen",
+    "BA-PF-2": "Material, Geräte und Zeichnungen sind da, wenn wir anfangen sollen",
+    "BA-PF-3": "Wir erfahren rechtzeitig, wenn sich der Plan ändert",
+    "BA-SB-1": "Es ist klar, wer die Verantwortung hat, wenn mehrere Firmen am selben Ort arbeiten",
+    "BA-SB-2": "Wir erfahren von den Risiken der Arbeiten, die andere Firmen um uns herum ausführen",
+    "BA-SB-3": "Die Zusammenarbeit mit Nachunternehmern und anderen Gewerken funktioniert gut",
+    "BA-SP-1": "Sicherheitsinformationen werden in einer Sprache gegeben, die ich gut verstehe",
+    "BA-SP-2": "In meinem Team gibt es immer jemanden, der Anweisungen zwischen den Sprachen weitergeben kann",
+    "BA-SP-3": "Es ist in Ordnung, noch einmal nachzufragen, wenn man eine Anweisung nicht verstanden hat",
+    "BA-NU-1": "Neue werden eingewiesen, bevor sie Aufgaben mit Risiko bekommen",
+    "BA-NU-2": "Neue und Auszubildende im Team haben eine feste Ansprechperson",
+    "BA-NU-3": "Man bekommt Zeit, eine neue Aufgabe richtig zu lernen, bevor Tempo erwartet wird",
+    "BA-PH-1": "Es ist in Ordnung zu sagen, dass es einem nicht gut geht, auch hier",
+    "BA-PH-2": "Nach einem Unfall oder Beinaheunfall wird mit denen gesprochen, die dabei waren",
+    "BA-PH-3": "Ich weiß, wo ich Hilfe bekomme, wenn es mir schlecht geht",
+    "BA-AR-1": "Meine Arbeitszeit lässt mir genug Erholung zwischen den Arbeitstagen",
+    "BA-AR-2": "Fahrzeiten und Pendeln sind auf Dauer zu verkraften",
+    "BA-AR-3": "Überstunden sind die Ausnahme und nicht die Regel"
+  },
+  "counts": {
+    "BA-T-1": {
+      "text": "Haben Sie in den letzten drei Monaten einen Beinaheunfall miterlebt oder gesehen, der nicht gemeldet wurde?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    },
+    "BA-T-2": {
+      "text": "Wurden Sie in den letzten drei Monaten gebeten, eine Arbeit auszuführen, die Sie für unsicher hielten?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    }
+  },
+  "segments": {
+    "BA-S-arbeidssted": {
+      "text": "Wo arbeiten Sie hauptsächlich?",
+      "options": [
+        "Projekt oder Baustelle",
+        "Werkstatt oder Lager",
+        "Büro oder Verwaltung"
+      ]
+    },
+    "BA-S-ansiennitet": {
+      "text": "Wie lange arbeiten Sie schon hier?",
+      "options": [
+        "Unter einem Jahr",
+        "Ein bis fünf Jahre",
+        "Mehr als fünf Jahre"
+      ]
+    }
+  }
+}

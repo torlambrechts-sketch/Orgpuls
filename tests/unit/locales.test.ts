@@ -5,9 +5,11 @@ import { RESPONDENT_LOCALES } from '@/lib/i18n/offered'
 
 /**
  * The database keeps its own lists of languages, in check constraints and function bodies
- * (0001, 0079, 0082, 0084, 0085). Adding a language to lib/i18n/locales.ts without a migration
+ * (0001, 0079, 0082, 0084, 0085, 0237). Adding a language to lib/i18n/locales.ts without a migration
  * widening them would let the app offer what the database refuses to store — or the reverse.
  * This reads the latest definition of each from supabase/migrations and holds it to the registry.
+ * The platform's operations were public.admin_<x> until 0206 moved them to app.op_<x>, so a head
+ * matches either name. The dispatcher's and the Entra sync's own lists are held the same way.
  */
 const DIR = 'supabase/migrations'
 const migrations = readdirSync(DIR)
@@ -68,12 +70,14 @@ describe('the database’s language lists match the registry', () => {
     ['item_translations.locale', /create table app\.item_translations|add constraint item_translations_locale_check/, /check \(locale in \(([^)]*)\)\)/, translated],
     ['ui_translation_approvals.locale', /create table app\.ui_translation_approvals|add constraint ui_translation_approvals_locale_check/, /check \(locale in \(([^)]*)\)\)/, translated],
     ['locale_pilots.locale', /create table app\.locale_pilots|add constraint locale_pilots_locale_check/, /check \(locale in \(([^)]*)\)\)/, translated],
-    ['admin_translations_import', /create (or replace )?function public\.admin_translations_import/, /not in \(([^)]*)\)/, translated],
+    ['translations_import', /create (or replace )?function (public\.admin|app\.op)_translations_import\(/, /not in \(([^)]*)\)/, translated],
     ['dispatch_language_texts', /create (or replace )?function public\.dispatch_language_texts/, /unnest\(array\[([^\]]*)\]\)/, translated.filter((l) => l !== 'en')],
     ['round_locale_state', /create (or replace )?function app\.round_locale_state/, /from \(values ((?:\('[a-z]+'\)(?:, )?)+)\)/, translated],
-    ['admin_translations_approve', /create (or replace )?function public\.admin_translations_approve/, /not in \(([^)]*)\)/, translated],
-    ['approve_ui_translation', /create (or replace )?function public\.approve_ui_translation/, /not in \(([^)]*)\)/, translated],
-    ['admin_locale_pilot', /create (or replace )?function public\.admin_locale_pilot\(/, /not in \(([^)]*)\)/, translated],
+    ['translations_approve', /create (or replace )?function (public\.admin|app\.op)_translations_approve\(/, /not in \(([^)]*)\)/, translated],
+    ['locale_pilot', /create (or replace )?function (public\.admin|app\.op)_locale_pilot\(/, /not in \(([^)]*)\)/, translated],
+    // the switch's record of this build's page strings (0101) and the Entra sync's employee language (0165)
+    ['auto_record', /create (or replace )?function (public\.admin|app\.op)_auto_record\(/, /\(i ->> 'locale'\) in \(([^)]*)\)/, translated],
+    ['entra_sync_apply', /create (or replace )?function public\.entra_sync_apply\(/, /x->>'language' in \(([^)]*)\)/, survey],
   ]
   for (const [name, head, list, want] of cases) {
     it(name, () => {
@@ -81,4 +85,18 @@ describe('the database’s language lists match the registry', () => {
       expect(listIn(body, list), `${name} in ${file}`).toEqual(want)
     })
   }
+})
+
+describe('the dispatcher’s and the Entra sync’s own lists match the registry', () => {
+  // both files are pure on purpose (no imports), so each carries the list as a literal
+  it('mail.ts Lang and LANGS are the survey languages', () => {
+    const src = readFileSync('supabase/functions/_shared/mail.ts', 'utf8')
+    expect(listIn(src, /const LANGS: readonly string\[\] = \[([^\]]*)\]/)).toEqual(survey)
+    expect(listIn(src, /export type Lang = ([^\n]*)\n/)).toEqual(survey)
+  })
+
+  it('entra.ts LANGS are the survey languages the employee register accepts', () => {
+    const src = readFileSync('supabase/functions/_shared/entra.ts', 'utf8')
+    expect(listIn(src, /export const LANGS = \[([^\]]*)\] as const/)).toEqual(survey)
+  })
 })

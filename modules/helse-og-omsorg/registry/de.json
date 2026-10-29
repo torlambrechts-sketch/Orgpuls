@@ -1,0 +1,76 @@
+{
+  "locale": "de",
+  "factors": {
+    "vold_og_trusler": "Gewalt und Drohungen",
+    "bemanning_og_forsvarlig_omsorg": "Personalbesetzung und verantwortbare Versorgung",
+    "turnus_og_hvile": "Dienstplan und Ruhe",
+    "stilling_og_tilhorighet": "Stelle und Zugehörigkeit",
+    "grenser_mot_brukere_og_parorende": "Grenzen gegenüber Betreuten und Angehörigen",
+    "tid_til_kjerneoppgavene": "Zeit für die Kernaufgaben",
+    "faglig_trygghet": "Fachliche Sicherheit",
+    "forflytning_og_tunge_loft": "Transfer und schwere Lasten"
+  },
+  "items": {
+    "HO-VT-1": "Wir haben durchgesprochen, welche Situationen bei uns zu Gewalt oder Drohungen führen können",
+    "HO-VT-2": "Vorfälle mit Gewalt und Drohungen werden gemeldet, auch die, die klein wirken",
+    "HO-VT-3": "Nach einem Vorfall mit Gewalt oder Drohungen kümmert sich jemand um die beteiligte Person",
+    "HO-BF-1": "Die Personalbesetzung in den Diensten ermöglicht eine verantwortbare Versorgung",
+    "HO-BF-2": "Ich gehe nicht mit schlechtem Gewissen nach Hause, weil ich etwas nicht geschafft habe",
+    "HO-BF-3": "Wenn wir zu wenige sind, ist klar, was warten kann",
+    "HO-TH-1": "Der Dienstplan lässt mir genug Ruhe zwischen den Diensten",
+    "HO-TH-2": "Ich kann meinen Dienstplan beeinflussen",
+    "HO-TH-3": "Zusatzdienste und kurzfristige Diensttausche sind die Ausnahme und nicht die Regel",
+    "HO-HF-1": "Ich habe den Stellenumfang, den ich mir wünsche",
+    "HO-HF-2": "Ich bekomme wichtige Informationen mit, auch wenn ich wenig oder in unterschiedlichen Diensten arbeite",
+    "HO-HF-3": "Ich fühle mich als Teil des Fachteams hier",
+    "HO-GP-1": "Wir haben geklärt, was wir tun, wenn Betreute oder Angehörige eine Grenze überschreiten",
+    "HO-GP-2": "Sexuelle Bemerkungen oder Berührungen durch Betreute werden ernst genommen und nicht kleingeredet",
+    "HO-GP-3": "Wenn Angehörige mehr verlangen, als wir geben können, bekomme ich Unterstützung dabei, Nein zu sagen",
+    "HO-TK-1": "Die Zeit, die ich für die Dokumentation aufwende, steht im Verhältnis zu ihrem Nutzen",
+    "HO-TK-2": "Die digitalen Systeme, die wir nutzen, machen die Arbeit einfacher",
+    "HO-TK-3": "Ich kann eine Aufgabe ohne ständige Unterbrechungen zu Ende bringen",
+    "HO-FT-1": "Neue und Aushilfen werden ausreichend eingearbeitet, bevor sie allein Dienst haben",
+    "HO-FT-2": "Ich habe jemanden, mit dem ich mich beraten kann, wenn ich vor einer schwierigen fachlichen Entscheidung stehe",
+    "HO-FT-3": "Wir verstehen einander gut genug, damit Übergaben und Mitteilungen richtig ankommen",
+    "HO-FL-1": "Wir haben die Hilfsmittel, die wir für den Transfer brauchen",
+    "HO-FL-2": "Wir haben Zeit, die Hilfsmittel zu benutzen, auch wenn viel los ist",
+    "HO-FL-3": "Wir sind genug Leute für schwere Transfers"
+  },
+  "counts": {
+    "HO-T-1": {
+      "text": "Haben Sie in den letzten drei Monaten einen Vorfall mit Gewalt oder Drohungen miterlebt, der nicht gemeldet wurde?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    },
+    "HO-T-2": {
+      "text": "Haben Sie in den letzten drei Monaten einen Dienst gearbeitet, in dem die Personalbesetzung aus Ihrer Sicht nicht verantwortbar war?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    }
+  },
+  "segments": {
+    "HO-S-vaktordning": {
+      "text": "In welchem Dienstmodell arbeiten Sie hauptsächlich?",
+      "options": [
+        "Tagdienst",
+        "Zweischichtig (Früh und Spät)",
+        "Dreischichtig (mit Nacht)",
+        "Dauernachtdienst"
+      ]
+    },
+    "HO-S-stillingsstorrelse": {
+      "text": "Welchen Stellenumfang haben Sie?",
+      "options": [
+        "Vollzeit",
+        "Teilzeit, 50 Prozent oder mehr",
+        "Teilzeit, unter 50 Prozent"
+      ]
+    }
+  }
+}
