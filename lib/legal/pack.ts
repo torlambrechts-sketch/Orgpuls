@@ -146,7 +146,24 @@ const UNITED_KINGDOM: LegalPack = {
   },
 }
 
-export const LEGAL_PACKS: Record<Market, LegalPack> = { no: NORWAY, se: SWEDEN, gb: UNITED_KINGDOM }
+/**
+ * Germany (DE-B, X-115; docs/markets/de-legal.md). No headcount requires an employees' representative:
+ * a Betriebsrat is the employees' right from five (§ 1 BetrVG), never the employer's duty, and the
+ * Sicherheitsbeauftragte from fifty (§ 22 SGB VII) support the employer rather than represent anyone. The
+ * Arbeitsschutzausschuss is required from more than twenty employees (§ 11 ASiG), with no «may be
+ * demanded» band under it. No industry list starts the Betriebsarzt or the Fachkraft (§§ 2, 5 ASiG).
+ * The provisions, the coverage and the gaps come with the pack's texts at DE-C; until then the market
+ * has no legal pack (lib/markets.ts LEGAL_PACK).
+ */
+const GERMANY: LegalPack = {
+  duties: { rep: Number.POSITIVE_INFINITY, committee: 21, committeeMay: 21, healthServiceIndustries: null },
+  provisions: [],
+  coverage: [],
+  gaps: [],
+  factorLawRefs: null,
+}
+
+export const LEGAL_PACKS: Record<Market, LegalPack> = { no: NORWAY, se: SWEDEN, gb: UNITED_KINGDOM, de: GERMANY }
 
 /** A factor's legal reference in a market: its own, or the database's where the market uses that */
 export function factorLawRef(market: Market, factorKey: string, fromDatabase: string): string {

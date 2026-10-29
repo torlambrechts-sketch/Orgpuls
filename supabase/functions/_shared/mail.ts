@@ -185,7 +185,7 @@ export function marketCatalogue(cat: MailCatalogue, packs: MailPacks, market: st
  * Each market's brand name (lib/brand.ts MARKET_BRAND and BRANDS; tests/unit/mail.test.ts holds the
  * two equal): what a notice to an organisation there calls the product, and the sender's name.
  */
-export const MARKET_BRAND_NAME: Readonly<Record<string, string>> = { no: 'Orgpuls', se: 'Orgpuls', gb: 'Empvibe' }
+export const MARKET_BRAND_NAME: Readonly<Record<string, string>> = { no: 'Orgpuls', se: 'Orgpuls', gb: 'Empvibe', de: 'Orgpuls' }
 export const brandNameOf = (market: string | null | undefined): string => MARKET_BRAND_NAME[market ?? ''] ?? 'Orgpuls'
 
 /**
@@ -300,18 +300,18 @@ export function brandedCatalogue(cat: MailCatalogue, name: string): MailCatalogu
 /**
  * An organisation's language as its notices read it (D-255): bokmål and English as they are. An
  * organisation in Swedish (the Swedish market, D-254) reads English, the language behind Swedish
- * in the app (D-252), until the leaders' notices are written in Swedish; never bokmål. Anything
- * else is bokmål, as before.
+ * in the app (D-252), until the leaders' notices are written in Swedish; never bokmål. An
+ * organisation in German (D-289) reads English the same way. Anything else is bokmål, as before.
  */
-export const orgLangOf = (v: string | null | undefined): Lang => (v === 'en' || v === 'sv' ? 'en' : 'no')
+export const orgLangOf = (v: string | null | undefined): Lang => (v === 'en' || v === 'sv' || v === 'de' ? 'en' : 'no')
 
 /**
  * The language one person reads a notice to many in (groupsOf). In Norway, as before: theirs where
- * it is bokmål or English, else the organisation's, else bokmål. In a Swedish organisation (D-255):
- * bokmål for someone who chose bokmål, English for everyone else.
+ * it is bokmål or English, else the organisation's, else bokmål. In a Swedish or a German
+ * organisation (D-255, D-289): bokmål for someone who chose bokmål, English for everyone else.
  */
 export function groupLang(personal: string | null | undefined, org: string | null | undefined): Lang {
-  if (org === 'sv') return personal === 'no' ? 'no' : 'en'
+  if (org === 'sv' || org === 'de') return personal === 'no' ? 'no' : 'en'
   return langOf(personal ?? org)
 }
 
@@ -357,7 +357,7 @@ const DATE_LOCALE: Record<Lang, string> = { no: 'nb-NO', en: 'en-GB', pl: 'pl-PL
  * equal), the zone an organisation there takes at sign-up and keeps: the clock its notices' dates are
  * on (D-280), so a deadline at midnight in London is not the next day's in a British inbox.
  */
-export const MARKET_TIME_ZONE: Readonly<Record<string, string>> = { no: 'Europe/Oslo', se: 'Europe/Stockholm', gb: 'Europe/London' }
+export const MARKET_TIME_ZONE: Readonly<Record<string, string>> = { no: 'Europe/Oslo', se: 'Europe/Stockholm', gb: 'Europe/London', de: 'Europe/Berlin' }
 export const timeZoneOf = (market: string | null | undefined): string => MARKET_TIME_ZONE[market ?? ''] ?? 'Europe/Oslo'
 
 export function dateOf(iso: string | null, lang: Lang, withYear = false, timeZone = 'Europe/Oslo'): string {
@@ -466,7 +466,8 @@ export type LanguageOffer = {
  * two equal): where it is offered it comes first and bokmål is not offered beside it (D-280), so an
  * invitation and the survey page it links to agree on the languages.
  */
-export const MARKET_SURVEY_BASE: Readonly<Record<string, Lang>> = { no: 'no', se: 'sv', gb: 'en' }
+// Germany's survey base is English until German is a survey language (DE-A2, D-289): lib/i18n/offered.ts surveyBaseOf
+export const MARKET_SURVEY_BASE: Readonly<Record<string, Lang>> = { no: 'no', se: 'sv', gb: 'en', de: 'en' }
 
 export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOffer | null): Lang[] | null {
   if (!offer) return null

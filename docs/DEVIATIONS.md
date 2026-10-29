@@ -14655,3 +14655,84 @@ impressions is a page problem before it is an authority problem.
 connection is a click in the project's search-performance page and would give query-level impressions per page. The
 Sentral mapping stays /verneombud. The effect is read in four to six weeks: the query's position, and whether
 /verneombud or the article is shown for it.
+
+## D-289 — German is a platform language and Germany a market: the app in German with English behind it, market `de` with the USt-IdNr. (2026-10-29)
+
+Tor, 29 October 2026: «lives at de.orgpuls.com, start building it» (X-115). DE-A and DE-B in docs/markets/PLAN.md
+phase 3, on Sweden's pattern (D-252, D-254, D-255). Nothing changes for Norway, Sweden or the United Kingdom, and
+de.orgpuls.com still answers as D-258 says until DE-F.
+
+1. **The registry** (`lib/i18n/locales.ts`) makes `de` a platform language with English as its fallback, so a text
+   not yet in German is shown in English, never as a key. It is not a survey language yet (`survey: false`,
+   `surveyTexts: 'registry'`): the statements, the respondent pages and the invitation texts are DE-A2, drafted
+   into the translation registry as the other survey languages were (X-071, X-089). The `Locale` type widens with
+   it, so the account menu offers Deutsch and the company form's chip knows it.
+2. **`messages/de.json`** holds the app's chrome: 3 278 strings in 41 namespaces, exactly the keys `sv.json`
+   carries, machine drafts following `docs/translations/de.md` for Tor to review — Sie-form, gender-neutral role
+   nouns (Beschäftigte, Führungskraft, Geschäftsführung, Abteilungsleitung, Sicherheitsbeauftragte), German
+   typography („…“ and the spaced en dash where the source has « » and —).
+   - **Left out on purpose**, as for Swedish: `respond`, `mail` and the registry-owned factor and extra fields
+     (DE-A2); `site` and `seo` (the German site is written for German law, DE-F); `dpa` (DE-E); `industry`
+     (Norwegian industry names, which `contentLang` shows a German reader in English).
+   - **Norwegian law stays Norwegian.** The help articles and the header panel's law tab describe
+     arbeidsmiljøloven, named as such, with Arbeidstilsynet as «Arbeitsaufsichtsbehörde» and Enhetsregisteret and
+     Brønnøysund by name: a German-speaking leader of a Norwegian organisation reads about Norwegian law in German.
+     A German organisation's own legal texts are DE-C, laid over the catalogue by host.
+3. **The language chip** in Oppsett › Selskap printed bokmål, English and otherwise «Svenska», so a fourth
+   language would have been labelled Svenska. It is now a table keyed by platform language
+   (`components/oppsett/CompanyForm.tsx`), where a missing label is a type error, with
+   `oppsett.companySettings.langDe` in all four catalogues.
+4. **The database** (0235) adds `de` to the four lists of platform languages: `organizations.default_lang`,
+   `profiles.lang`, `demo_requests.lang` and `markets.default_lang`. The employee register's survey languages
+   (`employees_language_check`, the dispatcher's `LANGS`) are unchanged until DE-A2. `tests/unit/locales.test.ts`
+   holds each list to the registry.
+5. **Market `de`** (0236): floor 5, German, Europe/Berlin, organisation-number rule `de_ustid`. The
+   Umsatzsteuer-Identifikationsnummer is the one identifier every trading German business has that is national,
+   unique and checkable: the Handelsregister number is per court and not unique nationally, and a sole trader has
+   none (`docs/markets/de-legal.md`, assumptions). Its shape is DE plus nine digits, the ninth an ISO 7064 MOD 11,10
+   check digit over the first eight (`app.de_ustid_check`); a small business under § 19 UStG may have none, so the
+   number stays optional at sign-up as in every market. The trigger holds a German organisation's number to the
+   rule; `lib/org-number.ts` is the same rule at the form, accepts «DE 136 695 976» and lower case, and prints
+   «DE 136 695 976»; a refused number gets `registrer.problem.invalid_org_number_de` in the four catalogues. No
+   register is asked (`REGISTRY_LOOKUP`): the sign-up confirms the typed name, as Sweden's does.
+6. **The German legal pack** (`lib/legal/pack.ts` `GERMANY`) is a shell until DE-C: no duty threshold for a safety
+   representative (German law elects a Betriebsrat, it does not require one), a committee from 21 employees
+   (§ 11 ASiG, the Arbeitsschutzausschuss in firms with more than twenty), no industry list for an occupational
+   health service, and empty provisions, coverage, gaps and factor references. `LEGAL_PACK.de` is false, so no
+   market pack is laid over the catalogue yet.
+7. **Mail and SMS** (`supabase/functions/_shared/mail.ts`, `sms.ts`): brand Orgpuls, time zone Europe/Berlin. An
+   organisation in German reads English, as a Swedish one does (D-255), until the leaders' notices exist in German
+   (`orgLangOf`, `groupLang`). The survey's own language in Germany is English: `surveyBaseOf` now takes the first
+   of the market's languages the survey has (`de` → `en` today), mirrored in `MARKET_SURVEY_BASE`, so DE-A2 makes
+   it German with no change here. A German mobile number (015x–017x) is normalised to +49 for SMS.
+8. **Not a site yet.** `lib/hosts.ts` is unchanged, so de.orgpuls.com still redirects to the English site and no
+   organisation can join market `de` before DE-F. `DPA_MARKET.de` and `PRICE_MARKET.de` point at Norway's agreement
+   and prices until DE-E; `MARKET_BRAND.de` is orgpuls; `PACK_LANGS.de` is empty.
+
+Tests:
+- `supabase/tests/markets_invariants.sql` rows 25–26: the German row, and the rule on DE136695976 and DE811569869,
+  a wrong check digit, a bare nine digits, a lower-case prefix, an Austrian number and a Norwegian number, with the
+  check function's digits.
+- `tests/unit/german-platform.test.ts`: the registry and the fallback; key parity with bokmål and with Swedish; the
+  registry-owned namespaces and fields out; German typography; a chip label for every platform language; the
+  market's languages.
+- `tests/unit/markets.test.ts`, `org-number.test.ts`, `sms.test.ts`, `mail.test.ts`, `p1-language.test.ts`,
+  `locales.test.ts`, `swedish-platform.test.ts` as before, with the German cases added.
+
+**Seen in the browser** (QA stack, Kari the daglig leder, cookie `de`): Innsikt, Resultater, Målinger, Tiltak,
+Rapport, Kommentarer, Oppsett, Hjelp, Måleoppsett, Integrasjoner and the Slack, SMS, Teams and Entra pages render
+with `lang="de"`, German headings, no raw key, no `undefined` or `NaN`, and no console error; at 390 px Innsikt and
+Oppsett have no horizontal scroll. The heatmap's column for motstrid was too wide as «Widerspruch» and is «Konflikt», and the
+threshold tile on Oppsett clipped «Mindestgruppengröße» at 390 px, so that one label is «Mindestgröße».
+**Gap, as D-252's:** factor names and statements in a German leader's results show in English, because the
+registry overlay (D-253) lays only a language whose survey texts are approved — DE-A2.
+
+**Hosted:** 0235 and 0236 are **not applied** — the Supabase connector in this session is not authenticated, so
+`apply_migration` is not available to it. The code works against the old schema meanwhile: the language switch's
+profile save of «Deutsch» fails silently and the cookie keeps the choice on the device; `restoreLocale` likewise;
+a demo request from a visitor whose cookie is `de` would be refused by `demo_requests_lang_check` (the site's own
+switch offers only the site's languages, so that needs the app's switch first). Apply the two files verbatim
+through `apply_migration` before anyone is offered German; the four hosted lists then read `no, en, sv, de`.
+
+**Not yet:** DE-A2, DE-C, DE-E, DE-F and DE-G as PLAN.md phase 3 lists them. The app footer's company line and
+Oppsett › Selskap's Norwegian-law blocks (BHT, verneombud, AMU thresholds) for a German organisation are DE-C.

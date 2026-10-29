@@ -74,10 +74,13 @@ export function offeredLocales(
   return base !== 'no' && offered.includes(base) ? [base, ...offered.filter((l) => l !== base && l !== 'no')] : offered
 }
 
-/** The survey's own language in a market (D-280): the first of its platform languages, where the survey has it */
+/**
+ * The survey's own language in a market (D-280): the first of its platform languages the survey has.
+ * Germany's is English until German is a survey language (D-289); then it is German with no change here.
+ */
 export function surveyBaseOf(market: Market): RespondentLocale {
-  const first = MARKET_LANGS[market][0]
-  return isRespondentLocale(first) ? first : 'no'
+  for (const l of MARKET_LANGS[market]) if (isRespondentLocale(l)) return l
+  return 'no'
 }
 
 /**

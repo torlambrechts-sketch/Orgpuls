@@ -4,6 +4,16 @@ import { useState, useTransition } from 'react'
 import { saveBaselineMonth, saveLanguage } from '@/app/(app)/oppsett/actions'
 import type { Locale } from '@/lib/i18n/locales'
 
+type LangLabels = { langNo: string; langEn: string; langSv: string; langDe: string }
+
+/** the chip text for each platform language, from the message catalogue (a missing entry is a type error) */
+const LANG_LABEL: Record<Locale, (labels: LangLabels) => string> = {
+  no: (labels) => labels.langNo,
+  en: (labels) => labels.langEn,
+  sv: (labels) => labels.langSv,
+  de: (labels) => labels.langDe,
+}
+
 /**
  * Innstillinger for hele selskapet. Bundle lines 2044-2073.
  *
@@ -44,6 +54,7 @@ export function CompanyForm({
     langNo: string
     langEn: string
     langSv: string
+    langDe: string
     yearStart: string
     yearStartNote: string
     noWheel: string
@@ -96,7 +107,7 @@ export function CompanyForm({
                 }}
                 className="peer absolute h-px w-px overflow-hidden opacity-0"
               />
-              <Chip on={l === code}>{code === 'no' ? labels.langNo : code === 'en' ? labels.langEn : labels.langSv}</Chip>
+              <Chip on={l === code}>{LANG_LABEL[code](labels)}</Chip>
             </label>
           ))}
         </div>

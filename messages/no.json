@@ -1873,6 +1873,7 @@
       "langNo": "Bokmål",
       "langEn": "English",
       "langSv": "Svenska",
+      "langDe": "Deutsch",
       "yearStart": "Arbeidsmiljøåret starter",
       "yearStartNote": "Grunnlinjen legges i denne måneden hvert år. Årshjulet følger etter.",
       "noWheel": "Årshjulet er ikke satt opp ennå. Måneden settes der, sammen med rytmen.",
@@ -3050,7 +3051,8 @@
       "invalid_org_number_se": "Et svensk organisasjonsnummer er ti siffer, og et personnummer kan ikke brukes. Sjekk tallet og prøv igjen.",
       "invalid_org_number_gb": "Et selskapsnummer fra Companies House har åtte tegn: åtte siffer, eller to bokstaver som SC eller OC fulgt av seks siffer. Sjekk nummeret og prøv igjen.",
       "nothing_pending": "Fant ingen forespørsel å gå videre fra. Logg inn på nytt og prøv igjen.",
-      "same_number": "Organisasjonsnummeret tilhører denne virksomheten, så den kan ikke opprettes på nytt. Be administratoren der om tilgang."
+      "same_number": "Organisasjonsnummeret tilhører denne virksomheten, så den kan ikke opprettes på nytt. Be administratoren der om tilgang.",
+      "invalid_org_number_de": "Skriv inn USt-IdNr. med DE og ni siffer, for eksempel DE 136 695 976."
     },
     "googleOr": "eller",
     "google": "Fortsett med Google",

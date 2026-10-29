@@ -1681,6 +1681,7 @@
       "langNo": "Bokmål",
       "langEn": "English",
       "langSv": "Svenska",
+      "langDe": "Deutsch",
       "yearStart": "Arbetsmiljöåret börjar",
       "yearStartNote": "Baslinjemätningen läggs i den här månaden varje år. Årshjulet följer efter.",
       "noWheel": "Årshjulet har inte ställts in än. Månaden ställs in där, tillsammans med rytmen.",
@@ -2858,7 +2859,8 @@
       "invalid_org_number_se": "Ett organisationsnummer har tio siffror, och ett personnummer kan inte användas. Kontrollera numret och försök igen.",
       "invalid_org_number_gb": "Ett bolagsnummer från Companies House har åtta tecken: åtta siffror, eller två bokstäver som SC eller OC följda av sex siffror. Kontrollera numret och försök igen.",
       "nothing_pending": "Det finns ingen förfrågan att gå vidare från. Logga in igen och försök på nytt.",
-      "same_number": "Organisationsnumret tillhör den här organisationen, så den kan inte skapas på nytt. Be administratören där om åtkomst."
+      "same_number": "Organisationsnumret tillhör den här organisationen, så den kan inte skapas på nytt. Be administratören där om åtkomst.",
+      "invalid_org_number_de": "Ange momsregistreringsnumret som DE och nio siffror, till exempel DE 136 695 976."
     },
     "googleOr": "eller",
     "google": "Fortsätt med Google",

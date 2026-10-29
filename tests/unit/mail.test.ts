@@ -454,6 +454,8 @@ describe('a Swedish organisation’s notices', () => {
 
   it('reads English as an organisation, and Norway’s read as before', () => {
     expect(orgLangOf('sv')).toBe('en')
+    // a German organisation reads English the same way, until its notices exist in German (D-289)
+    expect(orgLangOf('de')).toBe('en')
     expect(orgLangOf('no')).toBe('no')
     expect(orgLangOf('en')).toBe('en')
     expect(orgLangOf(null)).toBe('no')
@@ -464,6 +466,9 @@ describe('a Swedish organisation’s notices', () => {
     expect(groupLang(null, 'sv')).toBe('en')
     expect(groupLang('sv', 'sv')).toBe('en')
     expect(groupLang('no', 'sv')).toBe('no')
+    expect(groupLang(null, 'de')).toBe('en')
+    expect(groupLang('de', 'de')).toBe('en')
+    expect(groupLang('no', 'de')).toBe('no')
     // Norway: theirs where it is bokmål or English, else the organisation's, else bokmål — as before
     expect(groupLang('sv', 'no')).toBe('no')
     expect(groupLang('pl', 'en')).toBe('no')

@@ -1873,6 +1873,7 @@
       "langNo": "Bokmål",
       "langEn": "English",
       "langSv": "Svenska",
+      "langDe": "Deutsch",
       "yearStart": "The work-environment year starts",
       "yearStartNote": "The baseline is placed in this month every year. The year wheel follows it.",
       "noWheel": "The year wheel is not set up yet. The month is set there, together with the rhythm.",
@@ -3050,7 +3051,8 @@
       "invalid_org_number_se": "A Swedish organisation number is ten digits, and a personal identity number cannot be used. Check the number and try again.",
       "invalid_org_number_gb": "A Companies House company number is eight characters: eight digits, or two letters such as SC or OC followed by six digits. Check the number and try again.",
       "nothing_pending": "There is no request to continue from. Sign in again and try once more.",
-      "same_number": "The organisation number belongs to this company, so it cannot be created again. Ask the administrator there for access."
+      "same_number": "The organisation number belongs to this company, so it cannot be created again. Ask the administrator there for access.",
+      "invalid_org_number_de": "Enter the VAT ID as DE and nine digits, such as DE 136 695 976."
     },
     "googleOr": "or",
     "google": "Continue with Google",

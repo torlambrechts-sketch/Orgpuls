@@ -6,8 +6,8 @@ import { useTransition } from 'react'
 import { setLanguage } from '@/lib/i18n/actions'
 import { bcp47, LOCALES, type Locale } from '@/lib/i18n/locales'
 
-const SHORT: Record<Locale, string> = { no: 'NO', en: 'EN', sv: 'SV' }
-const NAME: Record<Locale, string> = { no: 'Norsk', en: 'English', sv: 'Svenska' }
+const SHORT: Record<Locale, string> = { no: 'NO', en: 'EN', sv: 'SV', de: 'DE' }
+const NAME: Record<Locale, string> = { no: 'Norsk', en: 'English', sv: 'Svenska', de: 'Deutsch' }
 
 /**
  * Norsk / English (D-96). Each language is named in itself, so someone who reads only one

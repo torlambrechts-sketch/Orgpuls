@@ -40,7 +40,7 @@ export type DpaMarket = keyof typeof DPA_IN_FORCE
  * The agreement an organisation in each market signs: its market's own where one is published, else
  * Norway's. Mirrors app.dpa_market (0226), which public.sign_dpa signs by.
  */
-export const DPA_MARKET: Record<Market, DpaMarket> = { no: 'no', se: 'no', gb: 'gb' }
+export const DPA_MARKET: Record<Market, DpaMarket> = { no: 'no', se: 'no', gb: 'gb', de: 'no' }
 
 /** The version in force for an organisation in `market`, and its hash */
 export function dpaInForce(market: Market): { version: string; sha256: string } {

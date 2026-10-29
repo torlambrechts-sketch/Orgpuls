@@ -282,6 +282,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
               langNo: t('oppsett.companySettings.langNo'),
               langEn: t('oppsett.companySettings.langEn'),
               langSv: t('oppsett.companySettings.langSv'),
+              langDe: t('oppsett.companySettings.langDe'),
               yearStart: t('oppsett.companySettings.yearStart'),
               yearStartNote: t('oppsett.companySettings.yearStartNote'),
               noWheel: t('oppsett.companySettings.noWheel'),

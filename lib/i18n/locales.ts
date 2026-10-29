@@ -28,6 +28,9 @@ export const LOCALE_REGISTRY = [
   // a platform language since phase 2 (D-252): the app's chrome in Swedish, anything not yet
   // translated in English; its survey texts stay in the registry like the other survey languages
   { code: 'sv', bcp47: 'sv', nativeName: 'Svenska', dir: 'ltr', platform: true, survey: true, surveyTexts: 'registry', fallback: ['en'] },
+  // a platform language since phase 3 (DE-A, X-115): the app's chrome in German, anything not yet
+  // translated in English; not a survey language until its respondent texts are in the registry (DE-A2)
+  { code: 'de', bcp47: 'de', nativeName: 'Deutsch', dir: 'ltr', platform: true, survey: false, surveyTexts: 'registry', fallback: ['en'] },
   { code: 'da', bcp47: 'da', nativeName: 'Dansk', dir: 'ltr', platform: false, survey: true, surveyTexts: 'registry', fallback: [] },
 ] as const satisfies readonly {
   code: string

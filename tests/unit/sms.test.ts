@@ -41,10 +41,14 @@ describe('normalizePhone', () => {
     // Sweden: a mobile in its national form
     expect(normalizePhone('070-123 45 67', 'se')).toBe('+46701234567')
     for (const input of ['08-123 456 78', '91234567']) expect(normalizePhone(input, 'se'), input).toBeNull()
+    // Germany (DE-B): a mobile in its national form, eleven or twelve digits beginning 015, 016 or 017
+    expect(normalizePhone('0151 23456789', 'de')).toBe('+4915123456789')
+    expect(normalizePhone('0171 1234567', 'de')).toBe('+491711234567')
+    for (const input of ['030 12345678', '91234567', '0151 234567890', '0141 2345678']) expect(normalizePhone(input, 'de'), input).toBeNull()
     // a UK number in a Norwegian organisation needs its +44, as before
     expect(normalizePhone('07700 900123', 'no')).toBeNull()
     // with its country code, a number reads the same in every market
-    for (const m of ['no', 'se', 'gb']) {
+    for (const m of ['no', 'se', 'gb', 'de']) {
       expect(normalizePhone('+47 912 34 567', m), m).toBe('+4791234567')
       expect(normalizePhone('+44 7700 900123', m), m).toBe('+447700900123')
       expect(normalizePhone('+4722000000', m), m).toBeNull()

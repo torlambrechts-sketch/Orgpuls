@@ -21,7 +21,7 @@ export const DEFAULT_BRAND: Brand = 'orgpuls'
  * Each market's brand: the name its organisations, their employees and their mail read. A market
  * belongs to one brand; a site's brand is its market's (lib/hosts.ts, held by tests/unit/brand.test.ts).
  */
-export const MARKET_BRAND: Record<Market, Brand> = { no: 'orgpuls', se: 'orgpuls', gb: 'empvibe' }
+export const MARKET_BRAND: Record<Market, Brand> = { no: 'orgpuls', se: 'orgpuls', gb: 'empvibe', de: 'orgpuls' }
 
 export const brandOf = (market: Market): Brand => MARKET_BRAND[market] ?? DEFAULT_BRAND
 

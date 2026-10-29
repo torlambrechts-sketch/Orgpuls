@@ -35,6 +35,8 @@ export function normalizePhone(input: string | null | undefined, market: string 
   if (/^\+[1-9]\d{7,14}$/.test(s)) return s
   if (market === 'gb') return /^07([1-57-9]\d{8}|624\d{6})$/.test(s) ? `+44${s.slice(1)}` : null
   if (market === 'se') return /^07[02369]\d{7}$/.test(s) ? `+46${s.slice(1)}` : null
+  // Germany (DE-B): a mobile number begins 015, 016 or 017 and has eleven or twelve digits with its leading zero
+  if (market === 'de') return /^01[5-7]\d{8,9}$/.test(s) ? `+49${s.slice(1)}` : null
   if (/^[49]\d{7}$/.test(s)) return `+47${s}`
   if (/^47[49]\d{7}$/.test(s) && !/^\(?47[49]\)?[\s\-.]/.test(raw)) return `+${s}`
   return null

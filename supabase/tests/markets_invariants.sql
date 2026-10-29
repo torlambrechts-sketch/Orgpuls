@@ -25,6 +25,9 @@
 --     the rule takes a Companies House number of a company or LLP, prefix in capitals, eight
 --     characters, and refuses other registrations and other markets' numbers (23); a sign-up there gets
 --     the UK's floor, language and time zone, and a Swedish number there is refused (24)
+--   * Germany (0236): a market at floor 5, in German, on Berlin time, under de_ustid (25); the rule
+--     takes a USt-IdNr. with its check digit in capitals and refuses a wrong check digit, the digits
+--     without the prefix, lower case, another country's VAT number and other markets' numbers (26)
 --
 -- Built inside a block that is rolled back. Every row must read pass = true.
 --
@@ -329,6 +332,29 @@ begin
       'pass', v_txt = 'invalid_org_number' and (v_json->>'ok')::bool
               and (select market = 'gb' and threshold = 5 and default_lang = 'en' and timezone = 'Europe/London' from app.organizations where org_number = 'SC999001'));
 
+    -- 25 --------------------------------------------------------------- Germany
+    v_rows := v_rows || jsonb_build_object('seq', 25, 'name', 'Germany is a market at floor 5, in German, on Berlin time, under the de_ustid rule',
+      'expected', '5,de,Europe/Berlin,de_ustid', 'actual',
+        coalesce((select m.k_floor || ',' || m.default_lang || ',' || m.timezone || ',' || m.org_number_rule from app.markets m where m.code = 'de'), 'MISSING'),
+      'pass', (select m.k_floor = 5 and m.default_lang = 'de' and m.timezone = 'Europe/Berlin' and m.org_number_rule = 'de_ustid' from app.markets m where m.code = 'de'));
+
+    -- 26 --------------------------------------------------------------- the USt-IdNr. rule
+    v_txt := concat_ws(',',
+      app.org_number_valid('de_ustid', 'DE136695976'),   -- a USt-IdNr. with its check digit
+      app.org_number_valid('de_ustid', 'DE811569869'),   -- another
+      app.org_number_valid('de_ustid', 'DE136695977'),   -- wrong check digit
+      app.org_number_valid('de_ustid', '136695976'),     -- the prefix is part of the number
+      app.org_number_valid('de_ustid', 'de136695976'),   -- stored in capitals only
+      app.org_number_valid('de_ustid', 'DE13669597'),    -- eight digits
+      app.org_number_valid('de_ustid', 'ATU12345675'),   -- another country''s VAT number
+      app.org_number_valid('de_ustid', '999000214'),     -- Norway''s nine digits
+      app.org_number_valid('nine_digits', 'DE136695976'),
+      app.org_number_valid('gb_company', 'DE136695976'),
+      app.de_ustid_check('13669597'),
+      app.de_ustid_check('81156986'));
+    v_rows := v_rows || jsonb_build_object('seq', 26, 'name', 'a USt-IdNr. with its check digit passes; a wrong check digit, no prefix, lower case, eight digits and other numbers do not; the check digits are 6 and 9',
+      'expected', 't,t,f,f,f,f,f,f,f,f,6,9', 'actual', v_txt, 'pass', v_txt = 't,t,f,f,f,f,f,f,f,f,6,9');
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -358,8 +384,8 @@ begin
   if v_failed is not null then
     raise exception 'markets invariants failed: %', v_failed;
   end if;
-  if v_count <> 24 then
-    raise exception 'markets invariants: expected 24 rows, got %', v_count;
+  if v_count <> 26 then
+    raise exception 'markets invariants: expected 26 rows, got %', v_count;
   end if;
 end $$;
 

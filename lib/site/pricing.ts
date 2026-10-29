@@ -14,7 +14,7 @@ export const PLAN_PRICES = {
 export type PriceList = (typeof PLAN_PRICES)[keyof typeof PLAN_PRICES]
 
 /** Which list an organisation in each market pays by */
-export const PRICE_MARKET: Record<Market, keyof typeof PLAN_PRICES> = { no: 'no', se: 'no', gb: 'gb' }
+export const PRICE_MARKET: Record<Market, keyof typeof PLAN_PRICES> = { no: 'no', se: 'no', gb: 'gb', de: 'no' }
 
 export const planPrices = (market: Market): PriceList => PLAN_PRICES[PRICE_MARKET[market]]
 

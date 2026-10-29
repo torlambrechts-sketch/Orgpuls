@@ -132,6 +132,10 @@ describe('the survey’s own language is its market’s (D-280)', () => {
     for (const m of MARKETS) expect(MARKET_SURVEY_BASE[m], m).toBe(surveyBaseOf(m))
     expect(surveyBaseOf('no')).toBe('no')
     expect(surveyBaseOf('gb')).toBe('en')
+    expect(surveyBaseOf('se')).toBe('sv')
+    // German is not a survey language yet, so a German organisation's survey opens in English, the
+    // next of its market's languages the survey has (D-289); DE-A2 makes it German with no change here
+    expect(surveyBaseOf('de')).toBe('en')
   })
 
   it('offers no bokmål in a British survey once English is offered, and English first', () => {
