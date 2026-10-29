@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { siteLangs, SITES } from '@/lib/hosts'
-import { contentLang, fallbackOf, LOCALES } from '@/lib/i18n/locales'
+import { contentLang, fallbackOf, LOCALES, TRANSLATION_LOCALES } from '@/lib/i18n/locales'
 import { MARKET_LANGS } from '@/lib/markets'
 
 /**
@@ -15,10 +15,11 @@ const flat = (o: Record<string, unknown>, p = ''): string[] =>
 const read = (f: string) => JSON.parse(readFileSync(f, 'utf8')) as Record<string, unknown>
 
 describe('German is a platform language with English behind it', () => {
-  it('is in the registry, falling back to English, and is not yet a survey language', () => {
+  it('is in the registry, falling back to English, and since DE-A2 a survey language too (D-292)', () => {
     expect(LOCALES).toContain('de')
     expect(fallbackOf('de')).toEqual(['en'])
     expect(contentLang('de')).toBe('en')
+    expect(TRANSLATION_LOCALES).toContain('de')
   })
 
   it('has a catalogue whose every key is also bokmål’s, and the same keys as Swedish', () => {

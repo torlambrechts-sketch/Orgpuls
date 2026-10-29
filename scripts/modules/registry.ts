@@ -8,6 +8,8 @@
  * newest version in the database it runs against, with the SHA-256 of the bokmål they translate, so a
  * row is laid only while that bokmål is still the module's (D-253, D-262).
  *
+ * A file may also carry a module's segment questions and, for a worded module (0083), the kindergarten
+ * and school wording of its texts (D-292); both resolve the same way.
  * Rows are written as origin «machine» drafts, or «official» for the sections a file takes from the
  * instrument's own published translation (0224). Where the platform's auto-approve switch is on (hosted),
  * the registry approves them as written (0101); elsewhere they wait for a person. Running it twice
@@ -38,6 +40,19 @@ function rows(key: string): string[] {
       values.push(`('item', ${lit(code)}, 0, ${lit(c.text)}, ${src('counts')})`)
       c.options.forEach((o, i) => values.push(`('item', ${lit(code)}, ${i + 1}, ${lit(o)}, ${src('counts')})`))
     }
+    // a segment question is an item too (0067: code <prefix>-S-<id>, kind segment), with its options
+    for (const [code, c] of Object.entries(r.segments ?? {})) {
+      values.push(`('item', ${lit(code)}, 0, ${lit(c.text)}, ${src('segments')})`)
+      c.options.forEach((o, i) => values.push(`('item', ${lit(code)}, ${i + 1}, ${lit(o)}, ${src('segments')})`))
+    }
+    // a worded module's wordings (0083): module:<id>:v:<wording> and mfactor:<id>:v:<wording>, hashed on the
+    // bokmål wording they translate (text ->> 'nb.<wording>', i18n -> 'nb.<wording>' ->> 'name'), as the catalogue does
+    const wordings: string[] = []
+    for (const [code, w] of Object.entries(r.variants ?? {}))
+      for (const k of ['barnehage', 'skole'] as const) wordings.push(`('item', ${lit(code)}, ${lit(k)}, ${lit(w[k])}, ${src('variants')})`)
+    for (const [key, w] of Object.entries(r.factorVariants ?? {}))
+      for (const k of ['barnehage', 'skole'] as const) wordings.push(`('factor', ${lit(key)}, ${lit(k)}, ${lit(w[k])}, ${src('variants')})`)
+    const ofWording = (kind: string) => wordings.filter((v) => v.startsWith(`('${kind}'`)).join(', ')
     for (const [code, scale] of scaled) {
       const labels = r.scales?.[scale]
       if (!labels) throw new Error(`${key}/${r.locale}: no labels for scale ${scale}`)
@@ -65,7 +80,23 @@ from (
   union all
   select 'mfactor:' || f.id, v.text, v.source, encode(sha256(convert_to(f.name, 'UTF8')), 'hex')
   from (values ${of('factor')}) v(kind, code, n, text, source)
-  join app.module_factors f on f.module_id = ${module} and f.key = v.code
+  join app.module_factors f on f.module_id = ${module} and f.key = v.code${
+    ofWording('item')
+      ? `
+  union all
+  select 'module:' || i.id || ':v:' || v.w, v.text, v.source, encode(sha256(convert_to(i.text ->> ('nb.' || v.w), 'UTF8')), 'hex')
+  from (values ${ofWording('item')}) v(kind, code, w, text, source)
+  join app.module_items i on i.module_id = ${module} and i.code = v.code and i.text ? ('nb.' || v.w)`
+      : ''
+  }${
+    ofWording('factor')
+      ? `
+  union all
+  select 'mfactor:' || f.id || ':v:' || v.w, v.text, v.source, encode(sha256(convert_to(f.i18n -> ('nb.' || v.w) ->> 'name', 'UTF8')), 'hex')
+  from (values ${ofWording('factor')}) v(kind, code, w, text, source)
+  join app.module_factors f on f.module_id = ${module} and f.key = v.code and f.i18n ? ('nb.' || v.w)`
+      : ''
+  }
 ) x
 on conflict (item_id, locale) do update set text = excluded.text, source = excluded.source, source_hash = excluded.source_hash
 where app.item_translations.text is distinct from excluded.text or app.item_translations.source_hash is distinct from excluded.source_hash

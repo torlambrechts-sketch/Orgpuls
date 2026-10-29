@@ -1,0 +1,138 @@
+{
+  "locale": "de",
+  "factors": {
+    "fokus_og_avbrytelser": "Fokus und Unterbrechungen",
+    "motekultur": "Besprechungskultur",
+    "digitale_verktoy": "Digitale Werkzeuge und Informationsmenge",
+    "tilgjengelighet": "Erreichbarkeit und Antwortdruck",
+    "arbeid_privatliv": "Arbeit und Privatleben",
+    "restitusjon": "Erholung und Abschalten",
+    "hybrid_samhandling": "Hybride Zusammenarbeit",
+    "tilhorighet": "Zugehörigkeit und fachliches Netzwerk",
+    "fysisk_arbeidsplass": "Arbeitsplatz und Ausstattung",
+    "kunde_og_leveransepress": "Kunden- und Lieferdruck",
+    "laering_og_utvikling": "Lernen und fachliche Entwicklung",
+    "ki_og_endring": "KI und veränderte Aufgaben",
+    "overvaking_og_tillit": "Digitale Überwachung und Vertrauen",
+    "jobbtrygghet": "Arbeitsplatzsicherheit und Umstrukturierung",
+    "rettferdighet_og_karriere": "Fairness und Laufbahn"
+  },
+  "items": {
+    "KK-FA-1": "Ich bekomme genug zusammenhängende Zeit für Arbeit, die Konzentration erfordert.",
+    "KK-FA-2": "Ich werde selten gestört, wenn ich mich konzentrieren muss.",
+    "KK-FA-3": "Ich kann eine Aufgabe abschließen, bevor ich zur nächsten übergehen muss.",
+    "KK-FA-4": "Wir haben im Team Vereinbarungen darüber, wann wir einander stören dürfen.",
+    "KK-FA-5": "Benachrichtigungen und Nachrichten sind so eingerichtet, dass sie mich nicht unnötig stören.",
+    "KK-MK-1": "Die Besprechungen, an denen ich teilnehme, sind nützlich für meine Arbeit.",
+    "KK-MK-2": "Die Besprechungen, an denen ich teilnehme, haben einen klaren Zweck.",
+    "KK-MK-3": "Ich habe zwischen Besprechungen genug Zeit, um meine Arbeit nachzubereiten.",
+    "KK-MK-4": "Ich kann Besprechungen absagen, in denen ich nicht gebraucht werde.",
+    "KK-DV-1": "Die digitalen Werkzeuge, die wir nutzen, machen meine Arbeit einfacher.",
+    "KK-DV-2": "Die Menge an E-Mails, Nachrichten und Benachrichtigungen, die ich bekomme, ist zu bewältigen.",
+    "KK-DV-3": "Ich bekomme die Schulung und den Support, die ich brauche, wenn wir neue digitale Werkzeuge einführen.",
+    "KK-DV-4": "Ich weiß, welchen Kanal ich wofür nutzen soll, zum Beispiel E-Mail, Chat oder Telefon.",
+    "KK-DV-5": "Die digitalen Werkzeuge laufen stabil, sodass ich keine Zeit mit technischen Problemen verliere.",
+    "KK-TG-1": "Es ist akzeptiert, dass ich außerhalb der Arbeitszeit nicht auf dienstliche Anfragen antworte.",
+    "KK-TG-2": "Ich kann mit der Antwort auf Nachrichten warten, bis es in meine Arbeit passt.",
+    "KK-TG-3": "Wir haben im Team klare Vereinbarungen darüber, wann wir erreichbar sein sollen.",
+    "KK-TG-4": "Wenn ich eine Nachricht bekomme, kann ich erst das zu Ende bringen, woran ich gerade arbeite.",
+    "KK-TG-5": "Meine Führungskraft zeigt durch ihr eigenes Verhalten, dass die Freizeit zu respektieren ist.",
+    "KK-AP-1": "Meine Arbeit lässt mir genug Zeit für mein Privatleben.",
+    "KK-AP-2": "Ich kann private Pläne in der Regel umsetzen, ohne dass die Arbeit dazwischenkommt.",
+    "KK-AP-3": "Nach dem Arbeitstag habe ich genug Energie für Dinge, die mir Freude machen.",
+    "KK-AP-4": "Ich kann meine Arbeitszeit anpassen, wenn mein Privatleben es erfordert.",
+    "KK-RE-1": "Ich kann in der Freizeit von der Arbeit abschalten.",
+    "KK-RE-2": "In der Freizeit denke ich wenig an die Arbeit.",
+    "KK-RE-3": "Ich habe im Laufe des Arbeitstags Pausen, die mir neue Energie geben.",
+    "KK-RE-4": "Im Urlaub kann ich ganz frei von der Arbeit sein.",
+    "KK-HS-1": "Die Zusammenarbeit im Team funktioniert gut, egal von wo wir arbeiten.",
+    "KK-HS-2": "Wir haben gemeinsame Vereinbarungen darüber, wann wir zusammen vor Ort sein sollen.",
+    "KK-HS-3": "Besprechungen, bei denen manche digital und manche im Raum teilnehmen, funktionieren gut.",
+    "KK-HS-4": "Wer digital teilnimmt, wird gehört, wenn wir Entscheidungen treffen.",
+    "KK-TN-1": "Ich habe genug informellen Kontakt mit Kolleginnen und Kollegen.",
+    "KK-TN-2": "Ich bekomme fachlichen Austausch, wenn ich ihn brauche, egal von wo ich arbeite.",
+    "KK-TN-3": "Ich fühle mich meinem Arbeitsplatz zugehörig.",
+    "KK-TN-4": "Neue Beschäftigte lernen bei uns schnell ihre Kolleginnen und Kollegen kennen.",
+    "KK-FY-1": "Mein Arbeitsplatz im Büro ermöglicht es mir, mich zu konzentrieren.",
+    "KK-FY-2": "Ich habe Ausstattung, mit der ich körperschonend arbeiten kann, egal von wo ich arbeite.",
+    "KK-FY-3": "Ich weiß, an wen ich mich wenden kann, wenn mein Arbeitsplatz oder meine Ausstattung nicht gut genug ist.",
+    "KK-FY-4": "Ich habe Zugang zu ruhigen Räumen oder Zonen, wenn ich sie brauche.",
+    "KK-FY-5": "Das Raumklima im Büro, in dem ich arbeite, ist gut.",
+    "KK-KL-1": "Die Fristen, die wir mit der Kundschaft vereinbaren, sind realistisch.",
+    "KK-KL-2": "Ich bekomme Unterstützung von meiner Führungskraft, wenn die Kundschaft unzumutbare Forderungen stellt.",
+    "KK-KL-3": "Die Anforderungen an abrechenbare Zeit oder Zeiterfassung sind angemessen.",
+    "KK-KL-4": "Wir haben gute Abläufe dafür, wenn die Kundschaft den Auftrag zwischendurch ändert.",
+    "KK-LU-1": "Ich lerne in meiner Arbeit Neues.",
+    "KK-LU-2": "Ich habe Zeit, mich fachlich auf dem Laufenden zu halten.",
+    "KK-LU-3": "Ich weiß, welche Entwicklungsmöglichkeiten ich bei meinem Arbeitgeber habe.",
+    "KK-LU-4": "Ich bekomme Rückmeldungen, die mir helfen, mich fachlich weiterzuentwickeln.",
+    "KK-KI-1": "Ich weiß, wie ich KI-Werkzeuge in meiner Arbeit sicher und richtig einsetzen kann.",
+    "KK-KI-2": "Ich werde einbezogen, wenn neue Technologie die Art verändert, wie wir arbeiten.",
+    "KK-KI-3": "Ich bekomme Schulungen zu KI-Werkzeugen, die für meine Arbeit relevant sind.",
+    "KK-KI-4": "Der Einsatz von KI gibt mir mehr Zeit für Aufgaben, die ich als sinnvoll erlebe.",
+    "KK-KI-5": "Es ist klar, wer die Verantwortung trägt, wenn wir KI-generierte Inhalte in der Arbeit verwenden.",
+    "KK-OT-1": "Ich weiß, welche Angaben über meine Arbeit digital erfasst werden.",
+    "KK-OT-2": "Digitale Daten über meine Arbeit werden auf angemessene Weise genutzt.",
+    "KK-OT-3": "Ich erlebe Vertrauen von der Leitung, auch wenn sie nicht sieht, was ich tue.",
+    "KK-JT-1": "Ich bin zuversichtlich, dass meine Kompetenz auch künftig gefragt sein wird.",
+    "KK-JT-2": "Ich bin zuversichtlich, dass ich in einem Jahr noch hier arbeite.",
+    "KK-JT-3": "Veränderungen im Unternehmen werden so erklärt, dass ich sie verstehe.",
+    "KK-RK-1": "Aufgaben und Projekte werden gerecht verteilt.",
+    "KK-RK-2": "Die Kriterien für Gehalt und Beförderung sind klar.",
+    "KK-RK-3": "Ich habe genauso gute Chancen, wahrgenommen zu werden, egal von wo ich arbeite."
+  },
+  "counts": {
+    "KK-T-1": {
+      "text": "Wurden Sie in den letzten vier Wochen in Ihrer Freizeit wegen der Arbeit kontaktiert, wobei eine Antwort erwartet wurde, ohne dass Sie Bereitschaft oder Rufbereitschaft vereinbart hatten?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    },
+    "KK-T-2": {
+      "text": "Falls Sie fest oder regelmäßig von zu Hause arbeiten: Haben Sie eine schriftliche Vereinbarung mit Ihrem Arbeitgeber über das Arbeiten von zu Hause?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht",
+        "Ich arbeite nicht regelmäßig von zu Hause"
+      ]
+    },
+    "KK-T-3": {
+      "text": "Hat Ihr Unternehmen Ihnen schriftliche Richtlinien für den Einsatz von KI-Werkzeugen gegeben?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    },
+    "KK-T-4": {
+      "text": "Wurde Ihr Arbeitsplatz zu Hause überprüft, zum Beispiel mit einer Checkliste zur Ergonomie?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht",
+        "Ich arbeite nicht regelmäßig von zu Hause"
+      ]
+    }
+  },
+  "segments": {
+    "KK-S-arbeidsform": {
+      "text": "Wo arbeiten Sie üblicherweise?",
+      "options": [
+        "Hauptsächlich in den Räumen des Arbeitgebers",
+        "Sowohl vor Ort als auch zu Hause (hybrid)",
+        "Hauptsächlich zu Hause oder anderswo"
+      ]
+    },
+    "KK-S-fakturerbar_rolle": {
+      "text": "Wie viel Ihrer Arbeitszeit entfällt auf Kundenlieferungen oder abrechenbare Arbeit?",
+      "options": [
+        "Der größte Teil",
+        "Ein Teil",
+        "Wenig oder nichts"
+      ]
+    }
+  }
+}

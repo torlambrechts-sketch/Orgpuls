@@ -1,0 +1,37 @@
+{
+  "locale": "de",
+  "factors": {
+    "schema_och_forutsagbarhet": "Dienstplan und Planbarkeit",
+    "aterhamtning_och_vila": "Erholung und Ruhe",
+    "nabarhet_och_granser": "Erreichbarkeit und Grenzen",
+    "overtid_och_langa_arbetsdagar": "Überstunden und lange Arbeitstage",
+    "natt_skift_och_langa_pass": "Nacht, Schicht und lange Dienste"
+  },
+  "items": {
+    "AA-SF-1": "Der Dienstplan steht rechtzeitig fest, bevor er gilt",
+    "AA-SF-2": "Kurzfristige Änderungen der Arbeitszeit sind die Ausnahme, nicht die Regel",
+    "AA-SF-3": "Wünsche zur Arbeitszeit werden bei der Dienstplanung berücksichtigt",
+    "AA-AH-1": "Pausen werden genommen, auch wenn viel zu tun ist",
+    "AA-AH-2": "Die freie Zeit zwischen den Arbeitstagen oder Diensten reicht aus, um sich zu erholen",
+    "AA-AH-3": "Nach Phasen mit viel Arbeit bleibt Zeit, wieder zu Kräften zu kommen",
+    "AA-NG-1": "Es ist akzeptiert, dienstliche Anfragen in der Freizeit nicht zu beantworten",
+    "AA-NG-2": "Es ist klar, wann man erreichbar sein muss und wann nicht",
+    "AA-NG-3": "Führungskräfte vermeiden es, wegen der Arbeit Kontakt aufzunehmen, wenn jemand frei hat",
+    "AA-OT-1": "Überstunden sind die Ausnahme, nicht die Regel",
+    "AA-OT-2": "Arbeit, die in der Arbeitszeit nicht geschafft wird, wird nicht in die Freizeit verlagert",
+    "AA-OT-3": "Die Führungskraft hat im Blick, wie viel tatsächlich gearbeitet wird, auch über das Geplante hinaus",
+    "AA-NS-1": "Nach Nachtdiensten bleibt genug freie Zeit bis zum nächsten Dienst",
+    "AA-NS-2": "Riskante und anspruchsvolle Aufgaben werden nach Möglichkeit tagsüber eingeplant",
+    "AA-NS-3": "Bei langen Diensten und Nachtdiensten gibt es einen ungestörten Ort zum Ausruhen"
+  },
+  "counts": {
+    "AA-T-1": {
+      "text": "Hatten Sie in den letzten drei Monaten weniger als elf Stunden frei zwischen zwei Diensten oder Arbeitstagen, zum Beispiel einen Spätdienst gefolgt von einem Frühdienst?",
+      "options": ["Ja", "Nein", "Weiß nicht"]
+    },
+    "AA-T-2": {
+      "text": "Wurden Sie in den letzten drei Monaten in Ihrer Freizeit wegen der Arbeit kontaktiert, wobei eine Antwort erwartet wurde, ohne dass Sie Bereitschaft oder Rufbereitschaft vereinbart hatten?",
+      "options": ["Ja", "Nein", "Weiß nicht"]
+    }
+  }
+}

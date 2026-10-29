@@ -1,7 +1,7 @@
 # Translation files for survey languages
 
-The survey can be offered in **Polish, Ukrainian, Lithuanian, Swedish and Danish** besides bokmål and
-English (D-133). The platform itself stays bokmål and English, and the admin English.
+The survey can be offered in **Polish, Ukrainian, Lithuanian, Swedish, Danish and German** besides bokmål and
+English (D-133; German since D-292). The platform itself stays bokmål and English, and the admin English.
 
 Everything a respondent reads in one of these languages is managed in **admin › Translations**.
 That covers the survey statements, the questions outside the index, the industry modules, the

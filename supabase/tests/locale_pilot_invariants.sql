@@ -82,7 +82,7 @@ begin
     -- the platform, as platform_command sets it after verifying a token
     perform set_config('app.platform_actor', 'test@platform', true);
     v_txt := v_txt || ',' || (app.op_locale_pilot('pl', v_org, true, 'x')->>'error')
-          || ',' || (app.op_locale_pilot('de', v_org, true, 'Pilotkunde')->>'error')
+          || ',' || (app.op_locale_pilot('fi', v_org, true, 'Pilotkunde')->>'error')
           || ',' || (app.op_locale_pilot('pl', gen_random_uuid(), true, 'Pilotkunde')->>'error')
           || ',' || (app.op_locale_pilot('pl', v_org, true, 'Pilotkunde, trinn 2')->>'ok');
     -- a statement of its own: the list is stable, and sees what the statements before it wrote

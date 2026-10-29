@@ -19,7 +19,7 @@ import no from '@/messages/no.json'
  */
 const KEY = 'arbetstid-och-aterhamtning'
 const m = parseModule(JSON.parse(readFileSync(`modules/${KEY}/v1.json`, 'utf8')), KEY)
-const LANGS = ['sv', 'pl', 'uk', 'lt', 'da'] as const
+const LANGS = ['sv', 'pl', 'uk', 'lt', 'da', 'de'] as const
 const registry = (lang: string) => RegistryFile.parse(JSON.parse(readFileSync(`modules/${KEY}/registry/${lang}.json`, 'utf8')))
 
 describe('arbetstid-och-aterhamtning v1', () => {

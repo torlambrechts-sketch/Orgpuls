@@ -64,11 +64,12 @@ begin
       exception when check_violation then v_txt := v_txt || 'n';
       end;
     end loop;
-    insert into app.item_translations (item_id, locale, text, source) values ('core:ytring:3', 'sv', 'prov', 'official'), ('core:ytring:3', 'da', 'prøve', 'official');
+    insert into app.item_translations (item_id, locale, text, source) values ('core:ytring:3', 'sv', 'prov', 'official'), ('core:ytring:3', 'da', 'prøve', 'official'), ('core:ytring:3', 'de', 'Probe', 'machine');
     insert into app.employees (org_id, full_name, email, language, active) values (v_org, 'Sli Probe', 'sli-probe@orgpuls.com', 'uk', true) returning id into v_emp;
-    v_txt := v_txt || ',' || (select count(*) from app.item_translations where item_id = 'core:ytring:3' and locale in ('sv', 'da'));
-    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'page, mail and module factor keys are taken, other shapes refused; uk, sv and da are languages',
-      'expected', 'yyyyynnnn,2', 'actual', v_txt, 'pass', v_txt = 'yyyyynnnn,2');
+    insert into app.employees (org_id, full_name, email, language, active) values (v_org, 'Sli Probe DE', 'sli-probe-de@orgpuls.com', 'de', true);
+    v_txt := v_txt || ',' || (select count(*) from app.item_translations where item_id = 'core:ytring:3' and locale in ('sv', 'da', 'de'));
+    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'page, mail and module factor keys are taken, other shapes refused; uk, sv, da and de are languages (0237)',
+      'expected', 'yyyyynnnn,3', 'actual', v_txt, 'pass', v_txt = 'yyyyynnnn,3');
 
     -- 3 ------------------------------------------------------------ what may be approved
     v_txt := concat_ws('/',
@@ -167,9 +168,9 @@ begin
     if sqlerrm <> 'rollback-probe' then raise; end if;
   end;
 
-  v_txt := (not exists (select 1 from app.item_translations where item_id like 'ui:respond.sli%' or text like 'sli %' or text in ('проба', 'prov', 'prøve'))
+  v_txt := (not exists (select 1 from app.item_translations where item_id like 'ui:respond.sli%' or text like 'sli %' or text in ('проба', 'prov', 'prøve', 'Probe'))
             and not exists (select 1 from app.question_modules where key = 'probe-sli')
-            and not exists (select 1 from app.employees where email = 'sli-probe@orgpuls.com'))::text;
+            and not exists (select 1 from app.employees where email in ('sli-probe@orgpuls.com', 'sli-probe-de@orgpuls.com')))::text;
   v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'every probe change was rolled back', 'expected', 'true', 'actual', v_txt, 'pass', v_txt = 'true');
 
   insert into public._sli

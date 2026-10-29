@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { LOCALES } from '@/lib/i18n/locales'
+import { RESPONDENT_LOCALES, type RespondentLocale } from '@/lib/i18n/offered'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { K_FLOOR, K_MAX } from '@/lib/org/threshold'
@@ -603,14 +604,22 @@ export async function setThreshold(formData: FormData): Promise<SettingsResult> 
 }
 
 /**
- * A language as a spreadsheet writes it: a code (no, nb, nn, en, pl, lt) or the language's own
- * name, in any case. Anything else is no language, and the employee meets bokmål.
+ * A language as a spreadsheet writes it: a survey language's code (no, nb, nn, en, pl, uk, lt, sv, da,
+ * de) or its name in bokmål, in English or in the language itself, in any case. Anything else is no
+ * language, and the employee meets the survey's own language. One row per survey language, so a
+ * language added to the registry (lib/i18n/locales.ts) without its words here is a type error (D-292).
  */
-function languageOf(cell: string): 'no' | 'en' | 'pl' | 'lt' | null {
+const LANGUAGE_WORDS: Record<RespondentLocale, readonly string[]> = {
+  no: ['no', 'nb', 'nn', 'norsk', 'bokmål', 'bokmal', 'nynorsk', 'norwegian'],
+  en: ['en', 'english', 'engelsk'],
+  pl: ['pl', 'polski', 'polsk', 'polish'],
+  uk: ['uk', 'українська', 'ukrainsk', 'ukrainian'],
+  lt: ['lt', 'lietuvių', 'lietuviu', 'litauisk', 'lithuanian'],
+  sv: ['sv', 'svenska', 'svensk', 'swedish'],
+  da: ['da', 'dansk', 'danish'],
+  de: ['de', 'deutsch', 'tysk', 'german'],
+}
+function languageOf(cell: string): RespondentLocale | null {
   const v = cell.trim().toLowerCase()
-  if (['no', 'nb', 'nn', 'norsk', 'bokmål', 'bokmal', 'nynorsk', 'norwegian'].includes(v)) return 'no'
-  if (['en', 'english', 'engelsk'].includes(v)) return 'en'
-  if (['pl', 'polski', 'polsk', 'polish'].includes(v)) return 'pl'
-  if (['lt', 'lietuvių', 'lietuviu', 'litauisk', 'lithuanian'].includes(v)) return 'lt'
-  return null
+  return RESPONDENT_LOCALES.find((l) => LANGUAGE_WORDS[l].includes(v)) ?? null
 }

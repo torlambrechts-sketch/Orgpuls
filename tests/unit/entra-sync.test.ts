@@ -84,7 +84,8 @@ describe('mapping a directory person', () => {
     expect(mapLanguage('lt')).toBe('lt')
     expect(mapLanguage('sv-SE')).toBe('sv')
     expect(mapLanguage('da-DK')).toBe('da')
-    expect(mapLanguage('de-DE')).toBeNull()
+    expect(mapLanguage('de-DE')).toBe('de')
+    expect(mapLanguage('fi-FI')).toBeNull()
     expect(mapLanguage(null)).toBeNull()
   })
 
@@ -293,7 +294,8 @@ describe('the planner', () => {
     const s = state({
       employees: [{ id: eid(1), objectId: oid(1), email: 'person1@firma.no', fullName: 'Person 1', groupId: DRIFT, active: true, pinned: false, language: 'pl', phone: null }],
     })
-    const p = plan(s, full({ [G1]: [user(1, { preferredLanguage: 'de-DE' }), user(2, { preferredLanguage: 'uk-UA' })] }), opts)
+    // Finnish is not a survey language; German has been one since 0237 (D-292)
+    const p = plan(s, full({ [G1]: [user(1, { preferredLanguage: 'fi-FI' }), user(2, { preferredLanguage: 'uk-UA' })] }), opts)
     expect(p.people).toEqual([{ objectId: oid(2), op: 'add', fullName: 'Person 2', email: 'person2@firma.no', language: 'uk' }])
   })
 

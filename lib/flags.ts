@@ -35,6 +35,7 @@ export const FLAG_NAMES = [
   'locale_lt',
   'locale_sv',
   'locale_da',
+  'locale_de',
 ] as const
 export type FlagName = (typeof FLAG_NAMES)[number]
 

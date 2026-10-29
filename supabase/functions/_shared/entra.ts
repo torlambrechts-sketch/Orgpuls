@@ -29,7 +29,7 @@ export const GRAPH = 'https://graph.microsoft.com/v1.0'
 export const LOGIN = 'https://login.microsoftonline.com'
 export const GRAPH_SCOPE = 'https://graph.microsoft.com/.default'
 /** the survey languages the employee register accepts (employees_language_check) */
-export const LANGS = ['no', 'en', 'pl', 'uk', 'lt', 'sv', 'da'] as const
+export const LANGS = ['no', 'en', 'pl', 'uk', 'lt', 'sv', 'da', 'de'] as const
 export type Lang = (typeof LANGS)[number]
 /** groups/delta takes at most 50 ids in one filter (learn.microsoft.com/graph/api/group-delta) */
 export const DELTA_FILTER_MAX = 50

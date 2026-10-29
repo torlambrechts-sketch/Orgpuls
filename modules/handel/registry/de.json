@@ -1,0 +1,76 @@
+{
+  "locale": "de",
+  "factors": {
+    "sikkerhet_tyveri_trusler": "Sicherheit bei Diebstahl, Drohungen und Überfall",
+    "alene_pa_vakt": "Allein im Dienst",
+    "grenser_mot_kunder": "Grenzen gegenüber der Kundschaft",
+    "bemanning_og_tempo": "Personalbesetzung und Tempo",
+    "vaktplan": "Schichtplan und Planbarkeit",
+    "stilling_og_tilhorighet": "Stelle und Zugehörigkeit",
+    "opplaering": "Einarbeitung und neue Leute",
+    "fysisk_arbeid": "Körperliche Arbeit und Hilfsmittel"
+  },
+  "items": {
+    "HA-SI-1": "Wir haben klare Abläufe dafür, was wir bei Diebstahl, Drohungen und Überfällen tun",
+    "HA-SI-2": "Ich kann schnell Hilfe bekommen, wenn eine Situation im Laden bedrohlich wird",
+    "HA-SI-3": "Nach einem unangenehmen Vorfall mit einer Kundin oder einem Kunden kümmert sich jemand um mich",
+    "HA-AL-1": "Wenn ich allein arbeite, fühle ich mich sicher",
+    "HA-AL-2": "Ich schaffe es, Pausen zu machen, auch wenn ich allein arbeite",
+    "HA-AL-3": "Meine Führungskraft oder jemand aus dem Team ist leicht zu erreichen, wenn ich allein arbeite",
+    "HA-KU-1": "Ich bekomme Unterstützung von meiner Führungskraft, wenn sich jemand aus der Kundschaft verletzend verhält",
+    "HA-KU-2": "Es ist in Ordnung, ein Gespräch mit jemandem aus der Kundschaft zu beenden, der eine Grenze überschreitet",
+    "HA-KU-3": "Sexuelle Bemerkungen oder Berührungen durch die Kundschaft werden ernst genommen und nicht kleingeredet",
+    "HA-BE-1": "Die Personalbesetzung ist daran angepasst, wie viel im Laufe des Tages los ist",
+    "HA-BE-2": "Ich habe Zeit für die Kundschaft und für die anderen Aufgaben",
+    "HA-BE-3": "Wenn viel los ist, ist klar, was warten kann",
+    "HA-AV-1": "Ich bekomme den Schichtplan rechtzeitig",
+    "HA-AV-2": "Ich kann beeinflussen, welche Schichten ich arbeite",
+    "HA-AV-3": "Kurzfristige Änderungen der Schichten sind die Ausnahme",
+    "HA-ST-1": "Ich habe den Stellenumfang, den ich mir wünsche",
+    "HA-ST-2": "Ich bekomme wichtige Informationen mit, auch wenn ich wenig oder zu unterschiedlichen Zeiten arbeite",
+    "HA-ST-3": "Ich fühle mich als Teil der Gemeinschaft hier",
+    "HA-OP-1": "Neue werden eingearbeitet, bevor sie allein im Laden stehen",
+    "HA-OP-2": "Ich wurde darin geschult, was ich bei Diebstahl, Drohungen oder einem Überfall tun soll",
+    "HA-OP-3": "Ich weiß, wen ich fragen kann, wenn ich unsicher bin",
+    "HA-FY-1": "Wir haben Hilfsmittel für schwere Lasten und die Warenannahme",
+    "HA-FY-2": "Wir haben Zeit, die Hilfsmittel zu benutzen, auch wenn viel los ist",
+    "HA-FY-3": "Ich kann meine Arbeitshaltung während der Schicht wechseln"
+  },
+  "counts": {
+    "HA-T-1": {
+      "text": "Haben Sie in den letzten drei Monaten einen Vorfall mit Diebstahl, Drohungen oder Gewalt miterlebt, der nicht gemeldet wurde?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Weiß nicht"
+      ]
+    },
+    "HA-T-2": {
+      "text": "Haben Sie in den letzten drei Monaten allein in einer Situation gearbeitet, in der Sie sich unsicher gefühlt haben?",
+      "options": [
+        "Ja",
+        "Nein",
+        "Ich arbeite nie allein"
+      ]
+    }
+  },
+  "segments": {
+    "HA-S-arbeidssted": {
+      "text": "Wo arbeiten Sie hauptsächlich?",
+      "options": [
+        "Verkaufsfläche und Kasse",
+        "Lager und Warenannahme",
+        "Kundenservice oder Onlinehandel",
+        "Büro oder Verwaltung"
+      ]
+    },
+    "HA-S-stillingsstorrelse": {
+      "text": "Welchen Stellenumfang haben Sie?",
+      "options": [
+        "Vollzeit",
+        "Teilzeit, 50 Prozent oder mehr",
+        "Teilzeit, unter 50 Prozent"
+      ]
+    }
+  }
+}

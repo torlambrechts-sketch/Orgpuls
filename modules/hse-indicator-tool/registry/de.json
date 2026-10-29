@@ -1,0 +1,57 @@
+{
+  "locale": "de",
+  "factors": {
+    "demands": "Anforderungen",
+    "control": "Kontrolle",
+    "managers_support": "Unterstützung durch Vorgesetzte",
+    "peer_support": "Unterstützung durch Kolleginnen und Kollegen",
+    "relationships": "Beziehungen",
+    "role": "Rolle",
+    "change": "Veränderung"
+  },
+  "items": {
+    "HS-RO-1": "Mir ist klar, was bei der Arbeit von mir erwartet wird",
+    "HS-CO-1": "Ich kann entscheiden, wann ich eine Pause mache",
+    "HS-DE-1": "Verschiedene Gruppen bei der Arbeit verlangen Dinge von mir, die schwer zu vereinbaren sind",
+    "HS-RO-2": "Ich weiß, wie ich vorgehen muss, um meine Arbeit zu erledigen",
+    "HS-RE-1": "Ich bin persönlichen Anfeindungen in Form von unfreundlichen Worten oder unfreundlichem Verhalten ausgesetzt",
+    "HS-DE-2": "Ich habe Fristen, die nicht einzuhalten sind",
+    "HS-PS-1": "Wenn die Arbeit schwierig wird, helfen mir meine Kolleginnen und Kollegen",
+    "HS-MS-1": "Ich bekomme unterstützende Rückmeldungen zu der Arbeit, die ich mache",
+    "HS-DE-3": "Ich muss sehr intensiv arbeiten",
+    "HS-CO-2": "Ich habe Einfluss auf mein eigenes Arbeitstempo",
+    "HS-RO-3": "Mir ist klar, welche Aufgaben und welche Verantwortung ich habe",
+    "HS-DE-4": "Ich muss manche Aufgaben vernachlässigen, weil ich zu viel zu tun habe",
+    "HS-RO-4": "Mir sind die Ziele und Vorgaben meiner Abteilung klar",
+    "HS-RE-2": "Es gibt Spannungen oder Ärger zwischen Kolleginnen und Kollegen",
+    "HS-CO-3": "Ich kann mitentscheiden, wie ich meine Arbeit mache",
+    "HS-DE-5": "Ich kann nicht genug Pausen machen",
+    "HS-RO-5": "Ich verstehe, wie meine Arbeit zum Gesamtziel der Organisation beiträgt",
+    "HS-DE-6": "Ich werde gedrängt, lange zu arbeiten",
+    "HS-CO-4": "Ich kann mitentscheiden, was ich bei der Arbeit tue",
+    "HS-DE-7": "Ich muss sehr schnell arbeiten",
+    "HS-RE-3": "Ich bin bei der Arbeit Mobbing ausgesetzt",
+    "HS-DE-8": "Ich stehe unter unrealistischem Zeitdruck",
+    "HS-MS-2": "Ich kann mich darauf verlassen, dass mir meine direkte Führungskraft bei einem Problem bei der Arbeit hilft",
+    "HS-PS-2": "Ich bekomme von Kolleginnen und Kollegen die Hilfe und Unterstützung, die ich brauche",
+    "HS-CO-5": "Ich habe ein gewisses Mitspracherecht dabei, wie ich arbeite",
+    "HS-CH-1": "Ich habe ausreichend Gelegenheit, Führungskräfte zu Veränderungen bei der Arbeit zu befragen",
+    "HS-PS-3": "Ich bekomme bei der Arbeit von meinen Kolleginnen und Kollegen den Respekt, den ich verdiene",
+    "HS-CH-2": "Die Beschäftigten werden bei Veränderungen bei der Arbeit immer einbezogen",
+    "HS-MS-3": "Ich kann mit meiner direkten Führungskraft über etwas sprechen, das mich bei der Arbeit aufgeregt oder geärgert hat",
+    "HS-CO-6": "Meine Arbeitszeit kann flexibel sein",
+    "HS-PS-4": "Meine Kolleginnen und Kollegen sind bereit, sich meine arbeitsbezogenen Probleme anzuhören",
+    "HS-CH-3": "Wenn bei der Arbeit Veränderungen vorgenommen werden, ist mir klar, wie sie sich in der Praxis auswirken werden",
+    "HS-MS-4": "Ich werde bei emotional belastender Arbeit unterstützt",
+    "HS-RE-4": "Die Beziehungen bei der Arbeit sind angespannt",
+    "HS-MS-5": "Meine direkte Führungskraft ermutigt mich bei der Arbeit"
+  },
+  "counts": {},
+  "scales": {
+    "frekvens": ["Nie", "Selten", "Manchmal", "Oft", "Immer"],
+    "enighet": ["Stimme gar nicht zu", "Stimme nicht zu", "Weder noch", "Stimme zu", "Stimme voll zu"]
+  },
+  "prefaces": {
+    "HS-RO-1": "Es ist anerkannt, dass die Arbeitsbedingungen das Wohlbefinden der Beschäftigten beeinflussen. Ihre Antworten auf die folgenden Fragen helfen uns, unsere derzeitigen Arbeitsbedingungen zu ermitteln, und ermöglichen es uns, künftige Verbesserungen zu verfolgen. Damit wir die jetzige Situation mit früheren oder späteren vergleichen können, ist es wichtig, dass Ihre Antworten Ihre Arbeit in den letzten sechs Monaten widerspiegeln."
+  }
+}

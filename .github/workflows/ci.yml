@@ -146,6 +146,15 @@ jobs:
           psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
             -v ON_ERROR_STOP=1 -f /tmp/fixture-se.sql
 
+      # And as a German firm in German (--market de, D-291), from which the German site's product
+      # pictures are taken: every suite below holds with an organisation in Germany too, and the
+      # generator's own checks (every Norwegian text has its German, nothing Norwegian is left) run.
+      - name: Seed the design fixture in Germany
+        run: |
+          node scripts/seed/design-fixture.mjs --market de > /tmp/fixture-de.sql
+          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
+            -v ON_ERROR_STOP=1 -f /tmp/fixture-de.sql
+
       # The demo organisation (Demobedriften AS) is seeded next to the fixture, before the
       # wheel turns and before the suites run, so every invariant below holds with a
       # second, larger organisation in the database — and so the generator's own check,
