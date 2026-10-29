@@ -22,7 +22,7 @@ type Tree = { [k: string]: unknown }
  * English, then the pack's first language. Never Norway's law: tests/unit/legal-pack.test.ts holds
  * every text that states Norwegian law to having a counterpart in each of the market's packs.
  */
-export const PACK_LANGS: Record<Market, readonly Locale[]> = { no: [], se: ['sv', 'en'], gb: ['en'], de: [] }
+export const PACK_LANGS: Record<Market, readonly Locale[]> = { no: [], se: ['sv', 'en'], gb: ['en'], de: ['de', 'en'] }
 
 /** The language of a market's pack a reader of `locale` gets, or null where the market has none */
 export function packLang(market: Market, locale: string): Locale | null {

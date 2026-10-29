@@ -1,0 +1,501 @@
+{
+  "app": {
+    "tagline": "Psychische Belastung bei der Arbeit, erhoben und bewertet für deutsche Unternehmen. Antworten werden in der EU gespeichert, und keine einzelne Antwort lässt sich auf eine Person zurückführen."
+  },
+  "role": {
+    "verneombud": "Betriebsrat"
+  },
+  "innsikt": {
+    "lead": {
+      "verneombud": "Sie sehen dieselben Zahlen wie die Leitung und werden benachrichtigt, wenn eine Frist verstreicht. Einzelne Kommentare sind für den Betriebsrat nicht zugänglich."
+    },
+    "feed": {
+      "riskVo": "der Betriebsrat war dabei"
+    },
+    "law": {
+      "title": "Arbeitsschutzgesetz",
+      "assessed": "§ 5 ArbSchG erhoben und beurteilt ✓",
+      "assessPending": "§ 5 ArbSchG erhoben · Beurteilung steht aus",
+      "verneombud": "§ 89 BetrVG Betriebsrat hinzugezogen ✓",
+      "verneombudPending": "§ 89 BetrVG Betriebsrat nicht erfasst",
+      "droftet": "Mit der Arbeitnehmervertretung erörtert ✓",
+      "droftetOn": "Mit der Arbeitnehmervertretung erörtert {date} ✓",
+      "droftetPending": "Erörterung mit der Arbeitnehmervertretung nicht erfasst"
+    }
+  },
+  "malinger": {
+    "privacy": "Das System weiß, wer noch nicht geantwortet hat, damit die Erinnerung nur dorthin geht. Niemand im Unternehmen kann diese Liste sehen – weder Sie noch die Führungskräfte noch der Betriebsrat. Die Verbindung zwischen Person und Antwort gibt es in der Datenbank nicht.",
+    "qsLead": "Elf Faktoren der psychischen Belastung bei der Arbeit, formuliert in der Sprache des QPS Nordic. Das Arbeitsschutzgesetz nennt die Kategorie, nicht die Faktoren (§ 5 Abs. 3 Nr. 6 ArbSchG); die Zuordnung ist die von Orgpuls. Drei Aussagen pro Faktor, beantwortet 1–5. Sie können einen Faktor abschalten, aber den Wortlaut nicht ändern – er macht die Zahlen über die Zeit vergleichbar.",
+    "rail": {
+      "leadText": "Der Betriebsrat wird {days, plural, one {# Tag} other {# Tage}} vorher benachrichtigt.",
+      "forankring": "Verankerung: Betriebsrat und Arbeitnehmervertretung gehen die Befragung vor der Basisbefragung durch."
+    },
+    "start": {
+      "confirm": "Die Pulsbefragung geht heute an alle Beschäftigten hinaus, mit den Faktoren der nächsten geplanten Pulsbefragung. Der Betriebsrat und die anderen in der Benachrichtigungskette werden gleichzeitig benachrichtigt, nicht Tage vorher."
+    },
+    "innstillinger": {
+      "screening": "Dokumentiert die Beurteilung von Gewalt, Drohungen und Belästigung als Gefährdung. Kann herausgenommen werden, dann müssen Sie es aber begründen.",
+      "reasonNote": "Die Begründung wird gespeichert und mit der Befragung angezeigt, sodass der Betriebsrat und die Arbeitsschutzbehörde des Landes sie sehen können. Mindestens zehn Zeichen."
+    }
+  },
+  "entry": {
+    "sentLead": "Steht die Nummer oder Adresse in der Beschäftigtenliste und haben Sie noch nicht geantwortet, kommt der Link gleich. Kommt er nicht, fragen Sie den Betriebsrat oder Ihre Führungskraft, was eingetragen ist.",
+    "sentLeadEmail": "Steht die Adresse in der Beschäftigtenliste und haben Sie noch nicht geantwortet, kommt der Link gleich. Kommt er nicht, fragen Sie den Betriebsrat oder Ihre Führungskraft, was eingetragen ist.",
+    "unknownLead": "Das Plakat kann alt sein, oder der Code ist falsch geschrieben. Fragen Sie den Betriebsrat oder Ihre Führungskraft nach einem neuen."
+  },
+  "rapport": {
+    "audience": {
+      "tilsyn": "Die Arbeitsschutzbehörde des Landes",
+      "amu": "Arbeitsschutzausschuss und Betriebsrat"
+    },
+    "docTitle": {
+      "amu": "Vorlage für den Arbeitsschutzausschuss – psychische Belastung bei der Arbeit {year}"
+    },
+    "docLead": {
+      "tilsyn": "Erstellt nach §§ 5 und 6 Arbeitsschutzgesetz: die Unterlagen, aus denen das Ergebnis der Gefährdungsbeurteilung für psychische Belastungen bei der Arbeit (§ 5 Abs. 3 Nr. 6 ArbSchG), die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung ersichtlich sind (§ 6 Abs. 1 ArbSchG). Das Dokument deckt die psychische Belastung ab – nicht die übrigen Gefährdungen, die die Gefährdungsbeurteilung erfassen muss. Es wird nirgends eingereicht: der Arbeitgeber bewahrt es auf, und die Arbeitsschutzbehörde des Landes kann es bei einer Besichtigung verlangen (§ 21 ArbSchG).",
+      "amu": "Sitzungsvorlage mit Befunden, Risikobewertung und Maßnahmenvorschlägen. Der Betriebsrat und die Arbeitnehmervertretung haben die Vorlage vor der Sitzung durchgesehen."
+    },
+    "metaOrgnr": "USt-IdNr.",
+    "instrumentBody": "Elf Faktoren der psychischen Belastung bei der Arbeit, drei Aussagen pro Faktor, beantwortet auf einer fünfstufigen Skala. Die Formulierungen bauen auf dem QPS Nordic auf; eine standardisierte schriftliche Befragung ist ein anerkannter Weg, psychische Belastungen zu beurteilen (§ 5 Abs. 3 Nr. 6 ArbSchG). Die Zuordnung der Faktoren zu Arbeitsinhalt, Arbeitsorganisation und sozialen Beziehungen ist die von Orgpuls. Dazu eine Empfehlungsfrage, ein Screening zu Belästigung sowie zu Gewalt und Drohungen, und ein offenes Feld.",
+    "section4Empty": "Die Erhebung ist nicht beurteilt. § 5 ArbSchG verlangt, aus der Gefährdungsbeurteilung zu ermitteln, welche Maßnahmen erforderlich sind; dieses Dokument dokumentiert die Erhebung, nicht die Beurteilung.",
+    "section8EmptyInfo": "Es ist nicht erfasst, dass die Ergebnisse geteilt wurden. Die Beschäftigten sind über Sicherheit und Gesundheitsschutz bei der Arbeit zu unterweisen (§ 12 ArbSchG), und der Betriebsrat ist rechtzeitig und umfassend zu unterrichten (§ 80 Abs. 2 BetrVG).",
+    "audienceName": {
+      "verneombud": "Betriebsrat",
+      "amu": "Arbeitsschutzausschuss"
+    },
+    "signerRole": {
+      "verneombud": "Betriebsrat"
+    },
+    "register": {
+      "lead": "Abschnitt 8 druckt, was hier erfasst ist, mit denselben Worten. Die Beschäftigten sind zu unterweisen (§ 12 ArbSchG) und der Betriebsrat ist zu unterrichten (§ 80 Abs. 2 BetrVG); die Unterweisung wird wiederholt, wenn sie fällig wird.",
+      "problem": {
+        "denied": "Das hat nicht geklappt. Nur die Geschäftsführung und der Betriebsrat können das erfassen – nichts wurde geändert."
+      },
+      "counterpartPlaceholder": "Zum Beispiel Arbeitnehmervertretung und Betriebsrat"
+    },
+    "evaluation": {
+      "cadence": {
+        "hver_6_mnd": "Der Bedarf an der Befragung wird alle sechs Monate bewertet. Die Maßnahmen sind auf ihre Wirksamkeit zu überprüfen und sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 ArbSchG).",
+        "arlig": "Der Bedarf an der Befragung wird jedes Jahr bewertet. Die Maßnahmen sind auf ihre Wirksamkeit zu überprüfen und sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 ArbSchG).",
+        "etter_hver_runde": "Der Bedarf an der Befragung wird nach jeder Runde bewertet. Die Maßnahmen sind auf ihre Wirksamkeit zu überprüfen und sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 ArbSchG)."
+      }
+    },
+    "styret": {
+      "assessed": "Die Beurteilung wurde am {date} vorgenommen und ist dokumentiert, wie § 6 Abs. 1 ArbSchG es verlangt.",
+      "notAssessed": "Die Beurteilung nach § 5 ArbSchG steht aus."
+    }
+  },
+  "tiltak": {
+    "lead": "Jede Maßnahme hängt an einem Faktor und kann nicht geschlossen werden, bevor ihre Wirkung gemessen ist. Das ist die Überprüfung der Wirksamkeit, die § 3 Abs. 1 ArbSchG vom Arbeitgeber verlangt, und das Ergebnis, das § 6 ArbSchG dokumentiert sehen will.",
+    "kindNote": {
+      "individuelt": "Maßnahmen sind so zu planen, dass Technik, Arbeitsorganisation, sonstige Arbeitsbedingungen und soziale Beziehungen sachgerecht verknüpft werden (§ 4 Nr. 4 ArbSchG) – die Arbeit zuerst, nicht die Einzelnen. Eine individuelle Maßnahme sollte begründet werden."
+    }
+  },
+  "maleoppsett": {
+    "lead": {
+      "grunnlinje": "Das ganze Fragenset, einmal im Jahr. Das ist die Erhebung, die die Gefährdungsbeurteilung für psychische Belastungen trägt (§ 5 Abs. 3 Nr. 6 ArbSchG), und die, die den Nullpunkt setzt, an dem alles andere gemessen wird."
+    },
+    "kind": {
+      "grunnlinje": {
+        "note": "{count, plural, one {# Frage} other {# Fragen}} · jährlich · trägt die Gefährdungsbeurteilung"
+      }
+    },
+    "consentLead": "Drei Dinge sollten Sie nachweisen können, bevor die Befragung hinausgeht: dass der Betriebsrat, wo es einen gibt, bei der Methode mitbestimmt hat (§ 87 Abs. 1 Nr. 7 BetrVG) und hinzugezogen wurde (§ 89 Abs. 2 BetrVG); dass die Beschäftigten wissen, wozu die Befragung dient und was mit den Antworten geschieht (§ 12 ArbSchG, Art. 13 DSGVO); und dass die Maßnahmen auf ihre Wirksamkeit überprüft werden (§ 3 Abs. 1 ArbSchG).",
+    "vo": "Der Betriebsrat wird zum Aufbau hinzugezogen",
+    "voLaw": "§ 89 Abs. 2 BetrVG · § 87 Abs. 1 Nr. 7 BetrVG – wo es einen Betriebsrat gibt",
+    "voNote": "Der Betriebsrat wird zum Aufbau hinzugezogen, nicht nur darüber informiert, und sieht das Ergebnis gleichzeitig mit der Leitung. Gibt es keinen Betriebsrat, bleibt das Feld leer: eine Pflicht, einen zu haben, besteht nicht (§ 1 BetrVG).",
+    "tvLaw": "§ 80 Abs. 2 BetrVG – rechtzeitige und umfassende Unterrichtung, wo es einen Betriebsrat gibt",
+    "infoLaw": "Art. 13 DSGVO · § 12 ArbSchG – Zweck, Rechtsgrundlage und wie lange Antworten aufbewahrt werden",
+    "infoPurposeValue": "Psychische Belastungen bei der Arbeit erheben und die Gefährdungsbeurteilung nach § 5 Abs. 3 Nr. 6 ArbSchG dokumentieren.",
+    "evalLaw": "§ 3 Abs. 1 ArbSchG – die Maßnahmen werden auf ihre Wirksamkeit überprüft und angepasst",
+    "summaryLegal": "Grundlage für die Gefährdungsbeurteilung psychischer Belastungen, § 5 Abs. 3 Nr. 6 ArbSchG; dokumentiert nach § 6 ArbSchG",
+    "perRound": {
+      "screening": "Dokumentiert die Beurteilung von Gewalt, Drohungen und Belästigung als Gefährdung. Kann mit einer Begründung herausgenommen werden.",
+      "reasonNote": "Die Begründung wird mit der Befragung gespeichert, sodass der Betriebsrat und die Arbeitsschutzbehörde des Landes sie sehen können. Mindestens zehn Zeichen."
+    },
+    "send": {
+      "ready": {
+        "vo": "Der Betriebsrat wurde hinzugezogen.",
+        "voMissing": "Es ist nicht erfasst, dass der Betriebsrat hinzugezogen wurde (Abschnitt 6)."
+      }
+    }
+  },
+  "arshjulet": {
+    "lead": "Einmal einrichten. Danach laufen Versand, Erinnerung, Ergebnis und Nachverfolgung von selbst – und der Betriebsrat wird immer vor den Beschäftigten benachrichtigt.",
+    "cadence": {
+      "minimum": {
+        "label": "Nur Basisbefragung",
+        "note": "Eine Basisbefragung im Jahr. Trägt die Gefährdungsbeurteilung, aber Sie entdecken Dinge spät."
+      }
+    },
+    "audience": {
+      "verneombud": {
+        "label": "Betriebsrat",
+        "note": "Wird zuerst benachrichtigt, damit er vor Beginn einer Befragung hinzugezogen werden kann. § 89 Abs. 2 BetrVG, § 87 Abs. 1 Nr. 7 BetrVG."
+      }
+    },
+    "notifyVo": "Betriebsrat benachrichtigen, wenn eine Frist verstreicht"
+  },
+  "oppsett": {
+    "selskap": {
+      "leadManual": "Name und USt-IdNr. tragen Sie selbst ein. Die Branche, mit der Sie verglichen werden, wählen Sie unten.",
+      "orgNumberLabel": "USt-IdNr.",
+      "fact": {
+        "orgNumber": "USt-IdNr.",
+        "registryEmployees": "Beschäftigte laut Ihrer Angabe"
+      }
+    },
+    "lovmodus": {
+      "lead": "Steuert, wie sichtbar das Arbeitsschutzgesetz in der Oberfläche ist.",
+      "onNote": "Unter jedem Faktor stehen die Rechtsgrundlagen, das Ergebnis ist als Risiko gerahmt, und die Registerkarte Rechtsgrundlagen mit der Dokumentation nach § 6 ArbSchG ist verfügbar. Der Betriebsrat ist eine eigene Rolle."
+    },
+    "duty": {
+      "verneombudTitle": "Betriebsrat",
+      "verneombudLaw": "§ 1 BetrVG – ab fünf wahlberechtigten Arbeitnehmern, wenn die Beschäftigten einen wählen",
+      "verneombudNamed": "{name} ist als Betriebsrat eingetragen.",
+      "verneombudNone": "Noch niemand ist als Betriebsrat eingetragen. Setzen Sie die Rolle unter Beschäftigte bei einer Person – oder lassen Sie sie leer, wenn es keinen Betriebsrat gibt.",
+      "verneombudSmall": "Ein Betriebsrat ist das Recht der Beschäftigten, nicht die Pflicht des Arbeitgebers: Er wird ab fünf wahlberechtigten Arbeitnehmern gewählt, wenn die Beschäftigten es wollen (§ 1 BetrVG). Gibt es keinen, können Sie die Rolle leer lassen oder einer von den Beschäftigten gewählten Person geben.",
+      "amuTitle": "Arbeitsschutzausschuss",
+      "amuLaw": "§ 11 ASiG – ab mehr als zwanzig Beschäftigten",
+      "amuRequired": "Berät Anliegen des Arbeitsschutzes und tritt mindestens einmal vierteljährlich zusammen (§ 11 ASiG). Befunde und Maßnahmen werden als Vorlage eingebracht.",
+      "amuMay": "Ab mehr als zwanzig Beschäftigten ist ein Arbeitsschutzausschuss zu bilden; Teilzeitbeschäftigte zählen mit 0,5 oder 0,75 (§ 11 ASiG). Sie haben ihn heute nicht.",
+      "amuSmall": "Bis zwanzig Beschäftigte ist kein Arbeitsschutzausschuss vorgeschrieben (§ 11 ASiG).",
+      "dependsOnIndustry": "Nach Art und Größe des Betriebs",
+      "bhtTitle": "Betriebsarzt und Fachkraft für Arbeitssicherheit",
+      "bhtLaw": "§§ 2 und 5 ASiG",
+      "bhtDepends": "Das Gesetz nennt keine Branchenliste und keine Beschäftigtenzahl. Betriebsärzte und Fachkräfte für Arbeitssicherheit sind schriftlich zu bestellen, soweit es nach Art des Betriebs und seinen Gefährdungen, der Zahl und Zusammensetzung der Beschäftigten und der Betriebsorganisation erforderlich ist (§§ 2 und 5 ASiG); den Umfang der Betreuung regelt die Unfallversicherung.",
+      "bhtLabel": "Betriebsarzt oder Fachkraft",
+      "bhtPlaceholder": "Name des Dienstes oder der Person"
+    },
+    "ansatte": {
+      "duty": {
+        "verneombud": "Betriebsrat"
+      },
+      "dutyNote": "Die Rolle hier ist eine Funktion nach dem Gesetz, keine Zugriffsberechtigung. Sie hält fest, wer den Betriebsrat vertritt oder zur Arbeitnehmervertretung gehört – etwa für den Nachweis der Hinzuziehung (§ 89 Abs. 2 BetrVG). Wer was lesen darf, bestimmen Anmeldung und Rolle unter „Rollen und Zugriff“, und dieses Feld ändert daran nichts.",
+      "problem": {
+        "phone": "Die Mobilnummer kann nicht verwendet werden. Geben Sie eine deutsche Mobilnummer ein, zum Beispiel 0151 23456789, oder eine Nummer mit Ländervorwahl."
+      }
+    },
+    "roller": {
+      "role": {
+        "verneombud": "Betriebsrat"
+      }
+    },
+    "personvern": {
+      "basis": {
+        "body": "Erfüllung einer rechtlichen Verpflichtung, Art. 6 Abs. 1 lit. c DSGVO in Verbindung mit § 26 Abs. 1 BDSG, wobei die Verpflichtung die Gefährdungsbeurteilung nach § 5 ArbSchG ist; wo ein Betriebsrat besteht, daneben eine Betriebsvereinbarung (§ 26 Abs. 4 BDSG). Keine Einwilligung – Beschäftigte können gegenüber ihrem Arbeitgeber nicht frei einwilligen (§ 26 Abs. 2 BDSG), und die Beurteilung ist ohnehin eine Pflicht."
+      },
+      "special": {
+        "body": "Die Fragen sind so gestaltet, dass sie keine Gesundheitsdaten erheben, die besondere Kategorien personenbezogener Daten sind (Art. 9 DSGVO). Das Screening zu Belästigung und Gewalt wird nur als Anzahl berichtet."
+      },
+      "access": {
+        "body": "Verzeichnisangaben können auf Anfrage berichtigt und gelöscht werden. Anonyme Antworten lassen sich nicht einzeln herausgeben oder löschen – sie sind nicht identifizierbar (Art. 11 DSGVO)."
+      }
+    },
+    "regelverk": {
+      "coverTitle": "Abdeckung der Gefährdungsbeurteilung psychischer Belastung",
+      "coverLead": "Das Arbeitsschutzgesetz nennt die Kategorie, nicht die Faktoren: psychische Belastungen bei der Arbeit (§ 5 Abs. 3 Nr. 6 ArbSchG), und die Felder, die eine Maßnahme verknüpfen muss – Arbeitsorganisation, sonstige Arbeitsbedingungen, soziale Beziehungen (§ 4 Nr. 4 ArbSchG). Hier steht, wo jedes Feld in der Befragung erfragt wird; die Zuordnung ist die von Orgpuls.",
+      "cover": {
+        "emotional": {
+          "ref": "Emotionale Inanspruchnahme (§ 4 Nr. 1 ArbSchG: psychische Gesundheit)"
+        },
+        "arbeitsinhalt": {
+          "ref": "Arbeitsinhalt und Aufgabe: Rollenklarheit, Handlungsspielraum, Sinn (§ 4 Nr. 4, § 12 ArbSchG)"
+        },
+        "arbeitsorganisation": {
+          "ref": "Arbeitsorganisation: Arbeitsmenge, widersprüchliche Anforderungen, Kommunikation (§ 4 Nr. 4, § 5 Abs. 3 Nr. 4 ArbSchG)"
+        },
+        "arbeitsumgebung": {
+          "ref": "Arbeitsumgebung als Quelle psychischer Belastung: Lärm, Klima, Ergonomie (§ 5 Abs. 3 Nr. 1–3 ArbSchG)",
+          "where": "Vom Instrument nicht gemessen – gehört in die übrigen Schritte Ihrer Gefährdungsbeurteilung"
+        },
+        "arbeitszeit": {
+          "ref": "Arbeitszeit: Dauer, Lage, Ruhezeiten (§ 5 Abs. 3 Nr. 4 ArbSchG; §§ 3, 5 ArbZG)",
+          "where": "Vom Instrument nicht gemessen – Schichten, Mehrarbeit und ständige Erreichbarkeit verfolgen Sie in Ihrer eigenen Arbeitsschutzarbeit"
+        },
+        "belaestigung": {
+          "ref": "Belästigung und sexuelle Belästigung (§ 3 Abs. 3 und 4, § 12 AGG)",
+          "where": "Screening am Ende der Befragung, nur als Anzahl – keine Messung des Feldes und kein Ersatz für die Beschwerdestelle nach § 13 AGG"
+        },
+        "gewalt": {
+          "ref": "Gewalt und Drohungen als Gefährdung (§ 5 ArbSchG; § 12 Abs. 4 AGG bei Dritten)",
+          "where": "Screening am Ende der Befragung, nur als Anzahl – keine Gefährdungsbeurteilung von Gewalt"
+        },
+        "soziale": {
+          "ref": "Soziale Beziehungen: Führung, Kollegium, Meinungsklima, Würde (§ 4 Nr. 4 ArbSchG; §§ 3, 7 AGG)"
+        }
+      },
+      "gapLead": "Die Befragung ist eine Quelle. Die Gefährdungsbeurteilung umfasst mehr als eine Befragung, und ihr Ergebnis muss in Maßnahmen münden (§§ 3, 5 ArbSchG). Das liegt heute außerhalb von Orgpuls:",
+      "gap": {
+        "beschwerde": "Die Beschwerdestelle für Belästigung und Benachteiligung, im Betrieb bekannt gemacht (§§ 12 Abs. 5, 13 AGG) – ein Kommentar in Orgpuls ersetzt keine Beschwerde",
+        "betreuung": "Die Bestellung von Betriebsarzt und Fachkraft für Arbeitssicherheit und ihre Mitwirkung an der Gefährdungsbeurteilung (§§ 2, 5 ASiG)",
+        "betriebsrat": "Die Vereinbarung der Methode mit dem Betriebsrat, wo es einen gibt (§ 87 Abs. 1 Nr. 7 BetrVG), in der Regel als Betriebsvereinbarung – Orgpuls erfasst, dass sie geschlossen ist, die Vereinbarung ist Ihre",
+        "gesamt": "Die übrigen Gefährdungen, die die Gefährdungsbeurteilung erfassen muss – Arbeitsstätte, Arbeitsmittel, Stoffe, Verfahren, Qualifikation (§ 5 Abs. 3 Nr. 1–5 ArbSchG); Orgpuls beurteilt die psychische Belastung",
+        "unterweisung": "Die Unterweisung der Beschäftigten über Sicherheit und Gesundheitsschutz, bei Einstellung, bei Veränderungen und bei Bedarf wiederholt (§ 12 ArbSchG)"
+      },
+      "legal": {
+        "agg": {
+          "ref": "§§ 3, 7, 12, 13 AGG",
+          "what": "Belästigung und sexuelle Belästigung sind Benachteiligungen (§ 3), verboten (§ 7); der Arbeitgeber trifft die erforderlichen, auch vorbeugenden Schutzmaßnahmen (§ 12), und die Beschäftigten haben ein Beschwerderecht (§ 13). Orgpuls screent, nur als Anzahl."
+        },
+        "arbschg3": {
+          "ref": "§ 3 ArbSchG",
+          "what": "Die Grundpflicht: die erforderlichen Maßnahmen treffen, ihre Wirksamkeit überprüfen und sie sich ändernden Gegebenheiten anpassen. Orgpuls hält die Maßnahmen und misst ihre Wirkung in der nächsten Pulsbefragung."
+        },
+        "arbschg5": {
+          "ref": "§ 5 ArbSchG",
+          "what": "Die Gefährdungsbeurteilung: Der Arbeitgeber ermittelt durch eine Beurteilung der mit der Arbeit verbundenen Gefährdung, welche Maßnahmen des Arbeitsschutzes erforderlich sind – ausdrücklich auch für psychische Belastungen bei der Arbeit (Abs. 3 Nr. 6). Orgpuls erhebt und beurteilt diesen Teil."
+        },
+        "arbschg6": {
+          "ref": "§ 6 ArbSchG",
+          "what": "Die Dokumentation: Unterlagen, aus denen das Ergebnis der Gefährdungsbeurteilung, die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung ersichtlich sind – für jeden Arbeitgeber, nach Art der Tätigkeiten und Zahl der Beschäftigten bemessen. Der Bericht ist diese Dokumentation für die psychische Belastung."
+        },
+        "asig": {
+          "ref": "§§ 2, 5, 11 ASiG",
+          "what": "Betriebsarzt und Fachkraft für Arbeitssicherheit, bestellt soweit erforderlich (§§ 2, 5), und der Arbeitsschutzausschuss ab mehr als zwanzig Beschäftigten, mindestens vierteljährlich (§ 11). Der Bericht liefert die Vorlage."
+        },
+        "betrvg": {
+          "ref": "§§ 80, 87, 89 BetrVG",
+          "what": "Wo ein Betriebsrat besteht: rechtzeitige und umfassende Unterrichtung mit den Unterlagen (§ 80 Abs. 2), Mitbestimmung bei Regelungen zum Gesundheitsschutz, also auch bei der Methode der Gefährdungsbeurteilung (§ 87 Abs. 1 Nr. 7), und Hinzuziehung bei allen Fragen des Arbeitsschutzes (§ 89 Abs. 2). Eine Pflicht, einen Betriebsrat zu haben, besteht nicht (§ 1)."
+        },
+        "dsgvo": {
+          "ref": "Art. 6 Abs. 1 lit. c DSGVO · § 26 BDSG",
+          "what": "Die Befragung verarbeitet personenbezogene Daten – die Einladung, nicht die Antwort: Rechtsgrundlage ist die gesetzliche Pflicht zur Gefährdungsbeurteilung, nicht die Einwilligung; wo ein Betriebsrat besteht, auch eine Betriebsvereinbarung (§ 26 Abs. 4 BDSG). Ergebnisse werden nur für Gruppen gezeigt, die die Mindestgruppengröße erreichen."
+        }
+      }
+    },
+    "billing": {
+      "freeBody": "Die Testphase endete am {end}, und Sie sind im kostenlosen Tarif: Sie können die Standard-Hauptbefragung senden, die Ergebnisse lesen und mit Maßnahmen nachverfolgen, so lange Sie wollen. Wählen Sie unten einen Tarif für Pulsbefragungen, Branchenmodule, eigene Fragen, Vergleiche mit früheren Runden und die Dokumentation nach § 6 ArbSchG.",
+      "freeBodyChosen": "Sie sind am {date} in den kostenlosen Tarif gewechselt: Sie können die Standard-Hauptbefragung senden, die Ergebnisse lesen und mit Maßnahmen nachverfolgen, so lange Sie wollen. Wählen Sie unten einen Tarif für Pulsbefragungen, Branchenmodule, eigene Fragen, Vergleiche mit früheren Runden und die Dokumentation nach § 6 ArbSchG."
+    }
+  },
+  "hjelp": {
+    "article": {
+      "forsteTimen": {
+        "body": {
+          "p2": "Prüfen Sie dann Gruppen und Mindestgruppengröße. Die Gruppen entscheiden, wonach Sie das Ergebnis aufschlüsseln können, und sollten dem folgen, wo Menschen tatsächlich zusammenarbeiten. Die Mindestgruppengröße bestimmt, wie viele Antworten nötig sind, bevor eine Gruppe für sich gezeigt wird. Fünf ist der Standard und das Niedrigste, was in Deutschland gewählt werden kann.",
+          "p3": "Zum Schluss: Richten Sie die Befragung unter Befragungsaufbau ein. Dort halten Sie fest, dass der Betriebsrat hinzugezogen wurde (§ 89 Abs. 2 BetrVG) und bei der Methode mitbestimmt hat (§ 87 Abs. 1 Nr. 7 BetrVG) – oder dass es keinen gibt. Das ist kein Formularpunkt, sondern der Nachweis seiner Beteiligung. Danach kann die Runde geplant werden."
+        }
+      },
+      "velgTerskel": {
+        "lead": "Warum fünf in Deutschland das Niedrigste ist, was mit Gruppen darunter passiert, und wann eine höhere richtig sein kann.",
+        "body": {
+          "p2": "Fünf ist der Standard und das Niedrigste, was ein Unternehmen in Deutschland wählen kann: Die Untergrenze wird von der Datenbank durchgesetzt, die immer mit mindestens fünf rechnet, egal was in den Einstellungen steht. Sie können sie auf bis zu zehn anheben, wenn Sie strenger sein wollen. Eine Änderung gilt für die Befragungen, die noch nicht geöffnet sind; eine geöffnete Befragung behält die Mindestgruppengröße, unter der die Beschäftigten geantwortet haben.",
+          "p3": "Der Grund ist nicht das Arbeitsschutzgesetz, sondern das Datenschutzrecht. In einer kleinen Gruppe lässt sich ein Ergebnis in der Praxis auf Einzelpersonen zurückführen, und dann sind es keine anonymen Zahlen mehr – es sind personenbezogene Daten, mit voller Auskunfts- und Löschpflicht.",
+          "p4": "Die Folge ist es wert, eingeplant zu werden: Haben Sie viele kleine Abteilungen, bekommen Sie wenige Zahlen zum Steuern. Dann ist es meist besser, Gruppen zusammenzulegen, die tatsächlich zusammenarbeiten."
+        }
+      },
+      "settOppArshjulet": {
+        "body": {
+          "p3": "Die Benachrichtigungsreihenfolge ist nicht wählbar. Betriebsrat und Arbeitnehmervertretung werden zuerst benachrichtigt, dann die Geschäftsführung, dann die Abteilungsleitungen und zuletzt alle Beschäftigten. Der Grund: Der Betriebsrat ist bei allen Fragen des Arbeitsschutzes hinzuzuziehen (§ 89 Abs. 2 BetrVG) und rechtzeitig zu unterrichten (§ 80 Abs. 2 BetrVG), und ein Jahresplan, der alle gleichzeitig benachrichtigt, würde das überspringen. Wie lange vorher die Benachrichtigungen gehen, können Sie ändern."
+        }
+      },
+      "egneSporsmal": {
+        "body": {
+          "p3": "Nutzen Sie sie für das, was das Instrument nicht abdeckt und was für Sie spezifisch ist – eine Umstrukturierung, ein neues Schichtsystem, ein Umzug. Vermeiden Sie Fragen zur Gesundheit: Gesundheitsdaten sind besondere Kategorien personenbezogener Daten (Art. 9 DSGVO), und ein gut gemeintes „Wie geht es Ihnen wirklich?“ ist dieser Grenze näher, als es aussieht."
+        }
+      },
+      "funnTilTiltak": {
+        "body": {
+          "p1": "Teilen Sie die Ergebnisse innerhalb von zwei Wochen. Das ist die eine Sache, die die Rücklaufquote beim nächsten Mal entscheidet, und es ist auch das, was das Gesetz voraussetzt: Die Gefährdungsbeurteilung soll ermitteln, welche Maßnahmen erforderlich sind (§ 5 ArbSchG), und die Beschäftigten sind zu unterweisen (§ 12 ArbSchG). Eine Erhebung, die nicht geteilt wird, ist kein Arbeitsschutz, sondern eine Umfrage.",
+          "p2": "Halten Sie ein Treffen ab, bei dem die Zahlen von denen gedeutet werden, die sie betreffen. Der Betriebsrat soll dabei sein – nicht als Formalität, sondern weil die Deutung oft die eigentliche Arbeit ist. Zwei Abteilungen mit denselben Zahlen können ganz verschiedene Ursachen haben.",
+          "p4": "Die Wirkung misst der nächste Puls, der genau die Faktoren abfragt, zu denen offene Maßnahmen bestehen. Das ist die Kette der §§ 5 und 3 ArbSchG: Gefährdung beurteilen, Maßnahmen treffen, ihre Wirksamkeit überprüfen und anpassen."
+        }
+      },
+      "gdpr": {
+        "body": {
+          "p1": "Die Rechtsgrundlage ist die Erfüllung einer rechtlichen Verpflichtung, Art. 6 Abs. 1 lit. c DSGVO in Verbindung mit § 26 Abs. 1 BDSG, wobei die Verpflichtung die Gefährdungsbeurteilung nach § 5 ArbSchG ist. Nicht Einwilligung.",
+          "p2": "Das ist keine Formsache. Eine Einwilligung muss freiwillig sein, und Beschäftigte können gegenüber ihrem Arbeitgeber nicht frei einwilligen – das Gesetz nennt die Abhängigkeit im Beschäftigungsverhältnis ausdrücklich (§ 26 Abs. 2 BDSG). Außerdem ist die Beurteilung eine Pflicht, die das Unternehmen ohnehin hat, und eine Einwilligung, die sich nicht widerrufen lässt, ohne dass die Pflicht entfällt, ist keine Einwilligung. Wo ein Betriebsrat besteht, ist eine Betriebsvereinbarung die übliche zusätzliche Grundlage (§ 26 Abs. 4 BDSG).",
+          "p3": "Die Fragen sind so gestaltet, dass sie keine Gesundheitsdaten erheben, die besondere Kategorien personenbezogener Daten sind (Art. 9 DSGVO). Das Screening zu Belästigung und Gewalt wird nur als Anzahl berichtet.",
+          "p4": "Drei Dinge müssen bei Ihnen vorhanden sein, bevor echte Antworten verarbeitet werden: ein Verfahren zur Löschung einzelner Antworten, ein Auftragsverarbeitungsvertrag mit einer Übersicht der Unterauftragnehmer und ein Eintrag im Verzeichnis der Verarbeitungstätigkeiten (Art. 30 DSGVO). Der Auftragsverarbeitungsvertrag liegt unter Einstellungen › Auftragsverarbeitungsvertrag, wo die Geschäftsführung ihn unterzeichnet. Das Löschverfahren und das Verzeichnis müssen Sie weiterhin selbst einrichten."
+        }
+      },
+      "hvaLovenKrever": {
+        "title": "Was das Arbeitsschutzgesetz tatsächlich verlangt",
+        "lead": "§§ 3, 5 und 6 ArbSchG, und was der Betriebsrat dazu sagt. Was Orgpuls abdeckt, und was Sie anderswo brauchen.",
+        "body": {
+          "p1": "Jeder Arbeitgeber muss durch eine Beurteilung der mit der Arbeit verbundenen Gefährdung ermitteln, welche Maßnahmen des Arbeitsschutzes erforderlich sind (§ 5 ArbSchG) – ausdrücklich auch für psychische Belastungen bei der Arbeit (Abs. 3 Nr. 6). Die Maßnahmen sind zu treffen, auf ihre Wirksamkeit zu überprüfen und anzupassen (§ 3 Abs. 1 ArbSchG), und das Ergebnis der Beurteilung, die Maßnahmen und das Ergebnis ihrer Überprüfung sind zu dokumentieren (§ 6 ArbSchG). Orgpuls deckt diese Schritte für die psychische Belastung ab und dokumentiert sie.",
+          "p2": "Das Gesetz nennt keine Faktoren. Es nennt die Kategorie – psychische Belastungen bei der Arbeit – und die Felder, die eine Maßnahme verknüpfen muss: Technik, Arbeitsorganisation, sonstige Arbeitsbedingungen, soziale Beziehungen und Einfluss der Umwelt (§ 4 Nr. 4 ArbSchG). Maßnahmen haben dem Stand der Technik und gesicherten arbeitswissenschaftlichen Erkenntnissen zu folgen (§ 4 Nr. 3) – das ist der Anknüpfungspunkt für ein validiertes Instrument. Die elf Faktoren sind diesen Feldern zugeordnet; die Zuordnung ist die von Orgpuls.",
+          "p3": "Der Index ist keine gesetzliche Anforderung. Keine Vorschrift nennt eine Zahl. Verlangt wird, dass Sie das Ergebnis der Beurteilung, die Maßnahmen und das Ergebnis ihrer Überprüfung dokumentieren können (§ 6 ArbSchG) – und das ist die Dokumentation, die der Bericht erzeugt.",
+          "p4": "Das deckt Orgpuls nicht ab: die übrigen Gefährdungen der Gefährdungsbeurteilung – Arbeitsstätte, Arbeitsmittel, Stoffe, Verfahren –, die Unterweisung (§ 12 ArbSchG), die Bestellung von Betriebsarzt und Fachkraft für Arbeitssicherheit (§§ 2, 5 ASiG) und die Beschwerdestelle nach § 13 AGG. Auch nicht die Vereinbarung mit dem Betriebsrat, die Orgpuls festhält, aber nicht schließt. Die Erhebung ist eine Quelle, und die Arbeitsschutzbehörde des Landes erwartet, dass Sie mehrere nutzen."
+        }
+      },
+      "kontrolltiltak": {
+        "title": "Die Befragung, der Betriebsrat und der Datenschutz",
+        "lead": "Keine Überwachung, Mitbestimmung bei der Methode, Information der Beschäftigten, Überprüfung der Maßnahmen – und was das Datenschutzrecht hinzufügt.",
+        "body": {
+          "p1": "Ein Betriebsrat bestimmt bei technischen Einrichtungen mit, die dazu geeignet sind, Verhalten oder Leistung zu überwachen (§ 87 Abs. 1 Nr. 6 BetrVG). Eine Befragung, deren Antworten sich keiner Person zuordnen lassen und deren Ergebnisse nur für Gruppen gezeigt werden, kann niemanden überwachen – das ist die Eigenschaft, auf der Orgpuls gebaut ist, kein Versprechen. Die Einladung und die Erinnerung sind personenbezogene Daten, die Antwort nicht.",
+          "p2": "Drei Dinge sollten Sie nachweisen können: dass der Betriebsrat, wo es einen gibt, bei der Methode der Gefährdungsbeurteilung mitbestimmt hat und hinzugezogen wurde (§ 87 Abs. 1 Nr. 7, § 89 Abs. 2 BetrVG), in der Regel in einer Betriebsvereinbarung; dass die Beschäftigten wissen, wozu die Befragung dient, und erfahren, was sie ergeben hat und was getan wird (§ 12 ArbSchG, Art. 13 DSGVO); und dass die Maßnahmen auf ihre Wirksamkeit überprüft werden (§ 3 Abs. 1 ArbSchG).",
+          "p3": "Der Befragungsaufbau speichert dies als Teil der Runde, nicht als Häkchen. Die Erörterung wird mit Datum und Beteiligten festgehalten, und die Hinzuziehung des Betriebsrats wird gesondert festgehalten.",
+          "p4": "Die Bewertung hat ihren eigenen Rhythmus an der Befragung, und die Maßnahmen sind auf ihre Wirksamkeit zu überprüfen und sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 ArbSchG). Sie ist der Teil, der am häufigsten vergessen wird, weil sie lange fällig wird, nachdem alle weitergezogen sind."
+        }
+      },
+      "rapportTilTilsynet": {
+        "title": "Die Dokumentation der Gefährdungsbeurteilung",
+        "lead": "Was sie enthält, welchen Zeitraum sie abdeckt, und was Sie dazulegen sollten.",
+        "body": {
+          "p1": "Das Dokument ist als die Unterlage gebaut, die § 6 ArbSchG verlangt – das Ergebnis der Gefährdungsbeurteilung, die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung –, nicht als Präsentation. Es wird nirgends eingereicht: Sie bewahren es auf, und die Arbeitsschutzbehörde des Landes kann es bei einer Besichtigung verlangen (§ 21 ArbSchG). Es folgt den Schritten der Reihe nach: was erhoben wurde, wozu die Beurteilung kam, welche Maßnahmen getroffen wurden und was die Überprüfung zeigte.",
+          "p4": "Legen Sie dazu, was Orgpuls nicht hat: die Betriebsvereinbarung oder das Protokoll der Vereinbarung mit dem Betriebsrat, die Unterweisungsnachweise und die übrigen Teile Ihrer Gefährdungsbeurteilung."
+        }
+      },
+      "rollerOgTilgang": {
+        "lead": "Geschäftsführung, Abteilungsleitung, Betriebsrat, Arbeitnehmervertretung. Wo die Grenzen verlaufen, und warum.",
+        "body": {
+          "p3": "Der Betriebsrat sieht dieselben Zahlen und dieselbe Risikobewertung wie die Führung und wird zuerst benachrichtigt, wenn eine Runde beginnt. Er sieht keine einzelnen Kommentare – seine Hinzuziehung (§ 89 Abs. 2 BetrVG) betrifft Erhebung und Maßnahmen, nicht Korrespondenz, und ein Kommentar ist keine Unterlage im Sinne von § 80 Abs. 2 BetrVG.",
+          "p4": "Arbeitnehmervertretung ist eine Funktion im Verzeichnis, keine Anmeldung. Sie wird erfasst, damit die Beteiligung nachgewiesen werden kann, und sie gewährt für sich keinen Zugriff. Dasselbe gilt für das Rollenfeld im Verzeichnis allgemein: Es sagt, wer jemand nach dem Gesetz ist, nicht, was die Person lesen darf."
+        }
+      }
+    }
+  },
+  "start": {
+    "ctaFree": "15 Tage kostenlos testen",
+    "finalTitle": "Probieren Sie es im eigenen Unternehmen",
+    "finalBody": "Geben Sie den Namen des Unternehmens und Ihre E-Mail-Adresse ein, dann sind Sie in 3 Minuten startklar und müssen keine Karte angeben, bevor Sie sich entschieden haben. Antworten werden in der EU gespeichert, und keine Gruppe wird gezeigt, bevor mindestens 5 geantwortet haben."
+  },
+  "registrer": {
+    "orgNumber": "USt-IdNr.",
+    "todo": {
+      "send": {
+        "note": "Der Betriebsrat ist vor dem Versand hinzuzuziehen, wo es einen gibt"
+      }
+    },
+    "incl": {
+      "report": "Die Dokumentation nach § 6 ArbSchG, bereit für die Behörde, den Arbeitsschutzausschuss und die Geschäftsleitung",
+      "users": "Unbegrenzt viele Benutzer – Betriebsrat und Führungskräfte kosten nichts extra"
+    },
+    "heard": {
+      "option": {
+        "bht": "Betriebsarzt, Fachkraft für Arbeitssicherheit oder Arbeitsschutzberatung"
+      }
+    },
+    "orgNumberPlaceholderManual": "DE + 9 Ziffern",
+    "orgNumberOptionalHintManual": "Kann leer bleiben. Mit der Umsatzsteuer-Identifikationsnummer, zum Beispiel DE 136 695 976, erkennen wir das Unternehmen sicherer, und sie steht auf der Rechnung."
+  },
+  "headerPanel": {
+    "tabs": {
+      "lov": "Arbeitsschutzgesetz"
+    },
+    "screen": {
+      "home": {
+        "s3": "Wechseln Sie oben rechts die Rolle, um genau das zu sehen, was die Abteilungsleitungen und der Betriebsrat sehen.",
+        "sci": "Der Index ist ein gewichteter Durchschnitt der elf Faktoren, umgerechnet von 1–5 auf 0–100. Eine Änderung unter drei Punkten liegt innerhalb der normalen Schwankung und sollte nicht als Trend gedeutet werden. Quelle: QPS Nordic Anwenderhandbuch."
+      },
+      "measure": {
+        "s1": "Die Basisbefragung ist die vollständige. Sie findet einmal im Jahr statt und setzt den Nullpunkt.",
+        "s3": "Der Jahresplan erledigt beides automatisch, mit dem Betriebsrat zuerst benachrichtigt."
+      },
+      "tasks": {
+        "sci": "Die Forschung hinter dem QPS Nordic weist darauf hin, dass Maßnahmen an der Organisation der Arbeit besser wirken als individuelle Maßnahmen wie Kurse zur Stressbewältigung. Das Gesetz verlangt dasselbe: Maßnahmen sind so zu planen, dass Technik, Arbeitsorganisation, Arbeitsbedingungen und soziale Beziehungen verknüpft werden (§ 4 Nr. 4 ArbSchG)."
+      },
+      "plan": {
+        "s3": "Prüfen Sie die Gruppen gegen die Mindestgruppengröße, und lassen Sie die Benachrichtigung des Betriebsrats eingeschaltet."
+      },
+      "wheel": {
+        "s2": "Prüfen Sie die Benachrichtigungsreihenfolge – Betriebsrat und Arbeitnehmervertretung müssen immer zuerst stehen."
+      }
+    },
+    "law": {
+      "home": "Die Schleife auf dieser Seite ist die Gefährdungsbeurteilung in ein System gebracht: Gefährdung beurteilen (§ 5 ArbSchG), Maßnahmen treffen, ihre Wirksamkeit überprüfen und anpassen (§ 3 Abs. 1 ArbSchG), dokumentieren (§ 6 ArbSchG). Der Index ist keine gesetzliche Anforderung – die Beurteilung und ihre Dokumentation sind es. Der Jahresplan deckt die Beteiligung des Betriebsrats ab (§§ 80, 89 BetrVG).",
+      "measure": "Das Gesetz verlangt keine bestimmte Messmethode und kein festes Intervall. Es verlangt, dass die Gefährdungsbeurteilung je nach Art der Tätigkeiten vorgenommen wird (§ 5 ArbSchG) und dass die Maßnahmen auf ihre Wirksamkeit überprüft und sich ändernden Gegebenheiten angepasst werden (§ 3 Abs. 1 ArbSchG). Die Faktoren hier sind den Feldern des § 4 Nr. 4 ArbSchG zugeordnet, und der Wortlaut ist festgeschrieben, damit die Ergebnisse über die Zeit vergleichbar bleiben.",
+      "result": "Die Beurteilung ist die gesetzliche Anforderung selbst: § 5 ArbSchG verlangt, aus der Gefährdung zu ermitteln, welche Maßnahmen erforderlich sind, und § 6 ArbSchG, das Ergebnis zu dokumentieren. Eine Zahl allein ist keine Beurteilung. Deshalb sowohl Faktorzeilen als auch Gesamtindex, und eine Bewertung je Faktor.",
+      "conv": "Ein Kommentar kann Belästigung oder Mobbing betreffen. Dann gehört er in die Beschwerdestelle nach § 13 AGG, nicht in eine gewöhnliche Maßnahme: Der Arbeitgeber hat die erforderlichen Schutzmaßnahmen zu treffen, auch vorbeugend (§ 12 AGG). Beschäftigte, die konkrete Anhaltspunkte für unzureichenden Arbeitsschutz haben, können sich ohne Nachteile an die zuständige Behörde wenden (§ 17 Abs. 2 ArbSchG).",
+      "tasks": "Die Gefährdungsbeurteilung muss in Maßnahmen münden, nicht nur in Erkenntnis: § 5 ArbSchG ermittelt die erforderlichen Maßnahmen, § 3 Abs. 1 ArbSchG verlangt, sie zu treffen und auf ihre Wirksamkeit zu überprüfen. Deshalb kann eine Maßnahme nicht geschlossen werden, bevor ihre Wirkung gemessen ist. Maßnahmen verknüpfen Arbeitsorganisation, Arbeitsbedingungen und soziale Beziehungen (§ 4 Nr. 4 ArbSchG) – die Arbeit zuerst, nicht die Einzelnen.",
+      "plan": "Die Einladung ist ein personenbezogenes Datum, die Antwort nicht – und die Rechtsgrundlage ist die gesetzliche Pflicht zur Gefährdungsbeurteilung (Art. 6 Abs. 1 lit. c DSGVO, § 26 Abs. 1 BDSG), nicht die Einwilligung. Ergebnisse werden nur für Gruppen gezeigt, die die Mindestgruppengröße erreichen. Wo ein Betriebsrat besteht, bestimmt er bei der Methode mit (§ 87 Abs. 1 Nr. 7 BetrVG) und wird hinzugezogen (§ 89 Abs. 2 BetrVG); die Beschäftigten werden unterwiesen (§ 12 ArbSchG).",
+      "wheel": "Das Gesetz kennt kein Jahresintervall: Die Maßnahmen sind auf ihre Wirksamkeit zu überprüfen und sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 ArbSchG), und die Unterweisung ist bei Veränderungen und erforderlichenfalls regelmäßig zu wiederholen (§ 12 Abs. 1 ArbSchG) – wann immer das im Jahr geschieht. Die Benachrichtigungsreihenfolge im Jahresplan lässt den Betriebsrat zuerst hinzuziehen.",
+      "settings": "Die Mindestgruppengröße ist keine Anforderung des Arbeitsschutzgesetzes, sondern folgt aus dem Datenschutzrecht: Unter fünf Antworten lassen sich Ergebnisse kleiner Gruppen auf Einzelpersonen zurückführen. Die Rechtsgrundlage ist die gesetzliche Pflicht zur Gefährdungsbeurteilung (Art. 6 Abs. 1 lit. c DSGVO, § 26 Abs. 1 BDSG), nicht die Einwilligung – das Gesetz nennt die Abhängigkeit im Beschäftigungsverhältnis ausdrücklich (§ 26 Abs. 2 BDSG). Die Fragen sind so gestaltet, dass sie keine Gesundheitsdaten erheben (Art. 9 DSGVO).",
+      "report": "Die Dokumentationspflicht steht in § 6 ArbSchG: Unterlagen, aus denen das Ergebnis der Gefährdungsbeurteilung, die festgelegten Maßnahmen und das Ergebnis ihrer Überprüfung ersichtlich sind. Nichts wird eingereicht: Die Arbeitsschutzbehörde des Landes überwacht und berät, und sie prüft bei einer Besichtigung die Ermittlung der Gefährdungen, die Umsetzung der Maßnahmen und ihre Dokumentation (§ 21 ArbSchG). Der Arbeitsschutzausschuss, wo es einen gibt, berät die Anliegen des Arbeitsschutzes vierteljährlich (§ 11 ASiG)."
+    }
+  },
+  "mail": {
+    "forvarsel": {
+      "verneombud": "Der Betriebsrat wird zuerst benachrichtigt, damit er vor Beginn der Befragung hinzugezogen werden kann (§ 89 Abs. 2 BetrVG). Sie können den Aufbau in Orgpuls einsehen.",
+      "tillitsvalgte": "Sie haben dieselbe Frist wie der Betriebsrat, um Anmerkungen einzubringen."
+    },
+    "resultat": {
+      "employee": "Die Leitung geht das Ergebnis mit Ihnen durch, und die Maßnahmen werden zusammen mit dem Betriebsrat verfolgt."
+    },
+    "lifecycle": {
+      "first_sent": {
+        "more": "Drei Dinge helfen: Erklären Sie in einem Treffen, warum Sie befragen und dass die Antworten anonym sind, bitten Sie den Betriebsrat, zum Antworten zu ermutigen, und lassen Sie die Erinnerung wie geplant hinausgehen."
+      },
+      "results_ready": {
+        "lead": "Mindestens eine Gruppe in {org} hat genug Antworten, und die Ergebnisse können gelesen werden. Gehen Sie sie mit dem Betriebsrat durch, und wählen Sie ein oder zwei Bereiche, in denen Sie etwas tun.",
+        "more": "Der Bericht in Orgpuls ist Ihre Dokumentation nach § 6 ArbSchG: Erhebung, Beurteilung und Maßnahmen an einem Ort. Sie bewahren ihn auf, und die Arbeitsschutzbehörde des Landes kann ihn verlangen."
+      }
+    },
+    "tiltak": {
+      "verneombud": "Diese Maßnahmen in {org} haben die Frist überschritten oder stehen still. Sie erhalten eine Kopie, weil der Betriebsrat benachrichtigt wird, wenn eine Frist verstreicht."
+    },
+    "evaluering": {
+      "lead": "Die Maßnahmen sind auf ihre Wirksamkeit zu überprüfen und sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 ArbSchG), und der Bedarf an der Befragung wird in dem Rhythmus bewertet, den Sie gewählt haben. Die Bewertung war am {date} fällig.",
+      "leadNoDate": "Die Maßnahmen sind auf ihre Wirksamkeit zu überprüfen und sich ändernden Gegebenheiten anzupassen (§ 3 Abs. 1 ArbSchG), und der Bedarf an der Befragung wird in dem Rhythmus bewertet, den Sie gewählt haben. Die Bewertung ist fällig."
+    }
+  },
+  "smsSetup": {
+    "legal": "Die Befragung ist Teil der Gefährdungsbeurteilung, die das Arbeitsschutzgesetz dem Arbeitgeber vorschreibt (§ 5 ArbSchG), keine Werbung, und ihre Rechtsgrundlage ist die gesetzliche Pflicht, nicht die Einwilligung (Art. 6 Abs. 1 lit. c DSGVO, § 26 Abs. 1 BDSG). Die Nummer muss trotzdem aus dem Arbeitsverhältnis stammen, nicht aus privaten Quellen."
+  },
+  "resultater": {
+    "prio": {
+      "notYours": "Die Priorität wird für das ganze Unternehmen berechnet und der Geschäftsführung und dem Betriebsrat gezeigt."
+    },
+    "effect": {
+      "lead": "„Die Maßnahmen nach der letzten Befragung haben sich positiv auf meinen Arbeitsplatz ausgewirkt.“ Wird ab der zweiten Befragung gestellt und nicht in den Index gerechnet. Das ist die Überprüfung der Wirksamkeit, die § 3 Abs. 1 ArbSchG verlangt."
+    }
+  },
+  "kommentarer": {
+    "varselNote": "Das kann Belästigung oder Mobbing betreffen. Antworten Sie gern hier, aber die Sache gehört in die Beschwerdestelle nach § 13 AGG und die Schutzpflicht des Arbeitgebers (§ 12 AGG) – nicht in eine gewöhnliche Maßnahme zum Arbeitsumfeld.",
+    "notYours": "Einzelne Kommentare sehen die Geschäftsführung und die Abteilungsleitungen, die darauf antworten können. Als Betriebsrat sehen Sie dieselben Zahlen unter Ergebnisse."
+  },
+  "veiviser": {
+    "steps": {
+      "verneombud": "Betriebsrat"
+    },
+    "welcomeList": {
+      "w4": "Betriebsrat und Arbeitnehmervertretung"
+    },
+    "org": {
+      "number": "USt-IdNr."
+    },
+    "safety": {
+      "duty": "{count, plural, one {Mit # beschäftigten Person} other {Mit # Beschäftigten}} wird ein Betriebsrat gewählt, wenn die Beschäftigten es wollen – ab fünf wahlberechtigten Arbeitnehmern (§ 1 BetrVG), eine Pflicht des Arbeitgebers ist er nicht. Gibt es einen, tragen Sie hier ein, wen er benennt: Die Person sieht das Ergebnis gleichzeitig mit der Leitung und wird vor jedem Versand benachrichtigt. Ohne Betriebsrat lassen Sie das Feld leer oder tragen eine von den Beschäftigten gewählte Person ein.",
+      "dutySmall": "Ein Betriebsrat wird ab fünf wahlberechtigten Arbeitnehmern gewählt, wenn die Beschäftigten es wollen (§ 1 BetrVG). Gibt es einen, tragen Sie hier ein, wen er benennt; sonst lassen Sie das Feld leer oder wählen eine Person, der die Beschäftigten vertrauen.",
+      "vo": "Betriebsrat",
+      "amuMust": "Sie müssen auch einen Arbeitsschutzausschuss haben (§ 11 ASiG). Der Bericht erstellt die Vorlage automatisch.",
+      "amuMay": "Ein Arbeitsschutzausschuss ist ab mehr als zwanzig Beschäftigten zu bilden, Teilzeitbeschäftigte mit 0,5 oder 0,75 gezählt (§ 11 ASiG).",
+      "empty": "Tragen Sie zuerst die Beschäftigten ein, dann können Sie festhalten, wer den Betriebsrat vertritt, wenn es einen gibt."
+    },
+    "law": {
+      "lead": "Beide nutzen dieselben forschungsbasierten Fragen. Der Unterschied ist, ob das Ergebnis mit der Gefährdungsbeurteilung nach dem Arbeitsschutzgesetz verknüpft wird.",
+      "on": {
+        "label": "Arbeitsschutzgesetz",
+        "note": "Elf Bereiche, einschließlich Belästigung und Gewalt. Liefert die Dokumentation nach § 6 ArbSchG."
+      }
+    },
+    "rhythm": {
+      "voFirst": "Der Betriebsrat wird {days, plural, =0 {gleichzeitig} one {einen Tag vorher} =2 {zwei Tage vorher} other {# Tage vorher}} benachrichtigt",
+      "who": {
+        "vo": "Betriebsrat und Arbeitnehmervertretung"
+      }
+    },
+    "send": {
+      "t1v": "Betriebsrat und Arbeitnehmervertretung sehen den Aufbau",
+      "problem": {
+        "too_soon": "Der Versand muss mindestens drei Tage in der Zukunft liegen, damit der Betriebsrat ihn noch sehen kann."
+      }
+    },
+    "done": {
+      "vo": "Betriebsrat"
+    }
+  },
+  "plan": {
+    "report": {
+      "body": "Die Dokumentation der Gefährdungsbeurteilung nach § 6 ArbSchG – Erhebung, Beurteilung und Maßnahmen in einem Dokument – gehört zu einem Tarif. Im kostenlosen Tarif können Sie die Standard-Hauptbefragung senden, die Ergebnisse lesen und mit Maßnahmen nachverfolgen."
+    }
+  },
+  "roundPage": {
+    "measuresEmpty": "Noch keine Maßnahmen beschlossen. Die Seite wird aktualisiert, sobald die Leitung und der Betriebsrat entschieden haben, was getan wird.",
+    "measuresNote": "Die Maßnahmen werden zusammen mit dem Betriebsrat verfolgt. Die Seite zeigt immer, wo sie gerade stehen.",
+    "missingLead": "Der Link ist falsch, oder die Seite wurde nicht geteilt. Fragen Sie Ihre Führungskraft oder den Betriebsrat.",
+    "madeWithWhat": "Befragungen zur psychischen Belastung für die Gefährdungsbeurteilung nach dem Arbeitsschutzgesetz"
+  }
+}

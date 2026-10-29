@@ -152,15 +152,43 @@ const UNITED_KINGDOM: LegalPack = {
  * Sicherheitsbeauftragte from fifty (§ 22 SGB VII) support the employer rather than represent anyone. The
  * Arbeitsschutzausschuss is required from more than twenty employees (§ 11 ASiG), with no «may be
  * demanded» band under it. No industry list starts the Betriebsarzt or the Fachkraft (§§ 2, 5 ASiG).
- * The provisions, the coverage and the gaps come with the pack's texts at DE-C; until then the market
- * has no legal pack (lib/markets.ts LEGAL_PACK).
+ *
+ * The statute names the category, not the factors: «psychische Belastungen bei der Arbeit» is one source
+ * of Gefährdung the assessment must cover (§ 5 Abs. 3 Nr. 6 ArbSchG), and § 4 Nr. 4 lists the fields a
+ * measure joins up — Arbeitsorganisation, sonstige Arbeitsbedingungen, soziale Beziehungen. The coverage
+ * rows are those fields, the mapping is the product's own (de-legal.md § 4), and the texts say so. The
+ * physical environment as a source of psychological load and working time (§ 5 Abs. 3 Nr. 4, ArbZG) have
+ * no factor, and are shown as gaps rather than as covered (a module for Germany is DE-D).
  */
 const GERMANY: LegalPack = {
   duties: { rep: Number.POSITIVE_INFINITY, committee: 21, committeeMay: 21, healthServiceIndustries: null },
-  provisions: [],
-  coverage: [],
-  gaps: [],
-  factorLawRefs: null,
+  provisions: ['arbschg5', 'arbschg3', 'arbschg6', 'betrvg', 'asig', 'agg', 'dsgvo'],
+  coverage: [
+    { key: 'arbeitsinhalt', factors: ['rolle', 'medvirk', 'mening'] },
+    { key: 'arbeitsorganisation', factors: ['mengde', 'motstrid', 'kontakt'] },
+    { key: 'soziale', factors: ['leder', 'kollega', 'ytring', 'integritet'] },
+    { key: 'emotional', factors: ['emosjon'] },
+    { key: 'belaestigung', factors: [] },
+    { key: 'gewalt', factors: [] },
+    { key: 'arbeitsumgebung', factors: [] },
+    { key: 'arbeitszeit', factors: [] },
+  ],
+  gaps: ['gesamt', 'unterweisung', 'betriebsrat', 'betreuung', 'beschwerde'],
+  // every factor serves the assessment of psychological load (§ 5 Abs. 3 Nr. 6 ArbSchG); the provision
+  // closest to what the factor measures follows the dot (de-legal.md § 4)
+  factorLawRefs: {
+    ytring: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 17 Abs. 1 ArbSchG',
+    mengde: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 5 Abs. 3 Nr. 4 ArbSchG, § 3 ArbZG',
+    motstrid: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 4 Nr. 4 ArbSchG',
+    kontakt: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 4 Nr. 4 ArbSchG',
+    emosjon: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 4 Nr. 1 ArbSchG',
+    leder: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 3 Abs. 2 Nr. 2 ArbSchG',
+    medvirk: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 17 Abs. 1 ArbSchG, § 80 Abs. 1 Nr. 3 BetrVG',
+    integritet: '§ 5 Abs. 3 Nr. 6 ArbSchG · §§ 3, 7, 12 AGG',
+    rolle: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 12 Abs. 1 ArbSchG',
+    kollega: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 4 Nr. 4 ArbSchG',
+    mening: '§ 5 Abs. 3 Nr. 6 ArbSchG · § 2 Abs. 1 ArbSchG',
+  },
 }
 
 export const LEGAL_PACKS: Record<Market, LegalPack> = { no: NORWAY, se: SWEDEN, gb: UNITED_KINGDOM, de: GERMANY }

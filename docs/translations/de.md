@@ -98,3 +98,25 @@ One session, namespace by namespace, each batch merged by a script that refuses 
 or an ICU signature that differs from the source's, written in bokmål's key order; every plural carries
 German's two categories (one, other), checked against CLDR by `npm run verify:i18n`. Reviewed in the
 browser on the QA stack with the language cookie `de` (D-289).
+
+## The legal pack's terms (DE-C, D-290)
+
+For an organisation in Germany the pack `messages/market/de/{de,en}.json` lays German law over this
+catalogue (lib/i18n/market-overlay.ts). Its terms, in both of its languages:
+
+| Thing | de | en | Source |
+|---|---|---|---|
+| the third role (verneombud) | **Betriebsrat** — the person the works council names; empty where there is none | **works council** | § 1, §§ 80, 87, 89 BetrVG; de-legal.md § 5 |
+| the survey as the law sees it | **Gefährdungsbeurteilung** for **psychische Belastungen bei der Arbeit** | the risk assessment (Gefährdungsbeurteilung) for psychological load at work | § 5 Abs. 3 Nr. 6 ArbSchG |
+| the authority | **die Arbeitsschutzbehörde des Landes** | the Land's occupational safety authority | § 21 ArbSchG; names differ by Land, so no name |
+| AMU | **Arbeitsschutzausschuss** | occupational safety committee | § 11 ASiG |
+| BHT | **Betriebsarzt und Fachkraft für Arbeitssicherheit** | company doctor and (occupational) safety specialist | §§ 2, 5 ASiG |
+| tillitsvalgte | **Arbeitnehmervertretung** | employee representatives | — |
+| krenkende atferd | **Belästigung** (the AGG's term, in the pack only) | harassment | § 3 Abs. 3 AGG |
+| the documentation | **die Dokumentation nach § 6 ArbSchG** | the documentation under § 6 ArbSchG | § 6 ArbSchG |
+| organisation number | **USt-IdNr.** | VAT ID (USt-IdNr.) | de-legal.md assumptions 4 |
+| citations | **§ 87 Abs. 1 Nr. 7 BetrVG** — section first, act last, in both languages | same | German convention |
+
+Never in a pack text: a factor name «nach ArbSchG», «nach der GDA», a yearly interval the statute does not set,
+«die Berufsgenossenschaft prüft», or a duty on employees to report harassment (de-legal.md, «How a product text
+should cite it» under each section).

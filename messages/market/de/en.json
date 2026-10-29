@@ -1,0 +1,501 @@
+{
+  "app": {
+    "tagline": "Psychological load at work, assessed and documented for German organisations. Answers are stored in the EU, and no single answer can be traced back to a person."
+  },
+  "role": {
+    "verneombud": "Works council"
+  },
+  "innsikt": {
+    "lead": {
+      "verneombud": "You see the same figures as management, and are notified when a deadline is missed. Individual comments are not available to the works council."
+    },
+    "feed": {
+      "riskVo": "the works council took part"
+    },
+    "law": {
+      "title": "Arbeitsschutzgesetz",
+      "assessed": "§ 5 ArbSchG surveyed and assessed ✓",
+      "assessPending": "§ 5 ArbSchG surveyed · assessment outstanding",
+      "verneombud": "§ 89 BetrVG works council involved ✓",
+      "verneombudPending": "§ 89 BetrVG works council not recorded",
+      "droftet": "Employee representatives consulted ✓",
+      "droftetOn": "Employee representatives consulted {date} ✓",
+      "droftetPending": "Consultation of employee representatives not recorded"
+    }
+  },
+  "malinger": {
+    "privacy": "The system knows who has not answered, so that the reminder goes only there. No one in the organisation can see that list — not you, not the managers, not the works council. The link between person and answer does not exist in the database.",
+    "qsLead": "Eleven factors of psychological load at work, phrased in QPS Nordic language. The Arbeitsschutzgesetz names the category, not the factors (§ 5 Abs. 3 Nr. 6 ArbSchG); the mapping is Orgpuls’ own. Three statements per factor, answered 1–5. You may switch a factor off, but not change the wording — it is the wording that makes the figures comparable over time.",
+    "rail": {
+      "leadText": "The works council is told {days, plural, one {# day} other {# days}} before.",
+      "forankring": "Anchoring: the works council and the employee representatives go through the survey before the baseline."
+    },
+    "start": {
+      "confirm": "The pulse goes out today to all employees, with the factors of the next planned pulse. The works council and the others on the notice ladder are told at the same time, not days before."
+    },
+    "innstillinger": {
+      "screening": "Documents the assessment of violence, threats and harassment as hazards. Can be left out, but then you must give a reason.",
+      "reasonNote": "The reason is stored and shown with the survey, so the works council and the Land’s occupational safety authority can see it. At least ten characters."
+    }
+  },
+  "entry": {
+    "sentLead": "If the number or address is on the employee list and you have not answered yet, the link arrives in a moment. If it does not, ask the works council or your manager what is registered.",
+    "sentLeadEmail": "If the address is on the employee list and you have not answered yet, the link arrives in a moment. If it does not, ask the works council or your manager what is registered.",
+    "unknownLead": "The poster may be old, or the code mistyped. Ask the works council or your manager for a new one."
+  },
+  "rapport": {
+    "audience": {
+      "tilsyn": "The Land’s occupational safety authority",
+      "amu": "Occupational safety committee and works council"
+    },
+    "docTitle": {
+      "amu": "Paper for the occupational safety committee — psychological load at work {year}"
+    },
+    "docLead": {
+      "tilsyn": "Prepared under §§ 5 and 6 of the Arbeitsschutzgesetz: the documents from which the result of the risk assessment (Gefährdungsbeurteilung) for psychological load at work (§ 5 Abs. 3 Nr. 6 ArbSchG), the measures decided and the result of their review can be seen (§ 6 Abs. 1 ArbSchG). It covers psychological load — not the other hazards the risk assessment must cover. It is not filed anywhere: the employer keeps it, and the Land’s occupational safety authority may require it at an inspection (§ 21 ArbSchG).",
+      "amu": "A committee paper with findings, risk assessment and proposed measures. The works council and the employee representatives have reviewed it before the meeting."
+    },
+    "metaOrgnr": "VAT ID (USt-IdNr.)",
+    "instrumentBody": "Eleven factors of psychological load at work, three statements per factor, answered on a five-point scale. The wording builds on QPS Nordic; a standardised written survey is a recognised way of assessing psychological load (§ 5 Abs. 3 Nr. 6 ArbSchG). The mapping of the factors onto job content, work organisation and social relations is Orgpuls’ own. In addition one recommendation question, screening for harassment and for violence and threats, and one open field.",
+    "section4Empty": "The survey has not been assessed. § 5 ArbSchG requires the risk assessment to determine which measures are needed; this document records the survey, not the assessment.",
+    "section8EmptyInfo": "There is no record that the findings were shared. Employees must be instructed on safety and health at work (§ 12 ArbSchG), and the works council informed in good time and comprehensively (§ 80 Abs. 2 BetrVG).",
+    "audienceName": {
+      "verneombud": "Works council",
+      "amu": "Occupational safety committee"
+    },
+    "signerRole": {
+      "verneombud": "Works council"
+    },
+    "register": {
+      "lead": "Section 8 prints what is recorded here, in the same words. Employees must be instructed (§ 12 ArbSchG) and the works council informed (§ 80 Abs. 2 BetrVG); instruction is repeated when it falls due.",
+      "problem": {
+        "denied": "That did not work. Only the managing director and the works council can record this — nothing was changed."
+      },
+      "counterpartPlaceholder": "For example employee representatives and the works council"
+    },
+    "evaluation": {
+      "cadence": {
+        "hver_6_mnd": "The need for the survey is evaluated every six months. Measures must be reviewed for effectiveness and adapted to changed circumstances (§ 3 Abs. 1 ArbSchG).",
+        "arlig": "The need for the survey is evaluated every year. Measures must be reviewed for effectiveness and adapted to changed circumstances (§ 3 Abs. 1 ArbSchG).",
+        "etter_hver_runde": "The need for the survey is evaluated after every round. Measures must be reviewed for effectiveness and adapted to changed circumstances (§ 3 Abs. 1 ArbSchG)."
+      }
+    },
+    "styret": {
+      "assessed": "The assessment was made on {date} and is documented, as § 6 Abs. 1 ArbSchG requires.",
+      "notAssessed": "The assessment under § 5 ArbSchG is outstanding."
+    }
+  },
+  "tiltak": {
+    "lead": "Every measure hangs on a factor and cannot be closed before its effect has been measured. That is the review of effectiveness § 3 Abs. 1 ArbSchG asks of the employer, and the result § 6 ArbSchG wants documented.",
+    "kindNote": {
+      "individuelt": "Measures are to be planned so that technology, work organisation, other working conditions and social relations are properly joined up (§ 4 Nr. 4 ArbSchG) — the work first, not the individuals. An individual measure should be justified."
+    }
+  },
+  "maleoppsett": {
+    "lead": {
+      "grunnlinje": "The whole question set, once a year. It is the survey that carries the risk assessment for psychological load (§ 5 Abs. 3 Nr. 6 ArbSchG), and the one that sets the zero point everything else is measured against."
+    },
+    "kind": {
+      "grunnlinje": {
+        "note": "{count, plural, one {# question} other {# questions}} · annual · carries the risk assessment"
+      }
+    },
+    "consentLead": "Three things are worth being able to show before the survey goes out: that the works council, where there is one, co-determined the method (§ 87 Abs. 1 Nr. 7 BetrVG) and was involved (§ 89 Abs. 2 BetrVG); that employees know what the survey is for and what happens to the answers (§ 12 ArbSchG, Art. 13 GDPR); and that the measures are reviewed for effectiveness (§ 3 Abs. 1 ArbSchG).",
+    "vo": "The works council is involved in the setup",
+    "voLaw": "§ 89 Abs. 2 BetrVG · § 87 Abs. 1 Nr. 7 BetrVG — where there is a works council",
+    "voNote": "The works council is involved in the setup, not merely told about it, and sees the result at the same time as management. Where there is no works council the field stays empty: there is no duty to have one (§ 1 BetrVG).",
+    "tvLaw": "§ 80 Abs. 2 BetrVG — informing the works council in good time and comprehensively, where there is one",
+    "infoLaw": "Art. 13 GDPR · § 12 ArbSchG — purpose, legal basis and how long answers are kept",
+    "infoPurposeValue": "To survey psychological load at work and document the risk assessment under § 5 Abs. 3 Nr. 6 ArbSchG.",
+    "evalLaw": "§ 3 Abs. 1 ArbSchG — the measures are reviewed for effectiveness and adapted",
+    "summaryLegal": "Basis for the risk assessment of psychological load, § 5 Abs. 3 Nr. 6 ArbSchG; documented under § 6 ArbSchG",
+    "perRound": {
+      "screening": "Documents the assessment of violence, threats and harassment as hazards. Can be left out with a reason.",
+      "reasonNote": "The reason is stored with the survey, so the works council and the Land’s occupational safety authority can see it. At least ten characters."
+    },
+    "send": {
+      "ready": {
+        "vo": "The works council has been involved.",
+        "voMissing": "It is not recorded that the works council has been involved (section 6)."
+      }
+    }
+  },
+  "arshjulet": {
+    "lead": "Set it up once. After that the sending, reminding, results and follow-up run by themselves — and the works council is always told before the employees.",
+    "cadence": {
+      "minimum": {
+        "label": "Baseline only",
+        "note": "One baseline a year. Carries the risk assessment, but you find things out late."
+      }
+    },
+    "audience": {
+      "verneombud": {
+        "label": "Works council",
+        "note": "Told first, so it can be involved before a survey starts. § 89 Abs. 2 BetrVG, § 87 Abs. 1 Nr. 7 BetrVG."
+      }
+    },
+    "notifyVo": "Tell the works council when a deadline passes"
+  },
+  "oppsett": {
+    "selskap": {
+      "leadManual": "You enter the name and the VAT ID (USt-IdNr.) yourselves. The industry you are compared against is chosen below.",
+      "orgNumberLabel": "VAT ID (USt-IdNr.)",
+      "fact": {
+        "orgNumber": "VAT ID (USt-IdNr.)",
+        "registryEmployees": "Employees as you stated them"
+      }
+    },
+    "lovmodus": {
+      "lead": "Controls how visible the Arbeitsschutzgesetz is in the interface.",
+      "onNote": "Provisions are shown under each factor, the result is framed as risk, and the Regulation tab with the documentation under § 6 ArbSchG is available. The works council is a role of its own."
+    },
+    "duty": {
+      "verneombudTitle": "Works council",
+      "verneombudLaw": "§ 1 BetrVG — from five eligible employees, when the employees elect one",
+      "verneombudNamed": "{name} is recorded as the works council’s representative.",
+      "verneombudNone": "Nobody is recorded for the works council yet. Set the role on a person under People — or leave it empty where there is no works council.",
+      "verneombudSmall": "A works council is the employees’ right, not the employer’s duty: it is elected from five eligible employees when the employees want one (§ 1 BetrVG). Where there is none, you can leave the role empty or give it to a person the employees have chosen.",
+      "amuTitle": "Occupational safety committee",
+      "amuLaw": "§ 11 ASiG — from more than twenty employees",
+      "amuRequired": "Advises on matters of occupational safety and meets at least once a quarter (§ 11 ASiG). Findings and measures are put to it as a paper.",
+      "amuMay": "From more than twenty employees an occupational safety committee must be formed; part-timers count 0.5 or 0.75 (§ 11 ASiG). You do not have one today.",
+      "amuSmall": "Up to twenty employees no occupational safety committee is required (§ 11 ASiG).",
+      "dependsOnIndustry": "By the kind and size of the business",
+      "bhtTitle": "Company doctor and safety specialist",
+      "bhtLaw": "§§ 2 and 5 ASiG",
+      "bhtDepends": "The law names no list of industries and no headcount. Company doctors (Betriebsärzte) and occupational safety specialists (Fachkräfte für Arbeitssicherheit) are appointed in writing as far as the kind of business and its hazards, the number and composition of the workforce and the organisation require (§§ 2 and 5 ASiG); the extent of the support is set by the accident insurer’s rules.",
+      "bhtLabel": "Company doctor or safety specialist",
+      "bhtPlaceholder": "Name of the service or person"
+    },
+    "ansatte": {
+      "duty": {
+        "verneombud": "Works council"
+      },
+      "dutyNote": "The role here is a position under the law, not an access grant. It records who represents the works council or belongs to the employee representatives — for the record of their involvement, for instance (§ 89 Abs. 2 BetrVG). Who may read what is governed by the login and the role under “Roles and access”, and is not changed by this field.",
+      "problem": {
+        "phone": "The mobile number cannot be used. Enter a German mobile number, such as 0151 23456789, or a number with its country code."
+      }
+    },
+    "roller": {
+      "role": {
+        "verneombud": "Works council"
+      }
+    },
+    "personvern": {
+      "basis": {
+        "body": "Legal obligation, Art. 6(1)(c) GDPR with § 26 Abs. 1 BDSG, the obligation being the risk assessment under § 5 ArbSchG; where there is a works council, a works agreement beside it (§ 26 Abs. 4 BDSG). Not consent — employees cannot consent freely to their employer (§ 26 Abs. 2 BDSG), and the assessment is a duty in any case."
+      },
+      "special": {
+        "body": "The questions are written not to collect health data, which is special-category data (Art. 9 GDPR). The screening for harassment and violence is reported as counts only."
+      },
+      "access": {
+        "body": "Register details can be corrected and deleted on request. Anonymous answers cannot be retrieved or deleted individually — they are not identifiable (Art. 11 GDPR)."
+      }
+    },
+    "regelverk": {
+      "coverTitle": "Coverage of the risk assessment of psychological load",
+      "coverLead": "The Arbeitsschutzgesetz names the category, not the factors: psychological load at work (§ 5 Abs. 3 Nr. 6 ArbSchG), and the fields a measure must join up — work organisation, other working conditions, social relations (§ 4 Nr. 4 ArbSchG). This is where each field is asked about in the survey; the mapping is Orgpuls’ own.",
+      "cover": {
+        "emotional": {
+          "ref": "Emotional demands (§ 4 Nr. 1 ArbSchG: mental health)"
+        },
+        "arbeitsinhalt": {
+          "ref": "Job content and task: role clarity, scope for action, meaning (§ 4 Nr. 4, § 12 ArbSchG)"
+        },
+        "arbeitsorganisation": {
+          "ref": "Work organisation: workload, conflicting demands, communication (§ 4 Nr. 4, § 5 Abs. 3 Nr. 4 ArbSchG)"
+        },
+        "arbeitsumgebung": {
+          "ref": "The work environment as a source of psychological load: noise, climate, ergonomics (§ 5 Abs. 3 Nr. 1–3 ArbSchG)",
+          "where": "Not measured by the instrument — belongs in the other steps of your risk assessment"
+        },
+        "arbeitszeit": {
+          "ref": "Working time: length, scheduling, rest (§ 5 Abs. 3 Nr. 4 ArbSchG; §§ 3, 5 ArbZG)",
+          "where": "Not measured by the instrument — follow up shifts, overtime and constant availability in your own safety work"
+        },
+        "belaestigung": {
+          "ref": "Harassment and sexual harassment (§ 3 Abs. 3 and 4, § 12 AGG)",
+          "where": "Screening at the end of the survey, as counts only — not a measure of the field and no substitute for the complaints body under § 13 AGG"
+        },
+        "gewalt": {
+          "ref": "Violence and threats as a hazard (§ 5 ArbSchG; § 12 Abs. 4 AGG for third parties)",
+          "where": "Screening at the end of the survey, as counts only — not a risk assessment of violence"
+        },
+        "soziale": {
+          "ref": "Social relations: management, colleagues, speaking up, dignity (§ 4 Nr. 4 ArbSchG; §§ 3, 7 AGG)"
+        }
+      },
+      "gapLead": "The survey is one source. The risk assessment covers more than a survey, and its result must lead to measures (§§ 3, 5 ArbSchG). This lies outside Orgpuls today:",
+      "gap": {
+        "beschwerde": "The complaints body for harassment and discrimination, made known in the business (§§ 12 Abs. 5, 13 AGG) — a comment in Orgpuls is not a complaint",
+        "betreuung": "Appointing a company doctor and a safety specialist and their part in the risk assessment (§§ 2, 5 ASiG)",
+        "betriebsrat": "Agreeing the method with the works council, where there is one (§ 87 Abs. 1 Nr. 7 BetrVG), usually in a works agreement — Orgpuls records that it was made; the agreement is yours",
+        "gesamt": "The other hazards the risk assessment must cover — premises, equipment, substances, procedures, qualification (§ 5 Abs. 3 Nr. 1–5 ArbSchG); Orgpuls assesses psychological load",
+        "unterweisung": "Instructing employees on safety and health, at hiring, on change and repeated when needed (§ 12 ArbSchG)"
+      },
+      "legal": {
+        "agg": {
+          "ref": "§§ 3, 7, 12, 13 AGG",
+          "what": "Harassment and sexual harassment are discrimination (§ 3), prohibited (§ 7); the employer takes the necessary protective measures, preventive ones included (§ 12), and employees have a right to complain (§ 13). Orgpuls screens, as counts only."
+        },
+        "arbschg3": {
+          "ref": "§ 3 ArbSchG",
+          "what": "The basic duty: take the required measures, review their effectiveness and adapt them to changed circumstances. Orgpuls holds the measures and measures their effect in the next pulse."
+        },
+        "arbschg5": {
+          "ref": "§ 5 ArbSchG",
+          "what": "The risk assessment (Gefährdungsbeurteilung): the employer determines, by assessing the hazards connected with the work, which safety measures are required — expressly including psychological load at work (Abs. 3 Nr. 6). Orgpuls surveys and assesses that part."
+        },
+        "arbschg6": {
+          "ref": "§ 6 ArbSchG",
+          "what": "The documentation: documents from which the result of the risk assessment, the measures decided and the result of their review can be seen — for every employer, scaled to the kind of work and the number of employees. The report is that documentation for psychological load."
+        },
+        "asig": {
+          "ref": "§§ 2, 5, 11 ASiG",
+          "what": "Company doctor and occupational safety specialist, appointed as far as required (§§ 2, 5), and the occupational safety committee from more than twenty employees, at least quarterly (§ 11). The report provides the paper."
+        },
+        "betrvg": {
+          "ref": "§§ 80, 87, 89 BetrVG",
+          "what": "Where there is a works council: information in good time and comprehensively, with the documents (§ 80 Abs. 2), co-determination on rules for health protection, so on the method of the risk assessment (§ 87 Abs. 1 Nr. 7), and involvement in all matters of occupational safety (§ 89 Abs. 2). There is no duty to have a works council (§ 1)."
+        },
+        "dsgvo": {
+          "ref": "Art. 6(1)(c) GDPR · § 26 BDSG",
+          "what": "The survey processes personal data — the invitation, not the answer: the legal basis is the statutory duty to assess risks, not consent; where there is a works council, a works agreement as well (§ 26 Abs. 4 BDSG). Results are shown only for groups that reach the threshold."
+        }
+      }
+    },
+    "billing": {
+      "freeBody": "The trial ended on {end}, and you are on the free plan: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the documentation under § 6 ArbSchG.",
+      "freeBodyChosen": "You moved to the free plan on {date}: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the documentation under § 6 ArbSchG."
+    }
+  },
+  "hjelp": {
+    "article": {
+      "forsteTimen": {
+        "body": {
+          "p2": "Then check groups and the threshold. The groups decide what you can break the results down by, and should follow where people actually work together. The threshold decides how many answers a group needs before it is shown on its own. Five is the default, and the lowest you can choose in Germany.",
+          "p3": "Finally, set the measurement up under Measurement setup. That is where you record that the works council was involved (§ 89 Abs. 2 BetrVG) and co-determined the method (§ 87 Abs. 1 Nr. 7 BetrVG) — or that there is none. Not a checkbox, but the record of its involvement. Only then can the round be planned."
+        }
+      },
+      "velgTerskel": {
+        "lead": "Why five is the lowest in Germany, what happens to groups below the threshold, and when a higher one may be right.",
+        "body": {
+          "p2": "Five is the default and the lowest an organisation in Germany can choose: the floor is enforced by the database, which always counts with at least five, whatever the settings say. You can raise it to at most ten if you want to be stricter. A change applies to surveys not yet opened; a survey already open keeps the threshold employees answered under.",
+          "p3": "The reason is not the Arbeitsschutzgesetz but data protection law. In a small group a result can in practice be traced back to individuals, and then it is no longer anonymous figures — it is personal data, with a full right of access and erasure.",
+          "p4": "The consequence is worth planning for: if you have many small departments, you get few figures to steer by. It is then usually better to merge groups that actually work together."
+        }
+      },
+      "settOppArshjulet": {
+        "body": {
+          "p3": "The notification order is not optional. The works council and the employee representatives are notified first, then the managing director, then the department managers, and last everybody. The reason: the works council must be involved in all matters of occupational safety (§ 89 Abs. 2 BetrVG) and informed in good time (§ 80 Abs. 2 BetrVG), and a wheel that notified everybody at once would skip that. How far in advance the notices go is yours to change."
+        }
+      },
+      "egneSporsmal": {
+        "body": {
+          "p3": "Use them for what the instrument does not cover and that is specific to you — a reorganisation, a new shift system, a move. Avoid questions about health: health data is special-category data (Art. 9 GDPR), and a well-meant “how are you really doing?” is closer to that line than it looks."
+        }
+      },
+      "funnTilTiltak": {
+        "body": {
+          "p1": "Share the findings within two weeks. It is the single thing that decides the response rate next time, and it is also what the law assumes: the risk assessment is to determine which measures are required (§ 5 ArbSchG), and employees are to be instructed (§ 12 ArbSchG). A survey that is not shared is not occupational safety, it is a questionnaire.",
+          "p2": "Hold a meeting where the figures are interpreted by the people they are about. The works council should be there — not as a formality, but because the interpretation is often where the work is. Two departments with the same figures can have entirely different causes.",
+          "p4": "The effect is measured by the next pulse, which asks about exactly the factors that have open measures. That is the chain of §§ 5 and 3 ArbSchG: assess the hazards, take measures, review their effectiveness and adapt."
+        }
+      },
+      "gdpr": {
+        "body": {
+          "p1": "The legal basis is legal obligation, Art. 6(1)(c) GDPR with § 26 Abs. 1 BDSG, the obligation being the risk assessment under § 5 ArbSchG. Not consent.",
+          "p2": "That is not a technicality. Consent must be freely given, and an employee cannot consent freely to their employer — the law names the dependence in the employment relationship expressly (§ 26 Abs. 2 BDSG). The assessment is also a duty the organisation has in any case, and a consent that cannot be withdrawn without the duty falling away is not a consent. Where there is a works council, a works agreement is the usual additional basis (§ 26 Abs. 4 BDSG).",
+          "p3": "The questions are written not to collect health data, which is special-category data (Art. 9 GDPR). The screening for harassment and violence is reported as counts only.",
+          "p4": "Three things must be in place before real answers are processed: a routine for deleting individual answers, a data processing agreement with a list of sub-processors, and an entry in the record of processing activities (Art. 30 GDPR). The data processing agreement is under Settings › Data processing agreement, where the managing director signs it. You still need to set up the deletion routine and the record yourselves."
+        }
+      },
+      "hvaLovenKrever": {
+        "title": "What the Arbeitsschutzgesetz actually requires",
+        "lead": "§§ 3, 5 and 6 ArbSchG, and what the works council has to say. What Orgpuls covers, and what you need elsewhere.",
+        "body": {
+          "p1": "Every employer must determine, by assessing the hazards connected with the work, which safety measures are required (§ 5 ArbSchG) — expressly including psychological load at work (Abs. 3 Nr. 6). The measures must be taken, reviewed for effectiveness and adapted (§ 3 Abs. 1 ArbSchG), and the result of the assessment, the measures and the result of their review documented (§ 6 ArbSchG). Orgpuls covers these steps for psychological load and documents them.",
+          "p2": "The law names no factors. It names the category — psychological load at work — and the fields a measure must join up: technology, work organisation, other working conditions, social relations and the environment (§ 4 Nr. 4 ArbSchG). Measures are to follow the state of the art and established findings of occupational science (§ 4 Nr. 3) — the hook for a validated instrument. The eleven factors are mapped onto those fields; the mapping is Orgpuls’ own.",
+          "p3": "The index is not a legal requirement. No provision mentions a number. What is required is that you can document the result of the assessment, the measures and the result of their review (§ 6 ArbSchG) — and that is the documentation the report produces.",
+          "p4": "This is what Orgpuls does not cover: the other hazards of the risk assessment — premises, equipment, substances, procedures —, instruction (§ 12 ArbSchG), appointing a company doctor and a safety specialist (§§ 2, 5 ASiG) and the complaints body under § 13 AGG. Nor the agreement with the works council, which Orgpuls records but does not make. The survey is one source, and the Land’s occupational safety authority expects you to use several."
+        }
+      },
+      "kontrolltiltak": {
+        "title": "The survey, the works council and data protection",
+        "lead": "No monitoring, co-determination on the method, informing employees, reviewing the measures — and what data protection law adds.",
+        "body": {
+          "p1": "A works council co-determines technical systems suited to monitoring behaviour or performance (§ 87 Abs. 1 Nr. 6 BetrVG). A survey whose answers cannot be attributed to a person and whose results are shown only for groups can monitor nobody — that is the property Orgpuls is built on, not a promise. The invitation and the reminder are personal data; the answer is not.",
+          "p2": "You should be able to show three things: that the works council, where there is one, co-determined the method of the risk assessment and was involved (§ 87 Abs. 1 Nr. 7, § 89 Abs. 2 BetrVG), usually in a works agreement; that employees know what the survey is for and hear what it found and what is being done (§ 12 ArbSchG, Art. 13 GDPR); and that the measures are reviewed for effectiveness (§ 3 Abs. 1 ArbSchG).",
+          "p3": "Measurement setup stores this as part of the round rather than as a tick. The consultation is recorded with a date and who it was held with, and the works council’s involvement is recorded separately.",
+          "p4": "The evaluation has its own cadence on the measurement, and the measures must be reviewed for effectiveness and adapted to changed circumstances (§ 3 Abs. 1 ArbSchG). It is the part most often forgotten, because it falls due long after everybody has moved on."
+        }
+      },
+      "rapportTilTilsynet": {
+        "title": "The documentation of the risk assessment",
+        "lead": "What it contains, which period it covers, and what to keep with it.",
+        "body": {
+          "p1": "The document is built to be the record § 6 ArbSchG requires — the result of the risk assessment, the measures decided and the result of their review —, not a presentation. It is not filed anywhere: you keep it, and the Land’s occupational safety authority may require it at an inspection (§ 21 ArbSchG). It follows the steps in order: what was surveyed, what the assessment concluded, which measures were taken, and what the review showed.",
+          "p4": "Keep with it what Orgpuls does not have: the works agreement or the minutes of the agreement with the works council, the instruction records, and the other parts of your risk assessment."
+        }
+      },
+      "rollerOgTilgang": {
+        "lead": "Managing director, department manager, works council, employee representatives. Where the lines are, and why.",
+        "body": {
+          "p3": "The works council sees the same figures and the same risk assessment as management, and is notified first when a round starts. It does not see individual comments — its involvement (§ 89 Abs. 2 BetrVG) is about the survey and the measures, not correspondence, and a comment is not a document within § 80 Abs. 2 BetrVG.",
+          "p4": "Employee representative is a position in the register, not a login. It is recorded so that the involvement can be documented, and it grants no access in itself. The same holds for the role field in the register generally: it says who somebody is under the law, not what they may read."
+        }
+      }
+    }
+  },
+  "start": {
+    "ctaFree": "Try it free for 15 days",
+    "finalTitle": "Try it on your own organisation",
+    "finalBody": "Enter your company’s name and your e-mail address, and you are up and running in 3 minutes, without giving card details before you have decided. Answers are stored in the EU, and no group is shown until at least 5 have answered."
+  },
+  "registrer": {
+    "orgNumber": "VAT ID (USt-IdNr.)",
+    "todo": {
+      "send": {
+        "note": "The works council is involved before sending, where there is one"
+      }
+    },
+    "incl": {
+      "report": "The documentation under § 6 ArbSchG, ready for the authority, the safety committee and the management",
+      "users": "Unlimited users — the works council and managers cost nothing extra"
+    },
+    "heard": {
+      "option": {
+        "bht": "Company doctor, safety specialist or occupational safety consultant"
+      }
+    },
+    "orgNumberPlaceholderManual": "DE + 9 digits",
+    "orgNumberOptionalHintManual": "You can leave it empty. With the VAT identification number, such as DE 136 695 976, we recognise the company more reliably, and it goes on the invoice."
+  },
+  "headerPanel": {
+    "tabs": {
+      "lov": "Arbeitsschutzgesetz"
+    },
+    "screen": {
+      "home": {
+        "s3": "Switch role at the top right to see exactly what department managers and the works council see.",
+        "sci": "The index is a weighted average of the eleven factors, converted from 1–5 to 0–100. A change of less than three points is within normal variation and should not be read as a trend. Source: QPS Nordic user guide."
+      },
+      "measure": {
+        "s1": "The baseline is the full survey. It is taken once a year and sets the zero point.",
+        "s3": "The annual cycle does both automatically, with the works council notified first."
+      },
+      "tasks": {
+        "sci": "The research behind QPS Nordic points out that actions aimed at how work is organised work better than individual measures such as stress-management courses. The law asks the same: measures are planned so that technology, work organisation, working conditions and social relations are joined up (§ 4 Nr. 4 ArbSchG)."
+      },
+      "plan": {
+        "s3": "Check the groups against the threshold, and leave the notice to the works council on."
+      },
+      "wheel": {
+        "s2": "Check the notification order — the works council and the employee representatives must always come first."
+      }
+    },
+    "law": {
+      "home": "The loop on this page is the risk assessment put into a system: assess the hazards (§ 5 ArbSchG), take measures, review their effectiveness and adapt (§ 3 Abs. 1 ArbSchG), document (§ 6 ArbSchG). The index is not a legal requirement — the assessment and its documentation are. The annual cycle covers the works council’s involvement (§§ 80, 89 BetrVG).",
+      "measure": "The law requires no particular method and no fixed interval. It requires the risk assessment to be made by kind of work (§ 5 ArbSchG) and the measures to be reviewed for effectiveness and adapted to changed circumstances (§ 3 Abs. 1 ArbSchG). The factors here are mapped onto the fields of § 4 Nr. 4 ArbSchG, and the wording is locked so that results stay comparable over time.",
+      "result": "The assessment is the legal requirement itself: § 5 ArbSchG requires determining from the hazards which measures are required, and § 6 ArbSchG requires documenting the result. A number alone is not an assessment. Hence both factor rows and an overall index, and an assessment per factor.",
+      "conv": "A comment can be about harassment or bullying. It then belongs with the complaints body under § 13 AGG, not in an ordinary measure: the employer must take the necessary protective measures, preventive ones included (§ 12 AGG). Employees with concrete grounds to think safety is inadequate may turn to the competent authority without disadvantage (§ 17 Abs. 2 ArbSchG).",
+      "tasks": "The risk assessment must lead to measures, not just to insight: § 5 ArbSchG determines the measures required, § 3 Abs. 1 ArbSchG requires taking them and reviewing their effectiveness. That is why a measure cannot be closed until its effect has been measured. Measures join up work organisation, working conditions and social relations (§ 4 Nr. 4 ArbSchG) — the work first, not the individuals.",
+      "plan": "The invitation is personal data, the answer is not — and the legal basis is the statutory duty to assess risks (Art. 6(1)(c) GDPR, § 26 Abs. 1 BDSG), not consent. Results are shown only for groups that reach the threshold. Where there is a works council, it co-determines the method (§ 87 Abs. 1 Nr. 7 BetrVG) and is involved (§ 89 Abs. 2 BetrVG); employees are instructed (§ 12 ArbSchG).",
+      "wheel": "The law knows no annual interval: measures must be reviewed for effectiveness and adapted to changed circumstances (§ 3 Abs. 1 ArbSchG), and instruction is repeated on change and regularly where needed (§ 12 Abs. 1 ArbSchG) — whenever in the year that happens. The notification order in the annual cycle lets the works council be involved first.",
+      "settings": "The threshold is not a requirement of the Arbeitsschutzgesetz but follows from data protection law: with fewer than five answers, results in small groups can be traced back to individuals. The legal basis is the statutory duty to assess risks (Art. 6(1)(c) GDPR, § 26 Abs. 1 BDSG), not consent — the law names the dependence in the employment relationship expressly (§ 26 Abs. 2 BDSG). The questions are designed not to collect health data (Art. 9 GDPR).",
+      "report": "The documentation duty lies in § 6 ArbSchG: documents from which the result of the risk assessment, the measures decided and the result of their review can be seen. Nothing is filed: the Land’s occupational safety authority supervises and advises, and at an inspection checks how hazards were determined, how measures were implemented and how they were documented (§ 21 ArbSchG). The occupational safety committee, where there is one, advises on occupational safety quarterly (§ 11 ASiG)."
+    }
+  },
+  "mail": {
+    "forvarsel": {
+      "verneombud": "The works council is told first, so it can be involved before the survey starts (§ 89 Abs. 2 BetrVG). You can see the setup in Orgpuls.",
+      "tillitsvalgte": "You have the same deadline as the works council to give input."
+    },
+    "resultat": {
+      "employee": "Management will go through the result with you, and the measures are followed up together with the works council."
+    },
+    "lifecycle": {
+      "first_sent": {
+        "more": "Three things help: explain in a meeting why you are surveying and that answers are anonymous, ask the works council to encourage people to answer, and let the reminder go out as planned."
+      },
+      "results_ready": {
+        "lead": "At least one group in {org} has enough answers, and the results can be read. Go through them with the works council, and choose one or two areas to act on.",
+        "more": "The report in Orgpuls is your documentation under § 6 ArbSchG: survey, assessment and measures, in one place. You keep it, and the Land’s occupational safety authority may require it."
+      }
+    },
+    "tiltak": {
+      "verneombud": "These measures at {org} are past their deadline or standing still. You get a copy because the works council is told when a deadline is missed."
+    },
+    "evaluering": {
+      "lead": "Measures must be reviewed for effectiveness and adapted to changed circumstances (§ 3 Abs. 1 ArbSchG), and the need for the survey is assessed at the cadence you chose. The evaluation was due {date}.",
+      "leadNoDate": "Measures must be reviewed for effectiveness and adapted to changed circumstances (§ 3 Abs. 1 ArbSchG), and the need for the survey is assessed at the cadence you chose. The evaluation is due."
+    }
+  },
+  "smsSetup": {
+    "legal": "The survey is part of the risk assessment the Arbeitsschutzgesetz requires of the employer (§ 5 ArbSchG), not marketing, and its legal basis is the statutory duty rather than consent (Art. 6(1)(c) GDPR, § 26 Abs. 1 BDSG). The number must still come from the employment, not from private sources."
+  },
+  "resultater": {
+    "prio": {
+      "notYours": "Priority is computed for the whole organisation and shown to the managing director and the works council."
+    },
+    "effect": {
+      "lead": "“The measures taken after the last survey have had a positive effect on my workplace.” Asked from the second survey and not counted in the index. It is the review of effectiveness § 3 Abs. 1 ArbSchG asks for."
+    }
+  },
+  "kommentarer": {
+    "varselNote": "This may concern harassment or bullying. Do reply here, but the case belongs with the complaints body under § 13 AGG and the employer’s duty to protect (§ 12 AGG) — not in an ordinary work-environment measure.",
+    "notYours": "Single comments are shown to the managing director and department managers, who can reply to them. As the works council you see the same figures under Results."
+  },
+  "veiviser": {
+    "steps": {
+      "verneombud": "Works council"
+    },
+    "welcomeList": {
+      "w4": "Works council and employee representatives"
+    },
+    "org": {
+      "number": "VAT ID (USt-IdNr.)"
+    },
+    "safety": {
+      "duty": "{count, plural, one {With # employee} other {With # employees}} a works council is elected when the employees want one — from five eligible employees (§ 1 BetrVG); it is not the employer’s duty. If there is one, record here whom it names: that person sees the result at the same time as management and is told before every send. Without a works council, leave the field empty or record a person the employees have chosen.",
+      "dutySmall": "A works council is elected from five eligible employees when the employees want one (§ 1 BetrVG). If there is one, record here whom it names; otherwise leave the field empty or choose a person the employees trust.",
+      "vo": "Works council",
+      "amuMust": "You must also have an occupational safety committee (§ 11 ASiG). The report prepares its paper automatically.",
+      "amuMay": "An occupational safety committee must be formed from more than twenty employees, part-timers counted 0.5 or 0.75 (§ 11 ASiG).",
+      "empty": "Add the employees first, then you can record who represents the works council, if there is one."
+    },
+    "law": {
+      "lead": "Both use the same research-based questions. The difference is whether the results are linked to the risk assessment under the Arbeitsschutzgesetz.",
+      "on": {
+        "label": "Arbeitsschutzgesetz",
+        "note": "Eleven areas, including harassment and violence. Gives the documentation under § 6 ArbSchG."
+      }
+    },
+    "rhythm": {
+      "voFirst": "The works council is notified {days, plural, =0 {at the same time} one {one day before} =2 {two days before} other {# days before}}",
+      "who": {
+        "vo": "Works council and employee representatives"
+      }
+    },
+    "send": {
+      "t1v": "The works council and the employee representatives see the setup",
+      "problem": {
+        "too_soon": "The send-out must be at least three days ahead, so the works council can see it."
+      }
+    },
+    "done": {
+      "vo": "Works council"
+    }
+  },
+  "plan": {
+    "report": {
+      "body": "The documentation of the risk assessment under § 6 ArbSchG — survey, assessment and measures in one document — comes with a plan. On the free plan you can send the standard main survey, read the results and follow up with measures."
+    }
+  },
+  "roundPage": {
+    "measuresEmpty": "No measures have been decided yet. This page is updated once management and the works council have decided what to do.",
+    "measuresNote": "The measures are followed up together with the works council. This page always shows where they stand now.",
+    "missingLead": "The link is wrong, or the page is not shared. Ask your manager or the works council.",
+    "madeWithWhat": "surveys of psychological load for the risk assessment under the Arbeitsschutzgesetz"
+  }
+}

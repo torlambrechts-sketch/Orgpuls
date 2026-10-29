@@ -34,7 +34,7 @@ export const REGISTRY_LOOKUP: Record<Market, boolean> = { no: true, se: false, g
  * market without one promises no report for its authority at sign-up (D-256). Germany's comes with
  * DE-C (docs/markets/de-legal.md).
  */
-export const LEGAL_PACK: Record<Market, boolean> = { no: true, se: true, gb: true, de: false }
+export const LEGAL_PACK: Record<Market, boolean> = { no: true, se: true, gb: true, de: true }
 
 /**
  * The languages a market's site offers and an organisation there may default to: bokmål and English

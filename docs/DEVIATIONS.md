@@ -14736,3 +14736,64 @@ through `apply_migration` before anyone is offered German; the four hosted lists
 
 **Not yet:** DE-A2, DE-C, DE-E, DE-F and DE-G as PLAN.md phase 3 lists them. The app footer's company line and
 Oppsett › Selskap's Norwegian-law blocks (BHT, verneombud, AMU thresholds) for a German organisation are DE-C.
+
+## D-290 — Germany's law in the product: the German legal pack, in German and English (DE-C, 2026-10-29)
+
+DE-C in docs/markets/PLAN.md phase 3 (X-115), on Sweden's and the United Kingdom's pattern (D-257, D-265). An
+organisation in market `de` reads German law in German or in English; nothing changes for Norway, Sweden or the
+United Kingdom, and a Norwegian organisation's German-speaking leader still reads Norwegian law in German (D-289).
+
+1. **The pack** is `messages/market/de/{de,en}.json`, 227 keys in each: every text that states Norwegian law
+   (the 105 keys `tests/unit/legal-pack.test.ts` finds by their words), the two that offer a threshold under the
+   market's floor of five, every text that names the third role (58), the two billing texts that named the report
+   to Arbeidstilsynet, and a handful the market needs — the USt-IdNr. as the organisation number's label and
+   hint, a German mobile number as the example. Written from `docs/markets/de-legal.md`, each citation in the
+   German convention («§ 5 Abs. 3 Nr. 6 ArbSchG») in both languages, the acts by their German short names in
+   English too.
+2. **The third role is «Betriebsrat»** («Works council» in English) for a German organisation: `role.verneombud`
+   and every text that names the role are in the pack. The texts say what the law says: a works council is the
+   employees' right from five eligible employees (§ 1 BetrVG), never the employer's duty; where there is one, it
+   co-determines the method of the risk assessment (§ 87 Abs. 1 Nr. 7 BetrVG), is informed (§ 80 Abs. 2) and
+   involved (§ 89 Abs. 2); where there is none, the role stays empty or goes to a person the employees chose. The
+   test holds that no text tells a German firm it must have one. No role is added (de-legal.md, assumptions 2).
+3. **The structure** (`lib/legal/pack.ts` `GERMANY`): seven provisions — § 5, § 3 and § 6 ArbSchG; §§ 80, 87, 89
+   BetrVG; §§ 2, 5, 11 ASiG; §§ 3, 7, 12, 13 AGG; Art. 6(1)(c) GDPR with § 26 BDSG. Eight coverage rows on the
+   fields § 4 Nr. 4 ArbSchG names, the mapping the product's own and said so on the screen: Arbeitsinhalt (rolle,
+   medvirk, mening), Arbeitsorganisation (mengde, motstrid, kontakt), soziale Beziehungen (leder, kollega, ytring,
+   integritet), emotionale Inanspruchnahme (emosjon); Belästigung and Gewalt as screenings; Arbeitsumgebung and
+   Arbeitszeit shown as not measured (the German module is DE-D). Five gaps: the rest of the
+   Gefährdungsbeurteilung, the Unterweisung, the works agreement on the method, Betriebsarzt and Fachkraft, the AGG
+   complaints body. Every factor's reference is «§ 5 Abs. 3 Nr. 6 ArbSchG · …» with the provision closest to what
+   it measures. The duties stay as D-289 set them: no representative by headcount, the Arbeitsschutzausschuss from
+   more than twenty with no «may» band (§ 11 ASiG), no industry list for the Betriebsarzt (§§ 2, 5 ASiG).
+4. **What the texts never say**, and the test holds: no factor name attributed to the statute; nothing «nach der
+   GDA» (the guideline was not read, de-legal.md UNVERIFIED 1); no annual interval as if the statute set one
+   (§ 3 Abs. 1 ties review to effectiveness and change); no duty on employees to report harassment (Germany has
+   no counterpart to aml § 2-3 (2) d); the authority is «die Arbeitsschutzbehörde des Landes», never the
+   Berufsgenossenschaft as a rule; the survey «eine standardisierte schriftliche Befragung», never «von der GDA
+   empfohlen».
+5. **The mail**: the pack's `mail` keys — the works council's advance notice, the results-ready and evaluation
+   notices, the measures copy — reach the dispatcher through `scripts/functions/deploy.mjs` as every market's do
+   (D-257), in German and English; a German organisation's leaders read the English (D-289) until the leaders'
+   notices exist in German.
+6. **Still Norway's**: prices, currency and the data processing agreement (DE-E); the public site (DE-F). The
+   respondent's own texts are the registry's (DE-A2) and are not in a pack.
+
+Tests: `tests/unit/legal-pack.test.ts` — the generic pack rules now run for `de` (every Norwegian-law text replaced
+in both languages, no Norwegian law of its own, every structure key present, nothing a screen does not read, every
+factor's reference, the nearest language for a reader of bokmål or Polish), and a Germany block: the duties, the
+committee at 20 and 21, no industry list, the shape of every factor reference, no GDA or annual claim, the role
+label in both languages and no «must have a works council». `npm run verify:i18n` checks the pack's parity and
+ICU arguments (227 keys in de, en).
+
+**Seen in the browser** (QA stack, the QA tenant moved into market `de` with the USt-IdNr. DE 136 695 976 for the
+check and moved back after it, Kari the daglig leder, cookies `de` and `en`): the role chip, the duties card and
+every screen read «Betriebsrat» / «Works council» and never «Sicherheitsbeauftragte» or «safety representative»;
+Oppsett › Rechtsgrundlagen lists the seven provisions, the eight coverage rows with ✓ and ! and the five gaps in
+German and in English; Innsikt, Rapport, Måleoppsett, Målinger, Hjelp, the SMS page, Kommentarer and Tiltak carry
+the ArbSchG citations and no Norwegian authority, with no raw key and no console error; Oppsett › Selskap labels
+the number USt-IdNr. and prints it as DE 136 695 976. **Gap, as D-289's:** the factor names in the coverage rows
+and the results are English for a German reader until German is a survey language (DE-A2).
+
+**Not yet:** a German lawyer's review of the pack and of de-legal.md's UNVERIFIED 1–10, the EU-representative
+question (UNVERIFIED 7) before DE-G; DE-A2, DE-D, DE-E, DE-F and DE-G as PLAN.md lists them.

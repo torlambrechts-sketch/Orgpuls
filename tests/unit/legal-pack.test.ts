@@ -210,3 +210,36 @@ describe('the United Kingdom’s duties (docs/markets/uk-legal.md § 5)', () => 
     }
   })
 })
+
+describe('Germany’s duties (docs/markets/de-legal.md §§ 5–7)', () => {
+  it('starts no representative by headcount: a Betriebsrat is the employees’ right from five (§ 1 BetrVG), never the employer’s duty', () => {
+    expect(LEGAL_PACKS.de.duties.rep).toBe(Number.POSITIVE_INFINITY)
+  })
+
+  it('requires an Arbeitsschutzausschuss from more than twenty employees, with no «may be demanded» band under it (§ 11 ASiG)', () => {
+    expect(LEGAL_PACKS.de.duties).toMatchObject({ committee: 21, committeeMay: 21 })
+    expect([1, 20, 21, 500].map((n) => committeeDuty('de', n))).toEqual(['none', 'none', 'required', 'required'])
+  })
+
+  it('never says a Betriebsarzt or a Fachkraft is required by the industry: the ASiG has no list (§§ 2, 5 ASiG)', () => {
+    expect(healthServiceDuty('de', '43.210')).toBe('depends')
+    expect(healthServiceDuty('de', null)).toBe('depends')
+  })
+
+  it('cites psychological load in the Gefährdungsbeurteilung for every factor (§ 5 Abs. 3 Nr. 6 ArbSchG), and a German provision beside it', () => {
+    for (const ref of Object.values(LEGAL_PACKS.de.factorLawRefs ?? {})) expect(ref).toMatch(/^§ 5 Abs\. 3 Nr\. 6 ArbSchG · §§? .*(ArbSchG|ArbZG|BetrVG|AGG)$/)
+  })
+
+  it.each(PACK_LANGS.de)('in %s, attributes no factor name to the statute and promises no guideline it has not read (de-legal.md UNVERIFIED 1)', (lang) => {
+    const own = pack('de', lang)
+    expect(Object.entries(own).filter(([, v]) => /nach der GDA|laut GDA|GDA-Leitlinie|von der GDA empfohlen|according to the GDA|under the GDA/i.test(v)).map(([k]) => k)).toEqual([])
+    expect(Object.entries(own).filter(([, v]) => /\bjährlich(e|en)? (Gefährdungsbeurteilung|Überprüfung)|annual (risk assessment|review) (is|as) required/i.test(v)).map(([k]) => k)).toEqual([])
+  })
+
+  it('labels the third role Betriebsrat for a German organisation, and never tells it that it must have one', () => {
+    expect(pack('de', 'de')['role.verneombud']).toBe('Betriebsrat')
+    expect(pack('de', 'en')['role.verneombud']).toBe('Works council')
+    for (const lang of PACK_LANGS.de)
+      expect(Object.entries(pack('de', lang)).filter(([, v]) => /müssen (Sie )?einen Betriebsrat|must have a works council|Betriebsrat ist Pflicht/i.test(v)).map(([k]) => k)).toEqual([])
+  })
+})
