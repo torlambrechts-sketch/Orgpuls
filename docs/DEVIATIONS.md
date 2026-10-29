@@ -15024,7 +15024,10 @@ Tor, 29 October 2026, in three lines after D-292: «YOU DO THE MIGRATION», «Tu
      click in three months: the baseline. The URL inspection of all ten pages says «URL is unknown to Google», as it
      must minutes after opening; the sitemap is named in robots.txt and the property is a domain one, so discovery
      follows. Nothing to fix there; a sitemap entry for https://de.orgpuls.com/sitemap.xml in the Search Console UI
-     would only hurry it (no API for it here).
+     would only hurry it (no API for it here). Tor submitted it the same evening, and Sweden's with it, which the
+     inspection had shown «unknown to Google» 18 days after SE-F: both read at once, Success, 10 pages each. The
+     lesson for the next market site: Google does not reach a new host from a domain property's robots.txt alone,
+     so the sitemap is submitted on the day the site opens, and a link from an indexed site helps.
 4. **The search words** (`messages/market/de/de.json`, 19 strings). The technical audit (OpenSEO, 10 pages) found
    nothing but two kinds of informational issue — eight titles over 60 characters (70–80) and nine descriptions over
    160 (170–211) — and no broken link, duplicate, missing heading or canonical fault. The keyword metrics for Germany
